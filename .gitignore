@@ -1,0 +1,14 @@
+.DS_Store
+node_modules/
+vendor/
+web/sites/default/files/
+web/sites/default/settings.php
+web/sites/default/services.yml
+.env
+.env.local
+.idea/
+.vscode/
+storybook-static/
+dist/
+build/
+.playwright-mcp/
