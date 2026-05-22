@@ -57,6 +57,18 @@ Storybook:
 - Stories: `src/stories/`
 - Current initial component: timeline preview.
 
+## Seeded Local Content
+
+The first local Article node was created from the first explicit `Idea blog post` in the Google Doc.
+
+- Node ID: `1`
+- Type: `article`
+- Title: `My Own Projects Page: Rewinding an Interface Through Time`
+- Alias: `/writing/my-own-projects-page`
+- Status: published
+- Source idea: show the thought process for a project/interface with a time slider, from inspiration such as No Man's Sky, through Moqups, into repeated iterations.
+- Intent: early seed content only; the user is expected to rewrite and restructure it in Drupal.
+
 ## Important Product Direction
 
 Main site areas:
