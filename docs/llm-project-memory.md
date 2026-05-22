@@ -43,6 +43,7 @@ Custom Drupal theme:
 
 - `web/themes/custom/jurenites_theme`
 - Enabled as default theme.
+- The custom theme Search form blocks are disabled in active Drupal config: `block.block.jurenites_theme_search_form_narrow` and `block.block.jurenites_theme_search_form_wide` both have `status: false`.
 - Homepage uses `templates/page--front.html.twig` with a Squarespace-like `<div class="section-background-canvas background-fx-canvas">` wrapper; JavaScript injects the WebGL canvas inside it.
 - `js/gradient-background.js` implements a clean-room WebGL radial gradient based on the local ALiMP/Squarespace `BackgroundGradient` behavior: accent-to-dark radial gradient, slow ease-out cursor-following center, hash-based animated grain, and mild distortion. It does not copy the minified Squarespace bundle.
 - The animation respects `prefers-reduced-motion` by not initializing when reduced motion is requested.
