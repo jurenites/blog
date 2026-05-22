@@ -24,11 +24,17 @@ body {
   font-family: Arial, sans-serif;
 }
 
+body.path-frontpage {
+  overflow-x: hidden;
+}
+
 a {
   color: var(--accent-warm);
 }
 
 .layout-container {
+  position: relative;
+  z-index: 1;
   max-width: 1180px;
   margin: 0 auto;
   padding: calc(var(--system-grid-base-unit) * 4);
@@ -37,4 +43,34 @@ a {
 .site-name,
 .page-title {
   letter-spacing: 0;
+}
+
+.jurenites-front-page {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+}
+
+.section-background-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+.background-fx-canvas {
+  display: block;
+  background:
+    radial-gradient(circle at 24% 20%, color-mix(in srgb, var(--accent-warm), transparent 42%), transparent 32rem),
+    radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--accent-cool), transparent 35%), transparent 30rem),
+    var(--surface-page);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-background-canvas {
+    display: none;
+  }
 }

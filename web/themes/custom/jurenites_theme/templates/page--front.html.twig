@@ -1,0 +1,32 @@
+<div class="jurenites-front-page">
+  <canvas
+    class="section-background-canvas background-fx-canvas"
+    data-jurenites-dither-background
+    aria-hidden="true"
+  ></canvas>
+
+  <div class="layout-container">
+    {% if page.header %}
+      <header role="banner">
+        {{ page.header }}
+      </header>
+    {% endif %}
+
+    {% if page.primary_menu %}
+      <nav role="navigation" aria-label="{{ 'Primary menu'|t }}">
+        {{ page.primary_menu }}
+      </nav>
+    {% endif %}
+
+    <main role="main">
+      <a id="main-content" tabindex="-1"></a>
+      {{ page.content }}
+    </main>
+
+    {% if page.footer %}
+      <footer role="contentinfo">
+        {{ page.footer }}
+      </footer>
+    {% endif %}
+  </div>
+</div>

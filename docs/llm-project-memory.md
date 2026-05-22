@@ -43,7 +43,9 @@ Custom Drupal theme:
 
 - `web/themes/custom/jurenites_theme`
 - Enabled as default theme.
-- Currently minimal: base CSS and initial visual direction only.
+- Homepage uses `templates/page--front.html.twig` with `<canvas class="section-background-canvas background-fx-canvas">`.
+- `js/dither-background.js` implements the pixel-dithered cursor-following gradient adapted from `/Users/alexanderilivanov/Projects/alimp-gradient-background-example-demo/gradient-background.js`.
+- The animation respects `prefers-reduced-motion` by not initializing when reduced motion is requested.
 
 Custom Drupal module:
 
