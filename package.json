@@ -1,0 +1,16 @@
+{
+  "name": "blog-jurenites",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Storybook and frontend component workspace for the Blog Jurenites Drupal theme.",
+  "scripts": {
+    "storybook": "storybook dev -p 6006 --host 0.0.0.0 --no-open",
+    "build-storybook": "storybook build"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "8.6.18",
+    "@storybook/html-vite": "8.6.18",
+    "storybook": "8.6.18",
+    "vite": "^6.3.5"
+  }
+}

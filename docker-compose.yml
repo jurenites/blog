@@ -1,0 +1,50 @@
+services:
+  web:
+    build:
+      context: .
+    container_name: blog_jurenites_web
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8081:80"
+    volumes:
+      - .:/opt/drupal
+    environment:
+      DRUPAL_DATABASE_HOST: db
+      DRUPAL_DATABASE_NAME: drupal
+      DRUPAL_DATABASE_USER: drupal
+      DRUPAL_DATABASE_PASSWORD: drupal
+
+  db:
+    image: mariadb:11.4
+    container_name: blog_jurenites_db
+    environment:
+      MARIADB_DATABASE: drupal
+      MARIADB_USER: drupal
+      MARIADB_PASSWORD: drupal
+      MARIADB_ROOT_PASSWORD: drupal_root
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  storybook:
+    image: node:22-alpine
+    container_name: blog_jurenites_storybook
+    working_dir: /app
+    ports:
+      - "6006:6006"
+    volumes:
+      - .:/app
+    environment:
+      HOME: /tmp
+      npm_config_cache: /tmp/npm-cache
+      STORYBOOK_DISABLE_TELEMETRY: "1"
+    command: sh -c "npm install && npm run storybook"
+
+volumes:
+  db-data:

@@ -1,0 +1,7 @@
+jurenites_tokens.json:
+  path: '/jurenites/tokens.json'
+  defaults:
+    _controller: '\Drupal\jurenites_tokens\Controller\TokensController::json'
+    _title: 'Jurenites design tokens'
+  requirements:
+    _permission: 'access content'

@@ -1,0 +1,9 @@
+.git
+node_modules
+vendor
+storybook-static
+web/core
+web/sites/default/files
+web/sites/default/settings.php
+web/sites/default/services.yml
+.playwright-mcp

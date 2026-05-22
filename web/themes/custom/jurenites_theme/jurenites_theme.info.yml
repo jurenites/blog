@@ -1,0 +1,12 @@
+name: Jurenites Theme
+type: theme
+description: Custom Drupal theme for the Blog Jurenites personal site.
+core_version_requirement: ^11
+base theme: stable9
+libraries:
+  - jurenites_theme/global
+regions:
+  header: Header
+  primary_menu: Primary menu
+  content: Content
+  footer: Footer

@@ -1,6 +1,12 @@
 .DS_Store
 node_modules/
 vendor/
+web/core/
+web/libraries/
+web/modules/contrib/
+web/profiles/contrib/
+web/themes/contrib/
+drush/Commands/contrib/
 web/sites/default/files/
 web/sites/default/settings.php
 web/sites/default/services.yml

@@ -24,13 +24,17 @@ Early token groups:
 - `system.naming`
 - `component.*`
 
-Token naming rule: each token name must describe scope, component or role, property, and state when applicable.
+Token naming rules (see `system.naming` in `tokens/tokens.json`):
+
+- Use dash-separated namespaces, not dots.
+- Each namespace segment must contain at least two word parts (for example `base-unit`, `marker-size`). Never use a single character or a lone word as a segment (invalid: `a`, `x`, `orange`).
+- Each token name must describe scope, component or role, property, and state when applicable.
 
 Example:
 
 ```json
 {
-  "component.timeline.marker.size.active": "40px"
+  "component-timeline-marker-size-active": "40px"
 }
 ```
 

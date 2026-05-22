@@ -62,10 +62,25 @@ Target commands:
 ```bash
 docker compose up -d
 docker compose ps
-curl -I http://127.0.0.1:8080/
+curl -I http://127.0.0.1:8081/
 ```
 
-The exact port and hostname will be decided when the Drupal scaffold is added. A running container is not enough; the dev environment should be considered ready only after an HTTP check works.
+The local Drupal site uses port `8081` to avoid colliding with other local Drupal projects. A running container is not enough; the dev environment should be considered ready only after an HTTP check works.
+
+Initial local admin login:
+
+- URL: `http://127.0.0.1:8081/user/login`
+- User: `admin`
+- Password: `admin`
+
+Storybook runs through Docker too:
+
+```bash
+docker compose up storybook
+curl -I http://127.0.0.1:6006/
+```
+
+If `docker` is not on the shell PATH, use `/usr/local/bin/docker` or add Docker Desktop's CLI path to the shell profile.
 
 ## Stage Environment
 
