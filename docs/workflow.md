@@ -90,9 +90,14 @@ Initial custom theme:
 
 Initial custom modules:
 
+- `jurenites_tokens`
+
+Planned custom modules:
+
 - `jurenites_timeline`
 - `jurenites_media_loader`
-- `jurenites_tokens`
+
+LLM-specific continuity notes live in `docs/llm-project-memory.md`. Keep that file updated when the site structure or implementation decisions change.
 
 ## 6. Local Development
 

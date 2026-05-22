@@ -96,4 +96,4 @@ The stage workflow will be refined after the local Docker environment exists.
 
 ## Repository Status
 
-Initial planning repo. Drupal code has not been scaffolded yet.
+Drupal 11, Docker Compose, Storybook, a minimal custom theme, and a minimal token bridge module are installed locally. The project is still early and expected to change heavily.
