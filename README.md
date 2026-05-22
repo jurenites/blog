@@ -2,7 +2,7 @@
 
 Personal Drupal 11 site for Alexander Ilivanov / jurenites.
 
-This repo starts as the working system for a personal blog, portfolio, CV timeline, and public design/development process. The site should show not only finished work, but also how the work is structured: idea file, tokens, Figma, Storybook, Drupal content model, custom theme, and custom Drupal modules.
+This repo is the working system for a personal blog, portfolio, CV timeline, and public design/development process. The site should show not only finished work, but also how the work is structured: idea file, tokens, Figma, Storybook, Drupal content model, custom theme, and custom Drupal modules.
 
 ## Direction
 
@@ -11,7 +11,7 @@ This repo starts as the working system for a personal blog, portfolio, CV timeli
 - Design source: Figma file `blog-jurenites`.
 - Design data source: `tokens/tokens.json`.
 - Component proving ground: Storybook.
-- Runtime target: local Docker first, staging second, production hosting later.
+- Runtime target: Docker development first, stage preview second, production hosting later.
 
 ## Workflow
 
@@ -25,7 +25,7 @@ Idea file
   -> Drupal 11 custom theme
   -> Drupal custom module(s)
   -> local Docker environment
-  -> staging preview
+  -> stage environment
   -> production hosting
 ```
 
@@ -35,21 +35,49 @@ https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites
 
 ## First Milestones
 
-1. Freeze the initial site map and content model.
-2. Create Drupal 11 Docker development environment.
-3. Add Storybook for theme components.
-4. Move first design decisions into `tokens/tokens.json`.
-5. Build the interactive CV timeline component.
-6. Add Drupal content types for timeline events, projects, articles, and gallery items.
+1. Create Drupal 11 Docker development environment.
+2. Add Storybook for custom theme components.
+3. Keep `tokens/tokens.json` as the shared machine-readable token contract.
+4. Connect Figma design variables and code tokens in both directions.
+5. Build the first interactive CV timeline component.
+6. Add universal Drupal node types, without overfitting fields too early.
 7. Decide what can be public, anonymized, or private.
 
-## Hosting Note
+## Local Development
 
-Drupal needs a PHP runtime, database, and persistent file storage. Vercel is useful for Storybook, static previews, or a decoupled frontend, but it is not the natural host for a full Drupal runtime. The practical plan is:
+The local development environment should be Docker-first and reproducible.
 
-- local Docker: full Drupal development;
-- Vercel: Storybook or static/design preview stage;
-- later hosting server: full Drupal production site.
+Target shape:
+
+```text
+docker-compose.yml
+  Drupal 11 / PHP container
+  database container
+  web server container if not included in the Drupal image
+  optional mailhog/mailpit container
+```
+
+Target commands:
+
+```bash
+docker compose up -d
+docker compose ps
+curl -I http://127.0.0.1:8080/
+```
+
+The exact port and hostname will be decided when the Drupal scaffold is added. A running container is not enough; the dev environment should be considered ready only after an HTTP check works.
+
+## Stage Environment
+
+Drupal needs PHP, a database, and persistent file storage. Vercel is useful for Storybook, static previews, or a decoupled frontend, but it is not the natural host for a full Drupal runtime.
+
+Stage plan:
+
+- Vercel: Storybook/static component preview, useful for visual review and design-system checks.
+- Drupal-capable hosting: full CMS stage when database/content behavior needs to be tested.
+- Later production: low-cost hosting server for the final domain.
+
+The stage workflow will be refined after the local Docker environment exists.
 
 ## Repository Status
 

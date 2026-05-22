@@ -1,94 +1,94 @@
 # Drupal Content Model
 
+Keep the first content model universal. Do not overfit each project into many custom fields before the writing style is clear.
+
+Rule: create fields only when Drupal needs to sort, filter, reference, render, or query the value. If the value is mostly storytelling, keep it in `Body`.
+
 ## Timeline Event
 
-Purpose: turn the CV into an interactive timeline with bookmarks.
+Purpose: turn the CV into an interactive timeline with bookmarks. A timeline event can describe a job, project phase, release, skill shift, or important professional moment.
 
-Fields:
+Suggested fields:
 
 - Title
 - Slug
-- Date start
-- Date end
-- Company / client
-- Public URL
-- Archived URL
-- Role
-- Project type
-- Technology tags
-- Drupal/CMS/framework version
-- NDA status: public, anonymized, private
-- Company logo
-- Project icon
-- Hero image
-- Short summary
-- What happened at this moment
-- My contribution
-- What I learned
-- Related artifacts
-- Weight / importance
-- Featured bookmark
+- Start date
+- End date
+- Body
+- Company / organization reference
+- Project reference
+- Role / occupation
+- Icon or logo media
+- Weight
+- Visibility: public, anonymized, private
+
+Everything else can start in `Body`: contribution, what happened, what I learned, screenshots, context, criticism, or story details. This keeps each timeline event flexible.
 
 ## Project
 
-Purpose: portfolio pages for projects that can be public or anonymized.
+Purpose: portfolio pages for public or anonymized projects.
 
-Fields:
+Suggested fields:
 
 - Title
-- Date range
-- Client/company
-- Role
-- Public status
-- Summary
-- Problem
-- Process
-- Result
-- Screenshots/artifacts
-- Related timeline events
-- Related articles
+- Slug
+- Body
+- Project date or date range
+- Company / organization reference
+- Project URL
+- Hero media
+- Visibility: public, anonymized, private
+- Tags
 
 ## Article
 
 Purpose: blog posts and long-form analysis.
 
-Fields:
+Suggested fields:
 
 - Title
 - Slug
 - Teaser
 - Body
-- Topic
-- Related projects
-- Related external references
 - Hero image
+- Topics
+- Related projects
 - Publish state
 
 ## Gallery Item
 
 Purpose: visual inspiration, GIF/image/code recreation entries.
 
-Fields:
+Suggested fields:
 
 - Title
-- Source URL
-- Original author
-- Source status
+- Body
 - Media
-- Code recreation link
-- Notes
+- Source URL
+- Source author
+- Code recreation URL
 - Tags
 
-## External Reference
+## External Link
 
 Purpose: designers, videos, tweets/posts, tools, and links that shape the project.
 
-Fields:
+Suggested fields:
 
 - Title
 - URL
-- Author/account
+- Body
+- Source/account
 - Platform
+- Topics
+
+## Taxonomies
+
+Start with a small set:
+
 - Topic
-- Notes
-- Related article/project
+- Technology
+- Role
+- Visibility
+
+Add more only when content entry becomes painful without them.

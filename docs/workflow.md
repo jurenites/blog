@@ -14,26 +14,27 @@ Rules:
 
 `tokens/tokens.json` is the structured source for reusable design decisions.
 
-Token groups:
+The token file is not the final visual design. It is the contract between Figma, Storybook, and Drupal.
 
-- `color`
-- `typography`
-- `space`
-- `radius`
-- `motion`
-- `background`
-- `timeline`
-- `mediaLoader`
+Early token groups:
 
-Naming rule: prefer searchable names with at least two meaningful words.
+- `system.grid`
+- `system.interaction`
+- `system.icon`
+- `system.naming`
+- `component.*`
+
+Token naming rule: each token name must describe scope, component or role, property, and state when applicable.
 
 Example:
 
 ```json
 {
-  "timeline.marker.activeColor": "#f97316"
+  "component.timeline.marker.size.active": "40px"
 }
 ```
+
+Avoid generic names like `orange`, `small`, `primary`, or `card` until the semantic role is clear.
 
 ## 3. Storybook
 
@@ -59,6 +60,13 @@ Current file:
 https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites
 
 The file already has Material 3 Design Kit available. The project should reuse the parts that help, but the site should still feel personal and specific.
+
+Token sync goal:
+
+- Figma can export design variables into `tokens/tokens.json`.
+- Code can read `tokens/tokens.json` and generate CSS variables/Storybook theme values.
+- Later, code-side token updates should be able to update Figma variables when needed.
+- Token names must stay stable, because component implementations will depend on them.
 
 ## 5. Drupal
 
