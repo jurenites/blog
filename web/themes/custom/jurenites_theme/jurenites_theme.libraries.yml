@@ -1,8 +1,8 @@
 global:
   css:
     theme:
-      css/base.css: {}
+      css/style.min.css: { minified: true }
   js:
-    js/gradient-background.js: {}
+    js/script.min.js: { minified: true }
   dependencies:
     - core/drupal

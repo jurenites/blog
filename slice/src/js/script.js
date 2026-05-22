@@ -164,7 +164,7 @@
     let targetY = settings.restY;
     let currentX = targetX;
     let currentY = targetY;
-    let startTime = performance.now();
+    const startTime = performance.now();
 
     canvas.setAttribute('aria-hidden', 'true');
     wrapper.appendChild(canvas);

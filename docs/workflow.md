@@ -97,6 +97,14 @@ Planned custom modules:
 - `jurenites_timeline`
 - `jurenites_media_loader`
 
+Theme source workflow:
+
+- Editable theme source lives outside the Drupal theme in `slice/`.
+- SCSS source lives in `slice/src/scss/`.
+- JavaScript source lives in `slice/src/js/`.
+- The Drupal theme should reference generated assets: `web/themes/custom/jurenites_theme/css/style.min.css` and `web/themes/custom/jurenites_theme/js/script.min.js`.
+- Run `npm run build:theme` after source edits.
+
 LLM-specific continuity notes live in `docs/llm-project-memory.md`. Keep that file updated when the site structure or implementation decisions change.
 
 ## 6. Local Development
