@@ -23,7 +23,9 @@
     varying vec2 v_uv;
 
     float random(vec2 point) {
-      return fract(sin(dot(point, vec2(12.9898, 78.233))) * 43758.5453);
+      vec3 point3 = fract(vec3(point.xyx) * 0.1031);
+      point3 += dot(point3, point3.yzx + 33.33);
+      return fract((point3.x + point3.y) * point3.z);
     }
 
     float valueNoise(vec2 point) {
@@ -78,8 +80,8 @@
       center.x *= aspect;
 
       float gradient = clamp(length(center - uv) / u_radius, 0.0, 1.0);
-      float grain = layeredNoise((gl_FragCoord.xy / u_resolution.xy) * 946.0 + u_noise_time);
-      gradient += 0.14 * (grain - 0.5);
+      float grain = random(floor(gl_FragCoord.xy) + vec2(u_noise_time * 4096.0, u_noise_time * 173.0));
+      gradient += 0.055 * (grain - 0.5);
       gradient = smoothstep(0.0, 1.0, gradient);
 
       vec3 color = mix(u_color_start, u_color_end, gradient);
@@ -93,7 +95,7 @@
     radius: 0.95,
     restX: 0.07,
     restY: 0.5,
-    followSpeed: 0.065,
+    followSpeed: 0.018,
     maxPixelRatio: 1.5,
   };
 
@@ -120,6 +122,11 @@
     }
 
     return program;
+  }
+
+  function smoothstep(edge0, edge1, value) {
+    const amount = Math.min(1, Math.max(0, (value - edge0) / (edge1 - edge0)));
+    return amount * amount * (3 - (2 * amount));
   }
 
   function createGradientBackground(wrapper) {
@@ -197,8 +204,13 @@
 
     function render(now) {
       const elapsed = (now - startTime) / 1000;
-      currentX += (targetX - currentX) * settings.followSpeed;
-      currentY += (targetY - currentY) * settings.followSpeed;
+      const deltaX = targetX - currentX;
+      const deltaY = targetY - currentY;
+      const distance = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
+      const easeOutFollow = settings.followSpeed * (0.15 + (0.85 * smoothstep(0, 0.85, distance)));
+
+      currentX += deltaX * easeOutFollow;
+      currentY += deltaY * easeOutFollow;
 
       gl.uniform2f(locations.resolution, width, height);
       gl.uniform2f(locations.positionTarget, currentX, currentY);
