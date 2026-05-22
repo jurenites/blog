@@ -3,6 +3,6 @@ global:
     theme:
       css/base.css: {}
   js:
-    js/dither-background.js: {}
+    js/gradient-background.js: {}
   dependencies:
     - core/drupal

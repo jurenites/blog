@@ -43,8 +43,8 @@ Custom Drupal theme:
 
 - `web/themes/custom/jurenites_theme`
 - Enabled as default theme.
-- Homepage uses `templates/page--front.html.twig` with `<canvas class="section-background-canvas background-fx-canvas">`.
-- `js/dither-background.js` implements the pixel-dithered cursor-following gradient adapted from `/Users/alexanderilivanov/Projects/alimp-gradient-background-example-demo/gradient-background.js`.
+- Homepage uses `templates/page--front.html.twig` with a Squarespace-like `<div class="section-background-canvas background-fx-canvas">` wrapper; JavaScript injects the WebGL canvas inside it.
+- `js/gradient-background.js` implements a clean-room WebGL radial gradient based on the local ALiMP/Squarespace `BackgroundGradient` behavior: accent-to-dark radial gradient, cursor-following center, animated noise, and mild distortion. It does not copy the minified Squarespace bundle.
 - The animation respects `prefers-reduced-motion` by not initializing when reduced motion is requested.
 
 Custom Drupal module:
@@ -88,7 +88,7 @@ Signature features:
 
 - Interactive CV timeline with slider/bookmarks.
 - Company/project logos on timeline events.
-- Pixel-dithered orange gradient background inspired by the local ALiMP gradient demo.
+- Squarespace-like animated radial gradient background inspired by the local ALiMP page.
 - Public design/process cookbook.
 - Storybook connected to actual theme components.
 - Token JSON workflow connected to Figma and Drupal.
