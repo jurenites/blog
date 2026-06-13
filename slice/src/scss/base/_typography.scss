@@ -1,0 +1,42 @@
+// Maps Material M2 typography roles onto default HTML elements.
+// Components can also include the role mixins directly (for example
+// `@include tools.typography-headline-3;`).
+
+@use "../tools";
+
+h1 {
+  @include tools.typography-headline-3;
+}
+
+h2 {
+  @include tools.typography-headline-4;
+}
+
+h3 {
+  @include tools.typography-headline-5;
+}
+
+h4 {
+  @include tools.typography-headline-6;
+}
+
+h5 {
+  @include tools.typography-subtitle-1;
+}
+
+h6 {
+  @include tools.typography-subtitle-2;
+}
+
+p {
+  @include tools.typography-body-1;
+}
+
+small,
+.text-caption {
+  @include tools.typography-caption-default;
+}
+
+.text-overline {
+  @include tools.typography-overline-default;
+}

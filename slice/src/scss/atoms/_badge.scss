@@ -1,0 +1,33 @@
+// Atom: Badge. Small status label using compact status color tokens.
+
+@use "../tools";
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-scale-extra-small) var(--space-scale-small-default);
+  border-radius: var(--shape-corner-radius-extra-small);
+  background: var(--color-surface-panel-raised);
+  color: var(--color-text-primary-default);
+  @include tools.typography-overline-default;
+}
+
+.badge--success {
+  background: var(--color-palette-success);
+  color: var(--color-text-inverse-default);
+}
+
+.badge--warning {
+  background: var(--color-palette-warning);
+  color: var(--color-text-inverse-default);
+}
+
+.badge--error {
+  background: var(--color-palette-error);
+  color: var(--color-text-inverse-default);
+}
+
+.badge--info {
+  background: var(--color-palette-info);
+  color: var(--color-text-inverse-default);
+}

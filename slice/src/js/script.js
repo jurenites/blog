@@ -90,8 +90,8 @@
   `;
 
   const settings = {
-    colorStart: [0.706, 0.431, 0.235],
-    colorEnd: [0.09, 0.07, 0.058],
+    colorStart: [0.067, 0.067, 0.067],
+    colorEnd: [0.019, 0.019, 0.019],
     radius: 1.425,
     restX: 0.07,
     restY: 0.5,

@@ -1,0 +1,58 @@
+// Molecule: Project Card. Composes surface + chip + button atoms.
+// Layer/element names mirror BEM so Figma layers map 1:1 (see docs/naming-conventions.md).
+
+@use "../tools";
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-surface-panel-default);
+  border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
+  border-radius: var(--shape-corner-radius-medium-default);
+  @include tools.motion-transition(box-shadow, border-color);
+}
+
+.project-card:hover {
+  border-color: var(--color-border-strong-default);
+  @include tools.elevation("level-3");
+}
+
+.project-card__media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--color-surface-panel-raised);
+}
+
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-small-default);
+  padding: var(--space-scale-large-default);
+}
+
+.project-card__title {
+  margin: 0;
+  @include tools.typography-headline-6;
+}
+
+.project-card__excerpt {
+  margin: 0;
+  color: var(--color-text-secondary-default);
+  @include tools.typography-body-2;
+}
+
+.project-card__tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-scale-extra-small);
+  margin-top: var(--space-scale-extra-small);
+}
+
+.project-card__actions {
+  display: flex;
+  gap: var(--space-scale-small-default);
+  margin-top: var(--space-scale-small-default);
+}

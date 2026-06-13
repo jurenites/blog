@@ -1,0 +1,47 @@
+name: CI
+
+# Verifies the source-of-truth contract: tokens.json -> generated files -> theme
+# -> Storybook must all build, and committed generated artifacts must match what
+# the build produces (no drift between source and derived files).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build tokens, theme, and Tokens Studio file
+        run: ./scripts/sync.sh all
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      - name: Verify generated artifacts are committed and in sync
+        run: |
+          if ! git diff --quiet -- \
+            tokens/tokens.min.json \
+            tokens/tokens.flat.json \
+            tokens/tokens.studio.json \
+            slice/src/scss/settings/_generated-tokens.scss \
+            src/styles/tokens.generated.css \
+            web/themes/custom/jurenites_theme/css \
+            web/themes/custom/jurenites_theme/js ; then
+            echo "::error::Generated files differ from tokens.json source. Run 'scripts/sync.sh all' and commit the result."
+            git --no-pager diff --stat
+            exit 1
+          fi
+          echo "Generated artifacts are in sync with tokens.json."

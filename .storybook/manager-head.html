@@ -1,0 +1,40 @@
+<style>
+  :root {
+    --color-surface-page-default: #050505;
+    --color-surface-panel-default: #0a0a0a;
+    --color-border-subtle-default: #2a2a2a;
+    --color-text-primary-default: #fafafa;
+    --color-text-secondary-default: #a1a1aa;
+  }
+
+  html,
+  body,
+  #root,
+  #storybook-preview-wrapper,
+  #storybook-panel-root,
+  #storybook-explorer-tree {
+    background: var(--color-surface-page-default) !important;
+    color: var(--color-text-primary-default) !important;
+  }
+
+  #storybook-preview-iframe {
+    background: var(--color-surface-page-default) !important;
+    color: var(--color-text-primary-default) !important;
+  }
+
+  [data-testid="sidebar-root"],
+  [data-testid="manager-sidebar"],
+  [data-testid="sidebar-search-field"],
+  [data-testid="preview-wrapper"] {
+    background: var(--color-surface-page-default) !important;
+    color: var(--color-text-primary-default) !important;
+  }
+
+  input,
+  textarea,
+  select {
+    background: var(--color-surface-panel-default) !important;
+    border-color: var(--color-border-subtle-default) !important;
+    color: var(--color-text-primary-default) !important;
+  }
+</style>

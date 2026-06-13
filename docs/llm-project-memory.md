@@ -59,8 +59,17 @@ Custom Drupal module:
 Storybook:
 
 - Config: `.storybook/`
-- Stories: `src/stories/`
-- Current initial component: timeline preview.
+- Stories: `src/stories/` organised by Atomic Design (`Foundations`, `Atoms`, `Molecules`, `Organisms`, `Components`).
+- Storybook compiles `slice/src/scss/main.scss` directly, so component CSS is shared with the Drupal theme (one source of truth).
+- Foundations (Colors, Typography, Spacing/Elevation) are generated from `tokens/tokens.flat.json`.
+- Atoms so far: Button, Surface, Chip, Divider. One story per component; variants via Controls.
+- Breakpoint viewports configured: Mobile min/max, Tablet, Desktop min, Desktop Full HD.
+
+Token build engine:
+
+- `scripts/build-tokens.mjs` reads `tokens/tokens.json` (DTCG) and generates `slice/src/scss/settings/_generated-tokens.scss`, `src/styles/tokens.generated.css`, `tokens/tokens.min.json`, and `tokens/tokens.flat.json`.
+- Generated files must never be hand-edited. `npm run build:tokens` regenerates them; `npm run build:theme` runs tokens first.
+- Full guideline: `docs/design-system.md`.
 
 ## Seeded Local Content
 
@@ -134,6 +143,46 @@ Future goal:
 - Figma can export variables to `tokens/tokens.json`.
 - Code can consume `tokens/tokens.json`.
 - Eventually code-side token changes should be able to update Figma variables.
+
+## Figma State
+
+The Figma file (`UMshUcV87SZqsg1aDaDpnZ`, pages: Cover, Guideline, Pages) now has
+the token foundation as local variables (created via the Figma MCP):
+
+- Collections: `Color` (20 palette primitives + 12 semantic aliases), `Spacing`
+  (10), `Shape` (9), `System` (11), `Layout` (6) = 68 variables, single mode.
+- Variable names use `/`-paths matching token paths (e.g. `color/palette/white`),
+  so the pull script round-trips them (`/`->`-` equals the flat token name).
+- All variables have `WEB` code syntax `var(--<flat-name>)` and explicit scopes;
+  semantic colors and layout gutters are aliases.
+- A `Color / Palette` swatch board on the Guideline page is bound to the palette
+  variables (visual proof of bindings).
+- Round-trip verified: a synthesized Figma export of the 53 concrete tokens pulls
+  back with zero diffs against tokens.json.
+- RATE LIMIT (corrected): on Figma Starter the limit is ~6 `use_figma` tool calls
+  per MONTH total. `use_figma` counts whether it reads OR writes — it is NOT exempt.
+  Only `whoami`, `generate_figma_design`, and `add_code_connect_map` are exempt.
+  The 6 monthly calls are already used (discovery + 4 variable writes + swatch board),
+  so further Figma work is blocked until the monthly reset or an upgrade to a Pro/
+  Org/Enterprise plan with a Full/Dev seat (200-600 reads/day).
+- Multi-mode variables are not available on Starter (1 mode only), which is why all
+  collections use a single mode.
+- PENDING Figma work (build when quota allows, all via sequential `use_figma`):
+  create `Atoms` + `Molecules` pages; build components Button (Variant set),
+  Avatar, Badge, Chip (atoms) and ProjectCard, HireMeWidget, ArticleTeaser
+  (molecules). Bind fills/strokes/padding/itemSpacing/corner radii to the existing
+  variables by name; name layers after BEM selectors; tag each component with
+  sharedPluginData `jrn.componentKey` and `jrn.bemBlock` (see docs/naming-conventions.md).
+  Also add text styles for typography and effect styles for elevation.
+
+## Standing Goal
+
+Build a custom Drupal 11 website that is Alexander Ilivanov's / jurenites's
+personal representation, with an interconnected pipeline where the token JSON is
+the single source of truth feeding Storybook, Figma, the SCSS slice, and the
+compiled Drupal theme. Decisions: GitHub Actions for CI, W3C/DTCG token format
+with the Tokens Studio Figma plugin, two-way Figma sync (MCP pull + Tokens Studio
+push). Color rule: HEX only, never the CSS opacity property.
 
 ## Working Rules For Future LLM Sessions
 

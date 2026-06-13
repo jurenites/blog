@@ -1,0 +1,20 @@
+// Chip/tag atom for topics, technologies, and roles.
+
+@use "../tools";
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-scale-extra-small);
+  padding: var(--space-scale-extra-small) var(--space-scale-small-default);
+  border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
+  border-radius: var(--shape-corner-radius-pill-full);
+  background: var(--color-surface-panel-default);
+  color: var(--color-text-secondary-default);
+  @include tools.typography-caption-default;
+}
+
+.chip--accent {
+  border-color: var(--color-border-strong-default);
+  color: var(--color-text-primary-default);
+}

@@ -1,0 +1,64 @@
+name: Figma Sync
+
+# Webhook entrypoint for Figma -> tokens.json. A Figma webhook (FILE_UPDATE) is
+# relayed to GitHub as a repository_dispatch of type "figma-sync" whose
+# client_payload.variables is the flat token map produced by the Figma MCP read
+# snippet (see docs/figma-sync.md). This job applies the changes onto the source
+# of truth and opens a pull request for review.
+
+on:
+  repository_dispatch:
+    types: [figma-sync]
+  workflow_dispatch:
+    inputs:
+      variables_json:
+        description: "Flat token map JSON (name -> value)"
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  apply-figma-variables:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Write incoming Figma variables
+        env:
+          DISPATCH_VARS: ${{ toJSON(github.event.client_payload.variables) }}
+          INPUT_VARS: ${{ github.event.inputs.variables_json }}
+        run: |
+          mkdir -p scripts/figma
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            printf '%s' "$INPUT_VARS" > scripts/figma/figma-variables.json
+          else
+            printf '%s' "$DISPATCH_VARS" > scripts/figma/figma-variables.json
+          fi
+          echo "Incoming variables:" && cat scripts/figma/figma-variables.json
+
+      - name: Apply to tokens.json and rebuild
+        run: ./scripts/sync.sh pull scripts/figma/figma-variables.json
+
+      - name: Rebuild theme and Tokens Studio file
+        run: ./scripts/sync.sh all
+
+      - name: Open pull request with token changes
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: figma-sync/incoming
+          title: "Figma sync: incoming variable changes"
+          commit-message: "chore(tokens): sync incoming Figma variable changes"
+          body: |
+            Automated pull from Figma via the `figma-sync` webhook.
+
+            Review the diff in `tokens/tokens.json` and the regenerated artifacts.
+            Semantic references were preserved (primitives only); rerun with
+            `--force` locally if an alias must change.
+          labels: tokens, figma

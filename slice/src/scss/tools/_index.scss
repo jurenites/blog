@@ -1,0 +1,38 @@
+// Tools layer: re-exports generated token vars/mixins and adds helper mixins.
+// Reason: components should import one entrypoint (`tools`) and never depend on
+// the generated file path directly, so the generated file can change shape later.
+
+@forward "../settings/generated-tokens";
+
+@use "../settings/generated-tokens" as tokens;
+@use "sass:list";
+
+/// Apply a named elevation shadow token (level-0 .. level-6).
+@mixin elevation($level: "level-1") {
+  box-shadow: var(--elevation-shadow-#{$level});
+}
+
+/// Standard motion transition using the Material standard curve and medium duration.
+/// Accepts one or more CSS properties to transition.
+@mixin motion-transition($properties...) {
+  $property-list: (all,);
+  @if list.length($properties) > 0 {
+    $property-list: $properties;
+  }
+  transition-property: $property-list;
+  transition-duration: var(--motion-duration-medium-default);
+  transition-timing-function: var(--motion-easing-standard-default);
+}
+
+/// Accessible keyboard focus ring built from action + shape tokens.
+@mixin focus-ring {
+  outline: var(--shape-border-width-thick-default) solid var(--color-action-primary-default);
+  outline-offset: var(--space-scale-extra-small);
+}
+
+/// Reset a list/native element back to a neutral block.
+@mixin unstyled-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

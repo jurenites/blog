@@ -1,0 +1,60 @@
+// Button atom. Variants: primary (filled), secondary (outline), ghost (text).
+// Sizes respect the minimum interactive size token (40px).
+
+@use "../tools";
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-scale-small-default);
+  min-height: var(--system-grid-minimum-interactive-size);
+  padding: 0 var(--space-scale-medium-default);
+  border: var(--shape-border-width-thick-default) solid transparent;
+  border-radius: var(--shape-corner-radius-small-default);
+  background: transparent;
+  color: var(--color-text-primary-default);
+  cursor: pointer;
+  @include tools.typography-button-label;
+  @include tools.motion-transition(background-color, color, border-color, box-shadow);
+}
+
+.button:focus-visible {
+  @include tools.focus-ring;
+}
+
+.button--primary {
+  background: var(--color-action-primary-default);
+  color: var(--color-text-inverse-default);
+}
+
+.button--primary:hover {
+  background: var(--color-action-primary-hover);
+  @include tools.elevation("level-2");
+}
+
+.button--secondary {
+  border-color: var(--color-border-subtle-default);
+  background: var(--color-action-secondary-default);
+  color: var(--color-text-primary-default);
+}
+
+.button--secondary:hover {
+  border-color: var(--color-border-strong-default);
+  background: var(--color-action-secondary-hover);
+}
+
+.button--ghost {
+  color: var(--color-text-primary-default);
+}
+
+.button--ghost:hover {
+  color: var(--color-text-secondary-default);
+}
+
+.button[disabled] {
+  color: var(--color-text-secondary-default);
+  border-color: var(--color-border-subtle-default);
+  background: var(--color-surface-panel-default);
+  cursor: not-allowed;
+}

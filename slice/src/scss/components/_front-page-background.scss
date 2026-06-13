@@ -15,10 +15,7 @@
 
 .background-fx-canvas {
   display: block;
-  background:
-    radial-gradient(circle at 24% 20%, color-mix(in srgb, var(--accent-warm), transparent 42%), transparent 32rem),
-    radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--accent-cool), transparent 35%), transparent 30rem),
-    var(--surface-page);
+  background: var(--color-surface-page-default);
 }
 
 .background-fx-canvas canvas {

@@ -1,0 +1,40 @@
+// Molecule: Article Teaser. Eyebrow + title + excerpt + meta + read link.
+
+@use "../tools";
+
+.article-teaser {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-small-default);
+  padding: var(--space-scale-large-default) 0;
+  border-bottom: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
+}
+
+.article-teaser__eyebrow {
+  margin: 0;
+  color: var(--color-action-primary-default);
+  @include tools.typography-overline-default;
+}
+
+.article-teaser__title {
+  margin: 0;
+  @include tools.typography-headline-5;
+}
+
+.article-teaser__excerpt {
+  margin: 0;
+  color: var(--color-text-secondary-default);
+  @include tools.typography-body-1;
+}
+
+.article-teaser__meta {
+  display: flex;
+  gap: var(--space-scale-small-default);
+  color: var(--color-text-secondary-default);
+  @include tools.typography-caption-default;
+}
+
+.article-teaser__link {
+  align-self: flex-start;
+  @include tools.typography-button-label;
+}

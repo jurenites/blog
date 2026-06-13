@@ -1,24 +1,141 @@
-:root {
-  --system-grid-base-unit: 8px;
-  --system-grid-minimum-interactive-size: 40px;
-  --system-icon-default-svg-viewport: 24px;
-  --surface-page: #17120f;
-  --surface-panel: #241b17;
-  --text-primary: #f8f4ef;
-  --text-secondary: #cfc3b7;
-  --accent-warm: #b46e3c;
-  --accent-cool: #504678;
+/* Storybook-only canvas layout. Design tokens come from the compiled slice SCSS,
+   not from this file, so there is no token duplication here. */
+
+html,
+body,
+#storybook-root,
+#storybook-docs,
+.sb-show-main,
+.sb-show-main.sb-main-fullscreen,
+.sbdocs,
+.sbdocs-wrapper,
+.sbdocs-content,
+.sbdocs-preview,
+.sbdocs-preview > div,
+.sbdocs-preview iframe,
+.sbdocs-canvas,
+.sb-anchor,
+.docs-story,
+.docs-story > div,
+.sbdocs-wrapper [class^="css-"]:not([style]),
+.sbdocs-wrapper [class*=" css-"]:not([style]),
+.docblock-source,
+.docblock-argstable,
+.docblock-argstable-body,
+.docblock-argstable-head,
+.docblock-argstable thead,
+.docblock-argstable tbody,
+.docblock-argstable tr,
+.docblock-argstable th,
+.docblock-argstable td,
+.docblock-argstable thead > tr > *,
+.docblock-argstable tbody > tr > *,
+.docblock-argstable-body > tr > *,
+.docblock-code-toggle,
+.docblock-colorpalette,
+.docblock-typeset,
+.docblock-typeset *:not([style]) {
+  background-color: var(--color-surface-page-default) !important;
+  color: var(--color-text-primary-default) !important;
 }
 
-body {
-  margin: 0;
-  background: var(--surface-page);
-  color: var(--text-primary);
-  font-family: Arial, sans-serif;
+html,
+body,
+#storybook-root,
+#storybook-docs {
+  min-height: 100%;
+}
+
+#storybook-docs {
+  min-height: 100vh;
+}
+
+.sbdocs-wrapper {
+  padding: 0 !important;
+}
+
+.sbdocs-content {
+  max-width: none !important;
+  min-height: 100vh;
+  padding: var(--space-scale-extra-large) !important;
+}
+
+.sbdocs-title,
+.sbdocs-subtitle,
+.sbdocs-p,
+.sbdocs-li,
+.sbdocs-h1,
+.sbdocs-h2,
+.sbdocs-h3,
+.sbdocs-h4,
+.sbdocs-h5,
+.sbdocs-h6,
+.sbdocs-a,
+.sbdocs-code,
+.sbdocs-table,
+.sbdocs-th,
+.sbdocs-td {
+  color: var(--color-text-primary-default) !important;
+}
+
+.sbdocs-p,
+.sbdocs-li,
+.sbdocs-table,
+.sbdocs-td {
+  color: var(--color-text-secondary-default) !important;
+}
+
+.docblock-source,
+.docblock-argstable,
+.docblock-code-toggle {
+  border-color: var(--color-border-subtle-default) !important;
+}
+
+.docblock-argstable,
+.docblock-argstable * {
+  border-color: var(--color-border-subtle-default) !important;
+}
+
+.docblock-argstable code,
+.docblock-argstable pre,
+.docblock-argstable input,
+.docblock-argstable textarea,
+.docblock-argstable select,
+.docblock-argstable button {
+  background-color: var(--color-surface-panel-default) !important;
+  border-color: var(--color-border-subtle-default) !important;
+  color: var(--color-text-primary-default) !important;
+}
+
+.docblock-argstable svg {
+  color: var(--color-text-primary-default) !important;
+  fill: currentColor !important;
 }
 
 .storybook-shell {
   min-height: 100vh;
   padding: calc(var(--system-grid-base-unit) * 4);
   box-sizing: border-box;
+}
+
+.storybook-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-large-default);
+  padding: var(--space-scale-large-default);
+}
+
+.storybook-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-scale-medium-default);
+  padding: var(--space-scale-large-default);
+}
+
+.storybook-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-scale-medium-default);
+  padding: var(--space-scale-large-default);
 }

@@ -1,0 +1,36 @@
+// Atom: Avatar. Circular image or initials. Sizes map to interactive-size tokens.
+
+@use "../tools";
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--system-grid-minimum-interactive-size);
+  height: var(--system-grid-minimum-interactive-size);
+  border-radius: var(--shape-corner-radius-pill-full);
+  overflow: hidden;
+  background: var(--color-surface-panel-raised);
+  color: var(--color-text-primary-default);
+  border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
+}
+
+.avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar__initials {
+  @include tools.typography-subtitle-2;
+}
+
+.avatar--small {
+  width: var(--space-scale-extra-large);
+  height: var(--space-scale-extra-large);
+}
+
+.avatar--large {
+  width: var(--space-scale-giant-default);
+  height: var(--space-scale-giant-default);
+}

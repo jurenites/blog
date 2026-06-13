@@ -33,6 +33,27 @@ The current Figma file is:
 
 https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites
 
+## Design System and Token Pipeline
+
+`tokens/tokens.json` (W3C/DTCG format) is the single source of truth. One console
+script regenerates everything else:
+
+```bash
+scripts/sync.sh build         # tokens.json -> generated SCSS/CSS, tokens.min.json, tokens.flat.json
+scripts/sync.sh theme         # build minified Drupal theme assets
+scripts/sync.sh studio        # write tokens.studio.json for the Tokens Studio Figma push
+scripts/sync.sh pull          # apply Figma variable edits back into tokens.json
+scripts/sync.sh deploy-theme  # build + re-version assets + drush cache rebuild
+scripts/sync.sh all           # build + theme + studio
+```
+
+Reference docs:
+
+- `docs/design-system.md` — the visual guideline (typography, color, spacing, shape, elevation, motion, breakpoints, atomic design).
+- `docs/naming-conventions.md` — the shared naming contract (BEM bridge) that maps Figma frames to SCSS, Storybook, and Drupal.
+- `docs/figma-sync.md` — bidirectional Figma <-> tokens procedure.
+- `docs/ci-cd.md` — the interconnected pipeline and GitHub Actions / webhook strategy.
+
 ## First Milestones
 
 1. Create Drupal 11 Docker development environment.

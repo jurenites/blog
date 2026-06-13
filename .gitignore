@@ -18,3 +18,7 @@ storybook-static/
 dist/
 build/
 .playwright-mcp/
+
+# Transient Figma variable dump (input to scripts/figma/pull-from-figma.mjs).
+# The committed reference is scripts/figma/figma-variables.example.json.
+scripts/figma/figma-variables.json

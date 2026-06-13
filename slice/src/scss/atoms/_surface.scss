@@ -1,0 +1,23 @@
+// Surface atom: a panel/card container with elevation levels.
+
+@use "../tools";
+
+.surface {
+  display: block;
+  padding: var(--space-scale-large-default);
+  background: var(--color-surface-panel-default);
+  border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
+  border-radius: var(--shape-corner-radius-medium-default);
+  color: var(--color-text-primary-default);
+}
+
+.surface--raised {
+  background: var(--color-surface-panel-raised);
+  @include tools.elevation("level-3");
+}
+
+.surface--flat {
+  border-radius: var(--shape-corner-radius-none);
+  border: 0;
+  background: transparent;
+}

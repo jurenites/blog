@@ -12,17 +12,26 @@ Rules:
 
 ## 2. Tokens
 
-`tokens/tokens.json` is the structured source for reusable design decisions.
+`tokens/tokens.json` is the single source of truth for reusable design decisions, in W3C/DTCG format. It is the contract between Figma, Storybook, and Drupal.
 
-The token file is not the final visual design. It is the contract between Figma, Storybook, and Drupal.
+`scripts/build-tokens.mjs` resolves `{references}` and generates (never hand-edit these):
 
-Early token groups:
+- `slice/src/scss/settings/_generated-tokens.scss` (CSS custom properties, SCSS breakpoint vars/map/mixins, typography role mixins)
+- `src/styles/tokens.generated.css` (Storybook tokens)
+- `tokens/tokens.min.json` (minified contract for transport)
+- `tokens/tokens.flat.json` (resolved `name -> {type, value, css}` map for Storybook foundations and Figma sync)
 
-- `system.grid`
-- `system.interaction`
-- `system.icon`
-- `system.naming`
+Run `npm run build:tokens` after editing `tokens/tokens.json`. `npm run build:theme` runs tokens first automatically.
+
+Token groups:
+
+- `system.grid`, `system.icon`, `system.breakpoint`, `system.naming`
+- `color.*` (palette primitives + semantic surface/text/accent/border)
+- `typography.*` (Material M2 roles)
+- `space.*`, `shape.*`, `elevation.*`, `motion.*`, `layout.*`
 - `component.*`
+
+See `docs/design-system.md` for the full guideline.
 
 Token naming rules (see `system.naming` in `tokens/tokens.json`):
 
@@ -42,9 +51,15 @@ Avoid generic names like `orange`, `small`, `primary`, or `card` until the seman
 
 ## 3. Storybook
 
-Storybook is the place to prove component behavior before Drupal integration.
+Storybook is the place to prove component behavior before Drupal integration. It compiles `slice/src/scss/main.scss` directly, so component CSS has a single source of truth shared with the Drupal theme.
 
-Initial components:
+Stories are organised by Atomic Design: `Foundations`, `Atoms`, `Molecules`, `Organisms`, `Components`. Each component has exactly one story; property combinations are explored via the Controls tab.
+
+Current Foundations: Colors, Typography, Spacing and Elevation (all generated from `tokens/tokens.flat.json`).
+
+Current Atoms: Button, Surface, Chip, Divider.
+
+Planned components:
 
 - `GradientBackground`
 - `TimelineRail`

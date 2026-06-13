@@ -1,0 +1,11 @@
+// Divider atom: a 1px rule that intentionally sits off the 8px grid.
+
+.divider {
+  border: 0;
+  border-top: var(--space-scale-hairline) solid var(--color-border-subtle-default);
+  margin: var(--space-scale-medium-default) 0;
+}
+
+.divider--strong {
+  border-top-color: var(--color-border-strong-default);
+}

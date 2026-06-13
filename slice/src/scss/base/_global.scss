@@ -1,16 +1,19 @@
+// Global element defaults built entirely from tokens.
+// Background transparency is intentionally avoided here (HEX-only rule); the
+// animated gradient is owned by the front-page-background component canvas.
+
+@use "../tools";
+
 html {
-  background: var(--surface-page);
+  background: var(--color-surface-page-default);
 }
 
 body {
   min-height: 100vh;
   margin: 0;
-  background:
-    radial-gradient(circle at 20% 10%, color-mix(in srgb, var(--accent-warm), transparent 35%), transparent 32rem),
-    radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--accent-cool), transparent 28%), transparent 30rem),
-    var(--surface-page);
-  color: var(--text-primary);
-  font-family: Arial, sans-serif;
+  background: var(--color-surface-page-default);
+  color: var(--color-text-primary-default);
+  @include tools.typography-body-1;
 }
 
 body.path-frontpage {
@@ -18,18 +21,24 @@ body.path-frontpage {
 }
 
 a {
-  color: var(--accent-warm);
+  color: var(--color-action-primary-default);
+  text-decoration: none;
+  @include tools.motion-transition(color);
+}
+
+a:hover {
+  color: var(--color-action-primary-hover);
+}
+
+a:focus-visible,
+button:focus-visible {
+  @include tools.focus-ring;
 }
 
 .layout-container {
   position: relative;
   z-index: 1;
-  max-width: 1180px;
+  max-width: var(--layout-container-max-desktop-default);
   margin: 0 auto;
-  padding: calc(var(--system-grid-base-unit) * 4);
-}
-
-.site-name,
-.page-title {
-  letter-spacing: 0;
+  padding: var(--layout-gutter-desktop-default);
 }

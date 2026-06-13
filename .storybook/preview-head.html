@@ -1,0 +1,37 @@
+<style>
+  :root {
+    --color-surface-page-default: #050505;
+    --color-surface-panel-default: #0a0a0a;
+    --color-surface-panel-raised: #111111;
+    --color-border-subtle-default: #2a2a2a;
+    --color-text-primary-default: #fafafa;
+    --color-text-secondary-default: #a1a1aa;
+  }
+
+  html,
+  body,
+  #storybook-root,
+  #storybook-docs,
+  .sb-show-main,
+  .sb-show-main.sb-main-fullscreen,
+  .sb-preparing-docs,
+  .sb-preparing-story {
+    background: var(--color-surface-page-default) !important;
+    color: var(--color-text-primary-default) !important;
+  }
+
+  .sb-previewBlock {
+    background: var(--color-surface-panel-default) !important;
+    border-color: var(--color-border-subtle-default) !important;
+    box-shadow: none !important;
+  }
+
+  .sb-previewBlock_header {
+    box-shadow: inset 0 -1px 0 var(--color-border-subtle-default) !important;
+  }
+
+  .sb-previewBlock_icon,
+  .sb-previewBlock_body {
+    background: var(--color-surface-panel-raised) !important;
+  }
+</style>

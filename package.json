@@ -4,13 +4,17 @@
   "version": "0.1.0",
   "description": "Storybook and frontend component workspace for the Blog Jurenites Drupal theme.",
   "scripts": {
-    "build:theme": "node scripts/build-theme.mjs",
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "build:figma-sync": "npm run build:tokens && node scripts/figma/to-tokens-studio.mjs && node scripts/figma/build-design-system-sync.mjs",
+    "build:theme": "npm run build:tokens && node scripts/build-theme.mjs",
+    "build:all": "npm run build:tokens && node scripts/build-theme.mjs && npm run build-storybook",
     "storybook": "storybook dev -p 6006 --host 0.0.0.0 --no-open",
     "build-storybook": "storybook build"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "8.6.18",
     "@storybook/html-vite": "8.6.18",
+    "esbuild": "^0.25.0",
     "sass": "^1.100.0",
     "storybook": "8.6.18",
     "vite": "^6.3.5"
