@@ -1,21 +1,26 @@
 // Atom: Chip/tag. Use Controls for label and accent state.
+import chip_template from "./chip.template.html?raw";
+import { escape_html, render_template } from "../template.js";
 
-function render({ label, accent }) {
-  return `<span class="chip${accent ? " chip--accent" : ""}">${label}</span>`;
+function render_story({ chip_label, is_accent }) {
+  return render_template(chip_template, {
+    modifier: is_accent ? " chip--accent" : "",
+    label: escape_html(chip_label),
+  });
 }
 
 export default {
   title: "Atoms/Chip",
   tags: ["autodocs"],
-  render,
+  render: render_story,
   argTypes: {
-    label: { control: "text" },
-    accent: { control: "boolean" },
+    chip_label: { control: "text" },
+    is_accent: { control: "boolean" },
   },
   args: {
-    label: "Drupal",
-    accent: false,
+    chip_label: "Drupal",
+    is_accent: false,
   },
 };
 
-export const Default = {};
+export const default_story = {};

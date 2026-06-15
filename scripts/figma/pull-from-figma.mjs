@@ -1,4 +1,4 @@
-// Pull: Figma variables -> tokens/tokens.json (the source of truth).
+// Pull: Figma variables -> tokens/tokens.json, then scripts/sync.sh refreshes tokens/tokens.yaml.
 //
 // Input is a flat JSON map keyed by the same dash names used as CSS variables:
 //   { "color-palette-white": "#fafafa", "space-scale-large-default": "24px" }

@@ -2,12 +2,14 @@
 
 This is the visual guideline for the jurenites site. It documents the durable
 rules. The machine-readable contract for every value lives in
-`tokens/tokens.json`; this page explains intent and usage.
+`tokens/tokens.yaml`; this page explains intent and usage.
 
 ## Source of truth and flow
 
 ```text
-tokens/tokens.json            <-- single source of truth (DTCG format)
+tokens/tokens.yaml            <-- editable single source of truth (DTCG format)
+  -> scripts/tokens-yaml-to-json.mjs
+       -> tokens/tokens.json                         (generated machine contract)
   -> scripts/build-tokens.mjs
        -> slice/src/scss/settings/_generated-tokens.scss  (CSS vars + SCSS breakpoint/typography mixins)
        -> src/styles/tokens.generated.css                 (Storybook tokens)
@@ -18,7 +20,7 @@ tokens/tokens.json            <-- single source of truth (DTCG format)
        -> scripts/build-theme.mjs -> web/themes/custom/jurenites_theme/css/style.min.css
 ```
 
-Never hand-edit generated files. Edit `tokens/tokens.json`, then run
+Never hand-edit generated files. Edit `tokens/tokens.yaml`, then run
 `npm run build:tokens` (or `npm run build:theme`, which runs tokens first).
 
 ## Atomic design

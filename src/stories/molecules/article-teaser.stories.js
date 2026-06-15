@@ -1,37 +1,35 @@
 // Molecule: Article Teaser. Eyebrow + title + excerpt + meta + read link.
+import article_template from "./article-teaser.template.html?raw";
+import { escape_html, render_template } from "../template.js";
 
-function render({ eyebrow, title, excerpt, meta, linkLabel }) {
-  return `
-    <div class="storybook-stack" style="max-width: 640px;">
-      <article class="article-teaser">
-        <p class="article-teaser__eyebrow">${eyebrow}</p>
-        <h2 class="article-teaser__title">${title}</h2>
-        <p class="article-teaser__excerpt">${excerpt}</p>
-        <div class="article-teaser__meta">${meta}</div>
-        <a class="article-teaser__link" href="#">${linkLabel}</a>
-      </article>
-    </div>
-  `;
+function render_story({ eyebrow_heading, teaser_title, teaser_excerpt, teaser_meta, link_label }) {
+  return render_template(article_template, {
+    eyebrow: escape_html(eyebrow_heading),
+    title: escape_html(teaser_title),
+    excerpt: escape_html(teaser_excerpt),
+    meta: escape_html(teaser_meta),
+    linkLabel: escape_html(link_label),
+  });
 }
 
 export default {
   title: "Molecules/Article Teaser",
   tags: ["autodocs"],
-  render,
+  render: render_story,
   argTypes: {
-    eyebrow: { control: "text" },
-    title: { control: "text" },
-    excerpt: { control: "text" },
-    meta: { control: "text" },
-    linkLabel: { control: "text" },
+    eyebrow_heading: { control: "text" },
+    teaser_title: { control: "text" },
+    teaser_excerpt: { control: "text" },
+    teaser_meta: { control: "text" },
+    link_label: { control: "text" },
   },
   args: {
-    eyebrow: "Writing",
-    title: "Rewinding an Interface Through Time",
-    excerpt: "How a time-slider concept turned into a repeatable design process.",
-    meta: "Jun 2026 - 6 min read",
-    linkLabel: "Read article",
+    eyebrow_heading: "Writing",
+    teaser_title: "Rewinding an Interface Through Time",
+    teaser_excerpt: "How a time-slider concept turned into a repeatable design process.",
+    teaser_meta: "Jun 2026 - 6 min read",
+    link_label: "Read article",
   },
 };
 
-export const Default = {};
+export const default_story = {};

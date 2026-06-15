@@ -1,38 +1,32 @@
 // Molecule: Hire Me Widget. Avatar + identity + call to action.
+import widget_template from "./hire-me-widget.template.html?raw";
+import { escape_html, render_template } from "../template.js";
 
-function render({ name, role, initials, buttonLabel }) {
-  return `
-    <div class="storybook-stack" style="max-width: 480px;">
-      <aside class="hire-me-widget">
-        <span class="avatar"><span class="avatar__initials">${initials}</span></span>
-        <div class="hire-me-widget__body">
-          <p class="hire-me-widget__name">${name}</p>
-          <p class="hire-me-widget__role">${role}</p>
-        </div>
-        <div class="hire-me-widget__actions">
-          <button class="button button--primary">${buttonLabel}</button>
-        </div>
-      </aside>
-    </div>
-  `;
+function render_story({ person_name, person_role, avatar_initials, button_label }) {
+  return render_template(widget_template, {
+    name: escape_html(person_name),
+    role: escape_html(person_role),
+    initials: escape_html(avatar_initials),
+    buttonLabel: escape_html(button_label),
+  });
 }
 
 export default {
   title: "Molecules/Hire Me Widget",
   tags: ["autodocs"],
-  render,
+  render: render_story,
   argTypes: {
-    name: { control: "text" },
-    role: { control: "text" },
-    initials: { control: "text" },
-    buttonLabel: { control: "text" },
+    person_name: { control: "text" },
+    person_role: { control: "text" },
+    avatar_initials: { control: "text" },
+    button_label: { control: "text" },
   },
   args: {
-    name: "Alexander Ilivanov",
-    role: "Designer / Drupal engineer",
-    initials: "AI",
-    buttonLabel: "Hire me",
+    person_name: "Alexander Ilivanov",
+    person_role: "Designer / Drupal engineer",
+    avatar_initials: "AI",
+    button_label: "Hire me",
   },
 };
 
-export const Default = {};
+export const default_story = {};

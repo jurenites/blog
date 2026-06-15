@@ -1,6 +1,9 @@
 // Foundations: color tokens, rendered straight from tokens.flat.json so this page
 // always matches the single source of truth.
 import tokens from "../../../tokens/tokens.flat.json";
+import template from "./colors.template.html?raw";
+import swatchTemplate from "./color-swatch.template.html?raw";
+import { escapeHtml, renderTemplate } from "../template.js";
 
 function colorTokens() {
   return Object.entries(tokens)
@@ -14,35 +17,17 @@ function groupTitle(name) {
 }
 
 function swatchMarkup({ name, value }) {
-  return `
-    <figure class="swatch">
-      <div class="swatch__chip" style="background:${value}"></div>
-      <figcaption class="swatch__caption">
-        <span class="swatch__name">${groupTitle(name)}</span>
-        <code class="swatch__value">${value}</code>
-        <code class="swatch__var">--${name}</code>
-      </figcaption>
-    </figure>
-  `;
+  return renderTemplate(swatchTemplate, {
+    name: escapeHtml(groupTitle(name)),
+    value: escapeHtml(value),
+    variable: escapeHtml(name),
+  });
 }
 
 function render() {
-  return `
-    <style>
-      .swatch { margin: 0; }
-      .swatch__chip {
-        height: 72px;
-        border-radius: var(--shape-corner-radius-small-default);
-        border: var(--space-scale-hairline) solid var(--color-border-subtle-default);
-      }
-      .swatch__caption { display: flex; flex-direction: column; gap: 2px; padding-top: 8px; }
-      .swatch__name { color: var(--color-text-primary-default); text-transform: capitalize; }
-      .swatch__value, .swatch__var { color: var(--color-text-secondary-default); font-size: 12px; }
-    </style>
-    <main class="storybook-grid">
-      ${colorTokens().map(swatchMarkup).join("")}
-    </main>
-  `;
+  return renderTemplate(template, {
+    swatches: colorTokens().map(swatchMarkup).join(""),
+  });
 }
 
 export default {

@@ -1,25 +1,27 @@
 // Atom: Badge. Status label; variant via Controls.
+import badge_template from "./badge.template.html?raw";
+import { escape_html, render_template } from "../template.js";
 
-function render({ label, variant }) {
-  const modifier = variant === "neutral" ? "" : ` badge--${variant}`;
-  return `<span class="badge${modifier}">${label}</span>`;
+function render_story({ badge_label, status_variant }) {
+  const badge_modifier = status_variant === "neutral" ? "" : ` badge--${status_variant}`;
+  return render_template(badge_template, { modifier: badge_modifier, label: escape_html(badge_label) });
 }
 
 export default {
   title: "Atoms/Badge",
   tags: ["autodocs"],
-  render,
+  render: render_story,
   argTypes: {
-    label: { control: "text" },
-    variant: {
+    badge_label: { control: "text" },
+    status_variant: {
       control: { type: "inline-radio" },
       options: ["neutral", "success", "warning", "error", "info"],
     },
   },
   args: {
-    label: "Published",
-    variant: "success",
+    badge_label: "Published",
+    status_variant: "success",
   },
 };
 
-export const Default = {};
+export const default_story = {};

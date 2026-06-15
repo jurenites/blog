@@ -1,5 +1,8 @@
 // Foundations: Material M2 type scale, driven by the typography role tokens.
 import tokens from "../../../tokens/tokens.flat.json";
+import template from "./typography.template.html?raw";
+import rowTemplate from "./type-row.template.html?raw";
+import { escapeHtml, renderTemplate } from "../template.js";
 
 const ROLES = [
   "headline-1",
@@ -38,25 +41,15 @@ function roleStyle(role) {
 
 function rowMarkup(role) {
   const size = tokens[`typography-${role}-font-size`];
-  return `
-    <div class="type-row">
-      <p class="type-row__sample" style="${roleStyle(role)}">${role} - The quick brown fox</p>
-      <code class="type-row__meta">${role} / ${size ? size.css : ""}</code>
-    </div>
-  `;
+  return renderTemplate(rowTemplate, {
+    style: escapeHtml(roleStyle(role)),
+    sample: escapeHtml(`${role} - The quick brown fox`),
+    meta: escapeHtml(`${role} / ${size ? size.css : ""}`),
+  });
 }
 
 function render() {
-  return `
-    <style>
-      .type-row { padding: var(--space-scale-medium-default) 0; border-bottom: var(--space-scale-hairline) solid var(--color-border-subtle-default); }
-      .type-row__sample { margin: 0; color: var(--color-text-primary-default); }
-      .type-row__meta { color: var(--color-text-secondary-default); font-size: 12px; }
-    </style>
-    <main class="storybook-stack">
-      ${ROLES.map(rowMarkup).join("")}
-    </main>
-  `;
+  return renderTemplate(template, { rows: ROLES.map(rowMarkup).join("") });
 }
 
 export default {

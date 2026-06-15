@@ -1,4 +1,7 @@
 import "./timeline.css";
+import template from "./timeline.template.html?raw";
+import eventTemplate from "./timeline-event.template.html?raw";
+import { escapeHtml, renderTemplate } from "./template.js";
 
 const events = [
   {
@@ -24,30 +27,16 @@ const events = [
 ];
 
 function timelineMarkup(items = events) {
-  return `
-    <main class="storybook-shell">
-      <section class="timeline-preview" aria-label="Work timeline preview">
-        <header class="timeline-preview__header">
-          <p class="timeline-preview__eyebrow">Work Timeline</p>
-          <h1>Career bookmarks as a slider-ready story</h1>
-        </header>
-        <ol class="timeline-preview__rail">
-          ${items
-            .map(
-              (item) => `
-                <li class="timeline-preview__event">
-                  <span class="timeline-preview__marker" aria-hidden="true"></span>
-                  <time>${item.year}</time>
-                  <h2>${item.title}</h2>
-                  <p>${item.body}</p>
-                </li>
-              `
-            )
-            .join("")}
-        </ol>
-      </section>
-    </main>
-  `;
+  const eventItems = items
+    .map((item) =>
+      renderTemplate(eventTemplate, {
+        year: escapeHtml(item.year),
+        title: escapeHtml(item.title),
+        body: escapeHtml(item.body),
+      }),
+    )
+    .join("");
+  return renderTemplate(template, { events: eventItems });
 }
 
 export default {

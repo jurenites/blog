@@ -9,7 +9,7 @@ This repo is the working system for a personal blog, portfolio, CV timeline, and
 - CMS: Drupal 11.
 - Purpose: personal promotion, networking, portfolio, and long-form writing.
 - Design source: Figma file `blog-jurenites`.
-- Design data source: `tokens/tokens.json`.
+- Design data source: `tokens/tokens.yaml`.
 - Component proving ground: Storybook.
 - Runtime target: Docker development first, stage preview second, production hosting later.
 
@@ -19,6 +19,7 @@ The project workflow is:
 
 ```text
 Idea file
+  -> tokens/tokens.yaml
   -> tokens/tokens.json
   -> Storybook components
   -> Figma design
@@ -35,14 +36,14 @@ https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites
 
 ## Design System and Token Pipeline
 
-`tokens/tokens.json` (W3C/DTCG format) is the single source of truth. One console
+`tokens/tokens.yaml` (W3C/DTCG format) is the editable single source of truth. One console
 script regenerates everything else:
 
 ```bash
-scripts/sync.sh build         # tokens.json -> generated SCSS/CSS, tokens.min.json, tokens.flat.json
+scripts/sync.sh build         # tokens.yaml -> generated JSON/SCSS/CSS, tokens.min.json, tokens.flat.json
 scripts/sync.sh theme         # build minified Drupal theme assets
 scripts/sync.sh studio        # write tokens.studio.json for the Tokens Studio Figma push
-scripts/sync.sh pull          # apply Figma variable edits back into tokens.json
+scripts/sync.sh pull          # apply Figma variable edits back into tokens.yaml
 scripts/sync.sh deploy-theme  # build + re-version assets + drush cache rebuild
 scripts/sync.sh all           # build + theme + studio
 ```
@@ -58,7 +59,7 @@ Reference docs:
 
 1. Create Drupal 11 Docker development environment.
 2. Add Storybook for custom theme components.
-3. Keep `tokens/tokens.json` as the shared machine-readable token contract.
+3. Keep `tokens/tokens.yaml` as the shared editable token contract.
 4. Connect Figma design variables and code tokens in both directions.
 5. Build the first interactive CV timeline component.
 6. Add universal Drupal node types, without overfitting fields too early.

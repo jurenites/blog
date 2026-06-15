@@ -1,10 +1,10 @@
-// Push side: wrap tokens/tokens.json into a Tokens Studio single-file structure.
+// Push side: wrap generated tokens/tokens.json into a Tokens Studio single-file structure.
 //
 // The Tokens Studio Figma plugin (in W3C/DTCG mode) reads this file from the repo
 // and writes the values into Figma variables. We expose the whole contract as one
 // set named "global" so token names stay identical on both sides.
 //
-// Reason: tokens.json is the source of truth; this file is a derived transport
+// Reason: tokens.yaml is the source of truth; this file is a derived transport
 // artifact, regenerated on every push and never hand-edited.
 
 import { readFile, writeFile } from 'node:fs/promises';

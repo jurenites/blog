@@ -4,10 +4,10 @@
 # Everything is operated from this script so the workflow stays inside the repo.
 #
 # Usage:
-#   scripts/sync.sh build              Regenerate SCSS/CSS/min/flat from tokens.json
+#   scripts/sync.sh build              Regenerate JSON/SCSS/CSS/min/flat from tokens.yaml
 #   scripts/sync.sh theme              Build minified Drupal theme assets (runs build first)
 #   scripts/sync.sh studio             Regenerate tokens.studio.json for the Tokens Studio push to Figma
-#   scripts/sync.sh pull [file]        Apply Figma variable changes into tokens.json (then rebuild)
+#   scripts/sync.sh pull [file]        Apply Figma variable changes, refresh YAML, then rebuild
 #   scripts/sync.sh pull-dry [file]    Preview Figma -> tokens changes without writing
 #   scripts/sync.sh drush-cache        Rebuild the Drupal cache in the running web container
 #   scripts/sync.sh deploy-theme       theme + reset asset query string + drush cache rebuild
@@ -30,10 +30,10 @@ Token pipeline console. Everything is operated from this script.
 
 Usage: scripts/sync.sh <command>
 
-  build          Regenerate SCSS/CSS/min/flat from tokens.json
+  build          Regenerate JSON/SCSS/CSS/min/flat from tokens.yaml
   theme          Build minified Drupal theme assets (runs build first)
   studio         Regenerate tokens.studio.json for the Tokens Studio push to Figma
-  pull [file]    Apply Figma variable changes into tokens.json, then rebuild
+  pull [file]    Apply Figma variable changes, refresh YAML, then rebuild
   pull-dry [file] Preview Figma -> tokens changes without writing
   drush-cache    Rebuild the Drupal cache in the running web container
   deploy-theme   theme + reset asset query string + drush cache rebuild
@@ -58,6 +58,7 @@ pull_from_figma() {
   local input_file="${1:-${FIGMA_INPUT_DEFAULT}}"
   shift || true
   node scripts/figma/pull-from-figma.mjs "${input_file}" "$@"
+  node scripts/tokens-json-to-yaml.mjs
   build_tokens
 }
 

@@ -1,25 +1,21 @@
 // Atom: Divider. Use Controls for the strong variant.
+import divider_template from "./divider.template.html?raw";
+import { render_template } from "../template.js";
 
-function render({ strong }) {
-  return `
-    <div class="storybook-stack">
-      <p>Above the divider</p>
-      <hr class="divider${strong ? " divider--strong" : ""}" />
-      <p>Below the divider</p>
-    </div>
-  `;
+function render_story({ is_strong }) {
+  return render_template(divider_template, { modifier: is_strong ? " divider--strong" : "" });
 }
 
 export default {
   title: "Atoms/Divider",
   tags: ["autodocs"],
-  render,
+  render: render_story,
   argTypes: {
-    strong: { control: "boolean" },
+    is_strong: { control: "boolean" },
   },
   args: {
-    strong: false,
+    is_strong: false,
   },
 };
 
-export const Default = {};
+export const default_story = {};

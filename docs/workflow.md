@@ -12,7 +12,7 @@ Rules:
 
 ## 2. Tokens
 
-`tokens/tokens.json` is the single source of truth for reusable design decisions, in W3C/DTCG format. It is the contract between Figma, Storybook, and Drupal.
+`tokens/tokens.yaml` is the editable single source of truth for reusable design decisions, in W3C/DTCG format. `tokens/tokens.json` is generated from it as the contract between Figma, Storybook, and Drupal.
 
 `scripts/build-tokens.mjs` resolves `{references}` and generates (never hand-edit these):
 
@@ -21,7 +21,7 @@ Rules:
 - `tokens/tokens.min.json` (minified contract for transport)
 - `tokens/tokens.flat.json` (resolved `name -> {type, value, css}` map for Storybook foundations and Figma sync)
 
-Run `npm run build:tokens` after editing `tokens/tokens.json`. `npm run build:theme` runs tokens first automatically.
+Run `npm run build:tokens` after editing `tokens/tokens.yaml`. `npm run build:theme` runs tokens first automatically.
 
 Token groups:
 
@@ -33,7 +33,7 @@ Token groups:
 
 See `docs/design-system.md` for the full guideline.
 
-Token naming rules (see `system.naming` in `tokens/tokens.json`):
+Token naming rules (see `system.naming` in `tokens/tokens.yaml`):
 
 - Use dash-separated namespaces, not dots.
 - Each namespace segment must contain at least two word parts (for example `base-unit`, `marker-size`). Never use a single character or a lone word as a segment (invalid: `a`, `x`, `orange`).
@@ -82,8 +82,8 @@ The file already has Material 3 Design Kit available. The project should reuse t
 
 Token sync goal:
 
-- Figma can export design variables into `tokens/tokens.json`.
-- Code can read `tokens/tokens.json` and generate CSS variables/Storybook theme values.
+- Figma can export design variables back into the token pipeline.
+- Code can read generated `tokens/tokens.json` and generate CSS variables/Storybook theme values.
 - Later, code-side token updates should be able to update Figma variables when needed.
 - Token names must stay stable, because component implementations will depend on them.
 
