@@ -8,57 +8,6 @@ import { color_group, token_names, token_value } from "../token-values.js";
 const SEMANTIC_GROUPS = ["palette"];
 const SYSTEM_GROUPS = ["surface", "text", "action", "border"];
 
-const ELEMENT_CARDS = [
-  {
-    element_label: "Page background",
-    token_label: "--color-surface-page-default",
-    background_token: "color-surface-page-default",
-    foreground_token: "color-text-primary-default",
-  },
-  {
-    element_label: "Panel surface",
-    token_label: "--color-surface-panel-default",
-    background_token: "color-surface-panel-default",
-    foreground_token: "color-text-primary-default",
-  },
-  {
-    element_label: "Raised surface",
-    token_label: "--color-surface-panel-raised",
-    background_token: "color-surface-panel-raised",
-    foreground_token: "color-text-primary-default",
-  },
-  {
-    element_label: "Primary action",
-    token_label: "--color-action-primary-default",
-    background_token: "color-action-primary-default",
-    foreground_token: "color-text-inverse-default",
-  },
-  {
-    element_label: "Secondary action",
-    token_label: "--color-action-secondary-default",
-    background_token: "color-action-secondary-default",
-    foreground_token: "color-text-primary-default",
-  },
-  {
-    element_label: "Success badge",
-    token_label: "--color-palette-success",
-    background_token: "color-palette-success",
-    foreground_token: "color-text-inverse-default",
-  },
-  {
-    element_label: "Warning badge",
-    token_label: "--color-palette-warning",
-    background_token: "color-palette-warning",
-    foreground_token: "color-text-inverse-default",
-  },
-  {
-    element_label: "Error badge",
-    token_label: "--color-palette-error",
-    background_token: "color-palette-error",
-    foreground_token: "color-text-inverse-default",
-  },
-];
-
 function color_tokens(group_names) {
   return token_names("color-")
     .filter((token_name) => group_names.includes(color_group(token_name)))
@@ -82,11 +31,22 @@ function element_card_markup(element_data) {
   });
 }
 
+function element_color_cards() {
+  return token_names("color-")
+    .filter((token_name) => ["surface", "action"].includes(color_group(token_name)))
+    .map((token_name) => ({
+      element_label: token_name.replace(/^color-/, "").split("-").join(" "),
+      token_label: `--${token_name}`,
+      background_token: token_name,
+      foreground_token: token_name.includes("action-primary") ? "color-text-inverse-default" : "color-text-primary-default",
+    }));
+}
+
 function render_abstraction_story() {
   return render_template(abstraction_template, {
     semantic_colors: color_tokens(SEMANTIC_GROUPS).map(token_card_markup).join(""),
     system_colors: color_tokens(SYSTEM_GROUPS).map(token_card_markup).join(""),
-    element_colors: ELEMENT_CARDS.map(element_card_markup).join(""),
+    element_colors: element_color_cards().map(element_card_markup).join(""),
   });
 }
 

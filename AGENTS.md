@@ -55,3 +55,21 @@ workspace settings that make YAML keys, values, comments, and indentation easier
 to distinguish. YAML syntax highlighting cannot reliably color keys by nesting
 depth on its own, so indentation guides / indent coloring are the preferred way
 to show token hierarchy.
+
+Do not write hardcoded HEX color literals in handwritten source, Storybook
+stories, Figma sync scripts, SCSS, or JS. Editable color values belong in
+`src/token/tokens.yaml`; code should read generated token values or CSS
+variables from that source. Generated artifacts may contain resolved color
+values only because they are derived from the token source.
+
+## Documentation Versioning
+
+Documentation has its own review checkpoint in `docs/version.md`. When source
+structure, token flow, component contracts, build scripts, or workflow rules
+change in a meaningful way, update the relevant docs and bump the documentation
+patch version by `+0.0.1`.
+
+During heavy refactoring, do not rewrite every doc for every tiny experiment.
+Before a commit, run `npm run docs:check`; if source history has moved too far
+ahead of the docs checkpoint, review `/docs`, update stale pages, and bump the
+documentation version.

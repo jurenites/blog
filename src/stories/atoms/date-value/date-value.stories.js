@@ -44,8 +44,18 @@ export default {
     },
     raw_value: { control: "text" },
     display_variant: {
+      description: "Display enum for date value color/typography treatment.",
       control: { type: "inline-radio" },
       options: display_variant_options,
+      type: {
+        name: "enum",
+        value: display_variant_options,
+      },
+      table: {
+        type: {
+          summary: display_variant_options.map((option_name) => `"${option_name}"`).join(" | "),
+        },
+      },
     },
   },
   args: {

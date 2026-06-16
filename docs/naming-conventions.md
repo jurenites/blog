@@ -78,11 +78,11 @@ names; only name the layers that map to real BEM parts.
 Use the same three axes across tools. Add axes only when a component truly needs
 them.
 
-| Axis      | Figma variant property | Storybook arg | CSS expression                  |
-| --------- | ---------------------- | ------------- | ------------------------------- |
-| Variant   | `Variant=Primary`      | `variant`     | `.button--primary`              |
-| Size      | `Size=Medium`          | `size`        | `.button--medium`               |
-| State     | `State=Hover`          | (interaction) | `:hover`, `:focus`, `[disabled]`, `.is-active` |
+| Axis      | Figma variant property | Storybook arg    | CSS expression                  |
+| --------- | ---------------------- | ---------------- | ------------------------------- |
+| Variant   | `Variant=Primary`      | `style_variant`  | `.button--primary`              |
+| Size      | `Size=Medium`          | `component_size` | `.button--medium`               |
+| State     | `State=Hover`          | (interaction)    | `:hover`, `:focus`, `[disabled]`, `.is-active` |
 
 - Figma property names are Capitalized; values are Capitalized.
 - CSS modifiers are kebab-case lowercase.
@@ -132,7 +132,8 @@ Slots/props are named after BEM elements (`media`, `title`, `excerpt`,
 - [ ] SCSS partial `_{block}.scss` with `.block`, `.block__element`, `.block--modifier`.
 - [ ] One Storybook story titled `{Level}/{Block}`, variants via Controls.
 - [ ] Figma component named `{block}`, layers named after BEM selectors.
-- [ ] Variant props use the `Variant` / `Size` / `State` vocabulary.
+- [ ] Variant props use the `Variant` / `Size` / `State` vocabulary, with
+      two-word Storybook arg names such as `style_variant`.
 - [ ] Tokens bound (Figma) / used via vars+mixins (code) — no raw values.
 - [ ] Figma component tagged with `jrn.componentKey` and `jrn.bemBlock`.
 

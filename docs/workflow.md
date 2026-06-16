@@ -12,21 +12,22 @@ Rules:
 
 ## 2. Tokens
 
-`src/token/tokens.yaml` is the editable single source of truth for reusable design decisions, in W3C/DTCG format. `generated/tokens/tokens.json` is generated from it as the contract between Figma, Storybook, and Drupal.
+`src/token/tokens.yaml` is the editable single source of truth for reusable
+design decisions, in W3C/DTCG format.
 
 `scripts/build-tokens.mjs` resolves `{references}` and generates (never hand-edit these):
 
-- `generated/styles/_tokens.scss` (CSS custom properties, SCSS breakpoint vars/map/mixins, typography role mixins)
-- `generated/styles/tokens.css` (CSS custom properties)
-- `generated/tokens/tokens.min.json` (minified contract for transport)
-- `generated/tokens/tokens.flat.json` (resolved `name -> {type, value, css}` map for Storybook foundations and Figma sync)
+- `generated/styles/_tokens.scss` for CSS custom properties, SCSS breakpoint
+  vars/map/mixins, typography role mixins, and token utility classes
+- `generated/token/tokens.js` for Storybook JS, Drupal token JSON output, and
+  Figma sync input
 
 Run `npm run build:tokens` after editing `src/token/tokens.yaml`. `npm run build:theme` runs tokens first automatically.
 
 Token groups:
 
 - `system.grid`, `system.icon`, `system.breakpoint`, `system.naming`
-- `color.*` (palette primitives + semantic surface/text/accent/border)
+- `color.*` (palette primitives + semantic surface/text/action/border)
 - `typography.*` (Material M2 roles)
 - `space.*`, `shape.*`, `elevation.*`, `motion.*`, `layout.*`
 - `component.*`
@@ -55,23 +56,19 @@ Storybook is the place to prove component behavior before Drupal integration. It
 
 Stories are organised by Atomic Design: `Foundations`, `Atoms`, `Molecules`, `Organisms`, `Components`. Each component has exactly one story; property combinations are explored via the Controls tab.
 
-Current Foundations: Colors, Typography, Spacing and Elevation (all generated from `generated/tokens/tokens.flat.json`).
+Current Foundations: Colors, Color Abstraction, Color Contrast, Typography,
+Fonts, and Spacing. Their JS reads `generated/token/tokens.js`; their styles
+read `generated/styles/_tokens.scss`.
 
-Current Atoms: Button, Surface, Chip, Divider.
+Current Atoms: Avatar, Badge, Button, Chip, Date Value, Divider, Surface.
+
+Current Molecules: Article Teaser, Contact Me Widget, Project Card.
 
 Static source assets, such as local fonts, live in `src/public/` and are served
 by Storybook as root-relative assets.
 
-Planned components:
-
-- `GradientBackground`
-- `TimelineRail`
-- `TimelineMarker`
-- `TimelineProjectCard`
-- `ProgressiveMedia`
-- `HireMeWidget`
-- `ArticleTeaser`
-- `GalleryEffectCard`
+Current timeline work lives in `src/stories/timeline/` and uses the same token
+and Storybook conventions while it is still being shaped.
 
 ## 4. Figma
 
@@ -85,10 +82,12 @@ The file already has Material 3 Design Kit available. The project should reuse t
 
 Token sync goal:
 
-- Figma can export design variables back into the token pipeline.
-- Code can read generated `generated/tokens/tokens.json` and generate CSS variables/Storybook theme values.
-- Later, code-side token updates should be able to update Figma variables when needed.
-- Token names must stay stable, because component implementations will depend on them.
+- Code-side token updates can update Figma variables and frames through
+  `scripts/figma/design-system-sync.js`.
+- Storybook and Drupal consume generated artifacts derived from
+  `src/token/tokens.yaml`.
+- Token names must stay stable, because component implementations depend on
+  them.
 
 ## 5. Drupal
 
@@ -135,14 +134,21 @@ docker compose up -d
 
 Then verify the site with an actual HTTP check, not just running containers.
 
-## 7. Staging
+## 7. Visual Testing
+
+The planned visual testing workflow lives in `docs/visual-testing-plan.md`.
+Treat it as an implementation plan until the first real scenario is built and
+verified. When visual testing scripts are added later, update that plan into a
+runbook and add the commands to `package.json`.
+
+## 8. Staging
 
 Staging needs two tracks:
 
 - Vercel for Storybook/static design previews.
 - Drupal-capable hosting for full CMS staging when needed.
 
-## 8. Production
+## 9. Production
 
 Production target is a low-cost hosting server for `juernites.com` or a final domain chosen later.
 

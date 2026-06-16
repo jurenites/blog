@@ -4,13 +4,13 @@
 # Everything is operated from this script so the workflow stays inside the repo.
 #
 # Usage:
-#   scripts/sync.sh build              Regenerate generated/styles/_tokens.scss from src/token/tokens.yaml
+#   scripts/sync.sh build              Regenerate token artifacts from src/token/tokens.yaml
 #   scripts/sync.sh theme              Build minified Drupal theme assets (runs build first)
-#   scripts/sync.sh figma              Regenerate the Figma sync script from src/token/tokens.yaml
+#   scripts/sync.sh figma              Prepare token data for the Figma sync helper
 #   scripts/sync.sh drush-cache        Rebuild the Drupal cache in the running web container
 #   scripts/sync.sh deploy-theme       theme + reset asset query string + drush cache rebuild
 #   scripts/sync.sh status             Show git status of token + generated files
-#   scripts/sync.sh all                build + theme + figma
+#   scripts/sync.sh all                build + theme + figma prep
 
 set -euo pipefail
 
@@ -26,13 +26,13 @@ Token pipeline console. Everything is operated from this script.
 
 Usage: scripts/sync.sh <command>
 
-  build          Regenerate generated/styles/_tokens.scss from src/token/tokens.yaml
+  build          Regenerate generated/styles/_tokens.scss and generated/token/tokens.js
   theme          Build minified Drupal theme assets (runs build first)
-  figma          Regenerate the Figma sync script from src/token/tokens.yaml
+  figma          Prepare generated/token/tokens.js for scripts/figma/design-system-sync.js
   drush-cache    Rebuild the Drupal cache in the running web container
   deploy-theme   theme + reset asset query string + drush cache rebuild
   status         Show git status of token + generated files
-  all            build + theme + figma
+  all            build + theme + figma prep
 USAGE
 }
 
@@ -45,7 +45,7 @@ build_theme() {
 }
 
 build_figma() {
-  npm run build:figma-sync
+  npm run figma:prepare
 }
 
 require_web_container() {

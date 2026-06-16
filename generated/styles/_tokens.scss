@@ -434,3 +434,251 @@ $breakpoints: (
   letter-spacing: var(--typography-overline-default-letter-spacing);
   text-transform: var(--typography-overline-default-text-transform);
 }
+
+.u-bg-color-palette-black {
+  background: var(--color-palette-black);
+}
+
+.u-color-color-palette-black {
+  color: var(--color-palette-black);
+}
+
+.u-bg-color-palette-canvas {
+  background: var(--color-palette-canvas);
+}
+
+.u-color-color-palette-canvas {
+  color: var(--color-palette-canvas);
+}
+
+.u-bg-color-palette-panel {
+  background: var(--color-palette-panel);
+}
+
+.u-color-color-palette-panel {
+  color: var(--color-palette-panel);
+}
+
+.u-bg-color-palette-line {
+  background: var(--color-palette-line);
+}
+
+.u-color-color-palette-line {
+  color: var(--color-palette-line);
+}
+
+.u-bg-color-palette-muted {
+  background: var(--color-palette-muted);
+}
+
+.u-color-color-palette-muted {
+  color: var(--color-palette-muted);
+}
+
+.u-bg-color-palette-white {
+  background: var(--color-palette-white);
+}
+
+.u-color-color-palette-white {
+  color: var(--color-palette-white);
+}
+
+.u-bg-color-palette-success {
+  background: var(--color-palette-success);
+}
+
+.u-color-color-palette-success {
+  color: var(--color-palette-success);
+}
+
+.u-bg-color-palette-warning {
+  background: var(--color-palette-warning);
+}
+
+.u-color-color-palette-warning {
+  color: var(--color-palette-warning);
+}
+
+.u-bg-color-palette-error {
+  background: var(--color-palette-error);
+}
+
+.u-color-color-palette-error {
+  color: var(--color-palette-error);
+}
+
+.u-bg-color-palette-info {
+  background: var(--color-palette-info);
+}
+
+.u-color-color-palette-info {
+  color: var(--color-palette-info);
+}
+
+.u-bg-color-surface-page-default {
+  background: var(--color-surface-page-default);
+}
+
+.u-color-color-surface-page-default {
+  color: var(--color-surface-page-default);
+}
+
+.u-bg-color-surface-panel-default {
+  background: var(--color-surface-panel-default);
+}
+
+.u-color-color-surface-panel-default {
+  color: var(--color-surface-panel-default);
+}
+
+.u-bg-color-surface-panel-raised {
+  background: var(--color-surface-panel-raised);
+}
+
+.u-color-color-surface-panel-raised {
+  color: var(--color-surface-panel-raised);
+}
+
+.u-bg-color-text-primary-default {
+  background: var(--color-text-primary-default);
+}
+
+.u-color-color-text-primary-default {
+  color: var(--color-text-primary-default);
+}
+
+.u-bg-color-text-secondary-default {
+  background: var(--color-text-secondary-default);
+}
+
+.u-color-color-text-secondary-default {
+  color: var(--color-text-secondary-default);
+}
+
+.u-bg-color-text-inverse-default {
+  background: var(--color-text-inverse-default);
+}
+
+.u-color-color-text-inverse-default {
+  color: var(--color-text-inverse-default);
+}
+
+.u-bg-color-action-primary-default {
+  background: var(--color-action-primary-default);
+}
+
+.u-color-color-action-primary-default {
+  color: var(--color-action-primary-default);
+}
+
+.u-bg-color-action-primary-hover {
+  background: var(--color-action-primary-hover);
+}
+
+.u-color-color-action-primary-hover {
+  color: var(--color-action-primary-hover);
+}
+
+.u-bg-color-action-secondary-default {
+  background: var(--color-action-secondary-default);
+}
+
+.u-color-color-action-secondary-default {
+  color: var(--color-action-secondary-default);
+}
+
+.u-bg-color-action-secondary-hover {
+  background: var(--color-action-secondary-hover);
+}
+
+.u-color-color-action-secondary-hover {
+  color: var(--color-action-secondary-hover);
+}
+
+.u-bg-color-border-subtle-default {
+  background: var(--color-border-subtle-default);
+}
+
+.u-color-color-border-subtle-default {
+  color: var(--color-border-subtle-default);
+}
+
+.u-bg-color-border-strong-default {
+  background: var(--color-border-strong-default);
+}
+
+.u-color-color-border-strong-default {
+  color: var(--color-border-strong-default);
+}
+
+.u-width-space-scale-void-size {
+  width: var(--space-scale-void-size);
+}
+
+.u-width-space-scale-nano-size {
+  width: var(--space-scale-nano-size);
+}
+
+.u-width-space-scale-micro-size {
+  width: var(--space-scale-micro-size);
+}
+
+.u-width-space-scale-small-size {
+  width: var(--space-scale-small-size);
+}
+
+.u-width-space-scale-grid-size {
+  width: var(--space-scale-grid-size);
+}
+
+.u-width-space-scale-medium-size {
+  width: var(--space-scale-medium-size);
+}
+
+.u-width-space-scale-middle-size {
+  width: var(--space-scale-middle-size);
+}
+
+.u-width-space-scale-macro-size {
+  width: var(--space-scale-macro-size);
+}
+
+.u-width-space-scale-block-size {
+  width: var(--space-scale-block-size);
+}
+
+.u-width-space-scale-huge-size {
+  width: var(--space-scale-huge-size);
+}
+
+.u-width-space-scale-giant-size {
+  width: var(--space-scale-giant-size);
+}
+
+.u-width-space-scale-colossal-size {
+  width: var(--space-scale-colossal-size);
+}
+
+.u-shadow-elevation-shadow-level-0 {
+  box-shadow: var(--elevation-shadow-level-0);
+}
+
+.u-shadow-elevation-shadow-level-1 {
+  box-shadow: var(--elevation-shadow-level-1);
+}
+
+.u-shadow-elevation-shadow-level-2 {
+  box-shadow: var(--elevation-shadow-level-2);
+}
+
+.u-shadow-elevation-shadow-level-3 {
+  box-shadow: var(--elevation-shadow-level-3);
+}
+
+.u-shadow-elevation-shadow-level-4 {
+  box-shadow: var(--elevation-shadow-level-4);
+}
+
+.u-shadow-elevation-shadow-level-6 {
+  box-shadow: var(--elevation-shadow-level-6);
+}

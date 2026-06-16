@@ -1,77 +1,37 @@
-# CI/CD and the Interconnected Pipeline
+# CI/CD And Generated Artifacts
 
-The goal: five tools stay in sync through one source of truth.
+The project is still in active shaping, so heavy CI is disabled for now. Keep the
+local pipeline simple and explicit.
+
+## Current Local Pipeline
 
 ```text
-                     src/token/tokens.yaml  (SOURCE OF TRUTH)
-                              |
-            scripts/build-tokens.mjs (scripts/sync.sh build)
-        ______________________|________________________________
-       |                |                |                      |
- generated SCSS    generated/tokens/tokens.flat.json  generated/tokens/tokens.min.json     generated/tokens/tokens.studio.json
-       |                |                                       |
- src/slice/main    Storybook foundations                 Tokens Studio plugin
-       |                |                                       |
- Storybook  <----  (same SCSS)                              Figma variables
-       |
- scripts/build-theme.mjs (scripts/sync.sh theme)
-       |
- web/themes/custom/jurenites_theme  ->  Drupal (drush cache rebuild + asset re-version)
+src/token/tokens.yaml
+  -> generated/styles/_tokens.scss
+  -> generated/token/tokens.js
+  -> scripts/figma/design-system-sync.js
+  -> web/themes/custom/jurenites_theme/css/style.min.css
+  -> web/themes/custom/jurenites_theme/js/script.min.js
 ```
 
-Everything is driven from `scripts/sync.sh` so the workflow lives in the repo.
+## Useful Commands
 
-## Local commands (the everyday loop)
-
-| Action                                   | Command                       |
-| ---------------------------------------- | ----------------------------- |
-| Edit tokens, regenerate derived files    | `scripts/sync.sh build`       |
-| See/refresh Storybook                    | `npm run storybook`           |
-| Push tokens to Figma (Tokens Studio)     | `scripts/sync.sh studio`      |
-| Pull Figma variable edits back           | `scripts/sync.sh pull`        |
-| Build + deploy theme to local Drupal     | `scripts/sync.sh deploy-theme`|
+| Action | Command |
+| --- | --- |
+| Rebuild token artifacts | `npm run build:tokens` |
+| Run Storybook locally | `npm run storybook` |
+| Build static Storybook | `npm run build-storybook` |
+| Build Drupal theme assets | `npm run build:theme` |
+| Prepare Figma sync token data | `npm run figma:prepare` |
 
 ## GitHub Actions
 
-- **CI** (`.github/workflows/ci.yml`): on every push/PR, builds tokens, theme,
-  Tokens Studio file, and Storybook, then fails if any committed generated file
-  drifts from `src/token/tokens.yaml`. This enforces the source-of-truth contract.
-- **Deploy Storybook** (`.github/workflows/storybook-pages.yml`): publishes the
-  component library to GitHub Pages on `main`. Enable Pages -> Source: GitHub
-  Actions in the repo settings once.
-- **Figma Sync** (`.github/workflows/figma-sync.yml`): a `repository_dispatch`
-  of type `figma-sync` (or manual `workflow_dispatch`) applies an incoming flat
-  token map onto `src/token/tokens.yaml` and opens a pull request.
+- `ci.yml.disabled` is intentionally disabled while the repository is still
+  changing quickly.
+- `storybook-pages.yml` can still publish Storybook on pushes to `main`.
+- `figma-sync.yml` exists for future dispatch/manual sync work, but the current
+  preferred workflow is local token editing plus `npm run figma:prepare`.
 
-## Webhook strategy (who triggers whom)
-
-We avoid wiring custom servers. The trigger fabric is GitHub events plus a thin
-relay where an external product cannot call GitHub directly.
-
-| Source changed | Signal                              | Consumers re-synced                    |
-| -------------- | ----------------------------------- | -------------------------------------- |
-| src/token/tokens.yaml    | git push                            | CI rebuilds; Storybook redeploys; Tokens Studio file updated |
-| SCSS slice     | git push                            | CI rebuilds theme + Storybook          |
-| Figma variables| Figma webhook -> relay -> dispatch  | `figma-sync` workflow opens a PR on src/token/tokens.yaml |
-
-### Figma webhook relay
-
-Figma's REST webhooks (`FILE_UPDATE`) cannot POST GitHub's `repository_dispatch`
-shape directly, so use a tiny relay (a serverless function such as a Cloudflare
-Worker) that:
-
-1. Receives the Figma `FILE_UPDATE` event.
-2. Reads the file variables (Figma MCP read snippet logic, or the Variables API).
-3. POSTs to `https://api.github.com/repos/jurenites/blog/dispatches` with
-   `{ "event_type": "figma-sync", "client_payload": { "variables": { ... } } }`
-   using a fine-grained token.
-
-The relay is the only third-party piece and it is optional: until it exists, run
-the Figma -> tokens pull manually (`scripts/sync.sh pull`) or trigger the
-`figma-sync` workflow by hand with `workflow_dispatch`.
-
-## One-time setup checklist
-
-- [ ] Repo Settings -> Pages -> Source: GitHub Actions (for Storybook deploy).
-- [ ] Add a fine-grained PAT/secret if the Figma relay will call dispatches.
-- [ ] Configure Tokens Studio in Figma to sync from `generated/tokens/tokens.studio.json`.
+Do not reintroduce generated token JSON mirrors for CI convenience. If CI comes
+back, it should rebuild from `src/token/tokens.yaml` and compare the current
+generated artifacts.

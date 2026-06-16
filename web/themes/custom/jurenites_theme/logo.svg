@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="jurenites">
-  <rect width="64" height="64" fill="#050505"/>
-  <path d="M18 14h28v8H26v14c0 8-4 14-12 14v-8c3 0 4-3 4-7V14Z" fill="#fafafa"/>
-  <path d="M34 30h12v20H18v-8h16V30Z" fill="#a1a1aa"/>
+  <rect width="64" height="64" fill="currentColor"/>
+  <path d="M18 14h28v8H26v14c0 8-4 14-12 14v-8c3 0 4-3 4-7V14Z" fill="currentColor" opacity="0.1"/>
+  <path d="M34 30h12v20H18v-8h16V30Z" fill="currentColor" opacity="0.6"/>
 </svg>

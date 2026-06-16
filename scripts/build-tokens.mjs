@@ -1,7 +1,7 @@
 // Token build engine.
 //
 // Reads src/token/tokens.yaml directly, resolves {dot.path} references, and emits
-// the one build artifact the app needs: generated/styles/_tokens.scss.
+// generated artifacts for CSS and JS consumers.
 
 import { spawnSync } from 'node:child_process';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
@@ -12,6 +12,7 @@ import { pathToFileURL } from 'node:url';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const TOKENS_SOURCE = resolve(ROOT, 'src/token/tokens.yaml');
 const OUTPUT_SCSS = resolve(ROOT, 'generated/styles/_tokens.scss');
+const OUTPUT_JS = resolve(ROOT, 'generated/token/tokens.js');
 const REFERENCE_PATTERN = /^\{([^{}]+)\}$/;
 const GENERIC_FONT_FAMILIES = new Set([
   'serif',
@@ -165,6 +166,26 @@ function buildRootBlock(tokens) {
   return `:root {\n${declarations}\n}`;
 }
 
+function buildTokenJs(tokens) {
+  const tokenRecords = tokens.map((token) => ({
+    name: token.name,
+    path: token.path,
+    type: token.type,
+    value: token.value,
+    css_value: formatCssValue(token),
+    is_reference: token.isReference,
+  }));
+
+  return `${GENERATED_HEADER}
+
+export const TOKEN_RECORDS = ${JSON.stringify(tokenRecords, null, 2)};
+
+export const TOKEN_VALUES = Object.fromEntries(
+  TOKEN_RECORDS.map((token_record) => [token_record.name, token_record.css_value]),
+);
+`;
+}
+
 /**
  * Build SCSS breakpoint variables, a map, and up/down/between mixins.
  * Reason: media query widths cannot use CSS custom properties, so breakpoints
@@ -268,6 +289,25 @@ function buildTypographyUtilitiesScss(sourceTree) {
     .join('\n\n');
 }
 
+function buildTokenUtilitiesScss(tokens) {
+  const utilityBlocks = [];
+
+  for (const token of tokens) {
+    if (token.type === 'color' && token.name.startsWith('color-')) {
+      utilityBlocks.push(`.u-bg-${token.name} {\n  background: var(--${token.name});\n}`);
+      utilityBlocks.push(`.u-color-${token.name} {\n  color: var(--${token.name});\n}`);
+    }
+    if (token.type === 'dimension' && token.name.startsWith('space-scale-')) {
+      utilityBlocks.push(`.u-width-${token.name} {\n  width: var(--${token.name});\n}`);
+    }
+    if (token.type === 'shadow' && token.name.startsWith('elevation-shadow-')) {
+      utilityBlocks.push(`.u-shadow-${token.name} {\n  box-shadow: var(--${token.name});\n}`);
+    }
+  }
+
+  return utilityBlocks.join('\n\n');
+}
+
 async function main() {
   await readFile(TOKENS_SOURCE, 'utf8');
   const sourceTree = await loadTokenTree();
@@ -284,13 +324,18 @@ ${buildBreakpointScss(tokens)}
 ${buildTypographyMixinsScss(sourceTree)}
 
 ${buildTypographyUtilitiesScss(sourceTree)}
+
+${buildTokenUtilitiesScss(tokens)}
 `;
 
   await mkdir(dirname(OUTPUT_SCSS), { recursive: true });
+  await mkdir(dirname(OUTPUT_JS), { recursive: true });
   await writeFile(OUTPUT_SCSS, scssContent);
+  await writeFile(OUTPUT_JS, buildTokenJs(tokens));
 
   console.log(`Built ${tokens.length} tokens:
-- ${OUTPUT_SCSS}`);
+- ${OUTPUT_SCSS}
+- ${OUTPUT_JS}`);
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {

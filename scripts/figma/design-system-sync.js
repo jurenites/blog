@@ -1,115 +1,72 @@
-// Generate a Figma Plugin API script from the current resolved token map.
-//
-// The generated script is meant for Figma MCP `use_figma` or a local Figma plugin
-// development run. It creates/updates color variables and rebuilds a synced
-// design-system page with color, typography, and component frames.
+// Figma design-system sync helper.
+// Source of truth: src/token/tokens.yaml via generated/token/tokens.js.
+// Run as a local Figma plugin development module.
 
-import { mkdir, writeFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { collectTokens, formatCssValue, loadTokenTree } from '../build-tokens.mjs';
+import { TOKEN_RECORDS, TOKEN_VALUES } from '../../generated/token/tokens.js';
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const OUTPUT = resolve(ROOT, 'generated/figma/design-system-sync.js');
+const COLOR_GROUPS = ["palette","surface","text","action","border"];
+const FIGMA_META = {
+  source: 'src/token/tokens.yaml',
+  generatedFrom: 'src/token/tokens.yaml',
+  pageName: 'Design System - Synced',
+  collectionName: 'global',
+};
 
-const COLOR_GROUPS = ['palette', 'surface', 'text', 'action', 'border'];
-
-function cssNumber(value, fallback = 0) {
-  if (value === undefined || value === null) return fallback;
+function cssNumber(value) {
+  if (value === undefined || value === null) throw new Error('Missing numeric token value.');
   if (typeof value === 'number') return value;
   const parsed = Number.parseFloat(String(value).replace('rem', ''));
-  if (Number.isNaN(parsed)) return fallback;
+  if (Number.isNaN(parsed)) throw new Error('Invalid numeric token value: ' + value);
   return String(value).includes('rem') ? parsed * 16 : parsed;
 }
 
 function letterSpacingValue(value) {
   if (value === undefined || value === null) return null;
   if (String(value).trim() === 'normal') return null;
-  return cssNumber(value, null);
+  return cssNumber(value);
 }
 
-function tokenValue(tokens, name, fallback) {
-  return tokens[name]?.css ?? tokens[name]?.value ?? fallback;
+function tokenValue(name) {
+  const token_value = TOKEN_VALUES[name];
+  if (token_value === undefined) throw new Error('Missing token: ' + name);
+  return token_value;
 }
 
-function buildFlatMap(tokens) {
-  return Object.fromEntries(
-    tokens.map((token) => [
-      token.name,
-      {
-        type: token.type,
-        value: token.value,
-        css: formatCssValue(token),
-        path: token.path,
-        isReference: token.isReference,
-      },
-    ]),
-  );
+function tokenNumber(name) {
+  return cssNumber(tokenValue(name));
 }
 
-function typographyRoles(tokens) {
-  return Object.keys(tokens)
+function typographyRoles() {
+  return TOKEN_RECORDS
+    .map((tokenRecord) => tokenRecord.name)
     .filter((name) => name.startsWith('typography-') && name.endsWith('-font-size'))
     .map((name) => name.replace(/^typography-/, '').replace(/-font-size$/, ''));
 }
 
-function buildPayload(tokens) {
-  const colors = Object.entries(tokens)
-    .filter(([name, token]) => token.type === 'color' && name.startsWith('color-'))
-    .map(([name, token]) => ({
-      name,
-      variableName: name.split('-').join('/'),
-      group: token.path[1],
-      label: token.path.slice(1).join('/'),
-      value: token.css,
-      isReference: token.isReference,
+function colorRecords() {
+  return TOKEN_RECORDS
+    .filter((tokenRecord) => tokenRecord.type === 'color' && tokenRecord.name.startsWith('color-'))
+    .map((tokenRecord) => ({
+      name: tokenRecord.name,
+      variableName: tokenRecord.name.split('-').join('/'),
+      group: tokenRecord.path[1],
+      label: tokenRecord.path.slice(1).join('/'),
+      value: tokenRecord.css_value,
+      isReference: tokenRecord.is_reference,
     }))
-    .filter((token) => COLOR_GROUPS.includes(token.group));
-
-  const typography = typographyRoles(tokens).map((role) => ({
-    role,
-    fontSize: cssNumber(tokenValue(tokens, `typography-${role}-font-size`, '16px'), 16),
-    fontWeight: Number(tokenValue(tokens, `typography-${role}-font-weight`, 400)),
-    lineHeight: Number(tokenValue(tokens, `typography-${role}-line-height`, 1.5)),
-    letterSpacing: letterSpacingValue(tokenValue(tokens, `typography-${role}-letter-spacing`, 'normal')),
-    transform: tokenValue(tokens, `typography-${role}-text-transform`, 'none'),
-  }));
-
-  return {
-    meta: {
-      source: 'src/token/tokens.yaml',
-      generatedFrom: 'src/token/tokens.yaml',
-      pageName: 'Design System - Synced',
-      collectionName: 'global',
-    },
-    colors,
-    typography,
-    values: {
-      black: tokenValue(tokens, 'color-palette-black', '#050505'),
-      canvas: tokenValue(tokens, 'color-palette-canvas', '#0a0a0a'),
-      panel: tokenValue(tokens, 'color-palette-panel', '#111111'),
-      line: tokenValue(tokens, 'color-palette-line', '#2a2a2a'),
-      muted: tokenValue(tokens, 'color-palette-muted', '#a1a1aa'),
-      white: tokenValue(tokens, 'color-palette-white', '#fafafa'),
-      success: tokenValue(tokens, 'color-palette-success', '#5f8f6a'),
-      warning: tokenValue(tokens, 'color-palette-warning', '#b6974b'),
-      error: tokenValue(tokens, 'color-palette-error', '#b85c5c'),
-      info: tokenValue(tokens, 'color-palette-info', '#7a8797'),
-      radiusSmall: cssNumber(tokenValue(tokens, 'shape-corner-radius-small-default', '8px'), 8),
-      radiusMedium: cssNumber(tokenValue(tokens, 'shape-corner-radius-medium-default', '12px'), 12),
-      spaceSmall: cssNumber(tokenValue(tokens, 'space-scale-small-default', '8px'), 8),
-      spaceMedium: cssNumber(tokenValue(tokens, 'space-scale-medium-default', '16px'), 16),
-      spaceLarge: cssNumber(tokenValue(tokens, 'space-scale-large-default', '24px'), 24),
-    },
-  };
+    .filter((tokenRecord) => COLOR_GROUPS.includes(tokenRecord.group));
 }
 
-function generatedScript(payload) {
-  return `// GENERATED by scripts/figma/build-design-system-sync.mjs.
-// Source of truth: src/token/tokens.yaml.
-// Run in Figma through MCP use_figma or as a Figma plugin development script.
-
-const PAYLOAD = ${JSON.stringify(payload, null, 2)};
+function typographyRecords() {
+  return typographyRoles().map((role) => ({
+    role,
+    fontSize: tokenNumber(`typography-${role}-font-size`),
+    fontWeight: Number(tokenValue(`typography-${role}-font-weight`)),
+    lineHeight: Number(tokenValue(`typography-${role}-line-height`)),
+    letterSpacing: letterSpacingValue(tokenValue(`typography-${role}-letter-spacing`)),
+    transform: TOKEN_VALUES[`typography-${role}-text-transform`] ?? 'none',
+  }));
+}
 
 function hexToPaint(hex) {
   const clean = hex.replace('#', '');
@@ -156,7 +113,7 @@ async function loadFont(weight = 400) {
   }
 }
 
-async function textNode(text, size = 14, color = PAYLOAD.values.white, weight = 400) {
+async function textNode(text, size = 14, color = tokenValue('color-palette-white'), weight = 400) {
   const node = figma.createText();
   node.fontName = await loadFont(weight);
   node.characters = text;
@@ -166,13 +123,13 @@ async function textNode(text, size = 14, color = PAYLOAD.values.white, weight = 
   return node;
 }
 
-function frame(name, width, fills = [hexToPaint(PAYLOAD.values.black)]) {
+function frame(name, width, fills = [hexToPaint(tokenValue('color-palette-black'))]) {
   const node = figma.createFrame();
   node.name = name;
   node.resize(width, 1);
   node.fills = fills;
-  node.cornerRadius = PAYLOAD.values.radiusMedium;
-  setAutoLayout(node, 'VERTICAL', PAYLOAD.values.spaceMedium, PAYLOAD.values.spaceLarge);
+  node.cornerRadius = tokenNumber('shape-corner-radius-medium-default');
+  setAutoLayout(node, 'VERTICAL', tokenNumber('space-scale-medium-default'), tokenNumber('space-scale-large-default'));
   return node;
 }
 
@@ -182,8 +139,8 @@ function clearPage(page) {
 
 async function syncVariables() {
   const collections = await figma.variables.getLocalVariableCollectionsAsync();
-  let collection = collections.find((item) => item.name === PAYLOAD.meta.collectionName);
-  if (!collection) collection = figma.variables.createVariableCollection(PAYLOAD.meta.collectionName);
+  let collection = collections.find((item) => item.name === FIGMA_META.collectionName);
+  if (!collection) collection = figma.variables.createVariableCollection(FIGMA_META.collectionName);
   const modeId = collection.modes[0].modeId;
   collection.renameMode(modeId, 'Dark');
 
@@ -192,7 +149,7 @@ async function syncVariables() {
   let created = 0;
   let updated = 0;
 
-  for (const color of PAYLOAD.colors) {
+  for (const color of colorRecords()) {
     let variable = byName.get(color.variableName);
     if (!variable) {
       variable = figma.variables.createVariable(color.variableName, collection, 'COLOR');
@@ -213,14 +170,14 @@ async function createColorSection(page, x, y) {
   section.x = x;
   section.y = y;
   page.appendChild(section);
-  section.appendChild(await textNode('Color Variables', 28, PAYLOAD.values.white, 700));
-  section.appendChild(await textNode('Strict monochrome palette and semantic aliases from src/token/tokens.yaml.', 14, PAYLOAD.values.muted, 400));
+  section.appendChild(await textNode('Color Variables', 28, tokenValue('color-palette-white'), 700));
+  section.appendChild(await textNode('Strict monochrome palette and semantic aliases from src/token/tokens.yaml.', 14, tokenValue('color-palette-muted'), 400));
 
   for (const group of COLOR_GROUPS) {
-    const groupFrame = frame(group, 1120, [hexToPaint(PAYLOAD.values.canvas)]);
-    groupFrame.cornerRadius = PAYLOAD.values.radiusSmall;
+    const groupFrame = frame(group, 1120, [hexToPaint(tokenValue('color-palette-canvas'))]);
+    groupFrame.cornerRadius = tokenNumber('shape-corner-radius-small-default');
     section.appendChild(groupFrame);
-    groupFrame.appendChild(await textNode(group, 18, PAYLOAD.values.white, 700));
+    groupFrame.appendChild(await textNode(group, 18, tokenValue('color-palette-white'), 700));
 
     const grid = figma.createFrame();
     grid.name = group + ' swatches';
@@ -233,7 +190,7 @@ async function createColorSection(page, x, y) {
     grid.fills = [];
     groupFrame.appendChild(grid);
 
-    for (const color of PAYLOAD.colors.filter((item) => item.group === group)) {
+    for (const color of colorRecords().filter((item) => item.group === group)) {
       const swatch = figma.createFrame();
       swatch.name = color.variableName;
       swatch.resize(170, 132);
@@ -245,9 +202,9 @@ async function createColorSection(page, x, y) {
       swatch.paddingRight = 10;
       swatch.paddingBottom = 10;
       swatch.paddingLeft = 10;
-      swatch.cornerRadius = PAYLOAD.values.radiusSmall;
-      swatch.fills = [hexToPaint(PAYLOAD.values.panel)];
-      swatch.strokes = [hexToPaint(PAYLOAD.values.line)];
+      swatch.cornerRadius = tokenNumber('shape-corner-radius-small-default');
+      swatch.fills = [hexToPaint(tokenValue('color-palette-panel'))];
+      swatch.strokes = [hexToPaint(tokenValue('color-palette-line'))];
       swatch.strokeWeight = 1;
       grid.appendChild(swatch);
 
@@ -256,11 +213,11 @@ async function createColorSection(page, x, y) {
       chip.resize(150, 52);
       chip.cornerRadius = 4;
       chip.fills = [hexToPaint(color.value)];
-      chip.strokes = [hexToPaint(PAYLOAD.values.line)];
+      chip.strokes = [hexToPaint(tokenValue('color-palette-line'))];
       chip.strokeWeight = 1;
       swatch.appendChild(chip);
-      swatch.appendChild(await textNode(color.label, 11, PAYLOAD.values.white, 500));
-      swatch.appendChild(await textNode(color.value, 11, PAYLOAD.values.muted, 400));
+      swatch.appendChild(await textNode(color.label, 11, tokenValue('color-palette-white'), 500));
+      swatch.appendChild(await textNode(color.value, 11, tokenValue('color-palette-muted'), 400));
     }
   }
 
@@ -272,10 +229,10 @@ async function createTypographySection(page, x, y) {
   section.x = x;
   section.y = y;
   page.appendChild(section);
-  section.appendChild(await textNode('Typography Frames', 28, PAYLOAD.values.white, 700));
-  section.appendChild(await textNode('Material M2-inspired roles, rendered from typography tokens.', 14, PAYLOAD.values.muted, 400));
+  section.appendChild(await textNode('Typography Frames', 28, tokenValue('color-palette-white'), 700));
+  section.appendChild(await textNode('Material M2-inspired roles, rendered from typography tokens.', 14, tokenValue('color-palette-muted'), 400));
 
-  for (const role of PAYLOAD.typography) {
+  for (const role of typographyRecords()) {
     const row = figma.createFrame();
     row.name = role.role;
     row.resize(1120, 1);
@@ -287,17 +244,17 @@ async function createTypographySection(page, x, y) {
     row.paddingRight = 18;
     row.paddingBottom = 18;
     row.paddingLeft = 18;
-    row.fills = [hexToPaint(PAYLOAD.values.canvas)];
-    row.strokes = [hexToPaint(PAYLOAD.values.line)];
+    row.fills = [hexToPaint(tokenValue('color-palette-canvas'))];
+    row.strokes = [hexToPaint(tokenValue('color-palette-line'))];
     row.strokeWeight = 1;
-    row.cornerRadius = PAYLOAD.values.radiusSmall;
+    row.cornerRadius = tokenNumber('shape-corner-radius-small-default');
     section.appendChild(row);
 
-    const label = await textNode(role.role, 13, PAYLOAD.values.muted, 500);
+    const label = await textNode(role.role, 13, tokenValue('color-palette-muted'), 500);
     label.resize(170, label.height);
     row.appendChild(label);
 
-    const sample = await textNode(role.role + ' - The quick brown fox', role.fontSize, PAYLOAD.values.white, role.fontWeight);
+    const sample = await textNode(role.role + ' - The quick brown fox', role.fontSize, tokenValue('color-palette-white'), role.fontWeight);
     sample.name = 'sample';
     if (role.letterSpacing !== null) sample.letterSpacing = { value: role.letterSpacing, unit: 'PIXELS' };
     sample.lineHeight = { value: Math.round(role.fontSize * role.lineHeight), unit: 'PIXELS' };
@@ -321,11 +278,11 @@ async function button(name, label, variant = 'primary') {
   node.paddingLeft = 16;
   node.paddingRight = 16;
   node.itemSpacing = 8;
-  node.cornerRadius = PAYLOAD.values.radiusSmall;
-  node.fills = [hexToPaint(variant === 'primary' ? PAYLOAD.values.white : variant === 'secondary' ? PAYLOAD.values.panel : PAYLOAD.values.black)];
-  node.strokes = variant === 'secondary' ? [hexToPaint(PAYLOAD.values.line)] : [];
+  node.cornerRadius = tokenNumber('shape-corner-radius-small-default');
+  node.fills = [hexToPaint(variant === 'primary' ? tokenValue('color-palette-white') : variant === 'secondary' ? tokenValue('color-palette-panel') : tokenValue('color-palette-black'))];
+  node.strokes = variant === 'secondary' ? [hexToPaint(tokenValue('color-palette-line'))] : [];
   node.strokeWeight = variant === 'secondary' ? 1 : 0;
-  node.appendChild(await textNode(label, 14, variant === 'primary' ? PAYLOAD.values.black : PAYLOAD.values.white, 500));
+  node.appendChild(await textNode(label, 14, variant === 'primary' ? tokenValue('color-palette-black') : tokenValue('color-palette-white'), 500));
   return node;
 }
 
@@ -340,10 +297,10 @@ async function chip(label, accent = false) {
   node.paddingTop = 4;
   node.paddingBottom = 4;
   node.cornerRadius = 999;
-  node.fills = [hexToPaint(PAYLOAD.values.canvas)];
-  node.strokes = [hexToPaint(accent ? PAYLOAD.values.muted : PAYLOAD.values.line)];
+  node.fills = [hexToPaint(tokenValue('color-palette-canvas'))];
+  node.strokes = [hexToPaint(accent ? tokenValue('color-palette-muted') : tokenValue('color-palette-line'))];
   node.strokeWeight = 1;
-  node.appendChild(await textNode(label, 12, accent ? PAYLOAD.values.white : PAYLOAD.values.muted, 400));
+  node.appendChild(await textNode(label, 12, accent ? tokenValue('color-palette-white') : tokenValue('color-palette-muted'), 400));
   return node;
 }
 
@@ -359,7 +316,7 @@ async function badge(label, color) {
   node.paddingBottom = 4;
   node.cornerRadius = 4;
   node.fills = [hexToPaint(color)];
-  node.appendChild(await textNode(label.toUpperCase(), 10, PAYLOAD.values.black, 500));
+  node.appendChild(await textNode(label.toUpperCase(), 10, tokenValue('color-palette-black'), 500));
   return node;
 }
 
@@ -368,13 +325,13 @@ async function createComponentsSection(page, x, y) {
   section.x = x;
   section.y = y;
   page.appendChild(section);
-  section.appendChild(await textNode('UI Components', 28, PAYLOAD.values.white, 700));
-  section.appendChild(await textNode('Frames mirror Storybook atoms and molecules; implementation remains in code.', 14, PAYLOAD.values.muted, 400));
+  section.appendChild(await textNode('UI Components', 28, tokenValue('color-palette-white'), 700));
+  section.appendChild(await textNode('Frames mirror Storybook atoms and molecules; implementation remains in code.', 14, tokenValue('color-palette-muted'), 400));
 
-  const atoms = frame('Atoms', 1120, [hexToPaint(PAYLOAD.values.canvas)]);
-  atoms.cornerRadius = PAYLOAD.values.radiusSmall;
+  const atoms = frame('Atoms', 1120, [hexToPaint(tokenValue('color-palette-canvas'))]);
+  atoms.cornerRadius = tokenNumber('shape-corner-radius-small-default');
   section.appendChild(atoms);
-  atoms.appendChild(await textNode('Buttons', 18, PAYLOAD.values.white, 700));
+  atoms.appendChild(await textNode('Buttons', 18, tokenValue('color-palette-white'), 700));
   const buttonRow = figma.createFrame();
   buttonRow.name = 'Button variants';
   buttonRow.layoutMode = 'HORIZONTAL';
@@ -387,7 +344,7 @@ async function createComponentsSection(page, x, y) {
   buttonRow.appendChild(await button('Button / secondary', 'View project', 'secondary'));
   buttonRow.appendChild(await button('Button / ghost', 'Read article', 'ghost'));
 
-  atoms.appendChild(await textNode('Chips and Badges', 18, PAYLOAD.values.white, 700));
+  atoms.appendChild(await textNode('Chips and Badges', 18, tokenValue('color-palette-white'), 700));
   const pillRow = figma.createFrame();
   pillRow.name = 'Chips and badges';
   pillRow.layoutMode = 'HORIZONTAL';
@@ -398,13 +355,13 @@ async function createComponentsSection(page, x, y) {
   atoms.appendChild(pillRow);
   pillRow.appendChild(await chip('Drupal'));
   pillRow.appendChild(await chip('Design system', true));
-  pillRow.appendChild(await badge('success', PAYLOAD.values.success));
-  pillRow.appendChild(await badge('warning', PAYLOAD.values.warning));
-  pillRow.appendChild(await badge('error', PAYLOAD.values.error));
-  pillRow.appendChild(await badge('info', PAYLOAD.values.info));
+  pillRow.appendChild(await badge('success', tokenValue('color-palette-success')));
+  pillRow.appendChild(await badge('warning', tokenValue('color-palette-warning')));
+  pillRow.appendChild(await badge('error', tokenValue('color-palette-error')));
+  pillRow.appendChild(await badge('info', tokenValue('color-palette-info')));
 
-  const molecules = frame('Molecules', 1120, [hexToPaint(PAYLOAD.values.canvas)]);
-  molecules.cornerRadius = PAYLOAD.values.radiusSmall;
+  const molecules = frame('Molecules', 1120, [hexToPaint(tokenValue('color-palette-canvas'))]);
+  molecules.cornerRadius = tokenNumber('shape-corner-radius-small-default');
   section.appendChild(molecules);
 
   const card = figma.createFrame();
@@ -416,19 +373,19 @@ async function createComponentsSection(page, x, y) {
   card.paddingRight = 16;
   card.paddingBottom = 16;
   card.paddingLeft = 16;
-  card.cornerRadius = PAYLOAD.values.radiusMedium;
-  card.fills = [hexToPaint(PAYLOAD.values.canvas)];
-  card.strokes = [hexToPaint(PAYLOAD.values.line)];
+  card.cornerRadius = tokenNumber('shape-corner-radius-medium-default');
+  card.fills = [hexToPaint(tokenValue('color-palette-canvas'))];
+  card.strokes = [hexToPaint(tokenValue('color-palette-line'))];
   card.strokeWeight = 1;
   molecules.appendChild(card);
   const media = figma.createRectangle();
   media.name = 'media';
   media.resize(328, 112);
-  media.cornerRadius = PAYLOAD.values.radiusSmall;
-  media.fills = [hexToPaint(PAYLOAD.values.panel)];
+  media.cornerRadius = tokenNumber('shape-corner-radius-small-default');
+  media.fills = [hexToPaint(tokenValue('color-palette-panel'))];
   card.appendChild(media);
-  card.appendChild(await textNode('Interactive CV Timeline', 20, PAYLOAD.values.white, 400));
-  card.appendChild(await textNode('A slider-driven career story with company logos and bookmarks.', 14, PAYLOAD.values.muted, 400));
+  card.appendChild(await textNode('Interactive CV Timeline', 20, tokenValue('color-palette-white'), 400));
+  card.appendChild(await textNode('A slider-driven career story with company logos and bookmarks.', 14, tokenValue('color-palette-muted'), 400));
   const tagRow = figma.createFrame();
   tagRow.name = 'tag list';
   tagRow.layoutMode = 'HORIZONTAL';
@@ -449,16 +406,16 @@ async function createComponentsSection(page, x, y) {
   hire.paddingRight = 16;
   hire.paddingBottom = 16;
   hire.paddingLeft = 16;
-  hire.cornerRadius = PAYLOAD.values.radiusMedium;
-  hire.fills = [hexToPaint(PAYLOAD.values.canvas)];
-  hire.strokes = [hexToPaint(PAYLOAD.values.line)];
+  hire.cornerRadius = tokenNumber('shape-corner-radius-medium-default');
+  hire.fills = [hexToPaint(tokenValue('color-palette-canvas'))];
+  hire.strokes = [hexToPaint(tokenValue('color-palette-line'))];
   hire.strokeWeight = 1;
   molecules.appendChild(hire);
   const avatar = figma.createEllipse();
   avatar.name = 'Avatar';
   avatar.resize(48, 48);
-  avatar.fills = [hexToPaint(PAYLOAD.values.panel)];
-  avatar.strokes = [hexToPaint(PAYLOAD.values.line)];
+  avatar.fills = [hexToPaint(tokenValue('color-palette-panel'))];
+  avatar.strokes = [hexToPaint(tokenValue('color-palette-line'))];
   avatar.strokeWeight = 1;
   hire.appendChild(avatar);
   const hireText = figma.createFrame();
@@ -467,8 +424,8 @@ async function createComponentsSection(page, x, y) {
   hireText.itemSpacing = 2;
   hireText.fills = [];
   hire.appendChild(hireText);
-  hireText.appendChild(await textNode('Alexander Ilivanov', 16, PAYLOAD.values.white, 500));
-  hireText.appendChild(await textNode('Designer / Drupal engineer', 13, PAYLOAD.values.muted, 400));
+  hireText.appendChild(await textNode('Alexander Ilivanov', 16, tokenValue('color-palette-white'), 500));
+  hireText.appendChild(await textNode('Designer / Drupal engineer', 13, tokenValue('color-palette-muted'), 400));
   hire.appendChild(await button('Button / primary', 'Contact me', 'primary'));
 
   return section;
@@ -477,19 +434,19 @@ async function createComponentsSection(page, x, y) {
 async function main() {
   const syncResult = await syncVariables();
   const pages = figma.root.children;
-  let page = pages.find((item) => item.name === PAYLOAD.meta.pageName);
+  let page = pages.find((item) => item.name === FIGMA_META.pageName);
   if (!page) page = figma.createPage();
-  page.name = PAYLOAD.meta.pageName;
+  page.name = FIGMA_META.pageName;
   await figma.setCurrentPageAsync(page);
   clearPage(page);
-  page.backgrounds = [hexToPaint(PAYLOAD.values.black)];
+  page.backgrounds = [hexToPaint(tokenValue('color-palette-black'))];
 
   const header = frame('Synced Source Header', 1180);
   header.x = 0;
   header.y = 0;
   page.appendChild(header);
-  header.appendChild(await textNode('Blog jurenites Design System', 34, PAYLOAD.values.white, 700));
-  header.appendChild(await textNode('Synced from src/token/tokens.yaml. Update tokens first, then regenerate this page.', 15, PAYLOAD.values.muted, 400));
+  header.appendChild(await textNode('Blog jurenites Design System', 34, tokenValue('color-palette-white'), 700));
+  header.appendChild(await textNode('Synced from src/token/tokens.yaml. Update tokens first, then run this helper.', 15, tokenValue('color-palette-muted'), 400));
 
   const colors = await createColorSection(page, 0, 180);
   const typography = await createTypographySection(page, 1240, 180);
@@ -498,28 +455,11 @@ async function main() {
   figma.viewport.scrollAndZoomIntoView([header, colors, typography]);
   return {
     variables: syncResult,
-    colors: PAYLOAD.colors.length,
-    typographyRoles: PAYLOAD.typography.length,
-    page: PAYLOAD.meta.pageName,
-    source: PAYLOAD.meta.source
+    colors: colorRecords().length,
+    typographyRoles: typographyRecords().length,
+    page: FIGMA_META.pageName,
+    source: FIGMA_META.source
   };
 }
 
-return await main();
-`;
-}
-
-async function main() {
-  const sourceTree = await loadTokenTree();
-  const tokens = buildFlatMap(collectTokens(sourceTree));
-  const payload = buildPayload(tokens);
-  await mkdir(dirname(OUTPUT), { recursive: true });
-  await writeFile(OUTPUT, `${generatedScript(payload)}\n`);
-  console.log(`Wrote ${OUTPUT}`);
-  console.log(`Payload: ${payload.colors.length} colors, ${payload.typography.length} typography roles.`);
-}
-
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+await main();

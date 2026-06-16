@@ -1,33 +1,9 @@
-function root_style_rules() {
-  if (typeof document === "undefined") {
-    return [];
-  }
-  return Array.from(document.styleSheets).flatMap((sheet_item) => {
-    try {
-      return Array.from(sheet_item.cssRules || []);
-    } catch {
-      return [];
-    }
-  });
-}
-
-function root_variable_names() {
-  const name_set = new Set();
-  for (const rule_item of root_style_rules()) {
-    if (!rule_item.selectorText || !rule_item.selectorText.split(",").map((item) => item.trim()).includes(":root")) {
-      continue;
-    }
-    for (const property_name of Array.from(rule_item.style)) {
-      if (property_name.startsWith("--")) {
-        name_set.add(property_name.slice(2));
-      }
-    }
-  }
-  return Array.from(name_set);
-}
+import { TOKEN_RECORDS, TOKEN_VALUES } from "../../../generated/token/tokens.js";
 
 export function token_names(token_prefix) {
-  return root_variable_names().filter((token_name) => token_name.startsWith(token_prefix));
+  return TOKEN_RECORDS
+    .map((token_record) => token_record.name)
+    .filter((token_name) => token_name.startsWith(token_prefix));
 }
 
 export function token_option_names(token_prefix) {
@@ -48,11 +24,9 @@ export function typography_role_names() {
     .map((token_name) => token_name.replace(/^typography-/, "").replace(/-font-size$/, ""));
 }
 
+
 export function token_value(token_name) {
-  if (typeof document === "undefined") {
-    return "";
-  }
-  return getComputedStyle(document.documentElement).getPropertyValue(`--${token_name}`).trim();
+  return TOKEN_VALUES[token_name] || "";
 }
 
 export function color_group(token_name) {

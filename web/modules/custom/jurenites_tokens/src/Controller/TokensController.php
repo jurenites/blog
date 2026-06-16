@@ -7,24 +7,45 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class TokensController extends ControllerBase {
 
-  public function json(): JsonResponse {
-    $tokens_path = DRUPAL_ROOT . '/../generated/tokens/tokens.json';
+  public function records(): JsonResponse {
+    $tokens_path = DRUPAL_ROOT . '/../generated/token/tokens.js';
 
     if (!is_readable($tokens_path)) {
       return new JsonResponse([
-        'error' => 'generated/tokens/tokens.json is not readable.',
+        'error' => 'generated/token/tokens.js is not readable.',
       ], 404);
     }
 
-    $tokens = json_decode((string) file_get_contents($tokens_path), TRUE);
+    $tokens_source = (string) file_get_contents($tokens_path);
+    $records_match = [];
 
-    if (!is_array($tokens)) {
+    preg_match('/export const TOKEN_RECORDS = (\[.*?\]);\s*export const TOKEN_VALUES/s', $tokens_source, $records_match);
+
+    if (!isset($records_match[1])) {
       return new JsonResponse([
-        'error' => 'generated/tokens/tokens.json is not valid JSON.',
+        'error' => 'generated/token/tokens.js does not contain TOKEN_RECORDS.',
       ], 500);
     }
 
-    return new JsonResponse($tokens);
+    $token_records = json_decode($records_match[1], TRUE);
+
+    if (!is_array($token_records)) {
+      return new JsonResponse([
+        'error' => 'generated/token/tokens.js TOKEN_RECORDS is not valid JSON.',
+      ], 500);
+    }
+
+    $token_values = [];
+    foreach ($token_records as $token_record) {
+      if (is_array($token_record) && isset($token_record['name'], $token_record['css_value'])) {
+        $token_values[$token_record['name']] = $token_record['css_value'];
+      }
+    }
+
+    return new JsonResponse([
+      'records' => $token_records,
+      'values' => $token_values,
+    ]);
   }
 
 }

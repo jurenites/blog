@@ -8,13 +8,10 @@ rules. The machine-readable contract for every value lives in
 
 ```text
 src/token/tokens.yaml            <-- editable single source of truth (DTCG format)
-  -> scripts/tokens-yaml-to-json.mjs
-       -> generated/tokens/tokens.json               (generated machine contract)
   -> scripts/build-tokens.mjs
-       -> generated/styles/_tokens.scss              (CSS vars + SCSS breakpoint/typography mixins)
-       -> generated/styles/tokens.css                (CSS custom properties)
-       -> generated/tokens/tokens.min.json            (minified contract)
-       -> generated/tokens/tokens.flat.json           (resolved name -> value map)
+       -> generated/styles/_tokens.scss              (CSS vars + SCSS mixins/utilities)
+       -> generated/token/tokens.js                  (JS token records and values)
+       -> scripts/figma/design-system-sync.js        (Figma sync helper)
   -> src/slice/src/scss/main.scss
        -> Storybook (consumes the SCSS directly)
        -> scripts/build-theme.mjs -> web/themes/custom/jurenites_theme/css/style.min.css
@@ -32,8 +29,8 @@ Components are organised by Atomic Design and ITCSS layers:
 | settings   | `src/slice/src/scss/settings/` | Hand-written theme settings              |
 | tools      | `src/slice/src/scss/tools/`    | Mixins (elevation, motion, focus-ring)   |
 | base       | `src/slice/src/scss/base/`     | Reset, global element defaults, typography|
-| atoms      | `src/slice/src/scss/atoms/`    | Button, surface, chip, divider           |
-| molecules  | `src/slice/src/scss/molecules/`| Small compositions of atoms              |
+| atoms      | `src/slice/src/scss/atoms/`    | Avatar, badge, button, chip, date value, divider, surface |
+| molecules  | `src/slice/src/scss/molecules/`| Article teaser, contact widget, project card |
 | organisms  | `src/slice/src/scss/organisms/`| Larger sections (timeline, hero)         |
 | components  | `src/slice/src/scss/components/`| Page-specific compositions              |
 
@@ -99,21 +96,20 @@ and the Storybook foundations also expose the imported custom Roundabout and
   (used for shadow colors) so composited colors stay predictable.
 - Primitives live in `color.palette.*` (warm, cool, neutral ramps, feedback).
 - Semantic tokens reference primitives: `color.surface.*`, `color.text.*`,
-  `color.accent.*`, `color.border.*`. Always consume semantic tokens in
+  `color.action.*`, `color.border.*`. Always consume semantic tokens in
   components, not raw palette values.
 
 ## Spacing and gaps
 
-`space.scale.*` is the 8px-based scale: `none`, `hairline` (1px exception),
-`extra-small` (4px), `small-default` (8px), `medium-default` (16px),
-`large-default` (24px), `extra-large` (32px), `huge-default` (48px),
-`giant-default` (64px), `colossal-default` (96px).
+`space.scale.*` is the project spacing scale: `void-size`, `nano-size`,
+`micro-size`, `small-size`, `grid-size`, `medium-size`, `middle-size`,
+`macro-size`, `block-size`, `huge-size`, `giant-size`, `colossal-size`.
 
 ## Shape
 
-- `shape.corner-radius.*`: none, extra-small (4px), small (8px), medium (12px),
-  large (16px), extra-large (28px), pill-full (9999px).
-- `shape.border-width.*`: hairline (1px), thick (2px).
+- `shape.corner-radius.*`: none, extra-small, small-default, medium-default,
+  large-default, extra-large, pill-full.
+- `shape.border-width.*`: hairline-default, thick-default.
 
 ## Elevation and shadow
 

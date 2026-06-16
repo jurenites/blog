@@ -5,9 +5,10 @@
   "description": "Storybook and frontend component workspace for the Blog jurenites Drupal theme.",
   "scripts": {
     "build:tokens": "node scripts/build-tokens.mjs",
-    "build:figma-sync": "npm run build:tokens && node scripts/figma/build-design-system-sync.mjs",
+    "figma:prepare": "npm run build:tokens",
     "build:theme": "npm run build:tokens && node scripts/build-theme.mjs",
     "build:all": "npm run build:tokens && node scripts/build-theme.mjs && npm run build-storybook",
+    "docs:check": "node scripts/check-docs-freshness.mjs",
     "storybook": "npm run build:tokens && storybook dev -p 6006 --host 0.0.0.0 --no-open",
     "build-storybook": "npm run build:tokens && storybook build"
   },

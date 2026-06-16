@@ -25,12 +25,14 @@ https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites
 ```text
 src/token/tokens.yaml             Editable design-token source of truth
 generated/styles/_tokens.scss     Generated SCSS token artifact
-generated/figma/design-system-sync.js
-                                  Generated Figma sync script
+generated/token/tokens.js         Generated JS token artifact for Storybook logic
+scripts/figma/design-system-sync.js
+                                  Figma sync helper that reads generated tokens
 src/slice/                        Source SCSS/JS for the Theme and Storybook
 src/stories/                      Storybook examples grouped by type
 src/styles/storybook.scss         Storybook-only documentation/canvas styling
 src/public/                       Static assets served to Storybook
+docs/                            Project documentation and planned runbooks
 web/                              Drupal public web root
 web/themes/custom/jurenites_theme Built custom Drupal theme
 web/modules/custom/jurenites_tokens
@@ -51,24 +53,25 @@ The current build path is:
 
 ```text
 src/token/tokens.yaml
-  -> generated/styles/_tokens.scss
-  -> Storybook preview CSS and Drupal theme CSS
-  -> generated/figma/design-system-sync.js when Figma sync is needed
+  -> generated/styles/_tokens.scss for CSS, Storybook preview styling, and Drupal theme CSS
+  -> generated/token/tokens.js for Storybook controls and token-driven JS
+  -> scripts/figma/design-system-sync.js reads generated tokens when Figma sync is needed
 ```
 
-There are no generated token JSON mirrors in the normal workflow. Storybook
-foundation pages read the actual CSS variables produced by the token build, so
-Ctrl+F stays focused on the real source and real usage.
+There are no generated token JSON mirrors in the normal workflow. JS consumers
+read `generated/token/tokens.js`, not the compiled SCSS/CSS output, so the data
+flow stays direct: YAML to CSS for styling, YAML to JS for logic.
 
 Useful commands:
 
 ```bash
-npm run build:tokens      # YAML -> generated/styles/_tokens.scss
+npm run build:tokens      # YAML -> generated/styles/_tokens.scss + generated/token/tokens.js
 npm run storybook         # build tokens, then run Storybook on port 6006
 npm run build-storybook   # build tokens, then build static Storybook
 npm run build:theme       # build tokens, then compile Drupal theme CSS/JS
-npm run build:figma-sync  # build tokens, then generate Figma sync script
-scripts/sync.sh all       # build tokens + theme + Figma sync
+npm run figma:prepare     # build tokens before running the Figma sync helper
+npm run docs:check        # check docs version and source/docs drift
+scripts/sync.sh all       # build tokens + theme + Figma prep
 ```
 
 ## Styling Rules
@@ -132,7 +135,8 @@ Committed generated files are limited to artifacts that are useful for the
 current workflow, mainly:
 
 - `generated/styles/_tokens.scss`
-- `generated/figma/design-system-sync.js`
+- `generated/token/tokens.js`
+- `scripts/figma/design-system-sync.js`
 - `web/themes/custom/jurenites_theme/css/style.min.css`
 - `web/themes/custom/jurenites_theme/js/script.min.js`
 
