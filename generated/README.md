@@ -7,12 +7,10 @@ Token source: `../src/token/tokens.yaml`
 
 Generated token outputs:
 
-- `generated/tokens/`: JSON contracts for tools, Storybook foundations, Drupal,
-  and Figma sync.
-- `generated/styles/`: CSS/SCSS token artifacts consumed by the theme and
-  Storybook.
+- `generated/styles/_tokens.scss`: SCSS token artifact consumed by the theme and
+  Storybook. It is generated from YAML and should not be edited directly.
 
-Regenerate token artifacts with:
+Regenerate it with:
 
 ```sh
 npm run build:tokens

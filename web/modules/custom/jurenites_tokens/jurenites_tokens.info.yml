@@ -1,5 +1,5 @@
-name: Jurenites Tokens
+name: jurenites Tokens
 type: module
 description: Exposes the project design token JSON to Drupal routes and future theme tooling.
 core_version_requirement: ^11
-package: Jurenites
+package: jurenites

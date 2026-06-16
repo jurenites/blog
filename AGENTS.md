@@ -8,9 +8,44 @@ and helper functions. Avoid lone generic names like `label`, `variant`, `title`,
 
 - CSS classes, template filenames, and BEM parts use `kebab-case`.
 - JavaScript variables, functions, Storybook args, and `argTypes` use `snake_case`.
+- File-local demo constants at the top of a `*.stories.js` file use
+  `SCREAMING_SNAKE_CASE` (for example `VALUE_MODE`, `BUTTON_LABEL`).
 - Design tokens use `dot.notation` in the source tree.
 
 Example: use `eyebrow_heading`, not `eyebrow`.
+
+## Storybook Examples
+
+Keep each visible Storybook example in its own folder under its type group, such
+as `src/stories/atoms/button/` or `src/stories/molecules/article-teaser/`.
+Store the story file, local template files, and local markup helpers together in
+that folder.
+
+Keep temporary/example values near the top of each `*.stories.js` file as
+individual `SCREAMING_SNAKE_CASE` constants, not bundled in a single object.
+Wire them into Storybook through the `args` block so demo values stand out and
+are easy to find and replace without digging through render logic or metadata.
+
+Example:
+
+```js
+const BUTTON_LABEL = "Contact me";
+const STYLE_VARIANT = "primary";
+
+export default {
+  args: {
+    button_label: BUTTON_LABEL,
+    style_variant: STYLE_VARIANT,
+  },
+};
+```
+
+For grouped demo data (arrays, renderer maps), keep one file-local constant in
+`SCREAMING_SNAKE_CASE` (for example `FONT_ROWS`, `NESTED_RENDERERS`).
+
+When one story nests another component, do not paste that component's HTML by
+hand. Put shared rendering in a nearby `*.markup.js` helper and import that
+helper from both the atom story and the composed component story.
 
 ## Token Editing
 

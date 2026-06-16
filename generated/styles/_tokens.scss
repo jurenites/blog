@@ -299,3 +299,109 @@ $breakpoints: (
   letter-spacing: var(--typography-overline-default-letter-spacing);
   text-transform: var(--typography-overline-default-text-transform);
 }
+
+.u-typography-headline-1 {
+  font-family: var(--typography-headline-1-font-family);
+  font-size: var(--typography-headline-1-font-size);
+  font-weight: var(--typography-headline-1-font-weight);
+  line-height: var(--typography-headline-1-line-height);
+  letter-spacing: var(--typography-headline-1-letter-spacing);
+}
+
+.u-typography-headline-2 {
+  font-family: var(--typography-headline-2-font-family);
+  font-size: var(--typography-headline-2-font-size);
+  font-weight: var(--typography-headline-2-font-weight);
+  line-height: var(--typography-headline-2-line-height);
+  letter-spacing: var(--typography-headline-2-letter-spacing);
+}
+
+.u-typography-headline-3 {
+  font-family: var(--typography-headline-3-font-family);
+  font-size: var(--typography-headline-3-font-size);
+  font-weight: var(--typography-headline-3-font-weight);
+  line-height: var(--typography-headline-3-line-height);
+  letter-spacing: var(--typography-headline-3-letter-spacing);
+}
+
+.u-typography-headline-4 {
+  font-family: var(--typography-headline-4-font-family);
+  font-size: var(--typography-headline-4-font-size);
+  font-weight: var(--typography-headline-4-font-weight);
+  line-height: var(--typography-headline-4-line-height);
+  letter-spacing: var(--typography-headline-4-letter-spacing);
+}
+
+.u-typography-headline-5 {
+  font-family: var(--typography-headline-5-font-family);
+  font-size: var(--typography-headline-5-font-size);
+  font-weight: var(--typography-headline-5-font-weight);
+  line-height: var(--typography-headline-5-line-height);
+  letter-spacing: var(--typography-headline-5-letter-spacing);
+}
+
+.u-typography-headline-6 {
+  font-family: var(--typography-headline-6-font-family);
+  font-size: var(--typography-headline-6-font-size);
+  font-weight: var(--typography-headline-6-font-weight);
+  line-height: var(--typography-headline-6-line-height);
+  letter-spacing: var(--typography-headline-6-letter-spacing);
+}
+
+.u-typography-subtitle-1 {
+  font-family: var(--typography-subtitle-1-font-family);
+  font-size: var(--typography-subtitle-1-font-size);
+  font-weight: var(--typography-subtitle-1-font-weight);
+  line-height: var(--typography-subtitle-1-line-height);
+  letter-spacing: var(--typography-subtitle-1-letter-spacing);
+}
+
+.u-typography-subtitle-2 {
+  font-family: var(--typography-subtitle-2-font-family);
+  font-size: var(--typography-subtitle-2-font-size);
+  font-weight: var(--typography-subtitle-2-font-weight);
+  line-height: var(--typography-subtitle-2-line-height);
+  letter-spacing: var(--typography-subtitle-2-letter-spacing);
+}
+
+.u-typography-body-1 {
+  font-family: var(--typography-body-1-font-family);
+  font-size: var(--typography-body-1-font-size);
+  font-weight: var(--typography-body-1-font-weight);
+  line-height: var(--typography-body-1-line-height);
+  letter-spacing: var(--typography-body-1-letter-spacing);
+}
+
+.u-typography-body-2 {
+  font-family: var(--typography-body-2-font-family);
+  font-size: var(--typography-body-2-font-size);
+  font-weight: var(--typography-body-2-font-weight);
+  line-height: var(--typography-body-2-line-height);
+  letter-spacing: var(--typography-body-2-letter-spacing);
+}
+
+.u-typography-button-label {
+  font-family: var(--typography-button-label-font-family);
+  font-size: var(--typography-button-label-font-size);
+  font-weight: var(--typography-button-label-font-weight);
+  line-height: var(--typography-button-label-line-height);
+  letter-spacing: var(--typography-button-label-letter-spacing);
+  text-transform: var(--typography-button-label-text-transform);
+}
+
+.u-typography-caption-default {
+  font-family: var(--typography-caption-default-font-family);
+  font-size: var(--typography-caption-default-font-size);
+  font-weight: var(--typography-caption-default-font-weight);
+  line-height: var(--typography-caption-default-line-height);
+  letter-spacing: var(--typography-caption-default-letter-spacing);
+}
+
+.u-typography-overline-default {
+  font-family: var(--typography-overline-default-font-family);
+  font-size: var(--typography-overline-default-font-size);
+  font-weight: var(--typography-overline-default-font-weight);
+  line-height: var(--typography-overline-default-line-height);
+  letter-spacing: var(--typography-overline-default-letter-spacing);
+  text-transform: var(--typography-overline-default-text-transform);
+}

@@ -1,12 +1,12 @@
-# Editable source of truth for Blog Jurenites design tokens.
-# Run npm run build:tokens after changes to regenerate JSON/CSS/SCSS outputs.
+# Editable source of truth for design tokens.
+# Run npm run build:tokens after changes to regenerate the SCSS token output.
 "$schema": https://design-tokens.github.io/community-group/format/
 meta:
   project: blog-jurenites
   status: draft
   sourceWorkflow: idea-file -> tokens -> Storybook -> Figma -> Drupal
   figmaFile: https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites
-  sourceOfTruth: src/token/tokens.yaml is the editable single source of truth. Generated JSON/SCSS/CSS/minified outputs and Figma variables are derived from it.
+  sourceOfTruth: src/token/tokens.yaml is the editable single source of truth. Generated SCSS/CSS outputs and Figma variables are derived from it.
   typographyBasis: Type scale follows Google Material Design M2 roles (headline-1..6, subtitle, body, button, caption, overline).
   colorRule: Colors are HEX only. Never use the CSS opacity property; alpha is expressed as 8-digit HEX (for example shadow colors) so composited colors stay predictable.
   note: 'This file is large on purpose: it is a data contract, not a code module. Keep groups well namespaced so flattened names stay searchable.'
@@ -145,6 +145,109 @@ color:
     strong-default:
       "$type": color
       "$value": "{color.palette.muted}"
+component:
+  button:
+    default-style:
+      "$type": string
+      "$value": primary
+    style:
+      primary:
+        "$type": string
+        "$value": fill
+        "$description": Filled action button.
+      secondary:
+        "$type": string
+        "$value": outline
+        "$description": Outlined action button.
+      ghost:
+        "$type": string
+        "$value": inline
+        "$description": Text-only action button.
+  badge:
+    default-status:
+      "$type": string
+      "$value": success
+    status:
+      neutral:
+        "$type": string
+        "$value": neutral
+      success:
+        "$type": string
+        "$value": success
+      warning:
+        "$type": string
+        "$value": warning
+      error:
+        "$type": string
+        "$value": error
+      info:
+        "$type": string
+        "$value": info
+  avatar:
+    default-size:
+      "$type": string
+      "$value": medium
+    size:
+      small:
+        "$type": string
+        "$value": small
+      medium:
+        "$type": string
+        "$value": medium
+      large:
+        "$type": string
+        "$value": large
+  surface:
+    default-variant:
+      "$type": string
+      "$value": default
+    variant:
+      default:
+        "$type": string
+        "$value": default
+      raised:
+        "$type": string
+        "$value": raised
+      flat:
+        "$type": string
+        "$value": flat
+  date-value:
+    default-mode:
+      "$type": string
+      "$value": date-value
+    default-format:
+      "$type": string
+      "$value": month-day-year
+    default-display:
+      "$type": string
+      "$value": muted
+    mode:
+      date-value:
+        "$type": string
+        "$value": date-value
+      raw-text:
+        "$type": string
+        "$value": raw-text
+    format:
+      month-day-year:
+        "$type": string
+        "$value": month-day-year
+      long-date:
+        "$type": string
+        "$value": long-date
+      iso-date:
+        "$type": string
+        "$value": iso-date
+    display:
+      muted:
+        "$type": string
+        "$value": muted
+      day:
+        "$type": string
+        "$value": day
+      time:
+        "$type": string
+        "$value": time
 typography:
   font-family:
     sans-default:

@@ -1,7 +1,7 @@
 // Storybook consumes the same compiled design system as the Drupal theme:
 // src/slice/src/scss/main.scss is the single CSS source of truth.
 import "../src/slice/src/scss/main.scss";
-import "../src/styles/storybook.css";
+import "../src/styles/storybook.scss";
 
 // Custom viewports mirror the breakpoint tokens (mobile 360-640, tablet, desktop 1280-1920+).
 const breakpointViewports = {

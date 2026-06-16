@@ -2,16 +2,14 @@
   "name": "blog-jurenites",
   "private": true,
   "version": "0.1.0",
-  "description": "Storybook and frontend component workspace for the Blog Jurenites Drupal theme.",
+  "description": "Storybook and frontend component workspace for the Blog jurenites Drupal theme.",
   "scripts": {
-    "tokens:yaml-to-json": "node scripts/tokens-yaml-to-json.mjs",
-    "tokens:json-to-yaml": "node scripts/tokens-json-to-yaml.mjs",
-    "build:tokens": "npm run tokens:yaml-to-json && node scripts/build-tokens.mjs",
-    "build:figma-sync": "npm run build:tokens && node scripts/figma/to-tokens-studio.mjs && node scripts/figma/build-design-system-sync.mjs",
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "build:figma-sync": "npm run build:tokens && node scripts/figma/build-design-system-sync.mjs",
     "build:theme": "npm run build:tokens && node scripts/build-theme.mjs",
     "build:all": "npm run build:tokens && node scripts/build-theme.mjs && npm run build-storybook",
-    "storybook": "storybook dev -p 6006 --host 0.0.0.0 --no-open",
-    "build-storybook": "storybook build"
+    "storybook": "npm run build:tokens && storybook dev -p 6006 --host 0.0.0.0 --no-open",
+    "build-storybook": "npm run build:tokens && storybook build"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "8.6.18",

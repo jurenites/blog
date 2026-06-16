@@ -4,15 +4,13 @@
 # Everything is operated from this script so the workflow stays inside the repo.
 #
 # Usage:
-#   scripts/sync.sh build              Regenerate JSON/SCSS/CSS/min/flat from src/token/tokens.yaml
+#   scripts/sync.sh build              Regenerate generated/styles/_tokens.scss from src/token/tokens.yaml
 #   scripts/sync.sh theme              Build minified Drupal theme assets (runs build first)
-#   scripts/sync.sh studio             Regenerate generated/tokens/tokens.studio.json for the Tokens Studio push to Figma
-#   scripts/sync.sh pull [file]        Apply Figma variable changes, refresh YAML, then rebuild
-#   scripts/sync.sh pull-dry [file]    Preview Figma -> tokens changes without writing
+#   scripts/sync.sh figma              Regenerate the Figma sync script from src/token/tokens.yaml
 #   scripts/sync.sh drush-cache        Rebuild the Drupal cache in the running web container
 #   scripts/sync.sh deploy-theme       theme + reset asset query string + drush cache rebuild
 #   scripts/sync.sh status             Show git status of token + generated files
-#   scripts/sync.sh all                build + theme + studio
+#   scripts/sync.sh all                build + theme + figma
 
 set -euo pipefail
 
@@ -20,8 +18,6 @@ set -euo pipefail
 readonly REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 readonly DOCKER_BIN="${DOCKER_BIN:-docker}"
 readonly WEB_CONTAINER="blog_jurenites_web"
-readonly FIGMA_INPUT_DEFAULT="${REPO_ROOT}/scripts/figma/figma-variables.json"
-
 cd "${REPO_ROOT}"
 
 print_usage() {
@@ -30,15 +26,13 @@ Token pipeline console. Everything is operated from this script.
 
 Usage: scripts/sync.sh <command>
 
-  build          Regenerate JSON/SCSS/CSS/min/flat from src/token/tokens.yaml
+  build          Regenerate generated/styles/_tokens.scss from src/token/tokens.yaml
   theme          Build minified Drupal theme assets (runs build first)
-  studio         Regenerate generated/tokens/tokens.studio.json for the Tokens Studio push to Figma
-  pull [file]    Apply Figma variable changes, refresh YAML, then rebuild
-  pull-dry [file] Preview Figma -> tokens changes without writing
+  figma          Regenerate the Figma sync script from src/token/tokens.yaml
   drush-cache    Rebuild the Drupal cache in the running web container
   deploy-theme   theme + reset asset query string + drush cache rebuild
   status         Show git status of token + generated files
-  all            build + theme + studio
+  all            build + theme + figma
 USAGE
 }
 
@@ -50,16 +44,8 @@ build_theme() {
   npm run build:theme
 }
 
-build_studio() {
-  node scripts/figma/to-tokens-studio.mjs
-}
-
-pull_from_figma() {
-  local input_file="${1:-${FIGMA_INPUT_DEFAULT}}"
-  shift || true
-  node scripts/figma/pull-from-figma.mjs "${input_file}" "$@"
-  node scripts/tokens-json-to-yaml.mjs
-  build_tokens
+build_figma() {
+  npm run build:figma-sync
 }
 
 require_web_container() {
@@ -100,13 +86,11 @@ main() {
   case "${command}" in
     build) build_tokens ;;
     theme) build_theme ;;
-    studio) build_studio ;;
-    pull) pull_from_figma "$@" ;;
-    pull-dry) pull_from_figma "${1:-${FIGMA_INPUT_DEFAULT}}" --dry-run ;;
+    figma) build_figma ;;
     drush-cache) drush_cache_clear ;;
     deploy-theme) deploy_theme ;;
     status) show_status ;;
-    all) build_tokens && build_theme && build_studio ;;
+    all) build_tokens && build_theme && build_figma ;;
     help|*)
       print_usage
       ;;

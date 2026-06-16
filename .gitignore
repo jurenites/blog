@@ -7,6 +7,31 @@ web/modules/contrib/
 web/profiles/contrib/
 web/themes/contrib/
 drush/Commands/contrib/
+
+# Drupal scaffold files managed by Composer or generated during install.
+web/.csslintrc
+web/.eslintignore
+web/.eslintrc.json
+web/.ht.router.php
+web/.htaccess
+web/INSTALL.txt
+web/README.md
+web/autoload.php
+web/example.gitignore
+web/index.php
+web/robots.txt
+web/update.php
+web/modules/README.txt
+web/profiles/README.txt
+web/sites/README.txt
+web/sites/development.services.yml
+web/sites/example.settings.local.php
+web/sites/example.sites.php
+web/sites/default/default.services.yml
+web/sites/default/default.settings.php
+web/themes/README.txt
+recipes/README.txt
+
 web/sites/default/files/
 web/sites/default/settings.php
 web/sites/default/services.yml
@@ -18,7 +43,3 @@ storybook-static/
 dist/
 build/
 .playwright-mcp/
-
-# Transient Figma variable dump (input to scripts/figma/pull-from-figma.mjs).
-# The committed reference is scripts/figma/figma-variables.example.json.
-scripts/figma/figma-variables.json

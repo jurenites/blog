@@ -1,18 +1,18 @@
 export const date_formatters = {
 
-  month_day_year: {
+  "month-day-year": {
     month: "short",
     day: "numeric",
     year: "numeric",
   },
-  long_date: {
+  "long-date": {
     month: "long",
     day: "numeric",
     year: "numeric",
     hour: "numeric",
     minute: "2-digit",
   },
-  iso_date: null,
+  "iso-date": null,
 };
 
 export const date_format_options = Object.keys(date_formatters);
@@ -37,7 +37,7 @@ export function formatted_date_value(source_date, format_variant) {
     return iso_date_value;
   }
 
-  if (format_variant === "iso_date") {
+  if (format_variant === "iso-date") {
     return iso_date_value;
   }
 

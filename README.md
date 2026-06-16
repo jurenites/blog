@@ -1,86 +1,103 @@
-# Blog Jurenites
+# Blog jurenites
 
-Personal Drupal 11 site for Alexander Ilivanov / jurenites.
+Personal site for Alexander Ilivanov / @jurenites.
 
-This repo is the working system for a personal blog, portfolio, CV timeline, and public design/development process. The site should show not only finished work, but also how the work is structured: idea file, tokens, Figma, Storybook, Drupal content model, custom theme, and custom Drupal modules.
+This repository is the working system for a personal blog, portfolio, CV timeline,
+and public design/development process. The repo is intentionally readable: design
+tokens, Storybook components, Figma sync, and the Theme should all point
+back to one understandable source instead of several competing mirrors.
 
 ## Direction
 
 - CMS: Drupal 11.
 - Purpose: personal promotion, networking, portfolio, and long-form writing.
 - Design source: Figma file `blog-jurenites`.
-- Design data source: `src/token/tokens.yaml`.
-- Static source assets: `src/public/`.
+- Design token source: `src/token/tokens.yaml`.
 - Component proving ground: Storybook.
 - Runtime target: Docker development first, stage preview second, production hosting later.
 
-## Workflow
-
-The project workflow is:
-
-```text
-Idea file
-  -> src/token/tokens.yaml
-  -> generated/tokens/tokens.json
-  -> Storybook components
-  -> Figma design
-  -> Drupal 11 custom theme
-  -> Drupal custom module(s)
-  -> local Docker environment
-  -> stage environment
-  -> production hosting
-```
-
-The current Figma file is:
+Current Figma file:
 
 https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites
 
-## Design System and Token Pipeline
+## Repository Shape
 
-`src/token/tokens.yaml` (W3C/DTCG format) is the editable single source of truth. One console
-script regenerates everything else:
-
-```bash
-scripts/sync.sh build         # src/token/tokens.yaml -> generated/tokens JSON + generated CSS/SCSS
-scripts/sync.sh theme         # build minified Drupal theme assets
-scripts/sync.sh studio        # write generated/tokens/tokens.studio.json for Tokens Studio
-scripts/sync.sh pull          # apply Figma variable edits back into src/token/tokens.yaml
-scripts/sync.sh deploy-theme  # build + re-version assets + drush cache rebuild
-scripts/sync.sh all           # build + theme + studio
+```text
+src/token/tokens.yaml             Editable design-token source of truth
+generated/styles/_tokens.scss     Generated SCSS token artifact
+generated/figma/design-system-sync.js
+                                  Generated Figma sync script
+src/slice/                        Source SCSS/JS for the Theme and Storybook
+src/stories/                      Storybook examples grouped by type
+src/styles/storybook.scss         Storybook-only documentation/canvas styling
+src/public/                       Static assets served to Storybook
+web/                              Drupal public web root
+web/themes/custom/jurenites_theme Built custom Drupal theme
+web/modules/custom/jurenites_tokens
+                                  Small Drupal token bridge module
+vendor/                           Local Composer dependencies, ignored by Git
+node_modules/                     Local npm dependencies, ignored by Git
 ```
 
-Reference docs:
+`vendor/` stays at the repository root, outside `web/`, because `web/` is the
+public document root. This is the safer standard Drupal/Composer layout.
 
-- `docs/design-system.md` — the visual guideline (typography, color, spacing, shape, elevation, motion, breakpoints, atomic design).
-- `docs/naming-conventions.md` — the shared naming contract (BEM bridge) that maps Figma frames to SCSS, Storybook, and Drupal.
-- `docs/figma-sync.md` — bidirectional Figma <-> tokens procedure.
-- `docs/ci-cd.md` — the interconnected pipeline and GitHub Actions / webhook strategy.
+## Token Pipeline
 
-## First Milestones
+`src/token/tokens.yaml` is the only editable token file. Do not edit generated
+token artifacts by hand.
 
-1. Create Drupal 11 Docker development environment.
-2. Add Storybook for custom theme components.
-3. Keep `src/token/tokens.yaml` as the shared editable token contract.
-4. Connect Figma design variables and code tokens in both directions.
-5. Build the first interactive CV timeline component.
-6. Add universal Drupal node types, without overfitting fields too early.
-7. Decide what can be public, anonymized, or private.
+The current build path is:
+
+```text
+src/token/tokens.yaml
+  -> generated/styles/_tokens.scss
+  -> Storybook preview CSS and Drupal theme CSS
+  -> generated/figma/design-system-sync.js when Figma sync is needed
+```
+
+There are no generated token JSON mirrors in the normal workflow. Storybook
+foundation pages read the actual CSS variables produced by the token build, so
+Ctrl+F stays focused on the real source and real usage.
+
+Useful commands:
+
+```bash
+npm run build:tokens      # YAML -> generated/styles/_tokens.scss
+npm run storybook         # build tokens, then run Storybook on port 6006
+npm run build-storybook   # build tokens, then build static Storybook
+npm run build:theme       # build tokens, then compile Drupal theme CSS/JS
+npm run build:figma-sync  # build tokens, then generate Figma sync script
+scripts/sync.sh all       # build tokens + theme + Figma sync
+```
+
+## Styling Rules
+
+Storybook templates in `src/stories/**/*.template.html` should stay structural:
+
+- no embedded `<style>` blocks
+- no inline `style=""` attributes
+- styling lives in SCSS/CSS
+- dynamic token demos use generated utility classes, not inline styles
+
+Each visible Storybook example owns a dedicated folder inside its type group.
+For example, Button lives in `src/stories/atoms/button/`, and Article Teaser
+lives in `src/stories/molecules/article-teaser/`. Shared helpers stay one level
+up only when multiple stories need them.
+
+Project ignore rules are consolidated in the root `.gitignore`. Nested `.gitignore`
+files are avoided for project-owned source so there is one obvious place to look.
 
 ## Local Development
 
-The local development environment should be Docker-first and reproducible.
+Install dependencies:
 
-Target shape:
-
-```text
-docker-compose.yml
-  Drupal 11 / PHP container
-  database container
-  web server container if not included in the Drupal image
-  optional mailhog/mailpit container
+```bash
+composer install
+npm install
 ```
 
-Target commands:
+Run Drupal locally:
 
 ```bash
 docker compose up -d
@@ -88,7 +105,7 @@ docker compose ps
 curl -I http://127.0.0.1:8081/
 ```
 
-The local Drupal site uses port `8081` to avoid colliding with other local Drupal projects. A running container is not enough; the dev environment should be considered ready only after an HTTP check works.
+The local Drupal site uses port `8081`.
 
 Initial local admin login:
 
@@ -96,27 +113,52 @@ Initial local admin login:
 - User: `admin`
 - Password: `admin`
 
-Storybook runs through Docker too:
+Run Storybook through Docker:
 
 ```bash
 docker compose up storybook
 curl -I http://127.0.0.1:6006/
 ```
 
-If `docker` is not on the shell PATH, use `/usr/local/bin/docker` or add Docker Desktop's CLI path to the shell profile.
+Or run Storybook directly from the host:
+
+```bash
+npm run storybook
+```
+
+## Generated And Ignored Files
+
+Committed generated files are limited to artifacts that are useful for the
+current workflow, mainly:
+
+- `generated/styles/_tokens.scss`
+- `generated/figma/design-system-sync.js`
+- `web/themes/custom/jurenites_theme/css/style.min.css`
+- `web/themes/custom/jurenites_theme/js/script.min.js`
+
+Ignored local dependency/build folders include:
+
+- `vendor/`
+- `node_modules/`
+- `storybook-static/`
+- Drupal scaffold/dependency folders such as `web/core/` and contrib folders
 
 ## Stage Environment
 
-Drupal needs PHP, a database, and persistent file storage. Vercel is useful for Storybook, static previews, or a decoupled frontend, but it is not the natural host for a full Drupal runtime.
+Drupal needs PHP, a database, and persistent file storage. Vercel is useful for
+Storybook/static component preview, but it is not the natural host for a full
+Drupal runtime.
 
 Stage plan:
 
-- Vercel: Storybook/static component preview, useful for visual review and design-system checks.
-- Drupal-capable hosting: full CMS stage when database/content behavior needs to be tested.
+- Vercel: Storybook/static component preview.
+- Drupal-capable hosting: full CMS stage.
 - Later production: low-cost hosting server for the final domain.
 
-The stage workflow will be refined after the local Docker environment exists.
+## Status
 
-## Repository Status
-
-Drupal 11, Docker Compose, Storybook, a minimal custom theme, and a minimal token bridge module are installed locally. The project is still early and expected to change heavily.
+Drupal 11, Docker Compose, Storybook, a custom theme, custom fonts, design tokens,
+and a minimal Drupal token bridge module are installed locally. The project is
+still early and expected to change heavily, but the current rule is simple:
+edit source under `src/`, keep token truth in YAML, and treat generated files as
+artifacts.
