@@ -8,11 +8,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 final class TokensController extends ControllerBase {
 
   public function json(): JsonResponse {
-    $tokens_path = DRUPAL_ROOT . '/../tokens/tokens.json';
+    $tokens_path = DRUPAL_ROOT . '/../generated/tokens/tokens.json';
 
     if (!is_readable($tokens_path)) {
       return new JsonResponse([
-        'error' => 'tokens/tokens.json is not readable.',
+        'error' => 'generated/tokens/tokens.json is not readable.',
       ], 404);
     }
 
@@ -20,7 +20,7 @@ final class TokensController extends ControllerBase {
 
     if (!is_array($tokens)) {
       return new JsonResponse([
-        'error' => 'tokens/tokens.json is not valid JSON.',
+        'error' => 'generated/tokens/tokens.json is not valid JSON.',
       ], 500);
     }
 

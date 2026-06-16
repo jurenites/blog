@@ -18,8 +18,8 @@ function render_story({ card_title, card_excerpt, tag_list, show_media, action_l
     media: media_markup,
     title: escape_html(card_title),
     excerpt: escape_html(card_excerpt),
-    tagList: tag_items,
-    actionLabel: escape_html(action_label),
+    tag_list: tag_items,
+    action_label: escape_html(action_label),
   });
 }
 

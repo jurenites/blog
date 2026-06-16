@@ -1,0 +1,28 @@
+// Atom: Date value. Compact time/date text for article metadata and timelines.
+
+@use "../tools";
+
+.date-value {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-secondary-default);
+  font-variant-numeric: tabular-nums;
+  @include tools.typography-caption-default;
+}
+
+.date-value--day {
+  color: var(--color-text-primary-default);
+}
+
+.date-value--muted {
+  color: var(--color-text-secondary-default);
+}
+
+.date-value--time {
+  color: var(--color-text-secondary-default);
+  font-family: var(--typography-font-family-mono-default);
+}
+
+.date-value--raw {
+  white-space: nowrap;
+}

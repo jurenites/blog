@@ -3,14 +3,14 @@
 The goal: five tools stay in sync through one source of truth.
 
 ```text
-                     tokens/tokens.yaml  (SOURCE OF TRUTH)
+                     src/token/tokens.yaml  (SOURCE OF TRUTH)
                               |
             scripts/build-tokens.mjs (scripts/sync.sh build)
         ______________________|________________________________
        |                |                |                      |
- generated SCSS    tokens.flat.json  tokens.min.json     tokens.studio.json
+ generated SCSS    generated/tokens/tokens.flat.json  generated/tokens/tokens.min.json     generated/tokens/tokens.studio.json
        |                |                                       |
- slice/main.scss   Storybook foundations                 Tokens Studio plugin
+ src/slice/main    Storybook foundations                 Tokens Studio plugin
        |                |                                       |
  Storybook  <----  (same SCSS)                              Figma variables
        |
@@ -35,13 +35,13 @@ Everything is driven from `scripts/sync.sh` so the workflow lives in the repo.
 
 - **CI** (`.github/workflows/ci.yml`): on every push/PR, builds tokens, theme,
   Tokens Studio file, and Storybook, then fails if any committed generated file
-  drifts from `tokens.yaml`. This enforces the source-of-truth contract.
+  drifts from `src/token/tokens.yaml`. This enforces the source-of-truth contract.
 - **Deploy Storybook** (`.github/workflows/storybook-pages.yml`): publishes the
   component library to GitHub Pages on `main`. Enable Pages -> Source: GitHub
   Actions in the repo settings once.
 - **Figma Sync** (`.github/workflows/figma-sync.yml`): a `repository_dispatch`
   of type `figma-sync` (or manual `workflow_dispatch`) applies an incoming flat
-  token map onto `tokens.yaml` and opens a pull request.
+  token map onto `src/token/tokens.yaml` and opens a pull request.
 
 ## Webhook strategy (who triggers whom)
 
@@ -50,9 +50,9 @@ relay where an external product cannot call GitHub directly.
 
 | Source changed | Signal                              | Consumers re-synced                    |
 | -------------- | ----------------------------------- | -------------------------------------- |
-| tokens.yaml    | git push                            | CI rebuilds; Storybook redeploys; Tokens Studio file updated |
+| src/token/tokens.yaml    | git push                            | CI rebuilds; Storybook redeploys; Tokens Studio file updated |
 | SCSS slice     | git push                            | CI rebuilds theme + Storybook          |
-| Figma variables| Figma webhook -> relay -> dispatch  | `figma-sync` workflow opens a PR on tokens.json |
+| Figma variables| Figma webhook -> relay -> dispatch  | `figma-sync` workflow opens a PR on src/token/tokens.yaml |
 
 ### Figma webhook relay
 
@@ -74,4 +74,4 @@ the Figma -> tokens pull manually (`scripts/sync.sh pull`) or trigger the
 
 - [ ] Repo Settings -> Pages -> Source: GitHub Actions (for Storybook deploy).
 - [ ] Add a fine-grained PAT/secret if the Figma relay will call dispatches.
-- [ ] Configure Tokens Studio in Figma to sync from `tokens/tokens.studio.json`.
+- [ ] Configure Tokens Studio in Figma to sync from `generated/tokens/tokens.studio.json`.

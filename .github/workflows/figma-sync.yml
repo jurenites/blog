@@ -1,6 +1,6 @@
 name: Figma Sync
 
-# Webhook entrypoint for Figma -> tokens.json. A Figma webhook (FILE_UPDATE) is
+# Webhook entrypoint for Figma -> src/token/tokens.yaml. A Figma webhook (FILE_UPDATE) is
 # relayed to GitHub as a repository_dispatch of type "figma-sync" whose
 # client_payload.variables is the flat token map produced by the Figma MCP read
 # snippet (see docs/figma-sync.md). This job applies the changes onto the source
@@ -43,7 +43,7 @@ jobs:
           fi
           echo "Incoming variables:" && cat scripts/figma/figma-variables.json
 
-      - name: Apply to tokens.json and rebuild
+      - name: Apply to generated token contract and rebuild source YAML
         run: ./scripts/sync.sh pull scripts/figma/figma-variables.json
 
       - name: Rebuild theme and Tokens Studio file
@@ -58,7 +58,7 @@ jobs:
           body: |
             Automated pull from Figma via the `figma-sync` webhook.
 
-            Review the diff in `tokens/tokens.json` and the regenerated artifacts.
+            Review the diff in `src/token/tokens.yaml` and the regenerated artifacts.
             Semantic references were preserved (primitives only); rerun with
             `--force` locally if an alias must change.
           labels: tokens, figma

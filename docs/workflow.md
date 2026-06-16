@@ -12,16 +12,16 @@ Rules:
 
 ## 2. Tokens
 
-`tokens/tokens.yaml` is the editable single source of truth for reusable design decisions, in W3C/DTCG format. `tokens/tokens.json` is generated from it as the contract between Figma, Storybook, and Drupal.
+`src/token/tokens.yaml` is the editable single source of truth for reusable design decisions, in W3C/DTCG format. `generated/tokens/tokens.json` is generated from it as the contract between Figma, Storybook, and Drupal.
 
 `scripts/build-tokens.mjs` resolves `{references}` and generates (never hand-edit these):
 
-- `slice/src/scss/settings/_generated-tokens.scss` (CSS custom properties, SCSS breakpoint vars/map/mixins, typography role mixins)
-- `src/styles/tokens.generated.css` (Storybook tokens)
-- `tokens/tokens.min.json` (minified contract for transport)
-- `tokens/tokens.flat.json` (resolved `name -> {type, value, css}` map for Storybook foundations and Figma sync)
+- `generated/styles/_tokens.scss` (CSS custom properties, SCSS breakpoint vars/map/mixins, typography role mixins)
+- `generated/styles/tokens.css` (CSS custom properties)
+- `generated/tokens/tokens.min.json` (minified contract for transport)
+- `generated/tokens/tokens.flat.json` (resolved `name -> {type, value, css}` map for Storybook foundations and Figma sync)
 
-Run `npm run build:tokens` after editing `tokens/tokens.yaml`. `npm run build:theme` runs tokens first automatically.
+Run `npm run build:tokens` after editing `src/token/tokens.yaml`. `npm run build:theme` runs tokens first automatically.
 
 Token groups:
 
@@ -33,7 +33,7 @@ Token groups:
 
 See `docs/design-system.md` for the full guideline.
 
-Token naming rules (see `system.naming` in `tokens/tokens.yaml`):
+Token naming rules (see `system.naming` in `src/token/tokens.yaml`):
 
 - Use dash-separated namespaces, not dots.
 - Each namespace segment must contain at least two word parts (for example `base-unit`, `marker-size`). Never use a single character or a lone word as a segment (invalid: `a`, `x`, `orange`).
@@ -51,13 +51,16 @@ Avoid generic names like `orange`, `small`, `primary`, or `card` until the seman
 
 ## 3. Storybook
 
-Storybook is the place to prove component behavior before Drupal integration. It compiles `slice/src/scss/main.scss` directly, so component CSS has a single source of truth shared with the Drupal theme.
+Storybook is the place to prove component behavior before Drupal integration. It compiles `src/slice/src/scss/main.scss` directly, so component CSS has a single source of truth shared with the Drupal theme.
 
 Stories are organised by Atomic Design: `Foundations`, `Atoms`, `Molecules`, `Organisms`, `Components`. Each component has exactly one story; property combinations are explored via the Controls tab.
 
-Current Foundations: Colors, Typography, Spacing and Elevation (all generated from `tokens/tokens.flat.json`).
+Current Foundations: Colors, Typography, Spacing and Elevation (all generated from `generated/tokens/tokens.flat.json`).
 
 Current Atoms: Button, Surface, Chip, Divider.
+
+Static source assets, such as local fonts, live in `src/public/` and are served
+by Storybook as root-relative assets.
 
 Planned components:
 
@@ -83,7 +86,7 @@ The file already has Material 3 Design Kit available. The project should reuse t
 Token sync goal:
 
 - Figma can export design variables back into the token pipeline.
-- Code can read generated `tokens/tokens.json` and generate CSS variables/Storybook theme values.
+- Code can read generated `generated/tokens/tokens.json` and generate CSS variables/Storybook theme values.
 - Later, code-side token updates should be able to update Figma variables when needed.
 - Token names must stay stable, because component implementations will depend on them.
 
@@ -114,9 +117,9 @@ Planned custom modules:
 
 Theme source workflow:
 
-- Editable theme source lives outside the Drupal theme in `slice/`.
-- SCSS source lives in `slice/src/scss/`.
-- JavaScript source lives in `slice/src/js/`.
+- Editable theme source lives outside the Drupal theme in `src/slice/`.
+- SCSS source lives in `src/slice/src/scss/`.
+- JavaScript source lives in `src/slice/src/js/`.
 - The Drupal theme should reference generated assets: `web/themes/custom/jurenites_theme/css/style.min.css` and `web/themes/custom/jurenites_theme/js/script.min.js`.
 - Run `npm run build:theme` after source edits.
 

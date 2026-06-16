@@ -1,9 +1,17 @@
 <div class="storybook-stack" style="max-width: 640px;">
   <article class="article-teaser">
-    <p class="article-teaser__eyebrow">{{eyebrow}}</p>
-    <h2 class="article-teaser__title">{{title}}</h2>
-    <p class="article-teaser__excerpt">{{excerpt}}</p>
-    <div class="article-teaser__meta">{{meta}}</div>
-    <a class="article-teaser__link" href="#">{{linkLabel}}</a>
+    <p class="article-teaser__eyebrow">{{eyebrow_heading}}</p>
+    <h2 class="article-teaser__title">
+      <a class="article-teaser__title-link" href="{{article_url}}">{{teaser_title}}</a>
+    </h2>
+    <p class="article-teaser__excerpt">{{teaser_excerpt}}</p>
+    <div class="article-teaser__meta">
+      <div class="article-teaser__published-date">
+        {{date_value}}
+      </div>
+      <div class="article-teaser__reading-time">
+        {{reading_time}}
+      </div>
+    </div>
   </article>
 </div>

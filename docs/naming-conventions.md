@@ -13,7 +13,7 @@ Every component has one canonical key: `{level}/{block}`, lowercase, kebab-case.
 
 ```
 atoms/button        atoms/avatar        atoms/badge
-molecules/project-card   molecules/hire-me-widget   molecules/article-teaser
+molecules/project-card   molecules/contact-me-widget   molecules/article-teaser
 organisms/timeline-rail
 ```
 
@@ -27,7 +27,7 @@ of it:
 | Tool            | Derived from key `molecules/project-card`                     |
 | --------------- | ------------------------------------------------------------- |
 | Storybook title | `Molecules/Project Card`                                      |
-| SCSS file       | `slice/src/scss/molecules/_project-card.scss`                 |
+| SCSS file       | `src/slice/src/scss/molecules/_project-card.scss`             |
 | SCSS block      | `.project-card`                                               |
 | Figma page      | `Molecules`                                                   |
 | Figma component | `project-card` (exact block name, so layer mapping is literal) |
@@ -46,7 +46,7 @@ of it:
 Rules:
 
 - Elements and modifiers are kebab-case; multi-word parts stay hyphenated
-  (`project-card__tag-list`, `hire-me-widget__avatar`).
+  (`project-card__tag-list`, `contact-me-widget__avatar`).
 - Never nest element-of-element in the name: it is `card__title`, not
   `card__header__title`. Nesting lives in the DOM, not the class.
 
@@ -135,3 +135,28 @@ Slots/props are named after BEM elements (`media`, `title`, `excerpt`,
 - [ ] Variant props use the `Variant` / `Size` / `State` vocabulary.
 - [ ] Tokens bound (Figma) / used via vars+mixins (code) — no raw values.
 - [ ] Figma component tagged with `jrn.componentKey` and `jrn.bemBlock`.
+
+## 9. Variable naming
+
+Every new variable, prop, Storybook arg, token segment, and meaningful helper name
+must use at least two words. The name should explain what the value represents,
+not only what type of thing it is.
+
+Examples:
+
+| Avoid | Use |
+| ----- | --- |
+| `eyebrow` | `eyebrow_heading` |
+| `label` | `button_label` |
+| `variant` | `style_variant` |
+| `title` | `card_title` |
+| `tokens` | `token_map` |
+
+Notation by file type:
+
+- CSS classes, template filenames, and BEM parts use `kebab-case`.
+- JavaScript variables, functions, Storybook args, and `argTypes` use `snake_case`.
+- Design tokens use `dot.notation` in the source tree.
+
+Single-word names are only acceptable when they are required external API keys or
+literal HTML/CSS concepts that cannot be renamed without breaking the platform.

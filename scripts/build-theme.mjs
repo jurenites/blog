@@ -6,8 +6,8 @@ import * as sass from 'sass';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const paths = {
-  scssEntry: resolve(root, 'slice/src/scss/main.scss'),
-  jsEntry: resolve(root, 'slice/src/js/script.js'),
+  scssEntry: resolve(root, 'src/slice/src/scss/main.scss'),
+  jsEntry: resolve(root, 'src/slice/src/js/script.js'),
   cssOutput: resolve(root, 'web/themes/custom/jurenites_theme/css/style.min.css'),
   jsOutput: resolve(root, 'web/themes/custom/jurenites_theme/js/script.min.js'),
 };
@@ -18,7 +18,7 @@ await mkdir(dirname(paths.jsOutput), { recursive: true });
 const cssResult = sass.compile(paths.scssEntry, {
   style: 'compressed',
   sourceMap: false,
-  loadPaths: [resolve(root, 'slice/src/scss')],
+  loadPaths: [resolve(root, 'src/slice/src/scss')],
   quietDeps: true,
 });
 

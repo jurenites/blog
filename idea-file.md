@@ -1,6 +1,6 @@
 # Idea File
 
-This is the rough working area for the project. Stable decisions should move into `docs/` or `tokens/tokens.json`.
+This is the rough working area for the project. Stable decisions should move into `docs/` or `src/token/tokens.yaml`.
 
 ## Product
 
@@ -17,7 +17,7 @@ The site should be direct and personal. It should show how I think about product
 - Culture
 - UI Reviews
 - Gallery
-- Contact / Hire Me
+- Contact / Contact Me
 
 ## Signature Features
 

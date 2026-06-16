@@ -1,13 +1,30 @@
 // Atom: Surface (panel/card container). Use Controls for the variant.
 import surface_template from "./surface.template.html?raw";
-import { escape_html, render_template } from "../template.js";
+import { render_template } from "../template.js";
 
-function render_story({ surface_variant, surface_heading, surface_body }) {
+const nested_component_examples = {
+  button_group: `
+    <div class="storybook-stack">
+      <button class="button button--primary">Contact me</button>
+      <button class="button button--secondary">View project</button>
+    </div>
+  `,
+  chip_group: `
+    <div class="storybook-stack">
+      <span class="chip">ui/ux</span>
+      <span class="chip chip--accent">Design system</span>
+    </div>
+  `,
+  date_value: `
+    <time class="date-value date-value--muted" datetime="2026-06-15">Jun 2026</time>
+  `,
+};
+
+function render_story({ surface_variant, nested_component }) {
   const surface_modifier = surface_variant === "default" ? "" : ` surface--${surface_variant}`;
   return render_template(surface_template, {
     modifier: surface_modifier,
-    heading: escape_html(surface_heading),
-    body: escape_html(surface_body),
+    nested_content: nested_component_examples[nested_component],
   });
 }
 
@@ -20,13 +37,14 @@ export default {
       control: { type: "inline-radio" },
       options: ["default", "raised", "flat"],
     },
-    surface_heading: { control: "text" },
-    surface_body: { control: "text" },
+    nested_component: {
+      control: { type: "select" },
+      options: Object.keys(nested_component_examples),
+    },
   },
   args: {
     surface_variant: "default",
-    surface_heading: "Panel surface",
-    surface_body: "Surfaces use elevation, corner-radius, and border tokens.",
+    nested_component: "button_group",
   },
 };
 

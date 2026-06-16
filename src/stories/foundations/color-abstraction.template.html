@@ -1,0 +1,102 @@
+<style>
+  .color-levels {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-scale-medium-size);
+  }
+  .color-level {
+    min-width: 0;
+    padding: var(--space-scale-medium-size);
+    border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
+    border-radius: var(--shape-corner-radius-small-default);
+    background: var(--color-surface-panel-default);
+  }
+  .color-level__heading {
+    margin: 0 0 var(--space-scale-medium-size);
+    color: var(--color-text-primary-default);
+    font: 700 14px/1.4 var(--typography-font-family-sans-default);
+  }
+  .color-token-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-scale-small-size);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .color-token-card {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: var(--space-scale-small-size);
+    align-items: center;
+    min-height: 44px;
+    padding: var(--space-scale-small-size);
+    border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
+    border-radius: var(--shape-corner-radius-extra-small);
+    background: var(--color-surface-panel-raised);
+  }
+  .color-token-card__chip {
+    width: 44px;
+    height: 32px;
+    border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
+    border-radius: var(--shape-corner-radius-extra-small);
+  }
+  .color-token-card__label,
+  .color-token-card__value {
+    display: block;
+    overflow-wrap: anywhere;
+  }
+  .color-token-card__label {
+    color: var(--color-text-primary-default);
+    font-size: 12px;
+  }
+  .color-token-card__value {
+    color: var(--color-text-secondary-default);
+    font-size: 11px;
+  }
+  .color-element-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-scale-small-size);
+  }
+  .color-element-card {
+    padding: var(--space-scale-small-size);
+    border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
+    border-radius: var(--shape-corner-radius-extra-small);
+  }
+  .color-element-card__label {
+    display: block;
+    font-size: 12px;
+  }
+  .color-element-card__token {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    opacity: 0.72;
+  }
+  @media (max-width: 900px) {
+    .color-levels {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+<main class="color-levels">
+  <section class="color-level">
+    <h2 class="color-level__heading">1. Semantic Colors</h2>
+    <ul class="color-token-list">
+      {{semantic_colors}}
+    </ul>
+  </section>
+  <section class="color-level">
+    <h2 class="color-level__heading">2. System Logic</h2>
+    <ul class="color-token-list">
+      {{system_colors}}
+    </ul>
+  </section>
+  <section class="color-level">
+    <h2 class="color-level__heading">3. Elements</h2>
+    <div class="color-element-list">
+      {{element_colors}}
+    </div>
+  </section>
+</main>

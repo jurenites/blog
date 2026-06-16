@@ -1,6 +1,6 @@
 name: CI
 
-# Verifies the source-of-truth contract: tokens.json -> generated files -> theme
+# Verifies the source-of-truth contract: src/token/tokens.yaml -> generated files -> theme
 # -> Storybook must all build, and committed generated artifacts must match what
 # the build produces (no drift between source and derived files).
 
@@ -33,15 +33,12 @@ jobs:
       - name: Verify generated artifacts are committed and in sync
         run: |
           if ! git diff --quiet -- \
-            tokens/tokens.min.json \
-            tokens/tokens.flat.json \
-            tokens/tokens.studio.json \
-            slice/src/scss/settings/_generated-tokens.scss \
-            src/styles/tokens.generated.css \
+            generated/tokens \
+            generated/styles \
             web/themes/custom/jurenites_theme/css \
             web/themes/custom/jurenites_theme/js ; then
-            echo "::error::Generated files differ from tokens.json source. Run 'scripts/sync.sh all' and commit the result."
+            echo "::error::Generated files differ from src/token/tokens.yaml source. Run 'scripts/sync.sh all' and commit the result."
             git --no-pager diff --stat
             exit 1
           fi
-          echo "Generated artifacts are in sync with tokens.json."
+          echo "Generated artifacts are in sync with src/token/tokens.yaml."

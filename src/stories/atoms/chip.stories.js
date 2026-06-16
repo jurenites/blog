@@ -18,7 +18,7 @@ export default {
     is_accent: { control: "boolean" },
   },
   args: {
-    chip_label: "Drupal",
+    chip_label: "UI/UX",
     is_accent: false,
   },
 };

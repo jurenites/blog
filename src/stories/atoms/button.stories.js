@@ -23,7 +23,7 @@ export default {
     is_disabled: { control: "boolean" },
   },
   args: {
-    button_label: "Hire me",
+    button_label: "Contact me",
     style_variant: "primary",
     is_disabled: false,
   },

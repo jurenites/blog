@@ -6,8 +6,8 @@ import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const source = resolve('tokens/tokens.json');
-const destination = resolve('tokens/tokens.yaml');
+const source = resolve('generated/tokens/tokens.json');
+const destination = resolve('src/token/tokens.yaml');
 
 if (!existsSync(source)) {
   console.error(`Missing ${source}.`);
@@ -26,7 +26,7 @@ yaml.sub!(/^---\\n/, "")
 header = "# Editable source of truth for Blog Jurenites design tokens.\\n" \
          "# Run npm run build:tokens after changes to regenerate JSON/CSS/SCSS outputs.\\n"
 File.write(destination, header + yaml)
-puts "tokens/tokens.json -> tokens/tokens.yaml"
+puts "generated/tokens/tokens.json -> src/token/tokens.yaml"
 `;
 
 const result = spawnSync('ruby', ['-e', ruby, source, destination], {

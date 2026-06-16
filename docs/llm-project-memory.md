@@ -45,29 +45,30 @@ Custom Drupal theme:
 - Enabled as default theme.
 - The custom theme Search form blocks are disabled in active Drupal config: `block.block.jurenites_theme_search_form_narrow` and `block.block.jurenites_theme_search_form_wide` both have `status: false`.
 - Homepage uses `templates/page--front.html.twig` with a Squarespace-like `<div class="section-background-canvas background-fx-canvas">` wrapper; JavaScript injects the WebGL canvas inside it.
-- Theme source is separated into `slice/`, outside Drupal core/theme internals. SCSS source lives in `slice/src/scss/`; JS source lives in `slice/src/js/`.
+- Theme source is separated into `src/slice/`, outside Drupal core/theme internals. SCSS source lives in `src/slice/src/scss/`; JS source lives in `src/slice/src/js/`.
 - Run `npm run build:theme` to compile minified Drupal theme assets: `web/themes/custom/jurenites_theme/css/style.min.css` and `web/themes/custom/jurenites_theme/js/script.min.js`.
-- `slice/src/js/script.js` implements a clean-room WebGL radial gradient based on the local ALiMP/Squarespace `BackgroundGradient` behavior: accent-to-dark radial gradient, slow ease-out cursor-following center, hash-based animated grain, and mild distortion. It does not copy the minified Squarespace bundle.
+- `src/slice/src/js/script.js` implements a clean-room WebGL radial gradient based on the local ALiMP/Squarespace `BackgroundGradient` behavior: accent-to-dark radial gradient, slow ease-out cursor-following center, hash-based animated grain, and mild distortion. It does not copy the minified Squarespace bundle.
 - The animation respects `prefers-reduced-motion` by not initializing when reduced motion is requested.
 
 Custom Drupal module:
 
 - `web/modules/custom/jurenites_tokens`
 - Enabled.
-- Exposes `tokens/tokens.json` at `/jurenites/tokens.json`.
+- Exposes `generated/tokens/tokens.json` at `/jurenites/tokens.json`.
 
 Storybook:
 
 - Config: `.storybook/`
 - Stories: `src/stories/` organised by Atomic Design (`Foundations`, `Atoms`, `Molecules`, `Organisms`, `Components`).
-- Storybook compiles `slice/src/scss/main.scss` directly, so component CSS is shared with the Drupal theme (one source of truth).
-- Foundations (Colors, Typography, Spacing/Elevation) are generated from `tokens/tokens.flat.json`.
+- Storybook compiles `src/slice/src/scss/main.scss` directly, so component CSS is shared with the Drupal theme (one source of truth).
+- Storybook serves static source assets from `src/public/`; font URLs remain root-relative, for example `/assets/fonts/opensans-regular.woff`.
+- Foundations (Colors, Typography, Spacing/Elevation) are generated from `generated/tokens/tokens.flat.json`.
 - Atoms so far: Button, Surface, Chip, Divider. One story per component; variants via Controls.
 - Breakpoint viewports configured: Mobile min/max, Tablet, Desktop min, Desktop Full HD.
 
 Token build engine:
 
-- `scripts/build-tokens.mjs` reads `tokens/tokens.json` (DTCG) and generates `slice/src/scss/settings/_generated-tokens.scss`, `src/styles/tokens.generated.css`, `tokens/tokens.min.json`, and `tokens/tokens.flat.json`.
+- `scripts/build-tokens.mjs` reads `generated/tokens/tokens.json` (DTCG) and generates `generated/styles/_tokens.scss`, `generated/styles/tokens.css`, `generated/tokens/tokens.min.json`, and `generated/tokens/tokens.flat.json`.
 - Generated files must never be hand-edited. `npm run build:tokens` regenerates them; `npm run build:theme` runs tokens first.
 - Full guideline: `docs/design-system.md`.
 
@@ -94,7 +95,7 @@ Main site areas:
 - Culture
 - UI Reviews
 - Gallery
-- Contact / Hire Me
+- Contact / Contact Me
 
 Signature features:
 
@@ -120,7 +121,7 @@ If the user later creates node types, fields, views, or vocabularies directly in
 
 Token file:
 
-- `tokens/tokens.json`
+- `src/token/tokens.yaml`
 
 Current preference:
 
@@ -140,8 +141,8 @@ Token naming:
 
 Future goal:
 
-- Figma can export variables to `tokens/tokens.json`.
-- Code can consume `tokens/tokens.json`.
+- Figma can export variables back into the token pipeline.
+- Code can consume `generated/tokens/tokens.json`.
 - Eventually code-side token changes should be able to update Figma variables.
 
 ## Figma State
@@ -158,7 +159,7 @@ the token foundation as local variables (created via the Figma MCP):
 - A `Color / Palette` swatch board on the Guideline page is bound to the palette
   variables (visual proof of bindings).
 - Round-trip verified: a synthesized Figma export of the 53 concrete tokens pulls
-  back with zero diffs against tokens.json.
+  back with zero diffs against src/token/tokens.yaml.
 - RATE LIMIT (corrected): on Figma Starter the limit is ~6 `use_figma` tool calls
   per MONTH total. `use_figma` counts whether it reads OR writes — it is NOT exempt.
   Only `whoami`, `generate_figma_design`, and `add_code_connect_map` are exempt.

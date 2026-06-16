@@ -4,16 +4,18 @@
 // package dependency just for this small bridge.
 
 import { spawnSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { existsSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const source = resolve('tokens/tokens.yaml');
-const destination = resolve('tokens/tokens.json');
+const source = resolve('src/token/tokens.yaml');
+const destination = resolve('generated/tokens/tokens.json');
 
 if (!existsSync(source)) {
-  console.error(`Missing ${source}. Edit tokens/tokens.yaml, then rebuild tokens.`);
+  console.error(`Missing ${source}. Edit src/token/tokens.yaml, then rebuild tokens.`);
   process.exit(1);
 }
+
+mkdirSync(resolve('generated/tokens'), { recursive: true });
 
 const ruby = `
 require "json"
@@ -29,7 +31,7 @@ data = YAML.safe_load(
 )
 File.write(destination, JSON.pretty_generate(data) + "\\n")
 top_keys = data.keys.reject { |key| key.to_s.start_with?("$") || key.to_s == "meta" }
-puts "tokens/tokens.yaml -> tokens/tokens.json (#{top_keys.length} top-level token groups)"
+puts "src/token/tokens.yaml -> generated/tokens/tokens.json (#{top_keys.length} top-level token groups)"
 `;
 
 const result = spawnSync('ruby', ['-e', ruby, source, destination], {

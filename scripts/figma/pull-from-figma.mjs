@@ -1,4 +1,4 @@
-// Pull: Figma variables -> tokens/tokens.json, then scripts/sync.sh refreshes tokens/tokens.yaml.
+// Pull: Figma variables -> generated/tokens/tokens.json, then scripts/sync.sh refreshes src/token/tokens.yaml.
 //
 // Input is a flat JSON map keyed by the same dash names used as CSS variables:
 //   { "color-palette-white": "#fafafa", "space-scale-large-default": "24px" }
@@ -16,8 +16,8 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const TOKENS_SOURCE = resolve(ROOT, 'tokens/tokens.json');
-const FLAT_MAP = resolve(ROOT, 'tokens/tokens.flat.json');
+const TOKENS_SOURCE = resolve(ROOT, 'generated/tokens/tokens.json');
+const FLAT_MAP = resolve(ROOT, 'generated/tokens/tokens.flat.json');
 const DEFAULT_INPUT = resolve(ROOT, 'scripts/figma/figma-variables.json');
 
 const args = process.argv.slice(2);

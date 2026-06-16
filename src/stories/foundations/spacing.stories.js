@@ -1,40 +1,40 @@
 // Foundations: the 8px spacing scale and elevation shadows.
-import tokens from "../../../tokens/tokens.flat.json";
-import template from "./spacing.template.html?raw";
-import spacingRowTemplate from "./spacing-row.template.html?raw";
-import elevationTileTemplate from "./elevation-tile.template.html?raw";
-import { escapeHtml, renderTemplate } from "../template.js";
+import token_map from "../../../generated/tokens/tokens.flat.json";
+import spacing_template from "./spacing.template.html?raw";
+import spacing_row_template from "./spacing-row.template.html?raw";
+import elevation_tile_template from "./elevation-tile.template.html?raw";
+import { escape_html, render_template } from "../template.js";
 
-function spacingRows() {
-  return Object.entries(tokens)
-    .filter(([name, token]) => name.startsWith("space-scale-") && token.type === "dimension")
-    .map(([name, token]) => {
-      const label = name.replace("space-scale-", "");
-      return renderTemplate(spacingRowTemplate, {
-        label: escapeHtml(label),
-        value: escapeHtml(token.css),
+function spacing_rows() {
+  return Object.entries(token_map)
+    .filter(([token_name, token_data]) => token_name.startsWith("space-scale-") && token_data.type === "dimension")
+    .map(([token_name, token_data]) => {
+      const row_label = token_name.replace("space-scale-", "");
+      return render_template(spacing_row_template, {
+        label: escape_html(row_label),
+        value: escape_html(token_data.css),
       });
     })
     .join("");
 }
 
-function elevationRows() {
-  return Object.entries(tokens)
-    .filter(([name, token]) => name.startsWith("elevation-shadow-") && token.type === "shadow")
-    .map(([name]) => {
-      const label = name.replace("elevation-shadow-", "");
-      return renderTemplate(elevationTileTemplate, {
-        variable: escapeHtml(name),
-        label: escapeHtml(label),
+function elevation_rows() {
+  return Object.entries(token_map)
+    .filter(([token_name, token_data]) => token_name.startsWith("elevation-shadow-") && token_data.type === "shadow")
+    .map(([token_name]) => {
+      const tile_label = token_name.replace("elevation-shadow-", "");
+      return render_template(elevation_tile_template, {
+        variable: escape_html(token_name),
+        label: escape_html(tile_label),
       });
     })
     .join("");
 }
 
-function render() {
-  return renderTemplate(template, {
-    spacingRows: spacingRows(),
-    elevationRows: elevationRows(),
+function render_story() {
+  return render_template(spacing_template, {
+    spacingRows: spacing_rows(),
+    elevationRows: elevation_rows(),
   });
 }
 
@@ -43,4 +43,4 @@ export default {
   tags: ["autodocs"],
 };
 
-export const Scale = { render };
+export const scale_story = { render: render_story };

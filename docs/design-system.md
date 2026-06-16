@@ -2,25 +2,25 @@
 
 This is the visual guideline for the jurenites site. It documents the durable
 rules. The machine-readable contract for every value lives in
-`tokens/tokens.yaml`; this page explains intent and usage.
+`src/token/tokens.yaml`; this page explains intent and usage.
 
 ## Source of truth and flow
 
 ```text
-tokens/tokens.yaml            <-- editable single source of truth (DTCG format)
+src/token/tokens.yaml            <-- editable single source of truth (DTCG format)
   -> scripts/tokens-yaml-to-json.mjs
-       -> tokens/tokens.json                         (generated machine contract)
+       -> generated/tokens/tokens.json               (generated machine contract)
   -> scripts/build-tokens.mjs
-       -> slice/src/scss/settings/_generated-tokens.scss  (CSS vars + SCSS breakpoint/typography mixins)
-       -> src/styles/tokens.generated.css                 (Storybook tokens)
-       -> tokens/tokens.min.json                          (minified contract)
-       -> tokens/tokens.flat.json                         (resolved name -> value map)
-  -> slice/src/scss/main.scss
+       -> generated/styles/_tokens.scss              (CSS vars + SCSS breakpoint/typography mixins)
+       -> generated/styles/tokens.css                (CSS custom properties)
+       -> generated/tokens/tokens.min.json            (minified contract)
+       -> generated/tokens/tokens.flat.json           (resolved name -> value map)
+  -> src/slice/src/scss/main.scss
        -> Storybook (consumes the SCSS directly)
        -> scripts/build-theme.mjs -> web/themes/custom/jurenites_theme/css/style.min.css
 ```
 
-Never hand-edit generated files. Edit `tokens/tokens.yaml`, then run
+Never hand-edit generated files. Edit `src/token/tokens.yaml`, then run
 `npm run build:tokens` (or `npm run build:theme`, which runs tokens first).
 
 ## Atomic design
@@ -29,17 +29,20 @@ Components are organised by Atomic Design and ITCSS layers:
 
 | Layer      | Folder                         | Purpose                                  |
 | ---------- | ------------------------------ | ---------------------------------------- |
-| settings   | `slice/src/scss/settings/`     | Generated tokens (CSS vars, breakpoints) |
-| tools      | `slice/src/scss/tools/`        | Mixins (elevation, motion, focus-ring)   |
-| base       | `slice/src/scss/base/`         | Reset, global element defaults, typography|
-| atoms      | `slice/src/scss/atoms/`        | Button, surface, chip, divider           |
-| molecules  | `slice/src/scss/molecules/`    | Small compositions of atoms              |
-| organisms  | `slice/src/scss/organisms/`    | Larger sections (timeline, hero)         |
-| components  | `slice/src/scss/components/`  | Page-specific compositions               |
+| settings   | `src/slice/src/scss/settings/` | Hand-written theme settings              |
+| tools      | `src/slice/src/scss/tools/`    | Mixins (elevation, motion, focus-ring)   |
+| base       | `src/slice/src/scss/base/`     | Reset, global element defaults, typography|
+| atoms      | `src/slice/src/scss/atoms/`    | Button, surface, chip, divider           |
+| molecules  | `src/slice/src/scss/molecules/`| Small compositions of atoms              |
+| organisms  | `src/slice/src/scss/organisms/`| Larger sections (timeline, hero)         |
+| components  | `src/slice/src/scss/components/`| Page-specific compositions              |
 
 Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
 `Organisms`, `Components`. Each component has exactly one story; use the
 Controls tab for property combinations.
+
+Static source assets, including local font files used by Storybook, live in
+`src/public/`.
 
 How components map across Figma, SCSS, Storybook, and Drupal (the BEM bridge) is
 defined in `docs/naming-conventions.md`. Read it before adding any component.
@@ -86,8 +89,9 @@ Roles: `headline-1..6`, `subtitle-1/2`, `body-1/2`, `button-label`,
 `caption-default`, `overline-default`. Base HTML elements (`h1`-`h6`, `p`) are
 already mapped in `base/_typography.scss`.
 
-Default family is the Roboto stack (M2). The display family is a separate token
-so headings can diverge later for a more personal feel.
+Default family is the Open Sans stack. The display family is a separate token,
+and the Storybook foundations also expose the imported custom Roundabout and
+4pixel fonts for future display/technical uses.
 
 ## Color
 
@@ -136,7 +140,7 @@ web/themes/custom/jurenites_theme/templates/
   field/       media/       views/        taxonomy/
 ```
 
-We keep our distinction: editable source in `slice/`, compiled minified assets
+We keep our distinction: editable source in `src/slice/`, compiled minified assets
 in the theme `css/` and `js/`.
 
 ## Naming convention

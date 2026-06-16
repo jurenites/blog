@@ -4,9 +4,9 @@
 # Everything is operated from this script so the workflow stays inside the repo.
 #
 # Usage:
-#   scripts/sync.sh build              Regenerate JSON/SCSS/CSS/min/flat from tokens.yaml
+#   scripts/sync.sh build              Regenerate JSON/SCSS/CSS/min/flat from src/token/tokens.yaml
 #   scripts/sync.sh theme              Build minified Drupal theme assets (runs build first)
-#   scripts/sync.sh studio             Regenerate tokens.studio.json for the Tokens Studio push to Figma
+#   scripts/sync.sh studio             Regenerate generated/tokens/tokens.studio.json for the Tokens Studio push to Figma
 #   scripts/sync.sh pull [file]        Apply Figma variable changes, refresh YAML, then rebuild
 #   scripts/sync.sh pull-dry [file]    Preview Figma -> tokens changes without writing
 #   scripts/sync.sh drush-cache        Rebuild the Drupal cache in the running web container
@@ -30,9 +30,9 @@ Token pipeline console. Everything is operated from this script.
 
 Usage: scripts/sync.sh <command>
 
-  build          Regenerate JSON/SCSS/CSS/min/flat from tokens.yaml
+  build          Regenerate JSON/SCSS/CSS/min/flat from src/token/tokens.yaml
   theme          Build minified Drupal theme assets (runs build first)
-  studio         Regenerate tokens.studio.json for the Tokens Studio push to Figma
+  studio         Regenerate generated/tokens/tokens.studio.json for the Tokens Studio push to Figma
   pull [file]    Apply Figma variable changes, refresh YAML, then rebuild
   pull-dry [file] Preview Figma -> tokens changes without writing
   drush-cache    Rebuild the Drupal cache in the running web container
@@ -91,7 +91,7 @@ deploy_theme() {
 }
 
 show_status() {
-  git status --short -- tokens/ slice/ web/themes/custom/jurenites_theme/ || true
+  git status --short -- src/token/ src/slice/ generated/ web/themes/custom/jurenites_theme/ || true
 }
 
 main() {
