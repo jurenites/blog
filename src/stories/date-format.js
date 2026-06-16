@@ -15,8 +15,6 @@ export const date_formatters = {
   "iso-date": null,
 };
 
-export const date_format_options = Object.keys(date_formatters);
-
 export function normalized_iso_date(source_date) {
   if (typeof source_date === "number") {
     return new Date(source_date).toISOString().slice(0, 10);
@@ -37,7 +35,7 @@ export function formatted_date_value(source_date, format_variant) {
     return iso_date_value;
   }
 
-  if (format_variant === "iso-date") {
+  if (date_formatters[format_variant] === null) {
     return iso_date_value;
   }
 

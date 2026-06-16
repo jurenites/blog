@@ -2,13 +2,11 @@
 import { date_value_markup, date_value_raw_markup } from "./date-value.markup.js";
 import { token_default_option, token_option_names } from "../../foundations/token-values.js";
 
-const example_story_args = {
-  value_mode: token_default_option("component-date-value-default-mode", "component-date-value-mode-"),
-  source_date: "2026-06-15",
-  format_variant: token_default_option("component-date-value-default-format", "component-date-value-format-"),
-  raw_value: "6 minutes",
-  display_variant: token_default_option("component-date-value-default-display", "component-date-value-display-"),
-};
+const VALUE_MODE = token_default_option("component-date-value-default-mode", "component-date-value-mode-");
+const SOURCE_DATE = "2026-06-15";
+const FORMAT_VARIANT = token_default_option("component-date-value-default-format", "component-date-value-format-");
+const RAW_VALUE = "6 minutes";
+const DISPLAY_VARIANT = token_default_option("component-date-value-default-display", "component-date-value-display-");
 
 const value_mode_options = token_option_names("component-date-value-mode-");
 const format_variant_options = token_option_names("component-date-value-format-");
@@ -50,7 +48,13 @@ export default {
       options: display_variant_options,
     },
   },
-  args: example_story_args,
+  args: {
+    value_mode: VALUE_MODE,
+    source_date: SOURCE_DATE,
+    format_variant: FORMAT_VARIANT,
+    raw_value: RAW_VALUE,
+    display_variant: DISPLAY_VARIANT,
+  },
 };
 
 export const default_story = {};

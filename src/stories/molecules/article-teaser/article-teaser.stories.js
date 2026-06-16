@@ -4,15 +4,13 @@ import { date_value_markup, date_value_raw_markup } from "../../atoms/date-value
 import { token_default_option, token_option_names } from "../../foundations/token-values.js";
 import { escape_html, render_template } from "../../template.js";
 
-const example_story_args = {
-  eyebrow_heading: "Writing",
-  teaser_title: "Rewinding an Interface Through Time",
-  teaser_excerpt: "How a time-slider concept turned into a repeatable design process.",
-  article_url: "#",
-  published_date: "2026-06-15",
-  date_format: token_default_option("component-date-value-default-format", "component-date-value-format-"),
-  reading_time: "6 minutes",
-};
+const EYEBROW_HEADING = "Writing";
+const TEASER_TITLE = "Rewinding an Interface Through Time";
+const TEASER_EXCERPT = "How a time-slider concept turned into a repeatable design process.";
+const ARTICLE_URL = "#";
+const PUBLISHED_DATE = "2026-06-15";
+const DATE_FORMAT = token_default_option("component-date-value-default-format", "component-date-value-format-");
+const READING_TIME = "6 minutes";
 
 const date_format_options = token_option_names("component-date-value-format-");
 const display_variant_options = token_option_names("component-date-value-display-");
@@ -52,7 +50,13 @@ export default {
     reading_time: { control: "text" },
   },
   args: {
-    ...example_story_args,
+    eyebrow_heading: EYEBROW_HEADING,
+    teaser_title: TEASER_TITLE,
+    teaser_excerpt: TEASER_EXCERPT,
+    article_url: ARTICLE_URL,
+    published_date: PUBLISHED_DATE,
+    date_format: DATE_FORMAT,
+    reading_time: READING_TIME,
   },
 };
 

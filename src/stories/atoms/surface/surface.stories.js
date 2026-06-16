@@ -6,10 +6,8 @@ import { date_value_markup } from "../date-value/date-value.markup.js";
 import { token_default_option, token_option_names } from "../../foundations/token-values.js";
 import { render_template } from "../../template.js";
 
-const example_story_args = {
-  surface_variant: token_default_option("component-surface-default-variant", "component-surface-variant-"),
-  nested_component: "button_group",
-};
+const SURFACE_VARIANT = token_default_option("component-surface-default-variant", "component-surface-variant-");
+const NESTED_COMPONENT = "button_group";
 
 const surface_variant_options = token_option_names("component-surface-variant-");
 const style_variant_options = token_option_names("component-button-style-");
@@ -38,7 +36,7 @@ function render_story({ surface_variant, nested_component }) {
   const default_surface_variant = token_default_option("component-surface-default-variant", "component-surface-variant-");
   const surface_modifier = surface_variant === default_surface_variant ? "" : ` surface--${surface_variant}`;
   return render_template(surface_template, {
-    modifier: surface_modifier,
+    class_name: surface_modifier,
     nested_content: NESTED_RENDERERS[nested_component](),
   });
 }
@@ -57,7 +55,10 @@ export default {
       options: Object.keys(NESTED_RENDERERS),
     },
   },
-  args: example_story_args,
+  args: {
+    surface_variant: SURFACE_VARIANT,
+    nested_component: NESTED_COMPONENT,
+  },
 };
 
 export const default_story = {};

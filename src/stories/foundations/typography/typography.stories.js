@@ -4,11 +4,11 @@ import type_row_template from "./type-row.template.html?raw";
 import { escape_html, render_template } from "../../template.js";
 import { token_names, token_value, typography_role_names } from "../token-values.js";
 
-const COLOR_OPTIONS = token_names("color-");
-const DEFAULT_TEXT_COLOR = COLOR_OPTIONS.includes("color-text-primary-default")
+const color_options = token_names("color-");
+const default_text_color = color_options.includes("color-text-primary-default")
   ? "color-text-primary-default"
-  : COLOR_OPTIONS[0] || "color-text-primary-default";
-const TEXT_COLOR = DEFAULT_TEXT_COLOR;
+  : color_options[0] || "color-text-primary-default";
+const text_color = default_text_color;
 
 function format_size_px(size_value) {
   if (!size_value) {
@@ -35,7 +35,7 @@ function row_markup(role_name, text_color) {
 }
 
 function render_story(story_args) {
-  const selected_color = COLOR_OPTIONS.includes(story_args.text_color) ? story_args.text_color : DEFAULT_TEXT_COLOR;
+  const selected_color = color_options.includes(story_args.text_color) ? story_args.text_color : default_text_color;
   return render_template(typography_template, {
     rows: typography_role_names().map((role_name) => row_markup(role_name, selected_color)).join(""),
   });
@@ -45,14 +45,14 @@ export default {
   title: "Foundations/Typography",
   tags: ["autodocs"],
   argTypes: {
-    text_color: { control: { type: "select" }, options: COLOR_OPTIONS },
+    text_color: { control: { type: "select" }, options: color_options },
   },
 };
 
 export const default_story = {
   name: "Default story",
   args: {
-    text_color: TEXT_COLOR,
+    text_color,
   },
   render: render_story,
 };

@@ -2,13 +2,16 @@
 import card_template from "./project-card.template.html?raw";
 import { button_markup } from "../../atoms/button/button.markup.js";
 import { chip_markup } from "../../atoms/chip/chip.markup.js";
+import { token_option_names } from "../../foundations/token-values.js";
 import { escape_html, render_template } from "../../template.js";
 
 const CARD_TITLE = "Interactive CV Timeline";
 const CARD_EXCERPT = "A slider-driven career story with company logos and bookmarks.";
-const TAG_LIST = "Drupal, Figma, WebGL";
+const TAG_LIST = "Figma, SQL";
 const SHOW_MEDIA = true;
 const ACTION_LABEL = "View project";
+
+const style_variant_options = token_option_names("component-button-style-");
 
 function render_story({ card_title, card_excerpt, tag_list, show_media, action_label }) {
   const tag_items = String(tag_list)
@@ -27,7 +30,7 @@ function render_story({ card_title, card_excerpt, tag_list, show_media, action_l
     title: escape_html(card_title),
     excerpt: escape_html(card_excerpt),
     tag_list: tag_items,
-    action_button: button_markup({ button_label: action_label, style_variant: "secondary" }),
+    action_button: button_markup({ button_label: action_label, style_variant: style_variant_options[1] }),
   });
 }
 

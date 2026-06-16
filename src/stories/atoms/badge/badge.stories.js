@@ -3,17 +3,19 @@ import badge_template from "./badge.template.html?raw";
 import { token_default_option, token_option_names } from "../../foundations/token-values.js";
 import { escape_html, render_template } from "../../template.js";
 
-const example_story_args = {
-  badge_label: "Published",
-  status_variant: token_default_option("component-badge-default-status", "component-badge-status-"),
-};
+const BADGE_LABEL = "Published";
+const STATUS_VARIANT_PREFIX = "component-badge-status-";
+const STATUS_VARIANT = token_default_option("component-badge-default-status", STATUS_VARIANT_PREFIX);
 
-const status_variant_options = token_option_names("component-badge-status-");
+const status_variant_options = token_option_names(STATUS_VARIANT_PREFIX);
 
 function render_story({ badge_label, status_variant }) {
   const base_status_variant = status_variant_options[0];
   const badge_modifier = status_variant === base_status_variant ? "" : ` badge--${status_variant}`;
-  return render_template(badge_template, { modifier: badge_modifier, label: escape_html(badge_label) });
+  return render_template(badge_template, {
+    class_name: badge_modifier,
+    label: escape_html(badge_label),
+  });
 }
 
 export default {
@@ -27,7 +29,10 @@ export default {
       options: status_variant_options,
     },
   },
-  args: example_story_args,
+  args: {
+    badge_label: BADGE_LABEL,
+    status_variant: STATUS_VARIANT,
+  },
 };
 
 export const default_story = {};

@@ -145,109 +145,6 @@ color:
     strong-default:
       "$type": color
       "$value": "{color.palette.muted}"
-component:
-  button:
-    default-style:
-      "$type": string
-      "$value": primary
-    style:
-      primary:
-        "$type": string
-        "$value": fill
-        "$description": Filled action button.
-      secondary:
-        "$type": string
-        "$value": outline
-        "$description": Outlined action button.
-      ghost:
-        "$type": string
-        "$value": inline
-        "$description": Text-only action button.
-  badge:
-    default-status:
-      "$type": string
-      "$value": success
-    status:
-      neutral:
-        "$type": string
-        "$value": neutral
-      success:
-        "$type": string
-        "$value": success
-      warning:
-        "$type": string
-        "$value": warning
-      error:
-        "$type": string
-        "$value": error
-      info:
-        "$type": string
-        "$value": info
-  avatar:
-    default-size:
-      "$type": string
-      "$value": medium
-    size:
-      small:
-        "$type": string
-        "$value": small
-      medium:
-        "$type": string
-        "$value": medium
-      large:
-        "$type": string
-        "$value": large
-  surface:
-    default-variant:
-      "$type": string
-      "$value": default
-    variant:
-      default:
-        "$type": string
-        "$value": default
-      raised:
-        "$type": string
-        "$value": raised
-      flat:
-        "$type": string
-        "$value": flat
-  date-value:
-    default-mode:
-      "$type": string
-      "$value": date-value
-    default-format:
-      "$type": string
-      "$value": month-day-year
-    default-display:
-      "$type": string
-      "$value": muted
-    mode:
-      date-value:
-        "$type": string
-        "$value": date-value
-      raw-text:
-        "$type": string
-        "$value": raw-text
-    format:
-      month-day-year:
-        "$type": string
-        "$value": month-day-year
-      long-date:
-        "$type": string
-        "$value": long-date
-      iso-date:
-        "$type": string
-        "$value": iso-date
-    display:
-      muted:
-        "$type": string
-        "$value": muted
-      day:
-        "$type": string
-        "$value": day
-      time:
-        "$type": string
-        "$value": time
 typography:
   font-family:
     sans-default:
@@ -702,6 +599,108 @@ layout:
       "$type": dimension
       "$value": "{space.scale.macro-size}"
 component:
+  button:
+    default-style:
+      "$type": string
+      "$value": primary
+    style:
+      primary:
+        "$type": string
+        "$value": fill
+        "$description": Filled action button.
+      secondary:
+        "$type": string
+        "$value": outline
+        "$description": Outlined action button.
+      ghost:
+        "$type": string
+        "$value": inline
+        "$description": Text-only action button.
+  badge:
+    default-status:
+      "$type": string
+      "$value": success
+    status:
+      neutral:
+        "$type": string
+        "$value": neutral
+      success:
+        "$type": string
+        "$value": success
+      warning:
+        "$type": string
+        "$value": warning
+      error:
+        "$type": string
+        "$value": error
+      info:
+        "$type": string
+        "$value": info
+  avatar:
+    default-size:
+      "$type": string
+      "$value": medium
+    size:
+      small:
+        "$type": string
+        "$value": small
+      medium:
+        "$type": string
+        "$value": medium
+      large:
+        "$type": string
+        "$value": large
+  surface:
+    default-variant:
+      "$type": string
+      "$value": default
+    variant:
+      default:
+        "$type": string
+        "$value": default
+      raised:
+        "$type": string
+        "$value": raised
+      flat:
+        "$type": string
+        "$value": flat
+  date-value:
+    default-mode:
+      "$type": string
+      "$value": date-value
+    default-format:
+      "$type": string
+      "$value": month-day-year
+    default-display:
+      "$type": string
+      "$value": muted
+    mode:
+      date-value:
+        "$type": string
+        "$value": date-value
+      raw-text:
+        "$type": string
+        "$value": raw-text
+    format:
+      month-day-year:
+        "$type": string
+        "$value": month-day-year
+      long-date:
+        "$type": string
+        "$value": long-date
+      iso-date:
+        "$type": string
+        "$value": iso-date
+    display:
+      muted:
+        "$type": string
+        "$value": muted
+      day:
+        "$type": string
+        "$value": day
+      time:
+        "$type": string
+        "$value": time
   timeline:
     marker-size-default:
       "$type": dimension

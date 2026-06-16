@@ -5,7 +5,8 @@ import { token_default_option, token_option_names } from "../../foundations/toke
 const BUTTON_LABEL = "Contact me";
 const STYLE_VARIANT = token_default_option("component-button-default-style", "component-button-style-");
 const IS_DISABLED = false;
-const STYLE_VARIANT_OPTIONS = token_option_names("component-button-style-");
+
+const style_variant_options = token_option_names("component-button-style-");
 
 function render_story(story_args) {
   return button_markup(story_args);
@@ -19,7 +20,7 @@ export default {
     button_label: { control: "text" },
     style_variant: {
       control: { type: "inline-radio" },
-      options: STYLE_VARIANT_OPTIONS,
+      options: style_variant_options,
     },
     is_disabled: { control: "boolean" },
   },

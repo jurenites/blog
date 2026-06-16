@@ -13,7 +13,7 @@ export function avatar_markup({
     ? `<img class="avatar__image" src="${escape_html(image_url)}" alt="" />`
     : `<span class="avatar__initials">${escape_html(avatar_initials)}</span>`;
   return render_template(avatar_template, {
-    modifier: avatar_modifier,
+    class_name: avatar_modifier,
     inner: avatar_inner,
   });
 }

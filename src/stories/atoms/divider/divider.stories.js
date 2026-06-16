@@ -5,7 +5,7 @@ import { render_template } from "../../template.js";
 const IS_STRONG = false;
 
 function render_story({ is_strong }) {
-  return render_template(divider_template, { modifier: is_strong ? " divider--strong" : "" });
+  return render_template(divider_template, { class_name: is_strong ? " divider--strong" : "" });
 }
 
 export default {

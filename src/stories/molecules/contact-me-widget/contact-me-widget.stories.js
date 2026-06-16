@@ -14,7 +14,7 @@ function render_story({ person_name, person_role, avatar_initials, button_label 
     name: escape_html(person_name),
     role: escape_html(person_role),
     avatar_content: avatar_markup({ avatar_initials }),
-    action_button: button_markup({ button_label, style_variant: "primary" }),
+    action_button: button_markup({ button_label }),
   });
 }
 
