@@ -5,8 +5,8 @@
 .contact-me-widget {
   display: flex;
   align-items: center;
-  gap: var(--space-scale-medium-default);
-  padding: var(--space-scale-large-default);
+  gap: var(--space-scale-medium-gap);
+  padding: var(--space-scale-large-gap);
   background: var(--color-surface-panel-default);
   border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
   border-radius: var(--shape-corner-radius-large-default);
@@ -15,7 +15,7 @@
 .contact-me-widget__body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-scale-extra-small);
+  gap: var(--space-scale-compact-gap);
 }
 
 .contact-me-widget__name {

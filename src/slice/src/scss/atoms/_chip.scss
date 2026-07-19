@@ -5,8 +5,8 @@
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-scale-extra-small);
-  padding: var(--space-scale-extra-small) var(--space-scale-small-default);
+  gap: var(--space-scale-compact-gap);
+  padding: var(--space-scale-compact-gap) var(--space-scale-base-gap);
   border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
   border-radius: var(--shape-corner-radius-pill-full);
   background: var(--color-surface-panel-default);

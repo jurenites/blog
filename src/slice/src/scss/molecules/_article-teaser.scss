@@ -5,8 +5,8 @@
 .article-teaser {
   display: flex;
   flex-direction: column;
-  gap: var(--space-scale-small-default);
-  padding: var(--space-scale-large-default) 0;
+  gap: var(--space-scale-base-gap);
+  padding: var(--space-scale-large-gap) 0;
   border-bottom: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
 }
 
@@ -40,7 +40,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-scale-small-default);
+  gap: var(--space-scale-base-gap);
   color: var(--color-text-secondary-default);
   @include tools.typography-caption-default;
 }

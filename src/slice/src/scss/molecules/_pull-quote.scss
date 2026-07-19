@@ -1,0 +1,33 @@
+@use "../tools";
+
+.pull-quote {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-medium-gap);
+  margin: 0;
+  padding: var(--space-scale-large-gap) 0 var(--space-scale-large-gap) var(--space-scale-large-gap);
+  border-left: var(--shape-border-width-thick-default) solid var(--color-action-primary-default);
+}
+
+.pull-quote__text {
+  margin: 0;
+  color: var(--color-text-primary-default);
+  @include tools.typography-headline-6;
+}
+
+.pull-quote__citation {
+  color: var(--color-text-secondary-default);
+  font-style: normal;
+  @include tools.typography-caption-default;
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .pull-quote {
+    gap: var(--space-scale-base-gap);
+    padding: var(--space-scale-medium-gap) 0 var(--space-scale-medium-gap) var(--space-scale-medium-gap);
+  }
+
+  .pull-quote__text {
+    @include tools.typography-body-1;
+  }
+}

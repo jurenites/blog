@@ -1,0 +1,66 @@
+{#
+  Drupal pager override using the same class contract as Storybook Pagination.
+#}
+{% if items %}
+  <nav class="pagination" aria-label="{{ 'Pagination'|t }}">
+    {% if items.previous %}
+      <a class="pagination__control" href="{{ items.previous.href }}" rel="prev" aria-label="{{ 'Go to previous page'|t }}"{{ items.previous.attributes|without('href', 'rel', 'aria-label') }}>
+        <span aria-hidden="true">&larr;</span>
+        <span class="pagination__control-label">{{ 'Previous'|t }}</span>
+      </a>
+    {% else %}
+      <span class="pagination__control pagination__control--disabled" aria-disabled="true">
+        <span aria-hidden="true">&larr;</span>
+        <span class="pagination__control-label">{{ 'Previous'|t }}</span>
+      </span>
+    {% endif %}
+
+    <ol class="pagination__pages js-pager__items">
+      {% if items.first %}
+        <li class="pagination__item">
+          <a class="pagination__link" href="{{ items.first.href }}" aria-label="{{ 'Go to first page'|t }}"{{ items.first.attributes|without('href', 'aria-label') }}>1</a>
+        </li>
+      {% endif %}
+
+      {% if ellipses.previous %}
+        <li class="pagination__item"><span class="pagination__ellipsis" aria-hidden="true">&hellip;</span></li>
+      {% endif %}
+
+      {% for page_number, page_item in items.pages %}
+        <li class="pagination__item">
+          {% if current == page_number %}
+            <span class="pagination__current" aria-current="page">
+              <span class="visually-hidden">{{ 'Current page'|t }}</span> {{ page_number }}
+            </span>
+          {% else %}
+            <a class="pagination__link" href="{{ page_item.href }}" aria-label="{{ 'Go to page @page'|t({'@page': page_number}) }}"{{ page_item.attributes|without('href', 'aria-label') }}>{{ page_number }}</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+
+      {% if ellipses.next %}
+        <li class="pagination__item"><span class="pagination__ellipsis" aria-hidden="true">&hellip;</span></li>
+      {% endif %}
+
+      {% if items.last %}
+        <li class="pagination__item">
+          <a class="pagination__link" href="{{ items.last.href }}" aria-label="{{ 'Go to last page'|t }}"{{ items.last.attributes|without('href', 'aria-label') }}>{{ items.last.text|default(items.pages|length) }}</a>
+        </li>
+      {% endif %}
+    </ol>
+
+    <span class="pagination__status" aria-live="polite">{{ 'Page @current'|t({'@current': current}) }}</span>
+
+    {% if items.next %}
+      <a class="pagination__control" href="{{ items.next.href }}" rel="next" aria-label="{{ 'Go to next page'|t }}"{{ items.next.attributes|without('href', 'rel', 'aria-label') }}>
+        <span class="pagination__control-label">{{ 'Next'|t }}</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    {% else %}
+      <span class="pagination__control pagination__control--disabled" aria-disabled="true">
+        <span class="pagination__control-label">{{ 'Next'|t }}</span>
+        <span aria-hidden="true">&rarr;</span>
+      </span>
+    {% endif %}
+  </nav>
+{% endif %}

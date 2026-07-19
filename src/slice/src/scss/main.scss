@@ -18,9 +18,15 @@
 @use "atoms/avatar";
 @use "atoms/badge";
 @use "atoms/date-value";
+@use "atoms/version-watermark";
 
 @use "molecules/project-card";
 @use "molecules/contact-me-widget";
 @use "molecules/article-teaser";
+@use "molecules/pagination";
+@use "molecules/author-byline";
+@use "molecules/pull-quote";
+
+@use "organisms/site-header";
 
 @use "components/front-page-background";

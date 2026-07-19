@@ -1,32 +1,42 @@
 import * as esbuild from 'esbuild';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { cp, mkdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as sass from 'sass';
+import { build_information } from './build-information.mjs';
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const paths = {
-  scssEntry: resolve(root, 'src/slice/src/scss/main.scss'),
-  jsEntry: resolve(root, 'src/slice/src/js/script.js'),
-  cssOutput: resolve(root, 'web/themes/custom/jurenites_theme/css/style.min.css'),
-  jsOutput: resolve(root, 'web/themes/custom/jurenites_theme/js/script.min.js'),
+const ROOT_DIRECTORY = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const BUILD_PATHS = {
+  scss_entry: resolve(ROOT_DIRECTORY, 'src/slice/src/scss/theme.scss'),
+  js_entry: resolve(ROOT_DIRECTORY, 'src/slice/src/js/script.js'),
+  fonts_source: resolve(ROOT_DIRECTORY, 'src/public/assets/fonts'),
+  fonts_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/assets/fonts'),
+  css_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/css/style.min.css'),
+  js_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/js/script.min.js'),
+  build_info_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/build-info.json'),
 };
 
-await mkdir(dirname(paths.cssOutput), { recursive: true });
-await mkdir(dirname(paths.jsOutput), { recursive: true });
+await mkdir(dirname(BUILD_PATHS.css_output), { recursive: true });
+await mkdir(dirname(BUILD_PATHS.js_output), { recursive: true });
+await cp(BUILD_PATHS.fonts_source, BUILD_PATHS.fonts_output, { recursive: true, force: true });
 
-const cssResult = sass.compile(paths.scssEntry, {
+const css_result = sass.compile(BUILD_PATHS.scss_entry, {
   style: 'compressed',
   sourceMap: false,
-  loadPaths: [resolve(root, 'src/slice/src/scss')],
+  loadPaths: [resolve(ROOT_DIRECTORY, 'src/slice/src/scss')],
   quietDeps: true,
 });
 
-await writeFile(paths.cssOutput, cssResult.css);
+await writeFile(BUILD_PATHS.css_output, css_result.css);
+await writeFile(
+  BUILD_PATHS.build_info_output,
+  `${JSON.stringify(await build_information(), null, 2)}\n`,
+  'utf8',
+);
 
 await esbuild.build({
-  entryPoints: [paths.jsEntry],
-  outfile: paths.jsOutput,
+  entryPoints: [BUILD_PATHS.js_entry],
+  outfile: BUILD_PATHS.js_output,
   bundle: true,
   minify: true,
   sourcemap: false,
@@ -35,5 +45,5 @@ await esbuild.build({
 });
 
 console.log(`Built theme assets:
-- ${paths.cssOutput}
-- ${paths.jsOutput}`);
+- ${BUILD_PATHS.css_output}
+- ${BUILD_PATHS.js_output}`);

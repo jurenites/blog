@@ -1,0 +1,74 @@
+html,
+body,
+#root,
+#storybook-preview-wrapper,
+#storybook-panel-root,
+#storybook-explorer-tree {
+  background: var(--color-surface-page-default) !important;
+  color: var(--color-text-primary-default) !important;
+}
+
+#storybook-preview-iframe {
+  background: var(--color-surface-page-default) !important;
+  color: var(--color-text-primary-default) !important;
+}
+
+[data-testid="sidebar-root"],
+[data-testid="manager-sidebar"],
+[data-testid="sidebar-search-field"],
+[data-testid="preview-wrapper"] {
+  background: var(--color-surface-page-default) !important;
+  color: var(--color-text-primary-default) !important;
+}
+
+input,
+textarea,
+select {
+  background: var(--color-surface-panel-default) !important;
+  border-color: var(--color-border-subtle-default) !important;
+  color: var(--color-text-primary-default) !important;
+}
+
+.storybook-build-stamp {
+  position: fixed;
+  right: var(--space-scale-base-gap);
+  bottom: var(--space-scale-base-gap);
+  z-index: var(--component-watermark-layer-default);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-scale-tight-gap);
+  padding: var(--space-scale-compact-gap) var(--space-scale-base-gap);
+  color: var(--color-watermark-credit-default);
+  font-family: var(--typography-semantic-watermark-version-font-family);
+  font-size: var(--typography-semantic-watermark-version-font-size);
+  font-weight: var(--typography-semantic-watermark-version-font-weight);
+  line-height: var(--typography-semantic-watermark-version-line-height);
+  letter-spacing: var(--typography-semantic-watermark-version-letter-spacing);
+  white-space: nowrap;
+}
+
+.storybook-build-stamp__identity {
+  display: inline-flex;
+  gap: var(--space-scale-tight-gap);
+  align-items: baseline;
+  color: var(--color-watermark-identity-default);
+}
+
+.storybook-build-stamp__git-hash,
+.storybook-build-stamp__credit,
+.storybook-build-stamp__date {
+  color: var(--color-watermark-credit-default);
+}
+
+.storybook-build-stamp__git-hash {
+  text-decoration: none;
+}
+
+.storybook-build-stamp__git-hash:hover,
+.storybook-build-stamp__git-hash:focus-visible {
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-thickness: var(--space-scale-line-size);
+  text-underline-offset: var(--space-scale-tight-gap);
+}

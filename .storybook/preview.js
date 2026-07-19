@@ -2,41 +2,75 @@
 // src/slice/src/scss/main.scss is the single CSS source of truth.
 import "../src/slice/src/scss/main.scss";
 import "../src/styles/storybook.scss";
+import { TOKEN_VALUES } from "../generated/token/tokens.js";
+import { version_watermark_markup } from "../src/stories/atoms/version-watermark/version-watermark.markup.js";
 
-// Custom viewports mirror the breakpoint tokens (mobile 360-640, tablet, desktop 1280-1920+).
-const breakpointViewports = {
-  mobileMin: {
+function token_dimension(token_name) {
+  return TOKEN_VALUES[token_name];
+}
+
+// Custom viewports mirror the breakpoint tokens. Desktop ends at the maximum
+// tested Full HD viewport; larger screens retain desktop behavior.
+const breakpoint_viewports = {
+  mobile_min: {
     name: "Mobile min (360px)",
-    styles: { width: "360px", height: "780px" },
+    styles: { width: token_dimension("system-breakpoint-mobile-min"), height: "780px" },
     type: "mobile",
   },
-  mobileMax: {
+  mobile_max: {
     name: "Mobile max (640px)",
-    styles: { width: "640px", height: "900px" },
+    styles: { width: token_dimension("system-breakpoint-mobile-max"), height: "900px" },
     type: "mobile",
   },
-  tablet: {
-    name: "Tablet (834px)",
-    styles: { width: "834px", height: "1112px" },
+  tablet_min: {
+    name: "Tablet min (641px)",
+    styles: { width: token_dimension("system-breakpoint-tablet-min"), height: "1112px" },
     type: "tablet",
   },
-  desktopMin: {
+  desktop_min: {
     name: "Desktop min (1280px)",
-    styles: { width: "1280px", height: "832px" },
+    styles: { width: token_dimension("system-breakpoint-desktop-min"), height: "832px" },
     type: "desktop",
   },
-  desktopFullHd: {
-    name: "Desktop Full HD (1920px)",
-    styles: { width: "1920px", height: "1080px" },
+  desktop_max: {
+    name: "Desktop max (1920px)",
+    styles: { width: token_dimension("system-breakpoint-desktop-max"), height: "1080px" },
     type: "desktop",
   },
 };
+
+function render_version_watermark(story_function) {
+  const build_info = globalThis.STORYBOOK_BUILD_INFO;
+  const story_markup = story_function();
+
+  if (!build_info) {
+    return story_markup;
+  }
+
+  const watermark_markup = version_watermark_markup({
+    version_text: `Version ${build_info.project_version}`,
+    git_hash: build_info.commit_hash,
+    credit_text: `made by ${build_info.collaboration_credit}`,
+  });
+
+  if (typeof story_markup === "string") {
+    return `${story_markup}${watermark_markup}`;
+  }
+
+  const story_container = document.createElement("div");
+  story_container.className = "storybook-decorated-screen";
+  story_container.append(story_markup);
+  story_container.insertAdjacentHTML("beforeend", watermark_markup);
+  return story_container;
+}
+
+export const decorators = [render_version_watermark];
 
 export const parameters = {
   layout: "fullscreen",
   backgrounds: { disable: true },
   viewport: {
-    viewports: breakpointViewports,
+    viewports: breakpoint_viewports,
   },
   controls: {
     matchers: {

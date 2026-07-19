@@ -11,9 +11,8 @@
   --system-breakpoint-tablet-min: 641px;
   --system-breakpoint-tablet-max: 1279px;
   --system-breakpoint-desktop-min: 1280px;
-  --system-breakpoint-desktop-max: 1919px;
-  --system-breakpoint-wide-min: 1920px;
-  --color-palette-black: #050505;
+  --system-breakpoint-desktop-max: 1920px;
+  --color-palette-black: #000;
   --color-palette-canvas: #0a0a0a;
   --color-palette-panel: #111111;
   --color-palette-line: #2a2a2a;
@@ -23,18 +22,20 @@
   --color-palette-warning: #b6974b;
   --color-palette-error: #b85c5c;
   --color-palette-info: #7a8797;
-  --color-surface-page-default: #050505;
+  --color-surface-page-default: #000;
   --color-surface-panel-default: #0a0a0a;
   --color-surface-panel-raised: #111111;
   --color-text-primary-default: #fafafa;
   --color-text-secondary-default: #a1a1aa;
-  --color-text-inverse-default: #050505;
+  --color-text-inverse-default: #000;
   --color-action-primary-default: #fafafa;
   --color-action-primary-hover: #a1a1aa;
   --color-action-secondary-default: #111111;
   --color-action-secondary-hover: #2a2a2a;
   --color-border-subtle-default: #2a2a2a;
   --color-border-strong-default: #a1a1aa;
+  --color-watermark-identity-default: #ffffff;
+  --color-watermark-credit-default: #a1a1aa;
   --typography-font-family-sans-default: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
   --typography-font-family-display-default: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
   --typography-font-family-mono-default: "Roboto Mono", "SFMono-Regular", "Menlo", monospace;
@@ -45,84 +46,92 @@
   --typography-font-weight-medium-default: 500;
   --typography-font-weight-bold-default: 700;
   --typography-headline-1-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-headline-1-font-size: 6rem;
+  --typography-headline-1-font-size: 96px;
   --typography-headline-1-font-weight: 300;
   --typography-headline-1-line-height: 1.16;
   --typography-headline-1-letter-spacing: normal;
   --typography-headline-2-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-headline-2-font-size: 3.75rem;
+  --typography-headline-2-font-size: 60px;
   --typography-headline-2-font-weight: 300;
   --typography-headline-2-line-height: 1.2;
   --typography-headline-2-letter-spacing: normal;
   --typography-headline-3-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-headline-3-font-size: 3rem;
+  --typography-headline-3-font-size: 48px;
   --typography-headline-3-font-weight: 400;
   --typography-headline-3-line-height: 1.25;
   --typography-headline-3-letter-spacing: normal;
   --typography-headline-4-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-headline-4-font-size: 2.125rem;
+  --typography-headline-4-font-size: 34px;
   --typography-headline-4-font-weight: 400;
   --typography-headline-4-line-height: 1.235;
   --typography-headline-4-letter-spacing: normal;
   --typography-headline-5-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-headline-5-font-size: 1.5rem;
+  --typography-headline-5-font-size: 24px;
   --typography-headline-5-font-weight: 400;
   --typography-headline-5-line-height: 1.334;
   --typography-headline-5-letter-spacing: normal;
   --typography-headline-6-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-headline-6-font-size: 1.25rem;
+  --typography-headline-6-font-size: 20px;
   --typography-headline-6-font-weight: 500;
   --typography-headline-6-line-height: 1.6;
   --typography-headline-6-letter-spacing: normal;
   --typography-subtitle-1-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-subtitle-1-font-size: 1rem;
+  --typography-subtitle-1-font-size: 16px;
   --typography-subtitle-1-font-weight: 400;
   --typography-subtitle-1-line-height: 1.75;
   --typography-subtitle-1-letter-spacing: normal;
   --typography-subtitle-2-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-subtitle-2-font-size: 0.875rem;
+  --typography-subtitle-2-font-size: 14px;
   --typography-subtitle-2-font-weight: 500;
   --typography-subtitle-2-line-height: 1.57;
   --typography-subtitle-2-letter-spacing: normal;
   --typography-body-1-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-body-1-font-size: 1rem;
+  --typography-body-1-font-size: 16px;
   --typography-body-1-font-weight: 400;
   --typography-body-1-line-height: 1.5;
   --typography-body-1-letter-spacing: normal;
   --typography-body-2-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-body-2-font-size: 0.875rem;
+  --typography-body-2-font-size: 14px;
   --typography-body-2-font-weight: 400;
   --typography-body-2-line-height: 1.43;
   --typography-body-2-letter-spacing: normal;
   --typography-button-label-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-button-label-font-size: 0.875rem;
+  --typography-button-label-font-size: 14px;
   --typography-button-label-font-weight: 500;
   --typography-button-label-line-height: 1.75;
   --typography-button-label-letter-spacing: normal;
-  --typography-button-label-text-transform: uppercase;
   --typography-caption-default-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-caption-default-font-size: 0.75rem;
+  --typography-caption-default-font-size: 12px;
   --typography-caption-default-font-weight: 400;
   --typography-caption-default-line-height: 1.66;
   --typography-caption-default-letter-spacing: normal;
   --typography-overline-default-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-overline-default-font-size: 0.625rem;
+  --typography-overline-default-font-size: 5px;
   --typography-overline-default-font-weight: 400;
   --typography-overline-default-line-height: 1.66;
   --typography-overline-default-letter-spacing: normal;
-  --typography-overline-default-text-transform: uppercase;
-  --space-scale-void-size: 0px;
-  --space-scale-nano-size: 1px;
-  --space-scale-micro-size: 2px;
-  --space-scale-small-size: 4px;
-  --space-scale-grid-size: 8px;
-  --space-scale-medium-size: 16px;
-  --space-scale-middle-size: 24px;
-  --space-scale-macro-size: 32px;
-  --space-scale-block-size: 40px;
-  --space-scale-huge-size: 48px;
-  --space-scale-giant-size: 64px;
-  --space-scale-colossal-size: 96px;
+  --typography-semantic-blog-title-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
+  --typography-semantic-blog-title-font-size: 32px;
+  --typography-semantic-blog-title-font-weight: 500;
+  --typography-semantic-blog-title-line-height: 1.25;
+  --typography-semantic-blog-title-letter-spacing: normal;
+  --typography-semantic-watermark-version-font-family: "4pixel", monospace;
+  --typography-semantic-watermark-version-font-size: 5px;
+  --typography-semantic-watermark-version-font-weight: 400;
+  --typography-semantic-watermark-version-line-height: 1;
+  --typography-semantic-watermark-version-letter-spacing: normal;
+  --space-scale-empty-space: 0px;
+  --space-scale-line-size: 1px;
+  --space-scale-tight-gap: 2px;
+  --space-scale-compact-gap: 4px;
+  --space-scale-base-gap: 8px;
+  --space-scale-medium-gap: 16px;
+  --space-scale-large-gap: 24px;
+  --space-scale-roomy-gap: 32px;
+  --space-scale-touch-size: 40px;
+  --space-scale-section-gap: 48px;
+  --space-scale-display-gap: 64px;
+  --space-scale-page-gap: 96px;
   --shape-corner-radius-none: 0px;
   --shape-corner-radius-extra-small: 4px;
   --shape-corner-radius-small-default: 8px;
@@ -148,12 +157,13 @@
   --motion-easing-accelerate-default: cubic-bezier(0.4, 0, 1, 1);
   --motion-easing-sharp-default: cubic-bezier(0.4, 0, 0.6, 1);
   --layout-container-max-tablet-default: 640px;
-  --layout-container-max-desktop-default: 1180px;
-  --layout-container-max-wide-default: 1440px;
+  --layout-container-max-desktop-default: 1440px;
   --layout-gutter-mobile-default: 16px;
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
+  --component-watermark-layer-default: 10000;
   --component-button-default-style: primary;
+  --component-button-label-text-transform-default: uppercase;
   --component-button-style-primary: fill;
   --component-button-style-secondary: outline;
   --component-button-style-ghost: inline;
@@ -192,8 +202,7 @@ $system-breakpoint-mobile-max: 640px;
 $system-breakpoint-tablet-min: 641px;
 $system-breakpoint-tablet-max: 1279px;
 $system-breakpoint-desktop-min: 1280px;
-$system-breakpoint-desktop-max: 1919px;
-$system-breakpoint-wide-min: 1920px;
+$system-breakpoint-desktop-max: 1920px;
 
 $breakpoints: (
   "mobile-min": 360px,
@@ -201,8 +210,7 @@ $breakpoints: (
   "tablet-min": 641px,
   "tablet-max": 1279px,
   "desktop-min": 1280px,
-  "desktop-max": 1919px,
-  "wide-min": 1920px,
+  "desktop-max": 1920px,
 );
 
 @mixin breakpoint-up($name) {
@@ -309,7 +317,6 @@ $breakpoints: (
   font-weight: var(--typography-button-label-font-weight);
   line-height: var(--typography-button-label-line-height);
   letter-spacing: var(--typography-button-label-letter-spacing);
-  text-transform: var(--typography-button-label-text-transform);
 }
 
 @mixin typography-caption-default {
@@ -326,7 +333,22 @@ $breakpoints: (
   font-weight: var(--typography-overline-default-font-weight);
   line-height: var(--typography-overline-default-line-height);
   letter-spacing: var(--typography-overline-default-letter-spacing);
-  text-transform: var(--typography-overline-default-text-transform);
+}
+
+@mixin typography-semantic-blog-title {
+  font-family: var(--typography-semantic-blog-title-font-family);
+  font-size: var(--typography-semantic-blog-title-font-size);
+  font-weight: var(--typography-semantic-blog-title-font-weight);
+  line-height: var(--typography-semantic-blog-title-line-height);
+  letter-spacing: var(--typography-semantic-blog-title-letter-spacing);
+}
+
+@mixin typography-semantic-watermark-version {
+  font-family: var(--typography-semantic-watermark-version-font-family);
+  font-size: var(--typography-semantic-watermark-version-font-size);
+  font-weight: var(--typography-semantic-watermark-version-font-weight);
+  line-height: var(--typography-semantic-watermark-version-line-height);
+  letter-spacing: var(--typography-semantic-watermark-version-letter-spacing);
 }
 
 .u-typography-headline-1 {
@@ -415,7 +437,6 @@ $breakpoints: (
   font-weight: var(--typography-button-label-font-weight);
   line-height: var(--typography-button-label-line-height);
   letter-spacing: var(--typography-button-label-letter-spacing);
-  text-transform: var(--typography-button-label-text-transform);
 }
 
 .u-typography-caption-default {
@@ -432,7 +453,22 @@ $breakpoints: (
   font-weight: var(--typography-overline-default-font-weight);
   line-height: var(--typography-overline-default-line-height);
   letter-spacing: var(--typography-overline-default-letter-spacing);
-  text-transform: var(--typography-overline-default-text-transform);
+}
+
+.u-typography-semantic-blog-title {
+  font-family: var(--typography-semantic-blog-title-font-family);
+  font-size: var(--typography-semantic-blog-title-font-size);
+  font-weight: var(--typography-semantic-blog-title-font-weight);
+  line-height: var(--typography-semantic-blog-title-line-height);
+  letter-spacing: var(--typography-semantic-blog-title-letter-spacing);
+}
+
+.u-typography-semantic-watermark-version {
+  font-family: var(--typography-semantic-watermark-version-font-family);
+  font-size: var(--typography-semantic-watermark-version-font-size);
+  font-weight: var(--typography-semantic-watermark-version-font-weight);
+  line-height: var(--typography-semantic-watermark-version-line-height);
+  letter-spacing: var(--typography-semantic-watermark-version-letter-spacing);
 }
 
 .u-bg-color-palette-black {
@@ -611,52 +647,68 @@ $breakpoints: (
   color: var(--color-border-strong-default);
 }
 
-.u-width-space-scale-void-size {
-  width: var(--space-scale-void-size);
+.u-bg-color-watermark-identity-default {
+  background: var(--color-watermark-identity-default);
 }
 
-.u-width-space-scale-nano-size {
-  width: var(--space-scale-nano-size);
+.u-color-color-watermark-identity-default {
+  color: var(--color-watermark-identity-default);
 }
 
-.u-width-space-scale-micro-size {
-  width: var(--space-scale-micro-size);
+.u-bg-color-watermark-credit-default {
+  background: var(--color-watermark-credit-default);
 }
 
-.u-width-space-scale-small-size {
-  width: var(--space-scale-small-size);
+.u-color-color-watermark-credit-default {
+  color: var(--color-watermark-credit-default);
 }
 
-.u-width-space-scale-grid-size {
-  width: var(--space-scale-grid-size);
+.u-width-space-scale-empty-space {
+  width: var(--space-scale-empty-space);
 }
 
-.u-width-space-scale-medium-size {
-  width: var(--space-scale-medium-size);
+.u-width-space-scale-line-size {
+  width: var(--space-scale-line-size);
 }
 
-.u-width-space-scale-middle-size {
-  width: var(--space-scale-middle-size);
+.u-width-space-scale-tight-gap {
+  width: var(--space-scale-tight-gap);
 }
 
-.u-width-space-scale-macro-size {
-  width: var(--space-scale-macro-size);
+.u-width-space-scale-compact-gap {
+  width: var(--space-scale-compact-gap);
 }
 
-.u-width-space-scale-block-size {
-  width: var(--space-scale-block-size);
+.u-width-space-scale-base-gap {
+  width: var(--space-scale-base-gap);
 }
 
-.u-width-space-scale-huge-size {
-  width: var(--space-scale-huge-size);
+.u-width-space-scale-medium-gap {
+  width: var(--space-scale-medium-gap);
 }
 
-.u-width-space-scale-giant-size {
-  width: var(--space-scale-giant-size);
+.u-width-space-scale-large-gap {
+  width: var(--space-scale-large-gap);
 }
 
-.u-width-space-scale-colossal-size {
-  width: var(--space-scale-colossal-size);
+.u-width-space-scale-roomy-gap {
+  width: var(--space-scale-roomy-gap);
+}
+
+.u-width-space-scale-touch-size {
+  width: var(--space-scale-touch-size);
+}
+
+.u-width-space-scale-section-gap {
+  width: var(--space-scale-section-gap);
+}
+
+.u-width-space-scale-display-gap {
+  width: var(--space-scale-display-gap);
+}
+
+.u-width-space-scale-page-gap {
+  width: var(--space-scale-page-gap);
 }
 
 .u-shadow-elevation-shadow-level-0 {

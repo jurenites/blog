@@ -117,18 +117,6 @@ export const TOKEN_RECORDS = [
       "desktop-max"
     ],
     "type": "dimension",
-    "value": "1919px",
-    "css_value": "1919px",
-    "is_reference": false
-  },
-  {
-    "name": "system-breakpoint-wide-min",
-    "path": [
-      "system",
-      "breakpoint",
-      "wide-min"
-    ],
-    "type": "dimension",
     "value": "1920px",
     "css_value": "1920px",
     "is_reference": false
@@ -141,8 +129,8 @@ export const TOKEN_RECORDS = [
       "black"
     ],
     "type": "color",
-    "value": "#050505",
-    "css_value": "#050505",
+    "value": "#000",
+    "css_value": "#000",
     "is_reference": false
   },
   {
@@ -261,8 +249,8 @@ export const TOKEN_RECORDS = [
       "page-default"
     ],
     "type": "color",
-    "value": "#050505",
-    "css_value": "#050505",
+    "value": "#000",
+    "css_value": "#000",
     "is_reference": true
   },
   {
@@ -321,8 +309,8 @@ export const TOKEN_RECORDS = [
       "inverse-default"
     ],
     "type": "color",
-    "value": "#050505",
-    "css_value": "#050505",
+    "value": "#000",
+    "css_value": "#000",
     "is_reference": true
   },
   {
@@ -391,6 +379,30 @@ export const TOKEN_RECORDS = [
       "color",
       "border",
       "strong-default"
+    ],
+    "type": "color",
+    "value": "#a1a1aa",
+    "css_value": "#a1a1aa",
+    "is_reference": true
+  },
+  {
+    "name": "color-watermark-identity-default",
+    "path": [
+      "color",
+      "watermark",
+      "identity-default"
+    ],
+    "type": "color",
+    "value": "#ffffff",
+    "css_value": "#ffffff",
+    "is_reference": false
+  },
+  {
+    "name": "color-watermark-credit-default",
+    "path": [
+      "color",
+      "watermark",
+      "credit-default"
     ],
     "type": "color",
     "value": "#a1a1aa",
@@ -552,8 +564,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "6rem",
-    "css_value": "6rem",
+    "value": "96px",
+    "css_value": "96px",
     "is_reference": false
   },
   {
@@ -617,8 +629,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "3.75rem",
-    "css_value": "3.75rem",
+    "value": "60px",
+    "css_value": "60px",
     "is_reference": false
   },
   {
@@ -682,8 +694,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "3rem",
-    "css_value": "3rem",
+    "value": "48px",
+    "css_value": "48px",
     "is_reference": false
   },
   {
@@ -747,8 +759,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "2.125rem",
-    "css_value": "2.125rem",
+    "value": "34px",
+    "css_value": "34px",
     "is_reference": false
   },
   {
@@ -812,8 +824,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "1.5rem",
-    "css_value": "1.5rem",
+    "value": "24px",
+    "css_value": "24px",
     "is_reference": false
   },
   {
@@ -877,8 +889,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "1.25rem",
-    "css_value": "1.25rem",
+    "value": "20px",
+    "css_value": "20px",
     "is_reference": false
   },
   {
@@ -942,8 +954,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "1rem",
-    "css_value": "1rem",
+    "value": "16px",
+    "css_value": "16px",
     "is_reference": false
   },
   {
@@ -1007,8 +1019,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "0.875rem",
-    "css_value": "0.875rem",
+    "value": "14px",
+    "css_value": "14px",
     "is_reference": false
   },
   {
@@ -1072,8 +1084,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "1rem",
-    "css_value": "1rem",
+    "value": "16px",
+    "css_value": "16px",
     "is_reference": false
   },
   {
@@ -1137,8 +1149,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "0.875rem",
-    "css_value": "0.875rem",
+    "value": "14px",
+    "css_value": "14px",
     "is_reference": false
   },
   {
@@ -1202,8 +1214,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "0.875rem",
-    "css_value": "0.875rem",
+    "value": "14px",
+    "css_value": "14px",
     "is_reference": false
   },
   {
@@ -1243,18 +1255,6 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
-    "name": "typography-button-label-text-transform",
-    "path": [
-      "typography",
-      "button-label",
-      "text-transform"
-    ],
-    "type": "string",
-    "value": "uppercase",
-    "css_value": "uppercase",
-    "is_reference": false
-  },
-  {
     "name": "typography-caption-default-font-family",
     "path": [
       "typography",
@@ -1279,8 +1279,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "0.75rem",
-    "css_value": "0.75rem",
+    "value": "12px",
+    "css_value": "12px",
     "is_reference": false
   },
   {
@@ -1344,8 +1344,8 @@ export const TOKEN_RECORDS = [
       "font-size"
     ],
     "type": "dimension",
-    "value": "0.625rem",
-    "css_value": "0.625rem",
+    "value": "5px",
+    "css_value": "5px",
     "is_reference": false
   },
   {
@@ -1385,107 +1385,28 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
-    "name": "typography-overline-default-text-transform",
+    "name": "typography-semantic-blog-title-font-family",
     "path": [
       "typography",
-      "overline-default",
-      "text-transform"
+      "semantic-blog-title",
+      "font-family"
     ],
-    "type": "string",
-    "value": "uppercase",
-    "css_value": "uppercase",
-    "is_reference": false
+    "type": "fontFamily",
+    "value": [
+      "Open Sans",
+      "Helvetica Neue",
+      "Arial",
+      "sans-serif"
+    ],
+    "css_value": "\"Open Sans\", \"Helvetica Neue\", \"Arial\", sans-serif",
+    "is_reference": true
   },
   {
-    "name": "space-scale-void-size",
+    "name": "typography-semantic-blog-title-font-size",
     "path": [
-      "space",
-      "scale",
-      "void-size"
-    ],
-    "type": "dimension",
-    "value": "0px",
-    "css_value": "0px",
-    "is_reference": false
-  },
-  {
-    "name": "space-scale-nano-size",
-    "path": [
-      "space",
-      "scale",
-      "nano-size"
-    ],
-    "type": "dimension",
-    "value": "1px",
-    "css_value": "1px",
-    "is_reference": false
-  },
-  {
-    "name": "space-scale-micro-size",
-    "path": [
-      "space",
-      "scale",
-      "micro-size"
-    ],
-    "type": "dimension",
-    "value": "2px",
-    "css_value": "2px",
-    "is_reference": false
-  },
-  {
-    "name": "space-scale-small-size",
-    "path": [
-      "space",
-      "scale",
-      "small-size"
-    ],
-    "type": "dimension",
-    "value": "4px",
-    "css_value": "4px",
-    "is_reference": false
-  },
-  {
-    "name": "space-scale-grid-size",
-    "path": [
-      "space",
-      "scale",
-      "grid-size"
-    ],
-    "type": "dimension",
-    "value": "8px",
-    "css_value": "8px",
-    "is_reference": false
-  },
-  {
-    "name": "space-scale-medium-size",
-    "path": [
-      "space",
-      "scale",
-      "medium-size"
-    ],
-    "type": "dimension",
-    "value": "16px",
-    "css_value": "16px",
-    "is_reference": false
-  },
-  {
-    "name": "space-scale-middle-size",
-    "path": [
-      "space",
-      "scale",
-      "middle-size"
-    ],
-    "type": "dimension",
-    "value": "24px",
-    "css_value": "24px",
-    "is_reference": false
-  },
-  {
-    "name": "space-scale-macro-size",
-    "path": [
-      "space",
-      "scale",
-      "macro-size"
+      "typography",
+      "semantic-blog-title",
+      "font-size"
     ],
     "type": "dimension",
     "value": "32px",
@@ -1493,11 +1414,206 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
-    "name": "space-scale-block-size",
+    "name": "typography-semantic-blog-title-font-weight",
+    "path": [
+      "typography",
+      "semantic-blog-title",
+      "font-weight"
+    ],
+    "type": "number",
+    "value": 500,
+    "css_value": "500",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-blog-title-line-height",
+    "path": [
+      "typography",
+      "semantic-blog-title",
+      "line-height"
+    ],
+    "type": "number",
+    "value": 1.25,
+    "css_value": "1.25",
+    "is_reference": false
+  },
+  {
+    "name": "typography-semantic-blog-title-letter-spacing",
+    "path": [
+      "typography",
+      "semantic-blog-title",
+      "letter-spacing"
+    ],
+    "type": "string",
+    "value": "normal",
+    "css_value": "normal",
+    "is_reference": false
+  },
+  {
+    "name": "typography-semantic-watermark-version-font-family",
+    "path": [
+      "typography",
+      "semantic-watermark-version",
+      "font-family"
+    ],
+    "type": "fontFamily",
+    "value": [
+      "4pixel",
+      "monospace"
+    ],
+    "css_value": "\"4pixel\", monospace",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-watermark-version-font-size",
+    "path": [
+      "typography",
+      "semantic-watermark-version",
+      "font-size"
+    ],
+    "type": "dimension",
+    "value": "5px",
+    "css_value": "5px",
+    "is_reference": false
+  },
+  {
+    "name": "typography-semantic-watermark-version-font-weight",
+    "path": [
+      "typography",
+      "semantic-watermark-version",
+      "font-weight"
+    ],
+    "type": "number",
+    "value": 400,
+    "css_value": "400",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-watermark-version-line-height",
+    "path": [
+      "typography",
+      "semantic-watermark-version",
+      "line-height"
+    ],
+    "type": "number",
+    "value": 1,
+    "css_value": "1",
+    "is_reference": false
+  },
+  {
+    "name": "typography-semantic-watermark-version-letter-spacing",
+    "path": [
+      "typography",
+      "semantic-watermark-version",
+      "letter-spacing"
+    ],
+    "type": "string",
+    "value": "normal",
+    "css_value": "normal",
+    "is_reference": false
+  },
+  {
+    "name": "space-scale-empty-space",
     "path": [
       "space",
       "scale",
-      "block-size"
+      "empty-space"
+    ],
+    "type": "dimension",
+    "value": "0px",
+    "css_value": "0px",
+    "is_reference": false
+  },
+  {
+    "name": "space-scale-line-size",
+    "path": [
+      "space",
+      "scale",
+      "line-size"
+    ],
+    "type": "dimension",
+    "value": "1px",
+    "css_value": "1px",
+    "is_reference": false
+  },
+  {
+    "name": "space-scale-tight-gap",
+    "path": [
+      "space",
+      "scale",
+      "tight-gap"
+    ],
+    "type": "dimension",
+    "value": "2px",
+    "css_value": "2px",
+    "is_reference": false
+  },
+  {
+    "name": "space-scale-compact-gap",
+    "path": [
+      "space",
+      "scale",
+      "compact-gap"
+    ],
+    "type": "dimension",
+    "value": "4px",
+    "css_value": "4px",
+    "is_reference": false
+  },
+  {
+    "name": "space-scale-base-gap",
+    "path": [
+      "space",
+      "scale",
+      "base-gap"
+    ],
+    "type": "dimension",
+    "value": "8px",
+    "css_value": "8px",
+    "is_reference": false
+  },
+  {
+    "name": "space-scale-medium-gap",
+    "path": [
+      "space",
+      "scale",
+      "medium-gap"
+    ],
+    "type": "dimension",
+    "value": "16px",
+    "css_value": "16px",
+    "is_reference": false
+  },
+  {
+    "name": "space-scale-large-gap",
+    "path": [
+      "space",
+      "scale",
+      "large-gap"
+    ],
+    "type": "dimension",
+    "value": "24px",
+    "css_value": "24px",
+    "is_reference": false
+  },
+  {
+    "name": "space-scale-roomy-gap",
+    "path": [
+      "space",
+      "scale",
+      "roomy-gap"
+    ],
+    "type": "dimension",
+    "value": "32px",
+    "css_value": "32px",
+    "is_reference": false
+  },
+  {
+    "name": "space-scale-touch-size",
+    "path": [
+      "space",
+      "scale",
+      "touch-size"
     ],
     "type": "dimension",
     "value": "40px",
@@ -1505,11 +1621,11 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
-    "name": "space-scale-huge-size",
+    "name": "space-scale-section-gap",
     "path": [
       "space",
       "scale",
-      "huge-size"
+      "section-gap"
     ],
     "type": "dimension",
     "value": "48px",
@@ -1517,11 +1633,11 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
-    "name": "space-scale-giant-size",
+    "name": "space-scale-display-gap",
     "path": [
       "space",
       "scale",
-      "giant-size"
+      "display-gap"
     ],
     "type": "dimension",
     "value": "64px",
@@ -1529,11 +1645,11 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
-    "name": "space-scale-colossal-size",
+    "name": "space-scale-page-gap",
     "path": [
       "space",
       "scale",
-      "colossal-size"
+      "page-gap"
     ],
     "type": "dimension",
     "value": "96px",
@@ -1904,18 +2020,6 @@ export const TOKEN_RECORDS = [
       "desktop-default"
     ],
     "type": "dimension",
-    "value": "1180px",
-    "css_value": "1180px",
-    "is_reference": false
-  },
-  {
-    "name": "layout-container-max-wide-default",
-    "path": [
-      "layout",
-      "container-max",
-      "wide-default"
-    ],
-    "type": "dimension",
     "value": "1440px",
     "css_value": "1440px",
     "is_reference": false
@@ -1957,6 +2061,18 @@ export const TOKEN_RECORDS = [
     "is_reference": true
   },
   {
+    "name": "component-watermark-layer-default",
+    "path": [
+      "component",
+      "watermark",
+      "layer-default"
+    ],
+    "type": "number",
+    "value": 10000,
+    "css_value": "10000",
+    "is_reference": false
+  },
+  {
     "name": "component-button-default-style",
     "path": [
       "component",
@@ -1966,6 +2082,18 @@ export const TOKEN_RECORDS = [
     "type": "string",
     "value": "primary",
     "css_value": "primary",
+    "is_reference": false
+  },
+  {
+    "name": "component-button-label-text-transform-default",
+    "path": [
+      "component",
+      "button",
+      "label-text-transform-default"
+    ],
+    "type": "string",
+    "value": "uppercase",
+    "css_value": "uppercase",
     "is_reference": false
   },
   {

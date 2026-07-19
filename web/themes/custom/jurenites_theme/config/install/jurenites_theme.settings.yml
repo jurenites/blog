@@ -1,0 +1,10 @@
+favicon:
+  mimetype: image/svg+xml
+  path: themes/custom/jurenites_theme/favicon-dark.svg
+  use_default: false
+features:
+  favicon: true
+  logo: true
+logo:
+  path: ''
+  use_default: true

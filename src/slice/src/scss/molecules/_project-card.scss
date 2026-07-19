@@ -29,8 +29,8 @@
 .project-card__body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-scale-small-default);
-  padding: var(--space-scale-large-default);
+  gap: var(--space-scale-base-gap);
+  padding: var(--space-scale-large-gap);
 }
 
 .project-card__title {
@@ -47,12 +47,12 @@
 .project-card__tag-list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-scale-extra-small);
-  margin-top: var(--space-scale-extra-small);
+  gap: var(--space-scale-compact-gap);
+  margin-top: var(--space-scale-compact-gap);
 }
 
 .project-card__actions {
   display: flex;
-  gap: var(--space-scale-small-default);
-  margin-top: var(--space-scale-small-default);
+  gap: var(--space-scale-base-gap);
+  margin-top: var(--space-scale-base-gap);
 }

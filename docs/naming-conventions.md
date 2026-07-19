@@ -159,5 +159,10 @@ Notation by file type:
 - JavaScript variables, functions, Storybook args, and `argTypes` use `snake_case`.
 - Design tokens use `dot.notation` in the source tree.
 
+These conventions are checked by `npm run lint`. Naming mismatches are warnings
+for now; syntax and correctness problems remain blocking. The severity is kept in
+`eslint.config.js` and `stylelint.config.js` so the team can tighten individual
+rules without changing component code or adding Git hooks.
+
 Single-word names are only acceptable when they are required external API keys or
 literal HTML/CSS concepts that cannot be renamed without breaking the platform.

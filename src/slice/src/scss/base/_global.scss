@@ -35,10 +35,22 @@ button:focus-visible {
   @include tools.focus-ring;
 }
 
+.visually-hidden {
+  @include tools.visually-hidden;
+}
+
 .layout-container {
   position: relative;
   z-index: 1;
   max-width: var(--layout-container-max-desktop-default);
   margin: 0 auto;
   padding: var(--layout-gutter-desktop-default);
+}
+
+#block-jurenites-theme-site-branding .site-logo img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 64px;
+  max-height: 64px;
 }

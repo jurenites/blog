@@ -12,6 +12,8 @@ src/token/tokens.yaml            <-- editable single source of truth (DTCG forma
        -> generated/styles/_tokens.scss              (CSS vars + SCSS mixins/utilities)
        -> generated/token/tokens.js                  (JS token records and values)
        -> scripts/figma/design-system-sync.js        (Figma sync helper)
+       -> scripts/build-storybook-info.mjs
+            -> generated/storybook/storybook-tokens.css (temporary manager CSS)
   -> src/slice/src/scss/main.scss
        -> Storybook (consumes the SCSS directly)
        -> scripts/build-theme.mjs -> web/themes/custom/jurenites_theme/css/style.min.css
@@ -19,6 +21,9 @@ src/token/tokens.yaml            <-- editable single source of truth (DTCG forma
 
 Never hand-edit generated files. Edit `src/token/tokens.yaml`, then run
 `npm run build:tokens` (or `npm run build:theme`, which runs tokens first).
+The token build also runs `scripts/check-token-contract.mjs`, which rejects
+hardcoded colors outside the YAML source, CSS opacity declarations, and missing
+SCSS token variables.
 
 ## Atomic design
 
@@ -30,8 +35,8 @@ Components are organised by Atomic Design and ITCSS layers:
 | tools      | `src/slice/src/scss/tools/`    | Mixins (elevation, motion, focus-ring)   |
 | base       | `src/slice/src/scss/base/`     | Reset, global element defaults, typography|
 | atoms      | `src/slice/src/scss/atoms/`    | Avatar, badge, button, chip, date value, divider, surface |
-| molecules  | `src/slice/src/scss/molecules/`| Article teaser, contact widget, project card |
-| organisms  | `src/slice/src/scss/organisms/`| Larger sections (timeline, hero)         |
+| molecules  | `src/slice/src/scss/molecules/`| Article teaser, author byline, contact widget, pagination, project card, pull quote |
+| organisms  | `src/slice/src/scss/organisms/`| Site header and larger page sections     |
 | components  | `src/slice/src/scss/components/`| Page-specific compositions              |
 
 Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
@@ -50,8 +55,7 @@ defined in `docs/naming-conventions.md`. Read it before adding any component.
 | -------- | -------- | -------- | ---------------------------------- |
 | Mobile   | 360px    | 640px    | Never design below 360px           |
 | Tablet   | 641px    | 1279px   | Between mobile and desktop         |
-| Desktop  | 1280px   | 1919px   | Primary design width               |
-| Wide     | 1920px+  | -        | Full HD and ultra-wide             |
+| Desktop  | 1280px   | 1920px   | Includes Full HD; maximum tested width |
 
 SCSS usage:
 
@@ -64,12 +68,19 @@ SCSS usage:
 }
 ```
 
-Storybook ships matching viewport presets (Mobile min/max, Tablet, Desktop min,
-Desktop Full HD).
+Storybook ships matching viewport presets (Mobile min/max, Tablet min, Desktop
+min/max). Screens wider than 1920px retain desktop behavior; centered content
+stops growing and the remaining area uses the page background.
+
+Responsive components must be checked at exactly 360px before completion. The
+Pagination molecule uses the generated `mobile-max` breakpoint mixin: numbered
+pages appear on larger screens, while mobile shows two 40px controls and a compact
+current-page status without horizontal overflow.
 
 ## Layout
 
-- Container max widths: tablet 640px, desktop 1180px, wide 1440px.
+- Container max widths: tablet 640px and desktop 1440px. The desktop container
+  also applies above 1920px, so ultra-wide space remains background-only.
 - Gutters scale per breakpoint (mobile 16px, tablet 24px, desktop 32px).
 - Everything is laid out on an 8px grid.
 
@@ -86,6 +97,15 @@ Roles: `headline-1..6`, `subtitle-1/2`, `body-1/2`, `button-label`,
 `caption-default`, `overline-default`. Base HTML elements (`h1`-`h6`, `p`) are
 already mapped in `base/_typography.scss`.
 
+Typography dimensions use explicit `px` values throughout the token source and
+generated outputs. This keeps the displayed values pixel-exact and removes any
+implicit root-font-size conversion from Storybook, Figma sync, and theme CSS.
+
+Theme semantics form the next abstraction layer and use the `semantic-*`
+namespace. `semantic-blog-title` maps to Open Sans at 32px/500. The generated
+Typography Mapping Storybook page shows these assignments without a repeated
+role list.
+
 Default family is the Open Sans stack. The display family is a separate token,
 and the Storybook foundations also expose the imported custom Roundabout and
 4pixel fonts for future display/technical uses.
@@ -98,18 +118,76 @@ and the Storybook foundations also expose the imported custom Roundabout and
 - Semantic tokens reference primitives: `color.surface.*`, `color.text.*`,
   `color.action.*`, `color.border.*`. Always consume semantic tokens in
   components, not raw palette values.
+- The screenshot signature uses dedicated solid semantic colors with no opacity
+  or blend mode. Configured HEX values therefore reach solid glyph pixels
+  unchanged; only normal font anti-aliasing affects edge pixels.
+
+## Front-page background language
+
+Use these terms when reviewing or tuning the interactive background:
+
+- **radial field**: the huge grayscale circle that controls the underlying tone;
+  it scales from the viewport diagonal and is not capped at Full HD.
+- **grain field**: the static one-logical-pixel monochrome noise visible at rest.
+- **dither field**: a future structured pixel-art texture calculated from a
+  scene's local tone.
+- **dither lens**: the retired cursor-reveal experiment. It remains glossary
+  language only and is not part of the live background.
+- **mark size**: one future dither cell in CSS logical pixels. It must match the
+  resting grain's 1px logical scale.
+
+The live background is a static radial field plus a deterministic grain field;
+it has no hover transformation. The grain seed has no time input, so pixels
+remain unchanged between frames. The editable implementation lives in
+`src/slice/src/js/script.js`; generated theme JavaScript must continue to come
+from `npm run build:theme`.
+
+The planned scenic evolution uses **depth layers** rather than one flattened
+background: sky, clouds, distant sea, wave bands, shoreline, sand dunes, and
+foreground silhouettes. **Scroll travel** is the page's normalized vertical
+progress; each layer receives a different **parallax rate**, with distant layers
+moving least and foreground dunes moving most. The pointer texture remains a
+surface treatment and must not become a separate visible object above the scene.
 
 ## Spacing and gaps
 
-`space.scale.*` is the project spacing scale: `void-size`, `nano-size`,
-`micro-size`, `small-size`, `grid-size`, `medium-size`, `middle-size`,
-`macro-size`, `block-size`, `huge-size`, `giant-size`, `colossal-size`.
+`space.scale.*` is the project spacing scale: `empty-space`, `line-size`,
+`tight-gap`, `compact-gap`, `base-gap`, `medium-gap`, `large-gap`, `roomy-gap`,
+`touch-size`, `section-gap`, `display-gap`, `page-gap`.
 
 ## Shape
 
 - `shape.corner-radius.*`: none, extra-small, small-default, medium-default,
   large-default, extra-large, pill-full.
 - `shape.border-width.*`: hairline-default, thick-default.
+
+### Canvas shape language
+
+Use this glossary for procedural WebGL artwork:
+
+- **silhouette**: the closed outer boundary of a shape.
+- **hard edge**: an abrupt transition at the silhouette, with no blur or alpha
+  feathering.
+- **face**: one projected 2D polygon representing a visible side of a 3D-looking
+  object.
+- **edge function**: a signed mathematical test that says whether a canvas pixel
+  lies inside or outside a face.
+- **signed distance field (SDF)**: a function returning distance to a shape's
+  boundary; negative values are inside, positive values are outside.
+- **color field**: the smoothly varying color evaluated independently inside a
+  face.
+- **alpha field**: the smoothly varying transparency inside a face. It may fade
+  to transparent while the silhouette itself remains geometrically sharp.
+- **grain continuity**: background and shape use the same logical-pixel noise
+  scale and seed space, preventing the shape from looking pasted on.
+- **projected solid**: several 2D faces arranged to imply a cube, dune, crystal,
+  or other 3D form without requiring a full 3D engine.
+
+The current technical choice is custom WebGL 1 in one canvas. Projected faces
+and SDF primitives are sufficient for the reference cube, soft internal light,
+hard face boundaries, transparency fields, dither, and parallax layers. Adopt a
+3D scene library only when real camera rotation, perspective geometry, depth
+occlusion, or dynamic lighting becomes a concrete requirement.
 
 ## Elevation and shadow
 
@@ -137,7 +215,9 @@ web/themes/custom/jurenites_theme/templates/
 ```
 
 We keep our distinction: editable source in `src/slice/`, compiled minified assets
-in the theme `css/` and `js/`.
+in the theme `css/` and `js/`. The Drupal-specific `theme.scss` entrypoint
+configures relative font URLs, and `npm run build:theme` copies source fonts from
+`src/public/assets/fonts/` into the generated theme asset directory.
 
 ## Naming convention
 

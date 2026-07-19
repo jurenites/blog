@@ -12,18 +12,18 @@ const FIGMA_META = {
   collectionName: 'global',
 };
 
-function cssNumber(value) {
-  if (value === undefined || value === null) throw new Error('Missing numeric token value.');
-  if (typeof value === 'number') return value;
-  const parsed = Number.parseFloat(String(value).replace('rem', ''));
-  if (Number.isNaN(parsed)) throw new Error('Invalid numeric token value: ' + value);
-  return String(value).includes('rem') ? parsed * 16 : parsed;
+function css_number(token_value) {
+  if (token_value === undefined || token_value === null) throw new Error('Missing numeric token value.');
+  if (typeof token_value === 'number') return token_value;
+  const parsed_value = Number.parseFloat(String(token_value).replace('px', ''));
+  if (Number.isNaN(parsed_value)) throw new Error('Invalid numeric token value: ' + token_value);
+  return parsed_value;
 }
 
 function letterSpacingValue(value) {
   if (value === undefined || value === null) return null;
   if (String(value).trim() === 'normal') return null;
-  return cssNumber(value);
+  return css_number(value);
 }
 
 function tokenValue(name) {
@@ -33,7 +33,7 @@ function tokenValue(name) {
 }
 
 function tokenNumber(name) {
-  return cssNumber(tokenValue(name));
+  return css_number(tokenValue(name));
 }
 
 function typographyRoles() {
@@ -129,7 +129,7 @@ function frame(name, width, fills = [hexToPaint(tokenValue('color-palette-black'
   node.resize(width, 1);
   node.fills = fills;
   node.cornerRadius = tokenNumber('shape-corner-radius-medium-default');
-  setAutoLayout(node, 'VERTICAL', tokenNumber('space-scale-medium-default'), tokenNumber('space-scale-large-default'));
+  setAutoLayout(node, 'VERTICAL', tokenNumber('space-scale-medium-gap'), tokenNumber('space-scale-large-gap'));
   return node;
 }
 

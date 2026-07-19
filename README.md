@@ -44,6 +44,11 @@ node_modules/                     Local npm dependencies, ignored by Git
 `vendor/` stays at the repository root, outside `web/`, because `web/` is the
 public document root. This is the safer standard Drupal/Composer layout.
 
+Detailed folder contracts are maintained in
+[`docs/repository-structure.md`](docs/repository-structure.md). This root file is
+the only project-owned README; longer-lived project documentation belongs under
+`docs/`.
+
 ## Token Pipeline
 
 `src/token/tokens.yaml` is the only editable token file. Do not edit generated
@@ -55,6 +60,7 @@ The current build path is:
 src/token/tokens.yaml
   -> generated/styles/_tokens.scss for CSS, Storybook preview styling, and Drupal theme CSS
   -> generated/token/tokens.js for Storybook controls and token-driven JS
+  -> generated/storybook/storybook-tokens.css for the Storybook manager at build time
   -> scripts/figma/design-system-sync.js reads generated tokens when Figma sync is needed
 ```
 
@@ -62,16 +68,19 @@ There are no generated token JSON mirrors in the normal workflow. JS consumers
 read `generated/token/tokens.js`, not the compiled SCSS/CSS output, so the data
 flow stays direct: YAML to CSS for styling, YAML to JS for logic.
 
-Useful commands:
+Useful commands (Cheet Sheet):
 
 ```bash
-npm run build:tokens      # YAML -> generated/styles/_tokens.scss + generated/token/tokens.js
+scripts/sync.sh all       # build tokens + theme + Figma prep
+npm run build:tokens      # generate tokens, then validate the token contract
+npm run tokens:check      # reject copied HEX values and missing CSS token variables
 npm run storybook         # build tokens, then run Storybook on port 6006
 npm run build-storybook   # build tokens, then build static Storybook
-npm run build:theme       # build tokens, then compile Drupal theme CSS/JS
 npm run figma:prepare     # build tokens before running the Figma sync helper
 npm run docs:check        # check docs version and source/docs drift
-scripts/sync.sh all       # build tokens + theme + Figma prep
+npm run build:theme       # compile Drupal CSS/JS and copy deployable theme fonts
+
+docker compose exec web vendor/bin/drush cr 
 ```
 
 ## Styling Rules
@@ -105,22 +114,25 @@ Run Drupal locally:
 ```bash
 docker compose up -d
 docker compose ps
-curl -I http://127.0.0.1:8081/
+curl -I http://jurenites.local/
 ```
 
-The local Drupal site uses port `8081`.
+The local Docker stack routes semantic hostnames through its port-80 proxy:
 
-Initial local admin login:
+- Drupal: `http://jurenites.local`
+- Storybook: `http://storybook.jurenites.local`
 
-- URL: `http://127.0.0.1:8081/user/login`
-- User: `admin`
-- Password: `admin`
+Add both names to the host machine once if they are not already present:
+
+```text
+jurenites.local storybook.jurenites.local
+```
 
 Run Storybook through Docker:
 
 ```bash
 docker compose up storybook
-curl -I http://127.0.0.1:6006/
+curl -I http://storybook.jurenites.local/
 ```
 
 Or run Storybook directly from the host:
@@ -128,6 +140,9 @@ Or run Storybook directly from the host:
 ```bash
 npm run storybook
 ```
+
+Direct host execution still listens on port `6006`; the semantic Storybook URL
+is provided by the complete Docker Compose stack.
 
 ## Generated And Ignored Files
 

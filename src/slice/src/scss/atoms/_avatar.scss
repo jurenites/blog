@@ -26,11 +26,11 @@
 }
 
 .avatar--small {
-  width: var(--space-scale-extra-large);
-  height: var(--space-scale-extra-large);
+  width: var(--space-scale-roomy-gap);
+  height: var(--space-scale-roomy-gap);
 }
 
 .avatar--large {
-  width: var(--space-scale-giant-default);
-  height: var(--space-scale-giant-default);
+  width: var(--space-scale-display-gap);
+  height: var(--space-scale-display-gap);
 }

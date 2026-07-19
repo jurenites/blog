@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Theme preprocess hooks for jurenites Theme.
+ */
+
+/**
+ * Adds generated deployment identity to the global HTML template.
+ */
+function jurenites_theme_preprocess_html(array &$html_variables): void {
+  $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
+  $build_info_path = DRUPAL_ROOT . '/' . $theme_path . '/build-info.json';
+
+  if (!is_readable($build_info_path)) {
+    return;
+  }
+
+  $build_information = json_decode(file_get_contents($build_info_path), TRUE);
+  if (!is_array($build_information)) {
+    return;
+  }
+
+  $project_version = $build_information['project_version'] ?? 'unknown';
+  $commit_hash = $build_information['commit_hash'] ?? 'unknown';
+  $commit_url = $build_information['commit_url'] ?? '';
+  $collaboration_credit = $build_information['collaboration_credit'] ?? 'Alex';
+  $html_variables['watermark_version_label'] = 'Version';
+  $html_variables['watermark_version_number'] = $project_version;
+  $html_variables['watermark_git_hash'] = $commit_hash;
+  $html_variables['watermark_git_url'] = $commit_url;
+  $html_variables['watermark_credit_text'] = sprintf(
+    'made by %s',
+    $collaboration_credit,
+  );
+}

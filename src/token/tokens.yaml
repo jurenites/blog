@@ -52,12 +52,8 @@ system:
       "$description": Lower bound of the desktop range and the primary design width.
     desktop-max:
       "$type": dimension
-      "$value": 1919px
-      "$description": Upper bound of the standard desktop range (up to just under full HD).
-    wide-min:
-      "$type": dimension
       "$value": 1920px
-      "$description": Full HD and larger, including ultra-wide screens.
+      "$description": Maximum tested desktop viewport. Wider screens keep desktop behavior and show additional page background outside centered content.
   naming:
     separator:
       "$type": string
@@ -74,7 +70,7 @@ color:
   palette:
     black:
       "$type": color
-      "$value": "#050505"
+      "$value": "#000"
     canvas:
       "$type": color
       "$value": "#0a0a0a"
@@ -145,6 +141,15 @@ color:
     strong-default:
       "$type": color
       "$value": "{color.palette.muted}"
+  watermark:
+    identity-default:
+      "$type": color
+      "$value": "#ffffff"
+      "$description": Exact solid color for the version and commit identity. It is rendered without opacity or blend modes.
+    credit-default:
+      "$type": color
+      "$value": "{color.text.secondary-default}"
+      "$description": Exact solid color for the watermark collaboration credit and build date.
 typography:
   font-family:
     sans-default:
@@ -202,7 +207,7 @@ typography:
       "$value": "{typography.font-family.display-default}"
     font-size:
       "$type": dimension
-      "$value": 6rem
+      "$value": 96px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.light-default}"
@@ -218,7 +223,7 @@ typography:
       "$value": "{typography.font-family.display-default}"
     font-size:
       "$type": dimension
-      "$value": 3.75rem
+      "$value": 60px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.light-default}"
@@ -234,7 +239,7 @@ typography:
       "$value": "{typography.font-family.display-default}"
     font-size:
       "$type": dimension
-      "$value": 3rem
+      "$value": 48px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.regular-default}"
@@ -250,7 +255,7 @@ typography:
       "$value": "{typography.font-family.display-default}"
     font-size:
       "$type": dimension
-      "$value": 2.125rem
+      "$value": 34px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.regular-default}"
@@ -266,7 +271,7 @@ typography:
       "$value": "{typography.font-family.display-default}"
     font-size:
       "$type": dimension
-      "$value": 1.5rem
+      "$value": 24px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.regular-default}"
@@ -282,7 +287,7 @@ typography:
       "$value": "{typography.font-family.display-default}"
     font-size:
       "$type": dimension
-      "$value": 1.25rem
+      "$value": 20px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.medium-default}"
@@ -298,7 +303,7 @@ typography:
       "$value": "{typography.font-family.sans-default}"
     font-size:
       "$type": dimension
-      "$value": 1rem
+      "$value": 16px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.regular-default}"
@@ -314,7 +319,7 @@ typography:
       "$value": "{typography.font-family.sans-default}"
     font-size:
       "$type": dimension
-      "$value": 0.875rem
+      "$value": 14px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.medium-default}"
@@ -330,7 +335,7 @@ typography:
       "$value": "{typography.font-family.sans-default}"
     font-size:
       "$type": dimension
-      "$value": 1rem
+      "$value": 16px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.regular-default}"
@@ -346,7 +351,7 @@ typography:
       "$value": "{typography.font-family.sans-default}"
     font-size:
       "$type": dimension
-      "$value": 0.875rem
+      "$value": 14px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.regular-default}"
@@ -362,7 +367,7 @@ typography:
       "$value": "{typography.font-family.sans-default}"
     font-size:
       "$type": dimension
-      "$value": 0.875rem
+      "$value": 14px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.medium-default}"
@@ -372,16 +377,13 @@ typography:
     letter-spacing:
       "$type": string
       "$value": normal
-    text-transform:
-      "$type": string
-      "$value": uppercase
   caption-default:
     font-family:
       "$type": fontFamily
       "$value": "{typography.font-family.sans-default}"
     font-size:
       "$type": dimension
-      "$value": 0.75rem
+      "$value": 12px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.regular-default}"
@@ -397,7 +399,7 @@ typography:
       "$value": "{typography.font-family.sans-default}"
     font-size:
       "$type": dimension
-      "$value": 0.625rem
+      "$value": 5px
     font-weight:
       "$type": number
       "$value": "{typography.font-weight.regular-default}"
@@ -407,47 +409,78 @@ typography:
     letter-spacing:
       "$type": string
       "$value": normal
-    text-transform:
+  semantic-blog-title:
+    font-family:
+      "$type": fontFamily
+      "$value": "{typography.font-family.sans-default}"
+    font-size:
+      "$type": dimension
+      "$value": 32px
+    font-weight:
+      "$type": number
+      "$value": "{typography.font-weight.medium-default}"
+    line-height:
+      "$type": number
+      "$value": 1.25
+    letter-spacing:
       "$type": string
-      "$value": uppercase
+      "$value": normal
+    "$description": Semantic title role for blog and personal-page headings.
+  semantic-watermark-version:
+    font-family:
+      "$type": fontFamily
+      "$value": "{typography.font-family.pixel-display}"
+    font-size:
+      "$type": dimension
+      "$value": 5px
+    font-weight:
+      "$type": number
+      "$value": "{typography.font-weight.regular-default}"
+    line-height:
+      "$type": number
+      "$value": 1
+    letter-spacing:
+      "$type": string
+      "$value": normal
+    "$description": Fixed 5px 4pixel role for screenshot-safe project signatures.
 space:
   scale:
-    void-size:
+    empty-space:
       "$type": dimension
       "$value": 0px
-    nano-size:
+    line-size:
       "$type": dimension
       "$value": 1px
       "$description": Intentional sub-grid exception for 1px lines and dividers.
-    micro-size:
+    tight-gap:
       "$type": dimension
       "$value": 2px
-    small-size:
+    compact-gap:
       "$type": dimension
       "$value": 4px
       "$description": Half of the base grid unit.
-    grid-size:
+    base-gap:
       "$type": dimension
       "$value": 8px
-    medium-size:
+    medium-gap:
       "$type": dimension
       "$value": 16px
-    middle-size:
+    large-gap:
       "$type": dimension
       "$value": 24px
-    macro-size:
+    roomy-gap:
       "$type": dimension
       "$value": 32px
-    block-size:
+    touch-size:
       "$type": dimension
       "$value": 40px
-    huge-size:
+    section-gap:
       "$type": dimension
       "$value": 48px
-    giant-size:
+    display-gap:
       "$type": dimension
       "$value": 64px
-    colossal-size:
+    page-gap:
       "$type": dimension
       "$value": 96px
 shape:
@@ -584,25 +617,32 @@ layout:
       "$value": 640px
     desktop-default:
       "$type": dimension
-      "$value": 1180px
-    wide-default:
-      "$type": dimension
       "$value": 1440px
+      "$description": Maximum centered content width for desktop and larger screens.
   gutter:
     mobile-default:
       "$type": dimension
-      "$value": "{space.scale.medium-size}"
+      "$value": "{space.scale.medium-gap}"
     tablet-default:
       "$type": dimension
-      "$value": "{space.scale.middle-size}"
+      "$value": "{space.scale.large-gap}"
     desktop-default:
       "$type": dimension
-      "$value": "{space.scale.macro-size}"
+      "$value": "{space.scale.roomy-gap}"
 component:
+  watermark:
+    layer-default:
+      "$type": number
+      "$value": 10000
+      "$description": Keeps the non-interactive watermark above application content.
   button:
     default-style:
       "$type": string
       "$value": primary
+    label-text-transform-default:
+      "$type": string
+      "$value": uppercase
+      "$description": Uppercase treatment owned exclusively by the Button atom.
     style:
       primary:
         "$type": string

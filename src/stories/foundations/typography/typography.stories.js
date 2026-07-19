@@ -10,23 +10,8 @@ const default_text_color = color_options.includes("color-text-primary-default")
   : color_options[0] || "color-text-primary-default";
 const text_color = default_text_color;
 
-function format_size_px(size_value) {
-  if (!size_value) {
-    return "";
-  }
-  const size_string = String(size_value).trim();
-  if (!size_string.endsWith("rem")) {
-    return size_string;
-  }
-  const numeric_value = Number.parseFloat(size_string);
-  if (!Number.isFinite(numeric_value)) {
-    return size_string;
-  }
-  return `${Number.parseFloat((numeric_value * 16).toFixed(4))}px`;
-}
-
 function row_markup(role_name, text_color) {
-  const size_value = format_size_px(token_value(`typography-${role_name}-font-size`));
+  const size_value = token_value(`typography-${role_name}-font-size`);
   return render_template(type_row_template, {
     sample_class: escape_html(`u-typography-${role_name} u-color-${text_color}`),
     sample: escape_html(`${role_name} - The quick brown fox`),

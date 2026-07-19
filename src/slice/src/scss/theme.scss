@@ -1,0 +1,7 @@
+// Drupal build entrypoint. Configure deployable theme asset paths before the
+// shared component entrypoint loads the font settings module.
+
+@use "settings/fonts" with (
+  $font-assets-path: "../assets/fonts"
+);
+@use "main";

@@ -1,137 +1,77 @@
 (function (Drupal) {
-  const vertexShader = `
-    attribute vec2 a_position;
-    varying vec2 v_uv;
+  const VERTEX_SHADER_SOURCE = `
+    attribute vec2 a_canvas_position;
 
     void main() {
-      v_uv = a_position * 0.5 + 0.5;
-      gl_Position = vec4(a_position, 0.0, 1.0);
+      gl_Position = vec4(a_canvas_position, 0.0, 1.0);
     }
   `;
 
-  const fragmentShader = `
-    precision mediump float;
+  const FRAGMENT_SHADER_SOURCE = `
+    precision highp float;
 
-    uniform vec3 u_color_start;
-    uniform vec3 u_color_end;
-    uniform vec2 u_resolution;
-    uniform vec2 u_position;
-    uniform float u_radius;
-    uniform float u_noise_time;
-    uniform float u_distortion_time;
-    uniform float u_morph_time;
-    varying vec2 v_uv;
+    uniform vec2 u_viewport_size;
 
-    float random(vec2 point) {
-      vec3 point3 = fract(vec3(point.xyx) * 0.1031);
-      point3 += dot(point3, point3.yzx + 33.33);
-      return fract((point3.x + point3.y) * point3.z);
+    float staticHash(vec2 pixel_position) {
+      vec3 hash_position = fract(vec3(pixel_position.xyx) * 0.1031);
+      hash_position += dot(hash_position, hash_position.yzx + 33.33);
+      return fract((hash_position.x + hash_position.y) * hash_position.z);
     }
 
-    float valueNoise(vec2 point) {
-      vec2 cell = floor(point);
-      vec2 local = fract(point);
-      vec2 curve = local * local * (3.0 - 2.0 * local);
+    void main() {
+      vec2 logical_position = floor(gl_FragCoord.xy) + 0.5;
+      vec2 gradient_center = vec2(u_viewport_size.x * 0.52, u_viewport_size.y * 0.94);
+      float gradient_radius = length(u_viewport_size) * 0.82;
+      float radial_distance = length(logical_position - gradient_center) / gradient_radius;
+      float radial_light = 1.0 - smoothstep(0.02, 1.0, radial_distance);
+      float gradient_tone = mix(0.025, 0.76, pow(radial_light, 1.18));
 
-      float bottomLeft = random(cell);
-      float bottomRight = random(cell + vec2(1.0, 0.0));
-      float topLeft = random(cell + vec2(0.0, 1.0));
-      float topRight = random(cell + vec2(1.0, 1.0));
+      vec2 grain_pixel = floor(logical_position);
+      float grain_value = staticHash(grain_pixel + 113.0) - 0.5;
+      float resting_tone = clamp(gradient_tone + (grain_value * 0.17), 0.0, 1.0);
 
-      return mix(
-        mix(bottomLeft, bottomRight, curve.x),
-        mix(topLeft, topRight, curve.x),
-        curve.y
+      gl_FragColor = vec4(vec3(resting_tone), 1.0);
+    }
+  `;
+
+  function createShader(gl_context, shader_type, shader_source) {
+    const compiled_shader = gl_context.createShader(shader_type);
+    gl_context.shaderSource(compiled_shader, shader_source);
+    gl_context.compileShader(compiled_shader);
+
+    if (!gl_context.getShaderParameter(compiled_shader, gl_context.COMPILE_STATUS)) {
+      throw new Error(
+        gl_context.getShaderInfoLog(compiled_shader) || 'Background shader failed to compile.',
       );
     }
 
-    float layeredNoise(vec2 point) {
-      float value = 0.0;
-      float amplitude = 0.5;
-      float scale = 1.0;
-
-      for (int i = 0; i < 4; i++) {
-        value += valueNoise(point * scale) * amplitude;
-        scale *= 2.03;
-        amplitude *= 0.52;
-      }
-
-      return value;
-    }
-
-    vec2 rotate(vec2 point, float amount) {
-      float c = cos(amount);
-      float s = sin(amount);
-      return vec2(point.x * c + point.y * s, -point.x * s + point.y * c);
-    }
-
-    void main() {
-      float aspect = u_resolution.x / u_resolution.y;
-      vec2 uv = v_uv;
-      vec2 travel = rotate(vec2(u_distortion_time), 5.497787);
-      float distortion = layeredNoise((uv * 1.9) + travel + 50.0 + u_morph_time);
-      float eased = 1.0 - pow(1.0 - smoothstep(0.0, 1.0, distortion), 3.0);
-      float strength = 1.0 - (eased * 0.31);
-
-      uv = ((uv - 0.5) * strength) + 0.5;
-
-      vec2 center = u_position;
-      uv.x *= aspect;
-      center.x *= aspect;
-
-      float gradient = clamp(length(center - uv) / u_radius, 0.0, 1.0);
-      float grain = random(floor(gl_FragCoord.xy) + vec2(u_noise_time * 4096.0, u_noise_time * 173.0));
-      gradient += 0.055 * (grain - 0.5);
-      gradient = smoothstep(0.0, 1.0, gradient);
-
-      vec3 color = mix(u_color_start, u_color_end, gradient);
-      gl_FragColor = vec4(color, 1.0);
-    }
-  `;
-
-  const settings = {
-    colorStart: [0.067, 0.067, 0.067],
-    colorEnd: [0.019, 0.019, 0.019],
-    radius: 1.425,
-    restX: 0.07,
-    restY: 0.5,
-    followSpeed: 0.018,
-    maxPixelRatio: 1.5,
-  };
-
-  function createShader(gl, type, source) {
-    const shader = gl.createShader(type);
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
-
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      throw new Error(gl.getShaderInfoLog(shader) || 'Gradient shader failed to compile.');
-    }
-
-    return shader;
+    return compiled_shader;
   }
 
-  function createProgram(gl) {
-    const program = gl.createProgram();
-    gl.attachShader(program, createShader(gl, gl.VERTEX_SHADER, vertexShader));
-    gl.attachShader(program, createShader(gl, gl.FRAGMENT_SHADER, fragmentShader));
-    gl.linkProgram(program);
+  function createProgram(gl_context) {
+    const shader_program = gl_context.createProgram();
+    gl_context.attachShader(
+      shader_program,
+      createShader(gl_context, gl_context.VERTEX_SHADER, VERTEX_SHADER_SOURCE),
+    );
+    gl_context.attachShader(
+      shader_program,
+      createShader(gl_context, gl_context.FRAGMENT_SHADER, FRAGMENT_SHADER_SOURCE),
+    );
+    gl_context.linkProgram(shader_program);
 
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      throw new Error(gl.getProgramInfoLog(program) || 'Gradient program failed to link.');
+    if (!gl_context.getProgramParameter(shader_program, gl_context.LINK_STATUS)) {
+      throw new Error(
+        gl_context.getProgramInfoLog(shader_program) || 'Background program failed to link.',
+      );
     }
 
-    return program;
+    return shader_program;
   }
 
-  function smoothstep(edge0, edge1, value) {
-    const amount = Math.min(1, Math.max(0, (value - edge0) / (edge1 - edge0)));
-    return amount * amount * (3 - (2 * amount));
-  }
-
-  function createGradientBackground(wrapper) {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl', {
+  function createNoiseBackground(background_wrapper) {
+    const background_canvas = document.createElement('canvas');
+    const gl_context = background_canvas.getContext('webgl', {
       alpha: false,
       antialias: false,
       depth: false,
@@ -139,119 +79,94 @@
       failIfMajorPerformanceCaveat: true,
     });
 
-    if (!gl) {
+    if (!gl_context) {
       return;
     }
 
-    const program = createProgram(gl);
-    const positionBuffer = gl.createBuffer();
-    const locations = {
-      position: gl.getAttribLocation(program, 'a_position'),
-      colorStart: gl.getUniformLocation(program, 'u_color_start'),
-      colorEnd: gl.getUniformLocation(program, 'u_color_end'),
-      resolution: gl.getUniformLocation(program, 'u_resolution'),
-      positionTarget: gl.getUniformLocation(program, 'u_position'),
-      radius: gl.getUniformLocation(program, 'u_radius'),
-      noiseTime: gl.getUniformLocation(program, 'u_noise_time'),
-      distortionTime: gl.getUniformLocation(program, 'u_distortion_time'),
-      morphTime: gl.getUniformLocation(program, 'u_morph_time'),
+    const shader_program = createProgram(gl_context);
+    const position_buffer = gl_context.createBuffer();
+    const shader_locations = {
+      canvas_position: gl_context.getAttribLocation(shader_program, 'a_canvas_position'),
+      viewport_size: gl_context.getUniformLocation(shader_program, 'u_viewport_size'),
     };
 
-    let animationFrame = 0;
-    let width = 1;
-    let height = 1;
-    let targetX = settings.restX;
-    let targetY = settings.restY;
-    let currentX = targetX;
-    let currentY = targetY;
-    const startTime = performance.now();
+    let animation_frame = 0;
+    let viewport_width = 1;
+    let viewport_height = 1;
 
-    canvas.setAttribute('aria-hidden', 'true');
-    wrapper.appendChild(canvas);
+    background_canvas.setAttribute('aria-hidden', 'true');
+    background_wrapper.appendChild(background_canvas);
 
-    gl.useProgram(program);
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 3, 3, -1]), gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(locations.position);
-    gl.vertexAttribPointer(locations.position, 2, gl.FLOAT, false, 0, 0);
-    gl.uniform3fv(locations.colorStart, settings.colorStart);
-    gl.uniform3fv(locations.colorEnd, settings.colorEnd);
-    gl.uniform1f(locations.radius, settings.radius);
+    gl_context.useProgram(shader_program);
+    gl_context.bindBuffer(gl_context.ARRAY_BUFFER, position_buffer);
+    gl_context.bufferData(
+      gl_context.ARRAY_BUFFER,
+      new Float32Array([-1, -1, -1, 3, 3, -1]),
+      gl_context.STATIC_DRAW,
+    );
+    gl_context.enableVertexAttribArray(shader_locations.canvas_position);
+    gl_context.vertexAttribPointer(
+      shader_locations.canvas_position,
+      2,
+      gl_context.FLOAT,
+      false,
+      0,
+      0,
+    );
 
-    function resize() {
-      const ratio = Math.min(settings.maxPixelRatio, window.devicePixelRatio || 1);
-      const bounds = wrapper.getBoundingClientRect();
-      width = Math.max(1, Math.floor(bounds.width * ratio));
-      height = Math.max(1, Math.floor(bounds.height * ratio));
+    function resizeBackground() {
+      const wrapper_bounds = background_wrapper.getBoundingClientRect();
+      viewport_width = Math.max(1, Math.round(wrapper_bounds.width));
+      viewport_height = Math.max(1, Math.round(wrapper_bounds.height));
+      const render_width = viewport_width;
+      const render_height = viewport_height;
 
-      if (canvas.width !== width || canvas.height !== height) {
-        canvas.width = width;
-        canvas.height = height;
-        gl.viewport(0, 0, width, height);
+      if (background_canvas.width !== render_width || background_canvas.height !== render_height) {
+        background_canvas.width = render_width;
+        background_canvas.height = render_height;
+        gl_context.viewport(0, 0, render_width, render_height);
+      }
+
+      requestBackgroundRender();
+    }
+
+    function renderBackground() {
+      gl_context.uniform2f(
+        shader_locations.viewport_size,
+        viewport_width,
+        viewport_height,
+      );
+      gl_context.drawArrays(gl_context.TRIANGLES, 0, 3);
+      animation_frame = 0;
+    }
+
+    function requestBackgroundRender() {
+      if (!animation_frame) {
+        animation_frame = window.requestAnimationFrame(renderBackground);
       }
     }
 
-    function handlePointerMove(event) {
-      const bounds = wrapper.getBoundingClientRect();
-      targetX = (event.clientX - bounds.left) / Math.max(1, bounds.width);
-      targetY = 1 - ((event.clientY - bounds.top) / Math.max(1, bounds.height));
-    }
+    resizeBackground();
+    window.addEventListener('resize', resizeBackground, { passive: true });
 
-    function handlePointerLeave() {
-      targetX = settings.restX;
-      targetY = settings.restY;
-    }
-
-    function render(now) {
-      const elapsed = (now - startTime) / 1000;
-      const deltaX = targetX - currentX;
-      const deltaY = targetY - currentY;
-      const distance = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
-      const easeOutFollow = settings.followSpeed * (0.15 + (0.85 * smoothstep(0, 0.85, distance)));
-
-      currentX += deltaX * easeOutFollow;
-      currentY += deltaY * easeOutFollow;
-
-      gl.uniform2f(locations.resolution, width, height);
-      gl.uniform2f(locations.positionTarget, currentX, currentY);
-      gl.uniform1f(locations.noiseTime, (elapsed * 0.016) % 1);
-      gl.uniform1f(locations.distortionTime, elapsed * 0.00025);
-      gl.uniform1f(locations.morphTime, elapsed * 0.002);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
-
-      animationFrame = window.requestAnimationFrame(render);
-    }
-
-    resize();
-    window.addEventListener('resize', resize, { passive: true });
-    window.addEventListener('pointermove', handlePointerMove, { passive: true });
-    window.addEventListener('pointerleave', handlePointerLeave, { passive: true });
-    animationFrame = window.requestAnimationFrame(render);
-
-    wrapper.jurenitesGradientDestroy = function () {
-      window.cancelAnimationFrame(animationFrame);
-      window.removeEventListener('resize', resize);
-      window.removeEventListener('pointermove', handlePointerMove);
-      window.removeEventListener('pointerleave', handlePointerLeave);
-      canvas.remove();
-      delete wrapper.jurenitesGradientInitialized;
-      delete wrapper.jurenitesGradientDestroy;
+    background_wrapper.jurenitesGradientDestroy = function () {
+      window.cancelAnimationFrame(animation_frame);
+      window.removeEventListener('resize', resizeBackground);
+      background_canvas.remove();
+      delete background_wrapper.jurenitesGradientInitialized;
+      delete background_wrapper.jurenitesGradientDestroy;
     };
   }
 
   Drupal.behaviors.jurenitesGradientBackground = {
     attach(context) {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        return;
-      }
-
-      context.querySelectorAll('[data-jurenites-gradient-background]').forEach((wrapper) => {
-        if (wrapper.jurenitesGradientInitialized) {
+      context.querySelectorAll('[data-jurenites-gradient-background]').forEach((background_wrapper) => {
+        if (background_wrapper.jurenitesGradientInitialized) {
           return;
         }
 
-        wrapper.jurenitesGradientInitialized = true;
-        createGradientBackground(wrapper);
+        background_wrapper.jurenitesGradientInitialized = true;
+        createNoiseBackground(background_wrapper);
       });
     },
   };

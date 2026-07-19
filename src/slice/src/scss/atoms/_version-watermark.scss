@@ -1,0 +1,40 @@
+@use "../tools";
+
+.version-watermark {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-scale-tight-gap);
+  right: var(--space-scale-base-gap);
+  bottom: var(--space-scale-base-gap);
+  z-index: var(--component-watermark-layer-default);
+  color: var(--color-watermark-credit-default);
+  user-select: none;
+  white-space: nowrap;
+  @include tools.typography-semantic-watermark-version;
+}
+
+.version-watermark__identity {
+  display: inline-flex;
+  gap: var(--space-scale-tight-gap);
+  align-items: baseline;
+  color: var(--color-watermark-identity-default);
+}
+
+.version-git-hash,
+.version-watermark__credit {
+  color: var(--color-watermark-credit-default);
+}
+
+.version-git-hash {
+  text-decoration: none;
+}
+
+.version-git-hash:hover,
+.version-git-hash:focus-visible {
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-thickness: var(--space-scale-line-size);
+  text-underline-offset: var(--space-scale-tight-gap);
+}

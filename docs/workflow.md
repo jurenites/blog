@@ -23,6 +23,8 @@ design decisions, in W3C/DTCG format.
   Figma sync input
 
 Run `npm run build:tokens` after editing `src/token/tokens.yaml`. `npm run build:theme` runs tokens first automatically.
+Token generation immediately runs `npm run tokens:check`, so copied HEX values,
+CSS opacity declarations, and undefined SCSS token references fail the build.
 
 Token groups:
 
@@ -57,18 +59,36 @@ Storybook is the place to prove component behavior before Drupal integration. It
 Stories are organised by Atomic Design: `Foundations`, `Atoms`, `Molecules`, `Organisms`, `Components`. Each component has exactly one story; property combinations are explored via the Controls tab.
 
 Current Foundations: Colors, Color Abstraction, Color Contrast, Typography,
-Fonts, and Spacing. Their JS reads `generated/token/tokens.js`; their styles
+Typography Mapping, Fonts, and Spacing. Their JS reads `generated/token/tokens.js`; their styles
 read `generated/styles/_tokens.scss`.
 
-Current Atoms: Avatar, Badge, Button, Chip, Date Value, Divider, Surface.
+Current Atoms: Avatar, Badge, Button, Chip, Date Value, Divider, Surface,
+Version Watermark.
 
-Current Molecules: Article Teaser, Contact Me Widget, Project Card.
+Current Molecules: Article Teaser, Author Byline, Contact Me Widget, Pagination,
+Project Card, Pull Quote.
+
+Current Organisms: Site Header.
+
+Pagination shares one BEM class contract between its Storybook markup helper and
+Drupal's `templates/navigation/pager.html.twig` override. At the token-defined
+mobile breakpoint it collapses numbered links into previous/next controls and a
+current-page status so the component remains usable at the 360px minimum width.
 
 Static source assets, such as local fonts, live in `src/public/` and are served
 by Storybook as root-relative assets.
 
 Current timeline work lives in `src/stories/timeline/` and uses the same token
 and Storybook conventions while it is still being shaped.
+
+The Storybook interface and every preview screen display build identity in the bottom-right corner:
+the shared project version, deployed Git commit hash, collaboration credit, and
+creation time in GMT. This metadata is generated automatically when Storybook
+starts or builds and is not committed to Git.
+
+Storybook and Drupal obtain version, commit, and GMT build metadata from
+`scripts/build-information.mjs`. Drupal's global HTML template renders the
+Version Watermark automatically, so page authors never add it manually.
 
 ## 4. Figma
 
@@ -120,6 +140,8 @@ Theme source workflow:
 - SCSS source lives in `src/slice/src/scss/`.
 - JavaScript source lives in `src/slice/src/js/`.
 - The Drupal theme should reference generated assets: `web/themes/custom/jurenites_theme/css/style.min.css` and `web/themes/custom/jurenites_theme/js/script.min.js`.
+- The Drupal build configures theme-relative font URLs and copies the canonical
+  font files from `src/public/assets/fonts/` into the theme's generated assets.
 - Run `npm run build:theme` after source edits.
 
 LLM-specific continuity notes live in `docs/llm-project-memory.md`. Keep that file updated when the site structure or implementation decisions change.
@@ -133,6 +155,9 @@ docker compose up -d
 ```
 
 Then verify the site with an actual HTTP check, not just running containers.
+The Compose stack uses `jurenites.local` for Drupal and
+`storybook.jurenites.local` for Storybook, routed through one local port-80
+proxy. These names deliberately mirror the future `jurenites.com` domain shape.
 
 ## 7. Visual Testing
 
@@ -141,16 +166,38 @@ Treat it as an implementation plan until the first real scenario is built and
 verified. When visual testing scripts are added later, update that plan into a
 runbook and add the commands to `package.json`.
 
-## 8. Staging
+Current browser inspection setup:
+
+```bash
+npm install --save-dev playwright
+npm run playwright:install
+npm run storybook:inspect
+```
+
+`npm run storybook:inspect` rebuilds static Storybook, discovers foundation,
+atom, molecule, and organism stories from Storybook's generated index, and checks every
+story at the token-defined 360px mobile minimum, 1280px desktop minimum, and
+1920px desktop maximum. It fails on browser errors, blank renders, horizontal overflow, or missing CSS
+custom properties. Browser binaries are stored under `.cache/ms-playwright/`
+and ignored by Git.
+
+## 8. Planned Quality Checks
+
+- TODO: promote the browser inspection's missing-variable check into a faster
+  lint/build check that scans handwritten SCSS and
+  Storybook styles for `var(--...)` references and fails when a referenced CSS
+  custom property is not emitted by `src/token/tokens.yaml`.
+
+## 9. Staging
 
 Staging needs two tracks:
 
 - Vercel for Storybook/static design previews.
 - Drupal-capable hosting for full CMS staging when needed.
 
-## 9. Production
+## 10. Production
 
-Production target is a low-cost hosting server for `juernites.com` or a final domain chosen later.
+Production target is a low-cost hosting server for `jurenites.com`.
 
 Production needs:
 

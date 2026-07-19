@@ -7,15 +7,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-scale-small-default);
+  gap: var(--space-scale-base-gap);
   min-height: var(--system-grid-minimum-interactive-size);
-  padding: 0 var(--space-scale-medium-default);
+  padding: 0 var(--space-scale-medium-gap);
   border: var(--shape-border-width-thick-default) solid transparent;
   border-radius: var(--shape-corner-radius-small-default);
   background: transparent;
   color: var(--color-text-primary-default);
   cursor: pointer;
   @include tools.typography-button-label;
+  text-transform: var(--component-button-label-text-transform-default);
   @include tools.motion-transition(background-color, color, border-color, box-shadow);
 }
 
