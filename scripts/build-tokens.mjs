@@ -14,6 +14,8 @@ const TOKENS_SOURCE = resolve(ROOT, 'src/token/tokens.yaml');
 const OUTPUT_SCSS = resolve(ROOT, 'generated/styles/_tokens.scss');
 const OUTPUT_JS = resolve(ROOT, 'generated/token/tokens.js');
 const REFERENCE_PATTERN = /^\{([^{}]+)\}$/;
+// why we have this list here ? does i bring any value to us?  even if yes its definatley can be shorter. 
+// @TODO: review the next GENERIC_FONT_FAMILIES list make it shorter or even reduce using it.
 const GENERIC_FONT_FAMILIES = new Set([
   'serif',
   'sans-serif',

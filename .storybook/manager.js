@@ -12,6 +12,7 @@ function create_build_stamp() {
   const version_label = document.createElement("span");
   const version_number = document.createElement("span");
   const version_separator = document.createElement("span");
+  const date_separator = document.createElement("span");
   const git_hash_link = document.createElement("a");
   const credit_label = document.createElement("span");
   const date_label = document.createElement("span");
@@ -25,18 +26,27 @@ function create_build_stamp() {
   version_number.textContent = build_info.project_version;
   version_separator.textContent = "·";
   version_separator.setAttribute("aria-hidden", "true");
+  date_label.className = "storybook-build-stamp__date";
+  date_label.textContent = build_info.created_gmt;
+  date_separator.textContent = "·";
+  date_separator.setAttribute("aria-hidden", "true");
   git_hash_link.className = "storybook-build-stamp__git-hash";
   git_hash_link.href = build_info.commit_url;
   git_hash_link.target = "_blank";
   git_hash_link.rel = "noopener noreferrer";
   git_hash_link.textContent = build_info.commit_hash;
-  identity_label.append(version_label, version_number, version_separator, git_hash_link);
+  identity_label.append(
+    version_label,
+    version_number,
+    version_separator,
+    date_label,
+    date_separator,
+    git_hash_link,
+  );
   credit_label.className = "storybook-build-stamp__credit";
   credit_label.textContent = `made by ${build_info.collaboration_credit}`;
-  date_label.className = "storybook-build-stamp__date";
-  date_label.textContent = `(${build_info.created_gmt})`;
 
-  build_stamp.append(identity_label, credit_label, date_label);
+  build_stamp.append(identity_label, credit_label);
   document.body.append(build_stamp);
 }
 

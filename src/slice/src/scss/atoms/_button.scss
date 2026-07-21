@@ -7,6 +7,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  /* Question: Cnat we do something with ide so on hover of the Variable i can see the actual value store d there ? basically itsa constant not a variable, i want to know what the is holding behind this name, if no its ok jsut need some answers here 
+  @TODO: pelase investigane and answer to me*/
   gap: var(--space-scale-base-gap);
   min-height: var(--system-grid-minimum-interactive-size);
   padding: 0 var(--space-scale-medium-gap);
@@ -27,6 +29,8 @@
 .button--primary {
   background: var(--color-action-primary-default);
   color: var(--color-text-inverse-default);
+  /* same here put a belonged :hover property inside this class properties not outside, i wanna see all the nested porpertnes under the roof of a main class 
+  @TODO: move the propertines here inside. and review the other SCSS files to follow that pattern there too, this is iterative task potentially.*/ 
 }
 
 .button--primary:hover {

@@ -13,6 +13,7 @@
 
 .surface--raised {
   background: var(--color-surface-panel-raised);
+  /* @TODO: explain this top me, is uppose this is just load the shadow porperty here, right? */
   @include tools.elevation("level-3");
 }
 

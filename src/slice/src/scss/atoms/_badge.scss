@@ -10,6 +10,8 @@
   background: var(--color-surface-panel-raised);
   color: var(--color-text-primary-default);
   @include tools.typography-overline-default;
+  /* thw whole [pount of SCSS to have something ingherited in so,mething else, probably it worth to include here inside this class the other class that are neibpurs , they always go in pair. and ist inside. just some formatting rant on my side, 
+  @TODO: please review the closing figure bracket wrap here*/
 }
 
 .badge--success {

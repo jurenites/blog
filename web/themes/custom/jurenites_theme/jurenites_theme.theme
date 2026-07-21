@@ -25,8 +25,10 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
   $commit_hash = $build_information['commit_hash'] ?? 'unknown';
   $commit_url = $build_information['commit_url'] ?? '';
   $collaboration_credit = $build_information['collaboration_credit'] ?? 'Alex';
+  $created_gmt = $build_information['created_gmt'] ?? 'unknown GMT+0';
   $html_variables['watermark_version_label'] = 'Version';
   $html_variables['watermark_version_number'] = $project_version;
+  $html_variables['watermark_updated_gmt'] = $created_gmt;
   $html_variables['watermark_git_hash'] = $commit_hash;
   $html_variables['watermark_git_url'] = $commit_url;
   $html_variables['watermark_credit_text'] = sprintf(

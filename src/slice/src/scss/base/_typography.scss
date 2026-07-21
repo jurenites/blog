@@ -4,6 +4,8 @@
 
 @use "../tools";
 
+/* for me it felt like this kind of mapping shouldhappens in the token levels, when certain token-names are related to other cetain semantic-variable-names and then addressed here.for me its odd to read that h1 belong to h3 - isnt it ? 
+@TODO: add another level of abstraction wich a fiel that contain the mapping of a certain variable-names to belong to certain variable-names , this files with mapping needed to be controled in single pace andeasy to find next to the token files themself, so it would be a place to control not the property of a variable but the relation one with another.*/
 h1 {
   @include tools.typography-headline-3;
 }
@@ -32,6 +34,9 @@ p {
   @include tools.typography-body-1;
 }
 
+span,
+/* what this "small" means is that sometag? i dont like it, lets not have it 
+@TODO: do not use the "<small>" tag and check where it also used */
 small,
 .text-caption {
   @include tools.typography-caption-default;

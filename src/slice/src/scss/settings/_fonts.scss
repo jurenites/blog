@@ -15,7 +15,8 @@ $font-assets-path: "/assets/fonts" !default;
   font-style: normal;
   font-display: swap;
 }
-
+/* why whould we have italic font at the website, was it requeset? im not sure about it
+@TODO: lets get rid of italic text */
 @font-face {
   font-family: "Open Sans";
   src: url("#{$font-assets-path}/opensans-italic.woff") format("woff");

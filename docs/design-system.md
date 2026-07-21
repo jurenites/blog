@@ -129,16 +129,26 @@ Use these terms when reviewing or tuning the interactive background:
 - **radial field**: the huge grayscale circle that controls the underlying tone;
   it scales from the viewport diagonal and is not capped at Full HD.
 - **grain field**: the static one-logical-pixel monochrome noise visible at rest.
-- **dither field**: a future structured pixel-art texture calculated from a
+- **dither field**: a structured pixel-art texture calculated from the
   scene's local tone.
-- **dither lens**: the retired cursor-reveal experiment. It remains glossary
-  language only and is not part of the live background.
-- **mark size**: one future dither cell in CSS logical pixels. It must match the
-  resting grain's 1px logical scale.
+- **dither brush**: the hard-edged circular cursor area that replaces resting
+  grain with ordered four-by-four-pixel pattern families.
+- **mark size**: one dither cell in CSS logical pixels. Every cell pixel and
+  resting-grain pixel maps to one screen logical pixel.
 
-The live background is a static radial field plus a deterministic grain field;
-it has no hover transformation. The grain seed has no time input, so pixels
-remain unchanged between frames. The editable implementation lives in
+The live background combines a radial field, one-logical-pixel grain, and an
+ordered dither brush. Local radial tone selects between four related pattern
+families: small crosses, rotated crosses, diagonal weave, and offset checker.
+Each family has 16 ordered grayscale ranks. Unlike binary dithering, its darkest
+and lightest pixels use the same local `gradient tone -/+ 0.085` range as the
+resting noise. The brush boundary uses a binary pixel test with no alpha or
+gradient-to-transparency, but that matching tonal range prevents a contrasting
+ring at the edge. As the brush moves, only the logical pixels it has uncovered
+receive new random grain; untouched areas and the pattern still under the cursor
+remain stable. Brush history is sampled every 50ms, independent of distance
+travelled. Each sampled circle remains at the full 92px radius for 180ms and
+then shrinks in hard logical-pixel steps over 820ms. Trail pixels never fade
+through transparency. The editable implementation lives in
 `src/slice/src/js/script.js`; generated theme JavaScript must continue to come
 from `npm run build:theme`.
 

@@ -48,8 +48,11 @@ function render_version_watermark(story_function) {
   }
 
   const watermark_markup = version_watermark_markup({
-    version_text: `Version ${build_info.project_version}`,
+    version_label: "Version",
+    version_number: build_info.project_version,
+    updated_gmt: build_info.created_gmt,
     git_hash: build_info.commit_hash,
+    git_url: build_info.commit_url,
     credit_text: `made by ${build_info.collaboration_credit}`,
   });
 

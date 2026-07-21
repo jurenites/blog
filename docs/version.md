@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 0.0.10
+Version: 0.0.15
 Reviewed: 2026-07-19
 
 This checkpoint says the `/docs` folder has been reviewed against the current
@@ -58,16 +58,20 @@ token endpoint, and planned visual testing workflow.
 - Semantic typography mapping separates foundation roles from theme roles;
   Blog Title is Open Sans 32px/500.
 - The screenshot signature displays the shared project version, current
-  seven-character Git hash, and collaboration credit with exact solid token
-  colors in Drupal, the Storybook manager, and every Storybook preview screen.
+  UTC build update time to the second, seven-character Git hash, and collaboration
+  credit with exact solid token colors in Drupal, the Storybook manager, and every
+  Storybook preview screen.
 - Typography dimensions now use explicit pixel values end to end; legacy root
   font-size conversion logic has been removed from Storybook and Figma sync.
 - Project-owned folder documentation is centralized in
   `docs/repository-structure.md`; the repository root contains the only tracked
   `README.md`.
-- The front page currently uses only a static monochrome radial field and
-  deterministic one-logical-pixel grain across mobile, desktop, and ultrawide
-  viewports. The unsuccessful cursor dither experiment has been removed.
+- The front page uses a monochrome radial field, one-logical-pixel grain, and a
+  hard-edged cursor brush with four structured four-by-four pattern families.
+  Sixteen grayscale ranks remain inside the resting noise's local tonal range,
+  and only logical pixels uncovered by a brush pass receive new random grain.
+- The cursor brush leaves a clock-sampled dither trail. Trail circles hold at
+  full size briefly, then shrink through hard logical-pixel radii over one second.
 - Future scenic backgrounds use named parallax depth layers from sky through
   foreground dunes.
 - Typography roles do not own uppercase transformation. Uppercase is an explicit
@@ -92,5 +96,6 @@ token endpoint, and planned visual testing workflow.
 - The procedural background renders exactly one shader sample per CSS logical
   pixel. The complete gradient and grain are pixel-quantized and Retina output
   uses nearest-neighbor presentation rather than physical-pixel interpolation.
-- The favicon uses unconditional black-background and white-mark fills in a
-  dedicated file, avoiding browser-dependent SVG color-scheme interpretation.
+- The favicon uses the compact 16px Jurenites mark and adapts for tab contrast:
+  light browser themes receive a black background with a white mark, while dark
+  browser themes receive a white background with a black mark.
