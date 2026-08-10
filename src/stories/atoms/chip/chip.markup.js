@@ -4,6 +4,6 @@ import { escape_html, render_template } from "../../template.js";
 export function chip_markup({ chip_label, is_accent = false }) {
   return render_template(chip_template, {
     class_name: is_accent ? " chip--accent" : "",
-    label: escape_html(chip_label),
+    chip_label_text: escape_html(chip_label),
   });
 }

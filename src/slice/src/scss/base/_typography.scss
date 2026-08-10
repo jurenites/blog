@@ -1,47 +1,41 @@
-// Maps Material M2 typography roles onto default HTML elements.
-// Components can also include the role mixins directly (for example
-// `@include tools.typography-headline-3;`).
+// Central mapping from document semantics to the project's typography roles.
+// Components may include the same role mixins directly when their semantics do
+// not come from a native heading or paragraph element.
 
 @use "../tools";
 
-/* for me it felt like this kind of mapping shouldhappens in the token levels, when certain token-names are related to other cetain semantic-variable-names and then addressed here.for me its odd to read that h1 belong to h3 - isnt it ? 
-@TODO: add another level of abstraction wich a fiel that contain the mapping of a certain variable-names to belong to certain variable-names , this files with mapping needed to be controled in single pace andeasy to find next to the token files themself, so it would be a place to control not the property of a variable but the relation one with another.*/
 h1 {
-  @include tools.typography-headline-3;
+  @include tools.typography-semantic-document-heading-1;
 }
 
 h2 {
-  @include tools.typography-headline-4;
+  @include tools.typography-semantic-document-heading-2;
 }
 
 h3 {
-  @include tools.typography-headline-5;
+  @include tools.typography-semantic-document-heading-3;
 }
 
 h4 {
-  @include tools.typography-headline-6;
+  @include tools.typography-semantic-document-heading-4;
 }
 
 h5 {
-  @include tools.typography-subtitle-1;
+  @include tools.typography-semantic-document-heading-5;
 }
 
 h6 {
-  @include tools.typography-subtitle-2;
+  @include tools.typography-semantic-document-heading-6;
 }
 
 p {
   @include tools.typography-body-1;
 }
 
-span,
-/* what this "small" means is that sometag? i dont like it, lets not have it 
-@TODO: do not use the "<small>" tag and check where it also used */
-small,
 .text-caption {
-  @include tools.typography-caption-default;
+  @include tools.typography-caption;
 }
 
 .text-overline {
-  @include tools.typography-overline-default;
+  @include tools.typography-overline;
 }

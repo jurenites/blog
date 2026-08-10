@@ -377,7 +377,7 @@ typography:
     letter-spacing:
       "$type": string
       "$value": normal
-  caption-default:
+  caption:
     font-family:
       "$type": fontFamily
       "$value": "{typography.font-family.sans-default}"
@@ -393,7 +393,7 @@ typography:
     letter-spacing:
       "$type": string
       "$value": normal
-  overline-default:
+  overline:
     font-family:
       "$type": fontFamily
       "$value": "{typography.font-family.sans-default}"
@@ -426,6 +426,42 @@ typography:
       "$type": string
       "$value": normal
     "$description": Semantic title role for blog and personal-page headings.
+  semantic-document-heading-1:
+    font-family: { "$type": fontFamily, "$value": "{typography.headline-3.font-family}" }
+    font-size: { "$type": dimension, "$value": "{typography.headline-3.font-size}" }
+    font-weight: { "$type": number, "$value": "{typography.headline-3.font-weight}" }
+    line-height: { "$type": number, "$value": "{typography.headline-3.line-height}" }
+    letter-spacing: { "$type": string, "$value": "{typography.headline-3.letter-spacing}" }
+  semantic-document-heading-2:
+    font-family: { "$type": fontFamily, "$value": "{typography.headline-4.font-family}" }
+    font-size: { "$type": dimension, "$value": "{typography.headline-4.font-size}" }
+    font-weight: { "$type": number, "$value": "{typography.headline-4.font-weight}" }
+    line-height: { "$type": number, "$value": "{typography.headline-4.line-height}" }
+    letter-spacing: { "$type": string, "$value": "{typography.headline-4.letter-spacing}" }
+  semantic-document-heading-3:
+    font-family: { "$type": fontFamily, "$value": "{typography.headline-5.font-family}" }
+    font-size: { "$type": dimension, "$value": "{typography.headline-5.font-size}" }
+    font-weight: { "$type": number, "$value": "{typography.headline-5.font-weight}" }
+    line-height: { "$type": number, "$value": "{typography.headline-5.line-height}" }
+    letter-spacing: { "$type": string, "$value": "{typography.headline-5.letter-spacing}" }
+  semantic-document-heading-4:
+    font-family: { "$type": fontFamily, "$value": "{typography.headline-6.font-family}" }
+    font-size: { "$type": dimension, "$value": "{typography.headline-6.font-size}" }
+    font-weight: { "$type": number, "$value": "{typography.headline-6.font-weight}" }
+    line-height: { "$type": number, "$value": "{typography.headline-6.line-height}" }
+    letter-spacing: { "$type": string, "$value": "{typography.headline-6.letter-spacing}" }
+  semantic-document-heading-5:
+    font-family: { "$type": fontFamily, "$value": "{typography.subtitle-1.font-family}" }
+    font-size: { "$type": dimension, "$value": "{typography.subtitle-1.font-size}" }
+    font-weight: { "$type": number, "$value": "{typography.subtitle-1.font-weight}" }
+    line-height: { "$type": number, "$value": "{typography.subtitle-1.line-height}" }
+    letter-spacing: { "$type": string, "$value": "{typography.subtitle-1.letter-spacing}" }
+  semantic-document-heading-6:
+    font-family: { "$type": fontFamily, "$value": "{typography.subtitle-2.font-family}" }
+    font-size: { "$type": dimension, "$value": "{typography.subtitle-2.font-size}" }
+    font-weight: { "$type": number, "$value": "{typography.subtitle-2.font-weight}" }
+    line-height: { "$type": number, "$value": "{typography.subtitle-2.line-height}" }
+    letter-spacing: { "$type": string, "$value": "{typography.subtitle-2.letter-spacing}" }
   semantic-watermark-version:
     font-family:
       "$type": fontFamily
@@ -629,7 +665,17 @@ layout:
     desktop-default:
       "$type": dimension
       "$value": "{space.scale.roomy-gap}"
+  article-teaser:
+    padding-block-default:
+      "$type": dimension
+      "$value": "{space.scale.large-gap}"
+      "$description": Vertical distance between article teaser content and its boundary.
 component:
+  site-branding:
+    logo-size-default:
+      "$type": dimension
+      "$value": "{space.scale.display-gap}"
+      "$description": Maximum rendered width and height of the site logo.
   watermark:
     layer-default:
       "$type": number

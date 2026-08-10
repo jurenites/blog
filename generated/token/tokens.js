@@ -1255,10 +1255,10 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
-    "name": "typography-caption-default-font-family",
+    "name": "typography-caption-font-family",
     "path": [
       "typography",
-      "caption-default",
+      "caption",
       "font-family"
     ],
     "type": "fontFamily",
@@ -1272,10 +1272,10 @@ export const TOKEN_RECORDS = [
     "is_reference": true
   },
   {
-    "name": "typography-caption-default-font-size",
+    "name": "typography-caption-font-size",
     "path": [
       "typography",
-      "caption-default",
+      "caption",
       "font-size"
     ],
     "type": "dimension",
@@ -1284,10 +1284,10 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
-    "name": "typography-caption-default-font-weight",
+    "name": "typography-caption-font-weight",
     "path": [
       "typography",
-      "caption-default",
+      "caption",
       "font-weight"
     ],
     "type": "number",
@@ -1296,10 +1296,10 @@ export const TOKEN_RECORDS = [
     "is_reference": true
   },
   {
-    "name": "typography-caption-default-line-height",
+    "name": "typography-caption-line-height",
     "path": [
       "typography",
-      "caption-default",
+      "caption",
       "line-height"
     ],
     "type": "number",
@@ -1308,10 +1308,10 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
-    "name": "typography-caption-default-letter-spacing",
+    "name": "typography-caption-letter-spacing",
     "path": [
       "typography",
-      "caption-default",
+      "caption",
       "letter-spacing"
     ],
     "type": "string",
@@ -1320,10 +1320,10 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
-    "name": "typography-overline-default-font-family",
+    "name": "typography-overline-font-family",
     "path": [
       "typography",
-      "overline-default",
+      "overline",
       "font-family"
     ],
     "type": "fontFamily",
@@ -1337,10 +1337,10 @@ export const TOKEN_RECORDS = [
     "is_reference": true
   },
   {
-    "name": "typography-overline-default-font-size",
+    "name": "typography-overline-font-size",
     "path": [
       "typography",
-      "overline-default",
+      "overline",
       "font-size"
     ],
     "type": "dimension",
@@ -1349,10 +1349,10 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
-    "name": "typography-overline-default-font-weight",
+    "name": "typography-overline-font-weight",
     "path": [
       "typography",
-      "overline-default",
+      "overline",
       "font-weight"
     ],
     "type": "number",
@@ -1361,10 +1361,10 @@ export const TOKEN_RECORDS = [
     "is_reference": true
   },
   {
-    "name": "typography-overline-default-line-height",
+    "name": "typography-overline-line-height",
     "path": [
       "typography",
-      "overline-default",
+      "overline",
       "line-height"
     ],
     "type": "number",
@@ -1373,10 +1373,10 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
-    "name": "typography-overline-default-letter-spacing",
+    "name": "typography-overline-letter-spacing",
     "path": [
       "typography",
-      "overline-default",
+      "overline",
       "letter-spacing"
     ],
     "type": "string",
@@ -1448,6 +1448,396 @@ export const TOKEN_RECORDS = [
     "value": "normal",
     "css_value": "normal",
     "is_reference": false
+  },
+  {
+    "name": "typography-semantic-document-heading-1-font-family",
+    "path": [
+      "typography",
+      "semantic-document-heading-1",
+      "font-family"
+    ],
+    "type": "fontFamily",
+    "value": [
+      "Open Sans",
+      "Helvetica Neue",
+      "Arial",
+      "sans-serif"
+    ],
+    "css_value": "\"Open Sans\", \"Helvetica Neue\", \"Arial\", sans-serif",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-1-font-size",
+    "path": [
+      "typography",
+      "semantic-document-heading-1",
+      "font-size"
+    ],
+    "type": "dimension",
+    "value": "48px",
+    "css_value": "48px",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-1-font-weight",
+    "path": [
+      "typography",
+      "semantic-document-heading-1",
+      "font-weight"
+    ],
+    "type": "number",
+    "value": 400,
+    "css_value": "400",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-1-line-height",
+    "path": [
+      "typography",
+      "semantic-document-heading-1",
+      "line-height"
+    ],
+    "type": "number",
+    "value": 1.25,
+    "css_value": "1.25",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-1-letter-spacing",
+    "path": [
+      "typography",
+      "semantic-document-heading-1",
+      "letter-spacing"
+    ],
+    "type": "string",
+    "value": "normal",
+    "css_value": "normal",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-2-font-family",
+    "path": [
+      "typography",
+      "semantic-document-heading-2",
+      "font-family"
+    ],
+    "type": "fontFamily",
+    "value": [
+      "Open Sans",
+      "Helvetica Neue",
+      "Arial",
+      "sans-serif"
+    ],
+    "css_value": "\"Open Sans\", \"Helvetica Neue\", \"Arial\", sans-serif",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-2-font-size",
+    "path": [
+      "typography",
+      "semantic-document-heading-2",
+      "font-size"
+    ],
+    "type": "dimension",
+    "value": "34px",
+    "css_value": "34px",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-2-font-weight",
+    "path": [
+      "typography",
+      "semantic-document-heading-2",
+      "font-weight"
+    ],
+    "type": "number",
+    "value": 400,
+    "css_value": "400",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-2-line-height",
+    "path": [
+      "typography",
+      "semantic-document-heading-2",
+      "line-height"
+    ],
+    "type": "number",
+    "value": 1.235,
+    "css_value": "1.235",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-2-letter-spacing",
+    "path": [
+      "typography",
+      "semantic-document-heading-2",
+      "letter-spacing"
+    ],
+    "type": "string",
+    "value": "normal",
+    "css_value": "normal",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-3-font-family",
+    "path": [
+      "typography",
+      "semantic-document-heading-3",
+      "font-family"
+    ],
+    "type": "fontFamily",
+    "value": [
+      "Open Sans",
+      "Helvetica Neue",
+      "Arial",
+      "sans-serif"
+    ],
+    "css_value": "\"Open Sans\", \"Helvetica Neue\", \"Arial\", sans-serif",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-3-font-size",
+    "path": [
+      "typography",
+      "semantic-document-heading-3",
+      "font-size"
+    ],
+    "type": "dimension",
+    "value": "24px",
+    "css_value": "24px",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-3-font-weight",
+    "path": [
+      "typography",
+      "semantic-document-heading-3",
+      "font-weight"
+    ],
+    "type": "number",
+    "value": 400,
+    "css_value": "400",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-3-line-height",
+    "path": [
+      "typography",
+      "semantic-document-heading-3",
+      "line-height"
+    ],
+    "type": "number",
+    "value": 1.334,
+    "css_value": "1.334",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-3-letter-spacing",
+    "path": [
+      "typography",
+      "semantic-document-heading-3",
+      "letter-spacing"
+    ],
+    "type": "string",
+    "value": "normal",
+    "css_value": "normal",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-4-font-family",
+    "path": [
+      "typography",
+      "semantic-document-heading-4",
+      "font-family"
+    ],
+    "type": "fontFamily",
+    "value": [
+      "Open Sans",
+      "Helvetica Neue",
+      "Arial",
+      "sans-serif"
+    ],
+    "css_value": "\"Open Sans\", \"Helvetica Neue\", \"Arial\", sans-serif",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-4-font-size",
+    "path": [
+      "typography",
+      "semantic-document-heading-4",
+      "font-size"
+    ],
+    "type": "dimension",
+    "value": "20px",
+    "css_value": "20px",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-4-font-weight",
+    "path": [
+      "typography",
+      "semantic-document-heading-4",
+      "font-weight"
+    ],
+    "type": "number",
+    "value": 500,
+    "css_value": "500",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-4-line-height",
+    "path": [
+      "typography",
+      "semantic-document-heading-4",
+      "line-height"
+    ],
+    "type": "number",
+    "value": 1.6,
+    "css_value": "1.6",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-4-letter-spacing",
+    "path": [
+      "typography",
+      "semantic-document-heading-4",
+      "letter-spacing"
+    ],
+    "type": "string",
+    "value": "normal",
+    "css_value": "normal",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-5-font-family",
+    "path": [
+      "typography",
+      "semantic-document-heading-5",
+      "font-family"
+    ],
+    "type": "fontFamily",
+    "value": [
+      "Open Sans",
+      "Helvetica Neue",
+      "Arial",
+      "sans-serif"
+    ],
+    "css_value": "\"Open Sans\", \"Helvetica Neue\", \"Arial\", sans-serif",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-5-font-size",
+    "path": [
+      "typography",
+      "semantic-document-heading-5",
+      "font-size"
+    ],
+    "type": "dimension",
+    "value": "16px",
+    "css_value": "16px",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-5-font-weight",
+    "path": [
+      "typography",
+      "semantic-document-heading-5",
+      "font-weight"
+    ],
+    "type": "number",
+    "value": 400,
+    "css_value": "400",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-5-line-height",
+    "path": [
+      "typography",
+      "semantic-document-heading-5",
+      "line-height"
+    ],
+    "type": "number",
+    "value": 1.75,
+    "css_value": "1.75",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-5-letter-spacing",
+    "path": [
+      "typography",
+      "semantic-document-heading-5",
+      "letter-spacing"
+    ],
+    "type": "string",
+    "value": "normal",
+    "css_value": "normal",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-6-font-family",
+    "path": [
+      "typography",
+      "semantic-document-heading-6",
+      "font-family"
+    ],
+    "type": "fontFamily",
+    "value": [
+      "Open Sans",
+      "Helvetica Neue",
+      "Arial",
+      "sans-serif"
+    ],
+    "css_value": "\"Open Sans\", \"Helvetica Neue\", \"Arial\", sans-serif",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-6-font-size",
+    "path": [
+      "typography",
+      "semantic-document-heading-6",
+      "font-size"
+    ],
+    "type": "dimension",
+    "value": "14px",
+    "css_value": "14px",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-6-font-weight",
+    "path": [
+      "typography",
+      "semantic-document-heading-6",
+      "font-weight"
+    ],
+    "type": "number",
+    "value": 500,
+    "css_value": "500",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-6-line-height",
+    "path": [
+      "typography",
+      "semantic-document-heading-6",
+      "line-height"
+    ],
+    "type": "number",
+    "value": 1.57,
+    "css_value": "1.57",
+    "is_reference": true
+  },
+  {
+    "name": "typography-semantic-document-heading-6-letter-spacing",
+    "path": [
+      "typography",
+      "semantic-document-heading-6",
+      "letter-spacing"
+    ],
+    "type": "string",
+    "value": "normal",
+    "css_value": "normal",
+    "is_reference": true
   },
   {
     "name": "typography-semantic-watermark-version-font-family",
@@ -2058,6 +2448,30 @@ export const TOKEN_RECORDS = [
     "type": "dimension",
     "value": "32px",
     "css_value": "32px",
+    "is_reference": true
+  },
+  {
+    "name": "layout-article-teaser-padding-block-default",
+    "path": [
+      "layout",
+      "article-teaser",
+      "padding-block-default"
+    ],
+    "type": "dimension",
+    "value": "24px",
+    "css_value": "24px",
+    "is_reference": true
+  },
+  {
+    "name": "component-site-branding-logo-size-default",
+    "path": [
+      "component",
+      "site-branding",
+      "logo-size-default"
+    ],
+    "type": "dimension",
+    "value": "64px",
+    "css_value": "64px",
     "is_reference": true
   },
   {

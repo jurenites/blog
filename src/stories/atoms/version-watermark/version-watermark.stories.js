@@ -1,7 +1,7 @@
 import { version_watermark_markup } from "./version-watermark.markup.js";
 
 const VERSION_LABEL = "Version";
-const VERSION_NUMBER = "0.0.15";
+const VERSION_NUMBER = "0.0.16";
 const UPDATED_GMT = "2026-07-19 20:00:00 GMT+0";
 const GIT_HASH = "336c86c";
 const GIT_URL = "https://github.com/jurenites/blog/commit/336c86c254c2f7c20d22946547e00a48f0389c13";

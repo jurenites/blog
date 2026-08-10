@@ -14,8 +14,8 @@ const TOKENS_SOURCE = resolve(ROOT, 'src/token/tokens.yaml');
 const OUTPUT_SCSS = resolve(ROOT, 'generated/styles/_tokens.scss');
 const OUTPUT_JS = resolve(ROOT, 'generated/token/tokens.js');
 const REFERENCE_PATTERN = /^\{([^{}]+)\}$/;
-// why we have this list here ? does i bring any value to us?  even if yes its definatley can be shorter. 
-// @TODO: review the next GENERIC_FONT_FAMILIES list make it shorter or even reduce using it.
+// Generic family keywords must stay unquoted; project font names are quoted so
+// names containing spaces or starting with a digit remain valid CSS.
 const GENERIC_FONT_FAMILIES = new Set([
   'serif',
   'sans-serif',
@@ -23,13 +23,6 @@ const GENERIC_FONT_FAMILIES = new Set([
   'cursive',
   'fantasy',
   'system-ui',
-  'ui-serif',
-  'ui-sans-serif',
-  'ui-monospace',
-  'ui-rounded',
-  'emoji',
-  'math',
-  'fangsong',
 ]);
 // Token groups that are documentation/metadata only and must not become CSS variables.
 const EXCLUDED_NAME_PREFIXES = ['system-naming'];

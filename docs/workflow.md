@@ -181,12 +181,11 @@ story at the token-defined 360px mobile minimum, 1280px desktop minimum, and
 custom properties. Browser binaries are stored under `.cache/ms-playwright/`
 and ignored by Git.
 
-## 8. Planned Quality Checks
+## 8. Token Contract Check
 
-- TODO: promote the browser inspection's missing-variable check into a faster
-  lint/build check that scans handwritten SCSS and
-  Storybook styles for `var(--...)` references and fails when a referenced CSS
-  custom property is not emitted by `src/token/tokens.yaml`.
+`npm run build:tokens` regenerates token artifacts and runs the fast token
+contract check. It scans handwritten SCSS for `var(--...)` references and fails
+when a referenced custom property is not emitted by `src/token/tokens.yaml`.
 
 ## 9. Staging
 

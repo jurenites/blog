@@ -11,10 +11,10 @@ const status_variant_options = token_option_names(STATUS_VARIANT_PREFIX);
 
 function render_story({ badge_label, status_variant }) {
   const base_status_variant = status_variant_options[0];
-  const badge_modifier = status_variant === base_status_variant ? "" : ` badge--${status_variant}`;
+  const badge_class_name = status_variant === base_status_variant ? "badge" : `badge badge--${status_variant}`;
   return render_template(badge_template, {
-    class_name: badge_modifier,
-    label: escape_html(badge_label),
+    badge_class_name,
+    badge_label_text: escape_html(badge_label),
   });
 }
 

@@ -6,8 +6,7 @@
   justify-content: center;
   gap: var(--space-scale-base-gap);
   max-width: 100%;
-  /* token-name issue the word "primary" for me its theme main colorful color, i dont want my text to be colorfut it mostly black/dark color on light theme and inverted white cotnrasted color i na dark theme, for me its not obvious what ht ecolor i need to expect here., but by reading it i exxpect to see colorul pri,mary color aofa theme,if its like that, - than i dont want to see colorful text here. it either wron the token-name here or token-name asa value used ehre for color proerty.  iit could be saying isntead of: "primary" to: "dark" or something
-  @TODO: chekc the variable naming here and check the tiken-naming at origin token file  */
+  // "primary" describes text hierarchy, not a fixed light/dark palette value.
   color: var(--color-text-primary-default);
 }
 
@@ -34,17 +33,14 @@
 
 .pagination__link,
 .pagination__control {
-  /*if the border transpared . why even bother set the width of that border, am i missing some CSS trick here ? i dont like tnext line
-  TODO: rework the next line either not have it, or define border as: 'none' ; aha i see on hover effect you started applying the color. and here you probably pre occupy the space ofthe thin line ant at the time whern the border line is needed it alreayo on its place but not having a color , and when the line needed color jsut reveal itself, am i reading the intention right ? if yes than we probably can keep thnext line, but it still odnt like the approach probably, when drawing the line will affect o neoveral height of a DOM ele,ent, could we draw the border inside the wrapper, klnowing exactly hthe height it will take with or withoput the border. instead of using the outside the wrapper intantedly increasing the height and width by the size of the border lets refactor and think twice here */  
-  border: var(--shape-border-width-hairline-default) solid transparent;
   color: var(--color-text-secondary-default);
   text-decoration: none;
-  @include tools.motion-transition(background-color, border-color, color);
+  @include tools.motion-transition(background-color, box-shadow, color);
 }
 
 .pagination__link:hover,
 .pagination__control:hover {
-  border-color: var(--color-border-subtle-default);
+  box-shadow: inset 0 0 0 var(--shape-border-width-hairline-default) var(--color-border-subtle-default);
   background: var(--color-action-secondary-default);
   color: var(--color-text-primary-default);
 }
@@ -75,13 +71,12 @@
 
 .pagination__status {
   display: none;
-  /* ok if nin-height is defined , why min-width are not defined ? how woudl i interact with a tile 40px tall and width: 2px its ahorrible experience so if you already started using minimal chiunk of clicakble element on a page, please be aware of a width too, i aadmit i cann miss something and width is defined somewhere else and cant be l;ess than 40px, (min interactive size)
-  @TODO: pelase pay attemtion to the enxt line taking into consideration current comemnt section*/
+  min-width: var(--system-grid-minimum-interactive-size);
   min-height: var(--system-grid-minimum-interactive-size);
   align-items: center;
   color: var(--color-text-secondary-default);
   white-space: nowrap;
-  @include tools.typography-caption-default;
+  @include tools.typography-caption;
 }
 
 @include tools.breakpoint-down("mobile-max") {

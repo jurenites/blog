@@ -9,16 +9,15 @@
   border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
   border-radius: var(--shape-corner-radius-medium-default);
   color: var(--color-text-primary-default);
-}
+  &--raised {
+    background: var(--color-surface-panel-raised);
+    // Resolves to the complete level-3 box-shadow token.
+    @include tools.elevation("level-3");
+  }
 
-.surface--raised {
-  background: var(--color-surface-panel-raised);
-  /* @TODO: explain this top me, is uppose this is just load the shadow porperty here, right? */
-  @include tools.elevation("level-3");
-}
-
-.surface--flat {
-  border-radius: var(--shape-corner-radius-none);
-  border: 0;
-  background: transparent;
+  &--flat {
+    border-radius: var(--shape-corner-radius-none);
+    border: 0;
+    background: transparent;
+  }
 }

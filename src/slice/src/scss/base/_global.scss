@@ -51,8 +51,6 @@ button:focus-visible {
   display: block;
   width: auto;
   height: auto;
-  /* shoudl not have any staric variable here, need to took out into a tokens,, whrote this down into documentation of a procedures how to dealt with the codebase by AI agent i tas generated and not checked twice, this should not be allowed to be applied here. and now we need t owrotedown that this is a mistaken approach, need to follow the procedures.
-  @TODO: fix this varaibles 64px here, and move them higher in abstraction */
-  max-width: 64px;
-  max-height: 64px;
+  max-width: var(--component-site-branding-logo-size-default);
+  max-height: var(--component-site-branding-logo-size-default);
 }

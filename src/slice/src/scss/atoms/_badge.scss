@@ -9,27 +9,25 @@
   border-radius: var(--shape-corner-radius-extra-small);
   background: var(--color-surface-panel-raised);
   color: var(--color-text-primary-default);
-  @include tools.typography-overline-default;
-  /* thw whole [pount of SCSS to have something ingherited in so,mething else, probably it worth to include here inside this class the other class that are neibpurs , they always go in pair. and ist inside. just some formatting rant on my side, 
-  @TODO: please review the closing figure bracket wrap here*/
-}
+  @include tools.typography-overline;
 
-.badge--success {
-  background: var(--color-palette-success);
-  color: var(--color-text-inverse-default);
-}
+  &--success {
+    background: var(--color-palette-success);
+    color: var(--color-text-inverse-default);
+  }
 
-.badge--warning {
-  background: var(--color-palette-warning);
-  color: var(--color-text-inverse-default);
-}
+  &--warning {
+    background: var(--color-palette-warning);
+    color: var(--color-text-inverse-default);
+  }
 
-.badge--error {
-  background: var(--color-palette-error);
-  color: var(--color-text-inverse-default);
-}
+  &--error {
+    background: var(--color-palette-error);
+    color: var(--color-text-inverse-default);
+  }
 
-.badge--info {
-  background: var(--color-palette-info);
-  color: var(--color-text-inverse-default);
+  &--info {
+    background: var(--color-palette-info);
+    color: var(--color-text-inverse-default);
+  }
 }

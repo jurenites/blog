@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 0.0.15
-Reviewed: 2026-07-19
+Version: 0.0.16
+Reviewed: 2026-07-21
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -57,6 +57,9 @@ token endpoint, and planned visual testing workflow.
   Centered content is capped at 1440px and wider screens remain background-only.
 - Semantic typography mapping separates foundation roles from theme roles;
   Blog Title is Open Sans 32px/500.
+- Native document headings now use semantic typography aliases, component
+  dimensions use semantic tokens, and compact typography roles omit redundant
+  `default` suffixes.
 - The screenshot signature displays the shared project version, current
   UTC build update time to the second, seven-character Git hash, and collaboration
   credit with exact solid token colors in Drupal, the Storybook manager, and every

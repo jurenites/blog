@@ -6,60 +6,44 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-scale-base-gap);
-  /* at this plac e we should have inrermediate semantic name variable that represent itsef as a 'padding-large' 
-  for my understanding the 'gap' porpery is only between certain UI element, example the Inoput on a left, the buton in a right side, and between those its a horisontan-gap (by the way we do need to distinguish between horisontal and verigtacl gap sometimes they are not the same),
-  but if we do make a measurement from element to the edgge o fa wrapper (aka 'surface') the 'gap' porperty shoudl be repalced with something that represent it's property such as 'margin' or 'padding' manybe better universal token-name needed to find here example: 'hotisontal-gap-to-edge' or 'vertical-distance-to-edge' 
-  on a page  and it should inherit property of a '--space-scale-large-gap' 
-  @TODO: rework this to have also intermediate state, consider having some visualisation procedure of how the token-constants are adressed to eachother, how deep it goes and how to not llosse the samantic logic of it. its a thin balance of having the token variable_name readable ckeep the flexibility for other project s in the future making it a universal solution, and not go to majic numbers and specificy of a particual proejct. also keep the readability of a universal code by not having all the time some too generic code that not sepaks for itself, so yeah ti's a balacning process we will reach the poing where im pleased with it, let refine this approach of addressign to token names throug the various level of abstraction's and not address to specific "padding" property a specific calue "10px". it works for sure but it losse whole concept of having the configurable components that can be changed the output in needed list of components by only modifying the specific token value OR relactionof token vs. semantic-porperty-name  */
-  padding: var(--space-scale-large-gap) 0;
+  padding: var(--layout-article-teaser-padding-block-default) 0;
   border-bottom: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
-  // codeformatting again here, all the next Class porpertiens shoudl be containgin with it this one emphasising the fact it belong to the current class and its extends its property with a certain specific.
-  //@TODO: already mentioned in some SCSS files the neibpur and child classes should be nested inside the figure brackets.  
-}
 
-.article-teaser__eyebrow {
-  /* the Zwro value is also a value, if its stated here it means it want to apply certain properties to the "eybrow" type of text witch means we need the token-name reponsible for that parameter. in other hand the Padding here also could be stated as equal to zero value, we can't have all possible CSS proertiens in very single CSS Clases and take those [roeprties from Toneks-names, 
-  @TODO: im not usre we need to state here "margin: 0" we can delete the next line */
-  margin: 0;
+  &__eyebrow {
+    @include tools.typography-overline;
+  }
 
-  /* i see no value here to deliberatley address the color of that element it ca nbe by defaul inhetit the color from the Body, remember the less code we have the clean it is. 
-  @TODO: review the next property is that really necessary to state the color of a text? lets remove this kind of lines. not only here refactor othger SCSS files to remove this unnecessary CSS rules where those can be removed and nothing woudl change the color still will be the same as it was requested  */
-  color: var(--color-action-primary-default);
-  /*from token stend point of view the token-variable-names with the ending word +"-default" are useless, it give me no value as areading this code this wording obused so many times it losses its porpositiion . 
-  @TODO: lets rework the token-value_names to not have the workd "default" in the end of it. I think the "typography-overline" is enough, but probably better would be have here "typography-caption"     */
-  @include tools.typography-overline-default;
-}
+  &__title {
+    margin: 0;
+    @include tools.typography-headline-5;
+  }
 
-.article-teaser__title {
-  margin: 0;
-  @include tools.typography-headline-5;
-}
+  &__title-link {
+    color: var(--color-text-primary-default);
+    text-decoration: none;
 
-.article-teaser__title-link {
-  color: var(--color-text-primary-default);
-  text-decoration: none;
-}
+    &:hover {
+      color: var(--color-action-primary-hover);
+    }
+  }
 
-.article-teaser__title-link:hover {
-  color: var(--color-action-primary-hover);
-}
+  &__excerpt {
+    margin: 0;
+    color: var(--color-text-secondary-default);
+    @include tools.typography-body-1;
+  }
 
-.article-teaser__excerpt {
-  margin: 0;
-  color: var(--color-text-secondary-default);
-  @include tools.typography-body-1;
-}
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-scale-base-gap);
+    color: var(--color-text-secondary-default);
+    @include tools.typography-caption;
+  }
 
-.article-teaser__meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-scale-base-gap);
-  color: var(--color-text-secondary-default);
-  @include tools.typography-caption-default;
-}
-
-.article-teaser__published-date,
-.article-teaser__reading-time {
-  display: block;
+  &__published-date,
+  &__reading-time {
+    display: block;
+  }
 }

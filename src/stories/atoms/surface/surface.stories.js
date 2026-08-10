@@ -34,9 +34,9 @@ const NESTED_RENDERERS = {
 
 function render_story({ surface_variant, nested_component }) {
   const default_surface_variant = token_default_option("component-surface-default-variant", "component-surface-variant-");
-  const surface_modifier = surface_variant === default_surface_variant ? "" : ` surface--${surface_variant}`;
+  const surface_class_name = surface_variant === default_surface_variant ? "surface" : `surface surface--${surface_variant}`;
   return render_template(surface_template, {
-    class_name: surface_modifier,
+    surface_class_name,
     nested_content: NESTED_RENDERERS[nested_component](),
   });
 }

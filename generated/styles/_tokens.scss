@@ -100,21 +100,51 @@
   --typography-button-label-font-weight: 500;
   --typography-button-label-line-height: 1.75;
   --typography-button-label-letter-spacing: normal;
-  --typography-caption-default-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-caption-default-font-size: 12px;
-  --typography-caption-default-font-weight: 400;
-  --typography-caption-default-line-height: 1.66;
-  --typography-caption-default-letter-spacing: normal;
-  --typography-overline-default-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-overline-default-font-size: 5px;
-  --typography-overline-default-font-weight: 400;
-  --typography-overline-default-line-height: 1.66;
-  --typography-overline-default-letter-spacing: normal;
+  --typography-caption-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
+  --typography-caption-font-size: 12px;
+  --typography-caption-font-weight: 400;
+  --typography-caption-line-height: 1.66;
+  --typography-caption-letter-spacing: normal;
+  --typography-overline-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
+  --typography-overline-font-size: 5px;
+  --typography-overline-font-weight: 400;
+  --typography-overline-line-height: 1.66;
+  --typography-overline-letter-spacing: normal;
   --typography-semantic-blog-title-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
   --typography-semantic-blog-title-font-size: 32px;
   --typography-semantic-blog-title-font-weight: 500;
   --typography-semantic-blog-title-line-height: 1.25;
   --typography-semantic-blog-title-letter-spacing: normal;
+  --typography-semantic-document-heading-1-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
+  --typography-semantic-document-heading-1-font-size: 48px;
+  --typography-semantic-document-heading-1-font-weight: 400;
+  --typography-semantic-document-heading-1-line-height: 1.25;
+  --typography-semantic-document-heading-1-letter-spacing: normal;
+  --typography-semantic-document-heading-2-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
+  --typography-semantic-document-heading-2-font-size: 34px;
+  --typography-semantic-document-heading-2-font-weight: 400;
+  --typography-semantic-document-heading-2-line-height: 1.235;
+  --typography-semantic-document-heading-2-letter-spacing: normal;
+  --typography-semantic-document-heading-3-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
+  --typography-semantic-document-heading-3-font-size: 24px;
+  --typography-semantic-document-heading-3-font-weight: 400;
+  --typography-semantic-document-heading-3-line-height: 1.334;
+  --typography-semantic-document-heading-3-letter-spacing: normal;
+  --typography-semantic-document-heading-4-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
+  --typography-semantic-document-heading-4-font-size: 20px;
+  --typography-semantic-document-heading-4-font-weight: 500;
+  --typography-semantic-document-heading-4-line-height: 1.6;
+  --typography-semantic-document-heading-4-letter-spacing: normal;
+  --typography-semantic-document-heading-5-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
+  --typography-semantic-document-heading-5-font-size: 16px;
+  --typography-semantic-document-heading-5-font-weight: 400;
+  --typography-semantic-document-heading-5-line-height: 1.75;
+  --typography-semantic-document-heading-5-letter-spacing: normal;
+  --typography-semantic-document-heading-6-font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
+  --typography-semantic-document-heading-6-font-size: 14px;
+  --typography-semantic-document-heading-6-font-weight: 500;
+  --typography-semantic-document-heading-6-line-height: 1.57;
+  --typography-semantic-document-heading-6-letter-spacing: normal;
   --typography-semantic-watermark-version-font-family: "4pixel", monospace;
   --typography-semantic-watermark-version-font-size: 5px;
   --typography-semantic-watermark-version-font-weight: 400;
@@ -161,6 +191,8 @@
   --layout-gutter-mobile-default: 16px;
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
+  --layout-article-teaser-padding-block-default: 24px;
+  --component-site-branding-logo-size-default: 64px;
   --component-watermark-layer-default: 10000;
   --component-button-default-style: primary;
   --component-button-label-text-transform-default: uppercase;
@@ -319,20 +351,20 @@ $breakpoints: (
   letter-spacing: var(--typography-button-label-letter-spacing);
 }
 
-@mixin typography-caption-default {
-  font-family: var(--typography-caption-default-font-family);
-  font-size: var(--typography-caption-default-font-size);
-  font-weight: var(--typography-caption-default-font-weight);
-  line-height: var(--typography-caption-default-line-height);
-  letter-spacing: var(--typography-caption-default-letter-spacing);
+@mixin typography-caption {
+  font-family: var(--typography-caption-font-family);
+  font-size: var(--typography-caption-font-size);
+  font-weight: var(--typography-caption-font-weight);
+  line-height: var(--typography-caption-line-height);
+  letter-spacing: var(--typography-caption-letter-spacing);
 }
 
-@mixin typography-overline-default {
-  font-family: var(--typography-overline-default-font-family);
-  font-size: var(--typography-overline-default-font-size);
-  font-weight: var(--typography-overline-default-font-weight);
-  line-height: var(--typography-overline-default-line-height);
-  letter-spacing: var(--typography-overline-default-letter-spacing);
+@mixin typography-overline {
+  font-family: var(--typography-overline-font-family);
+  font-size: var(--typography-overline-font-size);
+  font-weight: var(--typography-overline-font-weight);
+  line-height: var(--typography-overline-line-height);
+  letter-spacing: var(--typography-overline-letter-spacing);
 }
 
 @mixin typography-semantic-blog-title {
@@ -341,6 +373,54 @@ $breakpoints: (
   font-weight: var(--typography-semantic-blog-title-font-weight);
   line-height: var(--typography-semantic-blog-title-line-height);
   letter-spacing: var(--typography-semantic-blog-title-letter-spacing);
+}
+
+@mixin typography-semantic-document-heading-1 {
+  font-family: var(--typography-semantic-document-heading-1-font-family);
+  font-size: var(--typography-semantic-document-heading-1-font-size);
+  font-weight: var(--typography-semantic-document-heading-1-font-weight);
+  line-height: var(--typography-semantic-document-heading-1-line-height);
+  letter-spacing: var(--typography-semantic-document-heading-1-letter-spacing);
+}
+
+@mixin typography-semantic-document-heading-2 {
+  font-family: var(--typography-semantic-document-heading-2-font-family);
+  font-size: var(--typography-semantic-document-heading-2-font-size);
+  font-weight: var(--typography-semantic-document-heading-2-font-weight);
+  line-height: var(--typography-semantic-document-heading-2-line-height);
+  letter-spacing: var(--typography-semantic-document-heading-2-letter-spacing);
+}
+
+@mixin typography-semantic-document-heading-3 {
+  font-family: var(--typography-semantic-document-heading-3-font-family);
+  font-size: var(--typography-semantic-document-heading-3-font-size);
+  font-weight: var(--typography-semantic-document-heading-3-font-weight);
+  line-height: var(--typography-semantic-document-heading-3-line-height);
+  letter-spacing: var(--typography-semantic-document-heading-3-letter-spacing);
+}
+
+@mixin typography-semantic-document-heading-4 {
+  font-family: var(--typography-semantic-document-heading-4-font-family);
+  font-size: var(--typography-semantic-document-heading-4-font-size);
+  font-weight: var(--typography-semantic-document-heading-4-font-weight);
+  line-height: var(--typography-semantic-document-heading-4-line-height);
+  letter-spacing: var(--typography-semantic-document-heading-4-letter-spacing);
+}
+
+@mixin typography-semantic-document-heading-5 {
+  font-family: var(--typography-semantic-document-heading-5-font-family);
+  font-size: var(--typography-semantic-document-heading-5-font-size);
+  font-weight: var(--typography-semantic-document-heading-5-font-weight);
+  line-height: var(--typography-semantic-document-heading-5-line-height);
+  letter-spacing: var(--typography-semantic-document-heading-5-letter-spacing);
+}
+
+@mixin typography-semantic-document-heading-6 {
+  font-family: var(--typography-semantic-document-heading-6-font-family);
+  font-size: var(--typography-semantic-document-heading-6-font-size);
+  font-weight: var(--typography-semantic-document-heading-6-font-weight);
+  line-height: var(--typography-semantic-document-heading-6-line-height);
+  letter-spacing: var(--typography-semantic-document-heading-6-letter-spacing);
 }
 
 @mixin typography-semantic-watermark-version {
@@ -439,20 +519,20 @@ $breakpoints: (
   letter-spacing: var(--typography-button-label-letter-spacing);
 }
 
-.u-typography-caption-default {
-  font-family: var(--typography-caption-default-font-family);
-  font-size: var(--typography-caption-default-font-size);
-  font-weight: var(--typography-caption-default-font-weight);
-  line-height: var(--typography-caption-default-line-height);
-  letter-spacing: var(--typography-caption-default-letter-spacing);
+.u-typography-caption {
+  font-family: var(--typography-caption-font-family);
+  font-size: var(--typography-caption-font-size);
+  font-weight: var(--typography-caption-font-weight);
+  line-height: var(--typography-caption-line-height);
+  letter-spacing: var(--typography-caption-letter-spacing);
 }
 
-.u-typography-overline-default {
-  font-family: var(--typography-overline-default-font-family);
-  font-size: var(--typography-overline-default-font-size);
-  font-weight: var(--typography-overline-default-font-weight);
-  line-height: var(--typography-overline-default-line-height);
-  letter-spacing: var(--typography-overline-default-letter-spacing);
+.u-typography-overline {
+  font-family: var(--typography-overline-font-family);
+  font-size: var(--typography-overline-font-size);
+  font-weight: var(--typography-overline-font-weight);
+  line-height: var(--typography-overline-line-height);
+  letter-spacing: var(--typography-overline-letter-spacing);
 }
 
 .u-typography-semantic-blog-title {
@@ -461,6 +541,54 @@ $breakpoints: (
   font-weight: var(--typography-semantic-blog-title-font-weight);
   line-height: var(--typography-semantic-blog-title-line-height);
   letter-spacing: var(--typography-semantic-blog-title-letter-spacing);
+}
+
+.u-typography-semantic-document-heading-1 {
+  font-family: var(--typography-semantic-document-heading-1-font-family);
+  font-size: var(--typography-semantic-document-heading-1-font-size);
+  font-weight: var(--typography-semantic-document-heading-1-font-weight);
+  line-height: var(--typography-semantic-document-heading-1-line-height);
+  letter-spacing: var(--typography-semantic-document-heading-1-letter-spacing);
+}
+
+.u-typography-semantic-document-heading-2 {
+  font-family: var(--typography-semantic-document-heading-2-font-family);
+  font-size: var(--typography-semantic-document-heading-2-font-size);
+  font-weight: var(--typography-semantic-document-heading-2-font-weight);
+  line-height: var(--typography-semantic-document-heading-2-line-height);
+  letter-spacing: var(--typography-semantic-document-heading-2-letter-spacing);
+}
+
+.u-typography-semantic-document-heading-3 {
+  font-family: var(--typography-semantic-document-heading-3-font-family);
+  font-size: var(--typography-semantic-document-heading-3-font-size);
+  font-weight: var(--typography-semantic-document-heading-3-font-weight);
+  line-height: var(--typography-semantic-document-heading-3-line-height);
+  letter-spacing: var(--typography-semantic-document-heading-3-letter-spacing);
+}
+
+.u-typography-semantic-document-heading-4 {
+  font-family: var(--typography-semantic-document-heading-4-font-family);
+  font-size: var(--typography-semantic-document-heading-4-font-size);
+  font-weight: var(--typography-semantic-document-heading-4-font-weight);
+  line-height: var(--typography-semantic-document-heading-4-line-height);
+  letter-spacing: var(--typography-semantic-document-heading-4-letter-spacing);
+}
+
+.u-typography-semantic-document-heading-5 {
+  font-family: var(--typography-semantic-document-heading-5-font-family);
+  font-size: var(--typography-semantic-document-heading-5-font-size);
+  font-weight: var(--typography-semantic-document-heading-5-font-weight);
+  line-height: var(--typography-semantic-document-heading-5-line-height);
+  letter-spacing: var(--typography-semantic-document-heading-5-letter-spacing);
+}
+
+.u-typography-semantic-document-heading-6 {
+  font-family: var(--typography-semantic-document-heading-6-font-family);
+  font-size: var(--typography-semantic-document-heading-6-font-size);
+  font-weight: var(--typography-semantic-document-heading-6-font-weight);
+  line-height: var(--typography-semantic-document-heading-6-line-height);
+  letter-spacing: var(--typography-semantic-document-heading-6-letter-spacing);
 }
 
 .u-typography-semantic-watermark-version {

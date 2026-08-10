@@ -11,7 +11,7 @@
   border-radius: var(--shape-corner-radius-pill-full);
   background: var(--color-surface-panel-default);
   color: var(--color-text-secondary-default);
-  @include tools.typography-caption-default;
+  @include tools.typography-caption;
 }
 
 .chip--accent {

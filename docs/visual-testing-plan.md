@@ -104,14 +104,14 @@ Example shape:
     {
       "name": "login",
       "implementationUrl": "http://127.0.0.1:8081/user/login",
-      "figmaFrameId": "TODO"
+      "figmaFrameId": "<figma-frame-id>"
     }
   ],
   "components": [
     {
       "name": "button-primary",
-      "storybookUrl": "http://127.0.0.1:6006/iframe.html?id=TODO",
-      "figmaFrameId": "TODO"
+      "storybookUrl": "http://127.0.0.1:6006/iframe.html?id=<story-id>",
+      "figmaFrameId": "<figma-frame-id>"
     }
   ],
   "thresholds": {

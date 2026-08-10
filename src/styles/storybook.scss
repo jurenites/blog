@@ -412,7 +412,7 @@ body,
 .type-mapping__token,
 .type-mapping__details {
   color: var(--color-text-secondary-default);
-  @include tools.typography-caption-default;
+  @include tools.typography-caption;
 }
 
 .type-mapping__details > div {
@@ -448,7 +448,7 @@ body,
 
 .font-family-sample__label {
   color: var(--color-text-secondary-default);
-  font-size: var(--typography-caption-default-font-size);
+  font-size: var(--typography-caption-font-size);
 }
 
 .font-family-sample__text {
