@@ -36,3 +36,12 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
     $collaboration_credit,
   );
 }
+
+/**
+ * Adds the total page count required by the compact pager.
+ */
+function jurenites_theme_preprocess_pager(array &$pager_variables): void {
+  $pager_element = $pager_variables['pager']['#element'] ?? 0;
+  $pager_instance = \Drupal::service('pager.manager')->getPager($pager_element);
+  $pager_variables['page_count'] = $pager_instance?->getTotalPages() ?? 1;
+}

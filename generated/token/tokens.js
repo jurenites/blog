@@ -2550,6 +2550,21 @@ export const TOKEN_RECORDS = [
     "is_reference": false
   },
   {
+    "name": "component-badge-label-font-family-default",
+    "path": [
+      "component",
+      "badge",
+      "label-font-family-default"
+    ],
+    "type": "fontFamily",
+    "value": [
+      "4pixel",
+      "monospace"
+    ],
+    "css_value": "\"4pixel\", monospace",
+    "is_reference": true
+  },
+  {
     "name": "component-badge-default-status",
     "path": [
       "component",

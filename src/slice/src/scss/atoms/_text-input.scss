@@ -1,0 +1,59 @@
+// Atom: Text Input. Labeled single-line input with optional supporting text.
+
+@use "../tools";
+
+.text-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-base-gap);
+  min-width: 0;
+}
+
+.text-input__label {
+  color: var(--color-text-primary-default);
+  @include tools.typography-subtitle-2;
+}
+
+.text-input__control-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-scale-base-gap);
+  min-width: 0;
+}
+
+.text-input__control {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--system-grid-minimum-interactive-size);
+  box-sizing: border-box;
+  padding: 0 var(--space-scale-medium-gap);
+  border: var(--shape-border-width-hairline-default) solid var(--color-border-strong-default);
+  border-radius: var(--shape-corner-radius-small-default);
+  background: var(--color-surface-panel-default);
+  color: var(--color-text-primary-default);
+  @include tools.typography-body-2;
+  @include tools.motion-transition(border-color, box-shadow, background-color);
+}
+
+.text-input__control-row > .button {
+  flex: 0 0 auto;
+}
+
+.text-input__control::placeholder {
+  color: var(--color-text-secondary-default);
+}
+
+.text-input__control:hover {
+  border-color: var(--color-text-primary-default);
+}
+
+.text-input__control:focus-visible {
+  @include tools.focus-ring;
+}
+
+.text-input__hint {
+  margin: 0;
+  color: var(--color-text-secondary-default);
+  @include tools.typography-caption;
+}

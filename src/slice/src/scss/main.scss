@@ -19,6 +19,7 @@
 @use "atoms/badge";
 @use "atoms/date-value";
 @use "atoms/version-watermark";
+@use "atoms/text-input";
 
 @use "molecules/project-card";
 @use "molecules/contact-me-widget";
@@ -26,7 +27,10 @@
 @use "molecules/pagination";
 @use "molecules/author-byline";
 @use "molecules/pull-quote";
+@use "molecules/breadcrumbs";
+@use "molecules/search-form";
 
 @use "organisms/site-header";
+@use "organisms/newsletter-signup";
 
 @use "components/front-page-background";

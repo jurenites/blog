@@ -34,9 +34,9 @@ Components are organised by Atomic Design and ITCSS layers:
 | settings   | `src/slice/src/scss/settings/` | Hand-written theme settings              |
 | tools      | `src/slice/src/scss/tools/`    | Mixins (elevation, motion, focus-ring)   |
 | base       | `src/slice/src/scss/base/`     | Reset, global element defaults, typography|
-| atoms      | `src/slice/src/scss/atoms/`    | Avatar, badge, button, chip, date value, divider, surface |
-| molecules  | `src/slice/src/scss/molecules/`| Article teaser, author byline, contact widget, pagination, project card, pull quote |
-| organisms  | `src/slice/src/scss/organisms/`| Site header and larger page sections     |
+| atoms      | `src/slice/src/scss/atoms/`    | Avatar, badge, button, chip, date value, divider, surface, text input |
+| molecules  | `src/slice/src/scss/molecules/`| Article teaser, author byline, breadcrumbs, contact widget, pagination, project card, pull quote, search form |
+| organisms  | `src/slice/src/scss/organisms/`| Newsletter signup, site header, and larger page sections |
 | components  | `src/slice/src/scss/components/`| Page-specific compositions              |
 
 Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
@@ -74,8 +74,10 @@ stops growing and the remaining area uses the page background.
 
 Responsive components must be checked at exactly 360px before completion. The
 Pagination molecule uses the generated `mobile-max` breakpoint mixin: numbered
-pages appear on larger screens, while mobile shows two 40px controls and a compact
-current-page status without horizontal overflow.
+pages and visible Previous/Next labels appear on larger screens. At 640px and
+below, CSS automatically exposes exactly four `li.pagination__item` elements:
+left arrow, current-page number, total-page number, and right arrow. Arrow links
+retain accessible labels, but no Previous/Next text is visually displayed.
 
 ## Layout
 
@@ -105,6 +107,11 @@ Theme semantics form the next abstraction layer and use the `semantic-*`
 namespace. `semantic-blog-title` maps to Open Sans at 32px/500. The generated
 Typography Mapping Storybook page shows these assignments without a repeated
 role list.
+
+Badge labels use `component-badge-label-font-family-default` to apply the
+custom 4pixel face while retaining the shared 5px Overline dimensions. Keep
+this override component-scoped so article and newsletter overlines do not
+inherit the pixel font unintentionally.
 
 Default family is the Open Sans stack. The display family is a separate token,
 and the Storybook foundations also expose the imported custom Roundabout and
@@ -151,6 +158,12 @@ then shrinks in hard logical-pixel steps over 820ms. Trail pixels never fade
 through transparency. The editable implementation lives in
 `src/slice/src/js/script.js`; generated theme JavaScript must continue to come
 from `npm run build:theme`.
+
+Storybook exposes the available full-page treatments as `Components/Backgrounds`
+with one `background_style` selector. Its `dithering` option invokes the same
+exported renderer as Drupal, while `plain-black` renders the page surface token.
+The shader therefore has one maintained implementation rather than a Storybook
+copy that can drift from the live front page.
 
 The planned scenic evolution uses **depth layers** rather than one flattened
 background: sky, clouds, distant sea, wave bands, shoreline, sand dunes, and

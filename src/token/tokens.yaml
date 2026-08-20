@@ -703,6 +703,10 @@ component:
         "$value": inline
         "$description": Text-only action button.
   badge:
+    label-font-family-default:
+      "$type": fontFamily
+      "$value": "{typography.font-family.pixel-display}"
+      "$description": Badge labels use the custom 4pixel typeface without changing the shared Overline role.
     default-status:
       "$type": string
       "$value": success

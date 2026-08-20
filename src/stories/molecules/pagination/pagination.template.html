@@ -1,10 +1,25 @@
 <div class="storybook-stack">
   <nav class="pagination" aria-label="Pagination">
-    {{previous_control}}
     <ol class="pagination__pages">
+      <li class="pagination__item pagination__item--control pagination__item--previous">
+        {{previous_control}}
+      </li>
       {{page_items}}
+      <li class="pagination__item pagination__item--mobile pagination__item--mobile-current">
+        <span class="pagination__mobile-value pagination__mobile-value--current" aria-current="page">
+          <span class="visually-hidden">Current page</span>
+          {{current_page}}
+        </span>
+      </li>
+      <li class="pagination__item pagination__item--mobile pagination__item--mobile-total">
+        <span class="pagination__mobile-value">
+          <span class="visually-hidden">Total pages</span>
+          {{page_count}}
+        </span>
+      </li>
+      <li class="pagination__item pagination__item--control pagination__item--next">
+        {{next_control}}
+      </li>
     </ol>
-    <span class="pagination__status" aria-live="polite">Page {{current_page}} of {{page_count}}</span>
-    {{next_control}}
   </nav>
 </div>

@@ -1,5 +1,4 @@
-(function (Drupal) {
-  const VERTEX_SHADER_SOURCE = `
+const VERTEX_SHADER_SOURCE = `
     attribute vec2 a_canvas_position;
 
     void main() {
@@ -87,7 +86,7 @@
     }
   `;
 
-  function createShader(gl_context, shader_type, shader_source) {
+function createShader(gl_context, shader_type, shader_source) {
     const compiled_shader = gl_context.createShader(shader_type);
     gl_context.shaderSource(compiled_shader, shader_source);
     gl_context.compileShader(compiled_shader);
@@ -101,7 +100,7 @@
     return compiled_shader;
   }
 
-  function createProgram(gl_context) {
+function createProgram(gl_context) {
     const shader_program = gl_context.createProgram();
     gl_context.attachShader(
       shader_program,
@@ -122,7 +121,7 @@
     return shader_program;
   }
 
-  function createNoiseBackground(background_wrapper) {
+export function create_dither_trail_background(background_wrapper) {
     const background_canvas = document.createElement('canvas');
     const gl_context = background_canvas.getContext('webgl', {
       alpha: false,
@@ -402,8 +401,9 @@
       delete background_wrapper.jurenitesGradientInitialized;
       delete background_wrapper.jurenitesGradientDestroy;
     };
-  }
+}
 
+if (typeof Drupal !== 'undefined') {
   Drupal.behaviors.jurenitesGradientBackground = {
     attach(context) {
       context.querySelectorAll('[data-jurenites-gradient-background]').forEach((background_wrapper) => {
@@ -412,8 +412,8 @@
         }
 
         background_wrapper.jurenitesGradientInitialized = true;
-        createNoiseBackground(background_wrapper);
+        create_dither_trail_background(background_wrapper);
       });
     },
   };
-})(Drupal);
+}

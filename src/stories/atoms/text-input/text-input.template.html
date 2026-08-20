@@ -1,0 +1,8 @@
+<div class="text-input">
+  <label class="text-input__label" for="{{input_id}}">{{input_label}}</label>
+  <div class="text-input__control-row">
+    <input class="text-input__control" id="{{input_id}}" name="{{input_name}}" type="{{input_type}}" placeholder="{{input_placeholder}}"{{required_attribute}} aria-describedby="{{hint_id}}">
+    {{input_action}}
+  </div>
+  <p class="text-input__hint" id="{{hint_id}}">{{hint_text}}</p>
+</div>

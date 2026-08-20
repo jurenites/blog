@@ -8,8 +8,10 @@ export function version_watermark_markup({
   git_hash,
   git_url,
   credit_text,
+  is_story_preview = false,
 }) {
   return render_template(version_watermark_template, {
+    preview_class_name: is_story_preview ? " version-watermark--story-preview" : "",
     version_label: escape_html(version_label),
     version_number: escape_html(version_number),
     updated_gmt: escape_html(updated_gmt),

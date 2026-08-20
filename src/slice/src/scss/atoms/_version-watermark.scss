@@ -15,6 +15,10 @@
   @include tools.typography-semantic-watermark-version;
 }
 
+.version-watermark--story-preview {
+  position: absolute;
+}
+
 .version-watermark__identity {
   display: inline-flex;
   gap: var(--space-scale-tight-gap);

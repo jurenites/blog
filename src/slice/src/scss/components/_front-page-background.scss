@@ -24,3 +24,16 @@
   height: 100%;
   image-rendering: pixelated;
 }
+
+.background-preview {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--color-surface-page-default);
+}
+
+.background-preview > canvas {
+  position: absolute;
+  inset: 0;
+}

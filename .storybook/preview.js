@@ -5,6 +5,8 @@ import "../src/styles/storybook.scss";
 import { TOKEN_VALUES } from "../generated/token/tokens.js";
 import { version_watermark_markup } from "../src/stories/atoms/version-watermark/version-watermark.markup.js";
 
+const VERSION_WATERMARK_STORY_ID = "atoms-version-watermark--default-story";
+
 function token_dimension(token_name) {
   return TOKEN_VALUES[token_name];
 }
@@ -39,11 +41,11 @@ const breakpoint_viewports = {
   },
 };
 
-function render_version_watermark(story_function) {
+function render_version_watermark(story_function, story_context) {
   const build_info = globalThis.STORYBOOK_BUILD_INFO;
   const story_markup = story_function();
 
-  if (!build_info) {
+  if (!build_info || story_context.id === VERSION_WATERMARK_STORY_ID) {
     return story_markup;
   }
 

@@ -10,6 +10,7 @@
   background: var(--color-surface-panel-raised);
   color: var(--color-text-primary-default);
   @include tools.typography-overline;
+  font-family: var(--component-badge-label-font-family-default);
 
   &--success {
     background: var(--color-palette-success);

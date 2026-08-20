@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 0.0.16
-Reviewed: 2026-07-21
+Version: 0.0.20
+Reviewed: 2026-08-20
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -40,7 +40,8 @@ token endpoint, and planned visual testing workflow.
 - Storybook and Drupal expose generated build identity in a bottom-right
   screenshot signature.
 - Pagination uses one class contract across Storybook, shared SCSS, and Drupal's
-  pager override, with verified no-overflow behavior at the 360px minimum width.
+  pager override. At mobile width it automatically switches to four list items:
+  previous arrow, current page, total pages, and next arrow.
 - Storybook manager colors now come from generated YAML tokens instead of copied
   HEX values, and token builds enforce that source-of-truth contract.
 - Drupal theme builds configure relative font URLs and copy canonical font files
@@ -53,6 +54,11 @@ token endpoint, and planned visual testing workflow.
   minimum mobile and desktop widths, including horizontal overflow as a failure.
 - Personal publishing components now include a composed Author Byline, editorial
   Pull Quote, and responsive Site Header, each verified at the 360px minimum.
+- Blog discovery and retention patterns now include Breadcrumbs, Search Form,
+  and Newsletter Signup, composed from a reusable labeled Text Input atom and
+  verified without horizontal overflow at the 360px minimum.
+- Badge labels retain the 5px Overline dimensions while using a component-scoped
+  4pixel font-family token; other Overline consumers remain on their own family.
 - Desktop and wide breakpoints are unified into one 1280-1920px desktop range.
   Centered content is capped at 1440px and wider screens remain background-only.
 - Semantic typography mapping separates foundation roles from theme roles;
@@ -64,6 +70,9 @@ token endpoint, and planned visual testing workflow.
   UTC build update time to the second, seven-character Git hash, and collaboration
   credit with exact solid token colors in Drupal, the Storybook manager, and every
   Storybook preview screen.
+- The Version Watermark story excludes the global watermark decorator and uses
+  a Docs sample capped at 200px including Storybook's Canvas chrome, preventing
+  duplicate shells and off-screen samples.
 - Typography dimensions now use explicit pixel values end to end; legacy root
   font-size conversion logic has been removed from Storybook and Figma sync.
 - Project-owned folder documentation is centralized in
@@ -75,6 +84,9 @@ token endpoint, and planned visual testing workflow.
   and only logical pixels uncovered by a brush pass receive new random grain.
 - The cursor brush leaves a clock-sampled dither trail. Trail circles hold at
   full size briefly, then shrink through hard logical-pixel radii over one second.
+- Storybook Backgrounds offers only `plain-black` and `dithering` through one
+  select control. Dithering uses the current shared Drupal renderer with no demo
+  heading, description, or duplicated shader source.
 - Future scenic backgrounds use named parallax depth layers from sky through
   foreground dunes.
 - Typography roles do not own uppercase transformation. Uppercase is an explicit
