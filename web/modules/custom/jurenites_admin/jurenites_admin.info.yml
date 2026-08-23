@@ -1,0 +1,6 @@
+name: Jurenites Admin
+type: module
+description: Applies project branding to the Gin administration theme.
+package: Jurenites
+core_version_requirement: ^11
+

@@ -1,7 +1,7 @@
 // Foundations: color tokens, rendered from the CSS variables generated from src/token/tokens.yaml.
 import colors_template from "./colors.template.html?raw";
-import swatch_template from "./color-swatch.template.html?raw";
-import { escape_html, render_template } from "../../template.js";
+import { color_block_markup } from "../../internal/color-block/color-block.markup.js";
+import { render_template } from "../../template.js";
 import { token_names, token_value } from "../token-values.js";
 
 function color_tokens() {
@@ -14,11 +14,11 @@ function group_title(token_name) {
 }
 
 function swatch_markup({ token_name, token_value }) {
-  return render_template(swatch_template, {
-    name: escape_html(group_title(token_name)),
-    value: escape_html(token_value),
-    variable: escape_html(token_name),
-    color_class: escape_html(`u-bg-${token_name}`),
+  return color_block_markup({
+    background_token_name: token_name,
+    primary_text: group_title(token_name),
+    secondary_text: token_value,
+    tertiary_text: `--${token_name}`,
   });
 }
 

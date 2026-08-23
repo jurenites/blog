@@ -1,0 +1,20 @@
+name: 'Jurenites Gin administration theme'
+description: 'Configures Gin dark mode with Jurenites browser and toolbar branding.'
+type: 'Site'
+install:
+  - gin
+  - gin_toolbar
+  - jurenites_admin
+config:
+  actions:
+    system.theme:
+      simpleConfigUpdate:
+        admin: gin
+    gin.settings:
+      simpleConfigUpdate:
+        enable_darkmode: '1'
+        show_user_theme_settings: false
+        favicon:
+          mimetype: image/svg+xml
+          path: themes/custom/jurenites_theme/favicon-admin.svg
+          use_default: false

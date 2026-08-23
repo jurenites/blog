@@ -1,0 +1,67 @@
+.jurenites-progressive-image {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  background-color: var(--color-surface-panel-default);
+}
+
+.jurenites-progressive-image > img,
+.jurenites-progressive-image > picture,
+.jurenites-progressive-image > picture > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.jurenites-progressive-image__loading-line {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  height: 1px;
+  pointer-events: none;
+  background-color: var(--color-border-subtle-default);
+}
+
+.jurenites-progressive-image__loading-line::after {
+  display: block;
+  width: var(--progressive-image-completion, 0%);
+  height: 100%;
+  content: "";
+  background-color: var(--color-action-primary-default);
+  transition: width 240ms ease-out;
+}
+
+.jurenites-progressive-image[data-loading-stage="placeholder"] {
+  --progressive-image-completion: 12%;
+}
+
+.jurenites-progressive-image[data-loading-stage="image"] {
+  --progressive-image-completion: 72%;
+}
+
+.jurenites-progressive-image[data-loading-stage="complete"] {
+  --progressive-image-completion: 100%;
+}
+
+.jurenites-progressive-image[data-loading-stage="error"] {
+  --progressive-image-completion: 100%;
+}
+
+.jurenites-progressive-image[data-loading-stage="error"] .jurenites-progressive-image__loading-line::after {
+  background-color: var(--color-palette-error);
+}
+
+.jurenites-progressive-image[data-loading-stage="complete"] .jurenites-progressive-image__loading-line {
+  opacity: 0;
+  transition: opacity 240ms 240ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jurenites-progressive-image__loading-line::after,
+  .jurenites-progressive-image[data-loading-stage="complete"] .jurenites-progressive-image__loading-line {
+    transition: none;
+  }
+}

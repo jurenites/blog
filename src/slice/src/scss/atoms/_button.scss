@@ -22,7 +22,10 @@
     @include tools.focus-ring;
   }
 
-  &--primary {
+  // Drupal adds `.form-submit` to its native submit controls. Treat those
+  // controls as the primary Button variant without rewriting Drupal markup.
+  &--primary,
+  &.form-submit {
     background: var(--color-action-primary-default);
     color: var(--color-text-inverse-default);
 

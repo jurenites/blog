@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Applies project branding to the Gin administration theme.
+ */
+
+/**
+ * Implements hook_page_attachments().
+ */
+function jurenites_admin_page_attachments(array &$page_attachments): void {
+  $active_theme = \Drupal::theme()->getActiveTheme()->getName();
+  if ($active_theme !== 'gin') {
+    return;
+  }
+
+  $page_attachments['#attached']['library'][] = 'jurenites_admin/gin-branding';
+}
+

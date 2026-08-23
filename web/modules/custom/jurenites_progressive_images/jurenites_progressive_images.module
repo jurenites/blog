@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Adds project-specific loading states to blurry image placeholders.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\file\FileInterface;
+
+/**
+ * Implements hook_entity_insert().
+ */
+function jurenites_progressive_images_entity_insert(EntityInterface $inserted_entity): void {
+  if (!$inserted_entity instanceof FileInterface) {
+    return;
+  }
+
+  $file_mime_type = $inserted_entity->getMimeType() ?? '';
+  if (!str_starts_with($file_mime_type, 'image/')) {
+    return;
+  }
+
+  // Generate and cache the embedded 20px preview during upload instead of on
+  // the visitor's first request.
+  \Drupal::service('image_blurry_placeholder.manager')
+    ->getPlaceholderImage($inserted_entity->getFileUri());
+}
+
+/**
+ * Implements template_preprocess_image().
+ */
+function jurenites_progressive_images_preprocess_image(array &$image_variables): void {
+  $image_classes = $image_variables['attributes']['class'] ?? [];
+  if (!in_array('img-blurry-placeholder', $image_classes, TRUE)) {
+    return;
+  }
+
+  $image_variables['attributes']['data-progressive-image'] = '';
+  $image_variables['#attached']['library'][] = 'jurenites_progressive_images/loading-state';
+}

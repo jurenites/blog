@@ -155,6 +155,78 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "value": "#111111",
     "css_value": "#111111",
+    "is_reference": true
+  },
+  {
+    "name": "color-palette-dark-gray-950",
+    "path": [
+      "color",
+      "palette",
+      "dark-gray-950"
+    ],
+    "type": "color",
+    "value": "#111111",
+    "css_value": "#111111",
+    "is_reference": false
+  },
+  {
+    "name": "color-palette-dark-gray-900",
+    "path": [
+      "color",
+      "palette",
+      "dark-gray-900"
+    ],
+    "type": "color",
+    "value": "#181818",
+    "css_value": "#181818",
+    "is_reference": false
+  },
+  {
+    "name": "color-palette-dark-gray-850",
+    "path": [
+      "color",
+      "palette",
+      "dark-gray-850"
+    ],
+    "type": "color",
+    "value": "#202020",
+    "css_value": "#202020",
+    "is_reference": false
+  },
+  {
+    "name": "color-palette-dark-gray-800",
+    "path": [
+      "color",
+      "palette",
+      "dark-gray-800"
+    ],
+    "type": "color",
+    "value": "#282828",
+    "css_value": "#282828",
+    "is_reference": false
+  },
+  {
+    "name": "color-palette-dark-gray-750",
+    "path": [
+      "color",
+      "palette",
+      "dark-gray-750"
+    ],
+    "type": "color",
+    "value": "#303030",
+    "css_value": "#303030",
+    "is_reference": false
+  },
+  {
+    "name": "color-palette-dark-gray-700",
+    "path": [
+      "color",
+      "palette",
+      "dark-gray-700"
+    ],
+    "type": "color",
+    "value": "#383838",
+    "css_value": "#383838",
     "is_reference": false
   },
   {
@@ -275,6 +347,78 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "value": "#111111",
     "css_value": "#111111",
+    "is_reference": true
+  },
+  {
+    "name": "color-surface-elevation-level-0",
+    "path": [
+      "color",
+      "surface",
+      "elevation-level-0"
+    ],
+    "type": "color",
+    "value": "#111111",
+    "css_value": "#111111",
+    "is_reference": true
+  },
+  {
+    "name": "color-surface-elevation-level-1",
+    "path": [
+      "color",
+      "surface",
+      "elevation-level-1"
+    ],
+    "type": "color",
+    "value": "#181818",
+    "css_value": "#181818",
+    "is_reference": true
+  },
+  {
+    "name": "color-surface-elevation-level-2",
+    "path": [
+      "color",
+      "surface",
+      "elevation-level-2"
+    ],
+    "type": "color",
+    "value": "#202020",
+    "css_value": "#202020",
+    "is_reference": true
+  },
+  {
+    "name": "color-surface-elevation-level-3",
+    "path": [
+      "color",
+      "surface",
+      "elevation-level-3"
+    ],
+    "type": "color",
+    "value": "#282828",
+    "css_value": "#282828",
+    "is_reference": true
+  },
+  {
+    "name": "color-surface-elevation-level-4",
+    "path": [
+      "color",
+      "surface",
+      "elevation-level-4"
+    ],
+    "type": "color",
+    "value": "#303030",
+    "css_value": "#303030",
+    "is_reference": true
+  },
+  {
+    "name": "color-surface-elevation-level-6",
+    "path": [
+      "color",
+      "surface",
+      "elevation-level-6"
+    ],
+    "type": "color",
+    "value": "#383838",
+    "css_value": "#383838",
     "is_reference": true
   },
   {
@@ -2463,6 +2607,30 @@ export const TOKEN_RECORDS = [
     "is_reference": true
   },
   {
+    "name": "component-color-block-size-default",
+    "path": [
+      "component",
+      "color-block",
+      "size-default"
+    ],
+    "type": "dimension",
+    "value": "96px",
+    "css_value": "96px",
+    "is_reference": true
+  },
+  {
+    "name": "component-color-block-size-compact",
+    "path": [
+      "component",
+      "color-block",
+      "size-compact"
+    ],
+    "type": "dimension",
+    "value": "40px",
+    "css_value": "40px",
+    "is_reference": false
+  },
+  {
     "name": "component-site-branding-logo-size-default",
     "path": [
       "component",
@@ -2547,6 +2715,69 @@ export const TOKEN_RECORDS = [
     "type": "string",
     "value": "inline",
     "css_value": "inline",
+    "is_reference": false
+  },
+  {
+    "name": "component-text-input-default-width",
+    "path": [
+      "component",
+      "text-input",
+      "default-width"
+    ],
+    "type": "string",
+    "value": "full",
+    "css_value": "full",
+    "is_reference": false
+  },
+  {
+    "name": "component-text-input-minimum-width-default",
+    "path": [
+      "component",
+      "text-input",
+      "minimum-width-default"
+    ],
+    "type": "dimension",
+    "value": "80px",
+    "css_value": "80px",
+    "is_reference": true
+  },
+  {
+    "name": "component-text-input-width-full",
+    "path": [
+      "component",
+      "text-input",
+      "width",
+      "full"
+    ],
+    "type": "dimension",
+    "value": "320px",
+    "css_value": "320px",
+    "is_reference": false
+  },
+  {
+    "name": "component-text-input-width-half",
+    "path": [
+      "component",
+      "text-input",
+      "width",
+      "half"
+    ],
+    "type": "dimension",
+    "value": "160px",
+    "css_value": "160px",
+    "is_reference": false
+  },
+  {
+    "name": "component-text-input-width-quarter",
+    "path": [
+      "component",
+      "text-input",
+      "width",
+      "quarter"
+    ],
+    "type": "dimension",
+    "value": "80px",
+    "css_value": "80px",
     "is_reference": false
   },
   {

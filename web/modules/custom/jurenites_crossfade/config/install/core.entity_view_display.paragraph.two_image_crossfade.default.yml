@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.two_image_crossfade.field_crossfade_images
+    - paragraphs.paragraphs_type.two_image_crossfade
+  module:
+    - jurenites_crossfade
+id: paragraph.two_image_crossfade.default
+targetEntityType: paragraph
+bundle: two_image_crossfade
+mode: default
+content:
+  field_crossfade_images:
+    type: jurenites_two_image_crossfade
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  created: true
+  status: true

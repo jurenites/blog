@@ -1,11 +1,10 @@
 // Foundations: color abstraction layers, rendered from the generated token map.
 import abstraction_template from "./color-abstraction.template.html?raw";
-import token_card_template from "./color-token-card.template.html?raw";
-import element_card_template from "./color-element-card.template.html?raw";
-import { escape_html, render_template } from "../../template.js";
+import { color_block_markup } from "../../internal/color-block/color-block.markup.js";
+import { render_template } from "../../template.js";
 import { color_group, token_names, token_value } from "../token-values.js";
 
-const SEMANTIC_GROUPS = ["palette"];
+const PRIMITIVE_GROUPS = ["palette"];
 const SYSTEM_GROUPS = ["surface", "text", "action", "border"];
 
 function color_tokens(group_names) {
@@ -15,19 +14,22 @@ function color_tokens(group_names) {
 }
 
 function token_card_markup({ token_name, token_value }) {
-  return render_template(token_card_template, {
-    token_label: escape_html(`--${token_name}`),
-    color_value: escape_html(token_value),
-    color_class: escape_html(`u-bg-${token_name}`),
-  });
+  return `<li>${color_block_markup({
+    background_token_name: token_name,
+    chip_size: "compact",
+    primary_text: token_name.replace(/^color-/, "").split("-").join(" "),
+    secondary_text: `--${token_name}`,
+    tertiary_text: token_value,
+  })}</li>`;
 }
 
 function element_card_markup(element_data) {
-  return render_template(element_card_template, {
-    element_label: escape_html(element_data.element_label),
-    token_label: escape_html(element_data.token_label),
-    background_class: escape_html(`u-bg-${element_data.background_token}`),
-    foreground_class: escape_html(`u-color-${element_data.foreground_token}`),
+  return color_block_markup({
+    background_token_name: element_data.background_token,
+    foreground_token_name: element_data.foreground_token,
+    chip_size: "compact",
+    primary_text: element_data.element_label,
+    secondary_text: element_data.token_label,
   });
 }
 
@@ -44,7 +46,7 @@ function element_color_cards() {
 
 function render_abstraction_story() {
   return render_template(abstraction_template, {
-    semantic_colors: color_tokens(SEMANTIC_GROUPS).map(token_card_markup).join(""),
+    primitive_colors: color_tokens(PRIMITIVE_GROUPS).map(token_card_markup).join(""),
     system_colors: color_tokens(SYSTEM_GROUPS).map(token_card_markup).join(""),
     element_colors: element_color_cards().map(element_card_markup).join(""),
   });

@@ -1,4 +1,5 @@
 import { text_input_markup } from "./text-input.markup.js";
+import { token_default_option, token_option_names } from "../../foundations/token-values.js";
 
 const INPUT_ID = "reader-email";
 const INPUT_LABEL = "Email address";
@@ -7,6 +8,9 @@ const INPUT_TYPE = "email";
 const INPUT_PLACEHOLDER = "reader@example.com";
 const HINT_TEXT = "Used only for new article notifications.";
 const IS_REQUIRED = true;
+const INPUT_WIDTH = token_default_option("component-text-input-default-width", "component-text-input-width-");
+
+const INPUT_WIDTH_OPTIONS = token_option_names("component-text-input-width-");
 
 function render_story(story_args) {
   return `<div class="storybook-stack storybook-stack--medium">${text_input_markup(story_args)}</div>`;
@@ -25,6 +29,10 @@ export default {
       options: ["text", "email", "search", "url"],
     },
     input_placeholder: { control: "text" },
+    input_width: {
+      control: { type: "select" },
+      options: INPUT_WIDTH_OPTIONS,
+    },
     hint_text: { control: "text" },
     is_required: { control: "boolean" },
   },
@@ -34,6 +42,7 @@ export default {
     input_name: INPUT_NAME,
     input_type: INPUT_TYPE,
     input_placeholder: INPUT_PLACEHOLDER,
+    input_width: INPUT_WIDTH,
     hint_text: HINT_TEXT,
     is_required: IS_REQUIRED,
   },

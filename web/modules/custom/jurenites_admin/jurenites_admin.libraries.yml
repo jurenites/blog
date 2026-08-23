@@ -1,0 +1,5 @@
+gin-branding:
+  css:
+    theme:
+      css/gin-branding.css: {  }
+

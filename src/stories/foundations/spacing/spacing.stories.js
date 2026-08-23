@@ -21,10 +21,15 @@ function spacing_rows() {
 function elevation_rows() {
   return token_names("elevation-shadow-")
     .map((token_name) => {
-      const tile_label = token_name.replace("elevation-shadow-", "");
+      const elevation_level = token_name.replace("elevation-shadow-", "");
+      const surface_token_name = `color-surface-elevation-${elevation_level}`;
+
       return render_template(elevation_tile_template, {
         shadow_class: escape_html(`u-shadow-${token_name}`),
-        label: escape_html(tile_label),
+        surface_class: escape_html(`u-bg-${surface_token_name}`),
+        elevation_label: escape_html(elevation_level),
+        shadow_variable_name: escape_html(`--${token_name}`),
+        surface_variable_name: escape_html(`--${surface_token_name}`),
       });
     })
     .join("");

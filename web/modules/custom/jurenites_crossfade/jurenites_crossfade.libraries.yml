@@ -1,0 +1,9 @@
+two-image-crossfade:
+  css:
+    component:
+      css/two-image-crossfade.css: {  }
+  js:
+    js/two-image-crossfade.js: {  }
+  dependencies:
+    - core/drupal
+    - core/once

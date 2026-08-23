@@ -76,7 +76,31 @@ color:
       "$value": "#0a0a0a"
     panel:
       "$type": color
+      "$value": "{color.palette.dark-gray-950}"
+    dark-gray-950:
+      "$type": color
       "$value": "#111111"
+      "$description": Lowest raised-surface gray and elevation level 0.
+    dark-gray-900:
+      "$type": color
+      "$value": "#181818"
+      "$description": Elevation level 1 surface gray.
+    dark-gray-850:
+      "$type": color
+      "$value": "#202020"
+      "$description": Elevation level 2 surface gray.
+    dark-gray-800:
+      "$type": color
+      "$value": "#282828"
+      "$description": Elevation level 3 surface gray.
+    dark-gray-750:
+      "$type": color
+      "$value": "#303030"
+      "$description": Elevation level 4 surface gray.
+    dark-gray-700:
+      "$type": color
+      "$value": "#383838"
+      "$description": Highest elevation level 6 surface gray.
     line:
       "$type": color
       "$value": "#2a2a2a"
@@ -111,6 +135,24 @@ color:
       "$type": color
       "$value": "{color.palette.panel}"
       "$description": Higher elevation surface.
+    elevation-level-0:
+      "$type": color
+      "$value": "{color.palette.dark-gray-950}"
+    elevation-level-1:
+      "$type": color
+      "$value": "{color.palette.dark-gray-900}"
+    elevation-level-2:
+      "$type": color
+      "$value": "{color.palette.dark-gray-850}"
+    elevation-level-3:
+      "$type": color
+      "$value": "{color.palette.dark-gray-800}"
+    elevation-level-4:
+      "$type": color
+      "$value": "{color.palette.dark-gray-750}"
+    elevation-level-6:
+      "$type": color
+      "$value": "{color.palette.dark-gray-700}"
   text:
     primary-default:
       "$type": color
@@ -671,6 +713,15 @@ layout:
       "$value": "{space.scale.large-gap}"
       "$description": Vertical distance between article teaser content and its boundary.
 component:
+  color-block:
+    size-default:
+      "$type": dimension
+      "$value": "{space.scale.page-gap}"
+      "$description": Default Color Block chip is a 96px square on the 8px grid.
+    size-compact:
+      "$type": dimension
+      "$value": 40px
+      "$description": Dense color mapping screens use a compact 40px square chip on the 8px grid.
   site-branding:
     logo-size-default:
       "$type": dimension
@@ -702,6 +753,27 @@ component:
         "$type": string
         "$value": inline
         "$description": Text-only action button.
+  text-input:
+    default-width:
+      "$type": string
+      "$value": full
+    minimum-width-default:
+      "$type": dimension
+      "$value": "{component.text-input.width.quarter}"
+      "$description": Text inputs never shrink below the quarter-width option.
+    width:
+      full:
+        "$type": dimension
+        "$value": 320px
+        "$description": Default maximum width for a standalone text input.
+      half:
+        "$type": dimension
+        "$value": 160px
+        "$description": Half of the default text input width.
+      quarter:
+        "$type": dimension
+        "$value": 80px
+        "$description": Quarter of the default width and the minimum supported text input width.
   badge:
     label-font-family-default:
       "$type": fontFamily

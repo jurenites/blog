@@ -1,6 +1,7 @@
 // Foundations: WCAG contrast matrix, calculated from the raw palette color tokens.
 import contrast_template from "./color-contrast.template.html?raw";
-import { escape_html, render_template } from "../../template.js";
+import { color_block_markup } from "../../internal/color-block/color-block.markup.js";
+import { render_template } from "../../template.js";
 import { token_names, token_value } from "../token-values.js";
 
 function palette_tokens() {
@@ -21,7 +22,11 @@ function rgb_channel(linear_value) {
 }
 
 function color_luminance(color_value) {
-  const hex_value = color_value.replace("#", "").slice(0, 6);
+  const compact_hex_value = color_value.replace("#", "");
+  const expanded_hex_value = compact_hex_value.length === 3 || compact_hex_value.length === 4
+    ? compact_hex_value.split("").map((channel_value) => channel_value.repeat(2)).join("")
+    : compact_hex_value;
+  const hex_value = expanded_hex_value.slice(0, 6);
   const red_value = Number.parseInt(hex_value.slice(0, 2), 16);
   const green_value = Number.parseInt(hex_value.slice(2, 4), 16);
   const blue_value = Number.parseInt(hex_value.slice(4, 6), 16);
@@ -47,31 +52,39 @@ function contrast_grade(ratio_value) {
 }
 
 function header_cell_markup(color_token) {
-  return `<th scope="col">
-    <code class="contrast-token">${escape_html(color_token.token_label)}</code>
-    <code class="contrast-value">${escape_html(color_token.token_value)}</code>
-  </th>`;
+  return `<th scope="col">${color_block_markup({
+    background_token_name: color_token.token_name,
+    chip_size: "compact",
+    primary_text: color_token.token_label,
+    secondary_text: `--${color_token.token_name}`,
+    tertiary_text: color_token.token_value,
+  })}</th>`;
 }
 
 function body_cell_markup(text_token, background_token) {
   const ratio_value = contrast_ratio(text_token.token_value, background_token.token_value);
   const grade_value = contrast_grade(ratio_value);
   const grade_class = grade_value === "AAA" ? "aaa" : grade_value === "AA" ? "aa" : "fail";
-  const background_class = escape_html(`u-bg-${background_token.token_name}`);
-  const foreground_class = escape_html(`u-color-${text_token.token_name}`);
-  return `<td class="contrast-cell ${background_class} ${foreground_class}">
-    <span class="contrast-cell__grade contrast-cell__grade--${grade_class}">${grade_value}</span>
-    <span class="contrast-cell__ratio">${ratio_value.toFixed(2)}</span>
-  </td>`;
+  return `<td class="contrast-cell contrast-cell--${grade_class}">${color_block_markup({
+    background_token_name: background_token.token_name,
+    foreground_token_name: text_token.token_name,
+    chip_size: "compact",
+    chip_text: grade_value,
+    primary_text: `${grade_value} · ${ratio_value.toFixed(2)} contrast`,
+    secondary_text: `text: ${text_token.token_label}`,
+  })}</td>`;
 }
 
 function body_row_markup(background_token, text_tokens) {
   const row_cells = text_tokens.map((text_token) => body_cell_markup(text_token, background_token)).join("");
   return `<tr>
-    <th class="contrast-table__row-heading" scope="row">
-      <code class="contrast-token">${escape_html(background_token.token_label)}</code>
-      <code class="contrast-value">${escape_html(background_token.token_value)}</code>
-    </th>
+    <th class="contrast-table__row-heading" scope="row">${color_block_markup({
+      background_token_name: background_token.token_name,
+      chip_size: "compact",
+      primary_text: background_token.token_label,
+      secondary_text: `--${background_token.token_name}`,
+      tertiary_text: background_token.token_value,
+    })}</th>
     ${row_cells}
   </tr>`;
 }

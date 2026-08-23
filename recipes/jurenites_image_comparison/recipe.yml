@@ -1,0 +1,12 @@
+name: 'Jurenites image comparison'
+description: 'Provides a draggable, accessible before-and-after comparison using two image media items.'
+type: 'Content type'
+recipes:
+  - jurenites_media
+install:
+  - image_compare_media
+  - node
+  - path
+config:
+  strict:
+    - field.storage.node.field_comparison_images

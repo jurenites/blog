@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 0.0.20
-Reviewed: 2026-08-20
+Version: 0.0.36
+Reviewed: 2026-08-23
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -44,6 +44,15 @@ token endpoint, and planned visual testing workflow.
   previous arrow, current page, total pages, and next arrow.
 - Storybook manager colors now come from generated YAML tokens instead of copied
   HEX values, and token builds enforce that source-of-truth contract.
+- Elevation levels use distinct approved dark-gray surface tokens and generated
+  background/shadow utility classes in Storybook. Handwritten colors remain HEX
+  values owned exclusively by `src/token/tokens.yaml`.
+- Palette, Abstraction Levels, and Color Contrast share one internal Color Block
+  renderer that is intentionally omitted from Storybook navigation. Its color
+  chip—not its flexible information container—is square: 96px by default and
+  40px on dense logical-token mapping screens. Abstraction Levels labels the
+  mapping layers as Palette Primitives, Semantic Logic, and Element Usage, and
+  Color Contrast supports both compact and full six-digit HEX values.
 - Drupal theme builds configure relative font URLs and copy canonical font files
   into deployable theme assets.
 - JavaScript, SCSS, and component-template linting now runs before the Storybook
@@ -57,6 +66,29 @@ token endpoint, and planned visual testing workflow.
 - Blog discovery and retention patterns now include Breadcrumbs, Search Form,
   and Newsletter Signup, composed from a reusable labeled Text Input atom and
   verified without horizontal overflow at the 360px minimum.
+- Drupal's native `.form-text` fields share the Text Input atom's control,
+  placeholder, hover, and focus-visible styling, including the user login form.
+- Text Input exposes token-backed `full`, `half`, and `quarter` width options
+  capped at 320px, 160px, and 80px respectively, with an 80px minimum. Drupal
+  `.form-text` fields use the full-width option by default. The input and its
+  optional action are direct children; no control-row wrapper is required.
+- Drupal's native `.button.form-submit` controls share the primary Button atom
+  styling, including its visible inverse text and hover elevation states.
+- A project-owned Drupal recipe enables Media Library with reusable Image media
+  for JPEG uploads and Remote video media for YouTube or Vimeo URLs.
+- A progressive-image recipe combines an embedded 20px blurry placeholder,
+  intrinsic width/height layout reservation, responsive WebP candidates, and a
+  project-owned 1px loading-state line. Placeholder generation happens when
+  Drupal saves an image file, including cached remote-video thumbnails. The
+  line represents browser-visible states rather than unavailable byte-level
+  progress.
+- Drupal Image media accepts files up to 200 MB. PHP permits a 200 MB file,
+  while PHP, Apache, and Nginx permit a 210 MB request for multipart overhead.
+- Image Compare Accessible Slider provides an accessible draggable comparison,
+  backed by an Image comparison content type that accepts two Image media items.
+- Paragraphs provides structured content sections on Articles and Basic pages.
+  The Two-image crossfade Paragraph requires exactly two Image media items,
+  holds each for two seconds, crossfades for half a second, and loops infinitely.
 - Badge labels retain the 5px Overline dimensions while using a component-scoped
   4pixel font-family token; other Overline consumers remain on their own family.
 - Desktop and wide breakpoints are unified into one 1280-1920px desktop range.
@@ -68,11 +100,11 @@ token endpoint, and planned visual testing workflow.
   `default` suffixes.
 - The screenshot signature displays the shared project version, current
   UTC build update time to the second, seven-character Git hash, and collaboration
-  credit with exact solid token colors in Drupal, the Storybook manager, and every
-  Storybook preview screen.
-- The Version Watermark story excludes the global watermark decorator and uses
-  a Docs sample capped at 200px including Storybook's Canvas chrome, preventing
-  duplicate shells and off-screen samples.
+  credit with exact solid token colors in Drupal and the Storybook manager.
+- The Storybook manager owns the single persistent build watermark. Preview
+  iframes do not inject another copy; the Version Watermark story remains only
+  as its intentional component sample and is capped at 200px including Canvas
+  chrome.
 - Typography dimensions now use explicit pixel values end to end; legacy root
   font-size conversion logic has been removed from Storybook and Figma sync.
 - Project-owned folder documentation is centralized in
@@ -84,9 +116,10 @@ token endpoint, and planned visual testing workflow.
   and only logical pixels uncovered by a brush pass receive new random grain.
 - The cursor brush leaves a clock-sampled dither trail. Trail circles hold at
   full size briefly, then shrink through hard logical-pixel radii over one second.
-- Storybook Backgrounds offers only `plain-black` and `dithering` through one
-  select control. Dithering uses the current shared Drupal renderer with no demo
-  heading, description, or duplicated shader source.
+- Storybook Backgrounds offers `plain-black`, `dithering`, and
+  `particle-attraction` through one select control. The new monochrome Canvas 2D
+  field scales its 6px particle count with area, prevents dot overlap, and slowly
+  gathers particles inside a delayed 200px cursor-attraction field.
 - Future scenic backgrounds use named parallax depth layers from sky through
   foreground dunes.
 - Typography roles do not own uppercase transformation. Uppercase is an explicit
@@ -114,3 +147,10 @@ token endpoint, and planned visual testing workflow.
 - The favicon uses the compact 16px Jurenites mark and adapts for tab contrast:
   light browser themes receive a black background with a white mark, while dark
   browser themes receive a white background with a black mark.
+- Logged-in admin pages use Gin in forced dark mode with user appearance
+  overrides disabled. The browser tab uses the fixed inverted
+  `favicon-admin.svg`, while the Gin Home toolbar link uses the public
+  `favicon.svg` through the project-owned `jurenites_admin` module.
+- Storybook uses its repository-owned 16px SVG logo at `src/public/favicon.svg`.
+  Storybook's canonical manager favicon link serves that file without a second
+  competing favicon declaration.

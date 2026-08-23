@@ -1,0 +1,8 @@
+body .admin-toolbar__logo .toolbar-link--gin-home,
+body .admin-toolbar__logo .toolbar-link--gin-home:focus {
+  background-color: white !important;
+}
+html .admin-toolbar__logo .toolbar-link--gin-home::before {
+  background: transparent url("../../../../themes/custom/jurenites_theme/favicon.svg") center / 100% 100% no-repeat !important;
+  mask-image: none !important;
+}

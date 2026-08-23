@@ -39,6 +39,19 @@ button:focus-visible {
   @include tools.visually-hidden;
 }
 
+// Skip link: hidden until Tab, then a real in-page link to #main-content.
+.skip-to-content {
+  @include tools.visually-hidden;
+  @include tools.visually-revealed-on-focus;
+
+  &:focus,
+  &:focus-visible {
+    inset-block-start: var(--layout-gutter-desktop-default);
+    inset-inline-start: var(--layout-gutter-desktop-default);
+    z-index: var(--component-watermark-layer-default);
+  }
+}
+
 .layout-container {
   position: relative;
   z-index: 1;

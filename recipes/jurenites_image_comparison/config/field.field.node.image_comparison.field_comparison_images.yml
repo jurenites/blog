@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_comparison_images
+    - media.type.image
+    - node.type.image_comparison
+id: node.image_comparison.field_comparison_images
+field_name: field_comparison_images
+entity_type: node
+bundle: image_comparison
+label: 'Comparison images'
+description: 'Select exactly two aligned images. The first is shown on the left and the second on the right.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

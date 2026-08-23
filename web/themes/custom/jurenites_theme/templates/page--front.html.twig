@@ -6,6 +6,10 @@
   ></div>
 
   <div class="layout-container">
+    <a href="#main-content" class="skip-to-content button button--primary">
+      {{ 'Skip to main content'|t }}
+    </a>
+
     {% if page.header %}
       <header role="banner">
         {{ page.header }}
@@ -18,8 +22,8 @@
       </nav>
     {% endif %}
 
-    <main role="main">
-      <a id="main-content" tabindex="-1"></a>
+    {# Skip-link target: keep id on <main>, never use an <a> without href. #}
+    <main id="main-content" role="main" tabindex="-1">
       {{ page.content }}
     </main>
 

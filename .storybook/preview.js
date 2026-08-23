@@ -3,9 +3,6 @@
 import "../src/slice/src/scss/main.scss";
 import "../src/styles/storybook.scss";
 import { TOKEN_VALUES } from "../generated/token/tokens.js";
-import { version_watermark_markup } from "../src/stories/atoms/version-watermark/version-watermark.markup.js";
-
-const VERSION_WATERMARK_STORY_ID = "atoms-version-watermark--default-story";
 
 function token_dimension(token_name) {
   return TOKEN_VALUES[token_name];
@@ -40,36 +37,6 @@ const breakpoint_viewports = {
     type: "desktop",
   },
 };
-
-function render_version_watermark(story_function, story_context) {
-  const build_info = globalThis.STORYBOOK_BUILD_INFO;
-  const story_markup = story_function();
-
-  if (!build_info || story_context.id === VERSION_WATERMARK_STORY_ID) {
-    return story_markup;
-  }
-
-  const watermark_markup = version_watermark_markup({
-    version_label: "Version",
-    version_number: build_info.project_version,
-    updated_gmt: build_info.created_gmt,
-    git_hash: build_info.commit_hash,
-    git_url: build_info.commit_url,
-    credit_text: `made by ${build_info.collaboration_credit}`,
-  });
-
-  if (typeof story_markup === "string") {
-    return `${story_markup}${watermark_markup}`;
-  }
-
-  const story_container = document.createElement("div");
-  story_container.className = "storybook-decorated-screen";
-  story_container.append(story_markup);
-  story_container.insertAdjacentHTML("beforeend", watermark_markup);
-  return story_container;
-}
-
-export const decorators = [render_version_watermark];
 
 export const parameters = {
   layout: "fullscreen",

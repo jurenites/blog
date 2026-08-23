@@ -128,6 +128,12 @@ and the Storybook foundations also expose the imported custom Roundabout and
 - The screenshot signature uses dedicated solid semantic colors with no opacity
   or blend mode. Configured HEX values therefore reach solid glyph pixels
   unchanged; only normal font anti-aliasing affects edge pixels.
+- Palette, Abstraction Levels, and Color Contrast reuse one internal Color Block
+  renderer. It is not a standalone Storybook story. Its color chip is a 96px
+  square by default or a compact 40px square for dense logical-token mapping;
+  the information container remains flexible and prioritizes readable names.
+  Abstraction Levels presents the intended mapping flow as Palette Primitives,
+  Semantic Logic, and Element Usage.
 
 ## Front-page background language
 
@@ -162,8 +168,13 @@ from `npm run build:theme`.
 Storybook exposes the available full-page treatments as `Components/Backgrounds`
 with one `background_style` selector. Its `dithering` option invokes the same
 exported renderer as Drupal, while `plain-black` renders the page surface token.
-The shader therefore has one maintained implementation rather than a Storybook
-copy that can drift from the live front page.
+The `particle-attraction` option is a separate Canvas 2D renderer with responsive
+particle count, approximately 6px circles, collision separation, and a delayed
+200px cursor-attraction field. Particle tones interpolate between semantic
+monochrome tokens. A weak home force redistributes the dots after interaction,
+and `prefers-reduced-motion` produces a static field. The dither shader therefore
+retains one maintained implementation rather than a Storybook copy that can
+drift from the live front page.
 
 The planned scenic evolution uses **depth layers** rather than one flattened
 background: sky, clouds, distant sea, wave bands, shoreline, sand dunes, and
@@ -215,7 +226,10 @@ occlusion, or dynamic lighting becomes a concrete requirement.
 ## Elevation and shadow
 
 `elevation.shadow.level-0..level-6`, Material-style. Apply with
-`@include tools.elevation("level-2");`. Shadow alpha uses 8-digit HEX.
+`@include tools.elevation("level-2");`. Shadow alpha uses 8-digit HEX. Each
+level also has a progressively lighter `color.surface.elevation-level-*` token
+from the approved `color.palette.dark-gray-*` scale. The Storybook Elevation
+tiles consume the generated background and shadow utility classes directly.
 
 ## Motion
 

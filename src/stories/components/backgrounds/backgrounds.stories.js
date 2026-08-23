@@ -1,9 +1,10 @@
 import { create_dither_trail_background } from "../../../slice/src/js/script.js";
+import { create_particle_attraction_background } from "../../../slice/src/js/backgrounds/particle-attraction-background.js";
 import { escape_html, render_template } from "../../template.js";
 import backgrounds_template from "./backgrounds.template.html?raw";
 
 const BACKGROUND_STYLE = "plain-black";
-const BACKGROUND_STYLE_OPTIONS = ["plain-black", "dithering"];
+const BACKGROUND_STYLE_OPTIONS = ["plain-black", "dithering", "particle-attraction"];
 
 function render_background_story({ background_style }) {
   const story_container = document.createElement("div");
@@ -21,10 +22,17 @@ function render_background_story({ background_style }) {
     });
   }
 
+  if (background_style === "particle-attraction") {
+    initialization_frame = window.requestAnimationFrame(() => {
+      create_particle_attraction_background(background_preview);
+    });
+  }
+
   const removal_observer = new MutationObserver(() => {
     if (!story_container.isConnected) {
       window.cancelAnimationFrame(initialization_frame);
       background_preview.jurenitesGradientDestroy?.();
+      background_preview.jurenitesParticleDestroy?.();
       removal_observer.disconnect();
     }
   });
@@ -58,4 +66,8 @@ export default {
   },
 };
 
-export const default_story = {};
+export const default_story = {
+  args: {
+    background_style: "particle-attraction"
+  }
+};

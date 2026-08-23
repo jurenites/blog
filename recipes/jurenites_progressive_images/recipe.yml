@@ -1,0 +1,46 @@
+name: 'Jurenites progressive images'
+description: 'Reserves image space, embeds a 20px blurry preview, and serves responsive 1x/2x image candidates.'
+type: 'Media'
+recipes:
+  - jurenites_media
+  - core/recipes/standard_responsive_images
+install:
+  - image_blurry_placeholder
+  - jurenites_progressive_images
+config:
+  actions:
+    core.entity_view_display.media.image.default:
+      setComponent:
+        name: field_media_image
+        options:
+          type: responsive_image
+          label: visually_hidden
+          settings:
+            responsive_image_style: wide
+            image_link: ''
+            image_loading:
+              attribute: lazy
+          third_party_settings:
+            image_blurry_placeholder:
+              use_blurry_placeholder: true
+          weight: 1
+          region: content
+    core.entity_view_display.media.image.media_library:
+      setComponent: &progressive_media_thumbnail
+        name: thumbnail
+        options:
+          type: image
+          label: hidden
+          settings:
+            image_style: medium
+            image_link: ''
+            image_loading:
+              attribute: lazy
+          third_party_settings:
+            image_blurry_placeholder:
+              use_blurry_placeholder: true
+          weight: 0
+          region: content
+    core.entity_view_display.media.remote_video.media_library:
+      setComponent:
+        <<: *progressive_media_thumbnail

@@ -1,0 +1,33 @@
+<?php
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_crossfade_theme(array $existing_definitions, string $definition_type, string $active_theme, string $module_path): array {
+  return [
+    'jurenites_two_image_crossfade' => [
+      'variables' => [
+        'image_frames' => [],
+      ],
+      'template' => 'jurenites-two-image-crossfade',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_entity_bundle_field_info_alter().
+ */
+function jurenites_crossfade_entity_bundle_field_info_alter(array &$field_definitions, EntityTypeInterface $entity_type, string $bundle_name): void {
+  if ($entity_type->id() !== 'paragraph' || $bundle_name !== 'two_image_crossfade') {
+    return;
+  }
+
+  if (isset($field_definitions['field_crossfade_images'])) {
+    $field_definitions['field_crossfade_images']->addConstraint('Count', [
+      'exactly' => 2,
+      'exactMessage' => 'Select exactly two images for the crossfade.',
+    ]);
+  }
+}

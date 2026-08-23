@@ -15,6 +15,12 @@
   --color-palette-black: #000;
   --color-palette-canvas: #0a0a0a;
   --color-palette-panel: #111111;
+  --color-palette-dark-gray-950: #111111;
+  --color-palette-dark-gray-900: #181818;
+  --color-palette-dark-gray-850: #202020;
+  --color-palette-dark-gray-800: #282828;
+  --color-palette-dark-gray-750: #303030;
+  --color-palette-dark-gray-700: #383838;
   --color-palette-line: #2a2a2a;
   --color-palette-muted: #a1a1aa;
   --color-palette-white: #fafafa;
@@ -25,6 +31,12 @@
   --color-surface-page-default: #000;
   --color-surface-panel-default: #0a0a0a;
   --color-surface-panel-raised: #111111;
+  --color-surface-elevation-level-0: #111111;
+  --color-surface-elevation-level-1: #181818;
+  --color-surface-elevation-level-2: #202020;
+  --color-surface-elevation-level-3: #282828;
+  --color-surface-elevation-level-4: #303030;
+  --color-surface-elevation-level-6: #383838;
   --color-text-primary-default: #fafafa;
   --color-text-secondary-default: #a1a1aa;
   --color-text-inverse-default: #000;
@@ -192,6 +204,8 @@
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
   --layout-article-teaser-padding-block-default: 24px;
+  --component-color-block-size-default: 96px;
+  --component-color-block-size-compact: 40px;
   --component-site-branding-logo-size-default: 64px;
   --component-watermark-layer-default: 10000;
   --component-button-default-style: primary;
@@ -199,6 +213,11 @@
   --component-button-style-primary: fill;
   --component-button-style-secondary: outline;
   --component-button-style-ghost: inline;
+  --component-text-input-default-width: full;
+  --component-text-input-minimum-width-default: 80px;
+  --component-text-input-width-full: 320px;
+  --component-text-input-width-half: 160px;
+  --component-text-input-width-quarter: 80px;
   --component-badge-label-font-family-default: "4pixel", monospace;
   --component-badge-default-status: success;
   --component-badge-status-neutral: neutral;
@@ -624,6 +643,54 @@ $breakpoints: (
   color: var(--color-palette-panel);
 }
 
+.u-bg-color-palette-dark-gray-950 {
+  background: var(--color-palette-dark-gray-950);
+}
+
+.u-color-color-palette-dark-gray-950 {
+  color: var(--color-palette-dark-gray-950);
+}
+
+.u-bg-color-palette-dark-gray-900 {
+  background: var(--color-palette-dark-gray-900);
+}
+
+.u-color-color-palette-dark-gray-900 {
+  color: var(--color-palette-dark-gray-900);
+}
+
+.u-bg-color-palette-dark-gray-850 {
+  background: var(--color-palette-dark-gray-850);
+}
+
+.u-color-color-palette-dark-gray-850 {
+  color: var(--color-palette-dark-gray-850);
+}
+
+.u-bg-color-palette-dark-gray-800 {
+  background: var(--color-palette-dark-gray-800);
+}
+
+.u-color-color-palette-dark-gray-800 {
+  color: var(--color-palette-dark-gray-800);
+}
+
+.u-bg-color-palette-dark-gray-750 {
+  background: var(--color-palette-dark-gray-750);
+}
+
+.u-color-color-palette-dark-gray-750 {
+  color: var(--color-palette-dark-gray-750);
+}
+
+.u-bg-color-palette-dark-gray-700 {
+  background: var(--color-palette-dark-gray-700);
+}
+
+.u-color-color-palette-dark-gray-700 {
+  color: var(--color-palette-dark-gray-700);
+}
+
 .u-bg-color-palette-line {
   background: var(--color-palette-line);
 }
@@ -702,6 +769,54 @@ $breakpoints: (
 
 .u-color-color-surface-panel-raised {
   color: var(--color-surface-panel-raised);
+}
+
+.u-bg-color-surface-elevation-level-0 {
+  background: var(--color-surface-elevation-level-0);
+}
+
+.u-color-color-surface-elevation-level-0 {
+  color: var(--color-surface-elevation-level-0);
+}
+
+.u-bg-color-surface-elevation-level-1 {
+  background: var(--color-surface-elevation-level-1);
+}
+
+.u-color-color-surface-elevation-level-1 {
+  color: var(--color-surface-elevation-level-1);
+}
+
+.u-bg-color-surface-elevation-level-2 {
+  background: var(--color-surface-elevation-level-2);
+}
+
+.u-color-color-surface-elevation-level-2 {
+  color: var(--color-surface-elevation-level-2);
+}
+
+.u-bg-color-surface-elevation-level-3 {
+  background: var(--color-surface-elevation-level-3);
+}
+
+.u-color-color-surface-elevation-level-3 {
+  color: var(--color-surface-elevation-level-3);
+}
+
+.u-bg-color-surface-elevation-level-4 {
+  background: var(--color-surface-elevation-level-4);
+}
+
+.u-color-color-surface-elevation-level-4 {
+  color: var(--color-surface-elevation-level-4);
+}
+
+.u-bg-color-surface-elevation-level-6 {
+  background: var(--color-surface-elevation-level-6);
+}
+
+.u-color-color-surface-elevation-level-6 {
+  color: var(--color-surface-elevation-level-6);
 }
 
 .u-bg-color-text-primary-default {

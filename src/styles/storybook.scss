@@ -163,32 +163,78 @@ body,
   max-width: 640px;
 }
 
-.swatch {
-  margin: 0;
+.color-block-grid,
+.color-token-list,
+.color-element-list {
+  display: grid;
+  gap: var(--space-scale-base-gap);
 }
 
-.swatch__chip {
-  height: 72px;
-  border: var(--space-scale-line-size) solid var(--color-border-subtle-default);
-  border-radius: var(--shape-corner-radius-small-default);
+.color-block-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  padding: var(--space-scale-large-gap);
 }
 
-.swatch__caption {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-scale-tight-gap);
-  padding-top: var(--space-scale-base-gap);
+.color-block {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-scale-compact-gap);
+  align-items: center;
+  padding: var(--space-scale-compact-gap);
+  border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
+  border-radius: var(--shape-corner-radius-extra-small);
+  background: var(--color-surface-panel-raised);
 }
 
-.swatch__name {
-  color: var(--color-text-primary-default);
+.color-block__chip {
+  width: var(--component-color-block-size-default);
+  height: var(--component-color-block-size-default);
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
+  border-radius: var(--shape-corner-radius-extra-small);
+}
+
+.color-block--compact .color-block__chip {
+  width: var(--component-color-block-size-compact);
+  height: var(--component-color-block-size-compact);
+}
+
+.color-block__chip-text {
+  color: inherit;
+  font-size: 10px;
+  font-weight: var(--typography-font-weight-bold-default);
+  line-height: 1;
+}
+
+.color-block__information {
+  min-width: 0;
+}
+
+.color-block__primary,
+.color-block__secondary,
+.color-block__tertiary {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  color: inherit;
+  font-size: 10px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.color-block__primary {
+  font-weight: var(--typography-font-weight-bold-default);
   text-transform: capitalize;
 }
 
-.swatch__value,
-.swatch__var {
-  color: var(--color-text-secondary-default);
-  font-size: 12px;
+.color-block__secondary:empty,
+.color-block__tertiary:empty {
+  display: none;
 }
 
 .color-levels {
@@ -212,71 +258,13 @@ body,
 }
 
 .color-token-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-scale-compact-gap);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.color-token-card {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  gap: var(--space-scale-compact-gap);
-  align-items: center;
-  min-height: 44px;
-  padding: var(--space-scale-compact-gap);
-  border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
-  border-radius: var(--shape-corner-radius-extra-small);
-  background: var(--color-surface-panel-raised);
-}
-
-.color-token-card__chip {
-  width: 44px;
-  height: 32px;
-  border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
-  border-radius: var(--shape-corner-radius-extra-small);
-}
-
-.color-token-card__label,
-.color-token-card__value {
-  display: block;
-  overflow-wrap: anywhere;
-}
-
-.color-token-card__label {
-  color: var(--color-text-primary-default);
-  font-size: 12px;
-}
-
-.color-token-card__value {
-  color: var(--color-text-secondary-default);
-  font-size: 11px;
-}
-
-.color-element-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-scale-compact-gap);
-}
-
-.color-element-card {
-  padding: var(--space-scale-compact-gap);
-  border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
-  border-radius: var(--shape-corner-radius-extra-small);
-}
-
-.color-element-card__label {
-  display: block;
-  font-size: 12px;
-}
-
-.color-element-card__token {
-  display: block;
-  margin-top: var(--space-scale-tight-gap);
-  color: var(--color-text-secondary-default);
-  font-size: 11px;
+.color-token-list > li {
+  min-width: 0;
 }
 
 .contrast-table-wrap {
@@ -294,8 +282,8 @@ body,
 
 .contrast-table th,
 .contrast-table td {
-  min-width: 104px;
-  padding: var(--space-scale-compact-gap);
+  min-width: 144px;
+  padding: var(--space-scale-tight-gap);
   border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
   text-align: left;
   vertical-align: top;
@@ -322,39 +310,25 @@ body,
   background: var(--color-surface-panel-raised);
 }
 
-.contrast-token {
-  display: block;
-  color: var(--color-text-primary-default);
-  font-size: 11px;
-}
-
-.contrast-value {
-  display: block;
-  color: var(--color-text-secondary-default);
-  font-size: 10px;
-}
-
 .contrast-cell {
-  height: 72px;
-  font-size: 12px;
-  line-height: 1.35;
+  padding: var(--space-scale-tight-gap);
 }
 
-.contrast-cell__grade,
-.contrast-cell__ratio {
-  display: block;
-  font-weight: 700;
+.contrast-table .color-block {
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
-.contrast-cell__grade--aaa {
+.contrast-cell--aaa .color-block__chip-text {
   text-decoration: underline;
 }
 
-.contrast-cell__grade--aa {
+.contrast-cell--aa .color-block__chip-text {
   text-decoration: none;
 }
 
-.contrast-cell__grade--fail {
+.contrast-cell--fail .color-block__chip-text {
   text-decoration: line-through;
 }
 
@@ -516,11 +490,25 @@ body,
 
 .elevation-tile {
   min-height: 96px;
-  display: grid;
-  place-items: center;
-  background: var(--color-surface-panel-raised);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-scale-tight-gap);
+  padding: var(--space-scale-compact-gap);
   border-radius: var(--shape-corner-radius-small-default);
   color: var(--color-text-secondary-default);
+  text-align: center;
+}
+
+.elevation-tile__label {
+  color: var(--color-text-primary-default);
+  @include tools.typography-subtitle-2;
+}
+
+.elevation-tile__variable {
+  color: var(--color-text-secondary-default);
+  @include tools.typography-caption;
 }
 
 @media (max-width: 900px) {
