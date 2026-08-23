@@ -5,6 +5,29 @@
  * Applies project branding to the Gin administration theme.
  */
 
+use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
+
+/**
+ * Implements hook_entity_presave().
+ */
+function jurenites_admin_entity_presave(EntityInterface $saved_entity): void {
+  if (!$saved_entity instanceof FieldableEntityInterface) {
+    return;
+  }
+
+  $field_definitions = $saved_entity->getFieldDefinitions();
+  foreach ($field_definitions as $field_name => $field_definition) {
+    $is_comment_field = $field_definition->getType() === 'comment';
+    if (!$is_comment_field || $saved_entity->get($field_name)->isEmpty()) {
+      continue;
+    }
+
+    $saved_entity->get($field_name)->status = CommentItemInterface::CLOSED;
+  }
+}
+
 /**
  * Implements hook_page_attachments().
  */

@@ -151,6 +151,10 @@ token endpoint, and planned visual testing workflow.
   overrides disabled. The browser tab uses the fixed inverted
   `favicon-admin.svg`, while the Gin Home toolbar link uses the public
   `favicon.svg` through the project-owned `jurenites_admin` module.
+- Drupal comment fields are globally forced closed. The project post-update
+  closes existing comment-enabled content and changes every comment field's
+  default, while the administration module prevents future saves from reopening
+  comments.
 - Storybook uses its repository-owned 16px SVG logo at `src/public/favicon.svg`.
   Storybook's canonical manager favicon link serves that file without a second
   competing favicon declaration.
