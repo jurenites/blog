@@ -2,7 +2,7 @@ name: jurenites Theme
 type: theme
 description: Custom Drupal theme for the Blog jurenites personal site.
 core_version_requirement: ^11
-base theme: stable9
+base theme: false
 libraries:
   - jurenites_theme/global
 regions:

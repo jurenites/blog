@@ -6,3 +6,12 @@ html .admin-toolbar__logo .toolbar-link--gin-home::before {
   background: transparent url("../../../../themes/custom/jurenites_theme/favicon.svg") center / 100% 100% no-repeat !important;
   mask-image: none !important;
 }
+
+/* Keep Drupal Shortcuts available while hiding its Gin theme controls. */
+body .toolbar-tab--toolbar-item-shortcuts,
+body #toolbar-item-shortcuts,
+body #toolbar-item-shortcuts-tray,
+body .admin-toolbar__item.menu--shortcuts,
+body .shortcut-action {
+  display: none !important;
+}

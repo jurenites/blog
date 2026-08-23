@@ -1,6 +1,12 @@
-# Blog jurenites
+# Blog website
 
 Personal site for Alexander Ilivanov / @jurenites.
+
+Please Don't hack me, i;ve showed oto internem my code in form of opensource because i have nothing to hide and its my own wao of work and you may evaluate it. But in sake of security that not smart, IU hope in case of disaster at maximum damage can be at max: 
+- an sware workds
+- inapropriate images or 
+- webste is down
+im fine with thatn if you are white hakerr foudn wornulabilities, i woudl be glad to hear from you. 
 
 This repository is the working system for a personal blog, portfolio, CV timeline,
 and public design/development process. The repo is intentionally readable: design
@@ -98,6 +104,9 @@ WebP candidates for normal and high-density displays. Its 1px loading line
 shows placeholder, image-request, complete, and error states without replacing
 the browser's native responsive-image selection. Preview generation runs when
 Drupal saves image files, including locally cached remote-video thumbnails.
+The preview uses its own decorative layer, leaving native image alt/error
+rendering unfiltered. PHP has a 512 MB local memory allowance so GD can process
+large source photographs into responsive derivatives.
 
 The `jurenites_image_comparison` recipe enables the stable Image Compare
 Accessible Slider and its Media integration, then provides an Image comparison
@@ -110,6 +119,9 @@ sections to Articles and Basic pages. Its Two-image crossfade section requires
 exactly two aligned Image media items, holds each image for two seconds,
 crossfades for half a second, and loops indefinitely. The animation starts only
 after both images load and remains static when reduced motion is requested.
+Manage display exposes the hold and crossfade durations. Two 4px pagination
+dots show the active image and can select either frame, while pointer hover
+pauses automatic rotation.
 
 ## Media Upload Limit
 
@@ -159,6 +171,21 @@ docker compose up -d
 docker compose ps
 curl -I http://jurenites.local/
 ```
+
+After installing Drupal, enable local automated cron with the standard
+three-hour interval:
+
+```bash
+docker compose exec web vendor/bin/drush config:set automated_cron.settings interval 10800 -y
+```
+
+The same setting is available at
+[`/admin/config/system/cron`](http://jurenites.local/admin/config/system/cron) by
+selecting **Every 3 hours**. The Docker web container does not run a separate
+cron daemon; Drupal triggers automated cron after a web request when the
+configured interval has elapsed. Keep this request-triggered setup for local
+development. Stage and production should instead schedule `drush cron` through
+their hosting environment and avoid running both schedulers.
 
 The local Docker stack routes semantic hostnames through its port-80 proxy:
 

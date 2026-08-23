@@ -12,9 +12,15 @@ const VERTEX_SHADER_SOURCE = `
     uniform vec2 u_viewport_size;
     uniform vec2 u_cursor_position;
     uniform float u_cursor_active;
-    uniform sampler2D u_noise_map;
+    uniform float u_noise_frame;
     uniform vec3 u_trail_brushes[24];
     uniform float u_trail_count;
+
+    float staticHash(vec2 pixel_position) {
+      vec3 hash_position = fract(vec3(pixel_position.xyx) * 0.1031);
+      hash_position += dot(hash_position, hash_position.yzx + 33.33);
+      return fract((hash_position.x + hash_position.y) * hash_position.z);
+    }
 
     float orderedPatternRank(vec2 pattern_pixel) {
       vec2 half_pixel = mod(pattern_pixel, 2.0);
@@ -52,11 +58,15 @@ const VERTEX_SHADER_SOURCE = `
       float gradient_tone = mix(0.025, 0.76, pow(radial_light, 1.18));
 
       vec2 grain_pixel = floor(logical_position);
-      vec2 grain_uv = (grain_pixel + 0.5) / u_viewport_size;
-      float grain_value = texture2D(u_noise_map, grain_uv).r - 0.5;
+      vec2 noise_offset = vec2(u_noise_frame * 37.0, u_noise_frame * 91.0);
+      float grain_value = staticHash(grain_pixel + noise_offset) - 0.5;
       float resting_tone = clamp(gradient_tone + (grain_value * 0.17), 0.0, 1.0);
 
-      vec2 pattern_pixel = selectPatternPixel(grain_pixel, gradient_tone);
+      vec2 pattern_offset = vec2(
+        mod(u_noise_frame, 4.0),
+        mod(floor(u_noise_frame / 4.0), 4.0)
+      );
+      vec2 pattern_pixel = selectPatternPixel(grain_pixel + pattern_offset, gradient_tone);
       float pattern_rank = orderedPatternRank(pattern_pixel) / 15.0;
       float dither_tone = clamp(
         gradient_tone + ((pattern_rank - 0.5) * 0.17),
@@ -142,21 +152,20 @@ export function create_dither_trail_background(background_wrapper) {
       viewport_size: gl_context.getUniformLocation(shader_program, 'u_viewport_size'),
       cursor_position: gl_context.getUniformLocation(shader_program, 'u_cursor_position'),
       cursor_active: gl_context.getUniformLocation(shader_program, 'u_cursor_active'),
-      noise_map: gl_context.getUniformLocation(shader_program, 'u_noise_map'),
+      noise_frame: gl_context.getUniformLocation(shader_program, 'u_noise_frame'),
       trail_brushes: gl_context.getUniformLocation(shader_program, 'u_trail_brushes[0]'),
       trail_count: gl_context.getUniformLocation(shader_program, 'u_trail_count'),
     };
-    const noise_texture = gl_context.createTexture();
-
     let animation_frame = 0;
     let viewport_width = 1;
     let viewport_height = 1;
     let cursor_position_x = 0;
     let cursor_position_y = 0;
     let cursor_active = 0;
-    let noise_pixel_data = new Uint8Array(4);
+    let noise_frame = 0;
     let trail_brushes = [];
     let last_trail_sample_time = 0;
+    const reduced_motion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     background_canvas.setAttribute('aria-hidden', 'true');
     background_wrapper.appendChild(background_canvas);
@@ -177,42 +186,6 @@ export function create_dither_trail_background(background_wrapper) {
       0,
       0,
     );
-    gl_context.activeTexture(gl_context.TEXTURE0);
-    gl_context.bindTexture(gl_context.TEXTURE_2D, noise_texture);
-    gl_context.texParameteri(gl_context.TEXTURE_2D, gl_context.TEXTURE_MIN_FILTER, gl_context.NEAREST);
-    gl_context.texParameteri(gl_context.TEXTURE_2D, gl_context.TEXTURE_MAG_FILTER, gl_context.NEAREST);
-    gl_context.texParameteri(gl_context.TEXTURE_2D, gl_context.TEXTURE_WRAP_S, gl_context.CLAMP_TO_EDGE);
-    gl_context.texParameteri(gl_context.TEXTURE_2D, gl_context.TEXTURE_WRAP_T, gl_context.CLAMP_TO_EDGE);
-    gl_context.uniform1i(shader_locations.noise_map, 0);
-
-    function randomizeNoisePixel(pixel_offset) {
-      const random_channel = Math.floor(Math.random() * 256);
-      noise_pixel_data[pixel_offset] = random_channel;
-      noise_pixel_data[pixel_offset + 1] = random_channel;
-      noise_pixel_data[pixel_offset + 2] = random_channel;
-      noise_pixel_data[pixel_offset + 3] = 255;
-    }
-
-    function createNoisePixels() {
-      noise_pixel_data = new Uint8Array(viewport_width * viewport_height * 4);
-
-      for (let pixel_offset = 0; pixel_offset < noise_pixel_data.length; pixel_offset += 4) {
-        randomizeNoisePixel(pixel_offset);
-      }
-
-      gl_context.texImage2D(
-        gl_context.TEXTURE_2D,
-        0,
-        gl_context.RGBA,
-        viewport_width,
-        viewport_height,
-        0,
-        gl_context.RGBA,
-        gl_context.UNSIGNED_BYTE,
-        noise_pixel_data,
-      );
-    }
-
     function resizeBackground() {
       const wrapper_bounds = background_wrapper.getBoundingClientRect();
       viewport_width = Math.max(1, Math.round(wrapper_bounds.width));
@@ -224,7 +197,6 @@ export function create_dither_trail_background(background_wrapper) {
         background_canvas.width = render_width;
         background_canvas.height = render_height;
         gl_context.viewport(0, 0, render_width, render_height);
-        createNoisePixels();
       }
 
       requestBackgroundRender();
@@ -268,12 +240,16 @@ export function create_dither_trail_background(background_wrapper) {
         cursor_position_y,
       );
       gl_context.uniform1f(shader_locations.cursor_active, cursor_active);
+      gl_context.uniform1f(shader_locations.noise_frame, noise_frame);
       gl_context.uniform3fv(shader_locations.trail_brushes, trail_uniform_data);
       gl_context.uniform1f(shader_locations.trail_count, trail_brushes.length);
       gl_context.drawArrays(gl_context.TRIANGLES, 0, 3);
+      if (!reduced_motion) {
+        noise_frame = (noise_frame + 1) % 4096;
+      }
       animation_frame = 0;
 
-      if (trail_brushes.length > 0) {
+      if (!reduced_motion || trail_brushes.length > 0) {
         requestBackgroundRender();
       }
     }
@@ -282,63 +258,6 @@ export function create_dither_trail_background(background_wrapper) {
       if (!animation_frame) {
         animation_frame = window.requestAnimationFrame(renderBackground);
       }
-    }
-
-    function refreshPassedNoise(previous_position_x, previous_position_y, next_position_x, next_position_y) {
-      const brush_radius = 92;
-      const region_left = Math.max(0, Math.floor(previous_position_x - brush_radius));
-      const region_bottom = Math.max(0, Math.floor(previous_position_y - brush_radius));
-      const region_right = Math.min(viewport_width, Math.ceil(previous_position_x + brush_radius));
-      const region_top = Math.min(viewport_height, Math.ceil(previous_position_y + brush_radius));
-      const region_width = region_right - region_left;
-      const region_height = region_top - region_bottom;
-
-      if (region_width < 1 || region_height < 1) {
-        return;
-      }
-
-      const region_pixel_data = new Uint8Array(region_width * region_height * 4);
-      const brush_radius_squared = brush_radius * brush_radius;
-
-      for (let region_y = 0; region_y < region_height; region_y += 1) {
-        for (let region_x = 0; region_x < region_width; region_x += 1) {
-          const screen_x = region_left + region_x + 0.5;
-          const screen_y = region_bottom + region_y + 0.5;
-          const previous_delta_x = screen_x - previous_position_x;
-          const previous_delta_y = screen_y - previous_position_y;
-          const next_delta_x = screen_x - next_position_x;
-          const next_delta_y = screen_y - next_position_y;
-          const was_inside_brush = (
-            (previous_delta_x * previous_delta_x) + (previous_delta_y * previous_delta_y)
-          ) <= brush_radius_squared;
-          const remains_inside_brush = cursor_active && (
-            ((next_delta_x * next_delta_x) + (next_delta_y * next_delta_y))
-            <= brush_radius_squared
-          );
-          const source_offset = (
-            ((region_bottom + region_y) * viewport_width) + region_left + region_x
-          ) * 4;
-
-          if (was_inside_brush && !remains_inside_brush) {
-            randomizeNoisePixel(source_offset);
-          }
-
-          const region_offset = ((region_y * region_width) + region_x) * 4;
-          region_pixel_data.set(noise_pixel_data.subarray(source_offset, source_offset + 4), region_offset);
-        }
-      }
-
-      gl_context.texSubImage2D(
-        gl_context.TEXTURE_2D,
-        0,
-        region_left,
-        region_bottom,
-        region_width,
-        region_height,
-        gl_context.RGBA,
-        gl_context.UNSIGNED_BYTE,
-        region_pixel_data,
-      );
     }
 
     function handlePointerMove(pointer_event) {
@@ -361,12 +280,6 @@ export function create_dither_trail_background(background_wrapper) {
           last_trail_sample_time = sample_time;
         }
 
-        refreshPassedNoise(
-          cursor_position_x,
-          cursor_position_y,
-          next_position_x,
-          next_position_y,
-        );
       }
 
       cursor_position_x = next_position_x;
@@ -381,12 +294,13 @@ export function create_dither_trail_background(background_wrapper) {
     }
 
     function handlePointerLeave() {
-      refreshPassedNoise(cursor_position_x, cursor_position_y, -1000, -1000);
       cursor_active = 0;
       last_trail_sample_time = 0;
       requestBackgroundRender();
     }
 
+    const background_resize_observer = new ResizeObserver(resizeBackground);
+    background_resize_observer.observe(background_wrapper);
     resizeBackground();
     window.addEventListener('resize', resizeBackground, { passive: true });
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
@@ -394,6 +308,7 @@ export function create_dither_trail_background(background_wrapper) {
 
     background_wrapper.jurenitesGradientDestroy = function () {
       window.cancelAnimationFrame(animation_frame);
+      background_resize_observer.disconnect();
       window.removeEventListener('resize', resizeBackground);
       window.removeEventListener('pointermove', handlePointerMove);
       document.documentElement.removeEventListener('pointerleave', handlePointerLeave);

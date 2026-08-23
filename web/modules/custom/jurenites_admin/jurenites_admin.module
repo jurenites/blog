@@ -2,12 +2,13 @@
 
 /**
  * @file
- * Applies project branding to the Gin administration theme.
+ * Applies project-specific administration behavior and Gin branding.
  */
 
 use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\Core\Extension\Extension;
 
 /**
  * Implements hook_entity_presave().
@@ -29,14 +30,29 @@ function jurenites_admin_entity_presave(EntityInterface $saved_entity): void {
 }
 
 /**
+ * Implements hook_system_info_alter().
+ */
+function jurenites_admin_system_info_alter(array &$extension_info, Extension $extension_file, string $extension_type): void {
+  if ($extension_type === 'theme' && $extension_file->getName() === 'claro') {
+    $extension_info['hidden'] = TRUE;
+  }
+}
+
+/**
  * Implements hook_page_attachments().
  */
 function jurenites_admin_page_attachments(array &$page_attachments): void {
-  $active_theme = \Drupal::theme()->getActiveTheme()->getName();
-  if ($active_theme !== 'gin') {
+  $active_theme_name = \Drupal::theme()->getActiveTheme()->getName();
+  $uses_gin_admin_theme = $active_theme_name === 'gin';
+  $has_toolbar_access = \Drupal::currentUser()->hasPermission('access toolbar')
+    || \Drupal::currentUser()->hasPermission('access navigation');
+  $uses_gin_frontend_toolbar = $has_toolbar_access
+    && \Drupal::moduleHandler()->moduleExists('gin_toolbar')
+    && \Drupal::config('system.theme')->get('admin') === 'gin';
+
+  if (!$uses_gin_admin_theme && !$uses_gin_frontend_toolbar) {
     return;
   }
 
   $page_attachments['#attached']['library'][] = 'jurenites_admin/gin-branding';
 }
-

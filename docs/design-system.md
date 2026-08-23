@@ -34,7 +34,7 @@ Components are organised by Atomic Design and ITCSS layers:
 | settings   | `src/slice/src/scss/settings/` | Hand-written theme settings              |
 | tools      | `src/slice/src/scss/tools/`    | Mixins (elevation, motion, focus-ring)   |
 | base       | `src/slice/src/scss/base/`     | Reset, global element defaults, typography|
-| atoms      | `src/slice/src/scss/atoms/`    | Avatar, badge, button, chip, date value, divider, surface, text input |
+| atoms      | `src/slice/src/scss/atoms/`    | Avatar, badge, button, chip, crossfade dot, date value, divider, surface, text input |
 | molecules  | `src/slice/src/scss/molecules/`| Article teaser, author byline, breadcrumbs, contact widget, pagination, project card, pull quote, search form |
 | organisms  | `src/slice/src/scss/organisms/`| Newsletter signup, site header, and larger page sections |
 | components  | `src/slice/src/scss/components/`| Page-specific compositions              |
@@ -42,6 +42,12 @@ Components are organised by Atomic Design and ITCSS layers:
 Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
 `Organisms`, `Components`. Each component has exactly one story; use the
 Controls tab for property combinations.
+
+The Crossfade Dot atom keeps its visible circle at 4px inside the standard
+40px interactive target. Inactive dots use the dark-gray elevation surface,
+active dots use solid white, and pointer hover adds a 1px solid-white outline.
+The shared `.crossfade-dot` class is consumed by both Storybook and Drupal's
+two-image crossfade paginator.
 
 Static source assets, including local font files used by Storybook, live in
 `src/public/`.
@@ -141,7 +147,7 @@ Use these terms when reviewing or tuning the interactive background:
 
 - **radial field**: the huge grayscale circle that controls the underlying tone;
   it scales from the viewport diagonal and is not capped at Full HD.
-- **grain field**: the static one-logical-pixel monochrome noise visible at rest.
+- **grain field**: one-logical-pixel monochrome noise regenerated every frame.
 - **dither field**: a structured pixel-art texture calculated from the
   scene's local tone.
 - **dither brush**: the hard-edged circular cursor area that replaces resting
@@ -156,14 +162,20 @@ Each family has 16 ordered grayscale ranks. Unlike binary dithering, its darkest
 and lightest pixels use the same local `gradient tone -/+ 0.085` range as the
 resting noise. The brush boundary uses a binary pixel test with no alpha or
 gradient-to-transparency, but that matching tonal range prevents a contrasting
-ring at the edge. As the brush moves, only the logical pixels it has uncovered
-receive new random grain; untouched areas and the pattern still under the cursor
-remain stable. Brush history is sampled every 50ms, independent of distance
-travelled. Each sampled circle remains at the full 92px radius for 180ms and
-then shrinks in hard logical-pixel steps over 820ms. Trail pixels never fade
-through transparency. The editable implementation lives in
+ring at the edge. A shader frame seed regenerates both the resting grain and the
+ordered dither generation on every animation frame, creating continuous TV-like
+static without reallocating a CPU texture. Brush history is sampled every 50ms,
+independent of distance travelled. Each sampled circle remains at the full 92px
+radius for 180ms and then shrinks in hard logical-pixel steps over 820ms. Trail
+pixels never fade through transparency. Reduced-motion mode freezes the frame
+seed. The editable implementation lives in
 `src/slice/src/js/script.js`; generated theme JavaScript must continue to come
 from `npm run build:theme`.
+
+The Drupal background is a relative CSS Grid layer rather than a fixed viewport
+layer. It grows to the front-page content height and scrolls with the document.
+The Storybook `dithering` preview is two viewports tall so scrolling behavior can
+be inspected directly.
 
 Storybook exposes the available full-page treatments as `Components/Backgrounds`
 with one `background_style` selector. Its `dithering` option invokes the same

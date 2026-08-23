@@ -12,6 +12,7 @@
       once("jurenites-progressive-image", "img[data-progressive-image]", page_context).forEach(
         (image_element) => {
           const progressive_wrapper = document.createElement("span");
+          const preview_element = document.createElement("span");
           const loading_line = document.createElement("span");
           const rendered_image =
             image_element.parentElement?.tagName === "PICTURE"
@@ -26,11 +27,17 @@
             progressive_wrapper.style.aspectRatio = `${intrinsic_width} / ${intrinsic_height}`;
           }
 
+          preview_element.className = "jurenites-progressive-image__preview";
+          preview_element.setAttribute("aria-hidden", "true");
+          preview_element.style.backgroundImage = image_element.style.backgroundImage;
+          image_element.style.removeProperty("background-image");
+          image_element.classList.remove("img-blurry-placeholder", "loading");
+
           loading_line.className = "jurenites-progressive-image__loading-line";
           loading_line.setAttribute("aria-hidden", "true");
 
           rendered_image.before(progressive_wrapper);
-          progressive_wrapper.append(rendered_image, loading_line);
+          progressive_wrapper.append(preview_element, rendered_image, loading_line);
 
           if (image_element.complete) {
             if (image_element.naturalWidth > 0) {

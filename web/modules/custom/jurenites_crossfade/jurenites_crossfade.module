@@ -10,6 +10,8 @@ function jurenites_crossfade_theme(array $existing_definitions, string $definiti
     'jurenites_two_image_crossfade' => [
       'variables' => [
         'image_frames' => [],
+        'hold_duration_milliseconds' => 2000,
+        'transition_duration_milliseconds' => 500,
       ],
       'template' => 'jurenites-two-image-crossfade',
     ],

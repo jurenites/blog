@@ -40,6 +40,10 @@ npm run build:theme
 Keep editable styles and scripts under `src/slice/`. The Drupal theme contains
 Twig templates and generated minified assets.
 
+`jurenites_theme` is self-contained (`base theme: false`) and does not inherit
+from Drupal's deprecated Stable 9 theme. Its handwritten Twig templates and
+generated shared assets define the public rendering contract directly.
+
 ## Drupal Recipes
 
 Project-owned Drupal setup recipes live under `recipes/`. Apply the media setup
@@ -72,6 +76,11 @@ The loading line reports discrete states, not downloaded bytes. Native
 responsive image requests intentionally remain under browser control, where
 JavaScript does not receive reliable byte-level progress events.
 
+The blurry derivative is painted in a separate decorative layer. The native
+`img` remains unfiltered, so browser-provided alt text and broken-image feedback
+are never blurred. Local PHP allows 512 MB for GD because large source photos
+are decompressed into memory while Drupal creates responsive derivatives.
+
 Apply the accessible two-image comparison feature with:
 
 ```bash
@@ -91,7 +100,9 @@ The recipe adds Content sections to Articles and Basic pages. The project-owned
 `web/modules/custom/jurenites_crossfade` module supplies the exact-two-image
 validation, formatter, two-second holds, half-second opacity transitions,
 infinite loop, image-load guard, and reduced-motion fallback without a carousel
-dependency.
+dependency. Hold and transition durations are formatter settings under Manage
+display. Two 4px pagination dots expose the active image and allow direct
+selection; automatic rotation pauses while the pointer is over the image area.
 
 Apply the project administration setup to install Gin, force its dark
 appearance, and add Jurenites browser and toolbar branding:

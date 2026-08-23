@@ -1,0 +1,35 @@
+// Crossfade Dot atom. The visible dot stays 4px while the button preserves the
+// minimum interactive target required by the design system.
+
+.crossfade-dot {
+  display: grid;
+  place-items: center;
+  width: var(--system-icon-minimum-container-size);
+  height: var(--system-icon-minimum-container-size);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.crossfade-dot::after {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  content: "";
+  background-color: var(--color-surface-elevation-level-4);
+}
+
+.crossfade-dot.is-active::after {
+  background-color: var(--color-watermark-identity-default);
+}
+
+.crossfade-dot:hover::after {
+  outline: 1px solid var(--color-watermark-identity-default);
+  outline-offset: 1px;
+}
+
+.crossfade-dot:focus-visible {
+  outline: 1px solid var(--color-action-primary-default);
+  outline-offset: -8px;
+}

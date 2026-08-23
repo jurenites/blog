@@ -9,6 +9,9 @@ install:
   - jurenites_progressive_images
 config:
   actions:
+    image_blurry_placeholder.settings:
+      simpleConfigUpdate:
+        use_css_js_blur: false
     core.entity_view_display.media.image.default:
       setComponent:
         name: field_media_image

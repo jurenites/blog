@@ -5,10 +5,18 @@
  * Theme preprocess hooks for jurenites Theme.
  */
 
+use Drupal\gin\GinNavigation;
+use Drupal\gin\GinSettings;
+
 /**
  * Adds generated deployment identity to the global HTML template.
  */
 function jurenites_theme_preprocess_html(array &$html_variables): void {
+  $html_variables['admin_navigation'] = jurenites_theme_build_admin_navigation();
+  if ($html_variables['admin_navigation']) {
+    unset($html_variables['page_top']['navigation']);
+  }
+
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
   $build_info_path = DRUPAL_ROOT . '/' . $theme_path . '/build-info.json';
 
@@ -35,6 +43,42 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
     'made by %s',
     $collaboration_credit,
   );
+}
+
+/**
+ * Builds Gin's vertical admin navigation for authorized frontend users.
+ */
+function jurenites_theme_build_admin_navigation(): array {
+  $current_user = \Drupal::currentUser();
+  $has_navigation_access = $current_user->hasPermission('access toolbar')
+    || $current_user->hasPermission('access navigation');
+
+  if (!$has_navigation_access
+    || !\Drupal::moduleHandler()->moduleExists('gin_toolbar')
+    || \Drupal::config('system.theme')->get('admin') !== 'gin') {
+    return [];
+  }
+
+  $gin_settings = \Drupal::classResolver(GinSettings::class);
+  if ($gin_settings->get('classic_toolbar') !== 'new') {
+    return [];
+  }
+
+  $admin_navigation = \Drupal::classResolver(GinNavigation::class)->getNavigationStructure();
+  $uses_default_logo = $gin_settings->getDefault('logo.use_default');
+
+  return [
+    '#type' => 'inline_template',
+    '#template' => "{% include '@gin/navigation/navigation--gin.html.twig' %}",
+    '#context' => [
+      'icon_path' => $uses_default_logo ? '' : $gin_settings->getDefault('logo.path'),
+      'menu_top' => $admin_navigation['#menu_top'],
+      'menu_middle' => $admin_navigation['#menu_middle'],
+      'menu_bottom' => $admin_navigation['#menu_bottom'],
+    ],
+    '#attached' => $admin_navigation['#attached'],
+    '#access' => $admin_navigation['#access'],
+  ];
 }
 
 /**

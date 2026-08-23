@@ -14,7 +14,9 @@ content:
   field_crossfade_images:
     type: jurenites_two_image_crossfade
     label: hidden
-    settings: {  }
+    settings:
+      hold_duration_seconds: 2
+      transition_duration_seconds: 0.5
     third_party_settings: {  }
     weight: 0
     region: content

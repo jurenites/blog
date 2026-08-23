@@ -9,9 +9,23 @@
 .jurenites-progressive-image > img,
 .jurenites-progressive-image > picture,
 .jurenites-progressive-image > picture > img {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: auto;
+}
+
+.jurenites-progressive-image__preview {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  filter: blur(5px);
+  transform: scale(1.04);
+  transition: opacity 240ms ease-out;
 }
 
 .jurenites-progressive-image__loading-line {
@@ -50,10 +64,7 @@
   --progressive-image-completion: 100%;
 }
 
-.jurenites-progressive-image[data-loading-stage="error"] .jurenites-progressive-image__loading-line::after {
-  background-color: var(--color-palette-error);
-}
-
+.jurenites-progressive-image[data-loading-stage="complete"] .jurenites-progressive-image__preview,
 .jurenites-progressive-image[data-loading-stage="complete"] .jurenites-progressive-image__loading-line {
   opacity: 0;
   transition: opacity 240ms 240ms ease-out;
@@ -61,6 +72,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .jurenites-progressive-image__loading-line::after,
+  .jurenites-progressive-image__preview,
   .jurenites-progressive-image[data-loading-stage="complete"] .jurenites-progressive-image__loading-line {
     transition: none;
   }

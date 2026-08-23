@@ -16,6 +16,18 @@ config:
       - field.storage.paragraph.field_crossfade_images
       - paragraphs.paragraphs_type.two_image_crossfade
   actions:
+    core.entity_view_display.paragraph.two_image_crossfade.default:
+      setComponent:
+        name: field_crossfade_images
+        options:
+          type: jurenites_two_image_crossfade
+          label: hidden
+          settings:
+            hold_duration_seconds: 2
+            transition_duration_seconds: 0.5
+          third_party_settings: {  }
+          weight: 0
+          region: content
     core.entity_form_display.node.article.default: &content_sections_form_display
       setComponent:
         name: field_content_sections

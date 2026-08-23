@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 0.0.36
+Version: 0.0.41
 Reviewed: 2026-08-23
 
 This checkpoint says the `/docs` folder has been reviewed against the current
@@ -25,6 +25,8 @@ token endpoint, and planned visual testing workflow.
 - Editable token source: `src/token/tokens.yaml`.
 - Generated token artifacts: `generated/styles/_tokens.scss` and
   `generated/token/tokens.js`.
+- The public Drupal theme is self-contained with `base theme: false`; it does
+  not depend on the deprecated Stable 9 theme.
 - Storybook stories: one component folder per visible example under
   `src/stories/`.
 - Figma sync helper: `scripts/figma/design-system-sync.js` reads
@@ -82,13 +84,21 @@ token endpoint, and planned visual testing workflow.
   Drupal saves an image file, including cached remote-video thumbnails. The
   line represents browser-visible states rather than unavailable byte-level
   progress.
+- Progressive previews render in a separate decorative layer, keeping native
+  image alt/error feedback unfiltered. Local PHP grants GD 512 MB to decode
+  large uploads while generating responsive image derivatives.
 - Drupal Image media accepts files up to 200 MB. PHP permits a 200 MB file,
   while PHP, Apache, and Nginx permit a 210 MB request for multipart overhead.
 - Image Compare Accessible Slider provides an accessible draggable comparison,
   backed by an Image comparison content type that accepts two Image media items.
 - Paragraphs provides structured content sections on Articles and Basic pages.
   The Two-image crossfade Paragraph requires exactly two Image media items,
-  holds each for two seconds, crossfades for half a second, and loops infinitely.
+  defaults to two-second holds and half-second transitions, exposes both values
+  as formatter settings, provides two interactive 4px pagination dots, and
+  pauses automatic rotation on pointer hover.
+- The two-image paginator's 4px Crossfade Dot is a shared Storybook/Drupal atom.
+  Its inactive and active states remain dark gray and white, while hover adds a
+  1px solid-white outline around the visible circle.
 - Badge labels retain the 5px Overline dimensions while using a component-scoped
   4pixel font-family token; other Overline consumers remain on their own family.
 - Desktop and wide breakpoints are unified into one 1280-1920px desktop range.
@@ -113,7 +123,9 @@ token endpoint, and planned visual testing workflow.
 - The front page uses a monochrome radial field, one-logical-pixel grain, and a
   hard-edged cursor brush with four structured four-by-four pattern families.
   Sixteen grayscale ranks remain inside the resting noise's local tonal range,
-  and only logical pixels uncovered by a brush pass receive new random grain.
+  while a shader frame seed regenerates the grain and dither every frame.
+- The dither canvas is a relative CSS Grid layer that grows with page content
+  and scrolls with the document instead of remaining fixed to the viewport.
 - The cursor brush leaves a clock-sampled dither trail. Trail circles hold at
   full size briefly, then shrink through hard logical-pixel radii over one second.
 - Storybook Backgrounds offers `plain-black`, `dithering`, and
@@ -139,6 +151,9 @@ token endpoint, and planned visual testing workflow.
 - Local Docker traffic uses semantic host routing: `jurenites.local` for Drupal
   and `storybook.jurenites.local` for Storybook, matching the future
   `jurenites.com` domain structure.
+- Local Drupal installation documents a three-hour request-triggered automated
+  cron interval. Stage and production should use their hosting scheduler for
+  `drush cron` instead of combining both scheduling methods.
 - The version label and number are separate values. The secondary-color Git hash
   links to the exact GitHub commit and gains a one-pixel underline on hover.
 - The procedural background renders exactly one shader sample per CSS logical
@@ -155,6 +170,8 @@ token endpoint, and planned visual testing workflow.
   closes existing comment-enabled content and changes every comment field's
   default, while the administration module prevents future saves from reopening
   comments.
+- Gin hides Drupal's Shortcuts toolbar, Bookmarks menu, and page-title action.
+  The Shortcut module and its stored sets remain installed and unchanged.
 - Storybook uses its repository-owned 16px SVG logo at `src/public/favicon.svg`.
   Storybook's canonical manager favicon link serves that file without a second
   competing favicon declaration.
