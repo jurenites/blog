@@ -14,6 +14,7 @@ const config = {
   docs: {
     autodocs: "tag"
   },
+  favicon: "../src/public/storybook-favicon-16.svg",
   core: {
     allowedHosts: ["storybook.jurenites.local"],
   }

@@ -1,11 +1,11 @@
 # Documentation Version
 
-Version: 0.0.41
+Version: 0.0.43
 Reviewed: 2026-08-23
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
-token endpoint, and planned visual testing workflow.
+token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 
 ## Versioning Policy
 
@@ -172,6 +172,7 @@ token endpoint, and planned visual testing workflow.
   comments.
 - Gin hides Drupal's Shortcuts toolbar, Bookmarks menu, and page-title action.
   The Shortcut module and its stored sets remain installed and unchanged.
-- Storybook uses its repository-owned 16px SVG logo at `src/public/favicon.svg`.
-  Storybook's canonical manager favicon link serves that file without a second
-  competing favicon declaration.
+- Storybook uses its repository-owned 16px SVG logo at
+  `src/public/storybook-favicon-16.svg`. Its explicit, uniquely named manager
+  favicon URL avoids the persistent browser cache associated with the generic
+  `/favicon.svg` path and requires no competing favicon declaration.

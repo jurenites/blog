@@ -74,7 +74,9 @@ There are no generated token JSON mirrors in the normal workflow. JS consumers
 read `generated/token/tokens.js`, not the compiled SCSS/CSS output, so the data
 flow stays direct: YAML to CSS for styling, YAML to JS for logic.
 
-Useful commands (Cheet Sheet):
+Useful commands are collected in the
+[`docs/command-cheat-sheet.md`](docs/command-cheat-sheet.md), with DEV and PROD
+kept separate. Common source commands:
 
 ```bash
 scripts/sync.sh all       # build tokens + theme + Figma prep
@@ -86,11 +88,6 @@ npm run figma:prepare     # build tokens before running the Figma sync helper
 npm run docs:check        # check docs version and source/docs drift
 npm run build:theme       # compile Drupal CSS/JS and copy deployable theme fonts
 
-docker compose exec web vendor/bin/drush cr 
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_media
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_progressive_images
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_image_comparison
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_paragraphs_crossfade
 ```
 
 The `jurenites_media` recipe enables Drupal's Media Library and provides two
