@@ -1,4 +1,9 @@
-import { TOKEN_RECORDS, TOKEN_VALUES } from "../../../generated/token/tokens.js";
+import {
+  TOKEN_CSS_VALUES,
+  TOKEN_DESCRIPTIONS,
+  TOKEN_RECORDS,
+  TOKEN_VALUES,
+} from "../../../generated/token/tokens.js";
 
 export function token_names(token_prefix) {
   return TOKEN_RECORDS
@@ -20,13 +25,21 @@ export function token_default_option(default_token_name, token_prefix) {
 
 export function typography_role_names() {
   return token_names("typography-")
-    .filter((token_name) => token_name.endsWith("-font-size"))
-    .map((token_name) => token_name.replace(/^typography-/, "").replace(/-font-size$/, ""));
+    .filter((token_name) => !token_name.startsWith("typography-font-family-"))
+    .map((token_name) => token_name.replace(/^typography-/, ""));
 }
 
 
 export function token_value(token_name) {
   return TOKEN_VALUES[token_name] || "";
+}
+
+export function token_css_value(token_name) {
+  return TOKEN_CSS_VALUES[token_name] || "";
+}
+
+export function token_description(token_name) {
+  return TOKEN_DESCRIPTIONS[token_name] || "";
 }
 
 export function color_group(token_name) {

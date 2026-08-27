@@ -7,7 +7,7 @@
   gap: var(--space-scale-base-gap);
   max-width: 100%;
   // "primary" describes text hierarchy, not a fixed light/dark palette value.
-  color: var(--color-text-primary-default);
+  color: var(--theme-dark-text-primary-default);
 }
 
 .pagination__pages {
@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-scale-compact-gap);
+  gap: calc(var(--space-scale-base-gap) * 0.5);
 }
 
 .pagination__item--mobile {
@@ -30,24 +30,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: var(--system-grid-minimum-interactive-size);
-  min-height: var(--system-grid-minimum-interactive-size);
-  border-radius: var(--shape-corner-radius-small-default);
-  @include tools.typography-button-label;
+  min-width: calc(var(--space-scale-base-gap) * 5);
+  min-height: calc(var(--space-scale-base-gap) * 5);
+  border-radius: var(--shape-corner-radius-base);
+  @include tools.typography-subtitle-2;
 }
 
 .pagination__link,
 .pagination__control {
-  color: var(--color-text-secondary-default);
+  color: var(--theme-dark-text-primary-default);
   text-decoration: none;
   @include tools.motion-transition(background-color, box-shadow, color);
 }
 
 .pagination__link:hover,
 .pagination__control:hover {
-  box-shadow: inset 0 0 0 var(--shape-border-width-hairline-default) var(--color-border-subtle-default);
-  background: var(--color-action-secondary-default);
-  color: var(--color-text-primary-default);
+  box-shadow: inset 0 0 0 var(--shape-border-width-hairline-default) var(--theme-dark-border-divider-default);
+  background: var(--theme-dark-action-secondary-default);
+  color: var(--theme-dark-text-primary-default);
 }
 
 .pagination__link:focus-visible,
@@ -56,22 +56,22 @@
 }
 
 .pagination__current {
-  background: var(--color-action-primary-default);
-  color: var(--color-text-inverse-default);
+  background: var(--theme-dark-action-primary-default);
+  color: var(--theme-dark-text-inverse-default);
 }
 
 .pagination__control {
   gap: var(--space-scale-base-gap);
-  padding: 0 var(--space-scale-medium-gap);
+  padding: 0 calc(var(--space-scale-base-gap) * 2);
 }
 
 .pagination__control--disabled {
-  color: var(--color-border-strong-default);
+  color: var(--theme-dark-border-outline-default);
   cursor: not-allowed;
 }
 
 .pagination__ellipsis {
-  color: var(--color-text-secondary-default);
+  color: var(--theme-dark-text-secondary-default);
 }
 
 @include tools.breakpoint-down("mobile-max") {
@@ -94,16 +94,16 @@
   }
 
   .pagination__mobile-value {
-    color: var(--color-text-secondary-default);
+    color: var(--theme-dark-text-secondary-default);
   }
 
   .pagination__mobile-value--current {
-    background: var(--color-action-primary-default);
-    color: var(--color-text-inverse-default);
+    background: var(--theme-dark-action-primary-default);
+    color: var(--theme-dark-text-inverse-default);
   }
 
   .pagination__control {
-    width: var(--system-grid-minimum-interactive-size);
+    width: calc(var(--space-scale-base-gap) * 5);
     padding: 0;
   }
 

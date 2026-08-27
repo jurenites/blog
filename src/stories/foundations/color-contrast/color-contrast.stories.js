@@ -1,14 +1,14 @@
-// Foundations: WCAG contrast matrix, calculated from the raw palette color tokens.
+// Foundations: WCAG contrast matrix, calculated from unique color value tokens.
 import contrast_template from "./color-contrast.template.html?raw";
 import { color_block_markup } from "../../internal/color-block/color-block.markup.js";
 import { render_template } from "../../template.js";
-import { token_names, token_value } from "../token-values.js";
+import { token_description, token_names, token_value } from "../token-values.js";
 
 function palette_tokens() {
   return token_names("color-palette-")
     .map((token_name) => ({
       token_name,
-      token_label: token_name.replace("color-palette-", ""),
+      token_label: token_description(token_name) || token_name.replace("color-palette-", ""),
       token_value: token_value(token_name),
     }));
 }

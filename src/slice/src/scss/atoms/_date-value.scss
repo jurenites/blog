@@ -5,20 +5,16 @@
 .date-value {
   display: inline-flex;
   align-items: center;
-  color: var(--color-text-secondary-default);
+  color: var(--theme-dark-text-secondary-default);
   font-variant-numeric: tabular-nums;
   @include tools.typography-caption;
 
   &--day {
-    color: var(--color-text-primary-default);
+    color: var(--theme-dark-text-primary-default);
   }
 
   &--muted {
-    color: var(--color-text-secondary-default);
-  }
-
-  &--time {
-    font-family: var(--typography-font-family-mono-default);
+    color: var(--theme-dark-text-secondary-default);
   }
 
   &--raw {

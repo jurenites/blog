@@ -7,7 +7,7 @@ rules. The machine-readable contract for every value lives in
 ## Source of truth and flow
 
 ```text
-src/token/tokens.yaml            <-- editable single source of truth (DTCG format)
+src/token/tokens.yaml            <-- editable single source of truth
   -> scripts/build-tokens.mjs
        -> generated/styles/_tokens.scss              (CSS vars + SCSS mixins/utilities)
        -> generated/token/tokens.js                  (JS token records and values)
@@ -23,7 +23,8 @@ Never hand-edit generated files. Edit `src/token/tokens.yaml`, then run
 `npm run build:tokens` (or `npm run build:theme`, which runs tokens first).
 The token build also runs `scripts/check-token-contract.mjs`, which rejects
 hardcoded colors outside the YAML source, CSS opacity declarations, and missing
-SCSS token variables.
+SCSS token variables. The same contract is part of `npm run lint` and rejects
+HEX letters that are not uppercase in `src/token/tokens.yaml`.
 
 ## Atomic design
 
@@ -35,19 +36,53 @@ Components are organised by Atomic Design and ITCSS layers:
 | tools      | `src/slice/src/scss/tools/`    | Mixins (elevation, motion, focus-ring)   |
 | base       | `src/slice/src/scss/base/`     | Reset, global element defaults, typography|
 | atoms      | `src/slice/src/scss/atoms/`    | Avatar, badge, button, chip, crossfade dot, date value, divider, surface, text input |
-| molecules  | `src/slice/src/scss/molecules/`| Article teaser, author byline, breadcrumbs, contact widget, pagination, project card, pull quote, search form |
+| molecules  | `src/slice/src/scss/molecules/`| Article teaser, author byline, breadcrumbs, contact widget, form field, media loader, pagination, project card, pull quote, search form |
 | organisms  | `src/slice/src/scss/organisms/`| Newsletter signup, site header, and larger page sections |
-| components  | `src/slice/src/scss/components/`| Page-specific compositions              |
+| components  | `src/slice/src/scss/components/`| Content layout and page-specific compositions |
 
 Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
 `Organisms`, `Components`. Each component has exactly one story; use the
 Controls tab for property combinations.
+
+Form controls intentionally share one `Molecules/Form Field` page instead of a
+separate story for every native element. Its controls cover nine standard
+presentations: text, password, textarea, select, single checkbox, radio group,
+checkbox group, choice chips, and file upload. The independent `field_data_type`
+control records whether the conceptual Drupal value is a string, long text,
+Boolean, list, or file; for example, one Boolean value can be inspected as a
+single checkbox, Yes/No radio group, select, or choice chips. Label,
+description, required, disabled, selected, and validation-error states remain
+on that same page.
+
+`Components/Content Layout` replaces separate blank Storybook shells for generic
+pages, nodes, full Articles, Basic pages, and teasers. It exposes semantic
+`readable` and `wide` content widths plus an optional sidebar. Drupal's native
+`.layout-content` consumes the readable width directly; future Twig templates
+can apply the same `.content-layout` classes without adding another story. The
+Drupal `/blog` listing uses its own 800px content-width token so article teasers
+and pagination have slightly more room without widening standard pages.
+
+Article teasers and full Article nodes share unique, node-derived View Transition
+names for their titles and lead images. Same-origin navigation therefore morphs
+the teaser title and medium image into the full page title and wide image in
+supporting browsers. Drupal still owns the complete document request, rendering,
+cache metadata, access checks, and history; browsers without cross-document View
+Transitions use normal navigation, and reduced-motion users get an instant swap.
+The teaser media frame uses the token-backed 220px maximum from Drupal's medium
+image style. Its real `<img>` fills that width with automatic height, preserving
+the intrinsic ratio, while the clipped frame contains the 120% pointer-hover
+zoom.
 
 The Crossfade Dot atom keeps its visible circle at 4px inside the standard
 40px interactive target. Inactive dots use the dark-gray elevation surface,
 active dots use solid white, and pointer hover adds a 1px solid-white outline.
 The shared `.crossfade-dot` class is consumed by both Storybook and Drupal's
 two-image crossfade paginator.
+
+The Breadcrumbs molecule also has one shared class contract. Drupal's breadcrumb
+preprocess hook adds the resolved current-page title to core's ancestor links,
+and `templates/navigation/breadcrumb.html.twig` maps the complete trail to the
+same `.breadcrumbs` BEM markup and `aria-current` behavior used in Storybook.
 
 Static source assets, including local font files used by Storybook, live in
 `src/public/`.
@@ -94,99 +129,110 @@ retain accessible labels, but no Previous/Next text is visually displayed.
 
 ## Typography
 
-The type scale follows Google Material Design M2 roles. Use the role mixins,
-not raw values:
+Each typography role is one CSS-ready `font` shorthand value. Use the generated
+role mixins instead of rebuilding the shorthand in components:
 
 ```scss
 .card__title { @include tools.typography-headline-5; }
 ```
 
-Roles: `headline-1..6`, `subtitle-1/2`, `body-1/2`, `button-label`,
-`caption-default`, `overline-default`. Base HTML elements (`h1`-`h6`, `p`) are
-already mapped in `base/_typography.scss`.
+Roles: `headline-4/5/6`, `subtitle-1/2`, `eyebrow`, `body`, `link`, `caption`,
+and `overline`. Base HTML elements (`h1`-`h6`, `p`, `a`) are mapped in
+`base/_typography.scss`; component selectors reuse the nearest role and own
+non-font treatment such as underlines or uppercase text.
 
-Typography dimensions use explicit `px` values throughout the token source and
-generated outputs. This keeps the displayed values pixel-exact and removes any
-implicit root-font-size conversion from Storybook, Figma sync, and theme CSS.
+The source stays deliberately short, for example
+`headline-4: '600 32px var(--typography-font-family-sans)'`. The builder emits
+`--typography-headline-4` plus a mixin that applies it through the `font`
+property. Line height and letter spacing use browser defaults unless a future
+role has a concrete reason to override them.
 
-Theme semantics form the next abstraction layer and use the `semantic-*`
-namespace. `semantic-blog-title` maps to Open Sans at 32px/500. The generated
-Typography Mapping Storybook page shows these assignments without a repeated
-role list.
-
-Badge labels use `component-badge-label-font-family-default` to apply the
-custom 4pixel face while retaining the shared 5px Overline dimensions. Keep
-this override component-scoped so article and newsletter overlines do not
-inherit the pixel font unintentionally.
-
-Default family is the Open Sans stack. The display family is a separate token,
-and the Storybook foundations also expose the imported custom Roundabout and
-4pixel fonts for future display/technical uses.
+Open Sans is the only website heading/body family. Roundabout is
+demonstration-only and appears solely on the Fonts foundation page. 4pixel is
+reserved for its demonstration and compact technical details: the 5px
+`overline` role is used by the version watermark and similarly technical labels.
+Text links use the primary white text token in default and hover states. The
+version Git-hash link explicitly retains the 4pixel family and a persistent 1px
+solid underline so it reads as a technical link without relying on color.
 
 ## Color
 
-- HEX only. Never use the CSS `opacity` property; express alpha as 8-digit HEX
-  (used for shadow colors) so composited colors stay predictable.
-- Primitives live in `color.palette.*` (warm, cool, neutral ramps, feedback).
-- Semantic tokens reference primitives: `color.surface.*`, `color.text.*`,
-  `color.action.*`, `color.border.*`. Always consume semantic tokens in
-  components, not raw palette values.
+- HEX only, with letters written in uppercase. Never use the CSS `opacity`
+  property; express alpha as 8-digit HEX (used for shadow colors) so composited
+  colors stay predictable.
+- Color mappings use three explicit layers. `color.palette.*` directly owns each
+  reusable palette role as one uppercase HEX string, so the role and HEX each
+  occur once without a duplicate value registry. An optional inline comment
+  supplies a friendlier swatch label when the role name itself is insufficient.
+  `theme.dark.*` owns global semantic surface, text, action, border, brand, and feedback roles, and
+  `component.{component-name}.color.*` owns component-specific mappings.
+- Palette colors stay on one line, for example
+  `system-success-soft: "#7EB991" # Light green`.
+  Theme and component assignments are direct YAML key/value pairs such as
+  `primary: color.palette.brand-primary`, without quotes or braces. The token
+  loader converts the concise source schema to internal DTCG records and fails
+  on object-valued or malformed raw colors, old quoted/braced references,
+  malformed dot paths, or lowercase HEX letters.
+- The same concise syntax applies to every other token family: scalar tokens
+  stay on one line, references are unquoted dot paths, lists use inline arrays,
+  and elevation shadows are complete quoted CSS values ready for `box-shadow`.
+  Explain values with YAML comments.
+  Source `$type`, `$value`, and `$description` fields are rejected because the
+  builder infers generated metadata.
+- Palette cardinality is open-ended: it may define two brand roles, a triad, a
+  tetrad, or more without changing the token builder. Only roles referenced by
+  the theme must exist.
+- Generated CSS preserves each reference as `var(--…)` instead of flattening
+  aliases to HEX. Palette tokens emit their HEX directly; for example,
+  `theme.dark.brand.primary` emits
+  `--theme-dark-brand-primary: var(--color-palette-brand-primary)` while the
+  generated JS still exposes its resolved HEX for contrast calculations and Figma sync.
+- `generated/token/color-mappings.json` presents the three layers as compact
+  key/value tables. It is a generated inspection surface; edit
+  `src/token/tokens.yaml`, never the JSON artifact.
+- Theme surface names use `theme-dark-surface-background-*`; foreground roles
+  use `theme-dark-text-*`; actions use `theme-dark-action-*`; and lines use
+  `theme-dark-border-*`. Component-owned colors follow
+  `component-{component-name}-color-{property}-{state}`. Watermark identity and
+  credit colors therefore live under `component-watermark-color-*`.
 - The screenshot signature uses dedicated solid semantic colors with no opacity
   or blend mode. Configured HEX values therefore reach solid glyph pixels
   unchanged; only normal font anti-aliasing affects edge pixels.
-- Palette, Abstraction Levels, and Color Contrast reuse one internal Color Block
-  renderer. It is not a standalone Storybook story. Its color chip is a 96px
+- Palette, Abstraction Levels, and Color Contrast reuse one internal Color
+  Block renderer. It is not a standalone Storybook story. Its color chip is a 96px
   square by default or a compact 40px square for dense logical-token mapping;
-  the information container remains flexible and prioritizes readable names.
-  Abstraction Levels presents the intended mapping flow as Palette Primitives,
-  Semantic Logic, and Element Usage.
+  these are private Storybook layout settings, not public design tokens. The
+  information container remains flexible and prioritizes readable names.
+  Abstraction Levels presents Palette, Theme → Palette, and Component Mappings.
+  Component colors normally map through theme semantics; deliberately
+  component-owned colors such as Watermark may map directly to the palette.
 
-## Front-page background language
+The mapping JSON and reference-preserving token records are the safe read model
+for a future drag-and-drop Storybook editor. Write-back is intentionally deferred:
+it needs schema validation, conflict handling, and an explicit save boundary
+before browser controls are allowed to rewrite the YAML source. The same token
+tree already supports adding new typed families such as shadows; gradients need
+a documented token type and formatter before they become universal theme inputs.
 
-Use these terms when reviewing or tuning the interactive background:
+## Homepage background and media noise
 
-- **radial field**: the huge grayscale circle that controls the underlying tone;
-  it scales from the viewport diagonal and is not capped at Full HD.
-- **grain field**: one-logical-pixel monochrome noise regenerated every frame.
-- **dither field**: a structured pixel-art texture calculated from the
-  scene's local tone.
-- **dither brush**: the hard-edged circular cursor area that replaces resting
-  grain with ordered four-by-four-pixel pattern families.
-- **mark size**: one dither cell in CSS logical pixels. Every cell pixel and
-  resting-grain pixel maps to one screen logical pixel.
-
-The live background combines a radial field, one-logical-pixel grain, and an
-ordered dither brush. Local radial tone selects between four related pattern
-families: small crosses, rotated crosses, diagonal weave, and offset checker.
-Each family has 16 ordered grayscale ranks. Unlike binary dithering, its darkest
-and lightest pixels use the same local `gradient tone -/+ 0.085` range as the
-resting noise. The brush boundary uses a binary pixel test with no alpha or
-gradient-to-transparency, but that matching tonal range prevents a contrasting
-ring at the edge. A shader frame seed regenerates both the resting grain and the
-ordered dither generation on every animation frame, creating continuous TV-like
-static without reallocating a CPU texture. Brush history is sampled every 50ms,
-independent of distance travelled. Each sampled circle remains at the full 92px
-radius for 180ms and then shrinks in hard logical-pixel steps over 820ms. Trail
-pixels never fade through transparency. Reduced-motion mode freezes the frame
-seed. The editable implementation lives in
-`src/slice/src/js/script.js`; generated theme JavaScript must continue to come
-from `npm run build:theme`.
-
-The Drupal background is a relative CSS Grid layer rather than a fixed viewport
-layer. It grows to the front-page content height and scrolls with the document.
-The Storybook `dithering` preview is two viewports tall so scrolling behavior can
-be inspected directly.
-
-Storybook exposes the available full-page treatments as `Components/Backgrounds`
-with one `background_style` selector. Its `dithering` option invokes the same
-exported renderer as Drupal, while `plain-black` renders the page surface token.
-The `particle-attraction` option is a separate Canvas 2D renderer with responsive
+The Drupal homepage uses `color.palette.full-black` as a plain background and
+does not initialize a canvas. Storybook exposes `plain-black` and the experimental
+`particle-attraction` treatment through the `Components/Backgrounds`
+`background_style` selector. Particle attraction is a separate Canvas 2D renderer with responsive
 particle count, approximately 6px circles, collision separation, and a delayed
 200px cursor-attraction field. Particle tones interpolate between semantic
 monochrome tokens. A weak home force redistributes the dots after interaction,
-and `prefers-reduced-motion` produces a static field. The dither shader therefore
-retains one maintained implementation rather than a Storybook copy that can
-drift from the live front page.
+and `prefers-reduced-motion` produces a static field.
+
+`Molecules/Media Loader` owns the broken-TV noise treatment for a bounded 16:9
+video-upload placeholder. The shader generates a fresh independent grayscale
+value from each logical pixel coordinate and frame seed, without translating a
+spatial field or ordered pattern. Noise advances at 15 frames per second, one
+quarter of the former full-refresh rate, and reduced-motion renders one frozen
+frame. The component also exposes filename, upload status, and native progress
+markup. The editable renderer lives in `src/slice/src/js/script.js`; generated
+theme JavaScript continues to come from `npm run build:theme`.
 
 The planned scenic evolution uses **depth layers** rather than one flattened
 background: sky, clouds, distant sea, wave bands, shoreline, sand dunes, and
@@ -197,14 +243,18 @@ surface treatment and must not become a separate visible object above the scene.
 
 ## Spacing and gaps
 
-`space.scale.*` is the project spacing scale: `empty-space`, `line-size`,
-`tight-gap`, `compact-gap`, `base-gap`, `medium-gap`, `large-gap`, `roomy-gap`,
-`touch-size`, `section-gap`, `display-gap`, `page-gap`.
+`space.scale.*` keeps only the literal exceptions `zero-pixels`, `one-pixel`,
+and `two-pixels`, plus the `base-gap` 8px grid unit. Calculate every larger
+spacing value where it is used so the multiplier remains visible instead of
+requiring another semantic size name. For example,
+`margin-left: calc(var(--space-scale-base-gap) * 2);` produces 16px.
 
 ## Shape
 
-- `shape.corner-radius.*`: none, extra-small, small-default, medium-default,
-  large-default, extra-large, pill-full.
+- `shape.corner-radius.*`: none, small, base, full. Every radius currently
+  resolves to `0px`, giving the website, native Drupal output, and Storybook a
+  shared square-corner visual language while keeping semantic consumer names
+  stable.
 - `shape.border-width.*`: hairline-default, thick-default.
 
 ### Canvas shape language
@@ -239,8 +289,8 @@ occlusion, or dynamic lighting becomes a concrete requirement.
 
 `elevation.shadow.level-0..level-6`, Material-style. Apply with
 `@include tools.elevation("level-2");`. Shadow alpha uses 8-digit HEX. Each
-level also has a progressively lighter `color.surface.elevation-level-*` token
-from the approved `color.palette.dark-gray-*` scale. The Storybook Elevation
+level also has a progressively lighter `theme.dark.surface.background-elevation-level-*`
+token selected by the active theme. The Storybook Elevation
 tiles consume the generated background and shadow utility classes directly.
 
 ## Motion
@@ -260,7 +310,7 @@ As `jurenites_theme` grows, mirror that template organisation:
 web/themes/custom/jurenites_theme/templates/
   html/        page/        region/
   block/       node/        paragraph/
-  field/       media/       views/        taxonomy/
+  field/       media/       views/        taxonomy/       navigation/
 ```
 
 We keep our distinction: editable source in `src/slice/`, compiled minified assets
@@ -273,4 +323,4 @@ configures relative font URLs, and `npm run build:theme` copies source fonts fro
 Flattened token names are dash-separated and descriptive. Never use a lone
 generic word (`orange`, `size`, `card`). Pattern:
 `{layer}-{scope}-{part}-{property}-{state}`, e.g.
-`component-timeline-marker-size-active`, `color-action-primary-default`.
+`component-timeline-marker-size-active`, `theme-dark-action-primary-default`.

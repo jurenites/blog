@@ -2,21 +2,16 @@
   "name": "blog-jurenites",
   "private": true,
   "type": "module",
-  "version": "0.0.43",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jurenites/blog.git"
-  },
-  "visualCredits": [
-    "Alexander Ilivanov",
-    "AI"
-  ],
+  "version": "0.0.64",
+  "repository": { "type": "git", "url": "https://github.com/jurenites/blog.git" },
+  "visualCredits": [ "Alexander Ilivanov","AI" ],
   "description": "Storybook and frontend component workspace for the Blog jurenites Drupal theme.",
   "scripts": {
-    "lint": "npm run lint:js && npm run lint:scss && npm run lint:templates",
+    "lint": "npm run lint:js && npm run lint:scss && npm run lint:templates && npm run lint:tokens",
     "lint:js": "eslint .",
     "lint:scss": "stylelint \"src/**/*.scss\"",
     "lint:templates": "htmlhint \"src/**/*.template.html\"",
+    "lint:tokens": "node scripts/check-token-contract.mjs",
     "build:tokens": "node scripts/build-tokens.mjs && node scripts/check-token-contract.mjs",
     "tokens:check": "node scripts/check-token-contract.mjs",
     "build:storybook-info": "node scripts/build-storybook-info.mjs",

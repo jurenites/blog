@@ -1,19 +1,19 @@
 // Atom: Date Value. Use Controls for common date/day formats or raw time text.
 import { date_value_markup, date_value_raw_markup } from "./date-value.markup.js";
-import { token_default_option, token_option_names } from "../../foundations/token-values.js";
+import { token_value } from "../../foundations/token-values.js";
 
-const VALUE_MODE = token_default_option("component-date-value-default-mode", "component-date-value-mode-");
+const VALUE_MODE = token_value("component-date-value-default-mode");
 const SOURCE_DATE = "2026-06-15";
-const FORMAT_VARIANT = token_default_option("component-date-value-default-format", "component-date-value-format-");
+const FORMAT_VARIANT = token_value("component-date-value-default-format");
 const RAW_VALUE = "6 minutes";
-const DISPLAY_VARIANT = token_default_option("component-date-value-default-display", "component-date-value-display-");
+const DISPLAY_VARIANT = token_value("component-date-value-default-display");
 
-const value_mode_options = token_option_names("component-date-value-mode-");
-const format_variant_options = token_option_names("component-date-value-format-");
-const display_variant_options = token_option_names("component-date-value-display-");
+const VALUE_MODE_OPTIONS = ["date-value", "raw-text"];
+const FORMAT_VARIANT_OPTIONS = ["month-day-year", "long-date", "iso-date"];
+const DISPLAY_VARIANT_OPTIONS = ["muted", "day", "time"];
 
 function render_story({ value_mode, source_date, format_variant, raw_value, display_variant }) {
-  const raw_text_mode = value_mode_options[1];
+  const raw_text_mode = VALUE_MODE_OPTIONS[1];
   if (value_mode === raw_text_mode) {
     return date_value_raw_markup({
       display_variant,
@@ -35,25 +35,25 @@ export default {
   argTypes: {
     value_mode: {
       control: { type: "inline-radio" },
-      options: value_mode_options,
+      options: VALUE_MODE_OPTIONS,
     },
     source_date: { control: "date" },
     format_variant: {
       control: { type: "select" },
-      options: format_variant_options,
+      options: FORMAT_VARIANT_OPTIONS,
     },
     raw_value: { control: "text" },
     display_variant: {
       description: "Display enum for date value color/typography treatment.",
       control: { type: "inline-radio" },
-      options: display_variant_options,
+      options: DISPLAY_VARIANT_OPTIONS,
       type: {
         name: "enum",
-        value: display_variant_options,
+        value: DISPLAY_VARIANT_OPTIONS,
       },
       table: {
         type: {
-          summary: display_variant_options.map((option_name) => `"${option_name}"`).join(" | "),
+          summary: DISPLAY_VARIANT_OPTIONS.map((option_name) => `"${option_name}"`).join(" | "),
         },
       },
     },

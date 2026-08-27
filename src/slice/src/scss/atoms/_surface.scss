@@ -4,13 +4,13 @@
 
 .surface {
   display: block;
-  padding: var(--space-scale-large-gap);
-  background: var(--color-surface-panel-default);
-  border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
-  border-radius: var(--shape-corner-radius-medium-default);
-  color: var(--color-text-primary-default);
+  padding: calc(var(--space-scale-base-gap) * 3);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  border-radius: calc(var(--shape-corner-radius-base) * 1.5);
+  color: var(--theme-dark-text-primary-default);
   &--raised {
-    background: var(--color-surface-panel-raised);
+    background: var(--theme-dark-surface-background-elevation-level-1);
     // Resolves to the complete level-3 box-shadow token.
     @include tools.elevation("level-3");
   }

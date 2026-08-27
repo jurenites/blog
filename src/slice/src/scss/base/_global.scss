@@ -5,15 +5,15 @@
 @use "../tools";
 
 html {
-  background: var(--color-surface-page-default);
+  background: var(--theme-dark-surface-background-page);
 }
 
 body {
   min-height: 100vh;
   margin: 0;
-  background: var(--color-surface-page-default);
-  color: var(--color-text-primary-default);
-  @include tools.typography-body-1;
+  background: var(--theme-dark-surface-background-page);
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-body;
 }
 
 body.path-frontpage {
@@ -21,13 +21,14 @@ body.path-frontpage {
 }
 
 a {
-  color: var(--color-action-primary-default);
-  text-decoration: none;
+  color: var(--theme-dark-text-primary-default);
+  text-decoration: underline;
+  @include tools.typography-link;
   @include tools.motion-transition(color);
 }
 
 a:hover {
-  color: var(--color-action-primary-hover);
+  color: var(--theme-dark-text-primary-default);
 }
 
 a:focus-visible,

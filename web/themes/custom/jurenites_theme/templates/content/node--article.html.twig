@@ -1,0 +1,37 @@
+{#
+/**
+ * @file
+ * Full Article node with media connected to its listing teaser.
+ */
+#}
+{% set article_id = node.id %}
+{% set article_classes = [
+  'article-detail',
+  'node--type-' ~ node.bundle|clean_class,
+  'node--view-mode-' ~ view_mode|clean_class,
+  not node.isPublished() ? 'node--unpublished',
+] %}
+
+<article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  {% if content.field_image %}
+    <div class="article-detail__media" style="view-transition-name: article-image-{{ article_id }}">
+      {{ content.field_image }}
+    </div>
+  {% endif %}
+
+  {% if display_submitted %}
+    <footer class="article-detail__meta">
+      {{ author_picture }}
+      <div{{ author_attributes }}>
+        {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
+      </div>
+    </footer>
+  {% endif %}
+
+  <div{{ content_attributes.addClass('article-detail__content') }}>
+    {{ content|without('field_image') }}
+  </div>
+</article>

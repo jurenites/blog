@@ -3,7 +3,7 @@
 @use "../tools";
 
 .breadcrumbs {
-  color: var(--color-text-secondary-default);
+  color: var(--theme-dark-text-secondary-default);
   @include tools.typography-caption;
 }
 
@@ -24,19 +24,19 @@
 
 .breadcrumbs__item:not(:last-child)::after {
   content: "/";
-  color: var(--color-border-strong-default);
+  color: var(--theme-dark-border-outline-default);
 }
 
 .breadcrumbs__link {
-  color: var(--color-text-secondary-default);
+  color: var(--theme-dark-text-primary-default);
   text-decoration: underline;
-  text-decoration-color: var(--color-border-strong-default);
-  text-underline-offset: var(--space-scale-tight-gap);
+  text-decoration-color: var(--theme-dark-border-outline-default);
+  text-underline-offset: var(--space-scale-two);
   @include tools.motion-transition(color, text-decoration-color);
 }
 
 .breadcrumbs__link:hover {
-  color: var(--color-text-primary-default);
+  color: var(--theme-dark-text-primary-default);
   text-decoration-color: currentColor;
 }
 
@@ -46,7 +46,7 @@
 
 .breadcrumbs__current {
   overflow: hidden;
-  color: var(--color-text-primary-default);
+  color: var(--theme-dark-text-primary-default);
   text-overflow: ellipsis;
   white-space: nowrap;
 }

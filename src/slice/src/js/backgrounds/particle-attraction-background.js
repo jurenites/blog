@@ -28,10 +28,10 @@ function parse_color_channels(color_value) {
 function create_particle_palette(background_wrapper) {
   const computed_styles = window.getComputedStyle(background_wrapper);
   const darker_channels = parse_color_channels(
-    computed_styles.getPropertyValue("--color-border-strong-default").trim(),
+    computed_styles.getPropertyValue("--theme-dark-border-outline-default").trim(),
   );
   const lighter_channels = parse_color_channels(
-    computed_styles.getPropertyValue("--color-text-primary-default").trim(),
+    computed_styles.getPropertyValue("--theme-dark-text-primary-default").trim(),
   );
   return Array.from({ length: 64 }, (_, tone_index) => {
     const tone_ratio = tone_index / 63;
@@ -276,7 +276,7 @@ export function create_particle_attraction_background(background_wrapper) {
 
   function draw_background() {
     const background_color = window.getComputedStyle(background_wrapper)
-      .getPropertyValue("--color-surface-page-default")
+      .getPropertyValue("--theme-dark-surface-background-page")
       .trim();
     canvas_context.fillStyle = background_color;
     canvas_context.fillRect(0, 0, viewport_width, viewport_height);

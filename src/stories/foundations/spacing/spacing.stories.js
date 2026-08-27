@@ -1,4 +1,4 @@
-// Foundations: the 8px spacing scale and elevation shadows.
+// Foundations: literal pixel exceptions, the 8px grid base, and elevation shadows.
 import spacing_template from "./spacing.template.html?raw";
 import spacing_row_template from "./spacing-row.template.html?raw";
 import elevation_tile_template from "./elevation-tile.template.html?raw";
@@ -22,7 +22,7 @@ function elevation_rows() {
   return token_names("elevation-shadow-")
     .map((token_name) => {
       const elevation_level = token_name.replace("elevation-shadow-", "");
-      const surface_token_name = `color-surface-elevation-${elevation_level}`;
+      const surface_token_name = `theme-dark-surface-background-${elevation_level}`;
 
       return render_template(elevation_tile_template, {
         shadow_class: escape_html(`u-shadow-${token_name}`),

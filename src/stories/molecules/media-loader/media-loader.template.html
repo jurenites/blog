@@ -1,0 +1,14 @@
+<figure class="media-loader" aria-busy="true">
+  <div class="media-loader__noise" data-jurenites-media-loader-noise aria-hidden="true"></div>
+  <figcaption class="media-loader__status" aria-live="polite">
+    <p class="media-loader__message">{{status_message}}</p>
+    <p class="media-loader__percentage">{{upload_percentage}}%</p>
+    <progress
+      class="media-loader__progress"
+      max="100"
+      value="{{upload_percentage}}"
+      aria-label="{{progress_label}}"
+    ></progress>
+    <p class="media-loader__file-name">{{media_file_name}}</p>
+  </figcaption>
+</figure>

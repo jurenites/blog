@@ -81,7 +81,7 @@ kept separate. Common source commands:
 ```bash
 scripts/sync.sh all       # build tokens + theme + Figma prep
 npm run build:tokens      # generate tokens, then validate the token contract
-npm run tokens:check      # reject copied HEX values and missing CSS token variables
+npm run tokens:check      # reject copied/lowercase HEX and missing CSS token variables
 npm run storybook         # build tokens, then run Storybook on port 6006
 npm run build-storybook   # build tokens, then build static Storybook
 npm run figma:prepare     # build tokens before running the Figma sync helper

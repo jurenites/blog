@@ -17,6 +17,11 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
     unset($html_variables['page_top']['navigation']);
   }
 
+  $current_path = trim(\Drupal::request()->getPathInfo(), '/');
+  if ($current_path === 'blog') {
+    $html_variables['attributes']['class'][] = 'path-blog';
+  }
+
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
   $build_info_path = DRUPAL_ROOT . '/' . $theme_path . '/build-info.json';
 
@@ -32,7 +37,7 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
   $project_version = $build_information['project_version'] ?? 'unknown';
   $commit_hash = $build_information['commit_hash'] ?? 'unknown';
   $commit_url = $build_information['commit_url'] ?? '';
-  $collaboration_credit = $build_information['collaboration_credit'] ?? 'Alex';
+  $collaboration_credit = $build_information['collaboration_credit'] ?? 'Alexander';
   $created_gmt = $build_information['created_gmt'] ?? 'unknown GMT+0';
   $html_variables['watermark_version_label'] = 'Version';
   $html_variables['watermark_version_number'] = $project_version;
@@ -42,6 +47,56 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
   $html_variables['watermark_credit_text'] = sprintf(
     'made by %s',
     $collaboration_credit,
+  );
+}
+
+/**
+ * Adds the current page required by the shared Breadcrumbs component.
+ */
+function jurenites_theme_preprocess_breadcrumb(array &$breadcrumb_variables): void {
+  if (empty($breadcrumb_variables['breadcrumb'])) {
+    return;
+  }
+
+  $last_item = end($breadcrumb_variables['breadcrumb']);
+  if (empty($last_item['url'])) {
+    return;
+  }
+
+  $route_match = \Drupal::routeMatch();
+  $route_object = $route_match->getRouteObject();
+  if (!$route_object) {
+    return;
+  }
+
+  $current_title = \Drupal::service('title_resolver')->getTitle(
+    \Drupal::request(),
+    $route_object,
+  );
+  if ($current_title === NULL) {
+    return;
+  }
+
+  $breadcrumb_variables['breadcrumb'][] = [
+    'text' => $current_title,
+  ];
+}
+
+/**
+ * Connects an Article page title to its teaser during page navigation.
+ */
+function jurenites_theme_preprocess_page_title(array &$page_title_variables): void {
+  $node_entity = \Drupal::routeMatch()->getParameter('node');
+  if (!$node_entity instanceof \Drupal\node\NodeInterface
+    || $node_entity->bundle() !== 'article') {
+    return;
+  }
+
+  $transition_name = sprintf('article-title-%s', $node_entity->id());
+  $page_title_variables['title_attributes']['class'][] = 'article-detail__title';
+  $page_title_variables['title_attributes']['style'][] = sprintf(
+    'view-transition-name: %s',
+    $transition_name,
   );
 }
 

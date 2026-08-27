@@ -5,30 +5,29 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: var(--space-scale-compact-gap) var(--space-scale-base-gap);
-  border-radius: var(--shape-corner-radius-extra-small);
-  background: var(--color-surface-panel-raised);
-  color: var(--color-text-primary-default);
+  padding: calc(var(--space-scale-base-gap) * 0.5) var(--space-scale-base-gap);
+  border-radius: var(--shape-corner-radius-small);
+  background: var(--theme-dark-surface-background-elevation-level-1);
+  color: var(--theme-dark-text-primary-default);
   @include tools.typography-overline;
-  font-family: var(--component-badge-label-font-family-default);
 
   &--success {
-    background: var(--color-palette-success);
-    color: var(--color-text-inverse-default);
+    background: var(--component-badge-color-status-success-default);
+    color: var(--theme-dark-text-inverse-default);
   }
 
   &--warning {
-    background: var(--color-palette-warning);
-    color: var(--color-text-inverse-default);
+    background: var(--component-badge-color-status-warning-default);
+    color: var(--theme-dark-text-inverse-default);
   }
 
   &--error {
-    background: var(--color-palette-error);
-    color: var(--color-text-inverse-default);
+    background: var(--component-badge-color-status-error-default);
+    color: var(--theme-dark-text-inverse-default);
   }
 
   &--info {
-    background: var(--color-palette-info);
-    color: var(--color-text-inverse-default);
+    background: var(--component-badge-color-status-information-default);
+    color: var(--theme-dark-text-inverse-default);
   }
 }

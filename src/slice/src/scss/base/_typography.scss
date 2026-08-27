@@ -5,31 +5,31 @@
 @use "../tools";
 
 h1 {
-  @include tools.typography-semantic-document-heading-1;
+  @include tools.typography-headline-4;
 }
 
 h2 {
-  @include tools.typography-semantic-document-heading-2;
+  @include tools.typography-headline-5;
 }
 
 h3 {
-  @include tools.typography-semantic-document-heading-3;
+  @include tools.typography-headline-6;
 }
 
 h4 {
-  @include tools.typography-semantic-document-heading-4;
+  @include tools.typography-headline-6;
 }
 
 h5 {
-  @include tools.typography-semantic-document-heading-5;
+  @include tools.typography-subtitle-1;
 }
 
 h6 {
-  @include tools.typography-semantic-document-heading-6;
+  @include tools.typography-subtitle-2;
 }
 
 p {
-  @include tools.typography-body-1;
+  @include tools.typography-body;
 }
 
 .text-caption {

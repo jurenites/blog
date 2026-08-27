@@ -1,35 +1,6 @@
 .jurenites-front-page {
-  position: relative;
-  display: grid;
-  isolation: isolate;
   min-height: 100vh;
-}
-
-.section-background-canvas {
-  position: relative;
-  grid-area: 1 / 1;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  pointer-events: none;
-}
-
-.jurenites-front-page > .layout-container {
-  position: relative;
-  grid-area: 1 / 1;
-}
-
-.background-fx-canvas {
-  display: block;
-  background: var(--color-surface-page-default);
-}
-
-.background-fx-canvas canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  image-rendering: pixelated;
+  background: var(--color-palette-full-black);
 }
 
 .background-preview {
@@ -37,25 +8,12 @@
   min-height: 100vh;
   overflow: hidden;
   isolation: isolate;
-  background: var(--color-surface-page-default);
+  background: var(--color-palette-full-black);
 }
 
 .background-preview > canvas {
   position: absolute;
   inset: 0;
-}
-
-.background-preview--dithering {
-  min-height: 200vh;
-  overflow: visible;
-}
-
-.background-preview--dithering > canvas {
-  position: relative;
-  inset: auto;
-  display: block;
-  width: 100%;
-  height: 200vh;
 }
 
 .background-preview--particle-attraction > canvas {

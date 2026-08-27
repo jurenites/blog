@@ -1,0 +1,44 @@
+{#
+/**
+ * @file
+ * Article teaser used by Drupal listings.
+ */
+#}
+{% set article_id = node.id %}
+{% set article_classes = [
+  'article-teaser',
+  'node--type-' ~ node.bundle|clean_class,
+  'node--view-mode-' ~ view_mode|clean_class,
+  not node.isPublished() ? 'node--unpublished',
+  node.isPromoted() ? 'node--promoted',
+  node.isSticky() ? 'node--sticky',
+] %}
+
+<article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
+  {{ title_prefix }}
+  {% if label %}
+    <h2{{ title_attributes.addClass('article-teaser__title').setAttribute('style', 'view-transition-name: article-title-' ~ article_id) }}>
+      <a class="article-teaser__title-link" href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h2>
+  {% endif %}
+  {{ title_suffix }}
+
+  {% if content.field_image %}
+    <div class="article-teaser__media" style="view-transition-name: article-image-{{ article_id }}">
+      {{ content.field_image }}
+    </div>
+  {% endif %}
+
+  <div{{ content_attributes.addClass('article-teaser__content') }}>
+    {{ content|without('field_image') }}
+  </div>
+
+  {% if display_submitted %}
+    <footer class="article-teaser__meta">
+      {{ author_picture }}
+      <div{{ author_attributes }}>
+        {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
+      </div>
+    </footer>
+  {% endif %}
+</article>

@@ -1,10 +1,9 @@
-import { create_dither_trail_background } from "../../../slice/src/js/script.js";
 import { create_particle_attraction_background } from "../../../slice/src/js/backgrounds/particle-attraction-background.js";
 import { escape_html, render_template } from "../../template.js";
 import backgrounds_template from "./backgrounds.template.html?raw";
 
 const BACKGROUND_STYLE = "plain-black";
-const BACKGROUND_STYLE_OPTIONS = ["plain-black", "dithering", "particle-attraction"];
+const BACKGROUND_STYLE_OPTIONS = ["plain-black", "particle-attraction"];
 
 function render_background_story({ background_style }) {
   const story_container = document.createElement("div");
@@ -15,13 +14,6 @@ function render_background_story({ background_style }) {
   const background_preview = story_container.querySelector("[data-background-preview]");
   let initialization_frame = 0;
 
-  if (background_style === "dithering") {
-    background_preview.classList.add("background-fx-canvas");
-    initialization_frame = window.requestAnimationFrame(() => {
-      create_dither_trail_background(background_preview);
-    });
-  }
-
   if (background_style === "particle-attraction") {
     initialization_frame = window.requestAnimationFrame(() => {
       create_particle_attraction_background(background_preview);
@@ -31,7 +23,6 @@ function render_background_story({ background_style }) {
   const removal_observer = new MutationObserver(() => {
     if (!story_container.isConnected) {
       window.cancelAnimationFrame(initialization_frame);
-      background_preview.jurenitesGradientDestroy?.();
       background_preview.jurenitesParticleDestroy?.();
       removal_observer.disconnect();
     }
@@ -51,7 +42,7 @@ export default {
     },
     docs: {
       description: {
-        component: "Full-page backgrounds shared by Storybook and the Drupal front page.",
+        component: "Full-page backgrounds. The Drupal front page uses plain black; particle attraction remains available as an experimental preview.",
       },
     },
   },
@@ -68,6 +59,6 @@ export default {
 
 export const default_story = {
   args: {
-    background_style: "particle-attraction"
-  }
+    background_style: "plain-black",
+  },
 };

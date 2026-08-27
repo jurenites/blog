@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 0.0.43
-Reviewed: 2026-08-23
+Version: 0.0.64
+Reviewed: 2026-08-27
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -23,8 +23,9 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 ## Current Source Contract
 
 - Editable token source: `src/token/tokens.yaml`.
-- Generated token artifacts: `generated/styles/_tokens.scss` and
-  `generated/token/tokens.js`.
+- Generated token artifacts: `generated/styles/_tokens.scss`,
+  `generated/token/tokens.js`, and the readable three-layer mapping table at
+  `generated/token/color-mappings.json`.
 - The public Drupal theme is self-contained with `base theme: false`; it does
   not depend on the deprecated Stable 9 theme.
 - Storybook stories: one component folder per visible example under
@@ -36,6 +37,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   implemented and verified.
 - Spacing tokens use semantic names, not numeric names, so values can change
   without renaming component code.
+- Typography uses ten one-line CSS `font` shorthand role tokens. Open Sans owns
+  website headings and body copy, Roundabout is demonstration-only, and 4pixel
+  is limited to demonstrations and compact technical details such as the
+  bottom-right version watermark.
 - Storybook browser inspection is prepared through `npm run storybook:inspect`;
   install Playwright locally first with `npm install --save-dev playwright` and
   `npm run playwright:install`.
@@ -44,17 +49,75 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Pagination uses one class contract across Storybook, shared SCSS, and Drupal's
   pager override. At mobile width it automatically switches to four list items:
   previous arrow, current page, total pages, and next arrow.
+- Breadcrumbs use one class contract across Storybook, shared SCSS, and Drupal's
+  breadcrumb override. Drupal appends the resolved current-page title to core's
+  ancestor links and marks that final item as the current page.
+- Content Layout provides one controlled Storybook composition for generic page
+  and node shells, with token-backed readable and wide widths. Drupal's native
+  `.layout-content` uses the readable width without requiring another wrapper.
+- Drupal's `/blog` path gives its native `.layout-content` an 800px token-backed
+  maximum width while standard page and node content remains at 720px.
+- Blog-list thumbnails preserve the intrinsic `<img>` aspect ratio and zoom to
+  120% inside their clipped media container on pointer hover, with the zoom
+  suppressed for reduced-motion users.
+- All semantic corner-radius tokens resolve to `0px`; project-owned hardcoded
+  circular preview styles also use the zero-radius token so Drupal and
+  Storybook consistently render square corners.
+- Article teasers and full Article pages use node-unique cross-document View
+  Transition names for the title and lead image. Drupal navigation and rendering
+  stay native, with normal-navigation and reduced-motion fallbacks.
+- Form Field consolidates nine native control presentations into one Storybook
+  page. Shared SCSS styles Drupal textareas, selects, checkboxes, radios, file
+  uploads, descriptions, disabled states, and validation errors while retaining
+  native form markup.
+- Media Loader provides a 16:9 video-upload placeholder with independent
+  monochrome noise frames, progress, filename, and upload status. Its noise
+  advances at 15 fps and freezes under reduced motion.
 - Storybook manager colors now come from generated YAML tokens instead of copied
   HEX values, and token builds enforce that source-of-truth contract.
 - Elevation levels use distinct approved dark-gray surface tokens and generated
   background/shadow utility classes in Storybook. Handwritten colors remain HEX
   values owned exclusively by `src/token/tokens.yaml`.
-- Palette, Abstraction Levels, and Color Contrast share one internal Color Block
-  renderer that is intentionally omitted from Storybook navigation. Its color
-  chip—not its flexible information container—is square: 96px by default and
-  40px on dense logical-token mapping screens. Abstraction Levels labels the
-  mapping layers as Palette Primitives, Semantic Logic, and Element Usage, and
-  Color Contrast supports both compact and full six-digit HEX values.
+- Palette, Abstraction Levels, and Color Contrast share one internal Color
+  Block renderer that is intentionally omitted from Storybook navigation and
+  the public token tree. Its private layout sizes remain in Storybook SCSS.
+  Abstraction Levels exposes Palette, Theme → Palette, and Component Mappings
+  while generated CSS preserves visible `var(--…)` relationships. Palette role
+  counts remain open-ended for two-color, triadic, tetradic, or larger systems.
+- Theme tokens now directly own surface, text, action, and border semantics;
+  the redundant shared `color.*` aliases have been removed. Watermark identity
+  and credit colors are component-owned mappings under `component.watermark`.
+- All token HEX letters are uppercase. Both token builds and `npm run lint`
+  enforce this source style alongside the existing token contract.
+- Color authoring now uses a concise validated YAML schema: raw entries contain
+  one uppercase HEX string plus an optional display-label comment, while theme
+  and component colors are direct key/reference pairs. The builder normalizes
+  them into DTCG records and rejects object-valued or malformed raw colors.
+- Every raw color now occupies one key/value line.
+  Color mappings use plain unquoted dot paths without braces; lint rejects the
+  previous quoted/braced form and multiline raw-color formatting.
+- The redundant `color.value` registry and generic `chromatic-*` IDs have been
+  removed. Each `color.palette` role now directly owns its HEX and display label,
+  reducing the color model to Palette → Theme → Component.
+- Success roles use the `system-success*` family in both palette and theme
+  layers; component success states map through `theme.dark.system.success`.
+- Watermark colors are no longer declared under `theme.dark`. The Watermark
+  component owns its identity and credit tokens directly, mapping them to the
+  human-readable palette roles while SCSS continues to consume component variables only.
+- The spacing scale keeps literal 0px, 1px, and 2px exceptions plus one 8px
+  `base-gap`. Larger layout spacing is expressed at its use site with an
+  explicit `calc(var(--space-scale-base-gap) * multiplier)` instead of a
+  semantic pixel-size alias.
+- All editable token families now use concise direct YAML values. Scalar values,
+  dot-path references, inline arrays, and inline composite maps replace source
+  `$type`/`$value` wrappers; YAML comments replace `$description`. The builder
+  infers metadata and lint rejects the old fields.
+- Redundant enum registries such as `small: small` have been removed from the
+  token source. Storybook owns its control-option arrays locally, while lint
+  rejects future key/value self-mappings.
+- Elevation shadows are stored as complete CSS-ready strings instead of
+  offset/blur/spread/color objects. Generated variables remain directly usable
+  through one `box-shadow: var(--elevation-shadow-level-*);` declaration.
 - Drupal theme builds configure relative font URLs and copy canonical font files
   into deployable theme assets.
 - JavaScript, SCSS, and component-template linting now runs before the Storybook
@@ -99,15 +162,13 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - The two-image paginator's 4px Crossfade Dot is a shared Storybook/Drupal atom.
   Its inactive and active states remain dark gray and white, while hover adds a
   1px solid-white outline around the visible circle.
-- Badge labels retain the 5px Overline dimensions while using a component-scoped
-  4pixel font-family token; other Overline consumers remain on their own family.
+- Badge and version labels reuse the 5px 4pixel Overline role for compact
+  technical/status detail.
 - Desktop and wide breakpoints are unified into one 1280-1920px desktop range.
   Centered content is capped at 1440px and wider screens remain background-only.
-- Semantic typography mapping separates foundation roles from theme roles;
-  Blog Title is Open Sans 32px/500.
-- Native document headings now use semantic typography aliases, component
-  dimensions use semantic tokens, and compact typography roles omit redundant
-  `default` suffixes.
+- Native document headings and components reuse the concise typography roles;
+  role mixins emit one `font` declaration instead of separate family, size,
+  weight, line-height, and letter-spacing declarations.
 - The screenshot signature displays the shared project version, current
   UTC build update time to the second, seven-character Git hash, and collaboration
   credit with exact solid token colors in Drupal and the Storybook manager.
@@ -120,16 +181,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Project-owned folder documentation is centralized in
   `docs/repository-structure.md`; the repository root contains the only tracked
   `README.md`.
-- The front page uses a monochrome radial field, one-logical-pixel grain, and a
-  hard-edged cursor brush with four structured four-by-four pattern families.
-  Sixteen grayscale ranks remain inside the resting noise's local tonal range,
-  while a shader frame seed regenerates the grain and dither every frame.
-- The dither canvas is a relative CSS Grid layer that grows with page content
-  and scrolls with the document instead of remaining fixed to the viewport.
-- The cursor brush leaves a clock-sampled dither trail. Trail circles hold at
-  full size briefly, then shrink through hard logical-pixel radii over one second.
-- Storybook Backgrounds offers `plain-black`, `dithering`, and
-  `particle-attraction` through one select control. The new monochrome Canvas 2D
+- The Drupal front page uses the full-black palette token without a canvas
+  animation layer.
+- Storybook Backgrounds offers `plain-black` and `particle-attraction` through
+  one select control. The monochrome Canvas 2D
   field scales its 6px particle count with area, prevents dot overlap, and slowly
   gathers particles inside a delayed 200px cursor-attraction field.
 - Future scenic backgrounds use named parallax depth layers from sky through
@@ -154,11 +209,12 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Local Drupal installation documents a three-hour request-triggered automated
   cron interval. Stage and production should use their hosting scheduler for
   `drush cron` instead of combining both scheduling methods.
-- The version label and number are separate values. The secondary-color Git hash
-  links to the exact GitHub commit and gains a one-pixel underline on hover.
-- The procedural background renders exactly one shader sample per CSS logical
-  pixel. The complete gradient and grain are pixel-quantized and Retina output
-  uses nearest-neighbor presentation rather than physical-pixel interpolation.
+- Text links use the primary white text token instead of the cyan action token.
+  The version Git hash links to the exact GitHub commit and always uses the
+  4pixel font with a one-pixel solid underline.
+- Media Loader noise renders one grayscale shader sample per CSS logical pixel.
+  Each frame hashes pixel coordinates with a new frame seed instead of shifting
+  an ordered pattern, preventing coherent diagonal drift.
 - The favicon uses the compact 16px Jurenites mark and adapts for tab contrast:
   light browser themes receive a black background with a white mark, while dark
   browser themes receive a white background with a black mark.

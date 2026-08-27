@@ -13,7 +13,7 @@
 
 .text-input__label {
   flex: 0 0 100%;
-  color: var(--color-text-primary-default);
+  color: var(--theme-dark-text-primary-default);
   @include tools.typography-subtitle-2;
 }
 
@@ -25,14 +25,14 @@
   width: 100%;
   min-width: var(--component-text-input-minimum-width-default);
   max-width: var(--component-text-input-width-full);
-  min-height: var(--system-grid-minimum-interactive-size);
+  min-height: calc(var(--space-scale-base-gap) * 5);
   box-sizing: border-box;
-  padding: 0 var(--space-scale-medium-gap);
-  border: var(--shape-border-width-hairline-default) solid var(--color-border-strong-default);
-  border-radius: var(--shape-corner-radius-small-default);
-  background: var(--color-surface-panel-default);
-  color: var(--color-text-primary-default);
-  @include tools.typography-body-2;
+  padding: 0 calc(var(--space-scale-base-gap) * 2);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
+  border-radius: var(--shape-corner-radius-base);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-caption;
   @include tools.motion-transition(border-color, box-shadow, background-color);
 }
 
@@ -54,12 +54,12 @@
 
 .text-input__control::placeholder,
 .form-text::placeholder {
-  color: var(--color-text-secondary-default);
+  color: var(--theme-dark-text-secondary-default);
 }
 
 .text-input__control:hover,
 .form-text:hover {
-  border-color: var(--color-text-primary-default);
+  border-color: var(--theme-dark-text-primary-default);
 }
 
 .text-input__control:focus-visible,
@@ -70,6 +70,6 @@
 .text-input__hint {
   flex: 0 0 100%;
   margin: 0;
-  color: var(--color-text-secondary-default);
+  color: var(--theme-dark-text-secondary-default);
   @include tools.typography-caption;
 }

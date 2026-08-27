@@ -5,7 +5,7 @@ const COLOR_CHIP_SIZES = ["default", "compact"];
 
 export function color_block_markup({
   background_token_name,
-  foreground_token_name = "color-text-primary-default",
+  foreground_token_name = "theme-dark-text-primary-default",
   chip_size = "default",
   chip_text = "",
   primary_text,

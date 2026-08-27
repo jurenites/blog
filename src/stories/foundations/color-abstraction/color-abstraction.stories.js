@@ -2,53 +2,47 @@
 import abstraction_template from "./color-abstraction.template.html?raw";
 import { color_block_markup } from "../../internal/color-block/color-block.markup.js";
 import { render_template } from "../../template.js";
-import { color_group, token_names, token_value } from "../token-values.js";
+import {
+  token_css_value,
+  token_description,
+  token_names,
+  token_value,
+} from "../token-values.js";
 
-const PRIMITIVE_GROUPS = ["palette"];
-const SYSTEM_GROUPS = ["surface", "text", "action", "border"];
+const COMPONENT_COLOR_PREFIXES = ["component-"];
 
-function color_tokens(group_names) {
-  return token_names("color-")
-    .filter((token_name) => group_names.includes(color_group(token_name)))
-    .map((token_name) => ({ token_name, token_value: token_value(token_name) }));
+function color_tokens(token_prefixes) {
+  return token_prefixes
+    .flatMap((token_prefix) => token_names(token_prefix))
+    .filter((token_name, token_index, token_list) => (
+      token_list.indexOf(token_name) === token_index
+      && (!token_name.startsWith("component-") || token_name.includes("-color-"))
+    ))
+    .map((token_name) => ({
+      token_description: token_description(token_name),
+      token_name,
+      token_value: token_value(token_name),
+      token_css_value: token_css_value(token_name),
+    }));
 }
 
-function token_card_markup({ token_name, token_value }) {
+function token_card_markup({ token_description: color_description, token_name, token_value, token_css_value }) {
   return `<li>${color_block_markup({
     background_token_name: token_name,
     chip_size: "compact",
-    primary_text: token_name.replace(/^color-/, "").split("-").join(" "),
+    primary_text: color_description || token_name.split("-").join(" "),
     secondary_text: `--${token_name}`,
-    tertiary_text: token_value,
+    tertiary_text: token_css_value === token_value
+      ? token_value
+      : `${token_css_value} → ${token_value}`,
   })}</li>`;
-}
-
-function element_card_markup(element_data) {
-  return color_block_markup({
-    background_token_name: element_data.background_token,
-    foreground_token_name: element_data.foreground_token,
-    chip_size: "compact",
-    primary_text: element_data.element_label,
-    secondary_text: element_data.token_label,
-  });
-}
-
-function element_color_cards() {
-  return token_names("color-")
-    .filter((token_name) => ["surface", "action"].includes(color_group(token_name)))
-    .map((token_name) => ({
-      element_label: token_name.replace(/^color-/, "").split("-").join(" "),
-      token_label: `--${token_name}`,
-      background_token: token_name,
-      foreground_token: token_name.includes("action-primary") ? "color-text-inverse-default" : "color-text-primary-default",
-    }));
 }
 
 function render_abstraction_story() {
   return render_template(abstraction_template, {
-    primitive_colors: color_tokens(PRIMITIVE_GROUPS).map(token_card_markup).join(""),
-    system_colors: color_tokens(SYSTEM_GROUPS).map(token_card_markup).join(""),
-    element_colors: element_color_cards().map(element_card_markup).join(""),
+    palette_colors: color_tokens(["color-palette-"]).map(token_card_markup).join(""),
+    theme_colors: color_tokens(["theme-dark-"]).map(token_card_markup).join(""),
+    component_colors: color_tokens(COMPONENT_COLOR_PREFIXES).map(token_card_markup).join(""),
   });
 }
 

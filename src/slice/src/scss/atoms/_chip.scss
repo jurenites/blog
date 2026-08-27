@@ -5,16 +5,16 @@
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-scale-compact-gap);
-  padding: var(--space-scale-compact-gap) var(--space-scale-base-gap);
-  border: var(--shape-border-width-hairline-default) solid var(--color-border-subtle-default);
-  border-radius: var(--shape-corner-radius-pill-full);
-  background: var(--color-surface-panel-default);
-  color: var(--color-text-secondary-default);
+  gap: calc(var(--space-scale-base-gap) * 0.5);
+  padding: calc(var(--space-scale-base-gap) * 0.5) var(--space-scale-base-gap);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  border-radius: var(--shape-corner-radius-full);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+  color: var(--theme-dark-text-secondary-default);
   @include tools.typography-caption;
 }
 
 .chip--accent {
-  border-color: var(--color-border-strong-default);
-  color: var(--color-text-primary-default);
+  border-color: var(--theme-dark-border-outline-default);
+  color: var(--theme-dark-text-primary-default);
 }

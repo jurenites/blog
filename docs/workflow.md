@@ -13,9 +13,11 @@ Rules:
 ## 2. Tokens
 
 `src/token/tokens.yaml` is the editable single source of truth for reusable
-design decisions, in W3C/DTCG format.
+design decisions. Every token uses a concise direct key/value form; `$type`,
+`$value`, and `$description` are generated implementation details and are forbidden in this file.
+The builder infers token types and normalizes the source into internal DTCG records.
 
-`scripts/build-tokens.mjs` resolves `{references}` and generates (never hand-edit these):
+`scripts/build-tokens.mjs` resolves plain dot-path references and generates (never hand-edit these):
 
 - `generated/styles/_tokens.scss` for CSS custom properties, SCSS breakpoint
   vars/map/mixins, typography role mixins, and token utility classes
@@ -24,13 +26,17 @@ design decisions, in W3C/DTCG format.
 
 Run `npm run build:tokens` after editing `src/token/tokens.yaml`. `npm run build:theme` runs tokens first automatically.
 Token generation immediately runs `npm run tokens:check`, so copied HEX values,
-CSS opacity declarations, and undefined SCSS token references fail the build.
+lowercase HEX letters in the token source, CSS opacity declarations, and
+undefined SCSS token references fail the build. Verbose token metadata fields
+and redundant `key: key` self-mappings also fail; use YAML comments for
+explanations and keep Storybook option arrays with their stories. `npm run lint`
+runs the same check.
 
 Token groups:
 
-- `system.grid`, `system.icon`, `system.breakpoint`, `system.naming`
+- `system.icon`, `system.breakpoint`, `system.naming`
 - `color.*` (palette primitives + semantic surface/text/action/border)
-- `typography.*` (Material M2 roles)
+- `typography.*` (CSS-ready font shorthand roles plus demonstration font families)
 - `space.*`, `shape.*`, `elevation.*`, `motion.*`, `layout.*`
 - `component.*`
 
