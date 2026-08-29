@@ -11,7 +11,18 @@
   border-radius: var(--shape-corner-radius-full);
   background: var(--theme-dark-surface-background-elevation-level-0);
   color: var(--theme-dark-text-secondary-default);
+  text-decoration: none;
   @include tools.typography-caption;
+}
+
+.chip[href]:hover {
+  border-color: var(--theme-dark-border-outline-default);
+  color: var(--theme-dark-text-primary-default);
+}
+
+.chip[href]:focus-visible {
+  outline: var(--shape-border-width-thick-default) solid var(--theme-dark-action-primary-default);
+  outline-offset: calc(var(--space-scale-base-gap) * 0.5);
 }
 
 .chip--accent {

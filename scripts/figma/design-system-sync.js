@@ -305,9 +305,9 @@ async function chip(label, accent = false) {
   return node;
 }
 
-async function badge(label, color) {
+async function create_badge(badge_label, background_color, foreground_color) {
   const node = figma.createFrame();
-  node.name = 'Badge / ' + label;
+  node.name = 'Badge / ' + badge_label;
   node.layoutMode = 'HORIZONTAL';
   node.counterAxisAlignItems = 'CENTER';
   node.primaryAxisAlignItems = 'CENTER';
@@ -316,8 +316,8 @@ async function badge(label, color) {
   node.paddingTop = 4;
   node.paddingBottom = 4;
   node.cornerRadius = 4;
-  node.fills = [hexToPaint(color)];
-  node.appendChild(await textNode(label.toUpperCase(), 10, tokenValue('theme-dark-text-inverse-default'), 500));
+  node.fills = [hexToPaint(background_color)];
+  node.appendChild(await textNode(badge_label.toUpperCase(), 10, foreground_color, 500));
   return node;
 }
 
@@ -356,10 +356,9 @@ async function createComponentsSection(page, x, y) {
   atoms.appendChild(pillRow);
   pillRow.appendChild(await chip('Drupal'));
   pillRow.appendChild(await chip('Design system', true));
-  pillRow.appendChild(await badge('success', tokenValue('component-badge-color-status-success-default')));
-  pillRow.appendChild(await badge('warning', tokenValue('component-badge-color-status-warning-default')));
-  pillRow.appendChild(await badge('error', tokenValue('component-badge-color-status-error-default')));
-  pillRow.appendChild(await badge('info', tokenValue('component-badge-color-status-information-default')));
+  pillRow.appendChild(await create_badge('neutral', tokenValue('component-badge-color-background-neutral-default'), tokenValue('component-badge-color-foreground-neutral-default')));
+  pillRow.appendChild(await create_badge('gray', tokenValue('component-badge-color-background-gray-default'), tokenValue('component-badge-color-foreground-gray-default')));
+  pillRow.appendChild(await create_badge('white', tokenValue('component-badge-color-background-white-default'), tokenValue('component-badge-color-foreground-white-default')));
 
   const molecules = frame('Molecules', 1120, [hexToPaint(tokenValue('theme-dark-surface-background-elevation-level-0'))]);
   molecules.cornerRadius = tokenNumber('shape-corner-radius-small-default');

@@ -1,0 +1,8 @@
+name: Jurenites Blog
+type: module
+description: Provides readable single-tag query filtering for the Blog View.
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:taxonomy
+  - drupal:views

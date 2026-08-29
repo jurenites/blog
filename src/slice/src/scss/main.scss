@@ -9,6 +9,7 @@
 
 @use "base/reset";
 @use "base/global";
+@use "base/gin-navigation";
 @use "base/typography";
 
 @use "atoms/button";
@@ -20,7 +21,10 @@
 @use "atoms/date-value";
 @use "atoms/version-watermark";
 @use "atoms/text-input";
+@use "atoms/select-input";
 @use "atoms/crossfade-dot";
+@use "atoms/icon";
+@use "atoms/two-tone-heading";
 
 @use "molecules/project-card";
 @use "molecules/contact-me-widget";

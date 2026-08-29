@@ -104,6 +104,18 @@ dependency. Hold and transition durations are formatter settings under Manage
 display. Two 4px pagination dots expose the active image and allow direct
 selection; automatic rotation pauses while the pointer is over the image area.
 
+Apply the structured Basic page heading controls with:
+
+```bash
+docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_two_tone_heading
+```
+
+The `jurenites_two_tone_heading` module provides one compound field type and
+widget. Basic page editors keep using the native Title for the first strong
+segment, then edit Title 2, Title 3, and their placement controls in one field.
+The active theme renders that data through the shared Two-tone Heading component
+as the page's semantic `h1`.
+
 Apply the project administration setup to install Gin, force its dark
 appearance, and add Jurenites browser and toolbar branding:
 

@@ -1,0 +1,12 @@
+{#
+/**
+ * @file
+ * Shared Avatar component with a native Drupal author picture and initials fallback.
+ */
+#}
+<div class="avatar" data-jurenites-avatar>
+  <span class="avatar__initials" aria-hidden="true">{{ avatar_initials }}</span>
+  {% if avatar_image %}
+    <div class="avatar__image" data-jurenites-avatar-image>{{ avatar_image }}</div>
+  {% endif %}
+</div>

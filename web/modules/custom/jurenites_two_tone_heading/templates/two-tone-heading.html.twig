@@ -1,0 +1,20 @@
+{# Fallback markup; jurenites_theme overrides this shared theme hook. #}
+{% set allowed_heading_levels = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] %}
+{% set heading_tag = heading_level in allowed_heading_levels ? heading_level : 'h2' %}
+<{{ heading_tag }} class="two-tone-heading">
+  {%- if leading_text -%}
+    <span class="two-tone-heading__segment">{{ leading_text }}</span>
+  {%- endif -%}
+  {%- if soft_text -%}
+    {%- if leading_text -%}
+      {%- if soft_text_placement == 'new-line' -%}<br class="two-tone-heading__line-break">{%- else -%} {{- ' ' -}} {%- endif -%}
+    {%- endif -%}
+    <span class="two-tone-heading__segment two-tone-heading__segment--soft">{{ soft_text }}</span>
+  {%- endif -%}
+  {%- if trailing_text -%}
+    {%- if leading_text or soft_text -%}
+      {%- if trailing_text_placement == 'new-line' -%}<br class="two-tone-heading__line-break">{%- else -%} {{- ' ' -}} {%- endif -%}
+    {%- endif -%}
+    <span class="two-tone-heading__segment">{{ trailing_text }}</span>
+  {%- endif -%}
+</{{ heading_tag }}>

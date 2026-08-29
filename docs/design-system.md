@@ -35,7 +35,7 @@ Components are organised by Atomic Design and ITCSS layers:
 | settings   | `src/slice/src/scss/settings/` | Hand-written theme settings              |
 | tools      | `src/slice/src/scss/tools/`    | Mixins (elevation, motion, focus-ring)   |
 | base       | `src/slice/src/scss/base/`     | Reset, global element defaults, typography|
-| atoms      | `src/slice/src/scss/atoms/`    | Avatar, badge, button, chip, crossfade dot, date value, divider, surface, text input |
+| atoms      | `src/slice/src/scss/atoms/`    | Avatar, badge, button, chip, crossfade dot, date value, divider, icon, select input, surface, text input, two-tone heading |
 | molecules  | `src/slice/src/scss/molecules/`| Article teaser, author byline, breadcrumbs, contact widget, form field, media loader, pagination, project card, pull quote, search form |
 | organisms  | `src/slice/src/scss/organisms/`| Newsletter signup, site header, and larger page sections |
 | components  | `src/slice/src/scss/components/`| Content layout and page-specific compositions |
@@ -44,8 +44,7 @@ Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
 `Organisms`, `Components`. Each component has exactly one story; use the
 Controls tab for property combinations.
 
-Form controls intentionally share one `Molecules/Form Field` page instead of a
-separate story for every native element. Its controls cover nine standard
+Form controls share one `Molecules/Form Field` composition. Its controls cover nine standard
 presentations: text, password, textarea, select, single checkbox, radio group,
 checkbox group, choice chips, and file upload. The independent `field_data_type`
 control records whether the conceptual Drupal value is a string, long text,
@@ -53,6 +52,20 @@ Boolean, list, or file; for example, one Boolean value can be inspected as a
 single checkbox, Yes/No radio group, select, or choice chips. Label,
 description, required, disabled, selected, and validation-error states remain
 on that same page.
+
+The reusable `Atoms/Select Input` renderer supplies the Form Field select rather
+than duplicating its markup. It emits a native `<select>` first, so forms remain
+usable when JavaScript is unavailable. Progressive enhancement adds an exact
+40px trigger and suffix target, a 24px one-stroke chevron with a 36px circular
+hover surface, and a keyboard-accessible listbox whose rows are at least 40px.
+The listbox extends 4px beyond each trigger edge, aligns option text with the
+current value, and distinguishes the selected option with the level-one surface.
+On every open, viewport scroll, and resize, it measures the visible room around
+the trigger and opens below or above accordingly. If neither side can contain
+the full list, the roomier side receives a viewport-bounded scrolling menu while
+each option retains its 40px minimum row height.
+Drupal `.form-select` controls receive the same enhancement from the shared
+theme JavaScript; multi-select controls retain their native browser UI.
 
 `Components/Content Layout` replaces separate blank Storybook shells for generic
 pages, nodes, full Articles, Basic pages, and teasers. It exposes semantic
@@ -68,10 +81,34 @@ the teaser title and medium image into the full page title and wide image in
 supporting browsers. Drupal still owns the complete document request, rendering,
 cache metadata, access checks, and history; browsers without cross-document View
 Transitions use normal navigation, and reduced-motion users get an instant swap.
-The teaser media frame uses the token-backed 220px maximum from Drupal's medium
-image style. Its real `<img>` fills that width with automatic height, preserving
-the intrinsic ratio, while the clipped frame contains the 120% pointer-hover
-zoom.
+Article Teaser is a square-corner editorial card with a 16:9 image, bordered
+surface, and a token-backed 150ms shadow transition. Pointer hover and keyboard
+focus-within move from level-zero shadow to the component hover shadow adapted
+from the [Shadcnblocks Blog 47 original](https://www.shadcnblocks.com/block/blog47).
+The entire card presents a pointer cursor, while hovering or focusing anywhere
+on it grows the image inside its clipped frame to 105% without changing grid
+geometry. The Blog View and the Storybook three-tile example use the same
+responsive auto-fitting grid contract, collapsing naturally when fewer 240px
+card columns fit.
+
+Article teaser metadata composes the shared Avatar atom. Storybook's Uploaded
+state and Drupal's native compact-user `author_picture` use the same image slot;
+if that image cannot load, the component reveals its initials-based Avatar UI.
+Drupal retains ownership of the image formatter, cacheability, and access
+metadata, but the Avatar intentionally removes the user-profile destination and
+delegates its displayed dimensions to `.avatar__uploaded-image` component SCSS.
+
+Full Article pages render `body` and `field_tags` through bundle-specific field
+templates so each field owns meaningful BEM markup without Drupal's anonymous
+default field wrappers. Article tags reuse the Chip atom as links to
+`/blog?tag=<clean-tag-slug>`, such as `?tag=ui-ux-design`. The custom Blog
+argument plugin transliterates each Tags label, lowercases it, replaces
+non-alphanumeric runs with one hyphen, and resolves that readable value to
+Drupal's internal term ID. The Blog View displays the selected tag with a clear
+action and keeps filtering usable through normal navigation, reload, history,
+and copied URLs without requiring a visible exposed form or custom AJAX. Tags
+must have unique labels after slug cleaning so each public value stays
+unambiguous.
 
 The Crossfade Dot atom keeps its visible circle at 4px inside the standard
 40px interactive target. Inactive dots use the dark-gray elevation surface,
@@ -83,9 +120,38 @@ The Breadcrumbs molecule also has one shared class contract. Drupal's breadcrumb
 preprocess hook adds the resolved current-page title to core's ancestor links,
 and `templates/navigation/breadcrumb.html.twig` maps the complete trail to the
 same `.breadcrumbs` BEM markup and `aria-current` behavior used in Storybook.
+Full Article pages additionally show a top-left text Back link to `/blog` with
+the name-addressable Icon Atom. Its `arrow-left` geometry lives in
+`src/public/assets/icons/arrow-left.svg`, is copied to the Drupal theme during
+the theme build, and remains a current-color, 1px-stroke line icon. Breadcrumb
+links use the caption typography role; the current page uses the pale secondary
+text role.
+For same-origin navigation the link uses browser history, preserving a selected
+Blog tag and scroll/history state; direct-entry Articles retain `/blog` as the
+normal link fallback.
+
+Form and input labels use the regular 14px `caption` typography role across the
+Text Input atom, Form Field molecule, and Drupal's native `.form-item` markup.
+This keeps `<label>` and form-group `<legend>` text at font weight 400 while
+leaving semibold `subtitle-2` typography available to non-form UI.
 
 Static source assets, including local font files used by Storybook, live in
 `src/public/`.
+
+The Top Nav Menu Site Header adapts the compact floating structure of
+[Shadcnblocks Navbar 33](https://www.shadcnblocks.com/block/navbar33) to the
+project's square-corner dark theme. Drupal's existing Site branding and Main
+navigation blocks become the left logo and centered one-level menu, while a
+native right-side language selector exposes only `Eng` and `Rus`. The selector
+uses Drupal's enabled interface languages and URL negotiation, so it preserves
+the current route and query string. On mobile the logo and language selector
+remain on the first row while the compact menu moves to a second row and retains
+horizontal scrolling only as a narrow-content fallback. Authenticated pages hide Gin's secondary toolbar to keep the public header
+visually unambiguous; Gin's primary administration navigation remains available.
+The public element defaults are scoped by the `jurenites-theme` body class so
+they do not become unqualified page-wide rules. Gin's navigation keeps its own
+structure and 14px toolbar typography while its blue and blue-gray color
+variables resolve through the Jurenites palette tokens.
 
 How components map across Figma, SCSS, Storybook, and Drupal (the BEM bridge) is
 defined in `docs/naming-conventions.md`. Read it before adding any component.
@@ -136,10 +202,35 @@ role mixins instead of rebuilding the shorthand in components:
 .card__title { @include tools.typography-headline-5; }
 ```
 
-Roles: `headline-4/5/6`, `subtitle-1/2`, `eyebrow`, `body`, `link`, `caption`,
-and `overline`. Base HTML elements (`h1`-`h6`, `p`, `a`) are mapped in
+Roles: `headline-3/4/5/6`, `subtitle-1/2`, `eyebrow`, `body`, `body-2`, `link`,
+`caption`, `code`, and `overline`. Base HTML elements (`h1`-`h6`, `p`, `a`) are mapped in
 `base/_typography.scss`; component selectors reuse the nearest role and own
 non-font treatment such as underlines or uppercase text.
+
+Native heading levels `h3` through `h6` map directly to the matching
+`headline-3` through `headline-6` typography roles. The existing `h1` and `h2`
+mappings remain in place until corresponding `headline-1` and `headline-2`
+roles are defined.
+
+Article Teaser titles are semantic `<h3>` elements styled with `subtitle-1`
+(16px semibold). Teaser excerpts and native teaser body paragraphs use `body-2`
+(14px), while full Article body paragraphs retain the default `body` role at
+16px.
+
+The Two-tone Heading atom defaults to `h3` and therefore uses `headline-3` for
+prominent editorial titles. Its component class does not override typography:
+changing the semantic heading level applies that element's base typography role.
+The atom accepts leading strong, soft, and trailing strong plain-text segments,
+with semantic `inline` or `new-line` placement for the latter two segments. This
+keeps Drupal authoring structured while supporting either two colored lines or
+a soft phrase sandwiched between strong phrases without WYSIWYG markup.
+
+Basic pages use their native node Title as the leading strong segment and store
+Title 2, Title 3, and both placement choices in one compound
+`field_two_tone_heading` field. The field type keeps each property typed and
+translatable in one field table instead of using four separate fields or an
+opaque JSON value. The Basic page title remains a semantic `h1`; Storybook's
+`heading_level` is a render-context control and is not editorial content.
 
 The source stays deliberately short, for example
 `headline-4: '600 32px var(--typography-font-family-sans)'`. The builder emits
@@ -147,10 +238,16 @@ The source stays deliberately short, for example
 property. Line height and letter spacing use browser defaults unless a future
 role has a concrete reason to override them.
 
+Handwritten CSS and SCSS must not declare numeric `font-size` values or numeric
+`font` shorthands. Use a generated typography role mixin or a semantic size
+token; the token-contract lint rejects raw `px`, `rem`, and `em` typography.
+
 Open Sans is the only website heading/body family. Roundabout is
 demonstration-only and appears solely on the Fonts foundation page. 4pixel is
 reserved for its demonstration and compact technical details: the 5px
 `overline` role is used by the version watermark and similarly technical labels.
+Storybook's manager and Docs interface use Open Sans for UI text and the
+`typography.code` role for 14px bold Courier New code and technical metadata.
 Text links use the primary white text token in default and hover states. The
 version Git-hash link explicitly retains the 4pixel family and a persistent 1px
 solid underline so it reads as a technical link without relying on color.
@@ -254,7 +351,9 @@ requiring another semantic size name. For example,
 - `shape.corner-radius.*`: none, small, base, full. Every radius currently
   resolves to `0px`, giving the website, native Drupal output, and Storybook a
   shared square-corner visual language while keeping semantic consumer names
-  stable.
+  stable. Avatar owns a local `9999px` identity-image radius; Select Input owns
+  a local 50% radius only for its transient 36px hover indicator inside the
+  otherwise square 40px suffix target.
 - `shape.border-width.*`: hairline-default, thick-default.
 
 ### Canvas shape language

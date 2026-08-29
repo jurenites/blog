@@ -4,6 +4,25 @@ Keep the first content model universal. Do not overfit each project into many cu
 
 Rule: create fields only when Drupal needs to sort, filter, reference, render, or query the value. If the value is mostly storytelling, keep it in `Body`.
 
+## Basic Page
+
+Purpose: stable site pages such as About and Contact.
+
+The native Title remains the canonical page title and the first strong segment
+of the Two-tone Heading component. One compound `field_two_tone_heading` field
+stores these optional, translatable properties:
+
+- Title 2 (`soft_text`)
+- Title 3 (`trailing_text`)
+- Title 2 placement (`inline` or `new-line`)
+- Title 3 placement (`inline` or `new-line`)
+
+The field uses typed database columns rather than serialized JSON. This keeps
+Drupal validation, translation, revisions, and future migrations available
+without creating one field definition and field table per component control.
+The public Basic page title is always rendered as `h1`; heading level belongs to
+the rendering context, not to author-entered content.
+
 ## Timeline Event
 
 Purpose: turn the CV into an interactive timeline with bookmarks. A timeline event can describe a job, project phase, release, skill shift, or important professional moment.

@@ -8,7 +8,7 @@ html {
   background: var(--theme-dark-surface-background-page);
 }
 
-body {
+body.jurenites-theme {
   min-height: 100vh;
   margin: 0;
   background: var(--theme-dark-surface-background-page);
@@ -16,28 +16,36 @@ body {
   @include tools.typography-body;
 }
 
-body.path-frontpage {
+body.jurenites-theme.path-frontpage {
   overflow-x: hidden;
 }
 
-a {
+body.jurenites-theme .gin-secondary-toolbar {
+  display: none !important;
+}
+
+body.jurenites-theme a {
   color: var(--theme-dark-text-primary-default);
   text-decoration: underline;
   @include tools.typography-link;
   @include tools.motion-transition(color);
 }
 
-a:hover {
+body.jurenites-theme a:hover {
   color: var(--theme-dark-text-primary-default);
 }
 
-a:focus-visible,
-button:focus-visible {
+body.jurenites-theme a:focus-visible,
+body.jurenites-theme button:focus-visible {
   @include tools.focus-ring;
 }
 
 .visually-hidden {
   @include tools.visually-hidden;
+}
+
+.hidden {
+  display: none !important;
 }
 
 // Skip link: hidden until Tab, then a real in-page link to #main-content.
@@ -58,13 +66,5 @@ button:focus-visible {
   z-index: 1;
   max-width: var(--layout-container-max-desktop-default);
   margin: 0 auto;
-  padding: var(--layout-gutter-desktop-default);
-}
-
-#block-jurenites-theme-site-branding .site-logo img {
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: var(--component-site-branding-logo-size-default);
-  max-height: var(--component-site-branding-logo-size-default);
+  //padding: var(--layout-gutter-desktop-default);
 }

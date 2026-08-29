@@ -1,0 +1,8 @@
+{# Shared page title, optionally rendered through the Two-tone Heading atom. #}
+{{ title_prefix }}
+{% if two_tone_heading %}
+  {{ two_tone_heading }}
+{% elseif title %}
+  <h1{{ title_attributes }}>{{ title }}</h1>
+{% endif %}
+{{ title_suffix }}

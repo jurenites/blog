@@ -1,19 +1,17 @@
 <div class="jurenites-front-page">
   <div class="layout-container">
-    <a href="#main-content" class="skip-to-content button button--primary">
-      {{ 'Skip to main content'|t }}
-    </a>
+    {% include '@jurenites_theme/components/site-header.html.twig' with {
+      site_branding: site_branding,
+      main_navigation: main_navigation,
+      language_options: language_options,
+    } only %}
 
     {% if page.header %}
-      <header role="banner">
-        {{ page.header }}
-      </header>
+      {{ page.header }}
     {% endif %}
 
     {% if page.primary_menu %}
-      <nav role="navigation" aria-label="{{ 'Primary menu'|t }}">
-        {{ page.primary_menu }}
-      </nav>
+      {{ page.primary_menu }}
     {% endif %}
 
     {# Skip-link target: keep id on <main>, never use an <a> without href. #}

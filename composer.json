@@ -34,6 +34,7 @@
         "drupal/core-recipe-unpack": "^11.3",
         "drupal/core-recommended": "^11.3",
         "drupal/gin": "^5.0",
+        "drupal/google_tag": "^2.0",
         "drupal/image_blurry_placeholder": "^1.2",
         "drupal/image_compare": "^1.0",
         "drupal/paragraphs": "^1.22",

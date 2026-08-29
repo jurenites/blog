@@ -330,10 +330,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "brand primary accent",
-    "source_value": "#44BBBB",
-    "value": "#44BBBB",
-    "css_value": "#44BBBB",
-    "resolved_css_value": "#44BBBB",
+    "source_value": "#F1F5F9",
+    "value": "#F1F5F9",
+    "css_value": "#F1F5F9",
+    "resolved_css_value": "#F1F5F9",
     "is_reference": false,
     "reference_name": null
   },
@@ -619,12 +619,12 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "",
-    "source_value": "{color.palette.dark-black}",
-    "value": "#020618",
-    "css_value": "var(--color-palette-dark-black)",
-    "resolved_css_value": "#020618",
+    "source_value": "{color.palette.black}",
+    "value": "#0F172B",
+    "css_value": "var(--color-palette-black)",
+    "resolved_css_value": "#0F172B",
     "is_reference": true,
-    "reference_name": "color-palette-dark-black"
+    "reference_name": "color-palette-black"
   },
   {
     "name": "theme-dark-surface-background-elevation-level-0",
@@ -695,6 +695,40 @@ export const TOKEN_RECORDS = [
     "reference_name": "color-palette-light-white"
   },
   {
+    "name": "theme-dark-text-light",
+    "path": [
+      "theme",
+      "dark",
+      "text",
+      "light"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "{color.palette.light-white}",
+    "value": "#F1F5F9",
+    "css_value": "var(--color-palette-light-white)",
+    "resolved_css_value": "#F1F5F9",
+    "is_reference": true,
+    "reference_name": "color-palette-light-white"
+  },
+  {
+    "name": "theme-dark-text-gray",
+    "path": [
+      "theme",
+      "dark",
+      "text",
+      "gray"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "{color.palette.gray}",
+    "value": "#62748E",
+    "css_value": "var(--color-palette-gray)",
+    "resolved_css_value": "#62748E",
+    "is_reference": true,
+    "reference_name": "color-palette-gray"
+  },
+  {
     "name": "theme-dark-text-inverse-default",
     "path": [
       "theme",
@@ -756,9 +790,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{color.palette.brand-primary-accent}",
-    "value": "#44BBBB",
+    "value": "#F1F5F9",
     "css_value": "var(--color-palette-brand-primary-accent)",
-    "resolved_css_value": "#44BBBB",
+    "resolved_css_value": "#F1F5F9",
     "is_reference": true,
     "reference_name": "color-palette-brand-primary-accent"
   },
@@ -841,9 +875,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{color.palette.brand-primary-accent}",
-    "value": "#44BBBB",
+    "value": "#F1F5F9",
     "css_value": "var(--color-palette-brand-primary-accent)",
-    "resolved_css_value": "#44BBBB",
+    "resolved_css_value": "#F1F5F9",
     "is_reference": true,
     "reference_name": "color-palette-brand-primary-accent"
   },
@@ -1163,6 +1197,30 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "typography-font-family-code",
+    "path": [
+      "typography",
+      "font-family",
+      "code"
+    ],
+    "type": "fontFamily",
+    "description": "Bold code text in Storybook.",
+    "source_value": [
+      "Courier New",
+      "Courier",
+      "monospace"
+    ],
+    "value": [
+      "Courier New",
+      "Courier",
+      "monospace"
+    ],
+    "css_value": "\"Courier New\", \"Courier\", monospace",
+    "resolved_css_value": "\"Courier New\", \"Courier\", monospace",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "typography-font-family-roundabout",
     "path": [
       "typography",
@@ -1209,13 +1267,58 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "typography-headline-1",
+    "path": [
+      "typography",
+      "headline-1"
+    ],
+    "type": "string",
+    "description": "<h1>",
+    "source_value": "600 96px var(--typography-font-family-sans)",
+    "value": "600 96px var(--typography-font-family-sans)",
+    "css_value": "600 96px var(--typography-font-family-sans)",
+    "resolved_css_value": "600 96px var(--typography-font-family-sans)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "typography-headline-2",
+    "path": [
+      "typography",
+      "headline-2"
+    ],
+    "type": "string",
+    "description": "<h2>",
+    "source_value": "600 64px var(--typography-font-family-sans)",
+    "value": "600 64px var(--typography-font-family-sans)",
+    "css_value": "600 64px var(--typography-font-family-sans)",
+    "resolved_css_value": "600 64px var(--typography-font-family-sans)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "typography-headline-3",
+    "path": [
+      "typography",
+      "headline-3"
+    ],
+    "type": "string",
+    "description": "<h3>",
+    "source_value": "600 40px var(--typography-font-family-sans)",
+    "value": "600 40px var(--typography-font-family-sans)",
+    "css_value": "600 40px var(--typography-font-family-sans)",
+    "resolved_css_value": "600 40px var(--typography-font-family-sans)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "typography-headline-4",
     "path": [
       "typography",
       "headline-4"
     ],
     "type": "string",
-    "description": "",
+    "description": "<h4>",
     "source_value": "600 32px var(--typography-font-family-sans)",
     "value": "600 32px var(--typography-font-family-sans)",
     "css_value": "600 32px var(--typography-font-family-sans)",
@@ -1230,7 +1333,7 @@ export const TOKEN_RECORDS = [
       "headline-5"
     ],
     "type": "string",
-    "description": "",
+    "description": "<h5>",
     "source_value": "24px var(--typography-font-family-sans)",
     "value": "24px var(--typography-font-family-sans)",
     "css_value": "24px var(--typography-font-family-sans)",
@@ -1245,7 +1348,7 @@ export const TOKEN_RECORDS = [
       "headline-6"
     ],
     "type": "string",
-    "description": "",
+    "description": "<h6>",
     "source_value": "20px var(--typography-font-family-sans)",
     "value": "20px var(--typography-font-family-sans)",
     "css_value": "20px var(--typography-font-family-sans)",
@@ -1276,10 +1379,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "600 16px var(--typography-font-family-sans)",
-    "value": "600 16px var(--typography-font-family-sans)",
-    "css_value": "600 16px var(--typography-font-family-sans)",
-    "resolved_css_value": "600 16px var(--typography-font-family-sans)",
+    "source_value": "600 14px var(--typography-font-family-sans)",
+    "value": "600 14px var(--typography-font-family-sans)",
+    "css_value": "600 14px var(--typography-font-family-sans)",
+    "resolved_css_value": "600 14px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1314,6 +1417,21 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "typography-body-2",
+    "path": [
+      "typography",
+      "body-2"
+    ],
+    "type": "string",
+    "description": "Compact supporting copy in cards and dense UI; full article body remains on body.",
+    "source_value": "14px var(--typography-font-family-sans)",
+    "value": "14px var(--typography-font-family-sans)",
+    "css_value": "14px var(--typography-font-family-sans)",
+    "resolved_css_value": "14px var(--typography-font-family-sans)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "typography-link",
     "path": [
       "typography",
@@ -1321,10 +1439,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "Components add the required underline separately.",
-    "source_value": "600 16px var(--typography-font-family-sans)",
-    "value": "600 16px var(--typography-font-family-sans)",
-    "css_value": "600 16px var(--typography-font-family-sans)",
-    "resolved_css_value": "600 16px var(--typography-font-family-sans)",
+    "source_value": "16px var(--typography-font-family-sans)",
+    "value": "16px var(--typography-font-family-sans)",
+    "css_value": "16px var(--typography-font-family-sans)",
+    "resolved_css_value": "16px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1340,6 +1458,36 @@ export const TOKEN_RECORDS = [
     "value": "14px var(--typography-font-family-sans)",
     "css_value": "14px var(--typography-font-family-sans)",
     "resolved_css_value": "14px var(--typography-font-family-sans)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "typography-code",
+    "path": [
+      "typography",
+      "code"
+    ],
+    "type": "string",
+    "description": "Storybook code and technical metadata.",
+    "source_value": "700 14px var(--typography-font-family-code)",
+    "value": "700 14px var(--typography-font-family-code)",
+    "css_value": "700 14px var(--typography-font-family-code)",
+    "resolved_css_value": "700 14px var(--typography-font-family-code)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "typography-badge",
+    "path": [
+      "typography",
+      "badge"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "12px var(--typography-font-family-sans)",
+    "value": "12px var(--typography-font-family-sans)",
+    "css_value": "12px var(--typography-font-family-sans)",
+    "resolved_css_value": "12px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1927,34 +2075,18 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "layout-article-teaser-padding-block-default",
+    "name": "component-article-teaser-shadow-hover-default",
     "path": [
-      "layout",
+      "component",
       "article-teaser",
-      "padding-block-default"
+      "shadow-hover-default"
     ],
-    "type": "dimension",
-    "description": "Vertical distance between article teaser content and its boundary.",
-    "source_value": "24px",
-    "value": "24px",
-    "css_value": "24px",
-    "resolved_css_value": "24px",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "layout-article-teaser-thumbnail-max-width-default",
-    "path": [
-      "layout",
-      "article-teaser",
-      "thumbnail-max-width-default"
-    ],
-    "type": "dimension",
-    "description": "Matches Drupal core's medium image-style boundary used by Article teasers.",
-    "source_value": "220px",
-    "value": "220px",
-    "css_value": "220px",
-    "resolved_css_value": "220px",
+    "type": "string",
+    "description": "Square card hover shadow adapted from the Blog 47 reference.",
+    "source_value": "0px 1px 3px 0px #0000001A, 0px 4px 6px -1px #0000001A",
+    "value": "0px 1px 3px 0px #0000001A, 0px 4px 6px -1px #0000001A",
+    "css_value": "0px 1px 3px 0px #0000001A, 0px 4px 6px -1px #0000001A",
+    "resolved_css_value": "0px 1px 3px 0px #0000001A, 0px 4px 6px -1px #0000001A",
     "is_reference": false,
     "reference_name": null
   },
@@ -2018,12 +2150,12 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "",
-    "source_value": "{color.palette.light-white}",
-    "value": "#F1F5F9",
-    "css_value": "var(--color-palette-light-white)",
-    "resolved_css_value": "#F1F5F9",
+    "source_value": "{color.palette.light-gray}",
+    "value": "#90A1B9",
+    "css_value": "var(--color-palette-light-gray)",
+    "resolved_css_value": "#90A1B9",
     "is_reference": true,
-    "reference_name": "color-palette-light-white"
+    "reference_name": "color-palette-light-gray"
   },
   {
     "name": "component-watermark-layer-default",
@@ -2166,10 +2298,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "dimension",
     "description": "Default maximum width for a standalone text input.",
-    "source_value": "320px",
-    "value": "320px",
-    "css_value": "320px",
-    "resolved_css_value": "320px",
+    "source_value": "400px",
+    "value": "400px",
+    "css_value": "400px",
+    "resolved_css_value": "400px",
     "is_reference": false,
     "reference_name": null
   },
@@ -2183,10 +2315,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "dimension",
     "description": "Half of the default text input width.",
-    "source_value": "160px",
-    "value": "160px",
-    "css_value": "160px",
-    "resolved_css_value": "160px",
+    "source_value": "200px",
+    "value": "200px",
+    "css_value": "200px",
+    "resolved_css_value": "200px",
     "is_reference": false,
     "reference_name": null
   },
@@ -2224,86 +2356,120 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "component-badge-color-status-success-default",
+    "name": "component-badge-color-background-neutral-default",
     "path": [
       "component",
       "badge",
       "color",
-      "status-success-default"
+      "background-neutral-default"
     ],
     "type": "color",
     "description": "",
-    "source_value": "{theme.dark.system.success}",
-    "value": "#4F9D69",
-    "css_value": "var(--theme-dark-system-success)",
-    "resolved_css_value": "#4F9D69",
+    "source_value": "{color.palette.light-black}",
+    "value": "#1D293D",
+    "css_value": "var(--color-palette-light-black)",
+    "resolved_css_value": "#1D293D",
     "is_reference": true,
-    "reference_name": "theme-dark-system-success"
+    "reference_name": "color-palette-light-black"
   },
   {
-    "name": "component-badge-color-status-warning-default",
+    "name": "component-badge-color-foreground-neutral-default",
     "path": [
       "component",
       "badge",
       "color",
-      "status-warning-default"
+      "foreground-neutral-default"
     ],
     "type": "color",
     "description": "",
-    "source_value": "{theme.dark.system.warning}",
-    "value": "#B6974B",
-    "css_value": "var(--theme-dark-system-warning)",
-    "resolved_css_value": "#B6974B",
+    "source_value": "{color.palette.white}",
+    "value": "#F8FAFC",
+    "css_value": "var(--color-palette-white)",
+    "resolved_css_value": "#F8FAFC",
     "is_reference": true,
-    "reference_name": "theme-dark-system-warning"
+    "reference_name": "color-palette-white"
   },
   {
-    "name": "component-badge-color-status-error-default",
+    "name": "component-badge-color-background-gray-default",
     "path": [
       "component",
       "badge",
       "color",
-      "status-error-default"
+      "background-gray-default"
     ],
     "type": "color",
     "description": "",
-    "source_value": "{theme.dark.system.error}",
-    "value": "#C5524A",
-    "css_value": "var(--theme-dark-system-error)",
-    "resolved_css_value": "#C5524A",
+    "source_value": "{color.palette.gray}",
+    "value": "#62748E",
+    "css_value": "var(--color-palette-gray)",
+    "resolved_css_value": "#62748E",
     "is_reference": true,
-    "reference_name": "theme-dark-system-error"
+    "reference_name": "color-palette-gray"
   },
   {
-    "name": "component-badge-color-status-information-default",
+    "name": "component-badge-color-foreground-gray-default",
     "path": [
       "component",
       "badge",
       "color",
-      "status-information-default"
+      "foreground-gray-default"
     ],
     "type": "color",
     "description": "",
-    "source_value": "{theme.dark.brand.primary}",
-    "value": "#66FFFF",
-    "css_value": "var(--theme-dark-brand-primary)",
-    "resolved_css_value": "#66FFFF",
+    "source_value": "{color.palette.white}",
+    "value": "#F8FAFC",
+    "css_value": "var(--color-palette-white)",
+    "resolved_css_value": "#F8FAFC",
     "is_reference": true,
-    "reference_name": "theme-dark-brand-primary"
+    "reference_name": "color-palette-white"
   },
   {
-    "name": "component-badge-default-status",
+    "name": "component-badge-color-background-white-default",
     "path": [
       "component",
       "badge",
-      "default-status"
+      "color",
+      "background-white-default"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "{color.palette.white}",
+    "value": "#F8FAFC",
+    "css_value": "var(--color-palette-white)",
+    "resolved_css_value": "#F8FAFC",
+    "is_reference": true,
+    "reference_name": "color-palette-white"
+  },
+  {
+    "name": "component-badge-color-foreground-white-default",
+    "path": [
+      "component",
+      "badge",
+      "color",
+      "foreground-white-default"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "{color.palette.full-black}",
+    "value": "#000000",
+    "css_value": "var(--color-palette-full-black)",
+    "resolved_css_value": "#000000",
+    "is_reference": true,
+    "reference_name": "color-palette-full-black"
+  },
+  {
+    "name": "component-badge-default-variant",
+    "path": [
+      "component",
+      "badge",
+      "default-variant"
     ],
     "type": "string",
     "description": "",
-    "source_value": "success",
-    "value": "success",
-    "css_value": "success",
-    "resolved_css_value": "success",
+    "source_value": "neutral",
+    "value": "neutral",
+    "css_value": "neutral",
+    "resolved_css_value": "neutral",
     "is_reference": false,
     "reference_name": null
   },

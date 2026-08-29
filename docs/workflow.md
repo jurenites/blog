@@ -65,8 +65,8 @@ Storybook is the place to prove component behavior before Drupal integration. It
 Stories are organised by Atomic Design: `Foundations`, `Atoms`, `Molecules`, `Organisms`, `Components`. Each component has exactly one story; property combinations are explored via the Controls tab.
 
 Current Foundations: Colors, Color Abstraction, Color Contrast, Typography,
-Typography Mapping, Fonts, and Spacing. Their JS reads `generated/token/tokens.js`; their styles
-read `generated/styles/_tokens.scss`.
+Fonts, and Spacing. Their JS reads `generated/token/tokens.js`; their styles read
+`generated/styles/_tokens.scss`.
 
 Current Atoms: Avatar, Badge, Button, Chip, Date Value, Divider, Surface,
 Version Watermark.
@@ -74,7 +74,7 @@ Version Watermark.
 Current Molecules: Article Teaser, Author Byline, Contact Me Widget, Pagination,
 Project Card, Pull Quote.
 
-Current Organisms: Site Header.
+Current Organisms: Top Nav Menu Site Header.
 
 Pagination shares one BEM class contract between its Storybook markup helper and
 Drupal's `templates/navigation/pager.html.twig` override. At the token-defined

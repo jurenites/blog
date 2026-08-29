@@ -1,0 +1,10 @@
+{#
+/**
+ * @file
+ * Native image markup with Avatar dimensions delegated to component SCSS.
+ */
+#}
+{% if attributes.hasClass('avatar__uploaded-image') %}
+  {% set attributes = attributes.removeAttribute('width').removeAttribute('height') %}
+{% endif %}
+<img{{ attributes }} />

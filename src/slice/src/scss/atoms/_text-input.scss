@@ -14,7 +14,7 @@
 .text-input__label {
   flex: 0 0 100%;
   color: var(--theme-dark-text-primary-default);
-  @include tools.typography-subtitle-2;
+  @include tools.typography-caption;
 }
 
 // Drupal renders text and password fields with `.form-text`. Keep that native
@@ -38,6 +38,11 @@
 
 .form-text {
   max-width: var(--component-text-input-width-full);
+}
+
+.form-element--type-text,
+.form-element--type-password {
+  min-width: var(--component-text-input-width-full);
 }
 
 .text-input--width-half .text-input__control {

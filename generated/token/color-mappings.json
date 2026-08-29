@@ -54,7 +54,7 @@
     },
     "--color-palette-brand-primary-accent": {
       "display_name": "brand primary accent",
-      "value": "#44BBBB"
+      "value": "#F1F5F9"
     },
     "--color-palette-brand-primary": {
       "display_name": "brand primary",
@@ -126,11 +126,13 @@
     }
   },
   "theme_to_palette": {
-    "--theme-dark-surface-background-page": "var(--color-palette-dark-black)",
+    "--theme-dark-surface-background-page": "var(--color-palette-black)",
     "--theme-dark-surface-background-elevation-level-0": "var(--color-palette-black)",
     "--theme-dark-surface-background-elevation-level-1": "var(--color-palette-light-black)",
     "--theme-dark-text-primary-default": "var(--color-palette-white)",
     "--theme-dark-text-secondary-default": "var(--color-palette-light-white)",
+    "--theme-dark-text-light": "var(--color-palette-light-white)",
+    "--theme-dark-text-gray": "var(--color-palette-gray)",
     "--theme-dark-text-inverse-default": "var(--color-palette-full-black)",
     "--theme-dark-text-error-default": "var(--color-palette-system-error-accent)",
     "--theme-dark-action-primary-default": "var(--color-palette-brand-primary)",
@@ -161,10 +163,12 @@
   "component_mappings": {
     "--component-form-field-color-validation-error-default": "var(--theme-dark-system-error-accent)",
     "--component-watermark-color-identity-default": "var(--color-palette-full-white)",
-    "--component-watermark-color-credit-default": "var(--color-palette-light-white)",
-    "--component-badge-color-status-success-default": "var(--theme-dark-system-success)",
-    "--component-badge-color-status-warning-default": "var(--theme-dark-system-warning)",
-    "--component-badge-color-status-error-default": "var(--theme-dark-system-error)",
-    "--component-badge-color-status-information-default": "var(--theme-dark-brand-primary)"
+    "--component-watermark-color-credit-default": "var(--color-palette-light-gray)",
+    "--component-badge-color-background-neutral-default": "var(--color-palette-light-black)",
+    "--component-badge-color-foreground-neutral-default": "var(--color-palette-white)",
+    "--component-badge-color-background-gray-default": "var(--color-palette-gray)",
+    "--component-badge-color-foreground-gray-default": "var(--color-palette-white)",
+    "--component-badge-color-background-white-default": "var(--color-palette-white)",
+    "--component-badge-color-foreground-white-default": "var(--color-palette-full-black)"
   }
 }

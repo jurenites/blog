@@ -15,19 +15,19 @@
 ] %}
 
 <article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
-  {{ title_prefix }}
-  {% if label %}
-    <h2{{ title_attributes.addClass('article-teaser__title').setAttribute('style', 'view-transition-name: article-title-' ~ article_id) }}>
-      <a class="article-teaser__title-link" href="{{ url }}" rel="bookmark">{{ label }}</a>
-    </h2>
-  {% endif %}
-  {{ title_suffix }}
-
   {% if content.field_image %}
     <div class="article-teaser__media" style="view-transition-name: article-image-{{ article_id }}">
       {{ content.field_image }}
     </div>
   {% endif %}
+
+  {{ title_prefix }}
+  {% if label %}
+    <h3{{ title_attributes.addClass('article-teaser__title').setAttribute('style', 'view-transition-name: article-title-' ~ article_id) }}>
+      <a class="article-teaser__title-link" href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h3>
+  {% endif %}
+  {{ title_suffix }}
 
   <div{{ content_attributes.addClass('article-teaser__content') }}>
     {{ content|without('field_image') }}
@@ -35,8 +35,11 @@
 
   {% if display_submitted %}
     <footer class="article-teaser__meta">
-      {{ author_picture }}
-      <div{{ author_attributes }}>
+      {% include '@jurenites_theme/components/avatar.html.twig' with {
+        avatar_image: author_picture,
+        avatar_initials: author_initials,
+      } only %}
+      <div{{ author_attributes.addClass('article-teaser__meta-details') }}>
         {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
       </div>
     </footer>

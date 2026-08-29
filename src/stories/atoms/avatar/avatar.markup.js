@@ -9,11 +9,12 @@ export function avatar_markup({
 }) {
   const default_size = token_value("component-avatar-default-size");
   const avatar_modifier = avatar_size === default_size ? "" : ` avatar--${avatar_size}`;
-  const avatar_inner = image_url
-    ? `<img class="avatar__image" src="${escape_html(image_url)}" alt="" />`
-    : `<span class="avatar__initials">${escape_html(avatar_initials)}</span>`;
+  const avatar_image = image_url
+    ? `<div class="avatar__image" data-jurenites-avatar-image><img src="${escape_html(image_url)}" alt="" /></div>`
+    : "";
   return render_template(avatar_template, {
     class_name: avatar_modifier,
-    inner: avatar_inner,
+    avatar_initials: escape_html(avatar_initials),
+    avatar_image,
   });
 }

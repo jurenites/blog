@@ -13,28 +13,32 @@
   user-select: none;
   white-space: nowrap;
   @include tools.typography-overline;
-}
 
+  &__number,
+  &__credit_name{
+    color: var(--component-watermark-color-identity-default);
+  }
+  &__label,
+  &__separator,
+  &__updated-gmt,
+  &__credit {
+    color: var(--component-watermark-color-credit-default);
+  }
+
+  &__line {
+    display: inline-flex;
+    gap: var(--space-scale-two);
+    align-items: baseline;
+  }
+}
+/*
 .version-watermark--story-preview {
   position: absolute;
-}
-
-.version-watermark__identity {
-  display: inline-flex;
-  gap: var(--space-scale-two);
-  align-items: baseline;
-  color: var(--component-watermark-color-identity-default);
-}
-
-.version-git-hash,
-.version-watermark__updated-gmt,
-.version-watermark__credit {
-  color: var(--component-watermark-color-credit-default);
-}
+} */
 
 .version-git-hash {
   color: var(--theme-dark-text-primary-default);
-  font-family: var(--typography-font-family-4pixel);
+  font: var(--typography-overline) !important;
   text-decoration-line: underline;
   text-decoration-style: solid;
   text-decoration-thickness: 1px;

@@ -5,7 +5,8 @@ const VERSION_NUMBER = "0.0.39";
 const UPDATED_GMT = "2026-07-19 20:00:00 GMT+0";
 const GIT_HASH = "336c86c";
 const GIT_URL = "https://github.com/jurenites/blog/commit/336c86c254c2f7c20d22946547e00a48f0389c13";
-const CREDIT_TEXT = "made by Alexander Ilivanov & AI";
+const CREDIT_TEXT = "made by ";
+const CREDIT_COLLABORATORS = "Alexander Ilivanov & AI";
 
 function render_story(story_args) {
   return version_watermark_markup({
@@ -21,7 +22,7 @@ export default {
   parameters: {
     docs: {
       story: {
-        height: "158px",
+        //height: "158px",
         inline: false,
       },
     },
@@ -38,6 +39,10 @@ export default {
     credit_text: {
       control: "text",
       description: "Visible collaboration credit embedded in screenshots.",
+    },
+    credit_collaboration: {
+      control: "text",
+      description: "name of the Authors collaborators",
     },
     git_hash: {
       control: "text",
@@ -59,6 +64,7 @@ export default {
     git_hash: GIT_HASH,
     git_url: GIT_URL,
     credit_text: CREDIT_TEXT,
+    credit_collaboration: CREDIT_COLLABORATORS,
   },
 };
 

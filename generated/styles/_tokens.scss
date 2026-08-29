@@ -22,7 +22,7 @@
   --color-palette-light-white: #F1F5F9;
   --color-palette-white: #F8FAFC;
   --color-palette-full-white: #FFFFFF;
-  --color-palette-brand-primary-accent: #44BBBB;
+  --color-palette-brand-primary-accent: #F1F5F9;
   --color-palette-brand-primary: #66FFFF;
   --color-palette-brand-primary-soft: #AAFFFF;
   --color-palette-brand-secondary-accent: #BB44BB;
@@ -40,11 +40,13 @@
   --color-palette-system-warning-accent: #D3BD88;
   --color-palette-system-warning: #B6974B;
   --color-palette-system-warning-strong: #866F38;
-  --theme-dark-surface-background-page: var(--color-palette-dark-black);
+  --theme-dark-surface-background-page: var(--color-palette-black);
   --theme-dark-surface-background-elevation-level-0: var(--color-palette-black);
   --theme-dark-surface-background-elevation-level-1: var(--color-palette-light-black);
   --theme-dark-text-primary-default: var(--color-palette-white);
   --theme-dark-text-secondary-default: var(--color-palette-light-white);
+  --theme-dark-text-light: var(--color-palette-light-white);
+  --theme-dark-text-gray: var(--color-palette-gray);
   --theme-dark-text-inverse-default: var(--color-palette-full-black);
   --theme-dark-text-error-default: var(--color-palette-system-error-accent);
   --theme-dark-action-primary-default: var(--color-palette-brand-primary);
@@ -72,17 +74,24 @@
   --theme-dark-system-warning: var(--color-palette-system-warning);
   --theme-dark-system-warning-strong: var(--color-palette-system-warning-strong);
   --typography-font-family-sans: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
+  --typography-font-family-code: "Courier New", "Courier", monospace;
   --typography-font-family-roundabout: "Roundabout", "Open Sans", sans-serif;
   --typography-font-family-4pixel: "4pixel", monospace;
+  --typography-headline-1: 600 96px var(--typography-font-family-sans);
+  --typography-headline-2: 600 64px var(--typography-font-family-sans);
+  --typography-headline-3: 600 40px var(--typography-font-family-sans);
   --typography-headline-4: 600 32px var(--typography-font-family-sans);
   --typography-headline-5: 24px var(--typography-font-family-sans);
   --typography-headline-6: 20px var(--typography-font-family-sans);
   --typography-subtitle-1: 600 16px var(--typography-font-family-sans);
-  --typography-subtitle-2: 600 16px var(--typography-font-family-sans);
+  --typography-subtitle-2: 600 14px var(--typography-font-family-sans);
   --typography-eyebrow: 14px var(--typography-font-family-sans);
   --typography-body: 16px var(--typography-font-family-sans);
-  --typography-link: 600 16px var(--typography-font-family-sans);
+  --typography-body-2: 14px var(--typography-font-family-sans);
+  --typography-link: 16px var(--typography-font-family-sans);
   --typography-caption: 14px var(--typography-font-family-sans);
+  --typography-code: 700 14px var(--typography-font-family-code);
+  --typography-badge: 12px var(--typography-font-family-sans);
   --typography-overline: 5px var(--typography-font-family-4pixel);
   --space-scale-zero: 0px;
   --space-scale-one: 1px;
@@ -117,12 +126,11 @@
   --layout-gutter-mobile-default: 16px;
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
-  --layout-article-teaser-padding-block-default: 24px;
-  --layout-article-teaser-thumbnail-max-width-default: 220px;
+  --component-article-teaser-shadow-hover-default: 0px 1px 3px 0px #0000001A, 0px 4px 6px -1px #0000001A;
   --component-form-field-color-validation-error-default: var(--theme-dark-system-error-accent);
   --component-site-branding-logo-size-default: 64px;
   --component-watermark-color-identity-default: var(--color-palette-full-white);
-  --component-watermark-color-credit-default: var(--color-palette-light-white);
+  --component-watermark-color-credit-default: var(--color-palette-light-gray);
   --component-watermark-layer-default: 10000;
   --component-button-default-style: primary;
   --component-button-label-text-transform-default: uppercase;
@@ -131,15 +139,17 @@
   --component-button-style-ghost: inline;
   --component-text-input-default-width: full;
   --component-text-input-minimum-width-default: var(--component-text-input-width-quarter);
-  --component-text-input-width-full: 320px;
-  --component-text-input-width-half: 160px;
+  --component-text-input-width-full: 400px;
+  --component-text-input-width-half: 200px;
   --component-text-input-width-quarter: 80px;
   --component-content-layout-default-width: readable;
-  --component-badge-color-status-success-default: var(--theme-dark-system-success);
-  --component-badge-color-status-warning-default: var(--theme-dark-system-warning);
-  --component-badge-color-status-error-default: var(--theme-dark-system-error);
-  --component-badge-color-status-information-default: var(--theme-dark-brand-primary);
-  --component-badge-default-status: success;
+  --component-badge-color-background-neutral-default: var(--color-palette-light-black);
+  --component-badge-color-foreground-neutral-default: var(--color-palette-white);
+  --component-badge-color-background-gray-default: var(--color-palette-gray);
+  --component-badge-color-foreground-gray-default: var(--color-palette-white);
+  --component-badge-color-background-white-default: var(--color-palette-white);
+  --component-badge-color-foreground-white-default: var(--color-palette-full-black);
+  --component-badge-default-variant: neutral;
   --component-avatar-default-size: medium;
   --component-surface-default-variant: default;
   --component-date-value-default-mode: date-value;
@@ -184,6 +194,18 @@ $breakpoints: (
   }
 }
 
+@mixin typography-headline-1 {
+  font: var(--typography-headline-1);
+}
+
+@mixin typography-headline-2 {
+  font: var(--typography-headline-2);
+}
+
+@mixin typography-headline-3 {
+  font: var(--typography-headline-3);
+}
+
 @mixin typography-headline-4 {
   font: var(--typography-headline-4);
 }
@@ -212,6 +234,10 @@ $breakpoints: (
   font: var(--typography-body);
 }
 
+@mixin typography-body-2 {
+  font: var(--typography-body-2);
+}
+
 @mixin typography-link {
   font: var(--typography-link);
 }
@@ -220,8 +246,28 @@ $breakpoints: (
   font: var(--typography-caption);
 }
 
+@mixin typography-code {
+  font: var(--typography-code);
+}
+
+@mixin typography-badge {
+  font: var(--typography-badge);
+}
+
 @mixin typography-overline {
   font: var(--typography-overline);
+}
+
+.u-typography-headline-1 {
+  font: var(--typography-headline-1);
+}
+
+.u-typography-headline-2 {
+  font: var(--typography-headline-2);
+}
+
+.u-typography-headline-3 {
+  font: var(--typography-headline-3);
 }
 
 .u-typography-headline-4 {
@@ -252,12 +298,24 @@ $breakpoints: (
   font: var(--typography-body);
 }
 
+.u-typography-body-2 {
+  font: var(--typography-body-2);
+}
+
 .u-typography-link {
   font: var(--typography-link);
 }
 
 .u-typography-caption {
   font: var(--typography-caption);
+}
+
+.u-typography-code {
+  font: var(--typography-code);
+}
+
+.u-typography-badge {
+  font: var(--typography-badge);
 }
 
 .u-typography-overline {
@@ -552,6 +610,22 @@ $breakpoints: (
   color: var(--theme-dark-text-secondary-default);
 }
 
+.u-bg-theme-dark-text-light {
+  background: var(--theme-dark-text-light);
+}
+
+.u-color-theme-dark-text-light {
+  color: var(--theme-dark-text-light);
+}
+
+.u-bg-theme-dark-text-gray {
+  background: var(--theme-dark-text-gray);
+}
+
+.u-color-theme-dark-text-gray {
+  color: var(--theme-dark-text-gray);
+}
+
 .u-bg-theme-dark-text-inverse-default {
   background: var(--theme-dark-text-inverse-default);
 }
@@ -824,34 +898,50 @@ $breakpoints: (
   color: var(--component-watermark-color-credit-default);
 }
 
-.u-bg-component-badge-color-status-success-default {
-  background: var(--component-badge-color-status-success-default);
+.u-bg-component-badge-color-background-neutral-default {
+  background: var(--component-badge-color-background-neutral-default);
 }
 
-.u-color-component-badge-color-status-success-default {
-  color: var(--component-badge-color-status-success-default);
+.u-color-component-badge-color-background-neutral-default {
+  color: var(--component-badge-color-background-neutral-default);
 }
 
-.u-bg-component-badge-color-status-warning-default {
-  background: var(--component-badge-color-status-warning-default);
+.u-bg-component-badge-color-foreground-neutral-default {
+  background: var(--component-badge-color-foreground-neutral-default);
 }
 
-.u-color-component-badge-color-status-warning-default {
-  color: var(--component-badge-color-status-warning-default);
+.u-color-component-badge-color-foreground-neutral-default {
+  color: var(--component-badge-color-foreground-neutral-default);
 }
 
-.u-bg-component-badge-color-status-error-default {
-  background: var(--component-badge-color-status-error-default);
+.u-bg-component-badge-color-background-gray-default {
+  background: var(--component-badge-color-background-gray-default);
 }
 
-.u-color-component-badge-color-status-error-default {
-  color: var(--component-badge-color-status-error-default);
+.u-color-component-badge-color-background-gray-default {
+  color: var(--component-badge-color-background-gray-default);
 }
 
-.u-bg-component-badge-color-status-information-default {
-  background: var(--component-badge-color-status-information-default);
+.u-bg-component-badge-color-foreground-gray-default {
+  background: var(--component-badge-color-foreground-gray-default);
 }
 
-.u-color-component-badge-color-status-information-default {
-  color: var(--component-badge-color-status-information-default);
+.u-color-component-badge-color-foreground-gray-default {
+  color: var(--component-badge-color-foreground-gray-default);
+}
+
+.u-bg-component-badge-color-background-white-default {
+  background: var(--component-badge-color-background-white-default);
+}
+
+.u-color-component-badge-color-background-white-default {
+  color: var(--component-badge-color-background-white-default);
+}
+
+.u-bg-component-badge-color-foreground-white-default {
+  background: var(--component-badge-color-foreground-white-default);
+}
+
+.u-color-component-badge-color-foreground-white-default {
+  color: var(--component-badge-color-foreground-white-default);
 }

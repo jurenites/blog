@@ -1,0 +1,8 @@
+name: Jurenites Two-tone Heading
+type: module
+description: Provides typed storage, editing, and rendering for structured two-tone headings.
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:field
+  - drupal:node

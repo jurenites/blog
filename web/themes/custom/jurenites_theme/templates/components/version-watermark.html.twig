@@ -1,6 +1,6 @@
 {% if watermark_version_number %}
-  <div class="version-watermark">
-    <span class="version-watermark__identity">
+  <div class="version-watermark{{ watermark_visibility_class }}">
+    <span class="version-watermark__line">
       <span class="version-watermark__label">{{ watermark_version_label }}</span>
       <span class="version-watermark__number">{{ watermark_version_number }}</span>
       <span class="version-watermark__separator" aria-hidden="true">·</span>
@@ -8,6 +8,9 @@
       <span class="version-watermark__separator" aria-hidden="true">·</span>
       <a class="version-git-hash" href="{{ watermark_git_url }}" target="_blank" rel="noopener noreferrer">{{ watermark_git_hash }}</a>
     </span>
-    <span class="version-watermark__credit">{{ watermark_credit_text }}</span>
+    <span class="version-watermark__line">
+      <span class="version-watermark__credit">{{ watermark_credit_text }}</span>
+      <span class="version-watermark__credit_name">{{ watermark_credit_collaboration }}</span>
+    </span>
   </div>
 {% endif %}

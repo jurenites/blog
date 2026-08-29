@@ -1,0 +1,9 @@
+{% if items %}
+  <ul class="site-header__links">
+    {% for menu_item in items %}
+      <li class="site-header__item">
+        {{ link(menu_item.title, menu_item.url, { 'class': ['site-header__link'] }) }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}

@@ -3,6 +3,10 @@
 import "../src/slice/src/scss/main.scss";
 import "../src/styles/storybook.scss";
 import { TOKEN_VALUES } from "../generated/token/tokens.js";
+import {
+  initialize_avatar_images,
+  initialize_custom_selects,
+} from "../src/slice/src/js/script.js";
 
 function token_dimension(token_name) {
   return TOKEN_VALUES[token_name];
@@ -56,3 +60,15 @@ export const parameters = {
     },
   },
 };
+
+export const decorators = [
+  (story_render) => {
+    document.body.classList.add("jurenites-theme");
+    const story_output = story_render();
+    window.requestAnimationFrame(() => {
+      initialize_avatar_images(document);
+      initialize_custom_selects(document);
+    });
+    return story_output;
+  },
+];

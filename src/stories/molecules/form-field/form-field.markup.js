@@ -1,6 +1,7 @@
 import form_field_template from "./form-field.template.html?raw";
 import form_field_group_template from "./form-field-group.template.html?raw";
 import { escape_html, render_template } from "../../template.js";
+import { select_input_markup } from "../../atoms/select-input/select-input.markup.js";
 
 const GROUP_CONTROL_NAMES = new Set(["radio-group", "checkbox-group", "choice-chips"]);
 
@@ -81,20 +82,20 @@ function standard_control_markup({
   const escaped_id = escape_html(field_id);
   const escaped_name = escape_html(field_name);
   const escaped_placeholder = escape_html(field_placeholder);
-  const selected_options = selected_value_set(selected_values);
 
   if (field_control === "textarea") {
     return `<textarea class="form-field__control form-field__control--textarea" id="${escaped_id}" name="${escaped_name}" rows="4" placeholder="${escaped_placeholder}" ${control_attributes}></textarea>`;
   }
 
   if (field_control === "select") {
-    const select_options = option_value_list(choice_options)
-      .map((choice_option) => {
-        const selected_attribute = selected_options.has(choice_option.toLowerCase()) ? " selected" : "";
-        return `<option value="${escape_html(choice_option.toLowerCase().replace(/[^a-z0-9]+/g, "-"))}"${selected_attribute}>${escape_html(choice_option)}</option>`;
-      })
-      .join("");
-    return `<select class="form-field__control form-field__control--select" id="${escaped_id}" name="${escaped_name}" ${control_attributes}>${select_options}</select>`;
+    return select_input_markup({
+      field_id,
+      field_name,
+      option_items: option_value_list(choice_options),
+      selected_value: selected_values,
+      native_class_names: "form-field__control form-field__control--select",
+      accessibility_attributes: control_attributes,
+    });
   }
 
   if (field_control === "file-upload") {

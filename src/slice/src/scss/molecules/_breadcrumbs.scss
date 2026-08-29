@@ -3,8 +3,22 @@
 @use "../tools";
 
 .breadcrumbs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-scale-base-gap);
   color: var(--theme-dark-text-secondary-default);
   @include tools.typography-caption;
+}
+
+.breadcrumbs__back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--space-scale-base-gap) * 0.5);
+}
+
+.breadcrumbs__back-icon {
+  color: inherit;
 }
 
 .breadcrumbs__list {
@@ -27,7 +41,9 @@
   color: var(--theme-dark-border-outline-default);
 }
 
+.breadcrumbs__back-link,
 .breadcrumbs__link {
+  @include tools.typography-caption;
   color: var(--theme-dark-text-primary-default);
   text-decoration: underline;
   text-decoration-color: var(--theme-dark-border-outline-default);
@@ -35,18 +51,20 @@
   @include tools.motion-transition(color, text-decoration-color);
 }
 
+.breadcrumbs__back-link:hover,
 .breadcrumbs__link:hover {
   color: var(--theme-dark-text-primary-default);
   text-decoration-color: currentColor;
 }
 
+.breadcrumbs__back-link:focus-visible,
 .breadcrumbs__link:focus-visible {
   @include tools.focus-ring;
 }
 
 .breadcrumbs__current {
   overflow: hidden;
-  color: var(--theme-dark-text-primary-default);
+  color: var(--theme-dark-text-secondary-default);
   text-overflow: ellipsis;
   white-space: nowrap;
 }

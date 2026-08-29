@@ -1,14 +1,16 @@
 // Atom: Avatar. Circular image or initials. Sizes map to interactive-size tokens.
+// The local 9999px radius is the deliberate exception to the site's square-corner language.
 
 @use "../tools";
 
 .avatar {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: calc(var(--space-scale-base-gap) * 5);
   height: calc(var(--space-scale-base-gap) * 5);
-  border-radius: var(--shape-corner-radius-full);
+  border-radius: 9999px;
   overflow: hidden;
   background: var(--theme-dark-surface-background-elevation-level-1);
   color: var(--theme-dark-text-primary-default);
@@ -16,9 +18,28 @@
 }
 
 .avatar__image {
+  position: absolute;
+  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
+}
+
+.avatar__image > *,
+.avatar__image div,
+.avatar__image a,
+.avatar__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.avatar__image img {
   object-fit: cover;
+}
+
+.avatar--image-failed .avatar__image {
+  display: none;
 }
 
 .avatar__initials {

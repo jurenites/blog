@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 0.0.64
-Reviewed: 2026-08-27
+Version: 0.0.83
+Reviewed: 2026-08-29
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -37,10 +37,13 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   implemented and verified.
 - Spacing tokens use semantic names, not numeric names, so values can change
   without renaming component code.
-- Typography uses ten one-line CSS `font` shorthand role tokens. Open Sans owns
-  website headings and body copy, Roundabout is demonstration-only, and 4pixel
-  is limited to demonstrations and compact technical details such as the
-  bottom-right version watermark.
+- Typography uses thirteen one-line CSS `font` shorthand role tokens. Open Sans owns
+  website headings, body copy, and the Storybook UI; bold Courier New owns
+  Storybook code text; Roundabout is demonstration-only; and 4pixel is limited
+  to demonstrations and compact technical details such as the bottom-right
+  version watermark.
+- Token lint rejects numeric `font-size` declarations and numeric handwritten
+  `font` shorthands so project typography must use roles or semantic tokens.
 - Storybook browser inspection is prepared through `npm run storybook:inspect`;
   install Playwright locally first with `npm install --save-dev playwright` and
   `npm run playwright:install`.
@@ -51,10 +54,25 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   previous arrow, current page, total pages, and next arrow.
 - Breadcrumbs use one class contract across Storybook, shared SCSS, and Drupal's
   breadcrumb override. Drupal appends the resolved current-page title to core's
-  ancestor links and marks that final item as the current page.
+  ancestor links and marks that final item as the current page. Full Articles
+  add a text Back link with a replaceable 24px, 1px-stroke left-arrow Icon Atom.
+  Named SVG geometry is stored in `src/public/assets/icons` and copied into the
+  deployable Drupal theme assets during the theme build. Breadcrumb links use
+  the caption typography role, while the current page uses the pale secondary
+  text role.
 - Content Layout provides one controlled Storybook composition for generic page
   and node shells, with token-backed readable and wide widths. Drupal's native
   `.layout-content` uses the readable width without requiring another wrapper.
+- Two-tone Heading defaults to `h3` and its 40px `headline-3` role, while other
+  selected heading levels inherit their matching base typography roles. Its
+  structured leading strong, soft, and trailing strong plain-text segments use
+  inline/new-line placement to support two colored lines and a soft phrase
+  between strong text without author-entered HTML or WYSIWYG markup.
+  Basic pages now use their native Title as the first strong segment and one
+  compound, translatable field for Title 2, Title 3, and both placement values.
+  The edit widget mirrors the component controls while the public page title is
+  fixed semantically at `h1`; no JSON settings blob or separate field per control
+  is required.
 - Drupal's `/blog` path gives its native `.layout-content` an 800px token-backed
   maximum width while standard page and node content remains at 720px.
 - Blog-list thumbnails preserve the intrinsic `<img>` aspect ratio and zoom to
@@ -62,14 +80,45 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   suppressed for reduced-motion users.
 - All semantic corner-radius tokens resolve to `0px`; project-owned hardcoded
   circular preview styles also use the zero-radius token so Drupal and
-  Storybook consistently render square corners.
+  Storybook consistently render square corners. Avatar owns its circular
+  `9999px` radius locally, while Select Input uses a local 50% radius only for
+  the requested transient 36px hover indicator inside its square suffix target.
 - Article teasers and full Article pages use node-unique cross-document View
   Transition names for the title and lead image. Drupal navigation and rendering
   stay native, with normal-navigation and reduced-motion fallbacks.
+- Article Teaser is now a square-corner, bordered editorial card with 16:9 media
+  and a 150ms token-backed hover/focus shadow increase. Storybook documents a
+  three-tile composition, and the Drupal Blog View uses the same responsive grid.
+  The entire card uses a pointer cursor, and whole-card hover/focus grows its
+  clipped image to 105%. Design provenance is documented against the original
+  Shadcnblocks Blog 47 page.
+  Teaser titles use semantic `<h3>` markup with the 16px semibold `subtitle-1`
+  role; teaser excerpts use the new 14px `body-2` role, while full Article body
+  copy remains on the 16px `body` role.
+- Article teaser metadata composes Avatar in Storybook and Drupal. Its Uploaded
+  image state falls back to initials when the image fails, while Drupal passes
+  its native compact-user `author_picture` render array into the shared shell.
+  The Avatar removes the inaccessible user-profile link and owns displayed
+  image sizing through its SCSS class rather than HTML dimension attributes.
+- Article body and tag fields use bundle-specific semantic templates; tag Chips
+  link to the Blog's validated single-tag GET filter using cleaned tag-label
+  slugs rather than internal IDs. Its selected state and clear action require no
+  exposed input or custom AJAX.
 - Form Field consolidates nine native control presentations into one Storybook
   page. Shared SCSS styles Drupal textareas, selects, checkboxes, radios, file
   uploads, descriptions, disabled states, and validation errors while retaining
-  native form markup.
+  native form markup. Shared and native form labels and legends use regular 14px,
+  font-weight-400 typography.
+- Select Input progressively enhances its native control in Storybook and
+  Drupal while retaining the native fallback. Its 40px trigger includes a 40px
+  suffix target, 24px one-stroke chevron, 36px circular hover state, and short
+  rotation transition. The custom listbox extends 4px past both trigger edges,
+  uses 40px minimum option rows, aligns value and option text, and visibly marks
+  the selected option.
+  The open menu now measures the visual viewport and trigger position whenever
+  it opens, scrolls, or resizes. It chooses below or above based on available
+  space and uses a bounded internal scroller when the full list fits on neither
+  side, preserving the 40px minimum option rows.
 - Media Loader provides a 16:9 video-upload placeholder with independent
   monochrome noise frames, progress, filename, and upload status. Its noise
   advances at 15 fps and freezes under reduced motion.
@@ -127,7 +176,13 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Storybook inspection discovers stories dynamically and checks both token-defined
   minimum mobile and desktop widths, including horizontal overflow as a failure.
 - Personal publishing components now include a composed Author Byline, editorial
-  Pull Quote, and responsive Site Header, each verified at the 360px minimum.
+  Pull Quote, and responsive Top Nav Menu Site Header, each verified at the 360px minimum.
+- Top Nav Menu Site Header uses the compact floating structure of Shadcnblocks Navbar 33:
+  the Drupal logo sits left, the native one-level Main navigation is centered,
+  and a flag-free `Eng`/`Rus` selector sits right. It preserves the current
+  route through Drupal language URLs, moves the compact navigation to a second
+  row on mobile, and hides Gin's secondary toolbar for authenticated
+  frontend users.
 - Blog discovery and retention patterns now include Breadcrumbs, Search Form,
   and Newsletter Signup, composed from a reusable labeled Text Input atom and
   verified without horizontal overflow at the 360px minimum.
@@ -162,13 +217,16 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - The two-image paginator's 4px Crossfade Dot is a shared Storybook/Drupal atom.
   Its inactive and active states remain dark gray and white, while hover adds a
   1px solid-white outline around the visible circle.
-- Badge and version labels reuse the 5px 4pixel Overline role for compact
-  technical/status detail.
+- Badge uses the 12px Open Sans badge role and exactly three neutral-tone color
+  variants: neutral, gray, and white. Version labels retain the 5px 4pixel
+  Overline role for compact technical detail.
 - Desktop and wide breakpoints are unified into one 1280-1920px desktop range.
   Centered content is capped at 1440px and wider screens remain background-only.
 - Native document headings and components reuse the concise typography roles;
   role mixins emit one `font` declaration instead of separate family, size,
   weight, line-height, and letter-spacing declarations.
+- Native `h3`, `h4`, `h5`, and `h6` elements map directly to the corresponding
+  `headline-3`, `headline-4`, `headline-5`, and `headline-6` roles.
 - The screenshot signature displays the shared project version, current
   UTC build update time to the second, seven-character Git hash, and collaboration
   credit with exact solid token colors in Drupal and the Storybook manager.
@@ -222,6 +280,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   overrides disabled. The browser tab uses the fixed inverted
   `favicon-admin.svg`, while the Gin Home toolbar link uses the public
   `favicon.svg` through the project-owned `jurenites_admin` module.
+- Frontend pages identify the active custom theme with a `jurenites-theme` body
+  class. Public link defaults are scoped to that class, while Gin navigation
+  uses Jurenites blue and blue-gray palette mappings and keeps 14px toolbar
+  link and button typography.
 - Drupal comment fields are globally forced closed. The project post-update
   closes existing comment-enabled content and changes every comment field's
   default, while the administration module prevents future saves from reopening

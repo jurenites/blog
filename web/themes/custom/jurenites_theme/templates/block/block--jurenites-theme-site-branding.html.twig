@@ -1,0 +1,7 @@
+{{ title_prefix }}
+{% if site_logo %}
+  <a class="site-header__brand" href="{{ path('<front>') }}" rel="home" aria-label="{{ 'Jurenites home'|t }}">
+    <img class="site-header__logo" src="{{ site_logo }}" alt="" fetchpriority="high" />
+  </a>
+{% endif %}
+{{ title_suffix }}

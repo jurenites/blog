@@ -3,6 +3,16 @@
 #}
 {% if breadcrumb %}
   <nav class="breadcrumbs" aria-label="{{ 'Breadcrumb'|t }}">
+    {% if article_back_url %}
+      <a class="breadcrumbs__back-link" href="{{ article_back_url }}" aria-label="{{ 'Back to Blog'|t }}" data-jurenites-article-back>
+        {% include '@jurenites_theme/components/icon.html.twig' with {
+          icon_name: 'arrow-left',
+          icon_class: 'breadcrumbs__back-icon',
+          icon_asset_base_url: icon_asset_base_url,
+        } only %}
+        <span>{{ 'Back'|t }}</span>
+      </a>
+    {% endif %}
     <ol class="breadcrumbs__list">
       {% for breadcrumb_item in breadcrumb %}
         <li class="breadcrumbs__item"{% if not breadcrumb_item.url %} aria-current="page"{% endif %}>

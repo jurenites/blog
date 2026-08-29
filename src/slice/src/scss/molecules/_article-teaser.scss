@@ -1,13 +1,26 @@
-// Molecule: Article Teaser. Eyebrow + linked title + excerpt + meta.
+// Molecule: Article Teaser. Square editorial card with media, title, excerpt, and meta.
 
 @use "../tools";
 
 .article-teaser {
   display: flex;
   flex-direction: column;
-  gap: var(--space-scale-base-gap);
-  padding: var(--layout-article-teaser-padding-block-default) 0;
-  border-bottom: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  gap: calc(var(--space-scale-base-gap) * 2);
+  min-width: 0;
+  min-height: 100%;
+  padding: calc(var(--space-scale-base-gap) * 3);
+  cursor: pointer;
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+  box-shadow: var(--elevation-shadow-level-0);
+  transition-property: box-shadow;
+  transition-duration: var(--motion-duration-short-default);
+  transition-timing-function: var(--motion-easing-standard-default);
+
+  &:hover,
+  &:focus-within {
+    box-shadow: var(--component-article-teaser-shadow-hover-default);
+  }
 
   &__eyebrow {
     @include tools.typography-eyebrow;
@@ -15,7 +28,7 @@
 
   &__title {
     margin: 0;
-    @include tools.typography-headline-5;
+    @include tools.typography-subtitle-1;
   }
 
   &__title-link {
@@ -28,49 +41,79 @@
   }
 
   &__media {
-    align-self: flex-start;
-    width: var(--layout-article-teaser-thumbnail-max-width-default);
-    max-width: 100%;
+    width: 100%;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
-    border-radius: var(--shape-corner-radius-base);
+    background: var(--theme-dark-surface-background-elevation-level-1);
   }
 
-  &__image-link {
+  &__image-link,
+  &__media .field,
+  &__media .field__item {
     display: block;
+    width: 100%;
+    height: 100%;
   }
 
   &__media img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     transform: scale(1);
     transform-origin: center;
     @include tools.motion-transition(transform);
   }
 
-  &__media:hover img {
-    transform: scale(1.2);
+  &:hover &__media img,
+  &:focus-within &__media img {
+    transform: scale(1.05);
   }
 
   &__excerpt,
   &__content .field--name-body p {
     margin: 0;
     color: var(--theme-dark-text-secondary-default);
-    @include tools.typography-body;
+    @include tools.typography-body-2;
   }
 
   &__meta {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: var(--space-scale-base-gap);
     color: var(--theme-dark-text-secondary-default);
     @include tools.typography-caption;
+    margin-top: auto;
+  }
+
+  &__meta-details {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-scale-base-gap);
+  }
+
+  &__author-name {
+    color: var(--theme-dark-text-primary-default);
   }
 
   &__published-date,
   &__reading-time {
     display: block;
+  }
+}
+
+.article-teaser-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: calc(var(--space-scale-base-gap) * 3);
+  align-items: stretch;
+  width: 100%;
+  max-width: var(--layout-content-max-wide-default);
+  margin-inline: auto;
+
+  &__item {
+    min-width: 0;
   }
 }
 
@@ -99,10 +142,65 @@
     color: var(--theme-dark-text-secondary-default);
     @include tools.typography-caption;
   }
+
+  &__body > :first-child {
+    margin-top: 0;
+  }
+
+  &__body p {
+    @include tools.typography-body;
+  }
+
+  &__body > :last-child {
+    margin-bottom: 0;
+  }
+
+}
+
+.article-tags {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-scale-base-gap);
+
+  &__label {
+    color: var(--theme-dark-text-secondary-default);
+    @include tools.typography-caption;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-scale-base-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.blog-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-scale-base-gap);
+
+  &__label {
+    color: var(--theme-dark-text-secondary-default);
+    @include tools.typography-caption;
+  }
+
+  &__clear-icon {
+    font-size: var(--system-icon-default-svg-viewport);
+    line-height: normal;
+  }
 }
 
 @view-transition {
   navigation: auto;
+}
+
+::view-transition {
+  background: var(--theme-dark-surface-background-page);
 }
 
 ::view-transition-group(*) {
@@ -116,9 +214,25 @@
   mix-blend-mode: normal;
 }
 
+// Swap the page itself immediately so Chrome's transparent root transition
+// cannot expose its default white canvas. Named article elements still animate.
+::view-transition-group(root) {
+  animation-duration: var(--motion-duration-instant-default);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .article-teaser {
+    transition-duration: var(--motion-duration-instant-default);
+  }
+
   .article-teaser__media img,
-  .article-teaser__media:hover img {
+  .article-teaser:hover .article-teaser__media img,
+  .article-teaser:focus-within .article-teaser__media img {
     transform: none;
     transition-duration: var(--motion-duration-instant-default);
   }

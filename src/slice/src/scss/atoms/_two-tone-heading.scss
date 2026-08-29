@@ -1,0 +1,12 @@
+// Atom: Two-tone Heading. Structured strong/soft title segments without rich text.
+
+.two-tone-heading {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--theme-dark-text-light);
+  text-wrap: balance;
+}
+
+.two-tone-heading__segment--soft {
+  color: var(--theme-dark-text-gray);
+}

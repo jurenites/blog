@@ -1,4 +1,3 @@
-// Foundations: concise CSS font shorthand roles from the token source.
 import typography_template from "./typography.template.html?raw";
 import type_row_template from "./type-row.template.html?raw";
 import { escape_html, render_template } from "../../template.js";
@@ -10,19 +9,24 @@ const DEFAULT_TEXT_COLOR = COLOR_OPTIONS.includes("theme-dark-text-primary-defau
   : COLOR_OPTIONS[0] || "theme-dark-text-primary-default";
 const TEXT_COLOR = DEFAULT_TEXT_COLOR;
 
-function row_markup(role_name, text_color) {
-  const font_shorthand = token_value(`typography-${role_name}`);
+function typography_row_markup(role_name, text_color) {
+  const token_name = `typography-${role_name}`;
+
   return render_template(type_row_template, {
+    role_name: escape_html(role_name),
+    token_name: escape_html(token_name),
     sample_class: escape_html(`u-typography-${role_name} u-color-${text_color}`),
-    sample: escape_html(`${role_name} - The quick brown fox`),
-    meta: escape_html(`${role_name} / ${font_shorthand}`),
+    sample_text: escape_html(role_name === "overline" ? "v0.1.10 · build" : "A personal journal about systems and craft"),
+    font_shorthand: escape_html(token_value(token_name)),
   });
 }
 
 function render_story(story_args) {
   const selected_color = COLOR_OPTIONS.includes(story_args.text_color) ? story_args.text_color : DEFAULT_TEXT_COLOR;
   return render_template(typography_template, {
-    rows: typography_role_names().map((role_name) => row_markup(role_name, selected_color)).join(""),
+    typography_rows: typography_role_names()
+      .map((role_name) => typography_row_markup(role_name, selected_color))
+      .join(""),
   });
 }
 

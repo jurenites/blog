@@ -1,0 +1,11 @@
+{# Three-column Blog grid using the shared Article Teaser card contract. #}
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+<div class="article-teaser-grid">
+  {% for row in rows %}
+    <div{{ row.attributes.addClass('article-teaser-grid__item') }}>
+      {{- row.content -}}
+    </div>
+  {% endfor %}
+</div>

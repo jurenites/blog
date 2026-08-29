@@ -5,14 +5,119 @@
  * Theme preprocess hooks for jurenites Theme.
  */
 
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Url;
 use Drupal\gin\GinNavigation;
 use Drupal\gin\GinSettings;
+use Drupal\jurenites_blog\TagSlugResolver;
+use Drupal\taxonomy\TermInterface;
+
+/**
+ * Composes the public header from Drupal's existing blocks and languages.
+ */
+function jurenites_theme_preprocess_page(array &$page_variables): void {
+  $site_branding_key = 'jurenites_theme_site_branding';
+  $main_navigation_key = 'jurenites_theme_main_menu';
+
+  $page_variables['site_branding'] = $page_variables['page']['header'][$site_branding_key] ?? [];
+  $page_variables['main_navigation'] = $page_variables['page']['primary_menu'][$main_navigation_key] ?? [];
+
+  unset(
+    $page_variables['page']['header'][$site_branding_key],
+    $page_variables['page']['primary_menu'][$main_navigation_key],
+  );
+
+  $current_language_id = \Drupal::languageManager()
+    ->getCurrentLanguage(LanguageInterface::TYPE_INTERFACE)
+    ->getId();
+  $current_route_name = \Drupal::service('path.matcher')->isFrontPage()
+    ? '<front>'
+    : '<current>';
+  $current_route_url = Url::fromRoute($current_route_name, [], [
+    'query' => \Drupal::request()->query->all(),
+  ]);
+  $language_labels = [
+    'en' => 'Eng',
+    'ru' => 'Rus',
+  ];
+  $page_variables['language_options'] = [];
+
+  foreach ($language_labels as $language_id => $language_label) {
+    $interface_language = \Drupal::languageManager()->getLanguage($language_id);
+    if (!$interface_language) {
+      continue;
+    }
+
+    $language_url = clone $current_route_url;
+    $language_url->setOption('language', $interface_language);
+    $page_variables['language_options'][] = [
+      'label' => $language_label,
+      'url' => $language_url->toString(),
+      'selected' => $language_id === $current_language_id,
+    ];
+  }
+}
+
+/**
+ * Adds the node owner's initials for the shared Avatar fallback.
+ */
+function jurenites_theme_preprocess_node(array &$node_variables): void {
+  $node_entity = $node_variables['node'];
+  if ($node_entity->bundle() !== 'article'
+    || ($node_variables['view_mode'] ?? '') !== 'teaser') {
+    return;
+  }
+
+  $owner_name = trim($node_entity->getOwner()->getDisplayName());
+  $author_initials_overrides = [
+    'jurenites' => 'AI',
+  ];
+
+  if (isset($author_initials_overrides[$owner_name])) {
+    $node_variables['author_initials'] = $author_initials_overrides[$owner_name];
+    return;
+  }
+
+  $name_parts = preg_split('/\s+/u', $owner_name, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+  $author_initials = '';
+
+  foreach (array_slice($name_parts, 0, 2) as $name_part) {
+    $author_initials .= mb_substr($name_part, 0, 1);
+  }
+
+  if (count($name_parts) === 1) {
+    $author_initials = mb_substr($name_parts[0], 0, 2);
+  }
+
+  $node_variables['author_initials'] = mb_strtoupper($author_initials);
+}
+
+/**
+ * Keeps compact author pictures visual rather than linking to user profiles.
+ */
+function jurenites_theme_preprocess_user(array &$user_variables): void {
+  if (($user_variables['elements']['#view_mode'] ?? '') !== 'compact'
+    || empty($user_variables['content']['user_picture'])) {
+    return;
+  }
+
+  foreach ($user_variables['content']['user_picture'] as &$picture_element) {
+    if (is_array($picture_element)) {
+      unset($picture_element['#url']);
+      $picture_element['#attributes']['class'][] = 'avatar__uploaded-image';
+    }
+  }
+}
 
 /**
  * Adds generated deployment identity to the global HTML template.
  */
 function jurenites_theme_preprocess_html(array &$html_variables): void {
+  $html_variables['attributes']['class'][] = 'jurenites-theme';
   $html_variables['admin_navigation'] = jurenites_theme_build_admin_navigation();
+  $deployment_environment = strtoupper(trim((string) (getenv('JURENITES_ENVIRONMENT') ?: ($_ENV['JURENITES_ENVIRONMENT'] ?? ''))));
+  $html_variables['watermark_visibility_class'] = $deployment_environment === 'DEV' ? '' : ' hidden';
   if ($html_variables['admin_navigation']) {
     unset($html_variables['page_top']['navigation']);
   }
@@ -39,21 +144,27 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
   $commit_url = $build_information['commit_url'] ?? '';
   $collaboration_credit = $build_information['collaboration_credit'] ?? 'Alexander';
   $created_gmt = $build_information['created_gmt'] ?? 'unknown GMT+0';
-  $html_variables['watermark_version_label'] = 'Version';
+  $html_variables['watermark_version_label'] = t('Version');
   $html_variables['watermark_version_number'] = $project_version;
   $html_variables['watermark_updated_gmt'] = $created_gmt;
   $html_variables['watermark_git_hash'] = $commit_hash;
   $html_variables['watermark_git_url'] = $commit_url;
-  $html_variables['watermark_credit_text'] = sprintf(
-    'made by %s',
-    $collaboration_credit,
-  );
+  $html_variables['watermark_credit_text'] = t('made by');
+  $html_variables['watermark_credit_collaboration'] = $collaboration_credit;
 }
 
 /**
  * Adds the current page required by the shared Breadcrumbs component.
  */
 function jurenites_theme_preprocess_breadcrumb(array &$breadcrumb_variables): void {
+  $node_entity = \Drupal::routeMatch()->getParameter('node');
+  if ($node_entity instanceof \Drupal\node\NodeInterface
+    && $node_entity->bundle() === 'article') {
+    $breadcrumb_variables['article_back_url'] = Url::fromUserInput('/blog');
+    $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
+    $breadcrumb_variables['icon_asset_base_url'] = '/' . $theme_path . '/assets/icons';
+  }
+
   if (empty($breadcrumb_variables['breadcrumb'])) {
     return;
   }
@@ -83,10 +194,28 @@ function jurenites_theme_preprocess_breadcrumb(array &$breadcrumb_variables): vo
 }
 
 /**
- * Connects an Article page title to its teaser during page navigation.
+ * Renders structured Basic page titles and connects Article navigation titles.
  */
 function jurenites_theme_preprocess_page_title(array &$page_title_variables): void {
   $node_entity = \Drupal::routeMatch()->getParameter('node');
+  if ($node_entity instanceof \Drupal\node\NodeInterface
+    && $node_entity->bundle() === 'page'
+    && $node_entity->hasField('field_two_tone_heading')
+    && !$node_entity->get('field_two_tone_heading')->isEmpty()) {
+    $heading_field_item = $node_entity->get('field_two_tone_heading')->first();
+    $page_title_variables['two_tone_heading'] = [
+      '#theme' => 'two_tone_heading',
+      '#heading_level' => 'h1',
+      '#leading_text' => $node_entity->label(),
+      '#soft_text' => $heading_field_item->soft_text,
+      '#trailing_text' => $heading_field_item->trailing_text,
+      '#soft_text_placement' => $heading_field_item->soft_text_placement,
+      '#trailing_text_placement' => $heading_field_item->trailing_text_placement,
+    ];
+    CacheableMetadata::createFromObject($node_entity)
+      ->applyTo($page_title_variables['two_tone_heading']);
+  }
+
   if (!$node_entity instanceof \Drupal\node\NodeInterface
     || $node_entity->bundle() !== 'article') {
     return;
@@ -98,6 +227,79 @@ function jurenites_theme_preprocess_page_title(array &$page_title_variables): vo
     'view-transition-name: %s',
     $transition_name,
   );
+}
+
+/**
+ * Adds the full view mode to Article body field template suggestions.
+ */
+function jurenites_theme_theme_suggestions_field_alter(array &$suggestions, array $variables): void {
+  $field_element = $variables['element'];
+  if (($field_element['#entity_type'] ?? '') !== 'node'
+    || ($field_element['#field_name'] ?? '') !== 'body'
+    || ($field_element['#bundle'] ?? '') !== 'article'
+    || ($field_element['#view_mode'] ?? '') !== 'full') {
+    return;
+  }
+
+  $suggestions[] = 'field__node__body__article__full';
+}
+
+/**
+ * Turns Article tags into Chip links to the filtered Blog listing.
+ */
+function jurenites_theme_preprocess_field(array &$field_variables): void {
+  $field_element = $field_variables['element'];
+  $field_name = $field_element['#field_name'] ?? '';
+  $entity_bundle = $field_element['#bundle'] ?? '';
+
+  if ($field_name !== 'field_tags' || $entity_bundle !== 'article') {
+    return;
+  }
+
+  $field_items = $field_element['#items'];
+  $tag_slug_resolver = \Drupal::service('jurenites_blog.tag_slug_resolver');
+  assert($tag_slug_resolver instanceof TagSlugResolver);
+  foreach ($field_variables['items'] as $item_delta => &$item_variables) {
+    $referenced_term = $field_items->get($item_delta)->entity;
+    if (!$referenced_term instanceof TermInterface) {
+      continue;
+    }
+
+    $item_variables['content']['#url'] = Url::fromUserInput('/blog', [
+      'query' => ['tag' => $tag_slug_resolver->slugify($referenced_term->label())],
+    ]);
+    $item_variables['content']['#attributes']['class'][] = 'chip';
+  }
+}
+
+/**
+ * Exposes the selected Blog tag to the Frontpage View template.
+ */
+function jurenites_theme_preprocess_views_view(array &$view_variables): void {
+  $view_executable = $view_variables['view'];
+  if ($view_executable->id() !== 'frontpage'
+    || $view_executable->current_display !== 'page_2') {
+    return;
+  }
+
+  $selected_tag_slug = \Drupal::request()->query->get('tag');
+  if (!is_scalar($selected_tag_slug)) {
+    return;
+  }
+
+  $tag_slug_resolver = \Drupal::service('jurenites_blog.tag_slug_resolver');
+  assert($tag_slug_resolver instanceof TagSlugResolver);
+  $selected_term = $tag_slug_resolver->findTermBySlug((string) $selected_tag_slug);
+  if (!$selected_term instanceof TermInterface) {
+    return;
+  }
+
+  $view_variables['selected_tag_label'] = $selected_term->label();
+  $view_variables['clear_tag_url'] = Url::fromUserInput('/blog');
+
+  CacheableMetadata::createFromObject($selected_term)
+    ->addCacheContexts(['url.query_args:tag'])
+    ->applyTo($view_executable->element);
 }
 
 /**

@@ -13,19 +13,19 @@ h2 {
 }
 
 h3 {
-  @include tools.typography-headline-6;
+  @include tools.typography-headline-3;
 }
 
 h4 {
-  @include tools.typography-headline-6;
+  @include tools.typography-headline-4;
 }
 
 h5 {
-  @include tools.typography-subtitle-1;
+  @include tools.typography-headline-5;
 }
 
 h6 {
-  @include tools.typography-subtitle-2;
+  @include tools.typography-headline-6;
 }
 
 p {

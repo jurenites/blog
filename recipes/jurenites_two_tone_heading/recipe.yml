@@ -1,0 +1,19 @@
+name: 'Jurenites Two-tone Heading'
+description: 'Adds structured Two-tone Heading controls to Basic pages.'
+type: 'Content field'
+install:
+  - jurenites_two_tone_heading
+config:
+  strict:
+    - field.storage.node.field_two_tone_heading
+    - field.field.node.page.field_two_tone_heading
+  actions:
+    core.entity_form_display.node.page.default:
+      setComponent:
+        name: field_two_tone_heading
+        options:
+          type: jurenites_two_tone_heading
+          weight: -4
+          region: content
+          settings: {  }
+          third_party_settings: {  }

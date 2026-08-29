@@ -38,7 +38,7 @@ color:
     light-white: "#F1F5F9"
     white: "#F8FAFC"
     full-white: "#FFFFFF"
-    brand-primary-accent: "#44BBBB" # Dark cyan
+    brand-primary-accent: "#F1F5F9" # "#44BBBB" # Dark cyan
     brand-primary: "#66FFFF" # Cyan
     brand-primary-soft: "#AAFFFF" # Light cyan
     brand-secondary-accent: "#BB44BB" # Dark magenta
@@ -59,12 +59,14 @@ color:
 theme:
   dark:
     surface:
-      background-page: color.palette.dark-black
+      background-page: color.palette.black
       background-elevation-level-0: color.palette.black
       background-elevation-level-1: color.palette.light-black
     text:
       primary-default: color.palette.white
       secondary-default: color.palette.light-white
+      light: color.palette.light-white
+      gray: color.palette.gray
       inverse-default: color.palette.full-black
       error-default: color.palette.system-error-accent
     action:
@@ -98,17 +100,24 @@ theme:
 typography:
   font-family:
     sans: ["Open Sans", "Helvetica Neue", Arial, sans-serif] # Base UI/body family.
+    code: ["Courier New", Courier, monospace] # Bold code text in Storybook.
     roundabout: [Roundabout, "Open Sans", sans-serif] # Demonstration-only custom font; never use for website headings or UI.
     4pixel: [4pixel, monospace] # Demonstration and compact technical-detail font.
-  headline-4: '600 32px var(--typography-font-family-sans)'
-  headline-5: '24px var(--typography-font-family-sans)'
-  headline-6: '20px var(--typography-font-family-sans)'
+  headline-1: '600 96px var(--typography-font-family-sans)' # <h1>
+  headline-2: '600 64px var(--typography-font-family-sans)' # <h2>
+  headline-3: '600 40px var(--typography-font-family-sans)' # <h3>
+  headline-4: '600 32px var(--typography-font-family-sans)' # <h4>
+  headline-5: '24px var(--typography-font-family-sans)' # <h5>
+  headline-6: '20px var(--typography-font-family-sans)' # <h6>
   subtitle-1: '600 16px var(--typography-font-family-sans)'
-  subtitle-2: '600 16px var(--typography-font-family-sans)'
+  subtitle-2: '600 14px var(--typography-font-family-sans)'
   eyebrow: '14px var(--typography-font-family-sans)'
   body: '16px var(--typography-font-family-sans)'
+  body-2: '14px var(--typography-font-family-sans)' # Compact supporting copy in cards and dense UI; full article body remains on body.
   link: '16px var(--typography-font-family-sans)' # Components add the required underline separately.
   caption: '14px var(--typography-font-family-sans)'
+  code: '700 14px var(--typography-font-family-code)' # Storybook code and technical metadata.
+  badge: '12px var(--typography-font-family-sans)'
   overline: '5px var(--typography-font-family-4pixel)' # Demonstrations and compact technical details such as the version watermark.
 space:
   scale:
@@ -157,10 +166,9 @@ layout:
     mobile-default: 16px
     tablet-default: 24px
     desktop-default: 32px
-  article-teaser:
-    padding-block-default: 24px # Vertical distance between article teaser content and its boundary.
-    thumbnail-max-width-default: 220px # Matches Drupal core's medium image-style boundary used by Article teasers.
 component:
+  article-teaser:
+    shadow-hover-default: "0px 1px 3px 0px #0000001A, 0px 4px 6px -1px #0000001A" # Square card hover shadow adapted from the Blog 47 reference.
   form-field:
     color:
       validation-error-default: theme.dark.system.error-accent
@@ -169,7 +177,7 @@ component:
   watermark:
     color:
       identity-default: color.palette.full-white
-      credit-default: color.palette.light-white
+      credit-default: color.palette.light-gray
     layer-default: 10000 # Keeps the non-interactive watermark above application content.
   button:
     default-style: primary
@@ -182,18 +190,20 @@ component:
     default-width: full
     minimum-width-default: component.text-input.width.quarter # Text inputs never shrink below the quarter-width option.
     width:
-      full: 320px # Default maximum width for a standalone text input.
-      half: 160px # Half of the default text input width.
+      full: 400px # Default maximum width for a standalone text input.
+      half: 200px # Half of the default text input width.
       quarter: 80px # Quarter of the default width and the minimum supported text input width.
   content-layout:
     default-width: readable
   badge:
     color:
-      status-success-default: theme.dark.system.success
-      status-warning-default: theme.dark.system.warning
-      status-error-default: theme.dark.system.error
-      status-information-default: theme.dark.brand.primary
-    default-status: success
+      background-neutral-default: color.palette.light-black
+      foreground-neutral-default: color.palette.white
+      background-gray-default: color.palette.gray
+      foreground-gray-default: color.palette.white
+      background-white-default: color.palette.white
+      foreground-white-default: color.palette.full-black
+    default-variant: neutral
   avatar:
     default-size: medium
   surface:

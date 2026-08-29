@@ -17,7 +17,7 @@
 .form-item > label,
 .form-field > legend {
   color: var(--theme-dark-text-primary-default);
-  @include tools.typography-subtitle-2;
+  @include tools.typography-caption;
 }
 
 .form-field__required,
@@ -44,13 +44,10 @@
 }
 
 .form-field__control--textarea,
-.form-textarea,
-.form-field__control--select,
-.form-select {
+.form-textarea {
   width: 100%;
   min-width: var(--component-text-input-minimum-width-default);
   max-width: var(--component-text-input-width-full);
-  min-height: calc(var(--space-scale-base-gap) * 5);
   box-sizing: border-box;
   border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
   border-radius: var(--shape-corner-radius-base);
@@ -58,31 +55,18 @@
   color: var(--theme-dark-text-primary-default);
   @include tools.typography-caption;
   @include tools.motion-transition(border-color, box-shadow, background-color);
-}
-
-.form-field__control--textarea,
-.form-textarea {
   min-height: calc(var(--space-scale-base-gap) * 12);
   padding: var(--space-scale-base-gap) calc(var(--space-scale-base-gap) * 2);
   resize: vertical;
 }
 
-.form-field__control--select,
-.form-select {
-  padding: 0 calc(var(--space-scale-base-gap) * 2);
-}
-
 .form-field__control--textarea:hover,
-.form-textarea:hover,
-.form-field__control--select:hover,
-.form-select:hover {
+.form-textarea:hover {
   border-color: var(--theme-dark-text-primary-default);
 }
 
 .form-field__control--textarea:focus-visible,
 .form-textarea:focus-visible,
-.form-field__control--select:focus-visible,
-.form-select:focus-visible,
 .form-field__file:focus-visible,
 .form-file:focus-visible {
   @include tools.focus-ring;
@@ -203,10 +187,12 @@
 }
 
 .form-field--error .form-field__control,
+.form-field--error .select-input__trigger,
 .form-field--error .form-field__choice-input,
 .form-item--error .form-text,
 .form-item--error .form-textarea,
 .form-item--error .form-select,
+.form-item--error .select-input__trigger,
 .form-item--error .form-checkbox,
 .form-item--error .form-radio {
   border-color: var(--component-form-field-color-validation-error-default);

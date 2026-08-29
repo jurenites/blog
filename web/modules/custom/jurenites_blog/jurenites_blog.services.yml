@@ -1,0 +1,6 @@
+services:
+  jurenites_blog.tag_slug_resolver:
+    class: Drupal\jurenites_blog\TagSlugResolver
+    arguments:
+      - '@entity_type.manager'
+      - '@transliteration'

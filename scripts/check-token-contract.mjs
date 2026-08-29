@@ -19,10 +19,13 @@ const OLD_COLOR_REFERENCE_PATTERN = /:\s*["']?\{(?:color\.(?:value|palette)|them
 const QUOTED_COLOR_REFERENCE_PATTERN = /:\s*["'](?:color\.(?:value|palette)|theme\.)[^"']+["']/g;
 const CSS_VARIABLE_PATTERN = /var\((--[a-z0-9-]+)(?:\s*,[^)]*)?\)/g;
 const CSS_OPACITY_PATTERN = /\bopacity\s*:/g;
+const HARDCODED_FONT_SIZE_PATTERN = /\bfont-size\s*:\s*-?(?:\d+\.?\d*|\.\d+)(?:px|rem|em)\b/g;
+const HARDCODED_FONT_SHORTHAND_PATTERN = /\bfont\s*:\s*(?!var\(|inherit\b)[^;{}]*(?:\d+\.?\d*|\.\d+)(?:px|rem|em)\b/g;
 const VERBOSE_TOKEN_FIELD_PATTERN = /^\s*["']?\$(?:type|value|description)["']?\s*:/gm;
 const SELF_MAPPING_PATTERN = /^\s*([a-z0-9-]+):\s+\1(?:\s+#.*)?$/gm;
 const SHADOW_OBJECT_PATTERN = /^\s+level-[0-9]+:\s+\{.*(?:offsetX|offsetY|blur|spread|color):/gm;
 const EXPECTED_TYPOGRAPHY_ROLES = new Set([
+  "headline-3",
   "headline-4",
   "headline-5",
   "headline-6",
@@ -30,8 +33,10 @@ const EXPECTED_TYPOGRAPHY_ROLES = new Set([
   "subtitle-2",
   "eyebrow",
   "body",
+  "body-2",
   "link",
   "caption",
+  "code",
   "overline",
 ]);
 
@@ -131,6 +136,17 @@ for (const scan_directory of SCAN_DIRECTORIES) {
       contract_errors.push(`${relative_path}: CSS opacity must be represented by a token color`);
     }
     CSS_OPACITY_PATTERN.lastIndex = 0;
+
+    if (STYLE_EXTENSIONS.has(extname(source_path))) {
+      for (const font_size_match of source_content.matchAll(HARDCODED_FONT_SIZE_PATTERN)) {
+        const line_number = source_content.slice(0, font_size_match.index).split("\n").length;
+        contract_errors.push(`${relative_path}:${line_number}: hardcoded font size must use a typography role or semantic token`);
+      }
+      for (const font_shorthand_match of source_content.matchAll(HARDCODED_FONT_SHORTHAND_PATTERN)) {
+        const line_number = source_content.slice(0, font_shorthand_match.index).split("\n").length;
+        contract_errors.push(`${relative_path}:${line_number}: hardcoded font shorthand must use a typography role token`);
+      }
+    }
 
     if (extname(source_path) === ".scss") {
       for (const variable_match of source_content.matchAll(CSS_VARIABLE_PATTERN)) {

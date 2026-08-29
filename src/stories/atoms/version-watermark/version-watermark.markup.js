@@ -8,6 +8,7 @@ export function version_watermark_markup({
   git_hash,
   git_url,
   credit_text,
+  credit_collaboration,
   is_story_preview = false,
 }) {
   return render_template(version_watermark_template, {
@@ -18,5 +19,6 @@ export function version_watermark_markup({
     git_hash: escape_html(git_hash),
     git_url: escape_html(git_url),
     credit_text: escape_html(credit_text),
+    credit_collaboration: escape_html(credit_collaboration),
   });
 }

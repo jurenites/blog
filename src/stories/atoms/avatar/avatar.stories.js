@@ -4,7 +4,7 @@ import { token_value } from "../../foundations/token-values.js";
 
 const AVATAR_SIZE = token_value("component-avatar-default-size");
 const AVATAR_INITIALS = "AI";
-const IMAGE_URL = "";
+const UPLOADED_IMAGE_URL = "http://jurenites.local/sites/default/files/styles/thumbnail/public/pictures/2026-08/Alexander_ilivanpov_avatar_512.jpeg.webp?itok=666UO5aR";
 const AVATAR_SIZE_OPTIONS = ["small", "medium", "large"];
 
 function render_story(story_args) {
@@ -23,8 +23,15 @@ export default {
   args: {
     avatar_size: AVATAR_SIZE,
     avatar_initials: AVATAR_INITIALS,
-    image_url: IMAGE_URL,
+    image_url: "",
   },
 };
 
 export const default_story = {};
+
+export const uploaded_state = {
+  name: "Uploaded",
+  args: {
+    image_url: UPLOADED_IMAGE_URL,
+  },
+};

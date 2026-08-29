@@ -1,4 +1,4 @@
-// Atom: Badge. Small status label using compact status color tokens.
+// Atom: Badge. Small label with three neutral-tone color variants.
 
 @use "../tools";
 
@@ -7,27 +7,17 @@
   align-items: center;
   padding: calc(var(--space-scale-base-gap) * 0.5) var(--space-scale-base-gap);
   border-radius: var(--shape-corner-radius-small);
-  background: var(--theme-dark-surface-background-elevation-level-1);
-  color: var(--theme-dark-text-primary-default);
-  @include tools.typography-overline;
+  background: var(--component-badge-color-background-neutral-default);
+  color: var(--component-badge-color-foreground-neutral-default);
+  @include tools.typography-badge;
 
-  &--success {
-    background: var(--component-badge-color-status-success-default);
-    color: var(--theme-dark-text-inverse-default);
+  &--gray {
+    background: var(--component-badge-color-background-gray-default);
+    color: var(--component-badge-color-foreground-gray-default);
   }
 
-  &--warning {
-    background: var(--component-badge-color-status-warning-default);
-    color: var(--theme-dark-text-inverse-default);
-  }
-
-  &--error {
-    background: var(--component-badge-color-status-error-default);
-    color: var(--theme-dark-text-inverse-default);
-  }
-
-  &--info {
-    background: var(--component-badge-color-status-information-default);
-    color: var(--theme-dark-text-inverse-default);
+  &--white {
+    background: var(--component-badge-color-background-white-default);
+    color: var(--component-badge-color-foreground-white-default);
   }
 }

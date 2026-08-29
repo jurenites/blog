@@ -11,6 +11,10 @@ const BUILD_PATHS = {
   js_entry: resolve(ROOT_DIRECTORY, 'src/slice/src/js/script.js'),
   fonts_source: resolve(ROOT_DIRECTORY, 'src/public/assets/fonts'),
   fonts_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/assets/fonts'),
+  icons_source: resolve(ROOT_DIRECTORY, 'src/public/assets/icons'),
+  icons_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/assets/icons'),
+  brand_logo_source: resolve(ROOT_DIRECTORY, 'src/public/assets/brand/jurenites-logo.svg'),
+  brand_logo_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/logo.svg'),
   css_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/css/style.min.css'),
   js_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/js/script.min.js'),
   build_info_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/build-info.json'),
@@ -19,6 +23,8 @@ const BUILD_PATHS = {
 await mkdir(dirname(BUILD_PATHS.css_output), { recursive: true });
 await mkdir(dirname(BUILD_PATHS.js_output), { recursive: true });
 await cp(BUILD_PATHS.fonts_source, BUILD_PATHS.fonts_output, { recursive: true, force: true });
+await cp(BUILD_PATHS.icons_source, BUILD_PATHS.icons_output, { recursive: true, force: true });
+await cp(BUILD_PATHS.brand_logo_source, BUILD_PATHS.brand_logo_output, { force: true });
 
 const css_result = sass.compile(BUILD_PATHS.scss_entry, {
   style: 'compressed',
