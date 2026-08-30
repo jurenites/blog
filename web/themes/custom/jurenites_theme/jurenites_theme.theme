@@ -7,7 +7,9 @@
 
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
+use Drupal\Component\Utility\Html;
 use Drupal\gin\GinNavigation;
 use Drupal\gin\GinSettings;
 use Drupal\jurenites_blog\TagSlugResolver;
@@ -64,8 +66,24 @@ function jurenites_theme_preprocess_page(array &$page_variables): void {
  */
 function jurenites_theme_preprocess_node(array &$node_variables): void {
   $node_entity = $node_variables['node'];
-  if ($node_entity->bundle() !== 'article'
-    || ($node_variables['view_mode'] ?? '') !== 'teaser') {
+  if ($node_entity->bundle() !== 'article') {
+    return;
+  }
+
+  $created_timestamp = $node_entity->getCreatedTime();
+  $date_formatter = \Drupal::service('date.formatter');
+  $node_variables['submitted_date_iso'] = $date_formatter->format(
+    $created_timestamp,
+    'custom',
+    DATE_ATOM,
+    'UTC',
+  );
+  $node_variables['submitted_date_text'] = jurenites_theme_numeric_text_markup(
+    $date_formatter->format($created_timestamp, 'medium'),
+  );
+
+  if (($node_variables['view_mode'] ?? '') !== 'teaser') {
+    jurenites_theme_add_youtube_metadata($node_variables);
     return;
   }
 
@@ -94,6 +112,96 @@ function jurenites_theme_preprocess_node(array &$node_variables): void {
 }
 
 /**
+ * Adds cached oEmbed presentation metadata for a direct Article YouTube URL.
+ */
+function jurenites_theme_add_youtube_metadata(array &$node_variables): void {
+  $node_entity = $node_variables['node'];
+  if (!$node_entity->hasField('field_youtube_video')
+    || $node_entity->get('field_youtube_video')->isEmpty()) {
+    return;
+  }
+
+  $video_url = $node_entity->get('field_youtube_video')->input;
+
+  try {
+    $resource_url = \Drupal::service('media.oembed.url_resolver')->getResourceUrl($video_url);
+    $video_resource = \Drupal::service('media.oembed.resource_fetcher')->fetchResource($resource_url);
+  }
+  catch (\Drupal\media\OEmbed\ResourceException $resource_exception) {
+    \Drupal::logger('jurenites_theme')->warning(
+      'Unable to load YouTube metadata for Article @article_id: @message',
+      [
+        '@article_id' => $node_entity->id(),
+        '@message' => $resource_exception->getMessage(),
+      ],
+    );
+    return;
+  }
+
+  $author_url = $video_resource->getAuthorUrl();
+  $video_provider = $video_resource->getProvider();
+  $node_variables['youtube_video_title'] = $video_resource->getTitle();
+  $node_variables['youtube_author_name'] = $video_resource->getAuthorName();
+  $node_variables['youtube_author_url'] = $author_url?->toString();
+  $node_variables['youtube_provider_name'] = $video_provider?->getName();
+  CacheableMetadata::createFromObject($video_resource)
+    ->applyTo($node_variables['elements']);
+}
+
+/**
+ * Uses the editorial list item for Article teasers on the Blog page.
+ */
+function jurenites_theme_theme_suggestions_node_alter(array &$suggestions, array $variables): void {
+  $node_entity = $variables['elements']['#node'] ?? NULL;
+  if (!$node_entity instanceof \Drupal\node\NodeInterface
+    || $node_entity->bundle() !== 'article'
+    || ($variables['elements']['#view_mode'] ?? '') !== 'teaser'
+    || \Drupal::service('path.current')->getPath() !== '/blog') {
+    return;
+  }
+
+  $suggestions[] = 'node__article__blog_list';
+}
+
+/**
+ * Calculates automatic elapsed-year values for Numeric Value Paragraph tiles.
+ */
+function jurenites_theme_preprocess_paragraph(array &$paragraph_variables): void {
+  $paragraph_entity = $paragraph_variables['paragraph'];
+  if ($paragraph_entity->bundle() !== 'numeric_value') {
+    return;
+  }
+
+  $start_year = (int) $paragraph_entity->get('field_numeric_start_year')->value;
+  $current_year = (int) date('Y');
+
+  if ($start_year >= 1900 && $start_year <= $current_year) {
+    $elapsed_years = $current_year - $start_year;
+    $numeric_value_text = (string) $elapsed_years;
+
+    $next_year = (new \DateTimeImmutable('first day of January next year'))->getTimestamp();
+    $paragraph_variables['elements']['#cache']['max-age'] = max(0, $next_year - time());
+  }
+  else {
+    $numeric_value_text = $paragraph_entity->get('field_numeric_number')->value;
+  }
+
+  $paragraph_variables['numeric_value_text'] = jurenites_theme_numeric_text_markup($numeric_value_text);
+}
+
+/**
+ * Escapes text and adds the shared decorative slash to zero characters.
+ */
+function jurenites_theme_numeric_text_markup(string|\Stringable|null $numeric_text): Markup {
+  $escaped_numeric_text = Html::escape((string) $numeric_text);
+  return Markup::create(str_replace(
+    '0',
+    '<span class="numeric-zero">0</span>',
+    $escaped_numeric_text,
+  ));
+}
+
+/**
  * Keeps compact author pictures visual rather than linking to user profiles.
  */
 function jurenites_theme_preprocess_user(array &$user_variables): void {
@@ -116,7 +224,14 @@ function jurenites_theme_preprocess_user(array &$user_variables): void {
 function jurenites_theme_preprocess_html(array &$html_variables): void {
   $html_variables['attributes']['class'][] = 'jurenites-theme';
   $html_variables['admin_navigation'] = jurenites_theme_build_admin_navigation();
-  $deployment_environment = strtoupper(trim((string) (getenv('JURENITES_ENVIRONMENT') ?: ($_ENV['JURENITES_ENVIRONMENT'] ?? ''))));
+  $configured_environment = getenv('JURENITES_ENVIRONMENT');
+  if ($configured_environment === FALSE || trim((string) $configured_environment) === '') {
+    $configured_environment = $_ENV['JURENITES_ENVIRONMENT'] ?? 'DEV';
+  }
+  if (trim((string) $configured_environment) === '') {
+    $configured_environment = 'DEV';
+  }
+  $deployment_environment = strtoupper(trim((string) $configured_environment));
   $html_variables['watermark_visibility_class'] = $deployment_environment === 'DEV' ? '' : ' hidden';
   if ($html_variables['admin_navigation']) {
     unset($html_variables['page_top']['navigation']);
@@ -130,14 +245,10 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
   $build_info_path = DRUPAL_ROOT . '/' . $theme_path . '/build-info.json';
 
-  if (!is_readable($build_info_path)) {
-    return;
-  }
-
-  $build_information = json_decode(file_get_contents($build_info_path), TRUE);
-  if (!is_array($build_information)) {
-    return;
-  }
+  $build_information = is_readable($build_info_path)
+    ? json_decode(file_get_contents($build_info_path), TRUE)
+    : [];
+  $build_information = is_array($build_information) ? $build_information : [];
 
   $project_version = $build_information['project_version'] ?? 'unknown';
   $commit_hash = $build_information['commit_hash'] ?? 'unknown';

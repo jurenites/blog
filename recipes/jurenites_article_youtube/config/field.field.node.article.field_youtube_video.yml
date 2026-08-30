@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_youtube_video
+    - node.type.article
+  module:
+    - youtube
+id: node.article.field_youtube_video
+field_name: field_youtube_video
+entity_type: node
+bundle: article
+label: 'YouTube video'
+description: 'Paste a YouTube URL. The field extracts the video ID and renders the responsive YouTube player and its video thumbnail.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: youtube

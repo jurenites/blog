@@ -7,17 +7,22 @@ const FONT_ROWS = [
   {
     font_label: "Open Sans / base",
     font_class: "font-family-sample__text--open-sans",
-    sample_text: "Open Sans is the default interface and body font.",
+    sample_text: "The default interface and body font.",
+  },
+  {
+    font_label: "Ubuntu Sans Mono / numeric",
+    font_class: "font-family-sample__text--ubuntu-sans-mono",
+    sample_text: "0123456789",
   },
   {
     font_label: "Roundabout / custom display",
     font_class: "font-family-sample__text--roundabout",
-    sample_text: "Roundabout brings a custom display voice.",
+    sample_text: "Brings a custom display voice.",
   },
   {
     font_label: "4pixel / custom pixel",
     font_class: "font-family-sample__text--four-pixel",
-    sample_text: "4pixel works for compact technical labels.",
+    sample_text: "For compact technical labels.",
   },
 ];
 
@@ -36,7 +41,7 @@ function render_story() {
 }
 
 export default {
-  title: "Foundations/Fonts",
+  title: "Foundations/Fonts/Fonts",
   tags: ["autodocs"],
 };
 

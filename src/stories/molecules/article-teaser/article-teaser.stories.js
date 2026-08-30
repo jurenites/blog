@@ -12,9 +12,8 @@ const AUTHOR_NAME = "Alexander Ilivanov";
 const AVATAR_INITIALS = "AI";
 const AVATAR_IMAGE_URL = "http://jurenites.local/sites/default/files/styles/thumbnail/public/pictures/2026-08/Alexander_ilivanpov_avatar_512.jpeg.webp?itok=666UO5aR";
 const PUBLISHED_DATE = "2026-06-15";
-const DATE_FORMAT = token_value("component-date-value-default-format");
+const DATE_DISPLAY_VARIANT = token_value("component-date-display-default-display");
 const READING_TIME = "6 minutes";
-const DATE_FORMAT_OPTIONS = ["month-day-year", "long-date", "iso-date"];
 const ARTICLE_GRID_ITEMS = [
   {
     eyebrow_heading: "Process",
@@ -56,7 +55,7 @@ function render_article_grid_story() {
     author_name: AUTHOR_NAME,
     avatar_initials: AVATAR_INITIALS,
     avatar_image_url: AVATAR_IMAGE_URL,
-    date_format: DATE_FORMAT,
+    date_display_variant: DATE_DISPLAY_VARIANT,
   })).join("");
 
   return `<div class="article-teaser-grid">${article_tiles}</div>`;
@@ -77,9 +76,9 @@ export default {
     avatar_initials: { control: "text" },
     avatar_image_url: { control: "text" },
     published_date: { control: "date" },
-    date_format: {
+    date_display_variant: {
       control: { type: "select" },
-      options: DATE_FORMAT_OPTIONS,
+      options: ["date-day", "date-day-time"],
     },
     reading_time: { control: "text" },
   },
@@ -94,7 +93,7 @@ export default {
     avatar_initials: AVATAR_INITIALS,
     avatar_image_url: AVATAR_IMAGE_URL,
     published_date: PUBLISHED_DATE,
-    date_format: DATE_FORMAT,
+    date_display_variant: DATE_DISPLAY_VARIANT,
     reading_time: READING_TIME,
   },
 };

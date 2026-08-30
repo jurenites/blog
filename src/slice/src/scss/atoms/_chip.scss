@@ -1,23 +1,27 @@
 // Chip/tag atom for topics, technologies, and roles.
 
-@use "../tools";
-
 .chip {
   display: inline-flex;
   align-items: center;
+  font: var(--typography-badge);
   gap: calc(var(--space-scale-base-gap) * 0.5);
   padding: calc(var(--space-scale-base-gap) * 0.5) var(--space-scale-base-gap);
-  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
-  border-radius: var(--shape-corner-radius-full);
-  background: var(--theme-dark-surface-background-elevation-level-0);
+  //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  //border-radius: var(--component-chip-corner-radius-default);
+  background: var(--theme-dark-surface-background-elevation-level-1);
   color: var(--theme-dark-text-secondary-default);
   text-decoration: none;
-  @include tools.typography-caption;
+  user-select: none;
 }
 
 .chip[href]:hover {
   border-color: var(--theme-dark-border-outline-default);
   color: var(--theme-dark-text-primary-default);
+}
+
+.chip[href] {
+  font: var(--typography-badge);
+  text-decoration: none;
 }
 
 .chip[href]:focus-visible {

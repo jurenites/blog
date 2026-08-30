@@ -504,7 +504,9 @@ function buildTokenUtilitiesScss(tokens) {
   const utilityBlocks = [];
 
   for (const token of tokens) {
-    if (token.type === 'color') {
+    // Only palette utilities have real consumers. Semantic theme and
+    // component colors remain CSS variables, without speculative classes.
+    if (token.type === 'color' && token.name.startsWith('color-palette-')) {
       utilityBlocks.push(`.u-bg-${token.name} {\n  background: var(--${token.name});\n}`);
       utilityBlocks.push(`.u-color-${token.name} {\n  color: var(--${token.name});\n}`);
     }

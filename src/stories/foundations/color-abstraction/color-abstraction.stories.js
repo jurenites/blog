@@ -48,7 +48,7 @@ function render_abstraction_story() {
 
 export default {
   title: "Foundations/Colors/Abstraction Levels",
-  tags: ["autodocs"],
+  tags: ["!dev", "!autodocs"],
 };
 
 export const default_story = {

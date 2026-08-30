@@ -17,7 +17,17 @@ const config = {
   favicon: "../src/public/storybook-favicon-16.svg",
   core: {
     allowedHosts: ["storybook.jurenites.local"],
-  }
+  },
+  viteFinal: async (vite_config) => ({
+    ...vite_config,
+    server: {
+      ...vite_config.server,
+      hmr: {
+        ...(typeof vite_config.server?.hmr === "object" ? vite_config.server.hmr : {}),
+        clientPort: 80,
+      },
+    },
+  }),
 };
 
 export default config;

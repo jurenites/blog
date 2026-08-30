@@ -1,0 +1,57 @@
+// Atom: Tooltip. Badge-like contextual label with viewport-aware placement.
+
+@use "../tools";
+
+.tooltip {
+  position: fixed;
+  z-index: var(--component-tooltip-layer-default);
+  display: block;
+  width: max-content;
+  max-width: calc(var(--shape-basic-tile) * 10);
+  padding: var(--space-scale-base-gap);
+  border-radius: var(--shape-corner-radius-small);
+  background: transparent;
+  color: transparent;
+  @include tools.typography-badge;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  pointer-events: none;
+  visibility: hidden;
+  transform: translateY(calc(var(--space-scale-base-gap) * 0.5));
+  transition: background-color var(--motion-duration-short-default) var(--motion-easing-standard-default),
+    color var(--motion-duration-short-default) var(--motion-easing-standard-default),
+    transform var(--motion-duration-short-default) var(--motion-easing-standard-default),
+    visibility var(--motion-duration-short-default) var(--motion-easing-standard-default);
+
+  &--full-black,
+  &--black,
+  &--light-black {
+    background: transparent;
+    color: transparent;
+  }
+
+  &.is-visible {
+    pointer-events: auto;
+    visibility: visible;
+    transform: translateY(0);
+    color: var(--component-tooltip-color-foreground-default);
+
+    &.tooltip--full-black {
+      background-color: var(--component-tooltip-color-background-full-black-default);
+    }
+
+    &.tooltip--black {
+      background-color: var(--component-tooltip-color-background-black-default);
+    }
+
+    &.tooltip--light-black {
+      background-color: var(--component-tooltip-color-background-light-black-default);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tooltip {
+    transition-duration: var(--motion-duration-instant-default);
+  }
+}

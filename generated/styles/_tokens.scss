@@ -49,21 +49,12 @@
   --theme-dark-text-gray: var(--color-palette-gray);
   --theme-dark-text-inverse-default: var(--color-palette-full-black);
   --theme-dark-text-error-default: var(--color-palette-system-error-accent);
-  --theme-dark-action-primary-default: var(--color-palette-brand-primary);
-  --theme-dark-action-primary-hover: var(--color-palette-brand-primary-accent);
+  --theme-dark-action-primary-default: var(--color-palette-brand-tertiary);
+  --theme-dark-action-primary-hover: var(--color-palette-brand-tertiary-accent);
   --theme-dark-action-secondary-default: var(--color-palette-black);
   --theme-dark-action-secondary-hover: var(--color-palette-dark-gray);
   --theme-dark-border-outline-default: var(--color-palette-dark-gray);
   --theme-dark-border-divider-default: var(--color-palette-gray);
-  --theme-dark-brand-primary-accent: var(--color-palette-brand-primary-accent);
-  --theme-dark-brand-primary: var(--color-palette-brand-primary);
-  --theme-dark-brand-primary-soft: var(--color-palette-brand-primary-soft);
-  --theme-dark-brand-secondary-accent: var(--color-palette-brand-secondary-accent);
-  --theme-dark-brand-secondary: var(--color-palette-brand-secondary);
-  --theme-dark-brand-secondary-soft: var(--color-palette-brand-secondary-soft);
-  --theme-dark-brand-tertiary-accent: var(--color-palette-brand-tertiary-accent);
-  --theme-dark-brand-tertiary: var(--color-palette-brand-tertiary);
-  --theme-dark-brand-tertiary-soft: var(--color-palette-brand-tertiary-soft);
   --theme-dark-system-success-accent: var(--color-palette-system-success-accent);
   --theme-dark-system-success: var(--color-palette-system-success);
   --theme-dark-system-success-soft: var(--color-palette-system-success-soft);
@@ -75,7 +66,7 @@
   --theme-dark-system-warning-strong: var(--color-palette-system-warning-strong);
   --typography-font-family-sans: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
   --typography-font-family-code: "Courier New", "Courier", monospace;
-  --typography-font-family-number: "Ubuntu Sans Mono", "Courier", monospace;
+  --typography-font-family-number: "Ubuntu Sans Mono", "Courier New", monospace;
   --typography-font-family-roundabout: "Roundabout", "Open Sans", sans-serif;
   --typography-font-family-4pixel: "4pixel", monospace;
   --typography-headline-1: 600 96px var(--typography-font-family-sans);
@@ -84,20 +75,23 @@
   --typography-headline-4: 600 32px var(--typography-font-family-sans);
   --typography-headline-5: 24px var(--typography-font-family-sans);
   --typography-headline-6: 20px var(--typography-font-family-sans);
-  --typography-subtitle-1: 600 16px var(--typography-font-family-sans);
-  --typography-subtitle-2: 600 14px var(--typography-font-family-sans);
+  --typography-subtitle-1: 16px var(--typography-font-family-sans);
+  --typography-subtitle-2: 14px var(--typography-font-family-sans);
   --typography-eyebrow: 14px var(--typography-font-family-sans);
   --typography-body: 16px var(--typography-font-family-sans);
   --typography-body-2: 14px var(--typography-font-family-sans);
-  --typography-link: 16px var(--typography-font-family-sans);
+  --typography-link: 300 16px var(--typography-font-family-sans);
   --typography-caption: 14px var(--typography-font-family-sans);
-  --typography-code: 700 14px var(--typography-font-family-code);
-  --typography-badge: 12px var(--typography-font-family-sans);
+  --typography-code: 600 14px var(--typography-font-family-code);
+  --typography-badge: 500 14px var(--typography-font-family-sans);
   --typography-overline: 5px var(--typography-font-family-4pixel);
+  --typography-numeric-display: 64px var(--typography-font-family-number);
   --space-scale-zero: 0px;
   --space-scale-one: 1px;
   --space-scale-two: 2px;
   --space-scale-base-gap: 8px;
+  --shape-icon-viewport: 24px;;
+  --shape-basic-tile: 40px;;
   --shape-corner-radius-none: 0px;
   --shape-corner-radius-small: 0px;
   --shape-corner-radius-base: 0px;
@@ -128,6 +122,7 @@
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
   --component-article-teaser-shadow-hover-default: 0px 1px 3px 0px #0000001A, 0px 4px 6px -1px #0000001A;
+  --component-chip-corner-radius-default: 9999px;
   --component-form-field-color-validation-error-default: var(--theme-dark-system-error-accent);
   --component-site-branding-logo-size-default: 64px;
   --component-watermark-color-identity-default: var(--color-palette-full-white);
@@ -151,11 +146,16 @@
   --component-badge-color-background-white-default: var(--color-palette-white);
   --component-badge-color-foreground-white-default: var(--color-palette-full-black);
   --component-badge-default-variant: neutral;
+  --component-tooltip-color-background-full-black-default: var(--color-palette-full-black);
+  --component-tooltip-color-background-black-default: var(--color-palette-black);
+  --component-tooltip-color-background-light-black-default: var(--color-palette-light-black);
+  --component-tooltip-color-foreground-default: var(--color-palette-white);
+  --component-tooltip-default-variant: full-black;
+  --component-tooltip-layer-default: 11000;
   --component-avatar-default-size: medium;
   --component-surface-default-variant: default;
-  --component-date-value-default-mode: date-value;
-  --component-date-value-default-format: month-day-year;
-  --component-date-value-default-display: muted;
+  --component-date-display-default-mode: month-day-year;
+  --component-date-display-default-display: date-day;
   --component-timeline-marker-size-default: var(--space-scale-base-gap);
   --component-timeline-marker-size-active: 40px;
   --component-media-loader-progress-height-default: 1px;
@@ -259,6 +259,10 @@ $breakpoints: (
   font: var(--typography-overline);
 }
 
+@mixin typography-numeric-display {
+  font: var(--typography-numeric-display);
+}
+
 .u-typography-headline-1 {
   font: var(--typography-headline-1);
 }
@@ -321,6 +325,10 @@ $breakpoints: (
 
 .u-typography-overline {
   font: var(--typography-overline);
+}
+
+.u-typography-numeric-display {
+  font: var(--typography-numeric-display);
 }
 
 .u-bg-color-palette-full-black {
@@ -571,270 +579,6 @@ $breakpoints: (
   color: var(--color-palette-system-warning-strong);
 }
 
-.u-bg-theme-dark-surface-background-page {
-  background: var(--theme-dark-surface-background-page);
-}
-
-.u-color-theme-dark-surface-background-page {
-  color: var(--theme-dark-surface-background-page);
-}
-
-.u-bg-theme-dark-surface-background-elevation-level-0 {
-  background: var(--theme-dark-surface-background-elevation-level-0);
-}
-
-.u-color-theme-dark-surface-background-elevation-level-0 {
-  color: var(--theme-dark-surface-background-elevation-level-0);
-}
-
-.u-bg-theme-dark-surface-background-elevation-level-1 {
-  background: var(--theme-dark-surface-background-elevation-level-1);
-}
-
-.u-color-theme-dark-surface-background-elevation-level-1 {
-  color: var(--theme-dark-surface-background-elevation-level-1);
-}
-
-.u-bg-theme-dark-text-primary-default {
-  background: var(--theme-dark-text-primary-default);
-}
-
-.u-color-theme-dark-text-primary-default {
-  color: var(--theme-dark-text-primary-default);
-}
-
-.u-bg-theme-dark-text-secondary-default {
-  background: var(--theme-dark-text-secondary-default);
-}
-
-.u-color-theme-dark-text-secondary-default {
-  color: var(--theme-dark-text-secondary-default);
-}
-
-.u-bg-theme-dark-text-light {
-  background: var(--theme-dark-text-light);
-}
-
-.u-color-theme-dark-text-light {
-  color: var(--theme-dark-text-light);
-}
-
-.u-bg-theme-dark-text-gray {
-  background: var(--theme-dark-text-gray);
-}
-
-.u-color-theme-dark-text-gray {
-  color: var(--theme-dark-text-gray);
-}
-
-.u-bg-theme-dark-text-inverse-default {
-  background: var(--theme-dark-text-inverse-default);
-}
-
-.u-color-theme-dark-text-inverse-default {
-  color: var(--theme-dark-text-inverse-default);
-}
-
-.u-bg-theme-dark-text-error-default {
-  background: var(--theme-dark-text-error-default);
-}
-
-.u-color-theme-dark-text-error-default {
-  color: var(--theme-dark-text-error-default);
-}
-
-.u-bg-theme-dark-action-primary-default {
-  background: var(--theme-dark-action-primary-default);
-}
-
-.u-color-theme-dark-action-primary-default {
-  color: var(--theme-dark-action-primary-default);
-}
-
-.u-bg-theme-dark-action-primary-hover {
-  background: var(--theme-dark-action-primary-hover);
-}
-
-.u-color-theme-dark-action-primary-hover {
-  color: var(--theme-dark-action-primary-hover);
-}
-
-.u-bg-theme-dark-action-secondary-default {
-  background: var(--theme-dark-action-secondary-default);
-}
-
-.u-color-theme-dark-action-secondary-default {
-  color: var(--theme-dark-action-secondary-default);
-}
-
-.u-bg-theme-dark-action-secondary-hover {
-  background: var(--theme-dark-action-secondary-hover);
-}
-
-.u-color-theme-dark-action-secondary-hover {
-  color: var(--theme-dark-action-secondary-hover);
-}
-
-.u-bg-theme-dark-border-outline-default {
-  background: var(--theme-dark-border-outline-default);
-}
-
-.u-color-theme-dark-border-outline-default {
-  color: var(--theme-dark-border-outline-default);
-}
-
-.u-bg-theme-dark-border-divider-default {
-  background: var(--theme-dark-border-divider-default);
-}
-
-.u-color-theme-dark-border-divider-default {
-  color: var(--theme-dark-border-divider-default);
-}
-
-.u-bg-theme-dark-brand-primary-accent {
-  background: var(--theme-dark-brand-primary-accent);
-}
-
-.u-color-theme-dark-brand-primary-accent {
-  color: var(--theme-dark-brand-primary-accent);
-}
-
-.u-bg-theme-dark-brand-primary {
-  background: var(--theme-dark-brand-primary);
-}
-
-.u-color-theme-dark-brand-primary {
-  color: var(--theme-dark-brand-primary);
-}
-
-.u-bg-theme-dark-brand-primary-soft {
-  background: var(--theme-dark-brand-primary-soft);
-}
-
-.u-color-theme-dark-brand-primary-soft {
-  color: var(--theme-dark-brand-primary-soft);
-}
-
-.u-bg-theme-dark-brand-secondary-accent {
-  background: var(--theme-dark-brand-secondary-accent);
-}
-
-.u-color-theme-dark-brand-secondary-accent {
-  color: var(--theme-dark-brand-secondary-accent);
-}
-
-.u-bg-theme-dark-brand-secondary {
-  background: var(--theme-dark-brand-secondary);
-}
-
-.u-color-theme-dark-brand-secondary {
-  color: var(--theme-dark-brand-secondary);
-}
-
-.u-bg-theme-dark-brand-secondary-soft {
-  background: var(--theme-dark-brand-secondary-soft);
-}
-
-.u-color-theme-dark-brand-secondary-soft {
-  color: var(--theme-dark-brand-secondary-soft);
-}
-
-.u-bg-theme-dark-brand-tertiary-accent {
-  background: var(--theme-dark-brand-tertiary-accent);
-}
-
-.u-color-theme-dark-brand-tertiary-accent {
-  color: var(--theme-dark-brand-tertiary-accent);
-}
-
-.u-bg-theme-dark-brand-tertiary {
-  background: var(--theme-dark-brand-tertiary);
-}
-
-.u-color-theme-dark-brand-tertiary {
-  color: var(--theme-dark-brand-tertiary);
-}
-
-.u-bg-theme-dark-brand-tertiary-soft {
-  background: var(--theme-dark-brand-tertiary-soft);
-}
-
-.u-color-theme-dark-brand-tertiary-soft {
-  color: var(--theme-dark-brand-tertiary-soft);
-}
-
-.u-bg-theme-dark-system-success-accent {
-  background: var(--theme-dark-system-success-accent);
-}
-
-.u-color-theme-dark-system-success-accent {
-  color: var(--theme-dark-system-success-accent);
-}
-
-.u-bg-theme-dark-system-success {
-  background: var(--theme-dark-system-success);
-}
-
-.u-color-theme-dark-system-success {
-  color: var(--theme-dark-system-success);
-}
-
-.u-bg-theme-dark-system-success-soft {
-  background: var(--theme-dark-system-success-soft);
-}
-
-.u-color-theme-dark-system-success-soft {
-  color: var(--theme-dark-system-success-soft);
-}
-
-.u-bg-theme-dark-system-error-accent {
-  background: var(--theme-dark-system-error-accent);
-}
-
-.u-color-theme-dark-system-error-accent {
-  color: var(--theme-dark-system-error-accent);
-}
-
-.u-bg-theme-dark-system-error {
-  background: var(--theme-dark-system-error);
-}
-
-.u-color-theme-dark-system-error {
-  color: var(--theme-dark-system-error);
-}
-
-.u-bg-theme-dark-system-error-soft {
-  background: var(--theme-dark-system-error-soft);
-}
-
-.u-color-theme-dark-system-error-soft {
-  color: var(--theme-dark-system-error-soft);
-}
-
-.u-bg-theme-dark-system-warning-accent {
-  background: var(--theme-dark-system-warning-accent);
-}
-
-.u-color-theme-dark-system-warning-accent {
-  color: var(--theme-dark-system-warning-accent);
-}
-
-.u-bg-theme-dark-system-warning {
-  background: var(--theme-dark-system-warning);
-}
-
-.u-color-theme-dark-system-warning {
-  color: var(--theme-dark-system-warning);
-}
-
-.u-bg-theme-dark-system-warning-strong {
-  background: var(--theme-dark-system-warning-strong);
-}
-
-.u-color-theme-dark-system-warning-strong {
-  color: var(--theme-dark-system-warning-strong);
-}
-
 .u-width-space-scale-zero {
   width: var(--space-scale-zero);
 }
@@ -873,76 +617,4 @@ $breakpoints: (
 
 .u-shadow-elevation-shadow-level-6 {
   box-shadow: var(--elevation-shadow-level-6);
-}
-
-.u-bg-component-form-field-color-validation-error-default {
-  background: var(--component-form-field-color-validation-error-default);
-}
-
-.u-color-component-form-field-color-validation-error-default {
-  color: var(--component-form-field-color-validation-error-default);
-}
-
-.u-bg-component-watermark-color-identity-default {
-  background: var(--component-watermark-color-identity-default);
-}
-
-.u-color-component-watermark-color-identity-default {
-  color: var(--component-watermark-color-identity-default);
-}
-
-.u-bg-component-watermark-color-credit-default {
-  background: var(--component-watermark-color-credit-default);
-}
-
-.u-color-component-watermark-color-credit-default {
-  color: var(--component-watermark-color-credit-default);
-}
-
-.u-bg-component-badge-color-background-neutral-default {
-  background: var(--component-badge-color-background-neutral-default);
-}
-
-.u-color-component-badge-color-background-neutral-default {
-  color: var(--component-badge-color-background-neutral-default);
-}
-
-.u-bg-component-badge-color-foreground-neutral-default {
-  background: var(--component-badge-color-foreground-neutral-default);
-}
-
-.u-color-component-badge-color-foreground-neutral-default {
-  color: var(--component-badge-color-foreground-neutral-default);
-}
-
-.u-bg-component-badge-color-background-gray-default {
-  background: var(--component-badge-color-background-gray-default);
-}
-
-.u-color-component-badge-color-background-gray-default {
-  color: var(--component-badge-color-background-gray-default);
-}
-
-.u-bg-component-badge-color-foreground-gray-default {
-  background: var(--component-badge-color-foreground-gray-default);
-}
-
-.u-color-component-badge-color-foreground-gray-default {
-  color: var(--component-badge-color-foreground-gray-default);
-}
-
-.u-bg-component-badge-color-background-white-default {
-  background: var(--component-badge-color-background-white-default);
-}
-
-.u-color-component-badge-color-background-white-default {
-  color: var(--component-badge-color-background-white-default);
-}
-
-.u-bg-component-badge-color-foreground-white-default {
-  background: var(--component-badge-color-foreground-white-default);
-}
-
-.u-color-component-badge-color-foreground-white-default {
-  color: var(--component-badge-color-foreground-white-default);
 }

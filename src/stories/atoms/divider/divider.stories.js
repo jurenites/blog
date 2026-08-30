@@ -10,7 +10,7 @@ function render_story({ is_strong }) {
 
 export default {
   title: "Atoms/Divider",
-  tags: ["autodocs"],
+  tags: ["!dev", "!autodocs"],
   render: render_story,
   argTypes: {
     is_strong: { control: "boolean" },

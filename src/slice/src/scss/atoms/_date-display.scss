@@ -2,22 +2,15 @@
 
 @use "../tools";
 
-.date-value {
+.date-display {
   display: inline-flex;
   align-items: center;
   color: var(--theme-dark-text-secondary-default);
-  font-variant-numeric: tabular-nums;
   @include tools.typography-caption;
+  font-family: var(--typography-font-family-number);
+  font-variant-numeric: tabular-nums;
 
-  &--day {
-    color: var(--theme-dark-text-primary-default);
-  }
-
-  &--muted {
-    color: var(--theme-dark-text-secondary-default);
-  }
-
-  &--raw {
+  &--time-since {
     white-space: nowrap;
   }
 }

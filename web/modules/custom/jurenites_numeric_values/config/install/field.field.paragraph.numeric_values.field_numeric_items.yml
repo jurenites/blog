@@ -1,0 +1,34 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_numeric_items
+    - paragraphs.paragraphs_type.numeric_value
+    - paragraphs.paragraphs_type.numeric_values
+  module:
+    - entity_reference_revisions
+    - paragraphs
+id: paragraph.numeric_values.field_numeric_items
+field_name: field_numeric_items
+entity_type: paragraph
+bundle: numeric_values
+label: 'Numeric value tiles'
+description: 'Add each Number and Description pair as one tile.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      numeric_value: numeric_value
+    negate: 0
+    target_bundles_drag_drop:
+      numeric_value:
+        weight: 0
+        enabled: true
+      numeric_values:
+        weight: 1
+        enabled: false
+field_type: entity_reference_revisions

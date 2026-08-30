@@ -8,7 +8,7 @@ meta:
   sourceOfTruth: "src/token/tokens.yaml is the editable single source of truth. Generated SCSS/CSS outputs and Figma variables are derived from it."
   typographyBasis: "Typography roles are concise CSS font shorthand values reused by components."
   colorRule: "Colors are HEX only. Never use the CSS opacity property; alpha is expressed as 8-digit HEX (for example shadow colors) so composited colors stay predictable."
-  note: "This file is large on purpose: it is a data contract, not a code module. Keep groups well namespaced so flattened names stay searchable."
+  note: "This file is a concise data contract, not a code module. Add a token only when a real consumer needs the design decision."
 system:
   icon:
     default-svg-viewport: 24px # Small icons sit inside a 24 by 24 SVG viewport.
@@ -70,23 +70,13 @@ theme:
       inverse-default: color.palette.full-black
       error-default: color.palette.system-error-accent
     action:
-      primary-default: color.palette.brand-primary
-      primary-hover: color.palette.brand-primary-accent
+      primary-default: color.palette.brand-tertiary
+      primary-hover: color.palette.brand-tertiary-accent
       secondary-default: color.palette.black
       secondary-hover: color.palette.dark-gray
     border:
       outline-default: color.palette.dark-gray
       divider-default: color.palette.gray
-    brand:
-      primary-accent: color.palette.brand-primary-accent
-      primary: color.palette.brand-primary
-      primary-soft: color.palette.brand-primary-soft
-      secondary-accent: color.palette.brand-secondary-accent
-      secondary: color.palette.brand-secondary
-      secondary-soft: color.palette.brand-secondary-soft
-      tertiary-accent: color.palette.brand-tertiary-accent
-      tertiary: color.palette.brand-tertiary
-      tertiary-soft: color.palette.brand-tertiary-soft
     system:
       success-accent: color.palette.system-success-accent
       success: color.palette.system-success
@@ -101,7 +91,7 @@ typography:
   font-family:
     sans: ["Open Sans", "Helvetica Neue", Arial, sans-serif] # Base UI/body family.
     code: ["Courier New", Courier, monospace] # Bold code text in Storybook.
-    number: ["Ubuntu Sans Mono", Courier, monospace] # numeric values
+    number: ["Ubuntu Sans Mono", "Courier New", monospace] # Humanist numeric family with a slashed zero.
     roundabout: [Roundabout, "Open Sans", sans-serif] # Demonstration-only custom font; never use for website headings or UI.
     4pixel: [4pixel, monospace] # Demonstration and compact technical-detail font.
   headline-1: '600 96px var(--typography-font-family-sans)' # <h1>
@@ -109,17 +99,18 @@ typography:
   headline-3: '600 40px var(--typography-font-family-sans)' # <h3>
   headline-4: '600 32px var(--typography-font-family-sans)' # <h4>
   headline-5: '24px var(--typography-font-family-sans)' # <h5>
-  headline-6: '20px var(--typography-font-family-sans)' # <h6>
-  subtitle-1: '600 16px var(--typography-font-family-sans)'
-  subtitle-2: '600 14px var(--typography-font-family-sans)'
+  headline-6: '20px var(--typography-font-family-sans)' # <h6>; Open Sans Light below 24px.
+  subtitle-1: '16px var(--typography-font-family-sans)'
+  subtitle-2: '14px var(--typography-font-family-sans)'
   eyebrow: '14px var(--typography-font-family-sans)'
   body: '16px var(--typography-font-family-sans)'
   body-2: '14px var(--typography-font-family-sans)' # Compact supporting copy in cards and dense UI; full article body remains on body.
-  link: '16px var(--typography-font-family-sans)' # Components add the required underline separately.
+  link: '300 16px var(--typography-font-family-sans)' # Components add the required underline separately.
   caption: '14px var(--typography-font-family-sans)'
-  code: '700 14px var(--typography-font-family-code)' # Storybook code and technical metadata.
-  badge: '12px var(--typography-font-family-sans)'
+  code: '600 14px var(--typography-font-family-code)' # Storybook code and technical metadata.
+  badge: '500 14px var(--typography-font-family-sans)' # Compact labels that need more emphasis than the 300-weight link role.
   overline: '5px var(--typography-font-family-4pixel)' # Demonstrations and compact technical details such as the version watermark.
+  numeric-display: '64px var(--typography-font-family-number)' # Large statistics and other prominent numeric values.
 space:
   scale:
     zero: 0px
@@ -127,6 +118,8 @@ space:
     two: 2px # Intentional sub-grid exception for optical adjustments.
     base-gap: 8px # Multiply this grid unit with CSS calc() for every larger size.
 shape:
+  icon-viewport: 24px;
+  basic-tile: 40px;
   corner-radius:
     none: 0px
     small: 0px # Square-corner visual language; semantic names remain stable for consumers.
@@ -170,6 +163,8 @@ layout:
 component:
   article-teaser:
     shadow-hover-default: "0px 1px 3px 0px #0000001A, 0px 4px 6px -1px #0000001A" # Square card hover shadow adapted from the Blog 47 reference.
+  chip:
+    corner-radius-default: 9999px # Pill shape owned by Chip without changing the site's square global radius tokens.
   form-field:
     color:
       validation-error-default: theme.dark.system.error-accent
@@ -205,14 +200,21 @@ component:
       background-white-default: color.palette.white
       foreground-white-default: color.palette.full-black
     default-variant: neutral
+  tooltip:
+    color:
+      background-full-black-default: color.palette.full-black
+      background-black-default: color.palette.black
+      background-light-black-default: color.palette.light-black
+      foreground-default: color.palette.white
+    default-variant: full-black
+    layer-default: 11000 # Tooltip overlays sit above page UI and the 10000-layer build watermark.
   avatar:
     default-size: medium
   surface:
     default-variant: default
-  date-value:
-    default-mode: date-value
-    default-format: month-day-year
-    default-display: muted
+  date-display:
+    default-mode: month-day-year
+    default-display: date-day
   timeline:
     marker-size-default: space.scale.base-gap
     marker-size-active: 40px

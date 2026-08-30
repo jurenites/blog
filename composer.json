@@ -39,6 +39,9 @@
         "drupal/image_compare": "^1.0",
         "drupal/paragraphs": "^1.22",
         "drupal/publication_date": "^3.1",
+        "drupal/realname": "^2.0",
+        "drupal/tagify": "^2.0",
+        "drupal/youtube": "^3.0@beta",
         "drush/drush": "^13.7"
     },
     "conflict": {

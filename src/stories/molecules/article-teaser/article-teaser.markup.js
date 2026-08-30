@@ -1,7 +1,7 @@
 import article_teaser_template from "./article-teaser.template.html?raw";
 import { avatar_markup } from "../../atoms/avatar/avatar.markup.js";
-import { date_value_markup, date_value_raw_markup } from "../../atoms/date-value/date-value.markup.js";
-import { token_value } from "../../foundations/token-values.js";
+import { date_display_markup } from "../../atoms/date-display/date-display.markup.js";
+import { numeric_text_markup } from "../../numeric-text.js";
 import { escape_html, render_template } from "../../template.js";
 
 export function article_teaser_markup({
@@ -15,7 +15,7 @@ export function article_teaser_markup({
   avatar_initials,
   avatar_image_url,
   published_date,
-  date_format,
+  date_display_variant = "date-day",
   reading_time,
 }) {
   return render_template(article_teaser_template, {
@@ -30,14 +30,11 @@ export function article_teaser_markup({
       image_url: avatar_image_url,
     }),
     author_name: escape_html(author_name),
-    date_value: date_value_markup({
+    date_display: date_display_markup({
       source_date: published_date,
-      format_variant: date_format,
-      display_variant: token_value("component-date-value-default-display"),
+      value_mode: "month-day-year",
+      display_variant: date_display_variant,
     }),
-    reading_time: date_value_raw_markup({
-      raw_value: reading_time,
-      display_variant: "time",
-    }),
+    reading_time: numeric_text_markup(reading_time),
   });
 }

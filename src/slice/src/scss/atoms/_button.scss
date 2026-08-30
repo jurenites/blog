@@ -15,6 +15,7 @@
   background: transparent;
   color: var(--theme-dark-text-primary-default);
   cursor: pointer;
+  user-select: none;
   @include tools.typography-subtitle-2;
   text-transform: var(--component-button-label-text-transform-default);
   @include tools.motion-transition(background-color, color, border-color, box-shadow);

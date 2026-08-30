@@ -9,6 +9,19 @@ const DEFAULT_TEXT_COLOR = COLOR_OPTIONS.includes("theme-dark-text-primary-defau
   : COLOR_OPTIONS[0] || "theme-dark-text-primary-default";
 const TEXT_COLOR = DEFAULT_TEXT_COLOR;
 
+function typography_sample_text(role_name) {
+  switch (role_name) {
+    case "headline-1":
+      return "Systems & craft";
+    case "overline":
+      return "v0.1.10 · build";
+    case "numeric-display":
+      return "80+ · 16 years · 2010";
+    default:
+      return "A personal journal about systems and craft";
+  }
+}
+
 function typography_row_markup(role_name, text_color) {
   const token_name = `typography-${role_name}`;
 
@@ -16,7 +29,7 @@ function typography_row_markup(role_name, text_color) {
     role_name: escape_html(role_name),
     token_name: escape_html(token_name),
     sample_class: escape_html(`u-typography-${role_name} u-color-${text_color}`),
-    sample_text: escape_html(role_name === "overline" ? "v0.1.10 · build" : "A personal journal about systems and craft"),
+    sample_text: escape_html(typography_sample_text(role_name)),
     font_shorthand: escape_html(token_value(token_name)),
   });
 }
@@ -31,7 +44,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: "Foundations/Typography",
+  title: "Foundations/Fonts/Typography",
   tags: ["autodocs"],
   argTypes: {
     text_color: { control: { type: "select" }, options: COLOR_OPTIONS },

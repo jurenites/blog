@@ -117,6 +117,90 @@
   }
 }
 
+.article-list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 4);
+  width: 100%;
+  max-width: var(--layout-content-max-blog-default);
+  margin-inline: auto;
+
+  &__item {
+    min-width: 0;
+  }
+}
+
+.article-list-item {
+  display: grid;
+  grid-template-columns: minmax(180px, 280px) minmax(0, 1fr);
+  gap: calc(var(--space-scale-base-gap) * 3);
+  min-width: 0;
+
+  &__media {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--theme-dark-surface-background-elevation-level-1);
+  }
+
+  &__media .field,
+  &__media .field__item,
+  &__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__media img {
+    object-fit: cover;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-scale-base-gap);
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0;
+    @include tools.typography-subtitle-1;
+  }
+
+  &__title-link {
+    color: var(--theme-dark-text-primary-default);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--theme-dark-action-primary-default);
+    }
+  }
+
+  &__content {
+    color: var(--theme-dark-text-secondary-default);
+    @include tools.typography-body-2;
+  }
+
+  &__content .field--name-body p {
+    margin: 0;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-scale-base-gap);
+    margin-top: auto;
+    color: var(--theme-dark-text-secondary-default);
+    @include tools.typography-caption;
+  }
+
+  &__meta-details {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-scale-base-gap);
+  }
+}
+
 .article-detail {
   display: flex;
   flex-direction: column;
@@ -155,6 +239,35 @@
     margin-bottom: 0;
   }
 
+}
+
+.youtube-video-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-two);
+  margin-top: var(--space-scale-base-gap);
+
+  &__title,
+  &__source {
+    margin: 0;
+  }
+
+  &__title {
+    color: var(--theme-dark-text-primary-default);
+    @include tools.typography-subtitle-1;
+  }
+
+  &__source {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-scale-base-gap);
+    color: var(--theme-dark-text-secondary-default);
+    @include tools.typography-caption;
+  }
+
+  &__author {
+    color: var(--theme-dark-text-primary-default);
+  }
 }
 
 .article-tags {
@@ -239,5 +352,11 @@
 
   ::view-transition-group(*) {
     animation-duration: var(--motion-duration-instant-default);
+  }
+}
+
+@media (max-width: 640px) {
+  .article-list-item {
+    grid-template-columns: 1fr;
   }
 }

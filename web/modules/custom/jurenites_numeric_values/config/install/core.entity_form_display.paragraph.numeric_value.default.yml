@@ -1,0 +1,39 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.numeric_value.field_numeric_description
+    - field.field.paragraph.numeric_value.field_numeric_number
+    - field.field.paragraph.numeric_value.field_numeric_start_year
+    - paragraphs.paragraphs_type.numeric_value
+id: paragraph.numeric_value.default
+targetEntityType: paragraph
+bundle: numeric_value
+mode: default
+content:
+  field_numeric_number:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 20
+      placeholder: '80+'
+    third_party_settings: {  }
+  field_numeric_start_year:
+    type: number
+    weight: 1
+    region: content
+    settings:
+      placeholder: '2010'
+    third_party_settings: {  }
+  field_numeric_description:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Projects I’ve worked on'
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

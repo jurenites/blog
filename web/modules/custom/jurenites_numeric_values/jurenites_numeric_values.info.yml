@@ -1,0 +1,8 @@
+name: Jurenites Numeric Values
+type: module
+description: Provides repeatable numeric-value Paragraph sections for Basic pages and Articles.
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - entity_reference_revisions:entity_reference_revisions
+  - paragraphs:paragraphs

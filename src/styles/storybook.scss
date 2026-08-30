@@ -186,6 +186,67 @@ samp {
   max-width: 640px;
 }
 
+.icon-gallery {
+  display: grid;
+  gap: calc(var(--space-scale-base-gap) * 3);
+  padding: calc(var(--space-scale-base-gap) * 3);
+}
+
+.icon-gallery h2 {
+  margin: 0 0 var(--space-scale-base-gap);
+  @include tools.typography-subtitle-2;
+}
+
+.icon-gallery__selected {
+  display: grid;
+  gap: var(--space-scale-base-gap);
+}
+
+.icon-gallery__selected-item {
+  width: var(--shape-basic-tile);
+  min-width: var(--shape-basic-tile);
+  display: flex;
+  align-items: center;
+  gap: var(--space-scale-base-gap);
+  height: var(--shape-basic-tile);
+  box-sizing: border-box;
+  padding: var(--space-scale-base-gap);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  border-radius: var(--shape-corner-radius-small);
+  background-color: var(--theme-dark-surface-background-elevation-level-0);
+}
+
+.icon-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--shape-basic-tile), 1fr));
+  gap: var(--space-scale-base-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.icon-gallery__item {
+  height: var(--shape-basic-tile);
+  width: var(--shape-basic-tile);
+  padding: var(--space-scale-base-gap);
+  cursor: pointer;
+  transition: background-color var(--motion-duration-short-default) var(--motion-easing-standard-default);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+}
+
+.icon-gallery__item:hover,
+.icon-gallery__item:focus-visible {
+  background-color: var(--theme-dark-surface-background-elevation-level-1);
+  border-color: var(--theme-dark-border-divider-default);
+}
+
+.icon-gallery__item code,
+.icon-gallery__selected-item code {
+  display: none;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 $storybook-color-block-size-default: 96px;
 $storybook-color-block-size-compact: 40px;
 
@@ -239,7 +300,9 @@ $storybook-color-block-size-compact: 40px;
   min-width: 0;
 }
 
-.color-block__primary,
+.color-block__primary{
+  display: none;//i t does not fit and it repeat the machine readable Token value
+}
 .color-block__secondary,
 .color-block__tertiary {
   display: block;
@@ -305,7 +368,7 @@ $storybook-color-block-size-compact: 40px;
 
 .contrast-table th,
 .contrast-table td {
-  min-width: 144px;
+  //min-width: 144px;
   padding: var(--space-scale-two);
   border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
   text-align: left;
@@ -338,9 +401,26 @@ $storybook-color-block-size-compact: 40px;
 }
 
 .contrast-table .color-block {
+  gap: 0;
   padding: 0;
   border: 0;
   background: transparent;
+}
+
+.contrast-table th .color-block__chip {
+  width: 24px;
+  height: 24px;
+  margin: 8px;
+  border: 0;
+}
+
+.contrast-table__row-heading .color-block {
+  gap: calc(var(--space-scale-base-gap) * 0.5);
+}
+
+.contrast-table th:not(:first-child) .color-block__information,
+.contrast-table td .color-block__information {
+  display: none;
 }
 
 .contrast-cell--aaa .color-block__chip-text {
@@ -452,6 +532,10 @@ $storybook-color-block-size-compact: 40px;
 
 .font-family-sample__text--roundabout {
   font-family: var(--typography-font-family-roundabout);
+}
+
+.font-family-sample__text--ubuntu-sans-mono {
+  font: var(--typography-numeric-display);
 }
 
 .font-family-sample__text--four-pixel {

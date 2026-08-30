@@ -26,12 +26,39 @@
     <footer class="article-detail__meta">
       {{ author_picture }}
       <div{{ author_attributes }}>
-        {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
+        {% trans %}Submitted by {{ author_name }} on{% endtrans %}
+        <time class="date-display date-display--month-day-year date-display--date-day" datetime="{{ submitted_date_iso }}">{{ submitted_date_text }}</time>
       </div>
     </footer>
   {% endif %}
 
+  {% if node.field_youtube_video is not empty %}
+    <div class="article-detail__youtube-video">
+      {{ content.field_youtube_video }}
+      {% if youtube_video_title or youtube_author_name or youtube_provider_name %}
+        <div class="youtube-video-details">
+          {% if youtube_video_title %}
+            <p class="youtube-video-details__title">{{ youtube_video_title }}</p>
+          {% endif %}
+          {% if youtube_author_name or youtube_provider_name %}
+            <p class="youtube-video-details__source">
+              {% if youtube_author_name %}
+                {% if youtube_author_url %}
+                  <a class="youtube-video-details__author" href="{{ youtube_author_url }}" rel="external noopener">{{ youtube_author_name }}</a>
+                {% else %}
+                  <span>{{ youtube_author_name }}</span>
+                {% endif %}
+              {% endif %}
+              {% if youtube_author_name and youtube_provider_name %}<span aria-hidden="true">/</span>{% endif %}
+              {% if youtube_provider_name %}<span>{{ youtube_provider_name }}</span>{% endif %}
+            </p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
   <div{{ content_attributes.addClass('article-detail__content') }}>
-    {{ content|without('field_image') }}
+    {{ content|without('field_image', 'field_youtube_video') }}
   </div>
 </article>

@@ -519,6 +519,131 @@ export function initialize_custom_selects(select_context) {
     .forEach((native_select) => enable_custom_select(native_select));
 }
 
+function tooltip_label_from_trigger(tooltip_trigger) {
+  const data_icon_name = tooltip_trigger.getAttribute('data-icon-name');
+  const raw_label = data_icon_name
+    || tooltip_trigger.getAttribute('aria-label')
+    || tooltip_trigger.getAttribute('data-tooltip-label')
+    || tooltip_trigger.getAttribute('title');
+
+  if (!raw_label) {
+    return '';
+  }
+
+  if (data_icon_name) {
+    return raw_label;
+  }
+
+  return raw_label
+    .replace(/^\s+|\s+$/g, '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/^./, (first_character) => first_character.toUpperCase());
+}
+
+function position_tooltip(tooltip_trigger, tooltip_element) {
+  const tooltip_document = tooltip_trigger.ownerDocument;
+  const tooltip_window = tooltip_document.defaultView;
+  const root_styles = tooltip_window.getComputedStyle(tooltip_document.documentElement);
+  const trigger_bounds = tooltip_trigger.getBoundingClientRect();
+  const tooltip_bounds = tooltip_element.getBoundingClientRect();
+  const viewport_gap = Number.parseFloat(
+    root_styles.getPropertyValue('--space-scale-base-gap'),
+  );
+  const requested_position = tooltip_trigger.dataset.tooltipPosition;
+  const available_positions = {
+    bottom: tooltip_window.innerHeight - trigger_bounds.bottom - viewport_gap >= tooltip_bounds.height,
+    top: trigger_bounds.top - viewport_gap >= tooltip_bounds.height,
+    right: tooltip_window.innerWidth - trigger_bounds.right - viewport_gap >= tooltip_bounds.width,
+    left: trigger_bounds.left - viewport_gap >= tooltip_bounds.width,
+  };
+  const tooltip_position = requested_position && requested_position !== 'auto'
+    ? requested_position
+    : Object.keys(available_positions).find((position_name) => available_positions[position_name]) || 'bottom';
+  const position_coordinates = {
+    bottom: [trigger_bounds.left + (trigger_bounds.width - tooltip_bounds.width) / 2, trigger_bounds.bottom + viewport_gap],
+    top: [trigger_bounds.left + (trigger_bounds.width - tooltip_bounds.width) / 2, trigger_bounds.top - tooltip_bounds.height - viewport_gap],
+    right: [trigger_bounds.right + viewport_gap, trigger_bounds.top + (trigger_bounds.height - tooltip_bounds.height) / 2],
+    left: [trigger_bounds.left - tooltip_bounds.width - viewport_gap, trigger_bounds.top + (trigger_bounds.height - tooltip_bounds.height) / 2],
+  };
+  const [left_coordinate, top_coordinate] = position_coordinates[tooltip_position] || position_coordinates.bottom;
+  tooltip_element.dataset.tooltipPosition = tooltip_position;
+  tooltip_element.style.left = `${Math.max(viewport_gap, Math.min(left_coordinate, tooltip_window.innerWidth - tooltip_bounds.width - viewport_gap))}px`;
+  tooltip_element.style.top = `${Math.max(viewport_gap, Math.min(top_coordinate, tooltip_window.innerHeight - tooltip_bounds.height - viewport_gap))}px`;
+}
+
+export function initialize_tooltips(tooltip_context) {
+  const tooltip_document = tooltip_context.nodeType === 9
+    ? tooltip_context
+    : tooltip_context.ownerDocument;
+  tooltip_document.querySelectorAll('[data-jurenites-tooltip-overlay]').forEach((tooltip_overlay) => {
+    if (!tooltip_overlay.jurenites_tooltip_trigger?.isConnected) {
+      tooltip_overlay.remove();
+    }
+  });
+
+  tooltip_context.querySelectorAll('[data-tooltip-trigger]').forEach((tooltip_trigger) => {
+    if (tooltip_trigger.jurenites_tooltip_initialized) {
+      return;
+    }
+
+    const tooltip_label = tooltip_label_from_trigger(tooltip_trigger);
+    const tooltip_color_variant = tooltip_trigger.dataset.tooltipColorVariant;
+    const tooltip_document = tooltip_trigger.ownerDocument;
+    const tooltip_window = tooltip_document.defaultView;
+    const root_styles = tooltip_window.getComputedStyle(tooltip_document.documentElement);
+    const hide_delay = Number.parseFloat(
+      root_styles.getPropertyValue('--motion-duration-short-default'),
+    );
+    const tooltip_element = tooltip_document.createElement('span');
+    let hide_timer = 0;
+    tooltip_element.className = tooltip_color_variant
+      ? `tooltip tooltip--${tooltip_color_variant}`
+      : 'tooltip tooltip--full-black';
+    tooltip_element.dataset.jurenitesTooltipOverlay = '';
+    tooltip_element.jurenites_tooltip_trigger = tooltip_trigger;
+    tooltip_element.setAttribute('role', 'tooltip');
+    tooltip_element.textContent = tooltip_label;
+    tooltip_document.body.appendChild(tooltip_element);
+    tooltip_trigger.setAttribute('aria-describedby', `tooltip-${Math.random().toString(36).slice(2)}`);
+    tooltip_element.id = tooltip_trigger.getAttribute('aria-describedby');
+    tooltip_trigger.jurenites_tooltip_initialized = true;
+    tooltip_trigger.jurenites_tooltip_element = tooltip_element;
+
+    const show_tooltip = () => {
+      tooltip_window.clearTimeout(hide_timer);
+      tooltip_element.classList.add('is-visible');
+      position_tooltip(tooltip_trigger, tooltip_element);
+    };
+    const hide_tooltip = () => {
+      tooltip_window.clearTimeout(hide_timer);
+      tooltip_element.classList.remove('is-visible');
+    };
+    const schedule_tooltip_hide = () => {
+      tooltip_window.clearTimeout(hide_timer);
+      hide_timer = tooltip_window.setTimeout(hide_tooltip, hide_delay);
+    };
+    const reposition_visible_tooltip = () => {
+      if (tooltip_element.classList.contains('is-visible')) {
+        position_tooltip(tooltip_trigger, tooltip_element);
+      }
+    };
+    tooltip_trigger.addEventListener('mouseenter', show_tooltip);
+    tooltip_trigger.addEventListener('mouseleave', schedule_tooltip_hide);
+    tooltip_trigger.addEventListener('focus', show_tooltip);
+    tooltip_trigger.addEventListener('blur', schedule_tooltip_hide);
+    tooltip_trigger.addEventListener('keydown', (keyboard_event) => {
+      if (keyboard_event.key === 'Escape') {
+        hide_tooltip();
+      }
+    });
+    tooltip_element.addEventListener('mouseenter', show_tooltip);
+    tooltip_element.addEventListener('mouseleave', schedule_tooltip_hide);
+    tooltip_window.addEventListener('resize', reposition_visible_tooltip);
+    tooltip_window.addEventListener('scroll', reposition_visible_tooltip, true);
+  });
+}
+
 if (typeof Drupal !== 'undefined') {
   Drupal.behaviors.jurenites_media_loader_noise = {
     attach(context) {

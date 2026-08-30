@@ -42,7 +42,7 @@
   text-decoration-line: underline;
   text-decoration-style: solid;
   text-decoration-thickness: 1px;
-  text-underline-offset: var(--space-scale-two);
+  //text-underline-offset: var(--space-scale-two);
   &:hover{ 
     color: var(--theme-dark-text-primary-default);
   }

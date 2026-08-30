@@ -772,12 +772,12 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "",
-    "source_value": "{color.palette.brand-primary}",
-    "value": "#66FFFF",
-    "css_value": "var(--color-palette-brand-primary)",
-    "resolved_css_value": "#66FFFF",
+    "source_value": "{color.palette.brand-tertiary}",
+    "value": "#FFFF66",
+    "css_value": "var(--color-palette-brand-tertiary)",
+    "resolved_css_value": "#FFFF66",
     "is_reference": true,
-    "reference_name": "color-palette-brand-primary"
+    "reference_name": "color-palette-brand-tertiary"
   },
   {
     "name": "theme-dark-action-primary-hover",
@@ -789,12 +789,12 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "",
-    "source_value": "{color.palette.brand-primary-accent}",
-    "value": "#F1F5F9",
-    "css_value": "var(--color-palette-brand-primary-accent)",
-    "resolved_css_value": "#F1F5F9",
+    "source_value": "{color.palette.brand-tertiary-accent}",
+    "value": "#C8C844",
+    "css_value": "var(--color-palette-brand-tertiary-accent)",
+    "resolved_css_value": "#C8C844",
     "is_reference": true,
-    "reference_name": "color-palette-brand-primary-accent"
+    "reference_name": "color-palette-brand-tertiary-accent"
   },
   {
     "name": "theme-dark-action-secondary-default",
@@ -863,159 +863,6 @@ export const TOKEN_RECORDS = [
     "resolved_css_value": "#62748E",
     "is_reference": true,
     "reference_name": "color-palette-gray"
-  },
-  {
-    "name": "theme-dark-brand-primary-accent",
-    "path": [
-      "theme",
-      "dark",
-      "brand",
-      "primary-accent"
-    ],
-    "type": "color",
-    "description": "",
-    "source_value": "{color.palette.brand-primary-accent}",
-    "value": "#F1F5F9",
-    "css_value": "var(--color-palette-brand-primary-accent)",
-    "resolved_css_value": "#F1F5F9",
-    "is_reference": true,
-    "reference_name": "color-palette-brand-primary-accent"
-  },
-  {
-    "name": "theme-dark-brand-primary",
-    "path": [
-      "theme",
-      "dark",
-      "brand",
-      "primary"
-    ],
-    "type": "color",
-    "description": "",
-    "source_value": "{color.palette.brand-primary}",
-    "value": "#66FFFF",
-    "css_value": "var(--color-palette-brand-primary)",
-    "resolved_css_value": "#66FFFF",
-    "is_reference": true,
-    "reference_name": "color-palette-brand-primary"
-  },
-  {
-    "name": "theme-dark-brand-primary-soft",
-    "path": [
-      "theme",
-      "dark",
-      "brand",
-      "primary-soft"
-    ],
-    "type": "color",
-    "description": "",
-    "source_value": "{color.palette.brand-primary-soft}",
-    "value": "#AAFFFF",
-    "css_value": "var(--color-palette-brand-primary-soft)",
-    "resolved_css_value": "#AAFFFF",
-    "is_reference": true,
-    "reference_name": "color-palette-brand-primary-soft"
-  },
-  {
-    "name": "theme-dark-brand-secondary-accent",
-    "path": [
-      "theme",
-      "dark",
-      "brand",
-      "secondary-accent"
-    ],
-    "type": "color",
-    "description": "",
-    "source_value": "{color.palette.brand-secondary-accent}",
-    "value": "#BB44BB",
-    "css_value": "var(--color-palette-brand-secondary-accent)",
-    "resolved_css_value": "#BB44BB",
-    "is_reference": true,
-    "reference_name": "color-palette-brand-secondary-accent"
-  },
-  {
-    "name": "theme-dark-brand-secondary",
-    "path": [
-      "theme",
-      "dark",
-      "brand",
-      "secondary"
-    ],
-    "type": "color",
-    "description": "",
-    "source_value": "{color.palette.brand-secondary}",
-    "value": "#FF66FF",
-    "css_value": "var(--color-palette-brand-secondary)",
-    "resolved_css_value": "#FF66FF",
-    "is_reference": true,
-    "reference_name": "color-palette-brand-secondary"
-  },
-  {
-    "name": "theme-dark-brand-secondary-soft",
-    "path": [
-      "theme",
-      "dark",
-      "brand",
-      "secondary-soft"
-    ],
-    "type": "color",
-    "description": "",
-    "source_value": "{color.palette.brand-secondary-soft}",
-    "value": "#FFAAFF",
-    "css_value": "var(--color-palette-brand-secondary-soft)",
-    "resolved_css_value": "#FFAAFF",
-    "is_reference": true,
-    "reference_name": "color-palette-brand-secondary-soft"
-  },
-  {
-    "name": "theme-dark-brand-tertiary-accent",
-    "path": [
-      "theme",
-      "dark",
-      "brand",
-      "tertiary-accent"
-    ],
-    "type": "color",
-    "description": "",
-    "source_value": "{color.palette.brand-tertiary-accent}",
-    "value": "#C8C844",
-    "css_value": "var(--color-palette-brand-tertiary-accent)",
-    "resolved_css_value": "#C8C844",
-    "is_reference": true,
-    "reference_name": "color-palette-brand-tertiary-accent"
-  },
-  {
-    "name": "theme-dark-brand-tertiary",
-    "path": [
-      "theme",
-      "dark",
-      "brand",
-      "tertiary"
-    ],
-    "type": "color",
-    "description": "",
-    "source_value": "{color.palette.brand-tertiary}",
-    "value": "#FFFF66",
-    "css_value": "var(--color-palette-brand-tertiary)",
-    "resolved_css_value": "#FFFF66",
-    "is_reference": true,
-    "reference_name": "color-palette-brand-tertiary"
-  },
-  {
-    "name": "theme-dark-brand-tertiary-soft",
-    "path": [
-      "theme",
-      "dark",
-      "brand",
-      "tertiary-soft"
-    ],
-    "type": "color",
-    "description": "",
-    "source_value": "{color.palette.brand-tertiary-soft}",
-    "value": "#FFFFAA",
-    "css_value": "var(--color-palette-brand-tertiary-soft)",
-    "resolved_css_value": "#FFFFAA",
-    "is_reference": true,
-    "reference_name": "color-palette-brand-tertiary-soft"
   },
   {
     "name": "theme-dark-system-success-accent",
@@ -1228,19 +1075,19 @@ export const TOKEN_RECORDS = [
       "number"
     ],
     "type": "fontFamily",
-    "description": "numeric values",
+    "description": "Humanist numeric family with a slashed zero.",
     "source_value": [
       "Ubuntu Sans Mono",
-      "Courier",
+      "Courier New",
       "monospace"
     ],
     "value": [
       "Ubuntu Sans Mono",
-      "Courier",
+      "Courier New",
       "monospace"
     ],
-    "css_value": "\"Ubuntu Sans Mono\", \"Courier\", monospace",
-    "resolved_css_value": "\"Ubuntu Sans Mono\", \"Courier\", monospace",
+    "css_value": "\"Ubuntu Sans Mono\", \"Courier New\", monospace",
+    "resolved_css_value": "\"Ubuntu Sans Mono\", \"Courier New\", monospace",
     "is_reference": false,
     "reference_name": null
   },
@@ -1372,7 +1219,7 @@ export const TOKEN_RECORDS = [
       "headline-6"
     ],
     "type": "string",
-    "description": "<h6>",
+    "description": "<h6>; Open Sans Light below 24px.",
     "source_value": "20px var(--typography-font-family-sans)",
     "value": "20px var(--typography-font-family-sans)",
     "css_value": "20px var(--typography-font-family-sans)",
@@ -1388,10 +1235,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "600 16px var(--typography-font-family-sans)",
-    "value": "600 16px var(--typography-font-family-sans)",
-    "css_value": "600 16px var(--typography-font-family-sans)",
-    "resolved_css_value": "600 16px var(--typography-font-family-sans)",
+    "source_value": "16px var(--typography-font-family-sans)",
+    "value": "16px var(--typography-font-family-sans)",
+    "css_value": "16px var(--typography-font-family-sans)",
+    "resolved_css_value": "16px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1403,10 +1250,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "600 14px var(--typography-font-family-sans)",
-    "value": "600 14px var(--typography-font-family-sans)",
-    "css_value": "600 14px var(--typography-font-family-sans)",
-    "resolved_css_value": "600 14px var(--typography-font-family-sans)",
+    "source_value": "14px var(--typography-font-family-sans)",
+    "value": "14px var(--typography-font-family-sans)",
+    "css_value": "14px var(--typography-font-family-sans)",
+    "resolved_css_value": "14px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1463,10 +1310,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "Components add the required underline separately.",
-    "source_value": "16px var(--typography-font-family-sans)",
-    "value": "16px var(--typography-font-family-sans)",
-    "css_value": "16px var(--typography-font-family-sans)",
-    "resolved_css_value": "16px var(--typography-font-family-sans)",
+    "source_value": "300 16px var(--typography-font-family-sans)",
+    "value": "300 16px var(--typography-font-family-sans)",
+    "css_value": "300 16px var(--typography-font-family-sans)",
+    "resolved_css_value": "300 16px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1493,10 +1340,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "Storybook code and technical metadata.",
-    "source_value": "700 14px var(--typography-font-family-code)",
-    "value": "700 14px var(--typography-font-family-code)",
-    "css_value": "700 14px var(--typography-font-family-code)",
-    "resolved_css_value": "700 14px var(--typography-font-family-code)",
+    "source_value": "600 14px var(--typography-font-family-code)",
+    "value": "600 14px var(--typography-font-family-code)",
+    "css_value": "600 14px var(--typography-font-family-code)",
+    "resolved_css_value": "600 14px var(--typography-font-family-code)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1507,11 +1354,11 @@ export const TOKEN_RECORDS = [
       "badge"
     ],
     "type": "string",
-    "description": "",
-    "source_value": "12px var(--typography-font-family-sans)",
-    "value": "12px var(--typography-font-family-sans)",
-    "css_value": "12px var(--typography-font-family-sans)",
-    "resolved_css_value": "12px var(--typography-font-family-sans)",
+    "description": "Compact labels that need more emphasis than the 300-weight link role.",
+    "source_value": "500 14px var(--typography-font-family-sans)",
+    "value": "500 14px var(--typography-font-family-sans)",
+    "css_value": "500 14px var(--typography-font-family-sans)",
+    "resolved_css_value": "500 14px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1527,6 +1374,21 @@ export const TOKEN_RECORDS = [
     "value": "5px var(--typography-font-family-4pixel)",
     "css_value": "5px var(--typography-font-family-4pixel)",
     "resolved_css_value": "5px var(--typography-font-family-4pixel)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "typography-numeric-display",
+    "path": [
+      "typography",
+      "numeric-display"
+    ],
+    "type": "string",
+    "description": "Large statistics and other prominent numeric values.",
+    "source_value": "64px var(--typography-font-family-number)",
+    "value": "64px var(--typography-font-family-number)",
+    "css_value": "64px var(--typography-font-family-number)",
+    "resolved_css_value": "64px var(--typography-font-family-number)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1591,6 +1453,36 @@ export const TOKEN_RECORDS = [
     "value": "8px",
     "css_value": "8px",
     "resolved_css_value": "8px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "shape-icon-viewport",
+    "path": [
+      "shape",
+      "icon-viewport"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "24px;",
+    "value": "24px;",
+    "css_value": "24px;",
+    "resolved_css_value": "24px;",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "shape-basic-tile",
+    "path": [
+      "shape",
+      "basic-tile"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "40px;",
+    "value": "40px;",
+    "css_value": "40px;",
+    "resolved_css_value": "40px;",
     "is_reference": false,
     "reference_name": null
   },
@@ -2115,6 +2007,22 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-chip-corner-radius-default",
+    "path": [
+      "component",
+      "chip",
+      "corner-radius-default"
+    ],
+    "type": "dimension",
+    "description": "Pill shape owned by Chip without changing the site's square global radius tokens.",
+    "source_value": "9999px",
+    "value": "9999px",
+    "css_value": "9999px",
+    "resolved_css_value": "9999px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-form-field-color-validation-error-default",
     "path": [
       "component",
@@ -2498,6 +2406,106 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-tooltip-color-background-full-black-default",
+    "path": [
+      "component",
+      "tooltip",
+      "color",
+      "background-full-black-default"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "{color.palette.full-black}",
+    "value": "#000000",
+    "css_value": "var(--color-palette-full-black)",
+    "resolved_css_value": "#000000",
+    "is_reference": true,
+    "reference_name": "color-palette-full-black"
+  },
+  {
+    "name": "component-tooltip-color-background-black-default",
+    "path": [
+      "component",
+      "tooltip",
+      "color",
+      "background-black-default"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "{color.palette.black}",
+    "value": "#0F172B",
+    "css_value": "var(--color-palette-black)",
+    "resolved_css_value": "#0F172B",
+    "is_reference": true,
+    "reference_name": "color-palette-black"
+  },
+  {
+    "name": "component-tooltip-color-background-light-black-default",
+    "path": [
+      "component",
+      "tooltip",
+      "color",
+      "background-light-black-default"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "{color.palette.light-black}",
+    "value": "#1D293D",
+    "css_value": "var(--color-palette-light-black)",
+    "resolved_css_value": "#1D293D",
+    "is_reference": true,
+    "reference_name": "color-palette-light-black"
+  },
+  {
+    "name": "component-tooltip-color-foreground-default",
+    "path": [
+      "component",
+      "tooltip",
+      "color",
+      "foreground-default"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "{color.palette.white}",
+    "value": "#F8FAFC",
+    "css_value": "var(--color-palette-white)",
+    "resolved_css_value": "#F8FAFC",
+    "is_reference": true,
+    "reference_name": "color-palette-white"
+  },
+  {
+    "name": "component-tooltip-default-variant",
+    "path": [
+      "component",
+      "tooltip",
+      "default-variant"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "full-black",
+    "value": "full-black",
+    "css_value": "full-black",
+    "resolved_css_value": "full-black",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-tooltip-layer-default",
+    "path": [
+      "component",
+      "tooltip",
+      "layer-default"
+    ],
+    "type": "number",
+    "description": "Tooltip overlays sit above page UI and the 10000-layer build watermark.",
+    "source_value": 11000,
+    "value": 11000,
+    "css_value": "11000",
+    "resolved_css_value": "11000",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-avatar-default-size",
     "path": [
       "component",
@@ -2530,27 +2538,11 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "component-date-value-default-mode",
+    "name": "component-date-display-default-mode",
     "path": [
       "component",
-      "date-value",
+      "date-display",
       "default-mode"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "date-value",
-    "value": "date-value",
-    "css_value": "date-value",
-    "resolved_css_value": "date-value",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-date-value-default-format",
-    "path": [
-      "component",
-      "date-value",
-      "default-format"
     ],
     "type": "string",
     "description": "",
@@ -2562,18 +2554,18 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "component-date-value-default-display",
+    "name": "component-date-display-default-display",
     "path": [
       "component",
-      "date-value",
+      "date-display",
       "default-display"
     ],
     "type": "string",
     "description": "",
-    "source_value": "muted",
-    "value": "muted",
-    "css_value": "muted",
-    "resolved_css_value": "muted",
+    "source_value": "date-day",
+    "value": "date-day",
+    "css_value": "date-day",
+    "resolved_css_value": "date-day",
     "is_reference": false,
     "reference_name": null
   },

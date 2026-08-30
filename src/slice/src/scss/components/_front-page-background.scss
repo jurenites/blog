@@ -1,6 +1,6 @@
 .jurenites-front-page {
   min-height: 100vh;
-  background: var(--color-palette-full-black);
+  background: var(--color-palette-black);
 }
 
 .background-preview {
@@ -8,7 +8,7 @@
   min-height: 100vh;
   overflow: hidden;
   isolation: isolate;
-  background: var(--color-palette-full-black);
+  background: var(--color-palette-black);
 }
 
 .background-preview > canvas {

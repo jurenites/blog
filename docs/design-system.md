@@ -35,7 +35,7 @@ Components are organised by Atomic Design and ITCSS layers:
 | settings   | `src/slice/src/scss/settings/` | Hand-written theme settings              |
 | tools      | `src/slice/src/scss/tools/`    | Mixins (elevation, motion, focus-ring)   |
 | base       | `src/slice/src/scss/base/`     | Reset, global element defaults, typography|
-| atoms      | `src/slice/src/scss/atoms/`    | Avatar, badge, button, chip, crossfade dot, date value, divider, icon, select input, surface, text input, two-tone heading |
+| atoms      | `src/slice/src/scss/atoms/`    | Avatar, badge, button, chip, crossfade dot, date display, divider, icon, select input, surface, text input, tooltip, two-tone heading |
 | molecules  | `src/slice/src/scss/molecules/`| Article teaser, author byline, breadcrumbs, contact widget, form field, media loader, pagination, project card, pull quote, search form |
 | organisms  | `src/slice/src/scss/organisms/`| Newsletter signup, site header, and larger page sections |
 | components  | `src/slice/src/scss/components/`| Content layout and page-specific compositions |
@@ -64,8 +64,11 @@ On every open, viewport scroll, and resize, it measures the visible room around
 the trigger and opens below or above accordingly. If neither side can contain
 the full list, the roomier side receives a viewport-bounded scrolling menu while
 each option retains its 40px minimum row height.
-Drupal `.form-select` controls receive the same enhancement from the shared
-theme JavaScript; multi-select controls retain their native browser UI.
+Drupal `.form-select` controls and the Site Header language picker receive the
+same enhancement from the shared theme JavaScript; multi-select controls retain
+their native browser UI. The header composes the same Storybook renderer and
+keeps only a scoped presentation override: its trigger and menu are borderless,
+and its wrapper shrinks to the selected language plus the shared suffix target.
 
 `Components/Content Layout` replaces separate blank Storybook shells for generic
 pages, nodes, full Articles, Basic pages, and teasers. It exposes semantic
@@ -82,14 +85,12 @@ supporting browsers. Drupal still owns the complete document request, rendering,
 cache metadata, access checks, and history; browsers without cross-document View
 Transitions use normal navigation, and reduced-motion users get an instant swap.
 Article Teaser is a square-corner editorial card with a 16:9 image, bordered
-surface, and a token-backed 150ms shadow transition. Pointer hover and keyboard
-focus-within move from level-zero shadow to the component hover shadow adapted
-from the [Shadcnblocks Blog 47 original](https://www.shadcnblocks.com/block/blog47).
-The entire card presents a pointer cursor, while hovering or focusing anywhere
-on it grows the image inside its clipped frame to 105% without changing grid
-geometry. The Blog View and the Storybook three-tile example use the same
-responsive auto-fitting grid contract, collapsing naturally when fewer 240px
-card columns fit.
+surface, and a token-backed 150ms shadow transition. It is reserved for the
+homepage three-tile composition and Storybook's `three_tile_grid` example.
+The Blog View uses a separate borderless Article Blog List Item: a horizontal
+media-and-content row with the same metadata contract, collapsing to one column
+on mobile. This keeps the Blog listing readable without treating every post as
+a homepage card.
 
 Article teaser metadata composes the shared Avatar atom. Storybook's Uploaded
 state and Drupal's native compact-user `author_picture` use the same image slot;
@@ -115,6 +116,10 @@ The Crossfade Dot atom keeps its visible circle at 4px inside the standard
 active dots use solid white, and pointer hover adds a 1px solid-white outline.
 The shared `.crossfade-dot` class is consumed by both Storybook and Drupal's
 two-image crossfade paginator.
+
+The Icon Atom Storybook gallery presents the selected icon first, including its
+machine name. Gallery items are keyboard-accessible clickable controls, and
+hover/focus uses the next elevation surface to make the interaction visible.
 
 The Breadcrumbs molecule also has one shared class contract. Drupal's breadcrumb
 preprocess hook adds the resolved current-page title to core's ancestor links,
@@ -142,9 +147,10 @@ The Top Nav Menu Site Header adapts the compact floating structure of
 [Shadcnblocks Navbar 33](https://www.shadcnblocks.com/block/navbar33) to the
 project's square-corner dark theme. Drupal's existing Site branding and Main
 navigation blocks become the left logo and centered one-level menu, while a
-native right-side language selector exposes only `Eng` and `Rus`. The selector
-uses Drupal's enabled interface languages and URL negotiation, so it preserves
-the current route and query string. On mobile the logo and language selector
+right-side language picker exposes only `Eng` and `Rus`. It composes the shared
+Select Input atom with a borderless, intrinsic-width header treatment and uses
+Drupal's enabled interface languages and URL negotiation, so it preserves the
+current route and query string. On mobile the logo and language selector
 remain on the first row while the compact menu moves to a second row and retains
 horizontal scrolling only as a narrow-content fallback. Authenticated pages hide Gin's secondary toolbar to keep the public header
 visually unambiguous; Gin's primary administration navigation remains available.
@@ -202,8 +208,9 @@ role mixins instead of rebuilding the shorthand in components:
 .card__title { @include tools.typography-headline-5; }
 ```
 
-Roles: `headline-3/4/5/6`, `subtitle-1/2`, `eyebrow`, `body`, `body-2`, `link`,
-`caption`, `code`, and `overline`. Base HTML elements (`h1`-`h6`, `p`, `a`) are mapped in
+Roles: `headline-1/2/3/4/5/6`, `subtitle-1/2`, `eyebrow`, `body`, `body-2`,
+`link`, `caption`, `code`, `badge`, `overline`, and `numeric-display`. Base HTML
+elements (`h1`-`h6`, `p`, `a`) are mapped in
 `base/_typography.scss`; component selectors reuse the nearest role and own
 non-font treatment such as underlines or uppercase text.
 
@@ -232,6 +239,13 @@ translatable in one field table instead of using four separate fields or an
 opaque JSON value. The Basic page title remains a semantic `h1`; Storybook's
 `heading_level` is a render-context control and is not editorial content.
 
+Numeric Values is a responsive Home-page-ready tile section. Each semantic `h2`
+number uses the 64px `numeric-display` role backed by Ubuntu Sans Mono, while
+its Description uses `subtitle-1`. Date Display uses its existing caption scale
+and display variants but uses the same monospaced family for dates and times.
+Drupal exposes repeatable Number and Description fields plus an optional Start
+year used to calculate elapsed years automatically.
+
 The source stays deliberately short, for example
 `headline-4: '600 32px var(--typography-font-family-sans)'`. The builder emits
 `--typography-headline-4` plus a mixin that applies it through the `font`
@@ -242,13 +256,17 @@ Handwritten CSS and SCSS must not declare numeric `font-size` values or numeric
 `font` shorthands. Use a generated typography role mixin or a semantic size
 token; the token-contract lint rejects raw `px`, `rem`, and `em` typography.
 
-Open Sans is the only website heading/body family. Roundabout is
-demonstration-only and appears solely on the Fonts foundation page. 4pixel is
-reserved for its demonstration and compact technical details: the 5px
-`overline` role is used by the version watermark and similarly technical labels.
+Open Sans is the only website heading/body family. Most typography roles below
+24px use the attached Open Sans Light face at weight 300; the compact `badge`
+role uses semibold 14px for stronger component labels. Roles at 24px and above
+retain their existing weights. Roundabout is demonstration-only and
+appears solely on the Fonts foundation page. 4pixel is reserved for its
+demonstration and compact technical details: the 5px `overline` role is used by
+the version watermark and similarly technical labels.
 Storybook's manager and Docs interface use Open Sans for UI text and the
 `typography.code` role for 14px bold Courier New code and technical metadata.
-Text links use the primary white text token in default and hover states. The
+Text links use a 1px token-backed underline and the primary white text token in
+default and hover states. The
 version Git-hash link explicitly retains the 4pixel family and a persistent 1px
 solid underline so it reads as a technical link without relying on color.
 
@@ -280,10 +298,9 @@ solid underline so it reads as a technical link without relying on color.
   tetrad, or more without changing the token builder. Only roles referenced by
   the theme must exist.
 - Generated CSS preserves each reference as `var(--…)` instead of flattening
-  aliases to HEX. Palette tokens emit their HEX directly; for example,
-  `theme.dark.brand.primary` emits
-  `--theme-dark-brand-primary: var(--color-palette-brand-primary)` while the
-  generated JS still exposes its resolved HEX for contrast calculations and Figma sync.
+  aliases to HEX. Palette tokens emit their HEX directly; semantic theme and
+  component tokens are kept only when a real consumer needs them. The generated
+  JS still exposes resolved HEX values for contrast calculations and Figma sync.
 - `generated/token/color-mappings.json` presents the three layers as compact
   key/value tables. It is a generated inspection surface; edit
   `src/token/tokens.yaml`, never the JSON artifact.
@@ -348,10 +365,11 @@ requiring another semantic size name. For example,
 
 ## Shape
 
-- `shape.corner-radius.*`: none, small, base, full. Every radius currently
+- `shape.corner-radius.*`: none, small, base, full. Every global radius currently
   resolves to `0px`, giving the website, native Drupal output, and Storybook a
   shared square-corner visual language while keeping semantic consumer names
-  stable. Avatar owns a local `9999px` identity-image radius; Select Input owns
+  stable. Chip uses its `component.chip.corner-radius-default` pill radius;
+  Avatar owns a local `9999px` identity-image radius; Select Input owns
   a local 50% radius only for its transient 36px hover indicator inside the
   otherwise square 40px suffix target.
 - `shape.border-width.*`: hairline-default, thick-default.

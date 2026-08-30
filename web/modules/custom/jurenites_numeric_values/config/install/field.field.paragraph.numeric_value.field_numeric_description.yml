@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_numeric_description
+    - paragraphs.paragraphs_type.numeric_value
+id: paragraph.numeric_value.field_numeric_description
+field_name: field_numeric_description
+entity_type: paragraph
+bundle: numeric_value
+label: Description
+description: 'Short supporting text rendered with the subtitle-1 typography role.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

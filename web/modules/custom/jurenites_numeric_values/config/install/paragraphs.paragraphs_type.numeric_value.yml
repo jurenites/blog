@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: numeric_value
+label: 'Numeric value'
+icon_uuid: null
+icon_default: null
+description: 'One numeric tile with a Number, Description, and optional automatic start year.'
+behavior_plugins: {  }

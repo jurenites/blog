@@ -1,0 +1,41 @@
+// Organism: Numeric values. A responsive list of editorial statistic tiles.
+
+@use "../tools";
+
+.numeric-values {
+  width: 100%;
+}
+
+.numeric-values__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: calc(var(--space-scale-base-gap) * 2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.numeric-values__tile {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-scale-base-gap);
+  box-sizing: border-box;
+  padding: calc(var(--space-scale-base-gap) * 3);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+}
+
+.numeric-values__number {
+  margin: 0;
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-numeric-display;
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+
+.numeric-values__description {
+  margin: 0;
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-subtitle-1;
+}

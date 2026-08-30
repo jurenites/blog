@@ -25,6 +25,8 @@ const VERBOSE_TOKEN_FIELD_PATTERN = /^\s*["']?\$(?:type|value|description)["']?\
 const SELF_MAPPING_PATTERN = /^\s*([a-z0-9-]+):\s+\1(?:\s+#.*)?$/gm;
 const SHADOW_OBJECT_PATTERN = /^\s+level-[0-9]+:\s+\{.*(?:offsetX|offsetY|blur|spread|color):/gm;
 const EXPECTED_TYPOGRAPHY_ROLES = new Set([
+  "headline-1",
+  "headline-2",
   "headline-3",
   "headline-4",
   "headline-5",
@@ -37,7 +39,9 @@ const EXPECTED_TYPOGRAPHY_ROLES = new Set([
   "link",
   "caption",
   "code",
+  "badge",
   "overline",
+  "numeric-display",
 ]);
 
 async function source_files(directory_path) {

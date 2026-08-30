@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 0.0.83
-Reviewed: 2026-08-29
+Version: 0.0.93
+Reviewed: 2026-08-30
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -37,11 +37,13 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   implemented and verified.
 - Spacing tokens use semantic names, not numeric names, so values can change
   without renaming component code.
-- Typography uses thirteen one-line CSS `font` shorthand role tokens. Open Sans owns
-  website headings, body copy, and the Storybook UI; bold Courier New owns
-  Storybook code text; Roundabout is demonstration-only; and 4pixel is limited
-  to demonstrations and compact technical details such as the bottom-right
-  version watermark.
+- Typography uses seventeen one-line CSS `font` shorthand role tokens. Open Sans owns
+  website headings, body copy, and the Storybook UI; most roles below 24px use
+  the attached Light face at weight 300, while Badge is semibold at 14px for
+  compact emphasis. Bold Courier New owns Storybook code
+  text; Ubuntu Sans Mono owns prominent numbers and Date Value date/time text;
+  Roundabout is demonstration-only; and 4pixel is limited to demonstrations and
+  compact technical details such as the bottom-right version watermark.
 - Token lint rejects numeric `font-size` declarations and numeric handwritten
   `font` shorthands so project typography must use roles or semantic tokens.
 - Storybook browser inspection is prepared through `npm run storybook:inspect`;
@@ -79,20 +81,19 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Blog-list thumbnails preserve the intrinsic `<img>` aspect ratio and zoom to
   120% inside their clipped media container on pointer hover, with the zoom
   suppressed for reduced-motion users.
-- All semantic corner-radius tokens resolve to `0px`; project-owned hardcoded
-  circular preview styles also use the zero-radius token so Drupal and
-  Storybook consistently render square corners. Avatar owns its circular
-  `9999px` radius locally, while Select Input uses a local 50% radius only for
+- All global semantic corner-radius tokens resolve to `0px`; project-owned
+  preview styles also use the zero-radius token so Drupal and Storybook
+  consistently render square corners. Chip owns a component-level `9999px`
+  pill radius, Avatar owns its circular `9999px` radius locally, and Select
+  Input uses a local 50% radius only for
   the requested transient 36px hover indicator inside its square suffix target.
 - Article teasers and full Article pages use node-unique cross-document View
   Transition names for the title and lead image. Drupal navigation and rendering
   stay native, with normal-navigation and reduced-motion fallbacks.
-- Article Teaser is now a square-corner, bordered editorial card with 16:9 media
-  and a 150ms token-backed hover/focus shadow increase. Storybook documents a
-  three-tile composition, and the Drupal Blog View uses the same responsive grid.
-  The entire card uses a pointer cursor, and whole-card hover/focus grows its
-  clipped image to 105%. Design provenance is documented against the original
-  Shadcnblocks Blog 47 page.
+- Article Teaser is the square-corner, bordered editorial card used by the
+  homepage three-tile composition. The Drupal Blog View uses a separate,
+  borderless Article Blog List Item with horizontal media and content that
+  collapses to one column on mobile. Storybook documents both presentations.
   Teaser titles use semantic `<h3>` markup with the 16px semibold `subtitle-1`
   role; teaser excerpts use the new 14px `body-2` role, while full Article body
   copy remains on the 16px `body` role.
@@ -119,7 +120,8 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   The open menu now measures the visual viewport and trigger position whenever
   it opens, scrolls, or resizes. It chooses below or above based on available
   space and uses a bounded internal scroller when the full list fits on neither
-  side, preserving the 40px minimum option rows.
+  side. The Site Header language picker now composes this same atom in Storybook
+  and Drupal, with a scoped borderless, intrinsic-width presentation.
 - Media Loader provides a 16:9 video-upload placeholder with independent
   monochrome noise frames, progress, filename, and upload status. Its noise
   advances at 15 fps and freezes under reduced motion.
@@ -180,7 +182,7 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   Pull Quote, and responsive Top Nav Menu Site Header, each verified at the 360px minimum.
 - Top Nav Menu Site Header uses the compact floating structure of Shadcnblocks Navbar 33:
   the Drupal logo sits left, the native one-level Main navigation is centered,
-  and a flag-free `Eng`/`Rus` selector sits right. It preserves the current
+  and a flag-free `Eng`/`Rus` Select Input sits right. It preserves the current
   route through Drupal language URLs, moves the compact navigation to a second
   row on mobile, and hides Gin's secondary toolbar for authenticated
   frontend users.
@@ -210,7 +212,19 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   while PHP, Apache, and Nginx permit a 210 MB request for multipart overhead.
 - Image Compare Accessible Slider provides an accessible draggable comparison,
   backed by an Image comparison content type that accepts two Image media items.
+- Articles accept one direct YouTube URL above Body through YouTube Field. The
+  field extracts the video ID and renders a responsive player and YouTube video
+  thumbnail without requiring editors to create or select Media entities first.
+  Cached oEmbed data adds the displayed video title, linked channel/author name,
+  and provider without duplicating them into Article fields. Channel avatars
+  still require a separately configured YouTube Data API integration.
+- Article Tags use Tagify's unlimited entity-reference autocomplete widget.
+  Editors can select existing Tags terms or create new terms by entering text.
 - Paragraphs provides structured content sections on Articles and Basic pages.
+  Numeric Values adds a repeatable section of semantic statistic tiles. Each
+  tile stores Number and Description fields, with an optional Start year that
+  calculates elapsed years at render time. Numbers use a 64px Ubuntu Sans Mono
+  role with a slashed zero; descriptions use `subtitle-1`.
   The Two-image crossfade Paragraph requires exactly two Image media items,
   defaults to two-second holds and half-second transitions, exposes both values
   as formatter settings, provides two interactive 4px pagination dots, and
@@ -218,9 +232,14 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - The two-image paginator's 4px Crossfade Dot is a shared Storybook/Drupal atom.
   Its inactive and active states remain dark gray and white, while hover adds a
   1px solid-white outline around the visible circle.
-- Badge uses the 12px Open Sans badge role and exactly three neutral-tone color
-  variants: neutral, gray, and white. Version labels retain the 5px 4pixel
-  Overline role for compact technical detail.
+- Tooltip renders as a document-level, viewport-fixed overlay so it never changes
+  its trigger's dimensions or document flow. It uses a token gap, automatic
+  bottom/top/right/left collision handling, a manual position override, and an
+  overlay layer above normal page UI. Badge, Chip, and Tooltip use the semibold
+  14px Open Sans badge role. Chip overrides native link typography and uses its
+  component-level pill radius. Chip and Button labels prevent accidental drag
+  selection while retaining their normal interactive semantics. Version labels
+  retain the 5px 4pixel Overline role for compact technical detail.
 - Desktop and wide breakpoints are unified into one 1280-1920px desktop range.
   Centered content is capped at 1440px and wider screens remain background-only.
 - Native document headings and components reuse the concise typography roles;

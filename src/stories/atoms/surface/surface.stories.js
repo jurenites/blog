@@ -2,7 +2,7 @@
 import surface_template from "./surface.template.html?raw";
 import { button_markup } from "../button/button.markup.js";
 import { chip_markup } from "../chip/chip.markup.js";
-import { date_value_markup } from "../date-value/date-value.markup.js";
+import { date_display_markup } from "../date-display/date-display.markup.js";
 import { token_option_names, token_value } from "../../foundations/token-values.js";
 import { render_template } from "../../template.js";
 
@@ -25,10 +25,10 @@ const NESTED_RENDERERS = {
       ${chip_markup({ chip_label: "Design system", is_accent: true })}
     </div>
   `,
-  date_value: () => date_value_markup({
+  date_display: () => date_display_markup({
     source_date: "2026-06-15",
-    format_variant: token_value("component-date-value-default-format"),
-    display_variant: token_value("component-date-value-default-display"),
+    value_mode: token_value("component-date-display-default-mode"),
+    display_variant: token_value("component-date-display-default-display"),
   }),
 };
 
@@ -43,7 +43,7 @@ function render_story({ surface_variant, nested_component }) {
 
 export default {
   title: "Atoms/Surface",
-  tags: ["autodocs"],
+  tags: ["!dev", "!autodocs"],
   render: render_story,
   argTypes: {
     surface_variant: {

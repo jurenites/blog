@@ -104,6 +104,16 @@ dependency. Hold and transition durations are formatter settings under Manage
 display. Two 4px pagination dots expose the active image and allow direct
 selection; automatic rotation pauses while the pointer is over the image area.
 
+Add repeatable Number and Description tiles to those Content sections with:
+
+```bash
+docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_numeric_values
+```
+
+The Numeric Values section uses a nested Numeric Value Paragraph for each tile.
+An optional Start year calculates elapsed years automatically, allowing the
+`2010` professional-experience value to stay current without content edits.
+
 Apply the structured Basic page heading controls with:
 
 ```bash

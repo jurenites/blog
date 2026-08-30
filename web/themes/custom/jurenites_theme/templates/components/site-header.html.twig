@@ -5,7 +5,7 @@
     {% if language_options %}
       <div class="site-header__language">
         <label class="visually-hidden" for="site-header-language-select">{{ 'Language'|t }}</label>
-        <select class="site-header__language-select" id="site-header-language-select" data-jurenites-language-select>
+        <select class="select-input__native site-header__language-select" id="site-header-language-select" name="site_header_language_select" data-jurenites-select data-jurenites-language-select data-select-chevron-url="/themes/custom/jurenites_theme/assets/icons/chevron-down.svg">
           {% for language_option in language_options %}
             <option value="{{ language_option.url }}"{% if language_option.selected %} selected{% endif %}>{{ language_option.label }}</option>
           {% endfor %}

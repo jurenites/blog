@@ -20,7 +20,8 @@ The builder infers token types and normalizes the source into internal DTCG reco
 `scripts/build-tokens.mjs` resolves plain dot-path references and generates (never hand-edit these):
 
 - `generated/styles/_tokens.scss` for CSS custom properties, SCSS breakpoint
-  vars/map/mixins, typography role mixins, and token utility classes
+  vars/map/mixins, typography role mixins, and consumed palette/spacing/shadow
+  utility classes
 - `generated/token/tokens.js` for Storybook JS, Drupal token JSON output, and
   Figma sync input
 
@@ -68,11 +69,11 @@ Current Foundations: Colors, Color Abstraction, Color Contrast, Typography,
 Fonts, and Spacing. Their JS reads `generated/token/tokens.js`; their styles read
 `generated/styles/_tokens.scss`.
 
-Current Atoms: Avatar, Badge, Button, Chip, Date Value, Divider, Surface,
+Current Atoms: Avatar, Badge, Button, Chip, Date Display, Divider, Icon, Surface, Tooltip,
 Version Watermark.
 
-Current Molecules: Article Teaser, Author Byline, Contact Me Widget, Pagination,
-Project Card, Pull Quote.
+Current Molecules: Article Teaser, Article Blog List Item, Author Byline, Contact
+Me Widget, Pagination, Project Card, Pull Quote.
 
 Current Organisms: Top Nav Menu Site Header.
 

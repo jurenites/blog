@@ -6,6 +6,7 @@ import { TOKEN_VALUES } from "../generated/token/tokens.js";
 import {
   initialize_avatar_images,
   initialize_custom_selects,
+  initialize_tooltips,
 } from "../src/slice/src/js/script.js";
 
 function token_dimension(token_name) {
@@ -68,6 +69,7 @@ export const decorators = [
     window.requestAnimationFrame(() => {
       initialize_avatar_images(document);
       initialize_custom_selects(document);
+      initialize_tooltips(document);
     });
     return story_output;
   },

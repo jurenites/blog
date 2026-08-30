@@ -62,6 +62,10 @@ function header_cell_markup(color_token) {
 }
 
 function body_cell_markup(text_token, background_token) {
+  if (text_token.token_value.toLowerCase() === background_token.token_value.toLowerCase()) {
+    return '<td class="contrast-cell"></td>';
+  }
+
   const ratio_value = contrast_ratio(text_token.token_value, background_token.token_value);
   const grade_value = contrast_grade(ratio_value);
   const grade_class = grade_value === "AAA" ? "aaa" : grade_value === "AA" ? "aa" : "fail";
