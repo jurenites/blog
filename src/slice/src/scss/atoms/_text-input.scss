@@ -30,7 +30,7 @@
   padding: 0 calc(var(--space-scale-base-gap) * 2);
   border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
   border-radius: var(--shape-corner-radius-base);
-  background: var(--theme-dark-surface-background-elevation-level-0);
+  background: var(--color-palette-light-black);
   color: var(--theme-dark-text-primary-default);
   @include tools.typography-caption;
   @include tools.motion-transition(border-color, box-shadow, background-color);

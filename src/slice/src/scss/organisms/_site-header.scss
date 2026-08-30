@@ -71,11 +71,11 @@
 
 .site-header__language-select {
   width: auto;
-  min-width: 0;
+  min-width: var(--component-text-input-width-quarter);
   max-width: none;
   padding: 0 calc(var(--space-scale-base-gap) * 0.5);
   border: none;
-  background: var(--theme-dark-surface-background-page);
+  background: var(--color-palette-light-black);
   @include tools.typography-link;
 }
 
@@ -93,16 +93,16 @@
 
 .site-header__language .select-input {
   width: fit-content;
-  min-width: 0;
+  min-width: var(--component-text-input-width-quarter);
   max-width: none;
 }
 
 .site-header__language .select-input__trigger {
-  grid-template-columns: max-content calc(var(--space-scale-base-gap) * 5);
-  width: auto;
-  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) calc(var(--space-scale-base-gap) * 5);
+  width: 100%;
+  min-width: var(--component-text-input-width-quarter);
   border: none;
-  background: var(--theme-dark-surface-background-page);
+  background: var(--color-palette-light-black);
   @include tools.typography-link;
 }
 
@@ -112,7 +112,7 @@
 
 .site-header__language .select-input__menu {
   border: none;
-  background: var(--theme-dark-surface-background-page);
+  background: var(--color-palette-light-black);
 }
 
 @include tools.breakpoint-down("mobile-max") {

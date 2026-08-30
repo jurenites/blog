@@ -22,7 +22,7 @@ function option_identifier(field_id, option_label) {
 }
 
 function required_indicator_markup(is_required) {
-  return is_required ? '<span class="form-field__required" aria-hidden="true"> *</span>' : "";
+  return is_required ? '<span class="form-field__required" aria-hidden="true">&#x20;*</span>' : "";
 }
 
 function description_markup(field_id, field_description) {

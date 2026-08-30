@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 0.0.93
+Version: 0.0.95
 Reviewed: 2026-08-30
 
 This checkpoint says the `/docs` folder has been reviewed against the current
@@ -101,7 +101,9 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   image state falls back to initials when the image fails, while Drupal passes
   its native compact-user `author_picture` render array into the shared shell.
   The Avatar removes the inaccessible user-profile link and owns displayed
-  image sizing through its SCSS class rather than HTML dimension attributes.
+  image sizing through explicit small (16px), medium (24px), large (32px), and
+  token-backed big (40px) modifier classes rather than HTML dimensions. The
+  default medium value renders its modifier class explicitly.
 - Article body and tag fields use bundle-specific semantic templates; tag Chips
   link to the Blog's validated single-tag GET filter using cleaned tag-label
   slugs rather than internal IDs. Its selected state and clear action require no
@@ -110,7 +112,9 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   page. Shared SCSS styles Drupal textareas, selects, checkboxes, radios, file
   uploads, descriptions, disabled states, and validation errors while retaining
   native form markup. Shared and native form labels and legends use regular 14px,
-  font-weight-400 typography.
+  font-weight-400 typography. Storybook label/control pairs use a dedicated
+  wrapper with an 8px gap, while form labels use a fixed 16px height and
+  line-height independent of the font's intrinsic line box.
 - Select Input progressively enhances its native control in Storybook and
   Drupal while retaining the native fallback. Its 40px trigger includes a 40px
   suffix target, 24px one-stroke chevron, 36px circular hover state, and short
@@ -122,6 +126,9 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   space and uses a bounded internal scroller when the full list fits on neither
   side. The Site Header language picker now composes this same atom in Storybook
   and Drupal, with a scoped borderless, intrinsic-width presentation.
+- Select, text, textarea, unchecked choice, and choice-chip controls use the
+  light-black palette surface so inputs sit one neutral tone above the default
+  page surface. Selected Select Input rows use deep gray to remain distinct.
 - Media Loader provides a 16:9 video-upload placeholder with independent
   monochrome noise frames, progress, filename, and upload status. Its noise
   advances at 15 fps and freezes under reduced motion.

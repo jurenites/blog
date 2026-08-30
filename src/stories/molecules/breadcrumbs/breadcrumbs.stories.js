@@ -10,7 +10,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: "Molecules/Breadcrumbs",
+  title: "Molecules/Blog/Breadcrumbs",
   tags: ["autodocs"],
   render: render_story,
   argTypes: {

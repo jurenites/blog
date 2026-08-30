@@ -11,7 +11,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: "Molecules/Author Byline",
+  title: "Molecules/Blog/Author Byline",
   tags: ["autodocs"],
   render: render_story,
   argTypes: {

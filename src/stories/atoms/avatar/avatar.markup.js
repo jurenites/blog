@@ -7,8 +7,7 @@ export function avatar_markup({
   avatar_initials,
   image_url = "",
 }) {
-  const default_size = token_value("component-avatar-default-size");
-  const avatar_modifier = avatar_size === default_size ? "" : ` avatar--${avatar_size}`;
+  const avatar_modifier = ` avatar--${avatar_size}`;
   const avatar_image = image_url
     ? `<div class="avatar__image" data-jurenites-avatar-image><img src="${escape_html(image_url)}" alt="" /></div>`
     : "";

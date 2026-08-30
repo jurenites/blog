@@ -8,8 +8,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: calc(var(--space-scale-base-gap) * 5);
-  height: calc(var(--space-scale-base-gap) * 5);
   border-radius: 9999px;
   overflow: hidden;
   background: var(--theme-dark-surface-background-elevation-level-1);
@@ -47,11 +45,21 @@
 }
 
 .avatar--small {
+  width: calc(var(--space-scale-base-gap) * 2);
+  height: calc(var(--space-scale-base-gap) * 2);
+}
+
+.avatar--medium {
+  width: calc(var(--space-scale-base-gap) * 3);
+  height: calc(var(--space-scale-base-gap) * 3);
+}
+
+.avatar--large {
   width: calc(var(--space-scale-base-gap) * 4);
   height: calc(var(--space-scale-base-gap) * 4);
 }
 
-.avatar--large {
-  width: calc(var(--space-scale-base-gap) * 8);
-  height: calc(var(--space-scale-base-gap) * 8);
+.avatar--big {
+  width: var(--shape-basic-tile);
+  height: var(--shape-basic-tile);
 }

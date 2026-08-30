@@ -69,6 +69,10 @@ same enhancement from the shared theme JavaScript; multi-select controls retain
 their native browser UI. The header composes the same Storybook renderer and
 keeps only a scoped presentation override: its trigger and menu are borderless,
 and its wrapper shrinks to the selected language plus the shared suffix target.
+Select, text, textarea, unchecked choice, and choice-chip control surfaces use
+`color.palette.light-black`, one neutral palette tone above the default page
+surface. The Select Input's selected listbox row uses `color.palette.deep-gray`
+so it remains distinct from the lighter control and menu surface.
 
 `Components/Content Layout` replaces separate blank Storybook shells for generic
 pages, nodes, full Articles, Basic pages, and teasers. It exposes semantic
@@ -97,7 +101,9 @@ state and Drupal's native compact-user `author_picture` use the same image slot;
 if that image cannot load, the component reveals its initials-based Avatar UI.
 Drupal retains ownership of the image formatter, cacheability, and access
 metadata, but the Avatar intentionally removes the user-profile destination and
-delegates its displayed dimensions to `.avatar__uploaded-image` component SCSS.
+delegates its displayed dimensions to explicit size modifiers. Small, medium,
+large, and big map to 16px, 24px, 32px, and the 40px `shape.basic-tile` token;
+medium remains the default but still renders the `.avatar--medium` class.
 
 Full Article pages render `body` and `field_tags` through bundle-specific field
 templates so each field owns meaningful BEM markup without Drupal's anonymous
@@ -138,7 +144,11 @@ normal link fallback.
 Form and input labels use the regular 14px `caption` typography role across the
 Text Input atom, Form Field molecule, and Drupal's native `.form-item` markup.
 This keeps `<label>` and form-group `<legend>` text at font weight 400 while
-leaving semibold `subtitle-2` typography available to non-form UI.
+leaving semibold `subtitle-2` typography available to non-form UI. Storybook's
+Select Input and Form Field examples wrap each label/control pair in
+`.form-field__label-control`, which owns their 8px gap. Form labels use an
+explicit 16px height and line-height so control placement does not depend on the
+font's intrinsic line box.
 
 Static source assets, including local font files used by Storybook, live in
 `src/public/`.

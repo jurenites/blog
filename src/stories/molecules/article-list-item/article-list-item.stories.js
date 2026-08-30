@@ -18,7 +18,7 @@ function render_article_list_item_story(story_arguments) {
 }
 
 export default {
-  title: "Molecules/Article Blog List Item",
+  title: "Molecules/Blog/Article Blog List Item",
   tags: ["autodocs"],
   render: render_article_list_item_story,
   parameters: {
