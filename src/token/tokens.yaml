@@ -101,6 +101,7 @@ typography:
   font-family:
     sans: ["Open Sans", "Helvetica Neue", Arial, sans-serif] # Base UI/body family.
     code: ["Courier New", Courier, monospace] # Bold code text in Storybook.
+    number: ["Ubuntu Sans Mono", Courier, monospace] # numeric values
     roundabout: [Roundabout, "Open Sans", sans-serif] # Demonstration-only custom font; never use for website headings or UI.
     4pixel: [4pixel, monospace] # Demonstration and compact technical-detail font.
   headline-1: '600 96px var(--typography-font-family-sans)' # <h1>

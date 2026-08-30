@@ -53,8 +53,9 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   pager override. At mobile width it automatically switches to four list items:
   previous arrow, current page, total pages, and next arrow.
 - Breadcrumbs use one class contract across Storybook, shared SCSS, and Drupal's
-  breadcrumb override. Drupal appends the resolved current-page title to core's
-  ancestor links and marks that final item as the current page. Full Articles
+  breadcrumb override. Drupal removes the front-page Home ancestor, appends the
+  resolved current-page title to the remaining ancestor links, and marks that
+  final item as the current page. Full Articles
   add a text Back link with a replaceable 24px, 1px-stroke left-arrow Icon Atom.
   Named SVG geometry is stored in `src/public/assets/icons` and copied into the
   deployable Drupal theme assets during the theme build. Breadcrumb links use

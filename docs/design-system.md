@@ -118,7 +118,7 @@ two-image crossfade paginator.
 
 The Breadcrumbs molecule also has one shared class contract. Drupal's breadcrumb
 preprocess hook adds the resolved current-page title to core's ancestor links,
-and `templates/navigation/breadcrumb.html.twig` maps the complete trail to the
+removes the front-page Home ancestor, and `templates/navigation/breadcrumb.html.twig` maps the remaining trail to the
 same `.breadcrumbs` BEM markup and `aria-current` behavior used in Storybook.
 Full Article pages additionally show a top-left text Back link to `/blog` with
 the name-addressable Icon Atom. Its `arrow-left` geometry lives in

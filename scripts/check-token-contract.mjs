@@ -54,6 +54,9 @@ async function source_files(directory_path) {
 }
 
 const defined_variables = new Set(Object.keys(TOKEN_VALUES).map((token_name) => `--${token_name}`));
+const external_css_variables = new Set([
+  "--gin-font-size-s",
+]);
 const contract_errors = [];
 const token_source_content = await readFile(TOKEN_SOURCE_PATH, "utf8");
 
@@ -150,7 +153,7 @@ for (const scan_directory of SCAN_DIRECTORIES) {
 
     if (extname(source_path) === ".scss") {
       for (const variable_match of source_content.matchAll(CSS_VARIABLE_PATTERN)) {
-        if (!defined_variables.has(variable_match[1])) {
+        if (!defined_variables.has(variable_match[1]) && !external_css_variables.has(variable_match[1])) {
           contract_errors.push(`${relative_path}: undefined token variable ${variable_match[1]}`);
         }
       }

@@ -1,14 +1,17 @@
 // Gin's navigation is rendered inside the public theme for authenticated users.
 // Keep its component contract while translating its palette to Jurenites tokens.
 
-.gin--navigation {
+body.jurenites-theme.gin--navigation {
   --color-focus: var(--theme-dark-action-primary-default);
   /* stylelint-disable-next-line custom-property-pattern -- Gin owns this external variable name. */
   --drupal--brand-blue: var(--color-palette-brand-primary);
   --color-blue-100: var(--color-palette-brand-primary-soft);
   --color-blue-600: var(--color-palette-brand-primary);
   --color-blue-700: var(--color-palette-brand-primary-accent);
-  --color-gray-050: var(--color-palette-dark-white);
+  // Gin uses both variables for expanded and hovered menu surfaces. Keep
+  // those states on the dark Jurenites elevation surface, not white-gray.
+  --gin-bg-item-hover: var(--color-palette-light-black);
+  --color-gray-050: var(--color-palette-light-black);
   --color-gray-100: var(--color-palette-pale-gray);
   --color-gray-300: var(--color-palette-light-gray);
   --color-gray-500: var(--color-palette-gray);
@@ -21,5 +24,6 @@
 
 body.jurenites-theme.gin--navigation .toolbar-menu a,
 body.jurenites-theme.gin--navigation .toolbar-menu button {
-  font-size: inherit;
+  font-family: inherit;
+  font-size: var(--gin-font-size-s);
 }

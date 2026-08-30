@@ -191,6 +191,12 @@ function jurenites_theme_preprocess_breadcrumb(array &$breadcrumb_variables): vo
   $breadcrumb_variables['breadcrumb'][] = [
     'text' => $current_title,
   ];
+
+  $home_breadcrumb_url = Url::fromRoute('<front>')->toString();
+  $breadcrumb_variables['breadcrumb'] = array_values(array_filter(
+    $breadcrumb_variables['breadcrumb'],
+    static fn(array $breadcrumb_item): bool => ($breadcrumb_item['url'] ?? '') !== $home_breadcrumb_url,
+  ));
 }
 
 /**

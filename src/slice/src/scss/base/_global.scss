@@ -35,6 +35,13 @@ body.jurenites-theme a:hover {
   color: var(--theme-dark-text-primary-default);
 }
 
+// Drupal's generated node-link list contains the redundant "Read more" action.
+// Keep the list in the DOM while hiding it everywhere on the public site; the
+// article title and image links use separate classes and remain interactive.
+body.jurenites-theme ul.links.inline {
+  display: none;
+}
+
 body.jurenites-theme a:focus-visible,
 body.jurenites-theme button:focus-visible {
   @include tools.focus-ring;

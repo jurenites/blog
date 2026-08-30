@@ -1221,6 +1221,30 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "typography-font-family-number",
+    "path": [
+      "typography",
+      "font-family",
+      "number"
+    ],
+    "type": "fontFamily",
+    "description": "numeric values",
+    "source_value": [
+      "Ubuntu Sans Mono",
+      "Courier",
+      "monospace"
+    ],
+    "value": [
+      "Ubuntu Sans Mono",
+      "Courier",
+      "monospace"
+    ],
+    "css_value": "\"Ubuntu Sans Mono\", \"Courier\", monospace",
+    "resolved_css_value": "\"Ubuntu Sans Mono\", \"Courier\", monospace",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "typography-font-family-roundabout",
     "path": [
       "typography",
