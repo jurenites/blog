@@ -60,7 +60,7 @@
   padding: 0 0 0 calc(var(--space-scale-base-gap) * 0.5);
   border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
   border-radius: var(--shape-corner-radius-base);
-  background: var(--color-palette-light-black);
+  background-color: transparent;
   color: var(--theme-dark-text-primary-default);
   text-align: start;
   cursor: pointer;

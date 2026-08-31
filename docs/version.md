@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 0.0.95
-Reviewed: 2026-08-30
+Version: 0.0.96
+Reviewed: 2026-08-31
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -104,6 +104,11 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   image sizing through explicit small (16px), medium (24px), large (32px), and
   token-backed big (40px) modifier classes rather than HTML dimensions. The
   default medium value renders its modifier class explicitly.
+- Full Article pages compose the Author Byline structure documented in
+  Storybook: linked Drupal author identity, publication date, calculated reading
+  time, and tag Chips. Video attribution uses the linked oEmbed channel name
+  without a redundant provider label and adds the current channel image through
+  the shared 16px Avatar, with initials as its non-blocking fallback.
 - Article body and tag fields use bundle-specific semantic templates; tag Chips
   link to the Blog's validated single-tag GET filter using cleaned tag-label
   slugs rather than internal IDs. Its selected state and clear action require no

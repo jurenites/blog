@@ -16,42 +16,45 @@
   {{ title_prefix }}
   {{ title_suffix }}
 
+  {% if display_submitted %}
+    {% include '@jurenites_theme/components/author-byline.html.twig' with {
+      author_avatar_image: author_picture,
+      author_avatar_initials: author_initials,
+      author_name_markup: author_name,
+      published_date_iso: submitted_date_iso,
+      published_date_markup: submitted_date_text,
+      reading_time_markup: reading_time_text,
+      topic_content: content.field_tags,
+    } only %}
+  {% endif %}
+
   {% if content.field_image %}
     <div class="article-detail__media" style="view-transition-name: article-image-{{ article_id }}">
       {{ content.field_image }}
     </div>
   {% endif %}
 
-  {% if display_submitted %}
-    <footer class="article-detail__meta">
-      {{ author_picture }}
-      <div{{ author_attributes }}>
-        {% trans %}Submitted by {{ author_name }} on{% endtrans %}
-        <time class="date-display date-display--month-day-year date-display--date-day" datetime="{{ submitted_date_iso }}">{{ submitted_date_text }}</time>
-      </div>
-    </footer>
-  {% endif %}
-
   {% if node.field_youtube_video is not empty %}
     <div class="article-detail__youtube-video">
       {{ content.field_youtube_video }}
-      {% if youtube_video_title or youtube_author_name or youtube_provider_name %}
+      {% if youtube_video_title or youtube_author_name %}
         <div class="youtube-video-details">
           {% if youtube_video_title %}
             <p class="youtube-video-details__title">{{ youtube_video_title }}</p>
           {% endif %}
-          {% if youtube_author_name or youtube_provider_name %}
-            <p class="youtube-video-details__source">
-              {% if youtube_author_name %}
-                {% if youtube_author_url %}
-                  <a class="youtube-video-details__author" href="{{ youtube_author_url }}" rel="external noopener">{{ youtube_author_name }}</a>
-                {% else %}
-                  <span>{{ youtube_author_name }}</span>
-                {% endif %}
+          {% if youtube_author_name %}
+            <div class="youtube-video-details__source">
+              {% include '@jurenites_theme/components/avatar.html.twig' with {
+                avatar_image: youtube_author_avatar,
+                avatar_initials: youtube_author_initials,
+                avatar_size: 'small',
+              } only %}
+              {% if youtube_author_url %}
+                <a class="youtube-video-details__author" href="{{ youtube_author_url }}" rel="external noopener">{{ youtube_author_name }}</a>
+              {% else %}
+                <span>{{ youtube_author_name }}</span>
               {% endif %}
-              {% if youtube_author_name and youtube_provider_name %}<span aria-hidden="true">/</span>{% endif %}
-              {% if youtube_provider_name %}<span>{{ youtube_provider_name }}</span>{% endif %}
-            </p>
+            </div>
           {% endif %}
         </div>
       {% endif %}
@@ -59,6 +62,6 @@
   {% endif %}
 
   <div{{ content_attributes.addClass('article-detail__content') }}>
-    {{ content|without('field_image', 'field_youtube_video') }}
+    {{ content|without('field_image', 'field_youtube_video', 'field_tags') }}
   </div>
 </article>

@@ -1,6 +1,7 @@
 import { author_byline_markup } from "./author-byline.markup.js";
 
 const AUTHOR_NAME = "Alexander Ilivanov";
+const AUTHOR_URL = "/user/2";
 const AVATAR_INITIALS = "AI";
 const PUBLISHED_DATE = "2026-06-23";
 const READING_TIME = "6 min read";
@@ -16,6 +17,7 @@ export default {
   render: render_story,
   argTypes: {
     author_name: { control: "text" },
+    author_url: { control: "text" },
     avatar_initials: { control: "text" },
     published_date: { control: "date" },
     reading_time: { control: "text" },
@@ -23,6 +25,7 @@ export default {
   },
   args: {
     author_name: AUTHOR_NAME,
+    author_url: AUTHOR_URL,
     avatar_initials: AVATAR_INITIALS,
     published_date: PUBLISHED_DATE,
     reading_time: READING_TIME,

@@ -260,6 +260,7 @@
   &__source {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: var(--space-scale-base-gap);
     color: var(--theme-dark-text-secondary-default);
     @include tools.typography-caption;

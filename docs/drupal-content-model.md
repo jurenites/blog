@@ -82,7 +82,7 @@ Suggested fields:
 - YouTube video: one direct YouTube URL. The YouTube Field module extracts the
   video ID and renders a responsive player with YouTube's video thumbnail. The
   public Article presentation uses cached oEmbed data for the video title,
-  linked channel/author name, and provider.
+  linked channel/author name, and the optional channel-avatar URL field.
 - Body
 - Hero image
 - Tags: an unlimited Tagify input that suggests existing Tags terms and creates
@@ -91,12 +91,15 @@ Suggested fields:
 - Related projects
 - Publish state
 
-The full Article renders YouTube video before Body, leaving Body available for
-the author’s own thoughts. YouTube Field stores only the submitted URL and
-extracted video ID; it does not import the video title, channel name, or channel
-avatar into Drupal fields. Cached oEmbed supplies the displayed title and
-channel/author name; a channel avatar still requires a separately configured
-YouTube Data API integration.
+The full Article starts with the same Author Byline contract documented in
+Storybook: linked Drupal author identity, publication date, calculated reading
+time, and tag Chips. It renders YouTube video before Body, leaving Body
+available for the author’s own thoughts. YouTube Field stores only the submitted
+URL and extracted video ID. Cached oEmbed supplies the displayed video title and
+linked channel/author name. A separate optional YouTube channel avatar URL keeps
+the 16px channel image deterministic and editable without adding a blocking
+channel-page request; the shared Avatar falls back to channel initials when the
+field is empty or invalid.
 
 ## Gallery Item
 

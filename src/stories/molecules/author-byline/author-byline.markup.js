@@ -7,6 +7,7 @@ import { escape_html, render_template } from "../../template.js";
 
 export function author_byline_markup({
   author_name,
+  author_url,
   avatar_initials,
   published_date,
   reading_time,
@@ -16,12 +17,16 @@ export function author_byline_markup({
     .split(",")
     .map((topic_name) => topic_name.trim())
     .filter(Boolean)
-    .map((topic_name) => chip_markup({ chip_label: topic_name }))
+    .map((topic_name) => `<li class="article-tags__item">${chip_markup({ chip_label: topic_name })}</li>`)
     .join("");
+
+  const author_name_markup = author_url
+    ? `<a href="${escape_html(author_url)}">${escape_html(author_name)}</a>`
+    : escape_html(author_name);
 
   return render_template(author_byline_template, {
     avatar_content: avatar_markup({ avatar_initials }),
-    author_name: escape_html(author_name),
+    author_name_markup,
     published_date: date_display_markup({
       source_date: published_date,
       value_mode: "month-day-year",

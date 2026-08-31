@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_youtube_channel_avatar
+    - node.type.article
+id: node.article.field_youtube_channel_avatar
+field_name: field_youtube_channel_avatar
+entity_type: node
+bundle: article
+label: 'YouTube channel avatar URL'
+description: 'Optional direct yt3.googleusercontent.com image URL used beside the linked channel name.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

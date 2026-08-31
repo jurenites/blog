@@ -21,6 +21,10 @@
   @include tools.typography-subtitle-2;
 }
 
+.author-byline__name a {
+  color: inherit;
+}
+
 .author-byline__details {
   display: flex;
   flex-wrap: wrap;
@@ -40,6 +44,10 @@
   gap: calc(var(--space-scale-base-gap) * 0.5);
 }
 
+.author-byline__topics .article-tags {
+  align-items: flex-end;
+}
+
 @include tools.breakpoint-down("mobile-max") {
   .author-byline {
     align-items: flex-start;
@@ -50,5 +58,9 @@
     flex-basis: 100%;
     justify-content: flex-start;
     padding-left: calc(var(--space-scale-base-gap) * 6);
+  }
+
+  .author-byline__topics .article-tags {
+    align-items: flex-start;
   }
 }

@@ -82,11 +82,6 @@ function jurenites_theme_preprocess_node(array &$node_variables): void {
     $date_formatter->format($created_timestamp, 'medium'),
   );
 
-  if (($node_variables['view_mode'] ?? '') !== 'teaser') {
-    jurenites_theme_add_youtube_metadata($node_variables);
-    return;
-  }
-
   $owner_name = trim($node_entity->getOwner()->getDisplayName());
   $author_initials_overrides = [
     'jurenites' => 'AI',
@@ -94,21 +89,48 @@ function jurenites_theme_preprocess_node(array &$node_variables): void {
 
   if (isset($author_initials_overrides[$owner_name])) {
     $node_variables['author_initials'] = $author_initials_overrides[$owner_name];
+  }
+  else {
+    $node_variables['author_initials'] = jurenites_theme_name_initials($owner_name);
+  }
+
+  if (($node_variables['view_mode'] ?? '') === 'teaser') {
     return;
   }
 
-  $name_parts = preg_split('/\s+/u', $owner_name, -1, PREG_SPLIT_NO_EMPTY) ?: [];
-  $author_initials = '';
+  $body_text = $node_entity->hasField('body')
+    ? trim(Html::decodeEntities(strip_tags((string) $node_entity->get('body')->value)))
+    : '';
+  $body_words = preg_split('/\s+/u', $body_text, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+  if ($body_words) {
+    $reading_minutes = max(1, (int) ceil(count($body_words) / 200));
+    $reading_time = \Drupal::translation()->formatPlural(
+      $reading_minutes,
+      '1 min read',
+      '@count min read',
+    );
+    $node_variables['reading_time_text'] = jurenites_theme_numeric_text_markup($reading_time);
+  }
+
+  jurenites_theme_add_youtube_metadata($node_variables);
+}
+
+/**
+ * Builds compact initials from a person or channel display name.
+ */
+function jurenites_theme_name_initials(string $display_name): string {
+  $name_parts = preg_split('/\s+/u', trim($display_name), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+  $display_initials = '';
 
   foreach (array_slice($name_parts, 0, 2) as $name_part) {
-    $author_initials .= mb_substr($name_part, 0, 1);
+    $display_initials .= mb_substr($name_part, 0, 1);
   }
 
   if (count($name_parts) === 1) {
-    $author_initials = mb_substr($name_parts[0], 0, 2);
+    $display_initials = mb_substr($name_parts[0], 0, 2);
   }
 
-  $node_variables['author_initials'] = mb_strtoupper($author_initials);
+  return mb_strtoupper($display_initials);
 }
 
 /**
@@ -139,11 +161,31 @@ function jurenites_theme_add_youtube_metadata(array &$node_variables): void {
   }
 
   $author_url = $video_resource->getAuthorUrl();
-  $video_provider = $video_resource->getProvider();
   $node_variables['youtube_video_title'] = $video_resource->getTitle();
   $node_variables['youtube_author_name'] = $video_resource->getAuthorName();
   $node_variables['youtube_author_url'] = $author_url?->toString();
-  $node_variables['youtube_provider_name'] = $video_provider?->getName();
+  $node_variables['youtube_author_initials'] = jurenites_theme_name_initials(
+    (string) $node_variables['youtube_author_name'],
+  );
+
+  $channel_avatar_url = $node_entity->hasField('field_youtube_channel_avatar')
+    ? trim((string) $node_entity->get('field_youtube_channel_avatar')->value)
+    : '';
+  $channel_avatar_host = mb_strtolower((string) parse_url($channel_avatar_url, PHP_URL_HOST));
+  if ($channel_avatar_url
+    && in_array($channel_avatar_host, ['yt3.googleusercontent.com', 'yt3.ggpht.com'], TRUE)) {
+    $node_variables['youtube_author_avatar'] = [
+      '#theme' => 'image',
+      '#uri' => $channel_avatar_url,
+      '#alt' => '',
+      '#attributes' => [
+        'loading' => 'lazy',
+        'width' => 16,
+        'height' => 16,
+      ],
+    ];
+  }
+
   CacheableMetadata::createFromObject($video_resource)
     ->applyTo($node_variables['elements']);
 }
