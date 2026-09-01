@@ -15,7 +15,7 @@
 ] %}
 
 <article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
-  {% if content.field_image %}
+  {% if node.field_youtube_video is not empty and node.field_image is not empty %}
     <div class="article-list-item__media" style="view-transition-name: article-image-{{ article_id }}">
       {{ content.field_image }}
     </div>
@@ -41,7 +41,7 @@
           avatar_initials: author_initials,
         } only %}
         <div{{ author_attributes.addClass('article-list-item__meta-details') }}>
-          {% trans %}Submitted by {{ author_name }} on{% endtrans %}
+          {% trans %}Written by {{ author_name }} on{% endtrans %}
           <time class="date-display date-display--month-day-year date-display--date-day" datetime="{{ submitted_date_iso }}">{{ submitted_date_text }}</time>
         </div>
       </footer>

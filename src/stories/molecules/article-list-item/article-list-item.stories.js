@@ -11,7 +11,7 @@ const AVATAR_INITIALS = "AI";
 const AVATAR_IMAGE_URL = "http://jurenites.local/sites/default/files/styles/thumbnail/public/pictures/2026-08/Alexander_ilivanpov_avatar_512.jpeg.webp?itok=666UO5aR";
 const PUBLISHED_DATE = "2026-06-15";
 const DATE_DISPLAY_VARIANT = token_value("component-date-display-default-display");
-const READING_TIME = "6 minutes";
+const READING_TIME = "5 minutes";
 
 function render_article_list_item_story(story_arguments) {
   return `<div class="article-list">${article_list_item_markup(story_arguments)}</div>`;

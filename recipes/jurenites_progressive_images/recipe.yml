@@ -47,3 +47,19 @@ config:
     core.entity_view_display.media.remote_video.media_library:
       setComponent:
         <<: *progressive_media_thumbnail
+    core.entity_view_display.node.article.teaser:
+      setComponent:
+        name: field_image
+        options:
+          type: responsive_image
+          label: hidden
+          settings:
+            responsive_image_style: article_blog_list
+            image_link: content
+            image_loading:
+              attribute: lazy
+          third_party_settings:
+            image_blurry_placeholder:
+              use_blurry_placeholder: true
+          weight: -1
+          region: content

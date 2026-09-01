@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 0.0.96
+Version: 0.0.98
 Reviewed: 2026-08-31
 
 This checkpoint says the `/docs` folder has been reviewed against the current
@@ -80,7 +80,16 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   maximum width while standard page and node content remains at 720px.
 - Blog-list thumbnails preserve the intrinsic `<img>` aspect ratio and zoom to
   120% inside their clipped media container on pointer hover, with the zoom
-  suppressed for reduced-motion users.
+  suppressed for reduced-motion users. A Blog-list media region now requires a
+  YouTube video, so Articles without video do not show a thumbnail. Saving an
+  Article with YouTube video and an empty Image field prefers YouTube's
+  1280×720 thumbnail, then falls back to the oEmbed thumbnail, and stores it in
+  that field. Existing Images remain under editorial control and are never
+  overwritten by the automatic fallback. Blog-list images use Drupal's narrow
+  responsive candidate set with an embedded blurry placeholder and the shared
+  progressive loading state. Its Blog-specific `sizes` rule follows the actual
+  641px single-column breakpoint so mobile images are not stretched from the
+  325px candidate.
 - All global semantic corner-radius tokens resolve to `0px`; project-owned
   preview styles also use the zero-radius token so Drupal and Storybook
   consistently render square corners. Chip owns a component-level `9999px`

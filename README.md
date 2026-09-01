@@ -101,9 +101,12 @@ WebP candidates for normal and high-density displays. Its 1px loading line
 shows placeholder, image-request, complete, and error states without replacing
 the browser's native responsive-image selection. Preview generation runs when
 Drupal saves image files, including locally cached remote-video thumbnails.
-The preview uses its own decorative layer, leaving native image alt/error
-rendering unfiltered. PHP has a 512 MB local memory allowance so GD can process
-large source photographs into responsive derivatives.
+Article blog-list images use a layout-specific responsive candidate set so the
+browser can select a 325px, 650px, or 1300px derivative for the rendered width
+and pixel density, including the stacked layout below 641px. The preview uses
+its own decorative layer, leaving native image alt/error rendering unfiltered.
+PHP has a 512 MB local memory allowance so GD can process large source
+photographs into responsive derivatives.
 
 The `jurenites_image_comparison` recipe enables the stable Image Compare
 Accessible Slider and its Media integration, then provides an Image comparison

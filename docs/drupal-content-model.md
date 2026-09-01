@@ -82,7 +82,16 @@ Suggested fields:
 - YouTube video: one direct YouTube URL. The YouTube Field module extracts the
   video ID and renders a responsive player with YouTube's video thumbnail. The
   public Article presentation uses cached oEmbed data for the video title,
-  linked channel/author name, and the optional channel-avatar URL field.
+  linked channel/author name, and the optional channel-avatar URL field. When
+  an Article with a YouTube video has no Hero image, Drupal downloads YouTube's
+  1280×720 thumbnail into that Image field on save and uses the oEmbed image as
+  a lower-resolution fallback. Editors can then replace or manipulate it like
+  any other Article image; an existing Image is never overwritten
+  automatically. The Blog list only presents this media when the Article also
+  has a YouTube video, and serves responsive 325px, 650px, or source-width WebP
+  candidates with the progressive blurry-placeholder treatment. The candidate
+  sizing follows the Blog list's 641px switch between horizontal and stacked
+  layouts.
 - Body
 - Hero image
 - Tags: an unlimited Tagify input that suggests existing Tags terms and creates

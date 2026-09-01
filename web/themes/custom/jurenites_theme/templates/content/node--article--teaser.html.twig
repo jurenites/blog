@@ -40,7 +40,7 @@
         avatar_initials: author_initials,
       } only %}
       <div{{ author_attributes.addClass('article-teaser__meta-details') }}>
-        {% trans %}Submitted by {{ author_name }} on{% endtrans %}
+        {% trans %}Written by {{ author_name }} on{% endtrans %}
         <time class="date-display date-display--month-day-year date-display--date-day" datetime="{{ submitted_date_iso }}">{{ submitted_date_text }}</time>
       </div>
     </footer>

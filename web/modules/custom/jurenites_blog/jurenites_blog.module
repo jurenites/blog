@@ -1,0 +1,145 @@
+<?php
+
+/**
+ * @file
+ * Article content helpers for the Jurenites Blog.
+ */
+
+use Drupal\Core\File\FileExists;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Populates an empty Article Image field from its YouTube thumbnail.
+ */
+function jurenites_blog_node_presave(NodeInterface $article_node): void {
+  if ($article_node->bundle() !== 'article'
+    || !$article_node->hasField('field_youtube_video')
+    || !$article_node->hasField('field_image')
+    || $article_node->get('field_youtube_video')->isEmpty()
+    || !$article_node->get('field_image')->isEmpty()) {
+    return;
+  }
+
+  $youtube_item = $article_node->get('field_youtube_video')->first();
+  $video_url = trim((string) $youtube_item?->get('input')->getValue());
+  $video_identifier = trim((string) $youtube_item?->get('video_id')->getValue());
+  if ($video_url === '' || $video_identifier === '') {
+    return;
+  }
+
+  jurenites_blog_set_youtube_thumbnail($article_node, $video_url, $video_identifier);
+}
+
+/**
+ * Downloads the best available YouTube thumbnail into an Article Image field.
+ */
+function jurenites_blog_set_youtube_thumbnail(
+  NodeInterface $article_node,
+  string $video_url,
+  string $video_identifier,
+): bool {
+  try {
+    $resource_url = \Drupal::service('media.oembed.url_resolver')->getResourceUrl($video_url);
+    $video_resource = \Drupal::service('media.oembed.resource_fetcher')->fetchResource($resource_url);
+    $thumbnail_resource_url = $video_resource->getThumbnailUrl();
+    $fallback_thumbnail_url = $thumbnail_resource_url?->toString() ?? '';
+    if ($fallback_thumbnail_url === '') {
+      throw new \RuntimeException('The video metadata has no thumbnail URL.');
+    }
+
+    $thumbnail_candidates = [
+      [
+        'thumbnail_url' => sprintf(
+          'https://i.ytimg.com/vi/%s/maxresdefault.jpg',
+          rawurlencode($video_identifier),
+        ),
+        'minimum_width' => 1000,
+      ],
+      [
+        'thumbnail_url' => $fallback_thumbnail_url,
+        'minimum_width' => 1,
+      ],
+    ];
+    $thumbnail_data = '';
+    $image_information = FALSE;
+    foreach ($thumbnail_candidates as $thumbnail_candidate) {
+      try {
+        $thumbnail_response = \Drupal::httpClient()->request(
+          'GET',
+          $thumbnail_candidate['thumbnail_url'],
+          ['timeout' => 10],
+        );
+        $candidate_data = (string) $thumbnail_response->getBody();
+        $candidate_information = @getimagesizefromstring($candidate_data);
+        if ($candidate_information !== FALSE
+          && $candidate_information[0] >= $thumbnail_candidate['minimum_width']) {
+          $thumbnail_data = $candidate_data;
+          $image_information = $candidate_information;
+          break;
+        }
+      }
+      catch (\Throwable) {
+        // Continue to the lower-resolution oEmbed fallback.
+      }
+    }
+    if ($image_information === FALSE) {
+      throw new \RuntimeException('No supported YouTube thumbnail could be downloaded.');
+    }
+
+    $image_extensions = [
+      IMAGETYPE_JPEG => 'jpg',
+      IMAGETYPE_PNG => 'png',
+      IMAGETYPE_WEBP => 'webp',
+    ];
+    $image_extension = $image_extensions[$image_information[2]] ?? NULL;
+    if ($image_extension === NULL) {
+      throw new \RuntimeException('The downloaded thumbnail format is not supported.');
+    }
+
+    $thumbnail_directory = 'public://youtube-thumbnails';
+    $directory_ready = \Drupal::service('file_system')->prepareDirectory(
+      $thumbnail_directory,
+      FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS,
+    );
+    if (!$directory_ready) {
+      throw new \RuntimeException('The YouTube thumbnail directory is not writable.');
+    }
+
+    $safe_identifier = preg_replace('/[^A-Za-z0-9_-]+/', '-', $video_identifier);
+    $thumbnail_uri = sprintf(
+      '%s/%s.%s',
+      $thumbnail_directory,
+      trim((string) $safe_identifier, '-'),
+      $image_extension,
+    );
+    $thumbnail_file = \Drupal::service('file.repository')->writeData(
+      $thumbnail_data,
+      $thumbnail_uri,
+      FileExists::Replace,
+    );
+    $thumbnail_file->setPermanent();
+    $thumbnail_file->save();
+
+    $thumbnail_alt = trim((string) $video_resource->getTitle());
+    $article_node->set('field_image', [
+      'target_id' => $thumbnail_file->id(),
+      'alt' => $thumbnail_alt !== '' ? $thumbnail_alt : $article_node->label(),
+      'width' => $image_information[0],
+      'height' => $image_information[1],
+    ]);
+
+    return TRUE;
+  }
+  catch (\Throwable $thumbnail_exception) {
+    \Drupal::logger('jurenites_blog')->warning(
+      'Unable to save the YouTube thumbnail for Article @article_id: @message',
+      [
+        '@article_id' => $article_node->id() ?? 'new',
+        '@message' => $thumbnail_exception->getMessage(),
+      ],
+    );
+
+    return FALSE;
+  }
+}
