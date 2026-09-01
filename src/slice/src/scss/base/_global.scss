@@ -5,33 +5,46 @@
 @use "../tools";
 
 html {
-  background: var(--color-surface-page-default);
+  background: var(--theme-dark-surface-background-page);
 }
 
-body {
+body.jurenites-theme {
   min-height: 100vh;
   margin: 0;
-  background: var(--color-surface-page-default);
-  color: var(--color-text-primary-default);
-  @include tools.typography-body-1;
+  background: var(--theme-dark-surface-background-page);
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-body;
 }
 
-body.path-frontpage {
+body.jurenites-theme.path-frontpage {
   overflow-x: hidden;
 }
 
-a {
-  color: var(--color-action-primary-default);
-  text-decoration: none;
+body.jurenites-theme .gin-secondary-toolbar {
+  display: none !important;
+}
+
+body.jurenites-theme a {
+  color: var(--theme-dark-text-primary-default);
+  text-decoration: underline;
+  text-decoration-thickness: var(--space-scale-one);
+  @include tools.typography-link;
   @include tools.motion-transition(color);
 }
 
-a:hover {
-  color: var(--color-action-primary-hover);
+body.jurenites-theme a:hover {
+  color: var(--theme-dark-text-primary-default);
 }
 
-a:focus-visible,
-button:focus-visible {
+// Drupal's generated node-link list contains the redundant "Read more" action.
+// Keep the list in the DOM while hiding it everywhere on the public site; the
+// article title and image links use separate classes and remain interactive.
+body.jurenites-theme ul.links.inline {
+  display: none;
+}
+
+body.jurenites-theme a:focus-visible,
+body.jurenites-theme button:focus-visible {
   @include tools.focus-ring;
 }
 
@@ -39,18 +52,27 @@ button:focus-visible {
   @include tools.visually-hidden;
 }
 
+.hidden {
+  display: none !important;
+}
+
+// Skip link: hidden until Tab, then a real in-page link to #main-content.
+.skip-to-content {
+  @include tools.visually-hidden;
+  @include tools.visually-revealed-on-focus;
+
+  &:focus,
+  &:focus-visible {
+    inset-block-start: var(--layout-gutter-desktop-default);
+    inset-inline-start: var(--layout-gutter-desktop-default);
+    z-index: var(--component-watermark-layer-default);
+  }
+}
+
 .layout-container {
   position: relative;
   z-index: 1;
   max-width: var(--layout-container-max-desktop-default);
   margin: 0 auto;
-  padding: var(--layout-gutter-desktop-default);
-}
-
-#block-jurenites-theme-site-branding .site-logo img {
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: 64px;
-  max-height: 64px;
+  //padding: var(--layout-gutter-desktop-default);
 }

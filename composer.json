@@ -12,14 +12,36 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "cloudfour/image-compare",
+                "version": "1.0.5",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://registry.npmjs.org/@cloudfour/image-compare/-/image-compare-1.0.5.tgz",
+                    "type": "tar"
+                }
+            }
         }
     ],
     "require": {
+        "cloudfour/image-compare": "^1.0.5",
         "composer/installers": "^2.3",
         "drupal/core-composer-scaffold": "^11.3",
         "drupal/core-project-message": "^11.3",
         "drupal/core-recipe-unpack": "^11.3",
         "drupal/core-recommended": "^11.3",
+        "drupal/gin": "^5.0",
+        "drupal/google_tag": "^2.0",
+        "drupal/image_blurry_placeholder": "^1.2",
+        "drupal/image_compare": "^1.0",
+        "drupal/paragraphs": "^1.22",
+        "drupal/publication_date": "^3.1",
+        "drupal/realname": "^2.0",
+        "drupal/tagify": "^2.0",
+        "drupal/youtube": "^3.0@beta",
         "drush/drush": "^13.7"
     },
     "conflict": {
@@ -36,7 +58,8 @@
             "phpstan/extension-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "php-http/discovery": true,
-            "php-tuf/composer-integration": true
+            "php-tuf/composer-integration": true,
+            "symfony/runtime": true
         },
         "sort-packages": true
     },

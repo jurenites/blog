@@ -33,6 +33,7 @@ function pagination_entries(current_page, page_count) {
 function page_item_markup(page_entry, current_page) {
   if (page_entry === "ellipsis") {
     return render_template(page_template, {
+      page_item_class: "pagination__item--page",
       page_content: '<span class="pagination__ellipsis" aria-hidden="true">&hellip;</span>',
     });
   }
@@ -41,7 +42,10 @@ function page_item_markup(page_entry, current_page) {
     ? `<span class="pagination__current" aria-current="page"><span class="visually-hidden">Current page</span> ${page_entry}</span>`
     : `<a class="pagination__link" href="#page-${page_entry}" aria-label="Go to page ${page_entry}">${page_entry}</a>`;
 
-  return render_template(page_template, { page_content });
+  return render_template(page_template, {
+    page_item_class: "pagination__item--page",
+    page_content,
+  });
 }
 
 function control_markup(control_direction, target_page, is_disabled) {

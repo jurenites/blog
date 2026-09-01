@@ -5,36 +5,45 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: var(--space-scale-tight-gap);
+  gap: var(--space-scale-two);
   right: var(--space-scale-base-gap);
   bottom: var(--space-scale-base-gap);
   z-index: var(--component-watermark-layer-default);
-  color: var(--color-watermark-credit-default);
+  color: var(--component-watermark-color-credit-default);
   user-select: none;
   white-space: nowrap;
-  @include tools.typography-semantic-watermark-version;
-}
+  @include tools.typography-overline;
 
-.version-watermark__identity {
-  display: inline-flex;
-  gap: var(--space-scale-tight-gap);
-  align-items: baseline;
-  color: var(--color-watermark-identity-default);
-}
+  &__number,
+  &__credit_name{
+    color: var(--component-watermark-color-identity-default);
+  }
+  &__label,
+  &__separator,
+  &__updated-gmt,
+  &__credit {
+    color: var(--component-watermark-color-credit-default);
+  }
 
-.version-git-hash,
-.version-watermark__credit {
-  color: var(--color-watermark-credit-default);
+  &__line {
+    display: inline-flex;
+    gap: var(--space-scale-two);
+    align-items: baseline;
+  }
 }
+/*
+.version-watermark--story-preview {
+  position: absolute;
+} */
 
 .version-git-hash {
-  text-decoration: none;
-}
-
-.version-git-hash:hover,
-.version-git-hash:focus-visible {
+  color: var(--theme-dark-text-primary-default);
+  font: var(--typography-overline) !important;
   text-decoration-line: underline;
   text-decoration-style: solid;
-  text-decoration-thickness: var(--space-scale-line-size);
-  text-underline-offset: var(--space-scale-tight-gap);
+  text-decoration-thickness: 1px;
+  //text-underline-offset: var(--space-scale-two);
+  &:hover{ 
+    color: var(--theme-dark-text-primary-default);
+  }
 }

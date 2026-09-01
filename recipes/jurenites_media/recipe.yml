@@ -1,0 +1,11 @@
+name: 'Jurenites media library'
+description: 'Provides reusable JPEG/image uploads and YouTube/Vimeo remote videos.'
+type: 'Media'
+recipes:
+  - core/recipes/image_media_type
+  - core/recipes/remote_video_media_type
+config:
+  actions:
+    field.field.media.image.field_media_image:
+      simpleConfigUpdate:
+        settings.max_filesize: '200 MB'

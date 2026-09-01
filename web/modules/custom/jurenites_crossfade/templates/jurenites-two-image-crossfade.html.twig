@@ -1,0 +1,24 @@
+<div
+  class="jurenites-two-image-crossfade"
+  data-two-image-crossfade
+  data-hold-duration="{{ hold_duration_milliseconds }}"
+  data-transition-duration="{{ transition_duration_milliseconds }}"
+  style="--crossfade-transition-duration: {{ transition_duration_milliseconds }}ms"
+>
+  {% for image_frame in image_frames %}
+    <div class="jurenites-two-image-crossfade__frame{% if loop.first %} is-active{% endif %}" data-crossfade-frame="{{ loop.index0 }}">
+      {{ image_frame }}
+    </div>
+  {% endfor %}
+  <div class="jurenites-two-image-crossfade__pagination" aria-label="Image pagination">
+    {% for image_frame in image_frames %}
+      <button
+        class="crossfade-dot jurenites-two-image-crossfade__dot{% if loop.first %} is-active{% endif %}"
+        type="button"
+        data-crossfade-dot="{{ loop.index0 }}"
+        aria-label="Show image {{ loop.index }} of {{ image_frames|length }}"
+        aria-pressed="{% if loop.first %}true{% else %}false{% endif %}"
+      ></button>
+    {% endfor %}
+  </div>
+</div>

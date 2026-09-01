@@ -1,6 +1,12 @@
-# Blog jurenites
+# Blog website
 
 Personal site for Alexander Ilivanov / @jurenites.
+
+Please Don't hack me, i;ve showed oto internem my code in form of opensource because i have nothing to hide and its my own wao of work and you may evaluate it. But in sake of security that not smart, IU hope in case of disaster at maximum damage can be at max: 
+- an sware workds
+- inapropriate images or 
+- webste is down
+im fine with thatn if you are white hakerr foudn wornulabilities, i woudl be glad to hear from you. 
 
 This repository is the working system for a personal blog, portfolio, CV timeline,
 and public design/development process. The repo is intentionally readable: design
@@ -68,20 +74,69 @@ There are no generated token JSON mirrors in the normal workflow. JS consumers
 read `generated/token/tokens.js`, not the compiled SCSS/CSS output, so the data
 flow stays direct: YAML to CSS for styling, YAML to JS for logic.
 
-Useful commands (Cheet Sheet):
+Useful commands are collected in the
+[`docs/command-cheat-sheet.md`](docs/command-cheat-sheet.md), with DEV and PROD
+kept separate. Common source commands:
 
 ```bash
 scripts/sync.sh all       # build tokens + theme + Figma prep
 npm run build:tokens      # generate tokens, then validate the token contract
-npm run tokens:check      # reject copied HEX values and missing CSS token variables
+npm run tokens:check      # reject copied/lowercase HEX and missing CSS token variables
 npm run storybook         # build tokens, then run Storybook on port 6006
 npm run build-storybook   # build tokens, then build static Storybook
 npm run figma:prepare     # build tokens before running the Figma sync helper
 npm run docs:check        # check docs version and source/docs drift
 npm run build:theme       # compile Drupal CSS/JS and copy deployable theme fonts
 
-docker compose exec web vendor/bin/drush cr 
 ```
+
+The `jurenites_media` recipe enables Drupal's Media Library and provides two
+reusable media types: Image for JPEG and other web-image uploads, and Remote
+video for YouTube or Vimeo URLs. Drupal stores the remote video URL and embeds
+the hosted video; it does not upload video files to YouTube.
+
+The `jurenites_progressive_images` recipe reserves intrinsic image space,
+embeds a cached 20px blurry preview in the initial HTML, and enables responsive
+WebP candidates for normal and high-density displays. Its 1px loading line
+shows placeholder, image-request, complete, and error states without replacing
+the browser's native responsive-image selection. Preview generation runs when
+Drupal saves image files, including locally cached remote-video thumbnails.
+Article blog-list images use a layout-specific responsive candidate set so the
+browser can select a 325px, 650px, or 1300px derivative for the rendered width
+and pixel density, including the stacked layout below 641px. The preview uses
+its own decorative layer, leaving native image alt/error rendering unfiltered.
+PHP has a 512 MB local memory allowance so GD can process large source
+photographs into responsive derivatives.
+
+The `jurenites_image_comparison` recipe enables the stable Image Compare
+Accessible Slider and its Media integration, then provides an Image comparison
+content type. Create one at `/node/add/image_comparison`, select exactly two
+aligned Image media items, and order them left image first and right image
+second. Visitors can drag the divider with a pointer or use the keyboard.
+
+The `jurenites_paragraphs_crossfade` recipe enables Paragraphs and adds Content
+sections to Articles and Basic pages. Its Two-image crossfade section requires
+exactly two aligned Image media items, holds each image for two seconds,
+crossfades for half a second, and loops indefinitely. The animation starts only
+after both images load and remains static when reduced motion is requested.
+Manage display exposes the hold and crossfade durations. Two 4px pagination
+dots show the active image and can select either frame, while pointer hover
+pauses automatic rotation.
+
+## Media Upload Limit
+
+Drupal Image media accepts files up to 200 MB. The runtime allows 210 MB for the
+complete multipart request so a 200 MB file still has room for form overhead:
+
+- Drupal Image field: `200 MB`.
+- PHP `upload_max_filesize`: `200M`.
+- PHP `post_max_size`: `210M`.
+- Nginx `client_max_body_size`: `210m`.
+- Apache `LimitRequestBody`: `220200960` bytes (210 MiB).
+
+These values are defined in the media recipe and under `docker/`. Rebuild and
+restart the web/proxy containers after changing them. Remote YouTube media stores
+a URL and is unaffected because the video file is not uploaded to Drupal.
 
 ## Styling Rules
 
@@ -116,6 +171,21 @@ docker compose up -d
 docker compose ps
 curl -I http://jurenites.local/
 ```
+
+After installing Drupal, enable local automated cron with the standard
+three-hour interval:
+
+```bash
+docker compose exec web vendor/bin/drush config:set automated_cron.settings interval 10800 -y
+```
+
+The same setting is available at
+[`/admin/config/system/cron`](http://jurenites.local/admin/config/system/cron) by
+selecting **Every 3 hours**. The Docker web container does not run a separate
+cron daemon; Drupal triggers automated cron after a web request when the
+configured interval has elapsed. Keep this request-triggered setup for local
+development. Stage and production should instead schedule `drush cron` through
+their hosting environment and avoid running both schedulers.
 
 The local Docker stack routes semantic hostnames through its port-80 proxy:
 

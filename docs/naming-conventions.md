@@ -93,10 +93,42 @@ them.
 
 Components must consume tokens, never raw values:
 
-- Code: `var(--color-action-primary-default)`, `@include tools.typography-headline-5;`.
+- Code: `var(--theme-dark-action-primary-default)`, `@include tools.typography-headline-5;`.
 - Figma: bind fills/strokes/radius/gap/padding to the matching variable. Each
   variable already carries WEB code syntax (`var(--…)`), so Dev Mode shows the
   exact CSS variable name.
+
+Editable YAML tokens use direct key/value syntax. Keep scalar tokens on one
+line, use plain dot paths for references and YAML comments for explanations,
+and never add `$type`, `$value`, or `$description`; the build infers internal
+metadata from the resolved value and token path.
+
+Do not create self-mapping option registries such as `small: small`. Storybook
+control choices belong in the component story as named constants; tokens retain
+only actual design decisions and meaningful mappings whose key and value differ.
+
+Store each `elevation.shadow.*` token as one complete CSS shadow value, not an
+object of offset, blur, spread, and color keys. Consumers should need only
+`box-shadow: var(--elevation-shadow-level-*);`.
+
+Color names make their abstraction layer explicit:
+
+- `color-palette-*` directly owns a reusable palette role and its unique HEX.
+  In YAML, each palette token is one uppercase HEX string on a single line;
+  an optional inline comment provides a friendlier display label. The role set is not fixed: a palette
+  may use primary and secondary only, or add tertiary, quaternary, and further
+  roles as needed.
+- `theme-dark-*` selects palette values for the dark theme.
+- Global semantic roles belong to the active theme: `theme-dark-surface-*`,
+  `theme-dark-text-*`, `theme-dark-action-*`, and `theme-dark-border-*`.
+- Component-specific roles use
+  `component-{component-name}-color-{property}-{state}`, for example
+  `component-form-field-color-validation-error-default`. Watermark colors use
+  `component-watermark-color-*` because the watermark owns them.
+
+Do not use `component-color-*` without a component name: it does not identify
+ownership. Do not let component SCSS reach into `color-palette-*`; map the role
+through the active theme first.
 
 ## 6. How a Figma frame is linked back to code (3 layers of safety)
 

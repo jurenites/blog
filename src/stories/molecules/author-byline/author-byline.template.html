@@ -2,13 +2,17 @@
   <aside class="author-byline" aria-label="Article author">
     {{avatar_content}}
     <div class="author-byline__identity">
-      <p class="author-byline__name">{{author_name}}</p>
+      <p class="author-byline__name">{{author_name_markup}}</p>
       <div class="author-byline__details">
         {{published_date}}
         <span class="author-byline__separator" aria-hidden="true">&middot;</span>
-        {{reading_time}}
+        <span class="article-teaser__reading-time date-display">{{reading_time}}</span>
       </div>
     </div>
-    <div class="author-byline__topics">{{topic_items}}</div>
+    <div class="author-byline__topics">
+      <nav class="article-tags" aria-label="Topics">
+        <ul class="article-tags__list">{{topic_items}}</ul>
+      </nav>
+    </div>
   </aside>
 </div>

@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Provides the shared Two-tone Heading render contract.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_two_tone_heading_theme(array $existing_definitions, string $definition_type, string $active_theme, string $module_path): array {
+  return [
+    'two_tone_heading' => [
+      'variables' => [
+        'heading_level' => 'h2',
+        'leading_text' => '',
+        'soft_text' => '',
+        'trailing_text' => '',
+        'soft_text_placement' => 'inline',
+        'trailing_text_placement' => 'inline',
+      ],
+      'template' => 'two-tone-heading',
+    ],
+  ];
+}

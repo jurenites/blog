@@ -1,0 +1,4 @@
+{# Full Article body: one meaningful wrapper without anonymous field divs. #}
+{% for item in items %}
+  <div{{ attributes.addClass('article-detail__body') }}>{{ item.content }}</div>
+{% endfor %}

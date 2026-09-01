@@ -1,0 +1,36 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.image_comparison.field_comparison_images
+    - node.type.image_comparison
+  module:
+    - image_compare_media
+    - user
+id: node.image_comparison.default
+targetEntityType: node
+bundle: image_comparison
+mode: default
+content:
+  field_comparison_images:
+    type: image_compare_slider_media
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: eager
+      starting_position: '50'
+      additional_options: 'label_text=Drag the slider to compare the two images'
+      caption_field: alt
+      options_field: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

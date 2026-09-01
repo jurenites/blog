@@ -1,19 +1,19 @@
 import avatar_template from "./avatar.template.html?raw";
-import { token_default_option } from "../../foundations/token-values.js";
+import { token_value } from "../../foundations/token-values.js";
 import { escape_html, render_template } from "../../template.js";
 
 export function avatar_markup({
-  avatar_size = token_default_option("component-avatar-default-size", "component-avatar-size-"),
+  avatar_size = token_value("component-avatar-default-size"),
   avatar_initials,
   image_url = "",
 }) {
-  const default_size = token_default_option("component-avatar-default-size", "component-avatar-size-");
-  const avatar_modifier = avatar_size === default_size ? "" : ` avatar--${avatar_size}`;
-  const avatar_inner = image_url
-    ? `<img class="avatar__image" src="${escape_html(image_url)}" alt="" />`
-    : `<span class="avatar__initials">${escape_html(avatar_initials)}</span>`;
+  const avatar_modifier = ` avatar--${avatar_size}`;
+  const avatar_image = image_url
+    ? `<div class="avatar__image" data-jurenites-avatar-image><img src="${escape_html(image_url)}" alt="" /></div>`
+    : "";
   return render_template(avatar_template, {
     class_name: avatar_modifier,
-    inner: avatar_inner,
+    avatar_initials: escape_html(avatar_initials),
+    avatar_image,
   });
 }

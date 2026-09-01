@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content_sections
+    - node.type.page
+    - paragraphs.paragraphs_type.two_image_crossfade
+  module:
+    - entity_reference_revisions
+    - paragraphs
+id: node.page.field_content_sections
+field_name: field_content_sections
+entity_type: node
+bundle: page
+label: 'Content sections'
+description: 'Add structured content sections such as a two-image crossfade.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      two_image_crossfade: two_image_crossfade
+    negate: 0
+    target_bundles_drag_drop:
+      two_image_crossfade:
+        weight: 0
+        enabled: true
+field_type: entity_reference_revisions

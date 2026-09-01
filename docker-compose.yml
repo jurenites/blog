@@ -26,6 +26,7 @@ services:
       DRUPAL_DATABASE_NAME: drupal
       DRUPAL_DATABASE_USER: drupal
       DRUPAL_DATABASE_PASSWORD: drupal
+      JURENITES_ENVIRONMENT: ${JURENITES_ENVIRONMENT:-DEV}
 
   db:
     image: mariadb:11.4

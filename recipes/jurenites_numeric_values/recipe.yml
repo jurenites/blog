@@ -1,0 +1,33 @@
+name: 'Jurenites numeric values'
+description: 'Adds repeatable Numeric values sections to Article and Basic page content sections.'
+type: 'Content field'
+recipes:
+  - jurenites_paragraphs_crossfade
+install:
+  - jurenites_numeric_values
+config:
+  import:
+    jurenites_numeric_values:
+      - core.entity_form_display.paragraph.numeric_value.default
+      - core.entity_form_display.paragraph.numeric_values.default
+      - core.entity_view_display.paragraph.numeric_value.default
+      - core.entity_view_display.paragraph.numeric_values.default
+      - field.field.paragraph.numeric_value.field_numeric_description
+      - field.field.paragraph.numeric_value.field_numeric_number
+      - field.field.paragraph.numeric_value.field_numeric_start_year
+      - field.field.paragraph.numeric_values.field_numeric_items
+      - field.storage.paragraph.field_numeric_description
+      - field.storage.paragraph.field_numeric_items
+      - field.storage.paragraph.field_numeric_number
+      - field.storage.paragraph.field_numeric_start_year
+      - paragraphs.paragraphs_type.numeric_value
+      - paragraphs.paragraphs_type.numeric_values
+  actions:
+    field.field.node.article.field_content_sections: &allow_numeric_values
+      setProperties:
+        settings.handler_settings.target_bundles.numeric_values: numeric_values
+        settings.handler_settings.target_bundles_drag_drop.numeric_values:
+          weight: 1
+          enabled: true
+    field.field.node.page.field_content_sections:
+      <<: *allow_numeric_values

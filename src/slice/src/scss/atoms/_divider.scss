@@ -2,10 +2,10 @@
 
 .divider {
   border: 0;
-  border-top: var(--space-scale-line-size) solid var(--color-border-subtle-default);
-  margin: var(--space-scale-medium-gap) 0;
+  border-top: var(--space-scale-one) solid var(--theme-dark-border-divider-default);
+  margin: calc(var(--space-scale-base-gap) * 2) 0;
 }
 
 .divider--strong {
-  border-top-color: var(--color-border-strong-default);
+  border-top-color: var(--theme-dark-border-outline-default);
 }

@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: two_image_crossfade
+label: 'Two-image crossfade'
+icon_uuid: null
+icon_default: null
+description: 'Alternates between two aligned Image media items with two-second holds and opacity transitions.'
+behavior_plugins: {  }

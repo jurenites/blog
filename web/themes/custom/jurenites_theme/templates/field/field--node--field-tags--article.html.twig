@@ -1,0 +1,11 @@
+{# Article tags: the formatter links are redirected to the single-tag Blog filter. #}
+<nav{{ attributes.addClass('article-tags') }} aria-label="{{ label }}">
+  {% if label_display != 'hidden' %}
+    <span class="article-tags__label">{{ label }}</span>
+  {% endif %}
+  <ul class="article-tags__list">
+    {% for item in items %}
+      <li{{ item.attributes.addClass('article-tags__item') }}>{{ item.content }}</li>
+    {% endfor %}
+  </ul>
+</nav>

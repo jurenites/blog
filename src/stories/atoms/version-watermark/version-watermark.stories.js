@@ -1,19 +1,32 @@
 import { version_watermark_markup } from "./version-watermark.markup.js";
 
 const VERSION_LABEL = "Version";
-const VERSION_NUMBER = "0.0.10";
+const VERSION_NUMBER = "0.0.39";
+const UPDATED_GMT = "2026-07-19 20:00:00 GMT+0";
 const GIT_HASH = "336c86c";
 const GIT_URL = "https://github.com/jurenites/blog/commit/336c86c254c2f7c20d22946547e00a48f0389c13";
-const CREDIT_TEXT = "made by Alex & ChatGPT 5.6 Sol";
+const CREDIT_TEXT = "made by ";
+const CREDIT_COLLABORATORS = "Alexander Ilivanov & AI";
 
 function render_story(story_args) {
-  return version_watermark_markup(story_args);
+  return version_watermark_markup({
+    ...story_args,
+    is_story_preview: true,
+  });
 }
 
 export default {
   title: "Atoms/Version Watermark",
   tags: ["autodocs"],
   render: render_story,
+  parameters: {
+    docs: {
+      story: {
+        //height: "158px",
+        inline: false,
+      },
+    },
+  },
   argTypes: {
     version_label: {
       control: "text",
@@ -27,6 +40,10 @@ export default {
       control: "text",
       description: "Visible collaboration credit embedded in screenshots.",
     },
+    credit_collaboration: {
+      control: "text",
+      description: "name of the Authors collaborators",
+    },
     git_hash: {
       control: "text",
       description: "Short Git commit hash.",
@@ -35,13 +52,19 @@ export default {
       control: "text",
       description: "Exact GitHub commit URL.",
     },
+    updated_gmt: {
+      control: "text",
+      description: "Build update date and time in the GMT+0 timezone.",
+    },
   },
   args: {
     version_label: VERSION_LABEL,
     version_number: VERSION_NUMBER,
+    updated_gmt: UPDATED_GMT,
     git_hash: GIT_HASH,
     git_url: GIT_URL,
     credit_text: CREDIT_TEXT,
+    credit_collaboration: CREDIT_COLLABORATORS,
   },
 };
 

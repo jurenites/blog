@@ -1,24 +1,23 @@
 // Foundations: color tokens, rendered from the CSS variables generated from src/token/tokens.yaml.
 import colors_template from "./colors.template.html?raw";
-import swatch_template from "./color-swatch.template.html?raw";
-import { escape_html, render_template } from "../../template.js";
-import { token_names, token_value } from "../token-values.js";
+import { color_block_markup } from "../../internal/color-block/color-block.markup.js";
+import { render_template } from "../../template.js";
+import { token_description, token_names, token_value } from "../token-values.js";
 
 function color_tokens() {
-  return token_names("color-").map((token_name) => ({ token_name, token_value: token_value(token_name) }));
+  return token_names("color-palette-").map((token_name) => ({
+    token_description: token_description(token_name),
+    token_name,
+    token_value: token_value(token_name),
+  }));
 }
 
-function group_title(token_name) {
-  const name_parts = token_name.split("-");
-  return `${name_parts[1]} / ${name_parts.slice(2).join("-")}`;
-}
-
-function swatch_markup({ token_name, token_value }) {
-  return render_template(swatch_template, {
-    name: escape_html(group_title(token_name)),
-    value: escape_html(token_value),
-    variable: escape_html(token_name),
-    color_class: escape_html(`u-bg-${token_name}`),
+function swatch_markup({ token_description: color_description, token_name, token_value }) {
+  return color_block_markup({
+    background_token_name: token_name,
+    primary_text: color_description || token_name.replace("color-palette-", ""),
+    secondary_text: token_value,
+    tertiary_text: `--${token_name}`,
   });
 }
 

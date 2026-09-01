@@ -1,11 +1,16 @@
-<div class="storybook-shell">
-  <div class="version-watermark">
-    <span class="version-watermark__identity">
+<div class="storybook-shell storybook-shell--version-watermark-preview">
+  <div class="version-watermark{{preview_class_name}}">
+    <span class="version-watermark__line">
       <span class="version-watermark__label">{{version_label}}</span>
       <span class="version-watermark__number">{{version_number}}</span>
       <span class="version-watermark__separator" aria-hidden="true">·</span>
+      <span class="version-watermark__updated-gmt">{{updated_gmt}}</span>
+      <span class="version-watermark__separator" aria-hidden="true">·</span>
       <a class="version-git-hash" href="{{git_url}}" target="_blank" rel="noopener noreferrer">{{git_hash}}</a>
     </span>
-    <span class="version-watermark__credit">{{credit_text}}</span>
+    <span class="version-watermark__line">
+      <span class="version-watermark__credit">{{credit_text}}</span>
+      <span class="version-watermark__credit_name">{{credit_collaboration}}</span>
+    </span>
   </div>
 </div>

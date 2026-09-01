@@ -1,0 +1,13 @@
+name: Jurenites Blog
+type: module
+description: Provides Blog filtering and Article YouTube thumbnail handling.
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:file
+  - drupal:image
+  - drupal:media
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:views
+  - youtube:youtube

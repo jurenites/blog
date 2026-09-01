@@ -1,25 +1,21 @@
 <div class="jurenites-front-page">
-  <div
-    class="section-background-canvas background-fx-canvas"
-    data-jurenites-gradient-background
-    aria-hidden="true"
-  ></div>
-
   <div class="layout-container">
+    {% include '@jurenites_theme/components/site-header.html.twig' with {
+      site_branding: site_branding,
+      main_navigation: main_navigation,
+      language_options: language_options,
+    } only %}
+
     {% if page.header %}
-      <header role="banner">
-        {{ page.header }}
-      </header>
+      {{ page.header }}
     {% endif %}
 
     {% if page.primary_menu %}
-      <nav role="navigation" aria-label="{{ 'Primary menu'|t }}">
-        {{ page.primary_menu }}
-      </nav>
+      {{ page.primary_menu }}
     {% endif %}
 
-    <main role="main">
-      <a id="main-content" tabindex="-1"></a>
+    {# Skip-link target: keep id on <main>, never use an <a> without href. #}
+    <main id="main-content" role="main" tabindex="-1">
       {{ page.content }}
     </main>
 

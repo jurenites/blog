@@ -1,0 +1,67 @@
+// Organism: Newsletter Signup. Editorial introduction with an email form.
+
+@use "../tools";
+
+.newsletter-signup {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 1fr);
+  gap: calc(var(--space-scale-base-gap) * 4);
+  align-items: end;
+  padding: calc(var(--space-scale-base-gap) * 4);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  border-radius: calc(var(--shape-corner-radius-base) * 2);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+}
+
+.newsletter-signup__copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-base-gap);
+}
+
+.newsletter-signup__eyebrow,
+.newsletter-signup__title,
+.newsletter-signup__description,
+.newsletter-signup__privacy {
+  margin: 0;
+}
+
+.newsletter-signup__eyebrow {
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-eyebrow;
+}
+
+.newsletter-signup__title {
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-headline-5;
+}
+
+.newsletter-signup__description,
+.newsletter-signup__privacy {
+  color: var(--theme-dark-text-secondary-default);
+}
+
+.newsletter-signup__description {
+  @include tools.typography-caption;
+}
+
+.newsletter-signup__form {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
+.newsletter-signup__field {
+  min-width: 0;
+}
+
+.newsletter-signup__privacy {
+  @include tools.typography-caption;
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .newsletter-signup {
+    grid-template-columns: 1fr;
+    padding: calc(var(--space-scale-base-gap) * 3);
+  }
+}

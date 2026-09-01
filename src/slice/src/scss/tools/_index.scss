@@ -26,8 +26,8 @@
 
 /// Accessible keyboard focus ring built from action + shape tokens.
 @mixin focus-ring {
-  outline: var(--shape-border-width-thick-default) solid var(--color-action-primary-default);
-  outline-offset: var(--space-scale-compact-gap);
+  outline: var(--shape-border-width-thick-default) solid var(--theme-dark-action-primary-default);
+  outline-offset: calc(var(--space-scale-base-gap) * 0.5);
 }
 
 /// Reset a list/native element back to a neutral block.
@@ -40,12 +40,27 @@
 /// Hide explanatory text visually while keeping it available to assistive technology.
 @mixin visually-hidden {
   position: absolute;
-  width: var(--space-scale-line-size);
-  height: var(--space-scale-line-size);
+  width: var(--space-scale-one);
+  height: var(--space-scale-one);
   padding: 0;
-  margin: calc(var(--space-scale-line-size) * -1);
+  margin: calc(var(--space-scale-one) * -1);
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/// Undo visually-hidden when a skip control receives keyboard focus.
+@mixin visually-revealed-on-focus {
+  &:focus,
+  &:focus-visible {
+    position: absolute;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+    white-space: nowrap;
+  }
 }

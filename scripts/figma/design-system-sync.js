@@ -113,7 +113,7 @@ async function loadFont(weight = 400) {
   }
 }
 
-async function textNode(text, size = 14, color = tokenValue('color-palette-white'), weight = 400) {
+async function textNode(text, size = 14, color = tokenValue('theme-dark-text-primary-default'), weight = 400) {
   const node = figma.createText();
   node.fontName = await loadFont(weight);
   node.characters = text;
@@ -123,13 +123,14 @@ async function textNode(text, size = 14, color = tokenValue('color-palette-white
   return node;
 }
 
-function frame(name, width, fills = [hexToPaint(tokenValue('color-palette-black'))]) {
+function frame(name, width, fills = [hexToPaint(tokenValue('theme-dark-surface-background-page'))]) {
   const node = figma.createFrame();
   node.name = name;
   node.resize(width, 1);
   node.fills = fills;
   node.cornerRadius = tokenNumber('shape-corner-radius-medium-default');
-  setAutoLayout(node, 'VERTICAL', tokenNumber('space-scale-medium-gap'), tokenNumber('space-scale-large-gap'));
+  const base_gap = tokenNumber('space-scale-base-gap');
+  setAutoLayout(node, 'VERTICAL', base_gap * 2, base_gap * 3);
   return node;
 }
 
@@ -170,14 +171,14 @@ async function createColorSection(page, x, y) {
   section.x = x;
   section.y = y;
   page.appendChild(section);
-  section.appendChild(await textNode('Color Variables', 28, tokenValue('color-palette-white'), 700));
-  section.appendChild(await textNode('Strict monochrome palette and semantic aliases from src/token/tokens.yaml.', 14, tokenValue('color-palette-muted'), 400));
+  section.appendChild(await textNode('Color Variables', 28, tokenValue('theme-dark-text-primary-default'), 700));
+  section.appendChild(await textNode('Strict monochrome palette and semantic aliases from src/token/tokens.yaml.', 14, tokenValue('theme-dark-text-secondary-default'), 400));
 
   for (const group of COLOR_GROUPS) {
-    const groupFrame = frame(group, 1120, [hexToPaint(tokenValue('color-palette-canvas'))]);
+    const groupFrame = frame(group, 1120, [hexToPaint(tokenValue('theme-dark-surface-background-elevation-level-0'))]);
     groupFrame.cornerRadius = tokenNumber('shape-corner-radius-small-default');
     section.appendChild(groupFrame);
-    groupFrame.appendChild(await textNode(group, 18, tokenValue('color-palette-white'), 700));
+    groupFrame.appendChild(await textNode(group, 18, tokenValue('theme-dark-text-primary-default'), 700));
 
     const grid = figma.createFrame();
     grid.name = group + ' swatches';
@@ -203,8 +204,8 @@ async function createColorSection(page, x, y) {
       swatch.paddingBottom = 10;
       swatch.paddingLeft = 10;
       swatch.cornerRadius = tokenNumber('shape-corner-radius-small-default');
-      swatch.fills = [hexToPaint(tokenValue('color-palette-panel'))];
-      swatch.strokes = [hexToPaint(tokenValue('color-palette-line'))];
+      swatch.fills = [hexToPaint(tokenValue('theme-dark-surface-background-elevation-level-1'))];
+      swatch.strokes = [hexToPaint(tokenValue('theme-dark-border-divider-default'))];
       swatch.strokeWeight = 1;
       grid.appendChild(swatch);
 
@@ -213,11 +214,11 @@ async function createColorSection(page, x, y) {
       chip.resize(150, 52);
       chip.cornerRadius = 4;
       chip.fills = [hexToPaint(color.value)];
-      chip.strokes = [hexToPaint(tokenValue('color-palette-line'))];
+      chip.strokes = [hexToPaint(tokenValue('theme-dark-border-divider-default'))];
       chip.strokeWeight = 1;
       swatch.appendChild(chip);
-      swatch.appendChild(await textNode(color.label, 11, tokenValue('color-palette-white'), 500));
-      swatch.appendChild(await textNode(color.value, 11, tokenValue('color-palette-muted'), 400));
+      swatch.appendChild(await textNode(color.label, 11, tokenValue('theme-dark-text-primary-default'), 500));
+      swatch.appendChild(await textNode(color.value, 11, tokenValue('theme-dark-text-secondary-default'), 400));
     }
   }
 
@@ -229,8 +230,8 @@ async function createTypographySection(page, x, y) {
   section.x = x;
   section.y = y;
   page.appendChild(section);
-  section.appendChild(await textNode('Typography Frames', 28, tokenValue('color-palette-white'), 700));
-  section.appendChild(await textNode('Material M2-inspired roles, rendered from typography tokens.', 14, tokenValue('color-palette-muted'), 400));
+  section.appendChild(await textNode('Typography Frames', 28, tokenValue('theme-dark-text-primary-default'), 700));
+  section.appendChild(await textNode('Material M2-inspired roles, rendered from typography tokens.', 14, tokenValue('theme-dark-text-secondary-default'), 400));
 
   for (const role of typographyRecords()) {
     const row = figma.createFrame();
@@ -244,17 +245,17 @@ async function createTypographySection(page, x, y) {
     row.paddingRight = 18;
     row.paddingBottom = 18;
     row.paddingLeft = 18;
-    row.fills = [hexToPaint(tokenValue('color-palette-canvas'))];
-    row.strokes = [hexToPaint(tokenValue('color-palette-line'))];
+    row.fills = [hexToPaint(tokenValue('theme-dark-surface-background-elevation-level-0'))];
+    row.strokes = [hexToPaint(tokenValue('theme-dark-border-divider-default'))];
     row.strokeWeight = 1;
     row.cornerRadius = tokenNumber('shape-corner-radius-small-default');
     section.appendChild(row);
 
-    const label = await textNode(role.role, 13, tokenValue('color-palette-muted'), 500);
+    const label = await textNode(role.role, 13, tokenValue('theme-dark-text-secondary-default'), 500);
     label.resize(170, label.height);
     row.appendChild(label);
 
-    const sample = await textNode(role.role + ' - The quick brown fox', role.fontSize, tokenValue('color-palette-white'), role.fontWeight);
+    const sample = await textNode(role.role + ' - The quick brown fox', role.fontSize, tokenValue('theme-dark-text-primary-default'), role.fontWeight);
     sample.name = 'sample';
     if (role.letterSpacing !== null) sample.letterSpacing = { value: role.letterSpacing, unit: 'PIXELS' };
     sample.lineHeight = { value: Math.round(role.fontSize * role.lineHeight), unit: 'PIXELS' };
@@ -279,10 +280,10 @@ async function button(name, label, variant = 'primary') {
   node.paddingRight = 16;
   node.itemSpacing = 8;
   node.cornerRadius = tokenNumber('shape-corner-radius-small-default');
-  node.fills = [hexToPaint(variant === 'primary' ? tokenValue('color-palette-white') : variant === 'secondary' ? tokenValue('color-palette-panel') : tokenValue('color-palette-black'))];
-  node.strokes = variant === 'secondary' ? [hexToPaint(tokenValue('color-palette-line'))] : [];
+  node.fills = [hexToPaint(variant === 'primary' ? tokenValue('theme-dark-action-primary-default') : variant === 'secondary' ? tokenValue('theme-dark-action-secondary-default') : tokenValue('theme-dark-surface-background-page'))];
+  node.strokes = variant === 'secondary' ? [hexToPaint(tokenValue('theme-dark-border-divider-default'))] : [];
   node.strokeWeight = variant === 'secondary' ? 1 : 0;
-  node.appendChild(await textNode(label, 14, variant === 'primary' ? tokenValue('color-palette-black') : tokenValue('color-palette-white'), 500));
+  node.appendChild(await textNode(label, 14, variant === 'primary' ? tokenValue('theme-dark-text-inverse-default') : tokenValue('theme-dark-text-primary-default'), 500));
   return node;
 }
 
@@ -297,16 +298,16 @@ async function chip(label, accent = false) {
   node.paddingTop = 4;
   node.paddingBottom = 4;
   node.cornerRadius = 999;
-  node.fills = [hexToPaint(tokenValue('color-palette-canvas'))];
-  node.strokes = [hexToPaint(accent ? tokenValue('color-palette-muted') : tokenValue('color-palette-line'))];
+  node.fills = [hexToPaint(tokenValue('theme-dark-surface-background-elevation-level-0'))];
+  node.strokes = [hexToPaint(accent ? tokenValue('theme-dark-border-outline-default') : tokenValue('theme-dark-border-divider-default'))];
   node.strokeWeight = 1;
-  node.appendChild(await textNode(label, 12, accent ? tokenValue('color-palette-white') : tokenValue('color-palette-muted'), 400));
+  node.appendChild(await textNode(label, 12, accent ? tokenValue('theme-dark-text-primary-default') : tokenValue('theme-dark-text-secondary-default'), 400));
   return node;
 }
 
-async function badge(label, color) {
+async function create_badge(badge_label, background_color, foreground_color) {
   const node = figma.createFrame();
-  node.name = 'Badge / ' + label;
+  node.name = 'Badge / ' + badge_label;
   node.layoutMode = 'HORIZONTAL';
   node.counterAxisAlignItems = 'CENTER';
   node.primaryAxisAlignItems = 'CENTER';
@@ -315,8 +316,8 @@ async function badge(label, color) {
   node.paddingTop = 4;
   node.paddingBottom = 4;
   node.cornerRadius = 4;
-  node.fills = [hexToPaint(color)];
-  node.appendChild(await textNode(label.toUpperCase(), 10, tokenValue('color-palette-black'), 500));
+  node.fills = [hexToPaint(background_color)];
+  node.appendChild(await textNode(badge_label.toUpperCase(), 10, foreground_color, 500));
   return node;
 }
 
@@ -325,13 +326,13 @@ async function createComponentsSection(page, x, y) {
   section.x = x;
   section.y = y;
   page.appendChild(section);
-  section.appendChild(await textNode('UI Components', 28, tokenValue('color-palette-white'), 700));
-  section.appendChild(await textNode('Frames mirror Storybook atoms and molecules; implementation remains in code.', 14, tokenValue('color-palette-muted'), 400));
+  section.appendChild(await textNode('UI Components', 28, tokenValue('theme-dark-text-primary-default'), 700));
+  section.appendChild(await textNode('Frames mirror Storybook atoms and molecules; implementation remains in code.', 14, tokenValue('theme-dark-text-secondary-default'), 400));
 
-  const atoms = frame('Atoms', 1120, [hexToPaint(tokenValue('color-palette-canvas'))]);
+  const atoms = frame('Atoms', 1120, [hexToPaint(tokenValue('theme-dark-surface-background-elevation-level-0'))]);
   atoms.cornerRadius = tokenNumber('shape-corner-radius-small-default');
   section.appendChild(atoms);
-  atoms.appendChild(await textNode('Buttons', 18, tokenValue('color-palette-white'), 700));
+  atoms.appendChild(await textNode('Buttons', 18, tokenValue('theme-dark-text-primary-default'), 700));
   const buttonRow = figma.createFrame();
   buttonRow.name = 'Button variants';
   buttonRow.layoutMode = 'HORIZONTAL';
@@ -344,7 +345,7 @@ async function createComponentsSection(page, x, y) {
   buttonRow.appendChild(await button('Button / secondary', 'View project', 'secondary'));
   buttonRow.appendChild(await button('Button / ghost', 'Read article', 'ghost'));
 
-  atoms.appendChild(await textNode('Chips and Badges', 18, tokenValue('color-palette-white'), 700));
+  atoms.appendChild(await textNode('Chips and Badges', 18, tokenValue('theme-dark-text-primary-default'), 700));
   const pillRow = figma.createFrame();
   pillRow.name = 'Chips and badges';
   pillRow.layoutMode = 'HORIZONTAL';
@@ -355,12 +356,11 @@ async function createComponentsSection(page, x, y) {
   atoms.appendChild(pillRow);
   pillRow.appendChild(await chip('Drupal'));
   pillRow.appendChild(await chip('Design system', true));
-  pillRow.appendChild(await badge('success', tokenValue('color-palette-success')));
-  pillRow.appendChild(await badge('warning', tokenValue('color-palette-warning')));
-  pillRow.appendChild(await badge('error', tokenValue('color-palette-error')));
-  pillRow.appendChild(await badge('info', tokenValue('color-palette-info')));
+  pillRow.appendChild(await create_badge('neutral', tokenValue('component-badge-color-background-neutral-default'), tokenValue('component-badge-color-foreground-neutral-default')));
+  pillRow.appendChild(await create_badge('gray', tokenValue('component-badge-color-background-gray-default'), tokenValue('component-badge-color-foreground-gray-default')));
+  pillRow.appendChild(await create_badge('white', tokenValue('component-badge-color-background-white-default'), tokenValue('component-badge-color-foreground-white-default')));
 
-  const molecules = frame('Molecules', 1120, [hexToPaint(tokenValue('color-palette-canvas'))]);
+  const molecules = frame('Molecules', 1120, [hexToPaint(tokenValue('theme-dark-surface-background-elevation-level-0'))]);
   molecules.cornerRadius = tokenNumber('shape-corner-radius-small-default');
   section.appendChild(molecules);
 
@@ -374,18 +374,18 @@ async function createComponentsSection(page, x, y) {
   card.paddingBottom = 16;
   card.paddingLeft = 16;
   card.cornerRadius = tokenNumber('shape-corner-radius-medium-default');
-  card.fills = [hexToPaint(tokenValue('color-palette-canvas'))];
-  card.strokes = [hexToPaint(tokenValue('color-palette-line'))];
+  card.fills = [hexToPaint(tokenValue('theme-dark-surface-background-elevation-level-0'))];
+  card.strokes = [hexToPaint(tokenValue('theme-dark-border-divider-default'))];
   card.strokeWeight = 1;
   molecules.appendChild(card);
   const media = figma.createRectangle();
   media.name = 'media';
   media.resize(328, 112);
   media.cornerRadius = tokenNumber('shape-corner-radius-small-default');
-  media.fills = [hexToPaint(tokenValue('color-palette-panel'))];
+  media.fills = [hexToPaint(tokenValue('theme-dark-surface-background-elevation-level-1'))];
   card.appendChild(media);
-  card.appendChild(await textNode('Interactive CV Timeline', 20, tokenValue('color-palette-white'), 400));
-  card.appendChild(await textNode('A slider-driven career story with company logos and bookmarks.', 14, tokenValue('color-palette-muted'), 400));
+  card.appendChild(await textNode('Interactive CV Timeline', 20, tokenValue('theme-dark-text-primary-default'), 400));
+  card.appendChild(await textNode('A slider-driven career story with company logos and bookmarks.', 14, tokenValue('theme-dark-text-secondary-default'), 400));
   const tagRow = figma.createFrame();
   tagRow.name = 'tag list';
   tagRow.layoutMode = 'HORIZONTAL';
@@ -407,15 +407,15 @@ async function createComponentsSection(page, x, y) {
   hire.paddingBottom = 16;
   hire.paddingLeft = 16;
   hire.cornerRadius = tokenNumber('shape-corner-radius-medium-default');
-  hire.fills = [hexToPaint(tokenValue('color-palette-canvas'))];
-  hire.strokes = [hexToPaint(tokenValue('color-palette-line'))];
+  hire.fills = [hexToPaint(tokenValue('theme-dark-surface-background-elevation-level-0'))];
+  hire.strokes = [hexToPaint(tokenValue('theme-dark-border-divider-default'))];
   hire.strokeWeight = 1;
   molecules.appendChild(hire);
   const avatar = figma.createEllipse();
   avatar.name = 'Avatar';
   avatar.resize(48, 48);
-  avatar.fills = [hexToPaint(tokenValue('color-palette-panel'))];
-  avatar.strokes = [hexToPaint(tokenValue('color-palette-line'))];
+  avatar.fills = [hexToPaint(tokenValue('theme-dark-surface-background-elevation-level-1'))];
+  avatar.strokes = [hexToPaint(tokenValue('theme-dark-border-divider-default'))];
   avatar.strokeWeight = 1;
   hire.appendChild(avatar);
   const hireText = figma.createFrame();
@@ -424,8 +424,8 @@ async function createComponentsSection(page, x, y) {
   hireText.itemSpacing = 2;
   hireText.fills = [];
   hire.appendChild(hireText);
-  hireText.appendChild(await textNode('Alexander Ilivanov', 16, tokenValue('color-palette-white'), 500));
-  hireText.appendChild(await textNode('Designer / Drupal engineer', 13, tokenValue('color-palette-muted'), 400));
+  hireText.appendChild(await textNode('Alexander Ilivanov', 16, tokenValue('theme-dark-text-primary-default'), 500));
+  hireText.appendChild(await textNode('Designer / Drupal engineer', 13, tokenValue('theme-dark-text-secondary-default'), 400));
   hire.appendChild(await button('Button / primary', 'Contact me', 'primary'));
 
   return section;
@@ -439,14 +439,14 @@ async function main() {
   page.name = FIGMA_META.pageName;
   await figma.setCurrentPageAsync(page);
   clearPage(page);
-  page.backgrounds = [hexToPaint(tokenValue('color-palette-black'))];
+  page.backgrounds = [hexToPaint(tokenValue('theme-dark-surface-background-page'))];
 
   const header = frame('Synced Source Header', 1180);
   header.x = 0;
   header.y = 0;
   page.appendChild(header);
-  header.appendChild(await textNode('Blog jurenites Design System', 34, tokenValue('color-palette-white'), 700));
-  header.appendChild(await textNode('Synced from src/token/tokens.yaml. Update tokens first, then run this helper.', 15, tokenValue('color-palette-muted'), 400));
+  header.appendChild(await textNode('Blog jurenites Design System', 34, tokenValue('theme-dark-text-primary-default'), 700));
+  header.appendChild(await textNode('Synced from src/token/tokens.yaml. Update tokens first, then run this helper.', 15, tokenValue('theme-dark-text-secondary-default'), 400));
 
   const colors = await createColorSection(page, 0, 180);
   const typography = await createTypographySection(page, 1240, 180);

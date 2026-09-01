@@ -1,0 +1,6 @@
+favicon:
+  mimetype: image/svg+xml
+  path: themes/custom/jurenites_theme/favicon-admin.svg
+  use_default: false
+features:
+  favicon: true

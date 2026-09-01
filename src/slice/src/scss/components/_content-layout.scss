@@ -1,0 +1,98 @@
+// Component: Content Layout. Shared readable frame for Drupal page/node content.
+
+@use "../tools";
+
+.content-layout {
+  display: grid;
+  grid-template-columns: minmax(0, var(--layout-content-max-readable-default));
+  justify-content: center;
+  gap: calc(var(--space-scale-base-gap) * 4);
+  width: 100%;
+}
+
+.content-layout--wide {
+  grid-template-columns: minmax(0, var(--layout-content-max-wide-default));
+}
+
+.content-layout--with-sidebar {
+  grid-template-columns: minmax(0, var(--layout-content-max-readable-default)) minmax(240px, 320px);
+}
+
+.content-layout--wide.content-layout--with-sidebar {
+  grid-template-columns: minmax(0, var(--layout-content-max-wide-default)) minmax(240px, 320px);
+}
+
+.content-layout__main,
+.layout-content {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 3);
+  width: 100%;
+  max-width: var(--layout-content-max-readable-default);
+  min-width: 0;
+  margin-inline: auto;
+}
+
+.path-blog .layout-content {
+  max-width: var(--layout-content-max-blog-default);
+}
+
+.content-layout--wide .content-layout__main {
+  max-width: var(--layout-content-max-wide-default);
+}
+
+.content-layout__header,
+.content-layout__body {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
+.content-layout__eyebrow {
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-eyebrow;
+}
+
+.content-layout__title {
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-headline-4;
+}
+
+.content-layout__introduction {
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-subtitle-1;
+}
+
+.content-layout__body {
+  color: var(--theme-dark-text-primary-default);
+}
+
+.content-layout__sidebar {
+  align-self: start;
+  padding: calc(var(--space-scale-base-gap) * 3);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  border-radius: calc(var(--shape-corner-radius-base) * 1.5);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+}
+
+.content-layout__sidebar-title {
+  margin-bottom: calc(var(--space-scale-base-gap) * 2);
+  @include tools.typography-subtitle-2;
+}
+
+.content-layout__sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-base-gap);
+  margin: 0;
+  padding-left: calc(var(--space-scale-base-gap) * 3);
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-caption;
+}
+
+@include tools.breakpoint-down("tablet-max") {
+  .content-layout--with-sidebar,
+  .content-layout--wide.content-layout--with-sidebar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

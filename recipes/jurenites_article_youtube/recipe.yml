@@ -1,0 +1,59 @@
+name: 'Jurenites Article YouTube video'
+description: 'Adds a direct YouTube URL and optional channel-avatar URL above the Article body.'
+type: 'Content field'
+install:
+  - youtube
+config:
+  strict:
+    - field.storage.node.field_youtube_video
+    - field.storage.node.field_youtube_channel_avatar
+  actions:
+    core.entity_form_display.node.article.default:
+      setComponents:
+        - name: field_youtube_video
+          options:
+            type: youtube
+            weight: 2
+            region: content
+            settings:
+              placeholder_url: 'https://www.youtube.com/watch?v=VIDEO_ID'
+            third_party_settings: {  }
+        - name: body
+          options:
+            type: text_textarea_with_summary
+            weight: 4
+            region: content
+            settings:
+              rows: 9
+              summary_rows: 3
+              placeholder: ''
+              show_summary: false
+            third_party_settings: {  }
+        - name: field_youtube_channel_avatar
+          options:
+            type: string_textfield
+            weight: 3
+            region: content
+            settings:
+              size: 60
+              placeholder: 'https://yt3.googleusercontent.com/...'
+            third_party_settings: {  }
+    core.entity_view_display.node.article.default:
+      setComponent:
+        name: field_youtube_video
+        options:
+          type: youtube_video
+          label: hidden
+          settings:
+            youtube_size: responsive
+            youtube_width: ''
+            youtube_height: ''
+            youtube_autoplay: false
+            youtube_mute: false
+            youtube_loop: false
+            youtube_controls: false
+            youtube_autohide: false
+            youtube_iv_load_policy: false
+          third_party_settings: {  }
+          weight: -2
+          region: content

@@ -1,8 +1,13 @@
 import site_header_template from "./site-header.template.html?raw";
-import { button_markup } from "../../atoms/button/button.markup.js";
+import { select_input_markup } from "../../atoms/select-input/select-input.markup.js";
 import { escape_html, render_template } from "../../template.js";
 
-export function site_header_markup({ brand_name, navigation_labels, action_label }) {
+export function site_header_markup({
+  brand_name,
+  brand_logo_url,
+  navigation_labels,
+  language_labels,
+}) {
   const navigation_items = String(navigation_labels)
     .split(",")
     .map((navigation_label) => navigation_label.trim())
@@ -13,10 +18,22 @@ export function site_header_markup({ brand_name, navigation_labels, action_label
       return `<li class="site-header__item"><a class="site-header__link" href="#${escape_html(navigation_slug)}"${current_attribute}>${escape_html(navigation_label)}</a></li>`;
     })
     .join("");
+  const language_items = String(language_labels)
+    .split(",")
+    .map((language_label) => language_label.trim())
+    .filter(Boolean);
+  const language_select_markup = select_input_markup({
+    field_id: "storybook-language-select",
+    field_name: "storybook_language_select",
+    option_items: language_items,
+    selected_value: language_items[0] || "",
+    native_class_names: "site-header__language-select",
+  });
 
   return render_template(site_header_template, {
     brand_name: escape_html(brand_name),
+    brand_logo_url: escape_html(brand_logo_url),
     navigation_items,
-    action_button: button_markup({ button_label: action_label }),
+    language_select_markup,
   });
 }

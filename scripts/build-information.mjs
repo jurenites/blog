@@ -37,7 +37,7 @@ function resolve_repository_url(repository_value) {
 }
 
 function format_gmt_date(date_value) {
-  return date_value.toISOString().replace("T", " ").replace(/\.\d{3}Z$/, " GMT");
+  return date_value.toISOString().replace("T", " ").replace(/\.\d{3}Z$/, " GMT+0");
 }
 
 export async function build_information() {

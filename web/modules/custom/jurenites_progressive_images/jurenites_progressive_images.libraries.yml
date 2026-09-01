@@ -1,0 +1,9 @@
+loading-state:
+  css:
+    component:
+      css/progressive-image.css: {  }
+  js:
+    js/progressive-image.js: {  }
+  dependencies:
+    - core/drupal
+    - core/once

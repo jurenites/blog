@@ -1,9 +1,14 @@
 <div class="storybook-shell">
   <header class="site-header">
-    <a class="site-header__brand" href="#home">{{brand_name}}</a>
+    <a class="site-header__brand" href="#home" aria-label="{{brand_name}}">
+      <img class="site-header__logo" src="{{brand_logo_url}}" alt="" />
+    </a>
     <nav class="site-header__navigation" aria-label="Primary navigation">
       <ul class="site-header__links">{{navigation_items}}</ul>
     </nav>
-    <div class="site-header__action">{{action_button}}</div>
+    <div class="site-header__language">
+      <label class="visually-hidden" for="storybook-language-select">Language</label>
+      {{language_select_markup}}
+    </div>
   </header>
 </div>

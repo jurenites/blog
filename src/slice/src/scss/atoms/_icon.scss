@@ -1,0 +1,15 @@
+// Atom: Icon. Geometry is loaded from the named shared SVG asset.
+
+.icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: var(--system-icon-default-svg-viewport);
+  height: var(--system-icon-default-svg-viewport);
+  color: inherit;
+}
+
+.icon__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

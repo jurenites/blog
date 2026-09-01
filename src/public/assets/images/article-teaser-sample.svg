@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-labelledby="sample-title sample-description">
+  <title id="sample-title">Abstract landscape thumbnail</title>
+  <desc id="sample-description">Geometric hills beneath a large outlined sun.</desc>
+  <style>
+    .sample-background { fill: Canvas; }
+    .sample-foreground { fill: CanvasText; }
+    .sample-sun { fill: none; stroke: CanvasText; stroke-width: 16; }
+  </style>
+  <rect class="sample-background" width="800" height="450" />
+  <circle class="sample-sun" cx="610" cy="130" r="72" />
+  <path class="sample-foreground" d="M0 450V360L180 185L330 330L440 245L650 450Z" />
+  <path class="sample-foreground" d="M430 450L590 285L800 405V450Z" />
+</svg>

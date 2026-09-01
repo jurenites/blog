@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html{{ html_attributes }}>
+<html{{ html_attributes }} style="background-color: var(--theme-dark-surface-background-page, black);">
   <head>
     <head-placeholder token="{{ placeholder_token }}">
     <title>{{ head_title|safe_join(' | ') }}</title>
     <css-placeholder token="{{ placeholder_token }}">
     <js-placeholder token="{{ placeholder_token }}">
   </head>
-  <body{{ attributes }}>
-    <a href="#main-content" class="visually-hidden focusable">
+  <body{{ attributes }} style="background-color: var(--theme-dark-surface-background-page, black);">
+    <a href="#main-content" class="skip-to-content button button--primary">
       {{ 'Skip to main content'|t }}
     </a>
     {{ page_top }}
+    {{ admin_navigation }}
     {{ page }}
     {% include '@jurenites_theme/components/version-watermark.html.twig' %}
     {{ page_bottom }}

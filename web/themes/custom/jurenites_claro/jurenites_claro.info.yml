@@ -1,0 +1,5 @@
+name: jurenites Admin
+type: theme
+description: Claro subtheme that uses the inverted Jurenites favicon on admin pages.
+core_version_requirement: ^11
+base theme: claro

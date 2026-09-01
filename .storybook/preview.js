@@ -3,7 +3,11 @@
 import "../src/slice/src/scss/main.scss";
 import "../src/styles/storybook.scss";
 import { TOKEN_VALUES } from "../generated/token/tokens.js";
-import { version_watermark_markup } from "../src/stories/atoms/version-watermark/version-watermark.markup.js";
+import {
+  initialize_avatar_images,
+  initialize_custom_selects,
+  initialize_tooltips,
+} from "../src/slice/src/js/script.js";
 
 function token_dimension(token_name) {
   return TOKEN_VALUES[token_name];
@@ -39,33 +43,6 @@ const breakpoint_viewports = {
   },
 };
 
-function render_version_watermark(story_function) {
-  const build_info = globalThis.STORYBOOK_BUILD_INFO;
-  const story_markup = story_function();
-
-  if (!build_info) {
-    return story_markup;
-  }
-
-  const watermark_markup = version_watermark_markup({
-    version_text: `Version ${build_info.project_version}`,
-    git_hash: build_info.commit_hash,
-    credit_text: `made by ${build_info.collaboration_credit}`,
-  });
-
-  if (typeof story_markup === "string") {
-    return `${story_markup}${watermark_markup}`;
-  }
-
-  const story_container = document.createElement("div");
-  story_container.className = "storybook-decorated-screen";
-  story_container.append(story_markup);
-  story_container.insertAdjacentHTML("beforeend", watermark_markup);
-  return story_container;
-}
-
-export const decorators = [render_version_watermark];
-
 export const parameters = {
   layout: "fullscreen",
   backgrounds: { disable: true },
@@ -84,3 +61,16 @@ export const parameters = {
     },
   },
 };
+
+export const decorators = [
+  (story_render) => {
+    document.body.classList.add("jurenites-theme");
+    const story_output = story_render();
+    window.requestAnimationFrame(() => {
+      initialize_avatar_images(document);
+      initialize_custom_selects(document);
+      initialize_tooltips(document);
+    });
+    return story_output;
+  },
+];

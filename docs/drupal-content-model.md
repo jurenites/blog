@@ -4,6 +4,36 @@ Keep the first content model universal. Do not overfit each project into many cu
 
 Rule: create fields only when Drupal needs to sort, filter, reference, render, or query the value. If the value is mostly storytelling, keep it in `Body`.
 
+## Basic Page
+
+Purpose: stable site pages such as About and Contact.
+
+The native Title remains the canonical page title and the first strong segment
+of the Two-tone Heading component. One compound `field_two_tone_heading` field
+stores these optional, translatable properties:
+
+- Title 2 (`soft_text`)
+- Title 3 (`trailing_text`)
+- Title 2 placement (`inline` or `new-line`)
+- Title 3 placement (`inline` or `new-line`)
+
+The field uses typed database columns rather than serialized JSON. This keeps
+Drupal validation, translation, revisions, and future migrations available
+without creating one field definition and field table per component control.
+The public Basic page title is always rendered as `h1`; heading level belongs to
+the rendering context, not to author-entered content.
+
+Basic pages and Articles can add a Numeric Values Paragraph through Content
+sections. The section contains repeatable Numeric Value tiles with:
+
+- Number: short display text such as `80+`.
+- Description: subtitle text such as `Projects I’ve worked on`.
+- Start year: optional numeric source for an automatically calculated elapsed
+  year value; when present, it takes precedence over Number.
+
+The current professional-experience example uses `2010`, so its Number renders
+`16` during 2026 and updates automatically in later calendar years.
+
 ## Timeline Event
 
 Purpose: turn the CV into an interactive timeline with bookmarks. A timeline event can describe a job, project phase, release, skill shift, or important professional moment.
@@ -49,11 +79,36 @@ Suggested fields:
 - Title
 - Slug
 - Teaser
+- YouTube video: one direct YouTube URL. The YouTube Field module extracts the
+  video ID and renders a responsive player with YouTube's video thumbnail. The
+  public Article presentation uses cached oEmbed data for the video title,
+  linked channel/author name, and the optional channel-avatar URL field. When
+  an Article with a YouTube video has no Hero image, Drupal downloads YouTube's
+  1280×720 thumbnail into that Image field on save and uses the oEmbed image as
+  a lower-resolution fallback. Editors can then replace or manipulate it like
+  any other Article image; an existing Image is never overwritten
+  automatically. The Blog list only presents this media when the Article also
+  has a YouTube video, and serves responsive 325px, 650px, or source-width WebP
+  candidates with the progressive blurry-placeholder treatment. The candidate
+  sizing follows the Blog list's 641px switch between horizontal and stacked
+  layouts.
 - Body
 - Hero image
+- Tags: an unlimited Tagify input that suggests existing Tags terms and creates
+  new terms from editor-entered text.
 - Topics
 - Related projects
 - Publish state
+
+The full Article starts with the same Author Byline contract documented in
+Storybook: linked Drupal author identity, publication date, calculated reading
+time, and tag Chips. It renders YouTube video before Body, leaving Body
+available for the author’s own thoughts. YouTube Field stores only the submitted
+URL and extracted video ID. Cached oEmbed supplies the displayed video title and
+linked channel/author name. A separate optional YouTube channel avatar URL keeps
+the 16px channel image deterministic and editable without adding a blocking
+channel-page request; the shared Avatar falls back to channel initials when the
+field is empty or invalid.
 
 ## Gallery Item
 

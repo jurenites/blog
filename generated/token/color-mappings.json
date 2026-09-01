@@ -1,0 +1,169 @@
+{
+  "palette_registry": {
+    "--color-palette-full-black": {
+      "display_name": "full black",
+      "value": "#000000"
+    },
+    "--color-palette-dark-black": {
+      "display_name": "dark black",
+      "value": "#020618"
+    },
+    "--color-palette-black": {
+      "display_name": "black",
+      "value": "#0F172B"
+    },
+    "--color-palette-light-black": {
+      "display_name": "light black",
+      "value": "#1D293D"
+    },
+    "--color-palette-deep-gray": {
+      "display_name": "deep gray",
+      "value": "#314158"
+    },
+    "--color-palette-dark-gray": {
+      "display_name": "dark gray",
+      "value": "#45556C"
+    },
+    "--color-palette-gray": {
+      "display_name": "gray",
+      "value": "#62748E"
+    },
+    "--color-palette-light-gray": {
+      "display_name": "light gray",
+      "value": "#90A1B9"
+    },
+    "--color-palette-pale-gray": {
+      "display_name": "pale gray",
+      "value": "#CAD5E2"
+    },
+    "--color-palette-dark-white": {
+      "display_name": "dark white",
+      "value": "#E2E8F0"
+    },
+    "--color-palette-light-white": {
+      "display_name": "light white",
+      "value": "#F1F5F9"
+    },
+    "--color-palette-white": {
+      "display_name": "white",
+      "value": "#F8FAFC"
+    },
+    "--color-palette-full-white": {
+      "display_name": "full white",
+      "value": "#FFFFFF"
+    },
+    "--color-palette-brand-primary-accent": {
+      "display_name": "brand primary accent",
+      "value": "#F1F5F9"
+    },
+    "--color-palette-brand-primary": {
+      "display_name": "brand primary",
+      "value": "#66FFFF"
+    },
+    "--color-palette-brand-primary-soft": {
+      "display_name": "brand primary soft",
+      "value": "#AAFFFF"
+    },
+    "--color-palette-brand-secondary-accent": {
+      "display_name": "brand secondary accent",
+      "value": "#BB44BB"
+    },
+    "--color-palette-brand-secondary": {
+      "display_name": "brand secondary",
+      "value": "#FF66FF"
+    },
+    "--color-palette-brand-secondary-soft": {
+      "display_name": "brand secondary soft",
+      "value": "#FFAAFF"
+    },
+    "--color-palette-brand-tertiary-accent": {
+      "display_name": "brand tertiary accent",
+      "value": "#C8C844"
+    },
+    "--color-palette-brand-tertiary": {
+      "display_name": "brand tertiary",
+      "value": "#FFFF66"
+    },
+    "--color-palette-brand-tertiary-soft": {
+      "display_name": "brand tertiary soft",
+      "value": "#FFFFAA"
+    },
+    "--color-palette-system-success-accent": {
+      "display_name": "system success accent",
+      "value": "#35744A"
+    },
+    "--color-palette-system-success": {
+      "display_name": "system success",
+      "value": "#4F9D69"
+    },
+    "--color-palette-system-success-soft": {
+      "display_name": "system success soft",
+      "value": "#7EB991"
+    },
+    "--color-palette-system-error-accent": {
+      "display_name": "system error accent",
+      "value": "#912A23"
+    },
+    "--color-palette-system-error": {
+      "display_name": "system error",
+      "value": "#C5524A"
+    },
+    "--color-palette-system-error-soft": {
+      "display_name": "system error soft",
+      "value": "#B85C5C"
+    },
+    "--color-palette-system-warning-accent": {
+      "display_name": "system warning accent",
+      "value": "#D3BD88"
+    },
+    "--color-palette-system-warning": {
+      "display_name": "system warning",
+      "value": "#B6974B"
+    },
+    "--color-palette-system-warning-strong": {
+      "display_name": "system warning strong",
+      "value": "#866F38"
+    }
+  },
+  "theme_to_palette": {
+    "--theme-dark-surface-background-page": "var(--color-palette-black)",
+    "--theme-dark-surface-background-elevation-level-0": "var(--color-palette-black)",
+    "--theme-dark-surface-background-elevation-level-1": "var(--color-palette-light-black)",
+    "--theme-dark-text-primary-default": "var(--color-palette-white)",
+    "--theme-dark-text-secondary-default": "var(--color-palette-light-white)",
+    "--theme-dark-text-light": "var(--color-palette-light-white)",
+    "--theme-dark-text-gray": "var(--color-palette-gray)",
+    "--theme-dark-text-inverse-default": "var(--color-palette-full-black)",
+    "--theme-dark-text-error-default": "var(--color-palette-system-error-accent)",
+    "--theme-dark-action-primary-default": "var(--color-palette-brand-tertiary)",
+    "--theme-dark-action-primary-hover": "var(--color-palette-brand-tertiary-accent)",
+    "--theme-dark-action-secondary-default": "var(--color-palette-black)",
+    "--theme-dark-action-secondary-hover": "var(--color-palette-dark-gray)",
+    "--theme-dark-border-outline-default": "var(--color-palette-dark-gray)",
+    "--theme-dark-border-divider-default": "var(--color-palette-gray)",
+    "--theme-dark-system-success-accent": "var(--color-palette-system-success-accent)",
+    "--theme-dark-system-success": "var(--color-palette-system-success)",
+    "--theme-dark-system-success-soft": "var(--color-palette-system-success-soft)",
+    "--theme-dark-system-error-accent": "var(--color-palette-system-error-accent)",
+    "--theme-dark-system-error": "var(--color-palette-system-error)",
+    "--theme-dark-system-error-soft": "var(--color-palette-system-error-soft)",
+    "--theme-dark-system-warning-accent": "var(--color-palette-system-warning-accent)",
+    "--theme-dark-system-warning": "var(--color-palette-system-warning)",
+    "--theme-dark-system-warning-strong": "var(--color-palette-system-warning-strong)"
+  },
+  "component_mappings": {
+    "--component-form-field-color-validation-error-default": "var(--theme-dark-system-error-accent)",
+    "--component-watermark-color-identity-default": "var(--color-palette-full-white)",
+    "--component-watermark-color-credit-default": "var(--color-palette-light-gray)",
+    "--component-badge-color-background-neutral-default": "var(--color-palette-light-black)",
+    "--component-badge-color-foreground-neutral-default": "var(--color-palette-white)",
+    "--component-badge-color-background-gray-default": "var(--color-palette-gray)",
+    "--component-badge-color-foreground-gray-default": "var(--color-palette-white)",
+    "--component-badge-color-background-white-default": "var(--color-palette-white)",
+    "--component-badge-color-foreground-white-default": "var(--color-palette-full-black)",
+    "--component-tooltip-color-background-full-black-default": "var(--color-palette-full-black)",
+    "--component-tooltip-color-background-black-default": "var(--color-palette-black)",
+    "--component-tooltip-color-background-light-black-default": "var(--color-palette-light-black)",
+    "--component-tooltip-color-foreground-default": "var(--color-palette-white)"
+  }
+}

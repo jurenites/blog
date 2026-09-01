@@ -1,0 +1,47 @@
+.jurenites-two-image-crossfade {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+}
+
+.jurenites-two-image-crossfade__frame {
+  grid-area: 1 / 1;
+  min-width: 0;
+  opacity: 0;
+  transition: opacity var(--crossfade-transition-duration) linear;
+}
+
+.jurenites-two-image-crossfade__frame.is-active {
+  opacity: 1;
+}
+
+.jurenites-two-image-crossfade__frame > *,
+.jurenites-two-image-crossfade .media,
+.jurenites-two-image-crossfade .field--type-image,
+.jurenites-two-image-crossfade .field__item,
+.jurenites-two-image-crossfade figure,
+.jurenites-two-image-crossfade picture {
+  height: 100%;
+}
+
+.jurenites-two-image-crossfade img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.jurenites-two-image-crossfade__pagination {
+  position: absolute;
+  bottom: var(--system-grid-base-unit);
+  left: 50%;
+  z-index: 3;
+  display: flex;
+  transform: translateX(-50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jurenites-two-image-crossfade__frame {
+    transition: none;
+  }
+}

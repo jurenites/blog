@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Image comparison'
+type: image_comparison
+description: 'Compare two aligned images with an accessible draggable before-and-after slider.'
+help: 'Select exactly two Image media items. The first image appears on the left and the second image appears on the right.'
+new_revision: true
+preview_mode: 1
+display_submitted: false

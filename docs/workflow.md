@@ -13,24 +13,31 @@ Rules:
 ## 2. Tokens
 
 `src/token/tokens.yaml` is the editable single source of truth for reusable
-design decisions, in W3C/DTCG format.
+design decisions. Every token uses a concise direct key/value form; `$type`,
+`$value`, and `$description` are generated implementation details and are forbidden in this file.
+The builder infers token types and normalizes the source into internal DTCG records.
 
-`scripts/build-tokens.mjs` resolves `{references}` and generates (never hand-edit these):
+`scripts/build-tokens.mjs` resolves plain dot-path references and generates (never hand-edit these):
 
 - `generated/styles/_tokens.scss` for CSS custom properties, SCSS breakpoint
-  vars/map/mixins, typography role mixins, and token utility classes
+  vars/map/mixins, typography role mixins, and consumed palette/spacing/shadow
+  utility classes
 - `generated/token/tokens.js` for Storybook JS, Drupal token JSON output, and
   Figma sync input
 
 Run `npm run build:tokens` after editing `src/token/tokens.yaml`. `npm run build:theme` runs tokens first automatically.
 Token generation immediately runs `npm run tokens:check`, so copied HEX values,
-CSS opacity declarations, and undefined SCSS token references fail the build.
+lowercase HEX letters in the token source, CSS opacity declarations, and
+undefined SCSS token references fail the build. Verbose token metadata fields
+and redundant `key: key` self-mappings also fail; use YAML comments for
+explanations and keep Storybook option arrays with their stories. `npm run lint`
+runs the same check.
 
 Token groups:
 
-- `system.grid`, `system.icon`, `system.breakpoint`, `system.naming`
+- `system.icon`, `system.breakpoint`, `system.naming`
 - `color.*` (palette primitives + semantic surface/text/action/border)
-- `typography.*` (Material M2 roles)
+- `typography.*` (CSS-ready font shorthand roles plus demonstration font families)
 - `space.*`, `shape.*`, `elevation.*`, `motion.*`, `layout.*`
 - `component.*`
 
@@ -59,16 +66,16 @@ Storybook is the place to prove component behavior before Drupal integration. It
 Stories are organised by Atomic Design: `Foundations`, `Atoms`, `Molecules`, `Organisms`, `Components`. Each component has exactly one story; property combinations are explored via the Controls tab.
 
 Current Foundations: Colors, Color Abstraction, Color Contrast, Typography,
-Typography Mapping, Fonts, and Spacing. Their JS reads `generated/token/tokens.js`; their styles
-read `generated/styles/_tokens.scss`.
+Fonts, and Spacing. Their JS reads `generated/token/tokens.js`; their styles read
+`generated/styles/_tokens.scss`.
 
-Current Atoms: Avatar, Badge, Button, Chip, Date Value, Divider, Surface,
+Current Atoms: Avatar, Badge, Button, Chip, Date Display, Divider, Icon, Surface, Tooltip,
 Version Watermark.
 
-Current Molecules: Article Teaser, Author Byline, Contact Me Widget, Pagination,
-Project Card, Pull Quote.
+Current Molecules: Article Teaser, Article Blog List Item, Author Byline, Contact
+Me Widget, Pagination, Project Card, Pull Quote.
 
-Current Organisms: Site Header.
+Current Organisms: Top Nav Menu Site Header.
 
 Pagination shares one BEM class contract between its Storybook markup helper and
 Drupal's `templates/navigation/pager.html.twig` override. At the token-defined
@@ -181,12 +188,11 @@ story at the token-defined 360px mobile minimum, 1280px desktop minimum, and
 custom properties. Browser binaries are stored under `.cache/ms-playwright/`
 and ignored by Git.
 
-## 8. Planned Quality Checks
+## 8. Token Contract Check
 
-- TODO: promote the browser inspection's missing-variable check into a faster
-  lint/build check that scans handwritten SCSS and
-  Storybook styles for `var(--...)` references and fails when a referenced CSS
-  custom property is not emitted by `src/token/tokens.yaml`.
+`npm run build:tokens` regenerates token artifacts and runs the fast token
+contract check. It scans handwritten SCSS for `var(--...)` references and fails
+when a referenced custom property is not emitted by `src/token/tokens.yaml`.
 
 ## 9. Staging
 

@@ -1,32 +1,71 @@
+@font-face {
+  font-family: "Open Sans";
+  src: url("../assets/fonts/opensans-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("../assets/fonts/opensans-bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 html,
 body,
 #root,
 #storybook-preview-wrapper,
 #storybook-panel-root,
 #storybook-explorer-tree {
-  background: var(--color-surface-page-default) !important;
-  color: var(--color-text-primary-default) !important;
+  background: var(--theme-dark-surface-background-page) !important;
+  color: var(--theme-dark-text-primary-default) !important;
 }
 
 #storybook-preview-iframe {
-  background: var(--color-surface-page-default) !important;
-  color: var(--color-text-primary-default) !important;
+  background: var(--theme-dark-surface-background-page) !important;
+  color: var(--theme-dark-text-primary-default) !important;
 }
 
 [data-testid="sidebar-root"],
 [data-testid="manager-sidebar"],
 [data-testid="sidebar-search-field"],
 [data-testid="preview-wrapper"] {
-  background: var(--color-surface-page-default) !important;
-  color: var(--color-text-primary-default) !important;
+  background: var(--theme-dark-surface-background-page) !important;
+  color: var(--theme-dark-text-primary-default) !important;
 }
 
-input,
+code,
+pre,
+kbd,
+samp {
+  font: var(--typography-code) !important;
+}
+
+input:not([role="switch"]),
 textarea,
 select {
-  background: var(--color-surface-panel-default) !important;
-  border-color: var(--color-border-subtle-default) !important;
-  color: var(--color-text-primary-default) !important;
+  background: var(--theme-dark-surface-background-elevation-level-0) !important;
+  border-color: var(--theme-dark-border-divider-default) !important;
+  color: var(--theme-dark-text-primary-default) !important;
+}
+
+input[role="switch"] {
+  background: transparent !important;
+}
+
+input[role="switch"] ~ span[aria-hidden="true"] {
+  position: relative;
+  z-index: 1;
+  background: var(--theme-dark-surface-background-elevation-level-0) !important;
+  color: var(--theme-dark-text-primary-default) !important;
+}
+
+input[role="switch"]:not(:checked) + span[aria-hidden="true"],
+input[role="switch"]:checked + span[aria-hidden="true"] + span[aria-hidden="true"] {
+  background: var(--theme-dark-surface-background-elevation-level-1) !important;
 }
 
 .storybook-build-stamp {
@@ -37,38 +76,33 @@ select {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: var(--space-scale-tight-gap);
-  padding: var(--space-scale-compact-gap) var(--space-scale-base-gap);
-  color: var(--color-watermark-credit-default);
-  font-family: var(--typography-semantic-watermark-version-font-family);
-  font-size: var(--typography-semantic-watermark-version-font-size);
-  font-weight: var(--typography-semantic-watermark-version-font-weight);
-  line-height: var(--typography-semantic-watermark-version-line-height);
-  letter-spacing: var(--typography-semantic-watermark-version-letter-spacing);
+  gap: var(--space-scale-two);
+  padding: calc(var(--space-scale-base-gap) * 0.5) var(--space-scale-base-gap);
+  color: var(--component-watermark-color-credit-default);
+  font: var(--typography-overline);
   white-space: nowrap;
 }
 
 .storybook-build-stamp__identity {
   display: inline-flex;
-  gap: var(--space-scale-tight-gap);
+  color: var(--component-watermark-color-white);
+  gap: var(--space-scale-two);
   align-items: baseline;
-  color: var(--color-watermark-identity-default);
+  color: var(--component-watermark-color-identity-default);
 }
 
 .storybook-build-stamp__git-hash,
 .storybook-build-stamp__credit,
 .storybook-build-stamp__date {
-  color: var(--color-watermark-credit-default);
+  color: var(--component-watermark-color-gray);
 }
 
 .storybook-build-stamp__git-hash {
-  text-decoration: none;
-}
-
-.storybook-build-stamp__git-hash:hover,
-.storybook-build-stamp__git-hash:focus-visible {
+  color: var(--theme-dark-text-primary-default);
+  font-family: var(--typography-font-family-4pixel);
+  font-size: var(--typography-overline);
   text-decoration-line: underline;
   text-decoration-style: solid;
-  text-decoration-thickness: var(--space-scale-line-size);
-  text-underline-offset: var(--space-scale-tight-gap);
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--space-scale-two);
 }

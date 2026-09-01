@@ -73,7 +73,7 @@ deploy_theme() {
   build_theme
   reset_asset_query
   drush_cache_clear
-  echo "Theme deployed. Assets re-versioned; an F5 (or Cmd+Shift+R) loads the new build."
+  echo "Theme deployed. Assets re-versioned; an F5 (or Cmd+Shift+R) loads the new build and good luck."
 }
 
 show_status() {

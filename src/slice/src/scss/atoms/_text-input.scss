@@ -1,0 +1,80 @@
+// Atom: Text Input. Labeled single-line input with optional supporting text.
+
+@use "../tools";
+
+.text-input {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-scale-base-gap);
+  width: 100%;
+  min-width: 0;
+}
+
+.text-input__label {
+  flex: 0 0 100%;
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-caption;
+}
+
+// Drupal renders text and password fields with `.form-text`. Keep that native
+// class on the same visual contract as the Storybook Text Input control.
+.text-input__control,
+.form-text {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: var(--component-text-input-minimum-width-default);
+  max-width: var(--component-text-input-width-full);
+  min-height: calc(var(--space-scale-base-gap) * 5);
+  box-sizing: border-box;
+  padding: 0 calc(var(--space-scale-base-gap) * 2);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
+  border-radius: var(--shape-corner-radius-base);
+  background: var(--color-palette-light-black);
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-caption;
+  @include tools.motion-transition(border-color, box-shadow, background-color);
+}
+
+.form-text {
+  max-width: var(--component-text-input-width-full);
+}
+
+.form-element--type-text,
+.form-element--type-password {
+  min-width: var(--component-text-input-width-full);
+}
+
+.text-input--width-half .text-input__control {
+  max-width: var(--component-text-input-width-half);
+}
+
+.text-input--width-quarter .text-input__control {
+  max-width: var(--component-text-input-width-quarter);
+}
+
+.text-input > .button {
+  flex: 0 0 auto;
+}
+
+.text-input__control::placeholder,
+.form-text::placeholder {
+  color: var(--theme-dark-text-secondary-default);
+}
+
+.text-input__control:hover,
+.form-text:hover {
+  border-color: var(--theme-dark-text-primary-default);
+}
+
+.text-input__control:focus-visible,
+.form-text:focus-visible {
+  @include tools.focus-ring;
+}
+
+.text-input__hint {
+  flex: 0 0 100%;
+  margin: 0;
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-caption;
+}
