@@ -8,7 +8,7 @@
 
 .numeric-values__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(var(--component-numeric-values-tile-min-width-default), 1fr));
   gap: calc(var(--space-scale-base-gap) * 2);
   margin: 0;
   padding: 0;
@@ -16,7 +16,7 @@
 }
 
 .numeric-values__tile {
-  min-height: 200px;
+  min-height: var(--component-numeric-values-tile-min-height-default);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

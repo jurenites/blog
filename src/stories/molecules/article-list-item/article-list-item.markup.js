@@ -1,7 +1,5 @@
 import article_list_item_template from "./article-list-item.template.html?raw";
-import { avatar_markup } from "../../atoms/avatar/avatar.markup.js";
-import { date_display_markup } from "../../atoms/date-display/date-display.markup.js";
-import { numeric_text_markup } from "../../numeric-text.js";
+import { author_byline_markup } from "../author-byline/author-byline.markup.js";
 import { escape_html, render_template } from "../../template.js";
 
 export function article_list_item_markup({
@@ -10,12 +8,18 @@ export function article_list_item_markup({
   article_url,
   thumbnail_url,
   thumbnail_alt,
+  byline_label,
   author_name,
+  author_url,
   avatar_initials,
   avatar_image_url,
+  avatar_size,
   published_date,
+  date_value_mode = "month-day-year",
   date_display_variant = "date-day",
-  reading_time,
+  reading_time_minutes,
+  reading_time_label,
+  topic_list,
 }) {
   return render_template(article_list_item_template, {
     teaser_title: escape_html(teaser_title),
@@ -23,16 +27,19 @@ export function article_list_item_markup({
     article_url: escape_html(article_url),
     thumbnail_url: escape_html(thumbnail_url),
     thumbnail_alt: escape_html(thumbnail_alt),
-    avatar_content: avatar_markup({
+    author_byline_content: author_byline_markup({
+      byline_label,
+      author_name,
+      author_url,
       avatar_initials,
-      image_url: avatar_image_url,
+      avatar_image_url,
+      avatar_size,
+      published_date,
+      date_value_mode,
+      date_display_variant,
+      reading_time_minutes,
+      reading_time_label,
+      topic_list,
     }),
-    author_name: escape_html(author_name),
-    date_display: date_display_markup({
-      source_date: published_date,
-      value_mode: "month-day-year",
-      display_variant: date_display_variant,
-    }),
-    reading_time: numeric_text_markup(reading_time),
   });
 }

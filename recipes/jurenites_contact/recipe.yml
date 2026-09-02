@@ -1,0 +1,5 @@
+name: 'Jurenites contact form'
+description: 'Provides a stored contact Webform at /contact with email notification and a math CAPTCHA.'
+type: 'Site'
+install:
+  - jurenites_contact

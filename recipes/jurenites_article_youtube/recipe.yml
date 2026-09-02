@@ -1,12 +1,18 @@
 name: 'Jurenites Article YouTube video'
-description: 'Adds a direct YouTube URL and optional channel-avatar URL above the Article body.'
+description: 'Adds Article consumption time and a direct YouTube reference with managed creator, publication-date, avatar, and thumbnail metadata.'
 type: 'Content field'
 install:
+  - datetime
+  - link
   - youtube
 config:
   strict:
     - field.storage.node.field_youtube_video
+    - field.storage.node.field_consumption_time_minutes
     - field.storage.node.field_youtube_channel_avatar
+    - field.storage.node.field_youtube_creator_name
+    - field.storage.node.field_youtube_creator_url
+    - field.storage.node.field_youtube_published_date
   actions:
     core.entity_form_display.node.article.default:
       setComponents:
@@ -18,25 +24,58 @@ config:
             settings:
               placeholder_url: 'https://www.youtube.com/watch?v=VIDEO_ID'
             third_party_settings: {  }
-        - name: body
-          options:
-            type: text_textarea_with_summary
-            weight: 4
-            region: content
-            settings:
-              rows: 9
-              summary_rows: 3
-              placeholder: ''
-              show_summary: false
-            third_party_settings: {  }
-        - name: field_youtube_channel_avatar
+        - name: field_youtube_creator_name
           options:
             type: string_textfield
             weight: 3
             region: content
             settings:
               size: 60
+              placeholder: 'YouTube creator or channel name'
+            third_party_settings: {  }
+        - name: field_youtube_creator_url
+          options:
+            type: link_default
+            weight: 4
+            region: content
+            settings:
+              placeholder_url: 'https://www.youtube.com/@channel'
+              placeholder_title: ''
+            third_party_settings: {  }
+        - name: field_youtube_published_date
+          options:
+            type: datetime_default
+            weight: 5
+            region: content
+            settings: {  }
+            third_party_settings: {  }
+        - name: field_youtube_channel_avatar
+          options:
+            type: string_textfield
+            weight: 6
+            region: content
+            settings:
+              size: 60
               placeholder: 'https://yt3.googleusercontent.com/...'
+            third_party_settings: {  }
+        - name: field_consumption_time_minutes
+          options:
+            type: number
+            weight: 7
+            region: content
+            settings:
+              placeholder: '5'
+            third_party_settings: {  }
+        - name: body
+          options:
+            type: text_textarea_with_summary
+            weight: 8
+            region: content
+            settings:
+              rows: 9
+              summary_rows: 3
+              placeholder: ''
+              show_summary: false
             third_party_settings: {  }
     core.entity_view_display.node.article.default:
       setComponent:

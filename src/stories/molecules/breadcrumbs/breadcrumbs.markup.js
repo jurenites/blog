@@ -9,7 +9,7 @@ function breadcrumb_link_markup(breadcrumb_name) {
 }
 
 function back_link_markup(back_link_url) {
-  return `<a class="breadcrumbs__back-link" href="${escape_html(back_link_url)}" aria-label="Back to Blog" data-jurenites-article-back><span>Back</span>${icon_markup({ icon_name: "arrow-left", class_name: "breadcrumbs__back-icon" })}</a>`;
+  return `<a class="breadcrumbs__back-link" href="${escape_html(back_link_url)}"><span>Back</span>${icon_markup({ icon_name: "arrow-left", class_name: "breadcrumbs__back-icon" })}</a>`;
 }
 
 export function breadcrumbs_markup({

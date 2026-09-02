@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_youtube_creator_url
+    - node.type.article
+  module:
+    - link
+id: node.article.field_youtube_creator_url
+field_name: field_youtube_creator_url
+entity_type: node
+bundle: article
+label: 'YouTube creator URL'
+description: 'Filled from the YouTube source when empty. Keep the creator or channel URL used by the public credit.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 0
+  link_type: 16
+field_type: link

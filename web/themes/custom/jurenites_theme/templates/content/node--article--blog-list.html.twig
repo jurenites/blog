@@ -15,8 +15,8 @@
 ] %}
 
 <article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
-  {% if node.field_youtube_video is not empty and node.field_image is not empty %}
-    <div class="article-list-item__media" style="view-transition-name: article-image-{{ article_id }}">
+  {% if node.field_image is not empty %}
+    <div class="article-list-item__media">
       {{ content.field_image }}
     </div>
   {% endif %}
@@ -24,26 +24,52 @@
   <div class="article-list-item__body">
     {{ title_prefix }}
     {% if label %}
-      <h2{{ title_attributes.addClass('article-list-item__title').setAttribute('style', 'view-transition-name: article-title-' ~ article_id) }}>
+      <h2{{ title_attributes.addClass('article-list-item__title') }}>
         <a class="article-list-item__title-link" href="{{ url }}" rel="bookmark">{{ label }}</a>
       </h2>
     {% endif %}
     {{ title_suffix }}
 
     <div{{ content_attributes.addClass('article-list-item__content') }}>
-      {{ content|without('field_image') }}
+      {{ content|without(
+        'field_image',
+        'field_consumption_time_minutes',
+        'field_youtube_channel_avatar',
+        'field_youtube_creator_name',
+        'field_youtube_creator_url',
+        'field_youtube_published_date',
+        'field_youtube_video',
+      ) }}
     </div>
 
     {% if display_submitted %}
       <footer class="article-list-item__meta">
-        {% include '@jurenites_theme/components/avatar.html.twig' with {
-          avatar_image: author_picture,
-          avatar_initials: author_initials,
-        } only %}
-        <div{{ author_attributes.addClass('article-list-item__meta-details') }}>
-          {% trans %}Written by {{ author_name }} on{% endtrans %}
-          <time class="date-display date-display--month-day-year date-display--date-day" datetime="{{ submitted_date_iso }}">{{ submitted_date_text }}</time>
-        </div>
+        {% if node.field_youtube_video is not empty and youtube_author_name %}
+          {% include '@jurenites_theme/components/author-byline.html.twig' with {
+            byline_label: 'Video creator'|t,
+            author_avatar_image: youtube_author_avatar,
+            author_avatar_initials: youtube_author_initials,
+            avatar_size: 'small',
+            author_name_text: youtube_author_name,
+            author_url: youtube_author_url,
+            published_date_iso: youtube_published_date_iso,
+            published_date_markup: youtube_published_date_text,
+            date_value_mode: 'time-since',
+            date_display_variant: 'day-month-year',
+            reading_time_minutes: reading_time_minutes,
+            reading_time_label: reading_time_label,
+          } only %}
+        {% else %}
+          {% include '@jurenites_theme/components/author-byline.html.twig' with {
+            author_avatar_image: author_picture,
+            author_avatar_initials: author_initials,
+            author_name_markup: author_name,
+            published_date_iso: submitted_date_iso,
+            published_date_markup: submitted_date_text,
+            reading_time_minutes: reading_time_minutes,
+            reading_time_label: reading_time_label,
+          } only %}
+        {% endif %}
       </footer>
     {% endif %}
   </div>

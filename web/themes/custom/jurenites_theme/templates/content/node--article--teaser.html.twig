@@ -16,21 +16,21 @@
 
 <article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
   {% if content.field_image %}
-    <div class="article-teaser__media" style="view-transition-name: article-image-{{ article_id }}">
+    <div class="article-teaser__media">
       {{ content.field_image }}
     </div>
   {% endif %}
 
   {{ title_prefix }}
   {% if label %}
-    <h3{{ title_attributes.addClass('article-teaser__title').setAttribute('style', 'view-transition-name: article-title-' ~ article_id) }}>
+    <h3{{ title_attributes.addClass('article-teaser__title') }}>
       <a class="article-teaser__title-link" href="{{ url }}" rel="bookmark">{{ label }}</a>
     </h3>
   {% endif %}
   {{ title_suffix }}
 
   <div{{ content_attributes.addClass('article-teaser__content') }}>
-    {{ content|without('field_image') }}
+    {{ content|without('field_consumption_time_minutes', 'field_image') }}
   </div>
 
   {% if display_submitted %}
@@ -42,6 +42,10 @@
       <div{{ author_attributes.addClass('article-teaser__meta-details') }}>
         {% trans %}Written by {{ author_name }} on{% endtrans %}
         <time class="date-display date-display--month-day-year date-display--date-day" datetime="{{ submitted_date_iso }}">{{ submitted_date_text }}</time>
+        {% if reading_time_text %}
+          <span class="article-teaser__meta-separator" aria-hidden="true">&middot;</span>
+          <span class="article-teaser__reading-time date-display">{{ reading_time_text }}</span>
+        {% endif %}
       </div>
     </footer>
   {% endif %}

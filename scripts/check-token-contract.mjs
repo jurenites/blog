@@ -21,6 +21,8 @@ const CSS_VARIABLE_PATTERN = /var\((--[a-z0-9-]+)(?:\s*,[^)]*)?\)/g;
 const CSS_OPACITY_PATTERN = /\bopacity\s*:/g;
 const HARDCODED_FONT_SIZE_PATTERN = /\bfont-size\s*:\s*-?(?:\d+\.?\d*|\.\d+)(?:px|rem|em)\b/g;
 const HARDCODED_FONT_SHORTHAND_PATTERN = /\bfont\s*:\s*(?!var\(|inherit\b)[^;{}]*(?:\d+\.?\d*|\.\d+)(?:px|rem|em)\b/g;
+const HARDCODED_PIXEL_DIMENSION_PATTERN = /-?(?:\d+\.?\d*|\.\d+)px\b/g;
+const SHARED_THEME_SCSS_PREFIX = "src/slice/src/scss/";
 const VERBOSE_TOKEN_FIELD_PATTERN = /^\s*["']?\$(?:type|value|description)["']?\s*:/gm;
 const SELF_MAPPING_PATTERN = /^\s*([a-z0-9-]+):\s+\1(?:\s+#.*)?$/gm;
 const SHADOW_OBJECT_PATTERN = /^\s+level-[0-9]+:\s+\{.*(?:offsetX|offsetY|blur|spread|color):/gm;
@@ -55,6 +57,14 @@ async function source_files(directory_path) {
   }));
 
   return nested_files.flat();
+}
+
+function source_without_style_comments(source_content) {
+  const preserve_line_breaks = (comment_text) => comment_text.replace(/[^\n]/g, " ");
+
+  return source_content
+    .replace(/\/\*[\s\S]*?\*\//g, preserve_line_breaks)
+    .replace(/\/\/[^\n]*/g, preserve_line_breaks);
 }
 
 const defined_variables = new Set(Object.keys(TOKEN_VALUES).map((token_name) => `--${token_name}`));
@@ -156,6 +166,14 @@ for (const scan_directory of SCAN_DIRECTORIES) {
     }
 
     if (extname(source_path) === ".scss") {
+      if (relative_path.startsWith(SHARED_THEME_SCSS_PREFIX)) {
+        const uncommented_source = source_without_style_comments(source_content);
+        for (const dimension_match of uncommented_source.matchAll(HARDCODED_PIXEL_DIMENSION_PATTERN)) {
+          const line_number = uncommented_source.slice(0, dimension_match.index).split("\n").length;
+          contract_errors.push(`${relative_path}:${line_number}: hardcoded pixel dimension must use a semantic token`);
+        }
+      }
+
       for (const variable_match of source_content.matchAll(CSS_VARIABLE_PATTERN)) {
         if (!defined_variables.has(variable_match[1]) && !external_css_variables.has(variable_match[1])) {
           contract_errors.push(`${relative_path}: undefined token variable ${variable_match[1]}`);

@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 0.0.98
-Reviewed: 2026-08-31
+Version: 0.0.116
+Reviewed: 2026-09-01
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -37,13 +37,18 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   implemented and verified.
 - Spacing tokens use semantic names, not numeric names, so values can change
   without renaming component code.
+- Reusable absolute dimensions in shared theme SCSS use semantic layer- and
+  component-scoped tokens. Intrinsic percentages, ratios, grid coordinates,
+  transforms, and spacing-grid multipliers remain local CSS mechanics.
 - Typography uses seventeen one-line CSS `font` shorthand role tokens. Open Sans owns
   website headings, body copy, and the Storybook UI; most roles below 24px use
   the attached Light face at weight 300, while Badge is semibold at 14px for
   compact emphasis. Bold Courier New owns Storybook code
   text; Ubuntu Sans Mono owns prominent numbers and Date Value date/time text;
   Roundabout is demonstration-only; and 4pixel is limited to demonstrations and
-  compact technical details such as the bottom-right version watermark.
+  compact technical details such as the bottom-right version watermark. Anchors
+  inherit the typography of their surrounding content; `.text-link` is the
+  explicit opt-in for the dedicated link typography role.
 - Token lint rejects numeric `font-size` declarations and numeric handwritten
   `font` shorthands so project typography must use roles or semantic tokens.
 - Storybook browser inspection is prepared through `npm run storybook:inspect`;
@@ -54,18 +59,28 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Pagination uses one class contract across Storybook, shared SCSS, and Drupal's
   pager override. At mobile width it automatically switches to four list items:
   previous arrow, current page, total pages, and next arrow.
-- Breadcrumbs use one class contract across Storybook, shared SCSS, and Drupal's
-  breadcrumb override. Drupal removes the front-page Home ancestor, appends the
-  resolved current-page title to the remaining ancestor links, and marks that
-  final item as the current page. Full Articles
-  add a text Back link with a replaceable 24px, 1px-stroke left-arrow Icon Atom.
+- Breadcrumbs retain a reusable Storybook and shared-SCSS contract, but Drupal
+  currently suppresses breadcrumb trails on every route, including Webforms and
+  node detail pages. Full Articles show only a text Back link to `/blog`
+  with a replaceable 24px, 1px-stroke left-arrow Icon Atom. The link uses normal
+  anchor navigation rather than browser history.
   Named SVG geometry is stored in `src/public/assets/icons` and copied into the
-  deployable Drupal theme assets during the theme build. Breadcrumb links use
-  the caption typography role, while the current page uses the pale secondary
-  text role.
+  deployable Drupal theme assets during the theme build. The Back link uses the
+  caption typography role.
+- Project-owned SVG icons are rendered through the shared 24px Icon component
+  rather than handwritten inline SVG or text glyphs. Named geometry remains in
+  `src/public/assets/icons`; the Blog tag-filter clear action composes the
+  `icon-cross` asset through that shared contract.
+- Full Article YouTube players show the shared animated no-signal noise while
+  their iframe loads. The overlay derives its responsive dimensions and aspect
+  ratio from the field formatter's player box, crossfades to the loaded player
+  over 200ms, and stops rendering after the transition.
 - Content Layout provides one controlled Storybook composition for generic page
   and node shells, with token-backed readable and wide widths. Drupal's native
   `.layout-content` uses the readable width without requiring another wrapper.
+- The project contact recipe owns `/contact` through a three-field Webform,
+  retains submissions locally, sends plain-text notifications to the Drupal
+  site email, and protects anonymous submissions with a local math CAPTCHA.
 - Two-tone Heading defaults to `h3` and its 40px `headline-3` role, while other
   selected heading levels inherit their matching base typography roles. Its
   structured leading strong, soft, and trailing strong plain-text segments use
@@ -93,12 +108,12 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - All global semantic corner-radius tokens resolve to `0px`; project-owned
   preview styles also use the zero-radius token so Drupal and Storybook
   consistently render square corners. Chip owns a component-level `9999px`
-  pill radius, Avatar owns its circular `9999px` radius locally, and Select
+  pill radius, Avatar owns a component-level circular radius token, and Select
   Input uses a local 50% radius only for
   the requested transient 36px hover indicator inside its square suffix target.
-- Article teasers and full Article pages use node-unique cross-document View
-  Transition names for the title and lead image. Drupal navigation and rendering
-  stay native, with normal-navigation and reduced-motion fallbacks.
+- Article teaser and Blog list links use normal Drupal navigation to the full
+  Article detail route. Their title and image remain separate presentations;
+  they do not morph into the full page through cross-document View Transitions.
 - Article Teaser is the square-corner, bordered editorial card used by the
   homepage three-tile composition. The Drupal Blog View uses a separate,
   borderless Article Blog List Item with horizontal media and content that
@@ -113,11 +128,21 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   image sizing through explicit small (16px), medium (24px), large (32px), and
   token-backed big (40px) modifier classes rather than HTML dimensions. The
   default medium value renders its modifier class explicitly.
-- Full Article pages compose the Author Byline structure documented in
-  Storybook: linked Drupal author identity, publication date, calculated reading
-  time, and tag Chips. Video attribution uses the linked oEmbed channel name
-  without a redundant provider label and adds the current channel image through
-  the shared 16px Avatar, with initials as its non-blocking fallback.
+- Article list items and detail pages compose the Author Byline structure
+  documented in Storybook. Its time contract keeps the integer minute count and
+  translatable `min to read` or `min to watch` label in separate elements so
+  multi-digit values retain their word spacing. Personal Articles present their
+  Drupal owner, Article date, editable `N min to read` time (5 minutes by
+  default), and Tags.
+  Articles containing a YouTube URL instead present the stored video creator
+  link, elapsed time since the original source date, and automatically collected
+  `N min to watch` time;
+  seconds are truncated and hour-long videos remain expressed in total minutes.
+  Name and date/time details share one wrapping inline row in Storybook and
+  Drupal; elapsed dates use calendar units such as `4 months and 9 days`.
+  The detail credit sits below the iframe and video title, while Drupal retains
+  the node owner for its normal editorial history. The video creator Avatar uses
+  the stored 16px channel image with initials as its non-blocking fallback.
 - Article body and tag fields use bundle-specific semantic templates; tag Chips
   link to the Blog's validated single-tag GET filter using cleaned tag-label
   slugs rather than internal IDs. Its selected state and clear action require no
@@ -236,9 +261,16 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Articles accept one direct YouTube URL above Body through YouTube Field. The
   field extracts the video ID and renders a responsive player and YouTube video
   thumbnail without requiring editors to create or select Media entities first.
-  Cached oEmbed data adds the displayed video title, linked channel/author name,
-  and provider without duplicating them into Article fields. Channel avatars
-  still require a separately configured YouTube Data API integration.
+  Saving fills empty editable creator-name, creator-link, original-date, and
+  thumbnail fields from the source. It also fills the editable content-time
+  field from YouTube's duration and aligns the Article Authored on calendar
+  date with the YouTube publication date without replacing its time of day.
+  Existing editorial values are preserved; replacing the video URL refreshes
+  its creator/date/duration metadata. This keeps one Article type while the
+  YouTube URL cleanly distinguishes external video references from personal
+  long reads.
+- New Articles default to not promoted to the front page. Editors can opt in per
+  Article, and the default change does not rewrite existing content.
 - Article Tags use Tagify's unlimited entity-reference autocomplete widget.
   Editors can select existing Tags terms or create new terms by entering text.
 - Paragraphs provides structured content sections on Articles and Basic pages.

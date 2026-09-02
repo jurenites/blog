@@ -1,11 +1,13 @@
 name: Jurenites Blog
 type: module
-description: Provides Blog filtering and Article YouTube thumbnail handling.
+description: Provides Blog filtering and stored Article YouTube reference metadata.
 package: Jurenites
 core_version_requirement: ^11
 dependencies:
+  - drupal:datetime
   - drupal:file
   - drupal:image
+  - drupal:link
   - drupal:media
   - drupal:node
   - drupal:taxonomy

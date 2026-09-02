@@ -28,7 +28,6 @@ body.jurenites-theme a {
   color: var(--theme-dark-text-primary-default);
   text-decoration: underline;
   text-decoration-thickness: var(--space-scale-one);
-  @include tools.typography-link;
   @include tools.motion-transition(color);
 }
 

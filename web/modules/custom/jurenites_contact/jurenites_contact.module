@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Contact form integration hooks.
+ */
+
+/**
+ * Implements hook_captcha_placement_map().
+ */
+function jurenites_contact_captcha_placement_map(): array {
+  return [
+    'webform_submission_contact_add_form' => [
+      'path' => ['elements'],
+      'key' => 'actions',
+      'weight' => NULL,
+    ],
+  ];
+}

@@ -10,7 +10,11 @@
       <span class="blog-filter__label">{{ 'Selected tag'|t }}</span>
       <a class="chip chip--accent blog-filter__clear" href="{{ clear_tag_url }}" aria-label="{{ 'Remove tag filter: @tag'|t({'@tag': selected_tag_label}) }}">
         <span>{{ selected_tag_label }}</span>
-        <span class="blog-filter__clear-icon" aria-hidden="true">×</span>
+        {% include '@jurenites_theme/components/icon.html.twig' with {
+          icon_name: 'icon-cross',
+          icon_class: 'blog-filter__clear-icon',
+          icon_asset_base_url: icon_asset_base_url,
+        } only %}
       </a>
     </aside>
   {% endif %}

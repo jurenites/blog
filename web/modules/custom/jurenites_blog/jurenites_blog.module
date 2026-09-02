@@ -7,17 +7,58 @@
 
 use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
+
+/**
+ * Hides automatically managed YouTube metadata from non-administrators.
+ */
+function jurenites_blog_form_node_article_form_alter(
+  array &$form,
+  FormStateInterface $form_state,
+): void {
+  if (\Drupal::currentUser()->hasPermission('administer nodes')) {
+    return;
+  }
+
+  $managed_field_names = [
+    'field_youtube_creator_name',
+    'field_youtube_creator_url',
+    'field_youtube_published_date',
+    'field_youtube_channel_avatar',
+  ];
+  foreach ($managed_field_names as $managed_field_name) {
+    if (isset($form[$managed_field_name])) {
+      $form[$managed_field_name]['#access'] = FALSE;
+    }
+  }
+
+  if (isset($form['field_youtube_video']['widget'][0]['video_id'])) {
+    $form['field_youtube_video']['widget'][0]['video_id']['#access'] = FALSE;
+  }
+}
 
 /**
  * Populates an empty Article Image field from its YouTube thumbnail.
  */
 function jurenites_blog_node_presave(NodeInterface $article_node): void {
-  if ($article_node->bundle() !== 'article'
-    || !$article_node->hasField('field_youtube_video')
-    || !$article_node->hasField('field_image')
-    || $article_node->get('field_youtube_video')->isEmpty()
-    || !$article_node->get('field_image')->isEmpty()) {
+  if ($article_node->bundle() !== 'article') {
+    return;
+  }
+
+  $original_node = $article_node->getOriginal();
+  $original_identifier = $original_node?->hasField('field_youtube_video')
+    ? trim((string) $original_node->get('field_youtube_video')->video_id)
+    : '';
+  $has_youtube_video = $article_node->hasField('field_youtube_video')
+    && !$article_node->get('field_youtube_video')->isEmpty();
+
+  if (!$has_youtube_video) {
+    if ($article_node->hasField('field_consumption_time_minutes')
+      && ($article_node->get('field_consumption_time_minutes')->isEmpty()
+        || $original_identifier !== '')) {
+      $article_node->set('field_consumption_time_minutes', 5);
+    }
     return;
   }
 
@@ -28,7 +69,177 @@ function jurenites_blog_node_presave(NodeInterface $article_node): void {
     return;
   }
 
-  jurenites_blog_set_youtube_thumbnail($article_node, $video_url, $video_identifier);
+  if ($original_identifier !== $video_identifier) {
+    foreach ([
+      'field_consumption_time_minutes',
+      'field_youtube_creator_name',
+      'field_youtube_creator_url',
+      'field_youtube_published_date',
+    ] as $credit_field_name) {
+      if ($article_node->hasField($credit_field_name)) {
+        $article_node->set($credit_field_name, NULL);
+      }
+    }
+  }
+
+  jurenites_blog_set_youtube_credit($article_node, $video_url);
+  jurenites_blog_sync_authored_date($article_node);
+
+  if ($article_node->hasField('field_image')
+    && $article_node->get('field_image')->isEmpty()) {
+    jurenites_blog_set_youtube_thumbnail($article_node, $video_url, $video_identifier);
+  }
+}
+
+/**
+ * Matches the Article authored calendar date to its YouTube publication date.
+ */
+function jurenites_blog_sync_authored_date(NodeInterface $article_node): void {
+  if (!$article_node->hasField('field_youtube_published_date')
+    || $article_node->get('field_youtube_published_date')->isEmpty()) {
+    return;
+  }
+
+  $published_date_value = trim(
+    (string) $article_node->get('field_youtube_published_date')->value,
+  );
+  $date_timezone_name = \Drupal::config('system.date')->get('timezone.default');
+  $date_timezone = new \DateTimeZone(
+    is_string($date_timezone_name) && $date_timezone_name !== ''
+      ? $date_timezone_name
+      : date_default_timezone_get(),
+  );
+  $published_date = \DateTimeImmutable::createFromFormat(
+    '!Y-m-d',
+    $published_date_value,
+    $date_timezone,
+  );
+  if ($published_date === FALSE) {
+    return;
+  }
+
+  $authored_timestamp = $article_node->getCreatedTime();
+  if ($authored_timestamp <= 0) {
+    $authored_timestamp = \Drupal::time()->getRequestTime();
+  }
+  $authored_date = (new \DateTimeImmutable('@' . $authored_timestamp))
+    ->setTimezone($date_timezone)
+    ->setDate(
+      (int) $published_date->format('Y'),
+      (int) $published_date->format('m'),
+      (int) $published_date->format('d'),
+    );
+
+  $article_node->setCreatedTime($authored_date->getTimestamp());
+}
+
+/**
+ * Populates empty editable creator and source-publication fields.
+ */
+function jurenites_blog_set_youtube_credit(
+  NodeInterface $article_node,
+  string $video_url,
+): void {
+  $creator_name_missing = $article_node->hasField('field_youtube_creator_name')
+    && $article_node->get('field_youtube_creator_name')->isEmpty();
+  $creator_url_missing = $article_node->hasField('field_youtube_creator_url')
+    && $article_node->get('field_youtube_creator_url')->isEmpty();
+  $published_date_missing = $article_node->hasField('field_youtube_published_date')
+    && $article_node->get('field_youtube_published_date')->isEmpty();
+  $consumption_time_missing = $article_node->hasField('field_consumption_time_minutes')
+    && $article_node->get('field_consumption_time_minutes')->isEmpty();
+
+  if ($creator_name_missing || $creator_url_missing) {
+    try {
+      $resource_url = \Drupal::service('media.oembed.url_resolver')->getResourceUrl($video_url);
+      $video_resource = \Drupal::service('media.oembed.resource_fetcher')->fetchResource($resource_url);
+
+      if ($creator_name_missing && trim((string) $video_resource->getAuthorName()) !== '') {
+        $article_node->set('field_youtube_creator_name', $video_resource->getAuthorName());
+      }
+      $creator_url = $video_resource->getAuthorUrl()?->toString() ?? '';
+      if ($creator_url_missing && $creator_url !== '') {
+        $article_node->set('field_youtube_creator_url', ['uri' => $creator_url]);
+      }
+    }
+    catch (\Throwable $creator_exception) {
+      \Drupal::logger('jurenites_blog')->warning(
+        'Unable to save the YouTube creator credit for Article @article_id: @message',
+        [
+          '@article_id' => $article_node->id() ?? 'new',
+          '@message' => $creator_exception->getMessage(),
+        ],
+      );
+    }
+  }
+
+  if (!$published_date_missing && !$consumption_time_missing) {
+    return;
+  }
+
+  try {
+    $date_separator = str_contains($video_url, '?') ? '&' : '?';
+    $video_page_response = \Drupal::httpClient()->request(
+      'GET',
+      $video_url . $date_separator . 'hl=en',
+      [
+        'timeout' => 20,
+        'headers' => [
+          'Accept-Language' => 'en-US,en;q=0.9',
+          'User-Agent' => 'Mozilla/5.0',
+        ],
+      ],
+    );
+    $video_page = (string) $video_page_response->getBody();
+    if ($published_date_missing) {
+      $date_found = preg_match('/"publishDate":"([^"]+)"/', $video_page, $date_matches);
+      if ($date_found === 1) {
+        $published_date_value = substr($date_matches[1], 0, 10);
+        $article_node->set('field_youtube_published_date', $published_date_value);
+      }
+      else {
+        \Drupal::logger('jurenites_blog')->warning(
+          'The YouTube page has no publication timestamp for Article @article_id.',
+          ['@article_id' => $article_node->id() ?? 'new'],
+        );
+      }
+    }
+
+    if ($consumption_time_missing) {
+      $duration_minutes = jurenites_blog_youtube_duration_minutes($video_page);
+      if ($duration_minutes !== NULL) {
+        $article_node->set('field_consumption_time_minutes', $duration_minutes);
+      }
+      else {
+        \Drupal::logger('jurenites_blog')->warning(
+          'The YouTube page has no video duration for Article @article_id.',
+          ['@article_id' => $article_node->id() ?? 'new'],
+        );
+      }
+    }
+  }
+  catch (\Throwable $metadata_exception) {
+    \Drupal::logger('jurenites_blog')->warning(
+      'Unable to save YouTube page metadata for Article @article_id: @message',
+      [
+        '@article_id' => $article_node->id() ?? 'new',
+        '@message' => $metadata_exception->getMessage(),
+      ],
+    );
+  }
+}
+
+/**
+ * Converts YouTube page duration seconds to truncated whole minutes.
+ */
+function jurenites_blog_youtube_duration_minutes(string $video_page): ?int {
+  $duration_found = preg_match('/"lengthSeconds":"(\d+)"/', $video_page, $duration_matches);
+  if ($duration_found !== 1) {
+    return NULL;
+  }
+
+  $duration_seconds = (int) $duration_matches[1];
+  return max(1, intdiv($duration_seconds, 60));
 }
 
 /**

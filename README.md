@@ -138,6 +138,14 @@ These values are defined in the media recipe and under `docker/`. Rebuild and
 restart the web/proxy containers after changing them. Remote YouTube media stores
 a URL and is unaffected because the video file is not uploaded to Drupal.
 
+For Article YouTube references, saving a new video URL stores an editable
+creator name, creator link, original source date, and local thumbnail. Public
+list/detail bylines credit that source instead of presenting the Drupal node
+owner as the writer; the owner remains available to Drupal for normal editorial
+history. Personal Articles without a YouTube URL retain the standard owner
+byline and display an editor-attached Image on both the Blog preview and full
+Article page.
+
 ## Styling Rules
 
 Storybook templates in `src/stories/**/*.template.html` should stay structural:
