@@ -81,34 +81,61 @@ Suggested fields:
 - Teaser
 - YouTube video: one direct YouTube URL. The YouTube Field module extracts the
   video ID and renders a responsive player with YouTube's video thumbnail. The
-  public Article presentation uses cached oEmbed data for the video title,
-  linked channel/author name, and the optional channel-avatar URL field. When
-  an Article with a YouTube video has no Hero image, Drupal downloads YouTube's
+  Article stores the creator name, creator link, original source date, and an
+  optional channel-avatar URL as editable credit metadata. Empty credit fields
+  are filled from the linked YouTube source when the Article is saved; changing
+  the video URL refreshes them for the new source. The Article Authored on
+  calendar date follows the YouTube publication date while retaining its
+  existing time of day; any time component in the source timestamp is ignored.
+  When an Article with a YouTube video has no Hero image, Drupal downloads YouTube's
   1280×720 thumbnail into that Image field on save and uses the oEmbed image as
   a lower-resolution fallback. Editors can then replace or manipulate it like
   any other Article image; an existing Image is never overwritten
-  automatically. The Blog list only presents this media when the Article also
+  automatically. On the full Article, an animated no-signal layer occupies the
+  responsive player figure until its iframe loads; the layer inherits the
+  formatter's rendered size and aspect ratio. The Blog list only presents this media when the Article also
   has a YouTube video, and serves responsive 325px, 650px, or source-width WebP
   candidates with the progressive blurry-placeholder treatment. The candidate
   sizing follows the Blog list's 641px switch between horizontal and stacked
   layouts.
 - Body
+- Content time (minutes): one editable whole-minute value. Personal Articles
+  default to 5 minutes. YouTube reference Articles replace the default with the
+  source video duration when the URL changes, truncating seconds and retaining
+  total minutes for videos longer than one hour.
 - Hero image
 - Tags: an unlimited Tagify input that suggests existing Tags terms and creates
   new terms from editor-entered text.
 - Topics
 - Related projects
 - Publish state
+- Promoted to front page: disabled by default for new Articles. Editors can
+  still enable it explicitly, and existing Articles retain their current value.
 
-The full Article starts with the same Author Byline contract documented in
-Storybook: linked Drupal author identity, publication date, calculated reading
-time, and tag Chips. It renders YouTube video before Body, leaving Body
-available for the author’s own thoughts. YouTube Field stores only the submitted
-URL and extracted video ID. Cached oEmbed supplies the displayed video title and
-linked channel/author name. A separate optional YouTube channel avatar URL keeps
-the 16px channel image deterministic and editable without adding a blocking
-channel-page request; the shared Avatar falls back to channel initials when the
-field is empty or invalid.
+Article has two editorial presentations without requiring another content type:
+
+- A personal Article has no YouTube URL. Its Author Byline presents the Drupal
+  owner, Article publication date, the stored `N min to read` value, and Tags. When
+  an editor attaches an Image, that image appears in both the Blog list preview
+  and the full Article detail view.
+- A YouTube reference Article has a YouTube URL. The public list and detail page
+  credit the stored video creator and original YouTube publication date instead
+  of presenting the Drupal owner as the writer. Drupal still retains the node
+  owner normally for editing, revisions, and accountability. On the detail page,
+  the iframe replaces the static Image and the video-credit Author Byline sits
+  below the iframe and video title. Both the Blog preview and detail credit show
+  the stored duration as `N min to watch`. The stored source date is presented
+  as elapsed calendar time, such as `4 months and 9 days`, and refreshes as time
+  passes instead of remaining an absolute date.
+
+The creator name, link, publication date, and channel avatar URL are treated as
+managed metadata and hidden from non-administrator Article forms, together with
+the derived YouTube video ID. Administrators can still inspect or override the
+stored metadata. Automatic source collection fills empty creator, date, and
+duration values, while replacing the YouTube URL clears the old credit and
+collects the new source. Each save also keeps the Authored on calendar date
+aligned with the stored YouTube publication date. The shared Avatar falls back
+to channel initials when its stored URL is empty or invalid.
 
 ## Gallery Item
 

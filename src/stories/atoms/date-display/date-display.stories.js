@@ -7,7 +7,7 @@ const SOURCE_DATE = new Date(Date.now() - (85 * 60000)).toISOString();
 const DISPLAY_VARIANT = token_value("component-date-display-default-display");
 
 const VALUE_MODE_OPTIONS = ["month-day-year", "time-since"];
-const DISPLAY_VARIANT_OPTIONS = ["date-day", "date-day-time"];
+const DISPLAY_VARIANT_OPTIONS = ["date-day", "date-day-time", "day-month-year"];
 
 function render_story({ value_mode, source_date, display_variant }) {
   return date_display_markup({

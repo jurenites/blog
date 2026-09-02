@@ -22,9 +22,26 @@ src/token/tokens.yaml            <-- editable single source of truth
 Never hand-edit generated files. Edit `src/token/tokens.yaml`, then run
 `npm run build:tokens` (or `npm run build:theme`, which runs tokens first).
 The token build also runs `scripts/check-token-contract.mjs`, which rejects
-hardcoded colors outside the YAML source, CSS opacity declarations, and missing
-SCSS token variables. The same contract is part of `npm run lint` and rejects
-HEX letters that are not uppercase in `src/token/tokens.yaml`.
+hardcoded colors outside the YAML source, CSS opacity declarations, hardcoded
+pixel dimensions in shared theme SCSS, and missing SCSS token variables. The
+same contract is part of `npm run lint` and rejects HEX letters that are not
+uppercase in `src/token/tokens.yaml`.
+
+### Dimension ownership
+
+Reusable absolute dimensions in the shared theme SCSS belong in
+`src/token/tokens.yaml`. Name a component-owned value with the existing
+`component.<component>.<part>-<property>-<state>` pattern, such as
+`component.article-teaser.list-media-min-width-default`; use `system`, `layout`,
+`space`, or `shape` only when the decision is genuinely shared at that layer.
+SCSS consumes the generated dash-separated custom property and must not copy its
+resolved pixel value.
+
+Intrinsic CSS mechanics remain local: `0`, percentages, viewport units, flex
+fractions, grid line numbers, aspect ratios, transforms, and spacing-grid
+multipliers do not become tokens merely because they contain a number. Use the
+generated breakpoint mixins instead of copying breakpoint widths into media
+queries.
 
 ## Atomic design
 
@@ -117,9 +134,9 @@ and copied URLs without requiring a visible exposed form or custom AJAX. Tags
 must have unique labels after slug cleaning so each public value stays
 unambiguous.
 
-The Crossfade Dot atom keeps its visible circle at 4px inside the standard
-40px interactive target. Inactive dots use the dark-gray elevation surface,
-active dots use solid white, and pointer hover adds a 1px solid-white outline.
+The Crossfade Dot atom keeps its token-backed visible marker inside the standard
+interactive target. Inactive dots use the dark-gray elevation surface, active
+dots use solid white, and pointer hover uses the shared hairline outline width.
 The shared `.crossfade-dot` class is consumed by both Storybook and Drupal's
 two-image crossfade paginator.
 
@@ -127,19 +144,17 @@ The Icon Atom Storybook gallery presents the selected icon first, including its
 machine name. Gallery items are keyboard-accessible clickable controls, and
 hover/focus uses the next elevation surface to make the interaction visible.
 
-The Breadcrumbs molecule also has one shared class contract. Drupal's breadcrumb
-preprocess hook adds the resolved current-page title to core's ancestor links,
-removes the front-page Home ancestor, and `templates/navigation/breadcrumb.html.twig` maps the remaining trail to the
-same `.breadcrumbs` BEM markup and `aria-current` behavior used in Storybook.
-Full Article pages additionally show a top-left text Back link to `/blog` with
-the name-addressable Icon Atom. Its `arrow-left` geometry lives in
+The Breadcrumbs molecule retains its Storybook class contract for future use,
+but Drupal currently suppresses breadcrumb trails on every route, including
+Webforms and node detail pages. Full Article pages show only a
+top-left Back link to `/blog` with the name-addressable Icon Atom. Its
+`arrow-left` geometry lives in
 `src/public/assets/icons/arrow-left.svg`, is copied to the Drupal theme during
 the theme build, and remains a current-color, 1px-stroke line icon. Breadcrumb
-links use the caption typography role; the current page uses the pale secondary
-text role.
-For same-origin navigation the link uses browser history, preserving a selected
-Blog tag and scroll/history state; direct-entry Articles retain `/blog` as the
-normal link fallback.
+The Back link uses the caption typography role.
+The Back link always follows its `/blog` destination and does not use browser history,
+so an Article opened from an editorial or other same-origin page still returns
+to the public Blog listing.
 
 Form and input labels use the regular 14px `caption` typography role across the
 Text Input atom, Form Field molecule, and Drupal's native `.form-item` markup.
@@ -220,9 +235,11 @@ role mixins instead of rebuilding the shorthand in components:
 
 Roles: `headline-1/2/3/4/5/6`, `subtitle-1/2`, `eyebrow`, `body`, `body-2`,
 `link`, `caption`, `code`, `badge`, `overline`, and `numeric-display`. Base HTML
-elements (`h1`-`h6`, `p`, `a`) are mapped in
-`base/_typography.scss`; component selectors reuse the nearest role and own
-non-font treatment such as underlines or uppercase text.
+headings and paragraphs are mapped in `base/_typography.scss`. Anchors inherit
+their surrounding typography by default, so a link inside a heading keeps that
+heading's size and weight. Apply `.text-link` when a standalone link should opt
+into the dedicated `link` role. Component selectors can choose their nearest
+role and own non-font treatment such as underlines or uppercase text.
 
 Native heading levels `h3` through `h6` map directly to the matching
 `headline-3` through `headline-6` typography roles. The existing `h1` and `h2`
@@ -275,10 +292,15 @@ demonstration and compact technical details: the 5px `overline` role is used by
 the version watermark and similarly technical labels.
 Storybook's manager and Docs interface use Open Sans for UI text and the
 `typography.code` role for 14px bold Courier New code and technical metadata.
-Text links use a 1px token-backed underline and the primary white text token in
-default and hover states. The
+Links use a 1px token-backed underline and the primary white text token in
+default and hover states without replacing the surrounding typography. The
 version Git-hash link explicitly retains the 4pixel family and a persistent 1px
 solid underline so it reads as a technical link without relying on color.
+
+Author Byline keeps its name and metadata in one wrapping inline row in both
+Storybook and Drupal. YouTube reference dates use Date Display's `time-since`
+mode with calendar years, months, and days; shorter elapsed values fall back to
+hours and minutes.
 
 ## Color
 
@@ -357,6 +379,14 @@ quarter of the former full-refresh rate, and reduced-motion renders one frozen
 frame. The component also exposes filename, upload status, and native progress
 markup. The editable renderer lives in `src/slice/src/js/script.js`; generated
 theme JavaScript continues to come from `npm run build:theme`.
+
+Full Article YouTube embeds reuse that noise renderer as an initial no-signal
+layer. The layer occupies the responsive player figure's actual layout box, so
+its dimensions and aspect ratio follow the Drupal field formatter rather than a
+duplicated 720x405 size. It disappears when the iframe loads, then destroys its
+canvas and stops rendering frames. The handoff uses a 200ms opacity-filter
+transition so the loaded YouTube thumbnail replaces the static without a hard
+visual cut; reduced-motion removes that transition.
 
 The planned scenic evolution uses **depth layers** rather than one flattened
 background: sky, clouds, distant sea, wave bands, shoreline, sand dunes, and

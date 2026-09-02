@@ -140,6 +140,7 @@ motion:
   duration:
     instant-default: 0ms
     short-default: 150ms
+    media-reveal-default: 200ms
     medium-default: 250ms
     long-default: 375ms
     extra-long: 500ms
@@ -162,6 +163,9 @@ layout:
     desktop-default: 32px
 component:
   article-teaser:
+    grid-card-min-width-default: 240px # Smallest card width before the responsive grid adds another column.
+    list-media-min-width-default: 180px # Lower bound for list-item media beside its text content.
+    list-media-max-width-default: 280px # Upper bound for list-item media beside its text content.
     shadow-hover-default: "0px 1px 3px 0px #0000001A, 0px 4px 6px -1px #0000001A" # Square card hover shadow adapted from the Blog 47 reference.
   chip:
     corner-radius-default: 9999px # Pill shape owned by Chip without changing the site's square global radius tokens.
@@ -191,6 +195,8 @@ component:
       quarter: 80px # Quarter of the default width and the minimum supported text input width.
   content-layout:
     default-width: readable
+    sidebar-min-width-default: 240px
+    sidebar-max-width-default: 320px
   badge:
     color:
       background-neutral-default: color.palette.light-black
@@ -209,6 +215,7 @@ component:
     default-variant: full-black
     layer-default: 11000 # Tooltip overlays sit above page UI and the 10000-layer build watermark.
   avatar:
+    corner-radius-default: 9999px # Circular crop owned by Avatar without changing the site's square global radius tokens.
     default-size: medium
   surface:
     default-variant: default
@@ -220,3 +227,10 @@ component:
     marker-size-active: 40px
   media-loader:
     progress-height-default: 1px # Intentional exception to the 8px grid because this is a loading indicator line, not layout spacing.
+  crossfade-dot:
+    marker-size-default: 4px # Visible marker inside the larger interactive target.
+  newsletter-signup:
+    form-min-width-default: 280px
+  numeric-values:
+    tile-min-width-default: 240px
+    tile-min-height-default: 200px

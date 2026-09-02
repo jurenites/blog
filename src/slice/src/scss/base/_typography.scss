@@ -32,6 +32,10 @@ p {
   @include tools.typography-body;
 }
 
+.text-link {
+  @include tools.typography-link;
+}
+
 .text-caption {
   @include tools.typography-caption;
 }

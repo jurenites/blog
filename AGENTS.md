@@ -47,6 +47,18 @@ When one story nests another component, do not paste that component's HTML by
 hand. Put shared rendering in a nearby `*.markup.js` helper and import that
 helper from both the atom story and the composed component story.
 
+## DOM Styling
+
+Do not put presentational sizing or styling directly on HTML elements. In
+particular, do not render `width`, `height`, or `style` attributes on images or
+other component markup, including the initial server-rendered DOM. Define
+dimensions and visual presentation in the component's SCSS, using design tokens
+where applicable.
+
+Runtime code may add temporary sizing only after the page has loaded when it is
+strictly required for skeleton-loading behavior. Do not use that exception for
+the component's normal layout or final rendered appearance.
+
 ## Token Editing
 
 The editable design-token source is `src/token/tokens.yaml`. Keep it readable with

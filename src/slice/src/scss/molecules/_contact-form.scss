@@ -1,0 +1,13 @@
+// Molecule: Contact Form. The Webform recipe adds this class to native markup.
+
+.contact-form {
+  max-width: var(--layout-content-max-readable-default);
+}
+
+.contact-form .form-textarea {
+  min-height: calc(var(--space-scale-base-gap) * 20);
+}
+
+.contact-form .form-actions {
+  margin: 0;
+}

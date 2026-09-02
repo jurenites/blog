@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_youtube_published_date
+    - node.type.article
+  module:
+    - datetime
+id: node.article.field_youtube_published_date
+field_name: field_youtube_published_date
+entity_type: node
+bundle: article
+label: 'YouTube publication date'
+description: 'Original source date, filled from YouTube when empty. It remains editable for older or corrected references.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

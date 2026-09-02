@@ -1,0 +1,127 @@
+<?php
+
+/**
+ * @file
+ * Installs the project-owned contact form configuration.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_contact_install(): void {
+  $contact_webform = \Drupal::entityTypeManager()
+    ->getStorage('webform')
+    ->load('contact');
+
+  if (!$contact_webform) {
+    throw new \RuntimeException('The Webform contact configuration was not installed.');
+  }
+
+  $contact_webform->set('title', 'Contact');
+  $contact_webform->set('description', 'Send me a message.');
+  $contact_webform->setElements([
+    'message_subject' => [
+      '#title' => 'Subject',
+      '#type' => 'textfield',
+      '#required' => TRUE,
+      '#maxlength' => 150,
+    ],
+    'sender_name' => [
+      '#title' => 'Who you are',
+      '#type' => 'textfield',
+      '#required' => TRUE,
+      '#maxlength' => 150,
+      '#default_value' => '[current-user:display-name]',
+    ],
+    'message_body' => [
+      '#title' => 'Message',
+      '#type' => 'textarea',
+      '#required' => TRUE,
+    ],
+    'actions' => [
+      '#type' => 'webform_actions',
+      '#title' => 'Submit button(s)',
+      '#submit__label' => 'Send',
+    ],
+  ]);
+
+  $contact_webform->setSetting('page_submit_path', '/contact');
+  $contact_webform->setSetting('page_confirm_path', '/contact/confirmation');
+  $contact_webform->setSetting('form_attributes', [
+    'class' => ['contact-form'],
+  ]);
+  $contact_webform->setSetting('confirmation_type', 'page');
+  $contact_webform->setSetting('confirmation_title', 'Message sent');
+  $contact_webform->setSetting('confirmation_message', 'Thank you. Your message has been stored and sent.');
+  $contact_webform->setSetting('confirmation_back', TRUE);
+  $contact_webform->setSetting('confirmation_back_label', 'Send another message');
+  $contact_webform->setSetting('purge', 'none');
+  $contact_webform->setSetting('results_disabled', FALSE);
+  $contact_webform->set('handlers', [
+    'email_notification' => [
+      'id' => 'email',
+      'label' => 'Contact notification',
+      'notes' => '',
+      'handler_id' => 'email_notification',
+      'status' => TRUE,
+      'conditions' => [],
+      'weight' => 0,
+      'settings' => [
+        'states' => ['completed'],
+        'to_mail' => '_default',
+        'to_options' => [],
+        'cc_mail' => '',
+        'cc_options' => [],
+        'bcc_mail' => '',
+        'bcc_options' => [],
+        'from_mail' => '_default',
+        'from_options' => [],
+        'from_name' => '_default',
+        'subject' => '[site:name] contact: [webform_submission:values:message_subject:raw]',
+        'body' => "Who: [webform_submission:values:sender_name:raw]\nSubject: [webform_submission:values:message_subject:raw]\n\nMessage:\n[webform_submission:values:message_body:raw]",
+        'excluded_elements' => [],
+        'ignore_access' => FALSE,
+        'exclude_empty' => TRUE,
+        'exclude_empty_checkbox' => FALSE,
+        'exclude_attachments' => TRUE,
+        'html' => FALSE,
+        'attachments' => FALSE,
+        'twig' => FALSE,
+        'theme_name' => '',
+        'parameters' => [],
+        'debug' => FALSE,
+        'reply_to' => '',
+        'return_path' => '',
+        'sender_mail' => '',
+        'sender_name' => '',
+      ],
+    ],
+  ]);
+  $contact_webform->set('dependencies', [
+    'enforced' => [
+      'module' => ['jurenites_contact'],
+    ],
+  ]);
+  $contact_webform->save();
+
+  $captcha_storage = \Drupal::entityTypeManager()->getStorage('captcha_point');
+  $contact_captcha = $captcha_storage->load('webform_submission_contact_add_form');
+  if (!$contact_captcha) {
+    $contact_captcha = $captcha_storage->create([
+      'formId' => 'webform_submission_contact_add_form',
+      'label' => 'webform_submission_contact_add_form',
+      'captchaType' => 'captcha/Math',
+      'status' => TRUE,
+    ]);
+  }
+  else {
+    $contact_captcha->setCaptchaType('captcha/Math');
+    $contact_captcha->enable();
+  }
+  $contact_captcha->set('dependencies', [
+    'enforced' => [
+      'module' => ['jurenites_contact'],
+    ],
+  ]);
+  $contact_captcha->save();
+}

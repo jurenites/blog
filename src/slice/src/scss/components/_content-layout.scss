@@ -15,11 +15,21 @@
 }
 
 .content-layout--with-sidebar {
-  grid-template-columns: minmax(0, var(--layout-content-max-readable-default)) minmax(240px, 320px);
+  grid-template-columns:
+    minmax(0, var(--layout-content-max-readable-default))
+    minmax(
+      var(--component-content-layout-sidebar-min-width-default),
+      var(--component-content-layout-sidebar-max-width-default)
+    );
 }
 
 .content-layout--wide.content-layout--with-sidebar {
-  grid-template-columns: minmax(0, var(--layout-content-max-wide-default)) minmax(240px, 320px);
+  grid-template-columns:
+    minmax(0, var(--layout-content-max-wide-default))
+    minmax(
+      var(--component-content-layout-sidebar-min-width-default),
+      var(--component-content-layout-sidebar-max-width-default)
+    );
 }
 
 .content-layout__main,

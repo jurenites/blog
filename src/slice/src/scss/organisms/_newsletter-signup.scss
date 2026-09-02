@@ -4,7 +4,7 @@
 
 .newsletter-signup {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(var(--component-newsletter-signup-form-min-width-default), 1fr);
   gap: calc(var(--space-scale-base-gap) * 4);
   align-items: end;
   padding: calc(var(--space-scale-base-gap) * 4);

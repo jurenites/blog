@@ -160,18 +160,28 @@ export function create_media_loader_noise(noise_surface) {
   };
 }
 
-export function enable_article_back_link(back_link_element) {
-  back_link_element.addEventListener('click', (click_event) => {
-    const referrer_url = document.referrer ? new URL(document.referrer) : null;
-    const has_same_origin_referrer = referrer_url?.origin === window.location.origin;
+export function initialize_youtube_video_loader(video_loader) {
+  const video_iframe = video_loader.querySelector('iframe');
+  const noise_surface = video_loader.querySelector('[data-jurenites-media-loader-noise]');
 
-    if (!has_same_origin_referrer || window.history.length <= 1) {
-      return;
+  if (!video_iframe || !noise_surface) {
+    video_loader.removeAttribute('aria-busy');
+    return;
+  }
+
+  video_iframe.addEventListener('load', () => {
+    const destroy_noise_surface = () => {
+      noise_surface.jurenites_media_loader_destroy?.();
+    };
+
+    noise_surface.addEventListener('transitionend', destroy_noise_surface, { once: true });
+    video_loader.dataset.loadingStage = 'complete';
+    video_loader.setAttribute('aria-busy', 'false');
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      destroy_noise_surface();
     }
-
-    click_event.preventDefault();
-    window.history.back();
-  });
+  }, { once: true });
 }
 
 export function enable_avatar_image_fallback(avatar_element) {
@@ -284,9 +294,12 @@ export function enable_custom_select(native_select) {
     select_trigger.setAttribute('aria-labelledby', select_label.id);
     select_label.htmlFor = select_trigger.id;
   } else {
+    const fallback_select_label = typeof Drupal !== 'undefined'
+      ? Drupal.t('Select option')
+      : 'Select option';
     select_trigger.setAttribute(
       'aria-label',
-      native_select.getAttribute('aria-label') || native_select.name || 'Select option',
+      native_select.getAttribute('aria-label') || native_select.name || fallback_select_label,
     );
   }
 
@@ -658,15 +671,15 @@ if (typeof Drupal !== 'undefined') {
     },
   };
 
-  Drupal.behaviors.jurenites_article_back_link = {
+  Drupal.behaviors.jurenites_youtube_video_loader = {
     attach(context) {
-      context.querySelectorAll('[data-jurenites-article-back]').forEach((back_link_element) => {
-        if (back_link_element.jurenites_article_back_initialized) {
+      context.querySelectorAll('[data-jurenites-youtube-video-loader]').forEach((video_loader) => {
+        if (video_loader.jurenites_youtube_video_loader_initialized) {
           return;
         }
 
-        back_link_element.jurenites_article_back_initialized = true;
-        enable_article_back_link(back_link_element);
+        video_loader.jurenites_youtube_video_loader_initialized = true;
+        initialize_youtube_video_loader(video_loader);
       });
     },
   };

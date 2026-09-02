@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_youtube_creator_name
+    - node.type.article
+id: node.article.field_youtube_creator_name
+field_name: field_youtube_creator_name
+entity_type: node
+bundle: article
+label: 'YouTube creator name'
+description: 'Filled from the YouTube source when empty. Edit this value to correct or customize the public credit.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

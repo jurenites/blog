@@ -1,0 +1,9 @@
+name: 'Jurenites Contact'
+type: module
+description: 'Owns the public contact Webform, notification handler, and CAPTCHA configuration.'
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - captcha:captcha
+  - webform:webform
+  - webform:webform_ui

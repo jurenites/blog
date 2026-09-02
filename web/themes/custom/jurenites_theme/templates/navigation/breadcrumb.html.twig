@@ -1,28 +1,13 @@
-{#
-  Drupal breadcrumb override using the same class contract as Storybook Breadcrumbs.
-#}
-{% if breadcrumb %}
-  <nav class="breadcrumbs" aria-label="{{ 'Breadcrumb'|t }}">
-    {% if article_back_url %}
-      <a class="breadcrumbs__back-link" href="{{ article_back_url }}" aria-label="{{ 'Back to Blog'|t }}" data-jurenites-article-back>
-        {% include '@jurenites_theme/components/icon.html.twig' with {
-          icon_name: 'arrow-left',
-          icon_class: 'breadcrumbs__back-icon',
-          icon_asset_base_url: icon_asset_base_url,
-        } only %}
-        <span>{{ 'Back'|t }}</span>
-      </a>
-    {% endif %}
-    <ol class="breadcrumbs__list">
-      {% for breadcrumb_item in breadcrumb %}
-        <li class="breadcrumbs__item"{% if not breadcrumb_item.url %} aria-current="page"{% endif %}>
-          {% if breadcrumb_item.url %}
-            <a class="breadcrumbs__link" href="{{ breadcrumb_item.url }}">{{ breadcrumb_item.text }}</a>
-          {% else %}
-            <span class="breadcrumbs__current">{{ breadcrumb_item.text }}</span>
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ol>
+{# Drupal breadcrumb trails are temporarily hidden; Articles retain Blog navigation. #}
+{% if article_back_url %}
+  <nav class="breadcrumbs" aria-label="{{ 'Article navigation'|t }}">
+    <a class="breadcrumbs__back-link" href="{{ article_back_url }}">
+      {% include '@jurenites_theme/components/icon.html.twig' with {
+        icon_name: 'arrow-left',
+        icon_class: 'breadcrumbs__back-icon',
+        icon_asset_base_url: icon_asset_base_url,
+      } only %}
+      <span>{{ 'Back'|t }}</span>
+    </a>
   </nav>
 {% endif %}

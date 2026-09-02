@@ -105,7 +105,10 @@
 
 .article-teaser-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, var(--component-article-teaser-grid-card-min-width-default)), 1fr)
+  );
   gap: calc(var(--space-scale-base-gap) * 3);
   align-items: stretch;
   width: 100%;
@@ -132,7 +135,12 @@
 
 .article-list-item {
   display: grid;
-  grid-template-columns: minmax(180px, 280px) minmax(0, 1fr);
+  grid-template-columns:
+    minmax(
+      var(--component-article-teaser-list-media-min-width-default),
+      var(--component-article-teaser-list-media-max-width-default)
+    )
+    minmax(0, 1fr);
   gap: calc(var(--space-scale-base-gap) * 3);
   min-width: 0;
 
@@ -193,16 +201,6 @@
     @include tools.typography-caption;
   }
 
-  &__meta-details {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: var(--space-scale-base-gap);
-  }
-
-  &__reading-time{
-
-  }
 }
 
 .article-detail {
@@ -245,34 +243,63 @@
 
 }
 
+.youtube-video-loader {
+  position: relative;
+  display: grid;
+  width: 100%;
+  overflow: hidden;
+  background: var(--color-palette-full-black);
+
+  &__noise,
+  &__embed {
+    grid-area: 1 / 1;
+    min-width: 0;
+  }
+
+  &__noise {
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    filter: opacity(100%);
+    transition: filter var(--motion-duration-media-reveal-default) var(--motion-easing-standard-default);
+  }
+
+  &__noise > canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+  }
+
+  &__embed {
+    position: relative;
+    z-index: 0;
+  }
+
+  &[data-loading-stage="complete"] &__noise {
+    filter: opacity(0%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__noise {
+      transition-duration: var(--motion-duration-instant-default);
+    }
+  }
+}
+
 .youtube-video-details {
   display: flex;
   flex-direction: column;
   gap: var(--space-scale-two);
   margin-top: var(--space-scale-base-gap);
 
-  &__title,
-  &__source {
-    margin: 0;
-  }
-
   &__title {
+    margin: 0;
     color: var(--theme-dark-text-primary-default);
     @include tools.typography-subtitle-1;
   }
 
-  &__source {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-scale-base-gap);
-    color: var(--theme-dark-text-secondary-default);
-    @include tools.typography-caption;
-  }
-
-  &__author {
-    color: var(--theme-dark-text-primary-default);
-  }
 }
 
 .article-tags {
@@ -307,40 +334,6 @@
     @include tools.typography-caption;
   }
 
-  &__clear-icon {
-    font-size: var(--system-icon-default-svg-viewport);
-    line-height: normal;
-  }
-}
-
-@view-transition {
-  navigation: auto;
-}
-
-::view-transition {
-  background: var(--theme-dark-surface-background-page);
-}
-
-::view-transition-group(*) {
-  animation-duration: var(--motion-duration-long-default);
-  animation-timing-function: var(--motion-easing-standard-default);
-}
-
-::view-transition-old(*),
-::view-transition-new(*) {
-  height: 100%;
-  mix-blend-mode: normal;
-}
-
-// Swap the page itself immediately so Chrome's transparent root transition
-// cannot expose its default white canvas. Named article elements still animate.
-::view-transition-group(root) {
-  animation-duration: var(--motion-duration-instant-default);
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -355,12 +348,9 @@
     transition-duration: var(--motion-duration-instant-default);
   }
 
-  ::view-transition-group(*) {
-    animation-duration: var(--motion-duration-instant-default);
-  }
 }
 
-@media (max-width: 640px) {
+@include tools.breakpoint-down("mobile-max") {
   .article-list-item {
     grid-template-columns: 1fr;
   }

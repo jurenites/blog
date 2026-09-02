@@ -1711,6 +1711,22 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "motion-duration-media-reveal-default",
+    "path": [
+      "motion",
+      "duration",
+      "media-reveal-default"
+    ],
+    "type": "duration",
+    "description": "",
+    "source_value": "200ms",
+    "value": "200ms",
+    "css_value": "200ms",
+    "resolved_css_value": "200ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "motion-duration-medium-default",
     "path": [
       "motion",
@@ -1987,6 +2003,54 @@ export const TOKEN_RECORDS = [
     "value": "32px",
     "css_value": "32px",
     "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-article-teaser-grid-card-min-width-default",
+    "path": [
+      "component",
+      "article-teaser",
+      "grid-card-min-width-default"
+    ],
+    "type": "dimension",
+    "description": "Smallest card width before the responsive grid adds another column.",
+    "source_value": "240px",
+    "value": "240px",
+    "css_value": "240px",
+    "resolved_css_value": "240px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-article-teaser-list-media-min-width-default",
+    "path": [
+      "component",
+      "article-teaser",
+      "list-media-min-width-default"
+    ],
+    "type": "dimension",
+    "description": "Lower bound for list-item media beside its text content.",
+    "source_value": "180px",
+    "value": "180px",
+    "css_value": "180px",
+    "resolved_css_value": "180px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-article-teaser-list-media-max-width-default",
+    "path": [
+      "component",
+      "article-teaser",
+      "list-media-max-width-default"
+    ],
+    "type": "dimension",
+    "description": "Upper bound for list-item media beside its text content.",
+    "source_value": "280px",
+    "value": "280px",
+    "css_value": "280px",
+    "resolved_css_value": "280px",
     "is_reference": false,
     "reference_name": null
   },
@@ -2288,6 +2352,38 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-content-layout-sidebar-min-width-default",
+    "path": [
+      "component",
+      "content-layout",
+      "sidebar-min-width-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "240px",
+    "value": "240px",
+    "css_value": "240px",
+    "resolved_css_value": "240px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-content-layout-sidebar-max-width-default",
+    "path": [
+      "component",
+      "content-layout",
+      "sidebar-max-width-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "320px",
+    "value": "320px",
+    "css_value": "320px",
+    "resolved_css_value": "320px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-badge-color-background-neutral-default",
     "path": [
       "component",
@@ -2506,6 +2602,22 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-avatar-corner-radius-default",
+    "path": [
+      "component",
+      "avatar",
+      "corner-radius-default"
+    ],
+    "type": "dimension",
+    "description": "Circular crop owned by Avatar without changing the site's square global radius tokens.",
+    "source_value": "9999px",
+    "value": "9999px",
+    "css_value": "9999px",
+    "resolved_css_value": "9999px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-avatar-default-size",
     "path": [
       "component",
@@ -2614,6 +2726,70 @@ export const TOKEN_RECORDS = [
     "value": "1px",
     "css_value": "1px",
     "resolved_css_value": "1px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-crossfade-dot-marker-size-default",
+    "path": [
+      "component",
+      "crossfade-dot",
+      "marker-size-default"
+    ],
+    "type": "dimension",
+    "description": "Visible marker inside the larger interactive target.",
+    "source_value": "4px",
+    "value": "4px",
+    "css_value": "4px",
+    "resolved_css_value": "4px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-newsletter-signup-form-min-width-default",
+    "path": [
+      "component",
+      "newsletter-signup",
+      "form-min-width-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "280px",
+    "value": "280px",
+    "css_value": "280px",
+    "resolved_css_value": "280px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-numeric-values-tile-min-width-default",
+    "path": [
+      "component",
+      "numeric-values",
+      "tile-min-width-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "240px",
+    "value": "240px",
+    "css_value": "240px",
+    "resolved_css_value": "240px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-numeric-values-tile-min-height-default",
+    "path": [
+      "component",
+      "numeric-values",
+      "tile-min-height-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "200px",
+    "value": "200px",
+    "css_value": "200px",
+    "resolved_css_value": "200px",
     "is_reference": false,
     "reference_name": null
   }
