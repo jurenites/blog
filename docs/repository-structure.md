@@ -104,6 +104,13 @@ dependency. Hold and transition durations are formatter settings under Manage
 display. Two 4px pagination dots expose the active image and allow direct
 selection; automatic rotation pauses while the pointer is over the image area.
 
+The Composer project also installs stable Layout Paragraphs 2.x. DEV enables it
+with core Layout Discovery so the existing Paragraph reference field can later
+adopt its visual drag-and-drop widget and formatter. Installation alone does not
+change the Content sections form or public rendering: those continue using the
+classic Paragraphs configuration until the project adds an explicit layout
+section component and switches the field displays.
+
 Add repeatable Number and Description tiles to those Content sections with:
 
 ```bash

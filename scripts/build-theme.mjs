@@ -3,7 +3,6 @@ import { cp, mkdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as sass from 'sass';
-import { write_build_information } from './build-deployment-info.mjs';
 
 const ROOT_DIRECTORY = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BUILD_PATHS = {
@@ -33,7 +32,6 @@ const css_result = sass.compile(BUILD_PATHS.scss_entry, {
 });
 
 await writeFile(BUILD_PATHS.css_output, css_result.css);
-await write_build_information();
 
 await esbuild.build({
   entryPoints: [BUILD_PATHS.js_entry],

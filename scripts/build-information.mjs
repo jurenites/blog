@@ -5,7 +5,10 @@ import { fileURLToPath } from "node:url";
 
 const SCRIPT_DIRECTORY = dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIRECTORY = resolve(SCRIPT_DIRECTORY, "..");
-const PACKAGE_PATH = resolve(PROJECT_DIRECTORY, "package.json");
+const RELEASE_INFORMATION_PATH = resolve(
+  PROJECT_DIRECTORY,
+  "web/themes/custom/jurenites_theme/release-info.json",
+);
 const COMMIT_HASH_PATTERN = /^[0-9a-f]{7,64}$/i;
 
 function normalize_commit_hash(commit_hash) {
@@ -39,32 +42,21 @@ function resolve_commit_hash() {
   }
 }
 
-function resolve_repository_url(repository_value) {
-  const repository_url =
-    typeof repository_value === "string"
-      ? repository_value
-      : repository_value?.url;
-
-  return repository_url?.replace(/\.git$/, "") ?? "";
-}
-
-function format_gmt_date(date_value) {
-  return date_value.toISOString().replace("T", " ").replace(/\.\d{3}Z$/, " GMT+0");
-}
-
 export async function build_information() {
-  const package_data = JSON.parse(await readFile(PACKAGE_PATH, "utf8"));
+  const release_information = JSON.parse(
+    await readFile(RELEASE_INFORMATION_PATH, "utf8"),
+  );
   const full_commit_hash = resolve_commit_hash();
-  const repository_url = resolve_repository_url(package_data.repository);
+  const repository_url = release_information.repository_url?.replace(/\.git$/, "") ?? "";
 
   return {
-    project_version: package_data.version,
-    collaboration_credit: (package_data.visualCredits ?? []).join(" & "),
+    project_version: release_information.project_version,
+    collaboration_credit: release_information.collaboration_credit,
     commit_hash: full_commit_hash.slice(0, 7),
     commit_url:
       repository_url && full_commit_hash !== "unknown"
         ? `${repository_url}/commit/${full_commit_hash}`
         : "",
-    created_gmt: format_gmt_date(new Date()),
+    created_gmt: release_information.released_gmt,
   };
 }

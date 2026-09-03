@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 1.2.1
+Version: 1.3.0
 Reviewed: 2026-09-03
 
 This checkpoint says the `/docs` folder has been reviewed against the current
@@ -9,16 +9,17 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 
 ## Versioning Policy
 
-- `package.json` owns one version for the whole repository. Drupal, Storybook,
-  generated build information, and this documentation checkpoint use that same
-  project version.
+- `package.json` owns one version for the whole repository. The tracked theme
+  `release-info.json`, Drupal, Storybook, and this documentation checkpoint use
+  that same project version.
 - Version `1.0.0` marks the first production release. Bump the minor version for
   each subsequent delivered project iteration (`1.1.0`, `1.2.0`, and so on).
   Reserve patch bumps for corrections to an existing release and major bumps
   for intentionally incompatible changes.
 - Use `npm run version:bump` for the normal minor increment, or pass `patch`,
   `minor`, or `major` explicitly. The command keeps `package.json`,
-  `package-lock.json`, and this checkpoint synchronized.
+  `package-lock.json`, the tracked theme `release-info.json`, and this checkpoint
+  synchronized.
 - During active refactoring, it is fine to avoid rewriting docs for every small
   experiment. Before committing meaningful source changes, run
   `npm run docs:check` and update docs when the checker reports drift.
@@ -298,6 +299,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Article Tags use Tagify's unlimited entity-reference autocomplete widget.
   Editors can select existing Tags terms or create new terms by entering text.
 - Paragraphs provides structured content sections on Articles and Basic pages.
+  Stable Layout Paragraphs 2.x and core Layout Discovery are installed and
+  enabled as the visual-layout foundation. The existing Content sections field
+  intentionally retains its classic Paragraphs widget and entity-reference
+  formatter until an explicit layout-section component is designed and added.
   Numeric Values adds a repeatable section of semantic statistic tiles. Each
   tile stores Number and Description fields, with an optional Start year that
   calculates elapsed years at render time. Numbers use a 64px Ubuntu Sans Mono

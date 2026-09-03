@@ -405,7 +405,95 @@ function jurenites_theme_preprocess_user(array &$user_variables): void {
 }
 
 /**
- * Adds generated deployment identity to the global HTML template.
+ * Resolves the Git metadata directory for a repository checkout.
+ */
+function jurenites_theme_git_directory(string $project_directory): string {
+  $git_metadata_path = $project_directory . '/.git';
+
+  if (is_dir($git_metadata_path)) {
+    return $git_metadata_path;
+  }
+
+  if (!is_readable($git_metadata_path)) {
+    return '';
+  }
+
+  $git_metadata_content = trim((string) file_get_contents($git_metadata_path));
+  if (!str_starts_with($git_metadata_content, 'gitdir:')) {
+    return '';
+  }
+
+  $git_directory_path = trim(substr($git_metadata_content, strlen('gitdir:')));
+  if (!str_starts_with($git_directory_path, '/')) {
+    $git_directory_path = $project_directory . '/' . $git_directory_path;
+  }
+
+  $resolved_git_directory = realpath($git_directory_path);
+  return $resolved_git_directory !== FALSE && is_dir($resolved_git_directory)
+    ? $resolved_git_directory
+    : '';
+}
+
+/**
+ * Reads the checked-out commit without executing Git or writing host metadata.
+ */
+function jurenites_theme_git_commit_hash(string $project_directory): string {
+  $git_directory_path = jurenites_theme_git_directory($project_directory);
+  $git_head_path = $git_directory_path !== ''
+    ? $git_directory_path . '/HEAD'
+    : '';
+
+  if ($git_head_path === '' || !is_readable($git_head_path)) {
+    return '';
+  }
+
+  $git_head_value = trim((string) file_get_contents($git_head_path));
+  if (preg_match('/^[0-9a-f]{40,64}$/i', $git_head_value)) {
+    return strtolower($git_head_value);
+  }
+
+  if (!str_starts_with($git_head_value, 'ref:')) {
+    return '';
+  }
+
+  $git_reference_name = trim(substr($git_head_value, strlen('ref:')));
+  $git_reference_path = $git_directory_path . '/' . $git_reference_name;
+  if (is_readable($git_reference_path)) {
+    $git_reference_hash = trim((string) file_get_contents($git_reference_path));
+    if (preg_match('/^[0-9a-f]{40,64}$/i', $git_reference_hash)) {
+      return strtolower($git_reference_hash);
+    }
+  }
+
+  $packed_references_path = $git_directory_path . '/packed-refs';
+  if (!is_readable($packed_references_path)) {
+    return '';
+  }
+
+  $packed_reference_lines = file($packed_references_path, FILE_IGNORE_NEW_LINES);
+  foreach ($packed_reference_lines ?: [] as $packed_reference_line) {
+    if ($packed_reference_line === ''
+      || str_starts_with($packed_reference_line, '#')
+      || str_starts_with($packed_reference_line, '^')) {
+      continue;
+    }
+
+    [$packed_reference_hash, $packed_reference_name] = array_pad(
+      preg_split('/\s+/', trim($packed_reference_line), 2) ?: [],
+      2,
+      '',
+    );
+    if ($packed_reference_name === $git_reference_name
+      && preg_match('/^[0-9a-f]{40,64}$/i', $packed_reference_hash)) {
+      return strtolower($packed_reference_hash);
+    }
+  }
+
+  return '';
+}
+
+/**
+ * Adds tracked release identity and read-only Git identity to global HTML.
  */
 function jurenites_theme_preprocess_html(array &$html_variables): void {
   $html_variables['attributes']['class'][] = 'jurenites-theme';
@@ -420,22 +508,29 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
   }
 
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
-  $build_info_path = DRUPAL_ROOT . '/' . $theme_path . '/build-info.json';
+  $release_info_path = DRUPAL_ROOT . '/' . $theme_path . '/release-info.json';
 
-  $build_information = is_readable($build_info_path)
-    ? json_decode(file_get_contents($build_info_path), TRUE)
+  $release_information = is_readable($release_info_path)
+    ? json_decode(file_get_contents($release_info_path), TRUE)
     : [];
-  $build_information = is_array($build_information) ? $build_information : [];
+  $release_information = is_array($release_information) ? $release_information : [];
 
-  $project_version = $build_information['project_version'] ?? t('unknown');
-  $commit_hash = $build_information['commit_hash'] ?? t('unknown');
-  $commit_url = $build_information['commit_url'] ?? '';
-  $collaboration_credit = $build_information['collaboration_credit'] ?? t('unknown');
-  $created_gmt = $build_information['created_gmt'] ?? t('unknown GMT+0');
+  $project_directory = dirname(DRUPAL_ROOT);
+  $full_commit_hash = jurenites_theme_git_commit_hash($project_directory);
+  $short_commit_hash = $full_commit_hash !== ''
+    ? substr($full_commit_hash, 0, 7)
+    : (string) t('unknown');
+  $repository_url = rtrim((string) ($release_information['repository_url'] ?? ''), '/');
+  $commit_url = $repository_url !== '' && $full_commit_hash !== ''
+    ? $repository_url . '/commit/' . $full_commit_hash
+    : '';
+  $project_version = $release_information['project_version'] ?? t('unknown');
+  $collaboration_credit = $release_information['collaboration_credit'] ?? t('unknown');
+  $released_gmt = $release_information['released_gmt'] ?? t('unknown GMT+0');
   $html_variables['watermark_version_label'] = t('version');
   $html_variables['watermark_version_number'] = $project_version;
-  $html_variables['watermark_updated_gmt'] = $created_gmt;
-  $html_variables['watermark_git_hash'] = $commit_hash;
+  $html_variables['watermark_updated_gmt'] = $released_gmt;
+  $html_variables['watermark_git_hash'] = $short_commit_hash;
   $html_variables['watermark_git_url'] = $commit_url;
   $html_variables['watermark_credit_text'] = t('made by');
   $html_variables['watermark_credit_collaboration'] = $collaboration_credit;
@@ -529,6 +624,10 @@ function jurenites_theme_preprocess_page_title(array &$page_title_variables): vo
   }
 
   $page_title_variables['title_attributes']['class'][] = 'article-detail__title';
+  $page_title_variables['title_attributes']['data-jurenites-article-title-transition'] = sprintf(
+    'article-title-%s',
+    $node_entity->id(),
+  );
 }
 
 /**

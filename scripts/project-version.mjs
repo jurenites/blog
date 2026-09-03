@@ -7,6 +7,10 @@ const PROJECT_DIRECTORY = resolve(SCRIPT_DIRECTORY, "..");
 const PACKAGE_PATH = resolve(PROJECT_DIRECTORY, "package.json");
 const PACKAGE_LOCK_PATH = resolve(PROJECT_DIRECTORY, "package-lock.json");
 const DOCUMENTATION_VERSION_PATH = resolve(PROJECT_DIRECTORY, "docs/version.md");
+const RELEASE_INFORMATION_PATH = resolve(
+  PROJECT_DIRECTORY,
+  "web/themes/custom/jurenites_theme/release-info.json",
+);
 const VERSION_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
 const SUPPORTED_BUMP_TYPES = new Set(["major", "minor", "patch"]);
 
@@ -35,13 +39,15 @@ function calculate_next_version(current_version, bump_type) {
 }
 
 async function read_version_state() {
-  const [package_text, package_lock_text, documentation_text] = await Promise.all([
+  const [package_text, package_lock_text, documentation_text, release_information_text] = await Promise.all([
     readFile(PACKAGE_PATH, "utf8"),
     readFile(PACKAGE_LOCK_PATH, "utf8"),
     readFile(DOCUMENTATION_VERSION_PATH, "utf8"),
+    readFile(RELEASE_INFORMATION_PATH, "utf8"),
   ]);
   const package_data = JSON.parse(package_text);
   const package_lock_data = JSON.parse(package_lock_text);
+  const release_information = JSON.parse(release_information_text);
   const documentation_match = documentation_text.match(/^Version:\s*(\d+\.\d+\.\d+)$/m);
 
   if (!documentation_match) {
@@ -52,10 +58,12 @@ async function read_version_state() {
     package_text,
     package_lock_text,
     documentation_text,
+    release_information_text,
     package_version: package_data.version,
     package_lock_version: package_lock_data.version,
     package_lock_root_version: package_lock_data.packages?.[""]?.version,
     documentation_version: documentation_match[1],
+    release_information_version: release_information.project_version,
   };
 }
 
@@ -67,6 +75,7 @@ function assert_matching_versions(version_state) {
     ["package-lock.json", version_state.package_lock_version],
     ["package-lock.json root package", version_state.package_lock_root_version],
     ["docs/version.md", version_state.documentation_version],
+    ["release-info.json", version_state.release_information_version],
   ];
   const mismatched_entries = version_entries.filter(
     ([, version_value]) => version_value !== project_version,
@@ -112,11 +121,21 @@ async function write_project_version(version_state, next_version) {
     /^Version:\s*\d+\.\d+\.\d+$/m,
     `Version: ${next_version}`,
   );
+  const release_information = JSON.parse(version_state.release_information_text);
+  if (release_information.project_version !== next_version) {
+    release_information.project_version = next_version;
+    release_information.released_gmt = new Date()
+      .toISOString()
+      .replace("T", " ")
+      .replace(/\.\d{3}Z$/, " GMT+0");
+  }
+  const next_release_information_text = `${JSON.stringify(release_information, null, 2)}\n`;
 
   await Promise.all([
     writeFile(PACKAGE_PATH, next_package_text, "utf8"),
     writeFile(PACKAGE_LOCK_PATH, next_package_lock_text, "utf8"),
     writeFile(DOCUMENTATION_VERSION_PATH, next_documentation_text, "utf8"),
+    writeFile(RELEASE_INFORMATION_PATH, next_release_information_text, "utf8"),
   ]);
 
   assert_matching_versions(await read_version_state());

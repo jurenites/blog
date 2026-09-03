@@ -5,6 +5,7 @@ recipes:
   - jurenites_media
 install:
   - jurenites_crossfade
+  - layout_paragraphs
 config:
   strict:
     - field.storage.node.field_content_sections

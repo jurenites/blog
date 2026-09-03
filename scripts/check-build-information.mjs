@@ -5,10 +5,6 @@ import { build_information } from "./build-information.mjs";
 
 const SCRIPT_DIRECTORY = dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIRECTORY = resolve(SCRIPT_DIRECTORY, "..");
-const DRUPAL_BUILD_INFO_PATH = resolve(
-  PROJECT_DIRECTORY,
-  "web/themes/custom/jurenites_theme/build-info.json",
-);
 const STORYBOOK_BUILD_INFO_PATH = resolve(
   PROJECT_DIRECTORY,
   "generated/storybook/storybook-build-info.js",
@@ -39,15 +35,12 @@ function assert_current_identity(output_name, output_information, current_inform
   }
 }
 
-const [drupal_content, storybook_content, current_information] = await Promise.all([
-  readFile(DRUPAL_BUILD_INFO_PATH, "utf8"),
+const [storybook_content, current_information] = await Promise.all([
   readFile(STORYBOOK_BUILD_INFO_PATH, "utf8"),
   build_information(),
 ]);
-const drupal_information = JSON.parse(drupal_content);
 const storybook_information = parse_storybook_information(storybook_content);
 
-assert_current_identity("Drupal", drupal_information, current_information);
 assert_current_identity("Storybook", storybook_information, current_information);
 console.log(
   `Build identity: ${current_information.project_version} · ${current_information.commit_hash} (current)`,

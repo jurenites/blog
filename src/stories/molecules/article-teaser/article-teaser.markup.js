@@ -1,11 +1,13 @@
 import article_teaser_template from "./article-teaser.template.html?raw";
 import { avatar_markup } from "../../atoms/avatar/avatar.markup.js";
+import { chip_markup } from "../../atoms/chip/chip.markup.js";
 import { consumption_time_markup } from "../../atoms/consumption-time/consumption-time.markup.js";
 import { date_display_markup } from "../../atoms/date-display/date-display.markup.js";
 import { escape_html, render_template } from "../../template.js";
 
 export function article_teaser_markup({
   eyebrow_heading,
+  eyebrow_url,
   teaser_title,
   teaser_excerpt,
   article_url,
@@ -20,7 +22,10 @@ export function article_teaser_markup({
   reading_time_label,
 }) {
   return render_template(article_teaser_template, {
-    eyebrow_heading: escape_html(eyebrow_heading),
+    eyebrow_content: chip_markup({
+      chip_label: eyebrow_heading,
+      chip_url: eyebrow_url,
+    }),
     teaser_title: escape_html(teaser_title),
     article_url: escape_html(article_url),
     teaser_excerpt: escape_html(teaser_excerpt),

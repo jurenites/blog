@@ -23,7 +23,7 @@
 
   {{ title_prefix }}
   {% if label %}
-    <h3{{ title_attributes.addClass('article-teaser__title') }}>
+    <h3{{ title_attributes.addClass('article-teaser__title').setAttribute('data-jurenites-article-title-transition', 'article-title-' ~ article_id) }}>
       <a class="article-teaser__title-link" href="{{ url }}" rel="bookmark">{{ label }}</a>
     </h3>
   {% endif %}

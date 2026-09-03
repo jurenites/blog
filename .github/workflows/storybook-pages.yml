@@ -15,7 +15,9 @@ permissions:
   id-token: write
 
 concurrency:
-  group: storybook-pages
+  # Keep validation for each pull request independent from the deployment queue.
+  # Pushes and manual runs still share one group because they publish the same site.
+  group: storybook-pages-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'deployment' }}
   cancel-in-progress: true
 
 jobs:

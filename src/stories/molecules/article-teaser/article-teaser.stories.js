@@ -3,6 +3,7 @@ import { article_teaser_markup } from "./article-teaser.markup.js";
 import { token_value } from "../../foundations/token-values.js";
 
 const EYEBROW_HEADING = "Writing";
+const EYEBROW_URL = "/blog?tag=writing";
 const TEASER_TITLE = "Rewinding an Interface Through Time";
 const TEASER_EXCERPT = "How a time-slider concept turned into a repeatable design process.";
 const ARTICLE_URL = "#";
@@ -18,6 +19,7 @@ const READING_TIME_LABEL = "min to read";
 const ARTICLE_GRID_ITEMS = [
   {
     eyebrow_heading: "Process",
+    eyebrow_url: "/blog?tag=process",
     teaser_title: "Rewinding an Interface Through Time",
     teaser_excerpt: "How a time-slider concept turned into a repeatable design process.",
     thumbnail_url: "http://jurenites.local/sites/default/files/styles/medium/public/2026-08/DSC_0001.JPG.webp?itok=3HPjYrtX",
@@ -28,6 +30,7 @@ const ARTICLE_GRID_ITEMS = [
   },
   {
     eyebrow_heading: "Design",
+    eyebrow_url: "/blog?tag=design",
     teaser_title: "Building a Material-First Visual Language",
     teaser_excerpt: "Notes on turning a small set of shapes, surfaces, and shadows into a coherent interface.",
     thumbnail_url: "http://jurenites.local/sites/default/files/styles/medium/public/2026-08/DSC_0029.JPG.webp",
@@ -38,6 +41,7 @@ const ARTICLE_GRID_ITEMS = [
   },
   {
     eyebrow_heading: "Development",
+    eyebrow_url: "/blog?tag=development",
     teaser_title: "Keeping Storybook and Drupal in Lockstep",
     teaser_excerpt: "A shared component contract keeps authored examples and rendered content visually consistent.",
     thumbnail_url: "http://jurenites.local/sites/default/files/styles/medium/public/2026-08/DSC_0025.JPG.webp",
@@ -71,6 +75,7 @@ export default {
   render: render_article_story,
   argTypes: {
     eyebrow_heading: { control: "text" },
+    eyebrow_url: { control: "text" },
     teaser_title: { control: "text" },
     teaser_excerpt: { control: "text" },
     article_url: { control: "text" },
@@ -91,6 +96,7 @@ export default {
   },
   args: {
     eyebrow_heading: EYEBROW_HEADING,
+    eyebrow_url: EYEBROW_URL,
     teaser_title: TEASER_TITLE,
     teaser_excerpt: TEASER_EXCERPT,
     article_url: ARTICLE_URL,

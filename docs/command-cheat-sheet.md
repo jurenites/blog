@@ -94,31 +94,24 @@ pwd
 
 Check the reported site URI, database, and Drupal root before continuing.
 
-### Build and verify the production identity
+### Verify the production identity
 
-When PROD is a Git checkout, the build reads its current `HEAD` automatically:
-
-```bash
-npm ci
-npm run build:theme
-npm run build:info:check
-```
-
-When PROD receives an artifact without `.git`, its CI/CD system must provide the
-full source commit while building:
+PROD does not build or write identity metadata. The tracked release record
+arrives with the source, and Drupal reads the checked-out commit from `.git`:
 
 ```bash
-JURENITES_GIT_COMMIT=FULL_COMMIT_SHA npm run build:theme
+git rev-parse --short=7 HEAD
+cat web/themes/custom/jurenites_theme/release-info.json
 ```
 
-After deployment, the visible watermark and
-`/themes/custom/jurenites_theme/build-info.json` expose the same non-secret
-version, Git hash, build time, and collaboration credit.
+The visible watermark combines those two read-only sources. The tracked release
+record is also available at
+`/themes/custom/jurenites_theme/release-info.json`.
 
 ### Clear the production Drupal cache
 
 ```bash
-./vendor/bin/drush cr
+/opt/php/8.3/bin/php ./vendor/bin/drush.php cr
 ```
 
 ### Run production database updates, then clear cache

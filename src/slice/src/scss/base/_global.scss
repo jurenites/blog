@@ -29,13 +29,13 @@ body.jurenites-theme a {
   text-decoration: underline;
   text-decoration-thickness: var(--space-scale-one);
   @include tools.motion-transition(color);
-  &hover{
-    color: var(--theme-dark-text-secondary-default);
+  &:hover{
+    color: var(--color-palette-brand-tertiary);
   }
 }
 
 body.jurenites-theme a:hover {
-  color: var(--theme-dark-text-primary-default);
+  color: var(--color-palette-brand-tertiary);
 }
 
 // Drupal's generated node-link list contains the redundant "Read more" action.

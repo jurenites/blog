@@ -4,3 +4,10 @@ services:
     arguments:
       - '@entity_type.manager'
       - '@transliteration'
+
+  jurenites_blog.article_menu_active_response_subscriber:
+    class: Drupal\jurenites_blog\EventSubscriber\ArticleMenuActiveResponseSubscriber
+    arguments:
+      - '@current_route_match'
+    tags:
+      - { name: event_subscriber }
