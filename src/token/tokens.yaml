@@ -162,6 +162,8 @@ layout:
     tablet-default: 24px
     desktop-default: 32px
 component:
+  cookie-policy-notice:
+    layer-default: 9000 # Fixed footer notice sits above page content and below the build watermark and tooltips.
   article-teaser:
     grid-card-min-width-default: 240px # Smallest card width before the responsive grid adds another column.
     list-media-min-width-default: 180px # Lower bound for list-item media beside its text content.
@@ -217,6 +219,11 @@ component:
   avatar:
     corner-radius-default: 9999px # Circular crop owned by Avatar without changing the site's square global radius tokens.
     default-size: medium
+  comment-message:
+    color:
+      background-default: color.palette.full-white
+      foreground-default: color.palette.full-black
+    corner-radius-default: 20px # Soft chat-bubble geometry is intentionally scoped away from the square global surface language.
   surface:
     default-variant: default
   date-display:

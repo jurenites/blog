@@ -2,6 +2,7 @@ name: 'Jurenites Gin administration theme'
 description: 'Configures Gin dark mode with Jurenites browser and toolbar branding.'
 type: 'Site'
 install:
+  - comment
   - gin
   - gin_toolbar
   - jurenites_admin

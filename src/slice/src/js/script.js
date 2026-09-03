@@ -657,6 +657,55 @@ export function initialize_tooltips(tooltip_context) {
   });
 }
 
+const COOKIE_NOTICE_DISMISSED_KEY = 'jurenites-cookie-notice-dismissed-v2';
+const COOKIE_NOTICE_DISMISS_LABEL = 'Whatever';
+
+export function initialize_cookie_policy_notice(cookie_policy_notice) {
+  if (cookie_policy_notice.jurenites_cookie_policy_notice_initialized) {
+    return;
+  }
+
+  cookie_policy_notice.jurenites_cookie_policy_notice_initialized = true;
+  let dismiss_button = cookie_policy_notice.querySelector(
+    '[data-jurenites-cookie-policy-dismiss]',
+  );
+
+  if (!dismiss_button) {
+    dismiss_button = document.createElement('button');
+    dismiss_button.className = 'button button--secondary cookie-policy-notice__dismiss';
+    dismiss_button.type = 'button';
+    dismiss_button.dataset.jurenitesCookiePolicyDismiss = '';
+    dismiss_button.textContent = COOKIE_NOTICE_DISMISS_LABEL;
+    cookie_policy_notice.appendChild(dismiss_button);
+  }
+
+  try {
+    if (window.localStorage.getItem(COOKIE_NOTICE_DISMISSED_KEY) === 'true') {
+      return;
+    }
+  } catch (_storage_error) {
+    // The notice still becomes visible when browser storage is unavailable.
+  }
+
+  cookie_policy_notice.hidden = false;
+
+  dismiss_button.addEventListener('click', () => {
+    try {
+      window.localStorage.setItem(COOKIE_NOTICE_DISMISSED_KEY, 'true');
+    } catch (_storage_error) {
+      // Dismiss for this page view even when the preference cannot be saved.
+    }
+
+    cookie_policy_notice.hidden = true;
+  });
+}
+
+export function initialize_cookie_policy_notices(cookie_notice_context) {
+  cookie_notice_context
+    .querySelectorAll('[data-jurenites-cookie-policy-notice]')
+    .forEach((cookie_policy_notice) => initialize_cookie_policy_notice(cookie_policy_notice));
+}
+
 if (typeof Drupal !== 'undefined') {
   Drupal.behaviors.jurenites_media_loader_noise = {
     attach(context) {
@@ -706,6 +755,12 @@ if (typeof Drupal !== 'undefined') {
   Drupal.behaviors.jurenites_custom_select = {
     attach(context) {
       initialize_custom_selects(context);
+    },
+  };
+
+  Drupal.behaviors.jurenites_cookie_policy_notice = {
+    attach(context) {
+      initialize_cookie_policy_notices(context);
     },
   };
 }

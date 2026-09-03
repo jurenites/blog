@@ -11,7 +11,7 @@ const TAG_LIST = "Figma, SQL";
 const SHOW_MEDIA = true;
 const ACTION_LABEL = "View project";
 
-const style_variant_options = token_option_names("component-button-style-");
+const STYLE_VARIANT_OPTIONS = token_option_names("component-button-style-");
 
 function render_story({ card_title, card_excerpt, tag_list, show_media, action_label }) {
   const tag_items = String(tag_list)
@@ -30,7 +30,7 @@ function render_story({ card_title, card_excerpt, tag_list, show_media, action_l
     title: escape_html(card_title),
     excerpt: escape_html(card_excerpt),
     tag_list: tag_items,
-    action_button: button_markup({ button_label: action_label, style_variant: style_variant_options[1] }),
+    action_button: button_markup({ button_label: action_label, style_variant: STYLE_VARIANT_OPTIONS[1] }),
   });
 }
 

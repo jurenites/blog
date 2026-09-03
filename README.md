@@ -2,11 +2,8 @@
 
 Personal site for Alexander Ilivanov / @jurenites.
 
-Please Don't hack me, i;ve showed oto internem my code in form of opensource because i have nothing to hide and its my own wao of work and you may evaluate it. But in sake of security that not smart, IU hope in case of disaster at maximum damage can be at max: 
-- an sware workds
-- inapropriate images or 
-- webste is down
-im fine with thatn if you are white hakerr foudn wornulabilities, i woudl be glad to hear from you. 
+Please Don't hack me, I've showed to internet my code in form of opensource, because I have nothing to hide and demonstration the way of work delievered and you may evaluate it.
+I'm fine with that if you are white hakerr foudn wornulabilities,  would be glad to hear from you.
 
 This repository is the working system for a personal blog, portfolio, CV timeline,
 and public design/development process. The repo is intentionally readable: design
@@ -87,6 +84,8 @@ npm run build-storybook   # build tokens, then build static Storybook
 npm run figma:prepare     # build tokens before running the Figma sync helper
 npm run docs:check        # check docs version and source/docs drift
 npm run build:theme       # compile Drupal CSS/JS and copy deployable theme fonts
+npm run version:check     # verify package, lockfile, and docs versions agree
+npm run version:bump      # prepare the next minor release version
 
 ```
 

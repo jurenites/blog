@@ -96,8 +96,9 @@ pages, nodes, full Articles, Basic pages, and teasers. It exposes semantic
 `readable` and `wide` content widths plus an optional sidebar. Drupal's native
 `.layout-content` consumes the readable width directly; future Twig templates
 can apply the same `.content-layout` classes without adding another story. The
-Drupal `/blog` listing uses its own 800px content-width token so article teasers
-and pagination have slightly more room without widening standard pages.
+Drupal `/blog` and `/videos` listings use the same 800px content-width token so
+article teasers and pagination have slightly more room without widening
+standard pages.
 
 Article teasers and full Article nodes share unique, node-derived View Transition
 names for their titles and lead images. Same-origin navigation therefore morphs
@@ -108,28 +109,49 @@ Transitions use normal navigation, and reduced-motion users get an instant swap.
 Article Teaser is a square-corner editorial card with a 16:9 image, bordered
 surface, and a token-backed 150ms shadow transition. It is reserved for the
 homepage three-tile composition and Storybook's `three_tile_grid` example.
-The Blog View uses a separate borderless Article Blog List Item: a horizontal
-media-and-content row with the same metadata contract, collapsing to one column
-on mobile. This keeps the Blog listing readable without treating every post as
-a homepage card.
+The Blog and Videos Views use a separate borderless Article Blog List Item: a
+horizontal media-and-content row with the same metadata contract, collapsing to
+one column on mobile. This keeps both listings readable without treating every
+post as a homepage card. Drupal gives this presentation its own `blog_list`
+view mode, keeping its markup and render cache independent from the homepage
+`teaser` cards.
 
 Article teaser metadata composes the shared Avatar atom. Storybook's Uploaded
 state and Drupal's native compact-user `author_picture` use the same image slot;
 if that image cannot load, the component reveals its initials-based Avatar UI.
 Drupal retains ownership of the image formatter, cacheability, and access
 metadata, but the Avatar intentionally removes the user-profile destination and
-delegates its displayed dimensions to explicit size modifiers. Small, medium,
-large, and big map to 16px, 24px, 32px, and the 40px `shape.basic-tile` token;
-medium remains the default but still renders the `.avatar--medium` class.
+delegates its displayed dimensions to explicit size modifiers. The image slot
+forces uploaded portrait or landscape thumbnails into a 1:1 image box with a
+cover crop, while the Avatar shell clips that box to its circular radius. Small,
+medium, large, and big map to 16px, 24px, 32px, and the 40px
+`shape.basic-tile` token; medium remains the default but still renders the
+`.avatar--medium` class.
+
+Article detail pages use Drupal's native Comment entities for personal notes
+about the linked video or written post. The Comment Message molecule reuses the
+Article Teaser metadata layout with the existing 24px medium Avatar and Date
+Display atoms, reads the public Full name from the comment author's user entity,
+and renders that user's uploaded picture independently of Drupal's global
+comment-picture theme toggle. Initials remain visible only when the profile has
+no picture or its image cannot load. The molecule places the body in a white,
+black-text speech bubble with a softly rounded tail. Its relative timestamp
+describes when the website comment was posted, independently of the Article's
+or YouTube video's publication date. Anonymous and authenticated visitors can
+read published comments; only the restricted Content editor role can post,
+publish without approval, or edit its own comments. The administrator account
+retains Drupal's built-in privileged access, and automation accounts must use a
+separate role without these posting permissions.
 
 Full Article pages render `body` and `field_tags` through bundle-specific field
 templates so each field owns meaningful BEM markup without Drupal's anonymous
 default field wrappers. Article tags reuse the Chip atom as links to
-`/blog?tag=<clean-tag-slug>`, such as `?tag=ui-ux-design`. The custom Blog
-argument plugin transliterates each Tags label, lowercases it, replaces
+the Article's listing, such as `/blog?tag=ui-ux-design` or
+`/videos?tag=music`. The custom Blog argument plugin transliterates each Tags
+label, lowercases it, replaces
 non-alphanumeric runs with one hyphen, and resolves that readable value to
-Drupal's internal term ID. The Blog View displays the selected tag with a clear
-action and keeps filtering usable through normal navigation, reload, history,
+Drupal's internal term ID. Each listing View displays the selected tag with a
+clear action and keeps filtering usable through normal navigation, reload, history,
 and copied URLs without requiring a visible exposed form or custom AJAX. Tags
 must have unique labels after slug cleaning so each public value stays
 unambiguous.
@@ -147,14 +169,15 @@ hover/focus uses the next elevation surface to make the interaction visible.
 The Breadcrumbs molecule retains its Storybook class contract for future use,
 but Drupal currently suppresses breadcrumb trails on every route, including
 Webforms and node detail pages. Full Article pages show only a
-top-left Back link to `/blog` with the name-addressable Icon Atom. Its
+top-left Back link to `/blog` for personal Articles or `/videos` for YouTube
+reference Articles, with the name-addressable Icon Atom. Its
 `arrow-left` geometry lives in
 `src/public/assets/icons/arrow-left.svg`, is copied to the Drupal theme during
 the theme build, and remains a current-color, 1px-stroke line icon. Breadcrumb
 The Back link uses the caption typography role.
-The Back link always follows its `/blog` destination and does not use browser history,
-so an Article opened from an editorial or other same-origin page still returns
-to the public Blog listing.
+The Back link follows the Article-kind destination and does not use browser
+history, so an Article opened from another page still returns to its public
+listing.
 
 Form and input labels use the regular 14px `caption` typography role across the
 Text Input atom, Form Field molecule, and Drupal's native `.form-item` markup.
@@ -301,6 +324,12 @@ Author Byline keeps its name and metadata in one wrapping inline row in both
 Storybook and Drupal. YouTube reference dates use Date Display's `time-since`
 mode with calendar years, months, and days; shorter elapsed values fall back to
 hours and minutes.
+
+Consumption Time is the shared atom for Article Teaser and Author Byline read or
+watch durations. It owns the split `minutes`, `unit`, and remaining label markup:
+the integer and `min` use secondary text while `to read` or `to watch` uses gray
+text. The surrounding molecules retain their own author, date, topic, and layout
+responsibilities rather than duplicating the duration markup.
 
 ## Color
 

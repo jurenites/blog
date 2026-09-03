@@ -37,6 +37,7 @@ function jurenites_contact_install(): void {
       '#title' => 'Message',
       '#type' => 'textarea',
       '#required' => TRUE,
+      '#maxlength' => 5000,
     ],
     'actions' => [
       '#type' => 'webform_actions',
@@ -104,24 +105,5 @@ function jurenites_contact_install(): void {
   ]);
   $contact_webform->save();
 
-  $captcha_storage = \Drupal::entityTypeManager()->getStorage('captcha_point');
-  $contact_captcha = $captcha_storage->load('webform_submission_contact_add_form');
-  if (!$contact_captcha) {
-    $contact_captcha = $captcha_storage->create([
-      'formId' => 'webform_submission_contact_add_form',
-      'label' => 'webform_submission_contact_add_form',
-      'captchaType' => 'captcha/Math',
-      'status' => TRUE,
-    ]);
-  }
-  else {
-    $contact_captcha->setCaptchaType('captcha/Math');
-    $contact_captcha->enable();
-  }
-  $contact_captcha->set('dependencies', [
-    'enforced' => [
-      'module' => ['jurenites_contact'],
-    ],
-  ]);
-  $contact_captcha->save();
+  jurenites_contact_enable_antibot_protection();
 }

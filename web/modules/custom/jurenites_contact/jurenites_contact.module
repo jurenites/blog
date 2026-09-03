@@ -2,18 +2,37 @@
 
 /**
  * @file
- * Contact form integration hooks.
+ * Contact form integration helpers.
  */
 
 /**
- * Implements hook_captcha_placement_map().
+ * Enables Antibot for the contact form and removes its legacy math CAPTCHA.
  */
-function jurenites_contact_captcha_placement_map(): array {
-  return [
-    'webform_submission_contact_add_form' => [
-      'path' => ['elements'],
-      'key' => 'actions',
-      'weight' => NULL,
-    ],
-  ];
+function jurenites_contact_enable_antibot_protection(): void {
+  $contact_form_id = 'webform_submission_contact_add_form';
+  $antibot_settings = \Drupal::configFactory()->getEditable('antibot.settings');
+  $protected_form_ids = $antibot_settings->get('form_ids') ?? [];
+  $excluded_form_ids = $antibot_settings->get('excluded_form_ids') ?? [];
+
+  if (!in_array($contact_form_id, $protected_form_ids, TRUE)) {
+    $protected_form_ids[] = $contact_form_id;
+  }
+
+  $excluded_form_ids = array_values(array_filter(
+    $excluded_form_ids,
+    static fn (string $excluded_form_id): bool => $excluded_form_id !== $contact_form_id,
+  ));
+
+  $antibot_settings
+    ->set('form_ids', array_values(array_unique($protected_form_ids)))
+    ->set('excluded_form_ids', $excluded_form_ids)
+    ->save();
+
+  if (\Drupal::moduleHandler()->moduleExists('captcha')) {
+    $captcha_storage = \Drupal::entityTypeManager()->getStorage('captcha_point');
+    $contact_captcha = $captcha_storage->load($contact_form_id);
+    if ($contact_captcha) {
+      $contact_captcha->delete();
+    }
+  }
 }

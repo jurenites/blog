@@ -9,6 +9,69 @@ import {
   initialize_tooltips,
 } from "../src/slice/src/js/script.js";
 
+const PREVIEW_WATERMARK_ID = "storybook-preview-watermark";
+
+function create_preview_watermark() {
+  const build_information = globalThis.STORYBOOK_BUILD_INFO;
+
+  if (!build_information || document.getElementById(PREVIEW_WATERMARK_ID)) {
+    return;
+  }
+
+  const watermark_element = document.createElement("div");
+  const identity_line = document.createElement("span");
+  const version_label = document.createElement("span");
+  const version_number = document.createElement("span");
+  const version_separator = document.createElement("span");
+  const updated_gmt = document.createElement("span");
+  const date_separator = document.createElement("span");
+  const git_hash_link = document.createElement("a");
+  const credit_line = document.createElement("span");
+  const credit_label = document.createElement("span");
+  const credit_collaboration = document.createElement("span");
+
+  watermark_element.id = PREVIEW_WATERMARK_ID;
+  watermark_element.className = "version-watermark";
+  watermark_element.setAttribute("aria-label", "Storybook preview build information");
+
+  identity_line.className = "version-watermark__line";
+  version_label.className = "version-watermark__label";
+  version_label.textContent = "Version";
+  version_number.className = "version-watermark__number";
+  version_number.textContent = build_information.project_version;
+  version_separator.className = "version-watermark__separator";
+  version_separator.textContent = "·";
+  version_separator.setAttribute("aria-hidden", "true");
+  updated_gmt.className = "version-watermark__updated-gmt";
+  updated_gmt.textContent = build_information.created_gmt;
+  date_separator.className = "version-watermark__separator";
+  date_separator.textContent = "·";
+  date_separator.setAttribute("aria-hidden", "true");
+  git_hash_link.className = "version-git-hash";
+  git_hash_link.href = build_information.commit_url;
+  git_hash_link.target = "_blank";
+  git_hash_link.rel = "noopener noreferrer";
+  git_hash_link.textContent = build_information.commit_hash;
+  identity_line.append(
+    version_label,
+    version_number,
+    version_separator,
+    updated_gmt,
+    date_separator,
+    git_hash_link,
+  );
+
+  credit_line.className = "version-watermark__line";
+  credit_label.className = "version-watermark__credit";
+  credit_label.textContent = "made by";
+  credit_collaboration.className = "version-watermark__credit_name";
+  credit_collaboration.textContent = build_information.collaboration_credit;
+  credit_line.append(credit_label, credit_collaboration);
+
+  watermark_element.append(identity_line, credit_line);
+  document.body.append(watermark_element);
+}
+
 function token_dimension(token_name) {
   return TOKEN_VALUES[token_name];
 }
@@ -70,6 +133,7 @@ export const decorators = [
       initialize_avatar_images(document);
       initialize_custom_selects(document);
       initialize_tooltips(document);
+      create_preview_watermark();
     });
     return story_output;
   },

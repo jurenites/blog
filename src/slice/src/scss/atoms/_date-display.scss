@@ -3,8 +3,7 @@
 @use "../tools";
 
 .date-display {
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   color: var(--theme-dark-text-secondary-default);
   @include tools.typography-caption;
   font-family: var(--typography-font-family-number);

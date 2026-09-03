@@ -31,15 +31,11 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-scale-base-gap);
-  color: var(--theme-dark-text-secondary-default);
+  color: var(--theme-dark-text-gray);
 }
 
-.author-byline__separator {
-  color: var(--theme-dark-border-outline-default);
-}
-
-.author-byline__reading-time {
-  gap: calc(var(--space-scale-base-gap) * 0.5);
+.author-byline__details .date-display {
+  color: inherit;
 }
 
 .author-byline__topics {

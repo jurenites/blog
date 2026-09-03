@@ -1,6 +1,12 @@
 {# Shared page title, optionally rendered through the Two-tone Heading atom. #}
 {{ title_prefix }}
-{% if two_tone_heading %}
+{% if privacy_policy_eyebrow %}
+  <header class="privacy-policy__header">
+    <p class="privacy-policy__eyebrow">{{ privacy_policy_eyebrow }}</p>
+    <div class="privacy-policy__divider" aria-hidden="true"></div>
+    <h1{{ title_attributes.addClass('privacy-policy__title') }}>{{ title }}</h1>
+  </header>
+{% elseif two_tone_heading %}
   {{ two_tone_heading }}
 {% elseif title %}
   <h1{{ title_attributes }}>{{ title }}</h1>

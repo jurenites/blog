@@ -137,7 +137,30 @@ The recipe enables the project-owned `web/modules/custom/jurenites_admin`
 module. Its Gin-only library replaces the Drupal toolbar droplet with
 `web/themes/custom/jurenites_theme/favicon.svg`. Gin's browser tab uses the
 fixed inverted `favicon-admin.svg` mark so admin tabs stay visually distinct
-from the adaptive public-site favicon.
+from the adaptive public-site favicon. The same module keeps Article comments
+open, grants public read access, and reserves comment posting and own-comment
+editing for the Content editor role. Other content comment fields remain
+closed.
+
+Apply the public privacy-policy route with:
+
+```bash
+docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_privacy
+```
+
+The `jurenites_privacy` module creates an editable, published Basic Page at
+`/privacy-policy`, adds its link to Drupal’s secondary Footer menu, creates the
+Cookie Policy Notice as a reusable Basic Content Block, and places both blocks
+in the theme’s Footer region. Editors own the notice title through the block
+placement label and its paragraphs through the Content Block body. The notice
+does not set cookies or create a browser identifier. Its
+single “Whatever” action stores the versioned boolean
+`jurenites-cookie-notice-dismissed-v2` preference in `localStorage` and hides
+the notice; when storage is unavailable, dismissal lasts only for the current
+page view. The block starts hidden and is revealed only after that preference is
+checked, preventing a dismissed notice from flashing during page load. It floats
+above the bottom viewport edge while remaining a non-modal footer block. The
+notice and policy page remain separate Drupal content responsibilities.
 
 ## Media Upload Infrastructure
 

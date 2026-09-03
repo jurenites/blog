@@ -13,7 +13,8 @@ const AVATAR_INITIALS = "AI";
 const AVATAR_IMAGE_URL = "http://jurenites.local/sites/default/files/styles/thumbnail/public/pictures/2026-08/Alexander_ilivanpov_avatar_512.jpeg.webp?itok=666UO5aR";
 const PUBLISHED_DATE = "2026-06-15";
 const DATE_DISPLAY_VARIANT = token_value("component-date-display-default-display");
-const READING_TIME = "6 minutes";
+const READING_TIME_MINUTES = 6;
+const READING_TIME_LABEL = "min to read";
 const ARTICLE_GRID_ITEMS = [
   {
     eyebrow_heading: "Process",
@@ -22,7 +23,8 @@ const ARTICLE_GRID_ITEMS = [
     thumbnail_url: "http://jurenites.local/sites/default/files/styles/medium/public/2026-08/DSC_0001.JPG.webp?itok=3HPjYrtX",
     thumbnail_alt: "Uploaded article photograph",
     published_date: "2026-06-15",
-    reading_time: "6 minutes",
+    reading_time_minutes: 6,
+    reading_time_label: "min to read",
   },
   {
     eyebrow_heading: "Design",
@@ -31,7 +33,8 @@ const ARTICLE_GRID_ITEMS = [
     thumbnail_url: "http://jurenites.local/sites/default/files/styles/medium/public/2026-08/DSC_0029.JPG.webp",
     thumbnail_alt: "Uploaded design process photograph",
     published_date: "2026-07-04",
-    reading_time: "8 minutes",
+    reading_time_minutes: 8,
+    reading_time_label: "min to read",
   },
   {
     eyebrow_heading: "Development",
@@ -40,7 +43,8 @@ const ARTICLE_GRID_ITEMS = [
     thumbnail_url: "http://jurenites.local/sites/default/files/styles/medium/public/2026-08/DSC_0025.JPG.webp",
     thumbnail_alt: "Uploaded development workspace photograph",
     published_date: "2026-08-12",
-    reading_time: "5 minutes",
+    reading_time_minutes: 5,
+    reading_time_label: "min to read",
   },
 ];
 
@@ -80,7 +84,10 @@ export default {
       control: { type: "select" },
       options: ["date-day", "date-day-time"],
     },
-    reading_time: { control: "text" },
+    reading_time_minutes: {
+      control: { type: "number", min: 1, step: 1 },
+    },
+    reading_time_label: { control: "text" },
   },
   args: {
     eyebrow_heading: EYEBROW_HEADING,
@@ -94,7 +101,8 @@ export default {
     avatar_image_url: AVATAR_IMAGE_URL,
     published_date: PUBLISHED_DATE,
     date_display_variant: DATE_DISPLAY_VARIANT,
-    reading_time: READING_TIME,
+    reading_time_minutes: READING_TIME_MINUTES,
+    reading_time_label: READING_TIME_LABEL,
   },
 };
 

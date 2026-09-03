@@ -26,10 +26,10 @@
         {% if published_date_markup %}
           <span class="author-byline__separator" aria-hidden="true">&middot;</span>
         {% endif %}
-        <span class="author-byline__reading-time date-display">
-          <span class="author-byline__reading-time-minutes">{{ reading_time_minutes }}</span>
-          <span class="author-byline__reading-time-label">{{ reading_time_label }}</span>
-        </span>
+        {% include '@jurenites_theme/components/consumption-time.html.twig' with {
+          consumption_time_minutes: reading_time_minutes,
+          consumption_time_label: reading_time_label,
+        } only %}
       {% endif %}
       </span>
     {% endif %}

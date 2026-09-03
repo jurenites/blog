@@ -43,7 +43,8 @@
   margin-inline: auto;
 }
 
-.path-blog .layout-content {
+.path-blog .layout-content,
+.path-videos .layout-content {
   max-width: var(--layout-content-max-blog-default);
 }
 

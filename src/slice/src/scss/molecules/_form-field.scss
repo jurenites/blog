@@ -69,6 +69,7 @@
   @include tools.typography-caption;
   @include tools.motion-transition(border-color, box-shadow, background-color);
   min-height: calc(var(--space-scale-base-gap) * 12);
+  max-height: calc(var(--shape-basic-tile) * 12); // TODO ;repalce this magic number to be somehow lrelated to size ifrom Tokens
   padding: var(--space-scale-base-gap) calc(var(--space-scale-base-gap) * 2);
   resize: vertical;
 }

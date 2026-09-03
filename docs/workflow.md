@@ -69,8 +69,8 @@ Current Foundations: Colors, Color Abstraction, Color Contrast, Typography,
 Fonts, and Spacing. Their JS reads `generated/token/tokens.js`; their styles read
 `generated/styles/_tokens.scss`.
 
-Current Atoms: Avatar, Badge, Button, Chip, Date Display, Divider, Icon, Surface, Tooltip,
-Version Watermark.
+Current Atoms: Avatar, Badge, Button, Chip, Consumption Time, Date Display,
+Divider, Icon, Surface, Tooltip, Version Watermark.
 
 Current Molecules: Article Teaser, Article Blog List Item, Author Byline, Contact
 Me Widget, Pagination, Project Card, Pull Quote.
@@ -96,6 +96,12 @@ starts or builds and is not committed to Git.
 Storybook and Drupal obtain version, commit, and GMT build metadata from
 `scripts/build-information.mjs`. Drupal's global HTML template renders the
 Version Watermark automatically, so page authors never add it manually.
+
+`package.json` is the editable project-version source. Version `1.0.0` marks the
+first production release. Run `npm run version:bump` for the normal minor
+release progression (`1.1.0`, `1.2.0`, and so on), or pass `patch`, `minor`, or
+`major` explicitly. The command synchronizes `package.json`, `package-lock.json`,
+and `docs/version.md`; CI rejects a mismatch before building or deploying.
 
 ## 4. Figma
 

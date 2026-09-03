@@ -122,6 +122,7 @@
   --layout-gutter-mobile-default: 16px;
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
+  --component-cookie-policy-notice-layer-default: 9000;
   --component-article-teaser-grid-card-min-width-default: 240px;
   --component-article-teaser-list-media-min-width-default: 180px;
   --component-article-teaser-list-media-max-width-default: 280px;
@@ -160,6 +161,9 @@
   --component-tooltip-layer-default: 11000;
   --component-avatar-corner-radius-default: 9999px;
   --component-avatar-default-size: medium;
+  --component-comment-message-color-background-default: var(--color-palette-full-white);
+  --component-comment-message-color-foreground-default: var(--color-palette-full-black);
+  --component-comment-message-corner-radius-default: 20px;
   --component-surface-default-variant: default;
   --component-date-display-default-mode: month-day-year;
   --component-date-display-default-display: date-day;

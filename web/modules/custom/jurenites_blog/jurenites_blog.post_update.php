@@ -5,10 +5,13 @@
  * Post-update functions for Jurenites Blog.
  */
 
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\Core\Entity\Entity\EntityViewMode;
 use Drupal\Core\Field\Entity\BaseFieldOverride;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\views\Entity\View;
 
 /**
@@ -410,4 +413,157 @@ function jurenites_blog_post_update_sync_youtube_authored_dates(
   return t('Synchronized authored dates for @article_count YouTube Articles.', [
     '@article_count' => $update_sandbox['processed_count'],
   ]);
+}
+
+/**
+ * Splits personal Articles and YouTube references into Blog and Videos pages.
+ */
+function jurenites_blog_post_update_split_blog_and_videos(): TranslatableMarkup {
+  $frontpage_view = View::load('frontpage');
+  if ($frontpage_view === NULL) {
+    return t('The Frontpage View was not available; Blog and Videos were unchanged.');
+  }
+
+  $display_settings = $frontpage_view->get('display');
+  if (!isset($display_settings['page_2'])) {
+    return t('The Blog display was not available; Blog and Videos were unchanged.');
+  }
+
+  $blog_display = $display_settings['page_2'];
+  $blog_filters = $blog_display['display_options']['filters'] ?? [];
+  $blog_filters['field_youtube_video_video_id'] =
+    jurenites_blog_youtube_video_filter('empty');
+  $blog_display['display_options']['defaults']['filters'] = FALSE;
+  $blog_display['display_options']['filters'] = $blog_filters;
+  $display_settings['page_2'] = $blog_display;
+
+  $videos_display = $blog_display;
+  $videos_display['id'] = 'page_3';
+  $videos_display['display_title'] = 'Videos';
+  $videos_display['position'] = 4;
+  $videos_display['display_options']['title'] = 'Videos';
+  $videos_display['display_options']['path'] = 'videos';
+  $videos_display['display_options']['filters']['field_youtube_video_video_id'] =
+    jurenites_blog_youtube_video_filter('not empty');
+  $display_settings['page_3'] = $videos_display;
+
+  $frontpage_view->set('display', $display_settings);
+  $frontpage_view->save();
+
+  $menu_link_storage = \Drupal::entityTypeManager()
+    ->getStorage('menu_link_content');
+  $videos_link_ids = $menu_link_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('menu_name', 'main')
+    ->condition('link.uri', 'internal:/videos')
+    ->execute();
+  $videos_links = $menu_link_storage->loadMultiple($videos_link_ids);
+  $videos_link = reset($videos_links);
+  if (!$videos_link instanceof MenuLinkContent) {
+    $videos_link = MenuLinkContent::create([
+      'title' => 'Videos',
+      'link' => ['uri' => 'internal:/videos'],
+      'menu_name' => 'main',
+      'enabled' => TRUE,
+      'expanded' => FALSE,
+      'weight' => 4,
+    ]);
+  }
+  else {
+    $videos_link->set('title', 'Videos');
+    $videos_link->set('enabled', TRUE);
+    $videos_link->set('weight', 4);
+  }
+  $videos_link->save();
+
+  $contact_link_ids = $menu_link_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('menu_name', 'main')
+    ->condition('link.uri', 'internal:/contact')
+    ->execute();
+  $contact_links = $menu_link_storage->loadMultiple($contact_link_ids);
+  foreach ($contact_links as $contact_link) {
+    $contact_link->set('weight', 5);
+    $contact_link->save();
+  }
+
+  return t('Separated personal Articles at /blog from YouTube references at /videos and added Videos to the Main navigation.');
+}
+
+/**
+ * Gives editorial Article listings their own render and cache variant.
+ */
+function jurenites_blog_post_update_article_blog_list_view_mode(): TranslatableMarkup {
+  $blog_list_view_mode = EntityViewMode::load('node.blog_list');
+  if ($blog_list_view_mode === NULL) {
+    $blog_list_view_mode = EntityViewMode::create([
+      'id' => 'node.blog_list',
+      'label' => 'Blog list',
+      'targetEntityType' => 'node',
+      'cache' => TRUE,
+    ]);
+    $blog_list_view_mode->save();
+  }
+
+  $blog_list_display = EntityViewDisplay::load('node.article.blog_list');
+  if ($blog_list_display === NULL) {
+    $teaser_display = EntityViewDisplay::load('node.article.teaser');
+    $blog_list_display = EntityViewDisplay::create([
+      'targetEntityType' => 'node',
+      'bundle' => 'article',
+      'mode' => 'blog_list',
+      'status' => TRUE,
+      'content' => $teaser_display?->get('content') ?? [],
+      'hidden' => $teaser_display?->get('hidden') ?? [],
+    ]);
+    $blog_list_display->save();
+  }
+
+  $frontpage_view = View::load('frontpage');
+  if ($frontpage_view === NULL) {
+    return t('Created the Blog list view mode, but the Frontpage View was unavailable.');
+  }
+
+  $display_settings = $frontpage_view->get('display');
+  $updated_display_count = 0;
+  foreach (['page_2', 'page_3'] as $display_identifier) {
+    if (!isset($display_settings[$display_identifier])) {
+      continue;
+    }
+
+    $display_settings[$display_identifier]['display_options']['defaults']['row'] = FALSE;
+    $display_settings[$display_identifier]['display_options']['row'] = [
+      'type' => 'entity:node',
+      'options' => [
+        'view_mode' => 'blog_list',
+      ],
+    ];
+    $updated_display_count++;
+  }
+
+  $frontpage_view->set('display', $display_settings);
+  $frontpage_view->save();
+
+  return t('Created the Blog list Article view mode and assigned it to @display_count editorial listing displays.', [
+    '@display_count' => $updated_display_count,
+  ]);
+}
+
+/**
+ * Defines a Views string filter for the Article YouTube identifier.
+ */
+function jurenites_blog_youtube_video_filter(string $filter_operator): array {
+  return [
+    'id' => 'field_youtube_video_video_id',
+    'table' => 'node__field_youtube_video',
+    'field' => 'field_youtube_video_video_id',
+    'relationship' => 'none',
+    'group_type' => 'group',
+    'admin_label' => '',
+    'plugin_id' => 'string',
+    'operator' => $filter_operator,
+    'value' => '',
+    'group' => 1,
+    'exposed' => FALSE,
+  ];
 }

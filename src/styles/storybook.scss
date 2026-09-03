@@ -300,9 +300,12 @@ $storybook-color-block-size-compact: 40px;
   min-width: 0;
 }
 
-.color-block__primary{
-  display: none;//i t does not fit and it repeat the machine readable Token value
+.color-block__primary {
+  display: none;
+  text-transform: capitalize;
+  @include tools.typography-subtitle-2;
 }
+
 .color-block__secondary,
 .color-block__tertiary {
   display: block;
@@ -311,11 +314,6 @@ $storybook-color-block-size-compact: 40px;
   color: inherit;
   overflow-wrap: anywhere;
   @include tools.typography-code;
-}
-
-.color-block__primary {
-  text-transform: capitalize;
-  @include tools.typography-subtitle-2;
 }
 
 .color-block__secondary:empty,

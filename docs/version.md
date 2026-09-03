@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 0.0.116
-Reviewed: 2026-09-01
+Version: 1.1.0
+Reviewed: 2026-09-03
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -12,8 +12,13 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - `package.json` owns one version for the whole repository. Drupal, Storybook,
   generated build information, and this documentation checkpoint use that same
   project version.
-- Bump the project patch version by `+0.0.1` for each implemented project
-  iteration discussed and delivered through this workspace.
+- Version `1.0.0` marks the first production release. Bump the minor version for
+  each subsequent delivered project iteration (`1.1.0`, `1.2.0`, and so on).
+  Reserve patch bumps for corrections to an existing release and major bumps
+  for intentionally incompatible changes.
+- Use `npm run version:bump` for the normal minor increment, or pass `patch`,
+  `minor`, or `major` explicitly. The command keeps `package.json`,
+  `package-lock.json`, and this checkpoint synchronized.
 - During active refactoring, it is fine to avoid rewriting docs for every small
   experiment. Before committing meaningful source changes, run
   `npm run docs:check` and update docs when the checker reports drift.
@@ -61,9 +66,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   previous arrow, current page, total pages, and next arrow.
 - Breadcrumbs retain a reusable Storybook and shared-SCSS contract, but Drupal
   currently suppresses breadcrumb trails on every route, including Webforms and
-  node detail pages. Full Articles show only a text Back link to `/blog`
-  with a replaceable 24px, 1px-stroke left-arrow Icon Atom. The link uses normal
-  anchor navigation rather than browser history.
+  node detail pages. Full Articles show only a text Back link to `/blog` for
+  personal Articles or `/videos` for YouTube references, with a replaceable
+  24px, 1px-stroke left-arrow Icon Atom. The link uses normal anchor navigation
+  rather than browser history.
   Named SVG geometry is stored in `src/public/assets/icons` and copied into the
   deployable Drupal theme assets during the theme build. The Back link uses the
   caption typography role.
@@ -91,9 +97,13 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   The edit widget mirrors the component controls while the public page title is
   fixed semantically at `h1`; no JSON settings blob or separate field per control
   is required.
-- Drupal's `/blog` path gives its native `.layout-content` an 800px token-backed
-  maximum width while standard page and node content remains at 720px.
-- Blog-list thumbnails preserve the intrinsic `<img>` aspect ratio and zoom to
+- Drupal's `/blog` and `/videos` paths give their native `.layout-content` an
+  800px token-backed maximum width while standard page and node content remains
+  at 720px. Their Views queries split personal Articles with an empty YouTube
+  field from YouTube reference Articles with a populated field while retaining
+  the same tag filtering and editorial list-item presentation.
+- Editorial-list thumbnails preserve the intrinsic `<img>` aspect ratio and
+  zoom to
   120% inside their clipped media container on pointer hover, with the zoom
   suppressed for reduced-motion users. A Blog-list media region now requires a
   YouTube video, so Articles without video do not show a thumbnail. Saving an
@@ -102,7 +112,7 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   that field. Existing Images remain under editorial control and are never
   overwritten by the automatic fallback. Blog-list images use Drupal's narrow
   responsive candidate set with an embedded blurry placeholder and the shared
-  progressive loading state. Its Blog-specific `sizes` rule follows the actual
+  progressive loading state. Its listing-specific `sizes` rule follows the actual
   641px single-column breakpoint so mobile images are not stretched from the
   325px candidate.
 - All global semantic corner-radius tokens resolve to `0px`; project-owned
@@ -111,13 +121,16 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   pill radius, Avatar owns a component-level circular radius token, and Select
   Input uses a local 50% radius only for
   the requested transient 36px hover indicator inside its square suffix target.
-- Article teaser and Blog list links use normal Drupal navigation to the full
+- Article teaser and editorial list links use normal Drupal navigation to the
+  full
   Article detail route. Their title and image remain separate presentations;
   they do not morph into the full page through cross-document View Transitions.
 - Article Teaser is the square-corner, bordered editorial card used by the
-  homepage three-tile composition. The Drupal Blog View uses a separate,
-  borderless Article Blog List Item with horizontal media and content that
-  collapses to one column on mobile. Storybook documents both presentations.
+  homepage three-tile composition. The Drupal Blog and Videos Views use a
+  separate, borderless Article Blog List Item with horizontal media and content
+  that collapses to one column on mobile. Its dedicated `blog_list` view mode
+  keeps Drupal markup and render caching separate from the homepage `teaser`
+  cards. Storybook documents both presentations.
   Teaser titles use semantic `<h3>` markup with the 16px semibold `subtitle-1`
   role; teaser excerpts use the new 14px `body-2` role, while full Article body
   copy remains on the 16px `body` role.
@@ -126,8 +139,9 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   its native compact-user `author_picture` render array into the shared shell.
   The Avatar removes the inaccessible user-profile link and owns displayed
   image sizing through explicit small (16px), medium (24px), large (32px), and
-  token-backed big (40px) modifier classes rather than HTML dimensions. The
-  default medium value renders its modifier class explicitly.
+  token-backed big (40px) modifier classes rather than HTML dimensions. Its
+  image box always uses a 1:1 cover crop so non-square uploaded thumbnails stay
+  circular. The default medium value renders its modifier class explicitly.
 - Article list items and detail pages compose the Author Byline structure
   documented in Storybook. Its time contract keeps the integer minute count and
   translatable `min to read` or `min to watch` label in separate elements so
@@ -140,6 +154,9 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   seconds are truncated and hour-long videos remain expressed in total minutes.
   Name and date/time details share one wrapping inline row in Storybook and
   Drupal; elapsed dates use calendar units such as `4 months and 9 days`.
+  Author Byline and Article Teaser both compose the Consumption Time atom, which
+  keeps the minute number and `min` in secondary text while rendering the
+  remaining read/watch purpose in gray.
   The detail credit sits below the iframe and video title, while Drupal retains
   the node owner for its normal editorial history. The video creator Avatar uses
   the stored 16px channel image with initials as its non-blocking fallback.
@@ -153,7 +170,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   native form markup. Shared and native form labels and legends use regular 14px,
   font-weight-400 typography. Storybook label/control pairs use a dedicated
   wrapper with an 8px gap, while form labels use a fixed 16px height and
-  line-height independent of the font's intrinsic line box.
+  line-height independent of the font's intrinsic line box. Textareas retain a
+  96px minimum height and vertical resizing but stop at 80% of the viewport;
+  Contact messages and Article comments also have a server-validated
+  5000-character maximum.
 - Select Input progressively enhances its native control in Storybook and
   Drupal while retaining the native fallback. Its 40px trigger includes a 40px
   suffix target, 24px one-stroke chevron, 36px circular hover state, and short
@@ -165,6 +185,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   space and uses a bounded internal scroller when the full list fits on neither
   side. The Site Header language picker now composes this same atom in Storybook
   and Drupal, with a scoped borderless, intrinsic-width presentation.
+- The public Contact Webform uses local Antibot protection instead of a visible
+  math CAPTCHA. JavaScript restores the real form action after browser
+  interaction and supplies the server-validated Antibot key; no third-party
+  account, tracking request, or API key is involved.
 - Select, text, textarea, unchecked choice, and choice-chip controls use the
   light-black palette surface so inputs sit one neutral tone above the default
   page surface. Selected Select Input rows use deep gray to remain distinct.
@@ -300,13 +324,13 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   weight, line-height, and letter-spacing declarations.
 - Native `h3`, `h4`, `h5`, and `h6` elements map directly to the corresponding
   `headline-3`, `headline-4`, `headline-5`, and `headline-6` roles.
-- The screenshot signature displays the shared project version, current
-  UTC build update time to the second, seven-character Git hash, and collaboration
-  credit with exact solid token colors in Drupal and the Storybook manager.
-- The Storybook manager owns the single persistent build watermark. Preview
-  iframes do not inject another copy; the Version Watermark story remains only
-  as its intentional component sample and is capped at 200px including Canvas
-  chrome.
+- The screenshot signature displays the shared project version, current UTC
+  build update time to the second, seven-character Git hash, and collaboration
+  credit with exact solid token colors in Drupal, the Storybook manager, and
+  every Storybook preview iframe.
+- The Storybook manager and each Canvas or Docs preview own one persistent build
+  watermark. The Version Watermark story additionally remains its intentional
+  component sample and is capped at 200px including Canvas chrome.
 - Typography dimensions now use explicit pixel values end to end; legacy root
   font-size conversion logic has been removed from Storybook and Figma sync.
 - Project-owned folder documentation is centralized in
@@ -357,13 +381,53 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   class. Public link defaults are scoped to that class, while Gin navigation
   uses Jurenites blue and blue-gray palette mappings and keeps 14px toolbar
   link and button typography.
-- Drupal comment fields are globally forced closed. The project post-update
-  closes existing comment-enabled content and changes every comment field's
-  default, while the administration module prevents future saves from reopening
-  comments.
+- Article comments are open and publicly readable, while posting, immediate
+  publication, and own-comment editing belong only to the restricted Content
+  editor role (plus Drupal's administrator bypass). Other comment fields remain
+  forced closed. The shared Comment Message molecule renders the author's
+  24px circular Avatar, user-entity Full name, relative website-post timestamp,
+  and monochrome rounded speech bubble in Storybook and Drupal. An uploaded user
+  picture takes priority regardless of Drupal's global comment-picture theme
+  toggle, with initials reserved for an empty or failed image. Its header
+  reuses the Article Teaser metadata layout, and Date Display preserves spaces
+  around decorated zero digits in elapsed labels. The Article comment
+  form keeps its fixed restricted text format but does not render Drupal's text
+  format help and selector wrapper for any account. Its action row contains only
+  the Post comment action; Drupal's optional Preview action remains hidden. The
+  Author controls stay hidden while adding comments, but Drupal administrators
+  can use them while editing an existing comment to correct its account owner.
 - Gin hides Drupal's Shortcuts toolbar, Bookmarks menu, and page-title action.
   The Shortcut module and its stored sets remain installed and unchanged.
 - Storybook uses its repository-owned 16px SVG logo at
   `src/public/storybook-favicon-16.svg`. Its explicit, uniquely named manager
   favicon URL avoids the persistent browser cache associated with the generic
   `/favicon.svg` path and requires no competing favicon declaration.
+- The semantic site footer always contains the shared Cookie Policy Notice. It
+  makes no consent claim because the site does not set cookies; “Whatever” stores
+  only a boolean local dismissal preference and hides the notice. The
+  `jurenites_privacy` module owns the linked `/privacy-policy` route and its
+  deliberately brief NON-LEGAL explanation.
+- The transparent Footer Navigation stays at the bottom of short and empty
+  viewports without leaving normal document flow on longer pages. Alongside its
+  secondary links, it shows the current year with the gray, regular Body
+  typography message “No rights reserved.”
+- The Privacy Policy route uses a reference-informed editorial hierarchy: a
+  compact NON-LEGAL eyebrow, full-width divider, generous title spacing,
+  oversized page title, and a readable Overview section. Its content remains
+  project-specific rather than copying third-party legal boilerplate. It also
+  discloses that local browser storage is used only to remember dismissal of
+  the cookie notice, without an identifier, transmission, analytics, or
+  tracking.
+- Privacy is split across native Drupal responsibilities: the policy is an
+  editable Basic Page node, its link belongs to the secondary Footer menu, and
+  the cookie notice is a custom block placed in the Footer region. The notice
+  cites the EU Commission’s approximate 334-million-hour annual estimate and
+  remains separate from the policy body.
+- The Cookie Policy Notice is a fixed, non-modal footer panel above the bottom
+  viewport edge. Its dismissal key is versioned for the revised notice, and its
+  server markup starts hidden until JavaScript checks storage, eliminating the
+  returning-visitor flash before a stored dismissal is applied.
+- The Cookie Policy Notice title and paragraphs are CMS-owned: Drupal renders a
+  reusable Basic Content Block through its Footer-region placement. JavaScript
+  owns only the “Whatever” dismiss control and local preference behavior;
+  Storybook constants are explicitly preview fixtures rather than runtime copy.

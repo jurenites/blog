@@ -47,3 +47,15 @@ function jurenites_admin_post_update_disable_all_comments(): string {
 
   return t('Closed all comment fields and disabled comments by default.');
 }
+
+/**
+ * Reopens Article comments for the restricted personal author role.
+ */
+function jurenites_admin_post_update_enable_personal_article_comments(): string {
+  $updated_article_count = jurenites_admin_configure_article_comments();
+
+  return t(
+    'Enabled personal Article comments and reopened @count existing Articles.',
+    ['@count' => $updated_article_count],
+  );
+}

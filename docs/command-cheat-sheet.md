@@ -68,7 +68,13 @@ cd /Users/alexanderilivanov/Projects/blog_jurenites
 npm run build:tokens
 npm run build:theme
 npm run build-storybook
+npm run version:check
+npm run version:bump
 ```
+
+`npm run version:bump` increments the minor version by default. Use
+`npm run version:bump -- patch`, `npm run version:bump -- minor`, or
+`npm run version:bump -- major` when the release type must be explicit.
 
 ## PROD Environment
 

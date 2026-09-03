@@ -29,6 +29,7 @@
     "require": {
         "cloudfour/image-compare": "^1.0.5",
         "composer/installers": "^2.3",
+        "drupal/antibot": "^2.0",
         "drupal/captcha": "^2.0",
         "drupal/core-composer-scaffold": "^11.3",
         "drupal/core-project-message": "^11.3",

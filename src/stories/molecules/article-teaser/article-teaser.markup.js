@@ -1,7 +1,7 @@
 import article_teaser_template from "./article-teaser.template.html?raw";
 import { avatar_markup } from "../../atoms/avatar/avatar.markup.js";
+import { consumption_time_markup } from "../../atoms/consumption-time/consumption-time.markup.js";
 import { date_display_markup } from "../../atoms/date-display/date-display.markup.js";
-import { numeric_text_markup } from "../../numeric-text.js";
 import { escape_html, render_template } from "../../template.js";
 
 export function article_teaser_markup({
@@ -16,7 +16,8 @@ export function article_teaser_markup({
   avatar_image_url,
   published_date,
   date_display_variant = "date-day",
-  reading_time,
+  reading_time_minutes,
+  reading_time_label,
 }) {
   return render_template(article_teaser_template, {
     eyebrow_heading: escape_html(eyebrow_heading),
@@ -35,6 +36,9 @@ export function article_teaser_markup({
       value_mode: "month-day-year",
       display_variant: date_display_variant,
     }),
-    reading_time: numeric_text_markup(reading_time),
+    consumption_time_content: consumption_time_markup({
+      consumption_time_minutes: reading_time_minutes,
+      consumption_time_label: reading_time_label,
+    }),
   });
 }

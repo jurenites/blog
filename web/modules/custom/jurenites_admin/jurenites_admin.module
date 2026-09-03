@@ -5,10 +5,15 @@
  * Applies project-specific administration behavior and Gin branding.
  */
 
-use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
+use Drupal\comment\CommentingStatus;
+use Drupal\comment\CommentInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Extension\Extension;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\user\Entity\Role;
+use Drupal\user\RoleInterface;
 
 /**
  * Implements hook_entity_presave().
@@ -25,8 +30,130 @@ function jurenites_admin_entity_presave(EntityInterface $saved_entity): void {
       continue;
     }
 
-    $saved_entity->get($field_name)->status = CommentItemInterface::CLOSED;
+    $is_article_comment = $saved_entity->getEntityTypeId() === 'node'
+      && $saved_entity->bundle() === 'article'
+      && $field_name === 'comment';
+    $saved_entity->get($field_name)->status = $is_article_comment
+      ? CommentingStatus::Open->value
+      : CommentingStatus::Closed->value;
   }
+}
+
+/**
+ * Keeps Article comments public while reserving authorship for content editors.
+ */
+function jurenites_admin_configure_article_comments(): int {
+  $comment_field = FieldConfig::loadByName('node', 'article', 'comment');
+  if ($comment_field !== NULL) {
+    $default_values = $comment_field->getDefaultValueLiteral();
+    $default_values[0]['status'] = CommentingStatus::Open->value;
+    $comment_field
+      ->setDefaultValue($default_values)
+      ->setSetting('anonymous', 0)
+      ->save();
+  }
+
+  $comment_body_field = FieldConfig::loadByName('comment', 'comment', 'comment_body');
+  if ($comment_body_field !== NULL) {
+    $comment_body_field
+      ->setSetting('allowed_formats', ['restricted_html'])
+      ->save();
+  }
+
+  $view_permissions = ['access comments'];
+  foreach ([RoleInterface::ANONYMOUS_ID, RoleInterface::AUTHENTICATED_ID] as $role_id) {
+    $viewer_role = Role::load($role_id);
+    if ($viewer_role !== NULL) {
+      foreach ($view_permissions as $view_permission) {
+        $viewer_role->grantPermission($view_permission);
+      }
+      foreach (['post comments', 'skip comment approval', 'edit own comments'] as $posting_permission) {
+        $viewer_role->revokePermission($posting_permission);
+      }
+      $viewer_role->save();
+    }
+  }
+
+  $content_editor_role = Role::load('content_editor');
+  if ($content_editor_role !== NULL) {
+    foreach ([
+      'access comments',
+      'post comments',
+      'skip comment approval',
+      'edit own comments',
+      'use text format restricted_html',
+    ] as $editor_permission) {
+      $content_editor_role->grantPermission($editor_permission);
+    }
+    $content_editor_role->save();
+  }
+
+  $article_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $article_ids = \Drupal::entityQuery('node')
+    ->accessCheck(FALSE)
+    ->condition('type', 'article')
+    ->execute();
+
+  $updated_article_count = 0;
+  foreach ($article_storage->loadMultiple($article_ids) as $article_entity) {
+    if (!$article_entity->hasField('comment')
+      || (int) $article_entity->get('comment')->status === CommentingStatus::Open->value) {
+      continue;
+    }
+
+    $article_entity->get('comment')->status = CommentingStatus::Open->value;
+    $article_entity->save();
+    $updated_article_count++;
+  }
+
+  return $updated_article_count;
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for native comment forms.
+ */
+function jurenites_admin_form_comment_form_alter(array &$comment_form, FormStateInterface $form_state, string $form_id): void {
+  $comment_entity = $form_state->getFormObject()->getEntity();
+  if (!$comment_entity instanceof CommentInterface) {
+    return;
+  }
+
+  $commented_entity = $comment_entity->getCommentedEntity();
+  if ($commented_entity?->getEntityTypeId() !== 'node'
+    || $commented_entity->bundle() !== 'article') {
+    return;
+  }
+
+  if (isset($comment_form['subject'])) {
+    $comment_form['subject']['#access'] = FALSE;
+  }
+  $can_reassign_comment = !$comment_entity->isNew()
+    && \Drupal::currentUser()->hasPermission('administer comments');
+  if (isset($comment_form['author']) && !$can_reassign_comment) {
+    $comment_form['author']['#access'] = FALSE;
+  }
+  if (isset($comment_form['comment_body']['widget'][0]['value'])) {
+    $comment_form['comment_body']['widget'][0]['value']['#title'] = t('Comment');
+    $comment_form['comment_body']['widget'][0]['value']['#maxlength'] = 5000;
+  }
+  $comment_form['#after_build'][] = 'jurenites_admin_hide_comment_format_help';
+  if (isset($comment_form['actions']['preview'])) {
+    $comment_form['actions']['preview']['#access'] = FALSE;
+  }
+  if (isset($comment_form['actions']['submit'])) {
+    $comment_form['actions']['submit']['#value'] = t('Post comment');
+  }
+}
+
+/**
+ * Hides the fixed text-format controls from the Article comment form.
+ */
+function jurenites_admin_hide_comment_format_help(array $comment_form, FormStateInterface $form_state): array {
+  if (isset($comment_form['comment_body']['widget'][0]['format'])) {
+    $comment_form['comment_body']['widget'][0]['format']['#access'] = FALSE;
+  }
+
+  return $comment_form;
 }
 
 /**

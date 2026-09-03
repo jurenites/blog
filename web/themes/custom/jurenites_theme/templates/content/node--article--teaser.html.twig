@@ -42,9 +42,12 @@
       <div{{ author_attributes.addClass('article-teaser__meta-details') }}>
         {% trans %}Written by {{ author_name }} on{% endtrans %}
         <time class="date-display date-display--month-day-year date-display--date-day" datetime="{{ submitted_date_iso }}">{{ submitted_date_text }}</time>
-        {% if reading_time_text %}
+        {% if reading_time_minutes and reading_time_label %}
           <span class="article-teaser__meta-separator" aria-hidden="true">&middot;</span>
-          <span class="article-teaser__reading-time date-display">{{ reading_time_text }}</span>
+          {% include '@jurenites_theme/components/consumption-time.html.twig' with {
+            consumption_time_minutes: reading_time_minutes,
+            consumption_time_label: reading_time_label,
+          } only %}
         {% endif %}
       </div>
     </footer>
