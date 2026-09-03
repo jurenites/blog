@@ -1,0 +1,44 @@
+{# Videos View page with an optional selected-tag summary and clear action. #}
+{% set view_classes = [dom_id ? 'js-view-dom-id-' ~ dom_id] %}
+<div{{ attributes.addClass(view_classes) }}>
+  {{ title_prefix }}
+  {{ title }}
+  {{ title_suffix }}
+
+  {% if selected_tag_label %}
+    <aside class="blog-filter" aria-label="{{ 'Current Videos filter'|t }}">
+      <span class="blog-filter__label">{{ 'Selected tag'|t }}</span>
+      <a class="chip chip--accent blog-filter__clear" href="{{ clear_tag_url }}" aria-label="{{ 'Remove tag filter: @tag'|t({'@tag': selected_tag_label}) }}">
+        <span>{{ selected_tag_label }}</span>
+        {% include '@jurenites_theme/components/icon.html.twig' with {
+          icon_name: 'icon-cross',
+          icon_class: 'blog-filter__clear-icon',
+          icon_asset_base_url: icon_asset_base_url,
+        } only %}
+      </a>
+    </aside>
+  {% endif %}
+
+  {% if header %}
+    <header>{{ header }}</header>
+  {% endif %}
+
+  {{ exposed }}
+  {{ attachment_before }}
+
+  {% if rows %}
+    {{ rows }}
+  {% elseif empty %}
+    {{ empty }}
+  {% endif %}
+  {{ pager }}
+
+  {{ attachment_after }}
+  {{ more }}
+
+  {% if footer %}
+    <footer>{{ footer }}</footer>
+  {% endif %}
+
+  {{ feed_icons }}
+</div>

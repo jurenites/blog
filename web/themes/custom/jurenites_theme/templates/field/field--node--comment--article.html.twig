@@ -1,0 +1,13 @@
+{# Article-owned native comment list and author-only form. #}
+<section{{ attributes.addClass('article-comments') }}>
+  {% if comments %}
+    <div class="article-comments__list">{{ comments }}</div>
+  {% endif %}
+
+  {% if comment_form %}
+    <div class="article-comments__form">
+      <h2 class="article-comments__form-title">{{ 'Add comment'|t }}</h2>
+      {{ comment_form }}
+    </div>
+  {% endif %}
+</section>

@@ -1,0 +1,21 @@
+{# Native Drupal comment rendered through the shared Comment Message contract. #}
+<article{{ attributes.addClass('comment-message', 'js-comment') }}>
+  <mark class="hidden" data-comment-timestamp="{{ new_indicator_timestamp }}"></mark>
+  {% if parent %}
+    <p class="visually-hidden">{{ parent }}</p>
+  {% endif %}
+
+  {{ title_prefix }}
+  {{ title_suffix }}
+  {% include '@jurenites_theme/components/comment-message.html.twig' with {
+    comment_author_avatar_image: comment_author_avatar_image,
+    comment_author_initials: comment_author_initials,
+    comment_author_name: comment_author_name,
+    comment_created_date_iso: comment_created_date_iso,
+    comment_created_date_title: comment_created_date_title,
+    comment_created_date_markup: comment_created_date_markup,
+    comment_permalink_url: comment_permalink_url,
+    comment_body_content: content.comment_body,
+    comment_actions: content.links,
+  } only %}
+</article>

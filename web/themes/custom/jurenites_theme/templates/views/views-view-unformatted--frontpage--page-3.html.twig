@@ -1,0 +1,11 @@
+{# Videos list using the dedicated Article Blog List Item presentation. #}
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+<div class="article-list">
+  {% for row in rows %}
+    <div{{ row.attributes.addClass('article-list__item') }}>
+      {{- row.content -}}
+    </div>
+  {% endfor %}
+</div>

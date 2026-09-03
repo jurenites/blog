@@ -1,0 +1,169 @@
+<?php
+
+/**
+ * @file
+ * Installs the editable Privacy Policy content and its footer presentation.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\node\Entity\Node;
+
+const JURENITES_COOKIE_POLICY_BLOCK_UUID = '287ad0d5-e3cf-4e71-977c-68ae3dca1255';
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_privacy_install(): void {
+  jurenites_privacy_ensure_site_content();
+}
+
+/**
+ * Creates or updates the Privacy Policy page, footer link, and footer blocks.
+ */
+function jurenites_privacy_ensure_site_content(): array {
+  $privacy_policy_body = <<<'HTML'
+<h2>Overview</h2>
+<p>This site does not use cookies, analytics, advertising trackers, or browser fingerprinting. It does not build visitor profiles or sell browsing data.</p>
+<p>We use local browser storage solely to remember that you dismissed the cookie notice. It contains no identifier, is not transmitted to us, and is not used for analytics or tracking.</p>
+<p>Some pages may embed content hosted by other services. If you choose to load or open that content, the other service may apply a privacy policy of its own.</p>
+<p>This whole policy is mostly nonsense, faithfully following the pattern. There is no hidden profile behind it, no advertising audience waiting to be assembled, and no consent checkbox disguised as a design decision. The useful part is simple: the site collects nothing about ordinary visitors on purpose. If that practice changes, this page should change before the tracking begins—not after.</p>
+HTML;
+
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $privacy_node_ids = $node_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('uuid', JURENITES_PRIVACY_POLICY_NODE_UUID)
+    ->execute();
+  $privacy_policy_node = $privacy_node_ids
+    ? $node_storage->load(reset($privacy_node_ids))
+    : Node::create([
+      'uuid' => JURENITES_PRIVACY_POLICY_NODE_UUID,
+      'type' => 'page',
+      'langcode' => 'en',
+      'uid' => 1,
+    ]);
+
+  $privacy_policy_node->setTitle('Privacy Policy');
+  $privacy_policy_node->set('body', [
+    'value' => $privacy_policy_body,
+    'format' => 'basic_html',
+  ]);
+  $privacy_policy_node->set('status', TRUE);
+  $privacy_policy_node->set('path', [
+    'alias' => '/privacy-policy',
+    'pathauto' => 0,
+  ]);
+  $privacy_policy_node->save();
+
+  $cookie_notice_body = <<<'HTML'
+<p>An EU Commission estimate puts the annual ritual of clicking cookie banners at about 334 million human hours. This is not a consent request.</p>
+<p>Enjoy the free internet without interruption.</p>
+HTML;
+  $content_block_storage = \Drupal::entityTypeManager()->getStorage('block_content');
+  $cookie_block_ids = $content_block_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('uuid', JURENITES_COOKIE_POLICY_BLOCK_UUID)
+    ->execute();
+  $cookie_policy_block = $cookie_block_ids
+    ? $content_block_storage->load(reset($cookie_block_ids))
+    : BlockContent::create([
+      'uuid' => JURENITES_COOKIE_POLICY_BLOCK_UUID,
+      'type' => 'basic',
+      'langcode' => 'en',
+      'info' => 'Cookie Policy Notice',
+      'reusable' => TRUE,
+    ]);
+  $cookie_policy_block->set('info', 'Cookie Policy Notice');
+  $cookie_policy_block->set('body', [
+    'value' => $cookie_notice_body,
+    'format' => 'basic_html',
+  ]);
+  $cookie_policy_block->save();
+
+  $menu_link_storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
+  $footer_link_ids = $menu_link_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('menu_name', 'footer')
+    ->condition('link.uri', 'internal:/privacy-policy')
+    ->execute();
+  $footer_links = $menu_link_storage->loadMultiple($footer_link_ids);
+  $privacy_footer_link = reset($footer_links);
+  if (!$privacy_footer_link instanceof MenuLinkContent) {
+    $privacy_footer_link = MenuLinkContent::create([
+      'menu_name' => 'footer',
+      'link' => ['uri' => 'internal:/privacy-policy'],
+    ]);
+  }
+  $privacy_footer_link->set('title', 'Privacy Policy');
+  $privacy_footer_link->set('enabled', TRUE);
+  $privacy_footer_link->set('expanded', FALSE);
+  $privacy_footer_link->set('weight', 0);
+  $privacy_footer_link->save();
+
+  jurenites_privacy_ensure_footer_block(
+    'jurenites_theme_cookie_policy_notice',
+    'block_content:' . JURENITES_COOKIE_POLICY_BLOCK_UUID,
+    'We are NOT using cookies.',
+    0,
+    [
+      'label_display' => 'visible',
+      'view_mode' => 'full',
+    ],
+  );
+  jurenites_privacy_ensure_footer_block(
+    'jurenites_theme_footer_navigation',
+    'system_menu_block:footer',
+    'Footer navigation',
+    10,
+    [
+      'level' => 1,
+      'depth' => 0,
+      'expand_all_items' => FALSE,
+    ],
+  );
+
+  return [
+    'node_id' => (int) $privacy_policy_node->id(),
+    'content_block_id' => (int) $cookie_policy_block->id(),
+    'menu_link_id' => (int) $privacy_footer_link->id(),
+  ];
+}
+
+/**
+ * Creates or updates one block placement in the theme footer region.
+ */
+function jurenites_privacy_ensure_footer_block(
+  string $block_identifier,
+  string $plugin_identifier,
+  string $administrative_label,
+  int $block_weight,
+  array $additional_settings = [],
+): void {
+  $footer_block = Block::load($block_identifier) ?? Block::create([
+    'id' => $block_identifier,
+    'theme' => 'jurenites_theme',
+    'plugin' => $plugin_identifier,
+  ]);
+  $footer_block->set('plugin', $plugin_identifier);
+  $footer_block->setRegion('footer');
+  $footer_block->setWeight($block_weight);
+  $footer_block->set('status', TRUE);
+  $footer_block->set('settings', array_merge([
+    'id' => $plugin_identifier,
+    'label' => $administrative_label,
+    'label_display' => '0',
+    'provider' => match (TRUE) {
+      $plugin_identifier === 'system_menu_block:footer' => 'system',
+      str_starts_with($plugin_identifier, 'block_content:') => 'block_content',
+      default => 'jurenites_privacy',
+    },
+  ], $additional_settings));
+  $footer_block->set('visibility', []);
+  $footer_block->set('dependencies', [
+    'module' => ['jurenites_privacy'],
+    'theme' => ['jurenites_theme'],
+  ]);
+  $footer_block->save();
+}

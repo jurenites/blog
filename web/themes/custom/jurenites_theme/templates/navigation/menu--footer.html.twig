@@ -1,0 +1,14 @@
+{% if items %}
+  <div class="footer-navigation">
+    <nav aria-label="{{ 'Site information'|t }}">
+      <ul class="footer-navigation__list">
+        {% for footer_item in items %}
+          <li class="footer-navigation__item">
+            {{ link(footer_item.title, footer_item.url, {'class': ['footer-navigation__link']}) }}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <p class="footer-navigation__rights-message">{{ 'No rights reserved'|t }} {{ 'now'|date('Y') }}</p>
+  </div>
+{% endif %}
