@@ -410,15 +410,6 @@ function jurenites_theme_preprocess_user(array &$user_variables): void {
 function jurenites_theme_preprocess_html(array &$html_variables): void {
   $html_variables['attributes']['class'][] = 'jurenites-theme';
   $html_variables['admin_navigation'] = jurenites_theme_build_admin_navigation();
-  $configured_environment = getenv('JURENITES_ENVIRONMENT');
-  if ($configured_environment === FALSE || trim((string) $configured_environment) === '') {
-    $configured_environment = $_ENV['JURENITES_ENVIRONMENT'] ?? 'DEV';
-  }
-  if (trim((string) $configured_environment) === '') {
-    $configured_environment = 'DEV';
-  }
-  $deployment_environment = strtoupper(trim((string) $configured_environment));
-  $html_variables['watermark_visibility_class'] = $deployment_environment === 'DEV' ? '' : ' hidden';
   if ($html_variables['admin_navigation']) {
     unset($html_variables['page_top']['navigation']);
   }
@@ -441,7 +432,7 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
   $commit_url = $build_information['commit_url'] ?? '';
   $collaboration_credit = $build_information['collaboration_credit'] ?? t('unknown');
   $created_gmt = $build_information['created_gmt'] ?? t('unknown GMT+0');
-  $html_variables['watermark_version_label'] = t('Version');
+  $html_variables['watermark_version_label'] = t('version');
   $html_variables['watermark_version_number'] = $project_version;
   $html_variables['watermark_updated_gmt'] = $created_gmt;
   $html_variables['watermark_git_hash'] = $commit_hash;

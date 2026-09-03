@@ -95,7 +95,18 @@ starts or builds and is not committed to Git.
 
 Storybook and Drupal obtain version, commit, and GMT build metadata from
 `scripts/build-information.mjs`. Drupal's global HTML template renders the
-Version Watermark automatically, so page authors never add it manually.
+Version Watermark automatically in every environment, so page authors never add
+it manually. `npm run build:info` refreshes both Drupal and Storybook metadata
+from the current Git `HEAD`; `npm run build:info:check` fails when either output
+still identifies an older commit. Because a newly created commit changes `HEAD`,
+refresh the metadata after committing or restart/rebuild the relevant service.
+
+When a checkout contains `.git`, the build resolves `git rev-parse HEAD`
+directly. GitHub Actions and GitLab CI are supported through `GITHUB_SHA` and
+`CI_COMMIT_SHA`. An artifact-only PROD build without `.git` must supply the exact
+commit through `JURENITES_GIT_COMMIT`. The deployed, non-secret metadata can be
+read directly at `/themes/custom/jurenites_theme/build-info.json` as well as in
+the visible watermark.
 
 `package.json` is the editable project-version source. Version `1.0.0` marks the
 first production release. Run `npm run version:bump` for the normal minor

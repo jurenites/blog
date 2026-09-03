@@ -3,7 +3,7 @@ import { cp, mkdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as sass from 'sass';
-import { build_information } from './build-information.mjs';
+import { write_build_information } from './build-deployment-info.mjs';
 
 const ROOT_DIRECTORY = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BUILD_PATHS = {
@@ -17,7 +17,6 @@ const BUILD_PATHS = {
   brand_logo_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/logo.svg'),
   css_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/css/style.min.css'),
   js_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/js/script.min.js'),
-  build_info_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/build-info.json'),
 };
 
 await mkdir(dirname(BUILD_PATHS.css_output), { recursive: true });
@@ -34,11 +33,7 @@ const css_result = sass.compile(BUILD_PATHS.scss_entry, {
 });
 
 await writeFile(BUILD_PATHS.css_output, css_result.css);
-await writeFile(
-  BUILD_PATHS.build_info_output,
-  `${JSON.stringify(await build_information(), null, 2)}\n`,
-  'utf8',
-);
+await write_build_information();
 
 await esbuild.build({
   entryPoints: [BUILD_PATHS.js_entry],

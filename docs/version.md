@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 1.1.0
+Version: 1.2.0
 Reviewed: 2026-09-03
 
 This checkpoint says the `/docs` folder has been reviewed against the current
@@ -331,6 +331,12 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - The Storybook manager and each Canvas or Docs preview own one persistent build
   watermark. The Version Watermark story additionally remains its intentional
   component sample and is capped at 200px including Canvas chrome.
+- Drupal renders the Version Watermark in every environment, including PROD.
+  One build-identity writer updates both Drupal JSON and Storybook JavaScript;
+  validation rejects output whose project version or Git commit differs from
+  the current build context. Git checkouts resolve `HEAD`, supported CI systems
+  supply their native commit variable, and artifact-only deployments can pass
+  `JURENITES_GIT_COMMIT` explicitly.
 - Typography dimensions now use explicit pixel values end to end; legacy root
   font-size conversion logic has been removed from Storybook and Figma sync.
 - Project-owned folder documentation is centralized in

@@ -48,6 +48,7 @@ jobs:
         run: |
           npm run build:tokens
           npm run build-storybook
+          npm run build:info:check
       - uses: actions/upload-pages-artifact@v3
         with:
           path: storybook-static

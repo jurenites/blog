@@ -163,6 +163,14 @@
 
   &__media img {
     object-fit: cover;
+    transform: scale(1);
+    transform-origin: center;
+    @include tools.motion-transition(transform);
+  }
+
+  &:hover &__media img,
+  &:focus-within &__media img {
+    transform: scale(1.05);
   }
 
   &__body {
@@ -346,7 +354,10 @@
 
   .article-teaser__media img,
   .article-teaser:hover .article-teaser__media img,
-  .article-teaser:focus-within .article-teaser__media img {
+  .article-teaser:focus-within .article-teaser__media img,
+  .article-list-item__media img,
+  .article-list-item:hover .article-list-item__media img,
+  .article-list-item:focus-within .article-list-item__media img {
     transform: none;
     transition-duration: var(--motion-duration-instant-default);
   }
