@@ -194,11 +194,21 @@ require "date"
 require "yaml"
 
 source = ARGV.fetch(0)
-data = YAML.safe_load(
-  File.read(source),
-  permitted_classes: [Date, Time, Symbol],
-  aliases: true
-)
+yaml_content = File.read(source)
+permitted_classes = [Date, Time, Symbol]
+supports_keyword_arguments = YAML.method(:safe_load).parameters.any? do |parameter_type, _parameter_name|
+  [:key, :keyreq].include?(parameter_type)
+end
+
+data = if supports_keyword_arguments
+  YAML.safe_load(
+    yaml_content,
+    permitted_classes: permitted_classes,
+    aliases: true
+  )
+else
+  YAML.safe_load(yaml_content, permitted_classes, [], true)
+end
 STDOUT.write(JSON.generate(data))
 `;
 

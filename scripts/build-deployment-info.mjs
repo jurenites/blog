@@ -1,0 +1,38 @@
+import { mkdir, writeFile } from "node:fs/promises";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { build_information } from "./build-information.mjs";
+
+const SCRIPT_DIRECTORY = dirname(fileURLToPath(import.meta.url));
+const PROJECT_DIRECTORY = resolve(SCRIPT_DIRECTORY, "..");
+const BUILD_OUTPUT_PATHS = {
+  drupal: resolve(PROJECT_DIRECTORY, "web/themes/custom/jurenites_theme/build-info.json"),
+  storybook: resolve(PROJECT_DIRECTORY, "generated/storybook/storybook-build-info.js"),
+};
+
+export async function write_build_information() {
+  const deployment_information = await build_information();
+  const drupal_content = `${JSON.stringify(deployment_information, null, 2)}\n`;
+  const storybook_content = `globalThis.STORYBOOK_BUILD_INFO = Object.freeze(${JSON.stringify(deployment_information)});\n`;
+
+  await Promise.all(
+    Object.values(BUILD_OUTPUT_PATHS).map((output_path) =>
+      mkdir(dirname(output_path), { recursive: true }),
+    ),
+  );
+  await Promise.all([
+    writeFile(BUILD_OUTPUT_PATHS.drupal, drupal_content, "utf8"),
+    writeFile(BUILD_OUTPUT_PATHS.storybook, storybook_content, "utf8"),
+  ]);
+
+  return deployment_information;
+}
+
+const executed_script_path = process.argv[1] ? resolve(process.argv[1]) : "";
+
+if (executed_script_path === fileURLToPath(import.meta.url)) {
+  const deployment_information = await write_build_information();
+  console.log(
+    `Build identity ${deployment_information.project_version} · ${deployment_information.commit_hash} (${deployment_information.created_gmt})`,
+  );
+}

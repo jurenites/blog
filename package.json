@@ -2,7 +2,7 @@
   "name": "blog-jurenites",
   "private": true,
   "type": "module",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "repository": { "type": "git", "url": "https://github.com/jurenites/blog.git" },
   "visualCredits": [ "Alexander Ilivanov","AI" ],
   "description": "Storybook and frontend component workspace for the Blog jurenites Drupal theme.",
