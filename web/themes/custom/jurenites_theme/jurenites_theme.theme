@@ -109,22 +109,10 @@ function jurenites_theme_preprocess_node(array &$node_variables): void {
     $consumption_label = $has_youtube_video
       ? t('min to watch')
       : t('min to read');
-    $consumption_time = $has_youtube_video
-      ? \Drupal::translation()->formatPlural(
-        $consumption_minutes,
-        '1 min to watch',
-        '@count min to watch',
-      )
-      : \Drupal::translation()->formatPlural(
-        $consumption_minutes,
-        '1 min to read',
-        '@count min to read',
-      );
     $node_variables['reading_time_minutes'] = jurenites_theme_numeric_text_markup(
       (string) $consumption_minutes,
     );
     $node_variables['reading_time_label'] = $consumption_label;
-    $node_variables['reading_time_text'] = jurenites_theme_numeric_text_markup($consumption_time);
   }
 
 }
@@ -145,6 +133,70 @@ function jurenites_theme_name_initials(string $display_name): string {
   }
 
   return mb_strtoupper($display_initials);
+}
+
+/**
+ * Composes native Article comments from the author's public user profile.
+ */
+function jurenites_theme_preprocess_comment(array &$comment_variables): void {
+  $comment_entity = $comment_variables['comment'];
+  $commented_entity = $comment_variables['commented_entity'];
+  if ($commented_entity->getEntityTypeId() !== 'node'
+    || $commented_entity->bundle() !== 'article') {
+    return;
+  }
+
+  $comment_author = $comment_entity->getOwner();
+  $comment_author_name = $comment_author->hasField('field_full_name')
+    ? trim((string) $comment_author->get('field_full_name')->value)
+    : '';
+  if ($comment_author_name === '') {
+    $comment_author_name = trim($comment_author->getDisplayName());
+  }
+
+  $comment_author_avatar_image = [];
+  if (!$comment_author->isAnonymous()
+    && $comment_author->hasField('user_picture')
+    && !$comment_author->get('user_picture')->isEmpty()) {
+    $comment_author_avatar_image = \Drupal::entityTypeManager()
+      ->getViewBuilder('user')
+      ->view($comment_author, 'compact');
+  }
+
+  $created_timestamp = $comment_entity->getCreatedTime();
+  $date_formatter = \Drupal::service('date.formatter');
+  $formatted_time_difference = $date_formatter->formatTimeDiffSince(
+    $created_timestamp,
+    [
+      'granularity' => 1,
+      'return_as_object' => TRUE,
+    ],
+  );
+
+  $comment_variables['comment_author_name'] = $comment_author_name;
+  $comment_variables['comment_author_initials'] = jurenites_theme_name_initials($comment_author_name);
+  $comment_variables['comment_author_avatar_image'] = $comment_author_avatar_image;
+  $comment_variables['comment_created_date_iso'] = $date_formatter->format(
+    $created_timestamp,
+    'custom',
+    DATE_ATOM,
+    'UTC',
+  );
+  $comment_variables['comment_created_date_title'] = $date_formatter->format(
+    $created_timestamp,
+    'long',
+  );
+  $comment_variables['comment_created_date_markup'] = jurenites_theme_numeric_text_markup(
+    (string) t('@elapsed_time ago', [
+      '@elapsed_time' => $formatted_time_difference->getString(),
+    ]),
+  );
+  $comment_variables['comment_permalink_url'] = isset($comment_entity->in_preview)
+    ? ''
+    : $comment_entity->permalink()->toString();
+
+  CacheableMetadata::createFromObject($formatted_time_difference)
+    ->applyTo($comment_variables['elements']);
 }
 
 /**
@@ -298,21 +350,6 @@ function jurenites_theme_time_since_markup(\DateTimeImmutable $source_date): Mar
 }
 
 /**
- * Uses the editorial list item for Article teasers on the Blog page.
- */
-function jurenites_theme_theme_suggestions_node_alter(array &$suggestions, array $variables): void {
-  $node_entity = $variables['elements']['#node'] ?? NULL;
-  if (!$node_entity instanceof \Drupal\node\NodeInterface
-    || $node_entity->bundle() !== 'article'
-    || ($variables['elements']['#view_mode'] ?? '') !== 'teaser'
-    || \Drupal::service('path.current')->getPath() !== '/blog') {
-    return;
-  }
-
-  $suggestions[] = 'node__article__blog_list';
-}
-
-/**
  * Calculates automatic elapsed-year values for Numeric Value Paragraph tiles.
  */
 function jurenites_theme_preprocess_paragraph(array &$paragraph_variables): void {
@@ -373,22 +410,13 @@ function jurenites_theme_preprocess_user(array &$user_variables): void {
 function jurenites_theme_preprocess_html(array &$html_variables): void {
   $html_variables['attributes']['class'][] = 'jurenites-theme';
   $html_variables['admin_navigation'] = jurenites_theme_build_admin_navigation();
-  $configured_environment = getenv('JURENITES_ENVIRONMENT');
-  if ($configured_environment === FALSE || trim((string) $configured_environment) === '') {
-    $configured_environment = $_ENV['JURENITES_ENVIRONMENT'] ?? 'DEV';
-  }
-  if (trim((string) $configured_environment) === '') {
-    $configured_environment = 'DEV';
-  }
-  $deployment_environment = strtoupper(trim((string) $configured_environment));
-  $html_variables['watermark_visibility_class'] = $deployment_environment === 'DEV' ? '' : ' hidden';
   if ($html_variables['admin_navigation']) {
     unset($html_variables['page_top']['navigation']);
   }
 
   $current_path = trim(\Drupal::request()->getPathInfo(), '/');
-  if ($current_path === 'blog') {
-    $html_variables['attributes']['class'][] = 'path-blog';
+  if (in_array($current_path, ['blog', 'videos'], TRUE)) {
+    $html_variables['attributes']['class'][] = 'path-' . $current_path;
   }
 
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
@@ -404,7 +432,7 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
   $commit_url = $build_information['commit_url'] ?? '';
   $collaboration_credit = $build_information['collaboration_credit'] ?? t('unknown');
   $created_gmt = $build_information['created_gmt'] ?? t('unknown GMT+0');
-  $html_variables['watermark_version_label'] = t('Version');
+  $html_variables['watermark_version_label'] = t('version');
   $html_variables['watermark_version_number'] = $project_version;
   $html_variables['watermark_updated_gmt'] = $created_gmt;
   $html_variables['watermark_git_hash'] = $commit_hash;
@@ -431,7 +459,11 @@ function jurenites_theme_preprocess_breadcrumb(array &$breadcrumb_variables): vo
   $node_entity = $route_match->getParameter('node');
   if ($node_entity instanceof \Drupal\node\NodeInterface
     && $node_entity->bundle() === 'article') {
-    $breadcrumb_variables['article_back_url'] = Url::fromUserInput('/blog');
+    $listing_path = $node_entity->hasField('field_youtube_video')
+      && !$node_entity->get('field_youtube_video')->isEmpty()
+        ? '/videos'
+        : '/blog';
+    $breadcrumb_variables['article_back_url'] = Url::fromUserInput($listing_path);
     $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
     $breadcrumb_variables['icon_asset_base_url'] = '/' . $theme_path . '/assets/icons';
   }
@@ -515,7 +547,7 @@ function jurenites_theme_theme_suggestions_field_alter(array &$suggestions, arra
 }
 
 /**
- * Turns Article tags into Chip links to the filtered Blog listing.
+ * Turns Article tags into Chip links to their filtered Article listing.
  */
 function jurenites_theme_preprocess_field(array &$field_variables): void {
   $field_element = $field_variables['element'];
@@ -527,6 +559,11 @@ function jurenites_theme_preprocess_field(array &$field_variables): void {
   }
 
   $field_items = $field_element['#items'];
+  $article_entity = $field_items->getEntity();
+  $listing_path = $article_entity->hasField('field_youtube_video')
+    && !$article_entity->get('field_youtube_video')->isEmpty()
+      ? '/videos'
+      : '/blog';
   $tag_slug_resolver = \Drupal::service('jurenites_blog.tag_slug_resolver');
   assert($tag_slug_resolver instanceof TagSlugResolver);
   foreach ($field_variables['items'] as $item_delta => &$item_variables) {
@@ -535,7 +572,7 @@ function jurenites_theme_preprocess_field(array &$field_variables): void {
       continue;
     }
 
-    $item_variables['content']['#url'] = Url::fromUserInput('/blog', [
+    $item_variables['content']['#url'] = Url::fromUserInput($listing_path, [
       'query' => ['tag' => $tag_slug_resolver->slugify($referenced_term->label())],
     ]);
     $item_variables['content']['#attributes']['class'][] = 'chip';
@@ -543,12 +580,12 @@ function jurenites_theme_preprocess_field(array &$field_variables): void {
 }
 
 /**
- * Exposes the selected Blog tag to the Frontpage View template.
+ * Exposes the selected tag to the Blog and Videos View templates.
  */
 function jurenites_theme_preprocess_views_view(array &$view_variables): void {
   $view_executable = $view_variables['view'];
   if ($view_executable->id() !== 'frontpage'
-    || $view_executable->current_display !== 'page_2') {
+    || !in_array($view_executable->current_display, ['page_2', 'page_3'], TRUE)) {
     return;
   }
 
@@ -565,7 +602,10 @@ function jurenites_theme_preprocess_views_view(array &$view_variables): void {
   }
 
   $view_variables['selected_tag_label'] = $selected_term->label();
-  $view_variables['clear_tag_url'] = Url::fromUserInput('/blog');
+  $listing_path = $view_executable->current_display === 'page_3'
+    ? '/videos'
+    : '/blog';
+  $view_variables['clear_tag_url'] = Url::fromUserInput($listing_path);
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
   $view_variables['icon_asset_base_url'] = '/' . $theme_path . '/assets/icons';
 

@@ -27,21 +27,50 @@ src/token/tokens.yaml
 | Build static Storybook | `npm run build-storybook` |
 | Build Drupal theme assets | `npm run build:theme` |
 | Prepare Figma sync token data | `npm run figma:prepare` |
+| Refresh Drupal and Storybook build identity | `npm run build:info` |
+| Reject stale build identity | `npm run build:info:check` |
+| Validate synchronized project version | `npm run version:check` |
+| Bump the normal minor release | `npm run version:bump` |
+| Bump a specific SemVer part | `npm run version:bump -- patch|minor|major` |
 
 ## GitHub Actions
 
 - `ci.yml.disabled` is intentionally disabled while the repository is still
   changing quickly, but its prepared build also runs the lint gate when enabled.
 - `storybook-pages.yml` can still publish Storybook on pushes to `main`.
-  It exposes lint as a separate required stage on pull requests and pushes to
-  `main`. Build waits for that stage, and deployment waits for build, so code
-  cannot move farther through the pipeline after a lint failure.
+  It validates that all project-version locations agree, then exposes lint as a
+  separate required stage on pull requests and pushes to `main`. Build waits for
+  that stage, and deployment waits for build, so code cannot move farther
+  through the pipeline after a version or lint failure. After building, it also
+  verifies that the generated Drupal and Storybook identities match the workflow
+  commit supplied by `GITHUB_SHA`.
+- `release-version.yml` is a manually triggered release preparation workflow.
+  Its default `minor` bump advances `1.0.0` to `1.1.0`; `patch` and `major` are
+  also available. It opens a reviewable pull request instead of writing directly
+  to `main`. Merging that pull request starts the normal Storybook deployment.
 - `figma-sync.yml` exists for future dispatch/manual sync work, but the current
   preferred workflow is local token editing plus `npm run figma:prepare`.
 
-There are deliberately no Git hooks or automatic Git actions. Run `npm run lint`
-locally whenever you want a pre-push check; the same command protects the
-deployment pipeline after code reaches GitHub.
+There are deliberately no Git hooks or version changes on ordinary pushes. Run
+`npm run version:check` and `npm run lint` locally whenever you want a pre-push
+check; the same checks protect the deployment pipeline after code reaches
+GitHub. Prepare a release locally with `npm run version:bump`, or trigger
+`Prepare Project Release` in GitHub Actions to receive a version-only pull
+request.
+
+## Deployment Identity
+
+The watermark is visible in DEV and PROD. Its Git hash is build metadata, not a
+live browser lookup. A local or host checkout uses `git rev-parse HEAD`; GitHub
+Actions uses `GITHUB_SHA`, GitLab uses `CI_COMMIT_SHA`, and another artifact
+builder can pass `JURENITES_GIT_COMMIT` explicitly. Builds reject malformed
+commit values.
+
+Run `npm run build:info` after creating a local commit when the full theme or
+Storybook build does not otherwise need to run. Use `npm run build:info:check`
+before deployment to catch metadata generated for an older `HEAD`. The same
+non-secret JSON displayed by Drupal is available at
+`/themes/custom/jurenites_theme/build-info.json` on the deployed site.
 
 To prevent merging a pull request whose lint stage failed, configure the `lint`
 job from the `Deploy Storybook` workflow as a required status check in the

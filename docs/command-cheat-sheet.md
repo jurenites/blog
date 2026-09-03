@@ -68,7 +68,15 @@ cd /Users/alexanderilivanov/Projects/blog_jurenites
 npm run build:tokens
 npm run build:theme
 npm run build-storybook
+npm run build:info
+npm run build:info:check
+npm run version:check
+npm run version:bump
 ```
+
+`npm run version:bump` increments the minor version by default. Use
+`npm run version:bump -- patch`, `npm run version:bump -- minor`, or
+`npm run version:bump -- major` when the release type must be explicit.
 
 ## PROD Environment
 
@@ -85,6 +93,27 @@ pwd
 ```
 
 Check the reported site URI, database, and Drupal root before continuing.
+
+### Build and verify the production identity
+
+When PROD is a Git checkout, the build reads its current `HEAD` automatically:
+
+```bash
+npm ci
+npm run build:theme
+npm run build:info:check
+```
+
+When PROD receives an artifact without `.git`, its CI/CD system must provide the
+full source commit while building:
+
+```bash
+JURENITES_GIT_COMMIT=FULL_COMMIT_SHA npm run build:theme
+```
+
+After deployment, the visible watermark and
+`/themes/custom/jurenites_theme/build-info.json` expose the same non-secret
+version, Git hash, build time, and collaboration credit.
 
 ### Clear the production Drupal cache
 

@@ -2007,6 +2007,22 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-cookie-policy-notice-layer-default",
+    "path": [
+      "component",
+      "cookie-policy-notice",
+      "layer-default"
+    ],
+    "type": "number",
+    "description": "Fixed footer notice sits above page content and below the build watermark and tooltips.",
+    "source_value": 9000,
+    "value": 9000,
+    "css_value": "9000",
+    "resolved_css_value": "9000",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-article-teaser-grid-card-min-width-default",
     "path": [
       "component",
@@ -2630,6 +2646,56 @@ export const TOKEN_RECORDS = [
     "value": "medium",
     "css_value": "medium",
     "resolved_css_value": "medium",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-comment-message-color-background-default",
+    "path": [
+      "component",
+      "comment-message",
+      "color",
+      "background-default"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "{color.palette.full-white}",
+    "value": "#FFFFFF",
+    "css_value": "var(--color-palette-full-white)",
+    "resolved_css_value": "#FFFFFF",
+    "is_reference": true,
+    "reference_name": "color-palette-full-white"
+  },
+  {
+    "name": "component-comment-message-color-foreground-default",
+    "path": [
+      "component",
+      "comment-message",
+      "color",
+      "foreground-default"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "{color.palette.full-black}",
+    "value": "#000000",
+    "css_value": "var(--color-palette-full-black)",
+    "resolved_css_value": "#000000",
+    "is_reference": true,
+    "reference_name": "color-palette-full-black"
+  },
+  {
+    "name": "component-comment-message-corner-radius-default",
+    "path": [
+      "component",
+      "comment-message",
+      "corner-radius-default"
+    ],
+    "type": "dimension",
+    "description": "Soft chat-bubble geometry is intentionally scoped away from the square global surface language.",
+    "source_value": "20px",
+    "value": "20px",
+    "css_value": "20px",
+    "resolved_css_value": "20px",
     "is_reference": false,
     "reference_name": null
   },

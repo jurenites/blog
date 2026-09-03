@@ -72,7 +72,7 @@ Suggested fields:
 
 ## Article
 
-Purpose: blog posts and long-form analysis.
+Purpose: personal blog posts, long-form analysis, and saved YouTube references.
 
 Suggested fields:
 
@@ -93,10 +93,12 @@ Suggested fields:
   any other Article image; an existing Image is never overwritten
   automatically. On the full Article, an animated no-signal layer occupies the
   responsive player figure until its iframe loads; the layer inherits the
-  formatter's rendered size and aspect ratio. The Blog list only presents this media when the Article also
+  formatter's rendered size and aspect ratio. The Videos list presents this
+  media when the Article also
   has a YouTube video, and serves responsive 325px, 650px, or source-width WebP
   candidates with the progressive blurry-placeholder treatment. The candidate
-  sizing follows the Blog list's 641px switch between horizontal and stacked
+  sizing follows the editorial list's 641px switch between horizontal and
+  stacked
   layouts.
 - Body
 - Content time (minutes): one editable whole-minute value. Personal Articles
@@ -123,10 +125,17 @@ Article has two editorial presentations without requiring another content type:
   of presenting the Drupal owner as the writer. Drupal still retains the node
   owner normally for editing, revisions, and accountability. On the detail page,
   the iframe replaces the static Image and the video-credit Author Byline sits
-  below the iframe and video title. Both the Blog preview and detail credit show
+  below the iframe and video title. Both the Videos preview and detail credit
+  show
   the stored duration as `N min to watch`. The stored source date is presented
   as elapsed calendar time, such as `4 months and 9 days`, and refreshes as time
   passes instead of remaining an absolute date.
+
+The public Views queries keep these presentations separate. `/blog` lists
+published Articles whose YouTube field is empty; `/videos` lists published
+Articles whose YouTube field is populated. Both pages retain the same tag
+filtering and editorial list-item presentation. Article Back and Tag links
+return to the listing appropriate to the Article kind.
 
 The creator name, link, publication date, and channel avatar URL are treated as
 managed metadata and hidden from non-administrator Article forms, together with

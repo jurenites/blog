@@ -164,6 +164,8 @@
     "--component-tooltip-color-background-full-black-default": "var(--color-palette-full-black)",
     "--component-tooltip-color-background-black-default": "var(--color-palette-black)",
     "--component-tooltip-color-background-light-black-default": "var(--color-palette-light-black)",
-    "--component-tooltip-color-foreground-default": "var(--color-palette-white)"
+    "--component-tooltip-color-foreground-default": "var(--color-palette-white)",
+    "--component-comment-message-color-background-default": "var(--color-palette-full-white)",
+    "--component-comment-message-color-foreground-default": "var(--color-palette-full-black)"
   }
 }

@@ -1,0 +1,18 @@
+// Atom: Consumption Time. Split read/watch duration with emphasized minutes.
+
+@use "../tools";
+
+.consumption-time {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--space-scale-base-gap) * 0.5);
+  color: var(--theme-dark-text-gray);
+  @include tools.typography-caption;
+  font-family: var(--typography-font-family-number);
+  font-variant-numeric: tabular-nums;
+}
+
+.consumption-time__minutes,
+.consumption-time__unit {
+  color: var(--theme-dark-text-secondary-default);
+}

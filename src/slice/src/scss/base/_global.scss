@@ -29,6 +29,9 @@ body.jurenites-theme a {
   text-decoration: underline;
   text-decoration-thickness: var(--space-scale-one);
   @include tools.motion-transition(color);
+  &hover{
+    color: var(--theme-dark-text-secondary-default);
+  }
 }
 
 body.jurenites-theme a:hover {
@@ -71,6 +74,10 @@ body.jurenites-theme button:focus-visible {
 .layout-container {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
   max-width: var(--layout-container-max-desktop-default);
   margin: 0 auto;
   //padding: var(--layout-gutter-desktop-default);

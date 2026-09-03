@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for Jurenites Admin.
+ */
+
+/**
+ * Enables the site-owned Article comment policy on first installation.
+ */
+function jurenites_admin_install(): void {
+  jurenites_admin_configure_article_comments();
+}

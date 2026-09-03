@@ -1,0 +1,5 @@
+name: 'Jurenites privacy and footer'
+description: 'Adds the editable Privacy Policy Basic Page, footer navigation, and Cookie Policy Notice Content Block.'
+type: 'Site'
+install:
+  - jurenites_privacy

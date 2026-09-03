@@ -76,10 +76,11 @@ values only because they are derived from the token source.
 
 ## Documentation Versioning
 
-Documentation has its own review checkpoint in `docs/version.md`. When source
-structure, token flow, component contracts, build scripts, or workflow rules
-change in a meaningful way, update the relevant docs and bump the documentation
-patch version by `+0.0.1`.
+Documentation has its own review checkpoint in `docs/version.md`, synchronized
+with the project version. Version `1.0.0` marks the first production release.
+For each subsequent delivered project iteration, use `npm run version:bump` to
+increment the minor version. Use an explicit `patch` argument for a correction
+to an existing release and `major` for an intentionally incompatible change.
 
 During heavy refactoring, do not rewrite every doc for every tiny experiment.
 Before a commit, run `npm run docs:check`; if source history has moved too far

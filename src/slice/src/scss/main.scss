@@ -20,6 +20,7 @@
 @use "atoms/badge";
 @use "atoms/tooltip";
 @use "atoms/date-display";
+@use "atoms/consumption-time";
 @use "atoms/numeric-text";
 @use "atoms/version-watermark";
 @use "atoms/text-input";
@@ -33,16 +34,20 @@
 @use "molecules/article-teaser";
 @use "molecules/pagination";
 @use "molecules/author-byline";
+@use "molecules/comment-message";
 @use "molecules/pull-quote";
 @use "molecules/breadcrumbs";
 @use "molecules/search-form";
 @use "molecules/form-field";
 @use "molecules/contact-form";
 @use "molecules/media-loader";
+@use "molecules/cookie-policy-notice";
 
 @use "organisms/site-header";
 @use "organisms/newsletter-signup";
 @use "organisms/numeric-values";
+@use "organisms/footer-navigation";
 
 @use "components/front-page-background";
 @use "components/content-layout";
+@use "components/privacy-policy";

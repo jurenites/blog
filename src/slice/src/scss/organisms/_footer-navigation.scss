@@ -1,0 +1,38 @@
+// Organism: secondary site-information navigation rendered in the footer region.
+
+@use "../tools";
+
+.footer-navigation {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: calc(var(--space-scale-base-gap) * 2);
+  flex-wrap: wrap;
+  width: calc(100% - (var(--layout-gutter-desktop-default) * 2));
+  max-width: var(--layout-content-max-wide-default);
+  margin: 0 auto var(--layout-gutter-desktop-default);
+}
+
+.footer-navigation__list {
+  @include tools.unstyled-list;
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
+.footer-navigation__link {
+  //@include tools.typography-caption;
+}
+
+.footer-navigation__rights-message {
+  margin: 0;
+  color: var(--theme-dark-text-gray);
+  @include tools.typography-body;
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .footer-navigation {
+    width: calc(100% - (var(--layout-gutter-mobile-default) * 2));
+    margin-bottom: var(--layout-gutter-mobile-default);
+  }
+}

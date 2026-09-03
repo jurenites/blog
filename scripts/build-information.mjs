@@ -6,22 +6,34 @@ import { fileURLToPath } from "node:url";
 const SCRIPT_DIRECTORY = dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIRECTORY = resolve(SCRIPT_DIRECTORY, "..");
 const PACKAGE_PATH = resolve(PROJECT_DIRECTORY, "package.json");
+const COMMIT_HASH_PATTERN = /^[0-9a-f]{7,64}$/i;
+
+function normalize_commit_hash(commit_hash) {
+  const normalized_hash = commit_hash.trim().toLowerCase();
+
+  if (!COMMIT_HASH_PATTERN.test(normalized_hash)) {
+    throw new Error(`Invalid Git commit hash supplied to the build: ${commit_hash}`);
+  }
+
+  return normalized_hash;
+}
 
 function resolve_commit_hash() {
   const environment_hash =
+    process.env.JURENITES_GIT_COMMIT ??
     process.env.VERCEL_GIT_COMMIT_SHA ??
     process.env.GITHUB_SHA ??
     process.env.CI_COMMIT_SHA;
 
   if (environment_hash) {
-    return environment_hash;
+    return normalize_commit_hash(environment_hash);
   }
 
   try {
-    return execFileSync("git", ["rev-parse", "HEAD"], {
+    return normalize_commit_hash(execFileSync("git", ["rev-parse", "HEAD"], {
       cwd: PROJECT_DIRECTORY,
       encoding: "utf8",
-    }).trim();
+    }));
   } catch {
     return "unknown";
   }

@@ -1,0 +1,29 @@
+{# Shared profile identity and monochrome speech bubble for a comment. #}
+<header class="comment-message__header article-teaser__meta">
+  {% include '@jurenites_theme/components/avatar.html.twig' with {
+    avatar_image: comment_author_avatar_image,
+    avatar_initials: comment_author_initials,
+    avatar_size: 'medium',
+  } only %}
+  <div class="comment-message__identity article-teaser__meta-details">
+    <span class="comment-message__author article-teaser__author-name">{{ comment_author_name }}</span>
+    <span class="comment-message__separator" aria-hidden="true">&middot;</span>
+    {% if comment_permalink_url %}
+      <a class="comment-message__permalink article-teaser__published-date" href="{{ comment_permalink_url }}" rel="bookmark">
+    {% endif %}
+    <time
+      class="comment-message__timestamp date-display date-display--time-since"
+      datetime="{{ comment_created_date_iso }}"
+      title="{{ comment_created_date_title }}"
+    >{{ comment_created_date_markup }}</time>
+    {% if comment_permalink_url %}
+      </a>
+    {% endif %}
+  </div>
+</header>
+<div class="comment-message__bubble">
+  <div class="comment-message__body">{{ comment_body_content }}</div>
+</div>
+{% if comment_actions %}
+  <footer class="comment-message__actions">{{ comment_actions }}</footer>
+{% endif %}

@@ -1,0 +1,10 @@
+name: 'Jurenites Privacy'
+type: module
+description: 'Provides the footer cookie notice block and the editable Privacy Policy Basic Page.'
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:block
+  - drupal:block_content
+  - drupal:menu_link_content
+  - drupal:node

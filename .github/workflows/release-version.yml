@@ -1,0 +1,59 @@
+name: Prepare Project Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_bump_type:
+        description: Semantic version part to increment
+        required: true
+        default: minor
+        type: choice
+        options:
+          - minor
+          - patch
+          - major
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: project-release-version
+  cancel-in-progress: false
+
+jobs:
+  prepare-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Bump synchronized project version
+        env:
+          VERSION_BUMP_TYPE: ${{ inputs.version_bump_type }}
+        run: npm run version:bump -- "$VERSION_BUMP_TYPE"
+
+      - name: Validate synchronized project version
+        run: npm run version:check
+
+      - name: Read next project version
+        id: project-version
+        run: echo "version_number=$(node -p \"require('./package.json').version\")" >> "$GITHUB_OUTPUT"
+
+      - name: Open release version pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: release/project-version
+          delete-branch: true
+          title: "Release ${{ steps.project-version.outputs.version_number }}"
+          commit-message: "chore(release): bump project version to ${{ steps.project-version.outputs.version_number }}"
+          body: |
+            Prepares project release `${{ steps.project-version.outputs.version_number }}`.
+
+            The synchronized version is used by Storybook and the Drupal Version Watermark.
+            Merging this pull request starts the normal validation and Storybook deployment pipeline.
+          labels: release

@@ -1,12 +1,7 @@
-# Blog website
+# Personal site Alexander Ilivanov / @jurenites.
 
-Personal site for Alexander Ilivanov / @jurenites.
-
-Please Don't hack me, i;ve showed oto internem my code in form of opensource because i have nothing to hide and its my own wao of work and you may evaluate it. But in sake of security that not smart, IU hope in case of disaster at maximum damage can be at max: 
-- an sware workds
-- inapropriate images or 
-- webste is down
-im fine with thatn if you are white hakerr foudn wornulabilities, i woudl be glad to hear from you. 
+Please Don't hack me, I've showed to internet my code in form of opensource, because I have nothing to hide and demonstration the way of work delievered and you may evaluate it.
+I'm fine with that if you are white hakerr foudn wornulabilities,  would be glad to hear from you.
 
 This repository is the working system for a personal blog, portfolio, CV timeline,
 and public design/development process. The repo is intentionally readable: design
@@ -15,7 +10,7 @@ back to one understandable source instead of several competing mirrors.
 
 ## Direction
 
-- CMS: Drupal 11.
+- CMS: Drupal.
 - Purpose: personal promotion, networking, portfolio, and long-form writing.
 - Design source: Figma file `blog-jurenites`.
 - Design token source: `src/token/tokens.yaml`.
@@ -38,7 +33,7 @@ src/slice/                        Source SCSS/JS for the Theme and Storybook
 src/stories/                      Storybook examples grouped by type
 src/styles/storybook.scss         Storybook-only documentation/canvas styling
 src/public/                       Static assets served to Storybook
-docs/                            Project documentation and planned runbooks
+docs/                             Project documentation and planned runbooks
 web/                              Drupal public web root
 web/themes/custom/jurenites_theme Built custom Drupal theme
 web/modules/custom/jurenites_tokens
@@ -87,6 +82,10 @@ npm run build-storybook   # build tokens, then build static Storybook
 npm run figma:prepare     # build tokens before running the Figma sync helper
 npm run docs:check        # check docs version and source/docs drift
 npm run build:theme       # compile Drupal CSS/JS and copy deployable theme fonts
+npm run build:info        # refresh Drupal and Storybook version/commit metadata
+npm run build:info:check  # reject metadata generated for an older Git HEAD
+npm run version:check     # verify package, lockfile, and docs versions agree
+npm run version:bump      # prepare the next minor release version
 
 ```
 
@@ -254,7 +253,7 @@ Stage plan:
 
 ## Status
 
-Drupal 11, Docker Compose, Storybook, a custom theme, custom fonts, design tokens,
+Drupal, Docker Compose, Storybook, a custom theme, custom fonts, design tokens,
 and a minimal Drupal token bridge module are installed locally. The project is
 still early and expected to change heavily, but the current rule is simple:
 edit source under `src/`, keep token truth in YAML, and treat generated files as

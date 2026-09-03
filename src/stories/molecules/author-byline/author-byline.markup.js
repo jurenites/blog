@@ -1,8 +1,8 @@
 import author_byline_template from "./author-byline.template.html?raw";
 import { avatar_markup } from "../../atoms/avatar/avatar.markup.js";
 import { chip_markup } from "../../atoms/chip/chip.markup.js";
+import { consumption_time_markup } from "../../atoms/consumption-time/consumption-time.markup.js";
 import { date_display_markup } from "../../atoms/date-display/date-display.markup.js";
-import { numeric_text_markup } from "../../numeric-text.js";
 import { escape_html, render_template } from "../../template.js";
 
 export function author_byline_markup({
@@ -29,9 +29,12 @@ export function author_byline_markup({
   const author_name_markup = author_url
     ? `<a href="${escape_html(author_url)}">${escape_html(author_name)}</a>`
     : escape_html(author_name);
-  const normalized_reading_minutes = Math.trunc(Number(reading_time_minutes));
-  const reading_time_content = normalized_reading_minutes > 0 && reading_time_label
-    ? `<span class="author-byline__separator" aria-hidden="true">&middot;</span><span class="author-byline__reading-time date-display"><span class="author-byline__reading-time-minutes">${numeric_text_markup(normalized_reading_minutes)}</span><span class="author-byline__reading-time-label">${escape_html(reading_time_label)}</span></span>`
+  const consumption_time_content = consumption_time_markup({
+    consumption_time_minutes: reading_time_minutes,
+    consumption_time_label: reading_time_label,
+  });
+  const reading_time_content = consumption_time_content
+    ? `<span class="author-byline__separator" aria-hidden="true">&middot;</span>${consumption_time_content}`
     : "";
 
   return render_template(author_byline_template, {

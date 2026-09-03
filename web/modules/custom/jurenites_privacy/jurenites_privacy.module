@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Footer notice and Privacy Policy presentation hooks.
+ */
+
+use Drupal\node\NodeInterface;
+
+const JURENITES_PRIVACY_POLICY_NODE_UUID = '9e925336-379f-4ee0-a321-56060efc3a84';
+
+/**
+ * Adds the NON-LEGAL eyebrow to the seeded Privacy Policy page title.
+ */
+function jurenites_privacy_preprocess_page_title(array &$page_title_variables): void {
+  $privacy_policy_node = \Drupal::routeMatch()->getParameter('node');
+  if ($privacy_policy_node instanceof NodeInterface
+    && $privacy_policy_node->uuid() === JURENITES_PRIVACY_POLICY_NODE_UUID) {
+    $page_title_variables['privacy_policy_eyebrow'] = t('NON-LEGAL');
+  }
+}
+
+/**
+ * Identifies the Privacy Policy route for its wide editorial layout.
+ */
+function jurenites_privacy_preprocess_html(array &$html_variables): void {
+  $privacy_policy_node = \Drupal::routeMatch()->getParameter('node');
+  if ($privacy_policy_node instanceof NodeInterface
+    && $privacy_policy_node->uuid() === JURENITES_PRIVACY_POLICY_NODE_UUID) {
+    $html_variables['attributes']['class'][] = 'path-privacy-policy';
+  }
+}
+
+/**
+ * Adds the component class to the full Privacy Policy node.
+ */
+function jurenites_privacy_preprocess_node(array &$node_variables): void {
+  $privacy_policy_node = $node_variables['node'];
+  if ($privacy_policy_node->uuid() === JURENITES_PRIVACY_POLICY_NODE_UUID
+    && ($node_variables['view_mode'] ?? '') === 'full') {
+    $node_variables['attributes']['class'][] = 'privacy-policy';
+  }
+}
