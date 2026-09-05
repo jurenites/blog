@@ -1,0 +1,10 @@
+_meta:
+  version: '1.0'
+  entity_type: paragraph
+  uuid: 47f52aff-cda5-4947-a8fc-d46787b77699
+  bundle: pixel_glyph_editor
+  default_langcode: en
+default:
+  status:
+    - value: true
+

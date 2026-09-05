@@ -1,22 +1,15 @@
-<article class="article-teaser">
+<div class="article-teaser">
   <div class="article-teaser__media">
     <a class="article-teaser__image-link" href="{{article_url}}">
       <img src="{{thumbnail_url}}" alt="{{thumbnail_alt}}" />
     </a>
   </div>
-  <p class="article-teaser__eyebrow">{{eyebrow_heading}}</p>
   <h3 class="article-teaser__title">
     <a class="article-teaser__title-link" href="{{article_url}}">{{teaser_title}}</a>
   </h3>
+  {{tag_list_content}}
   <p class="article-teaser__excerpt">{{teaser_excerpt}}</p>
-  <div class="article-teaser__meta">
-    {{avatar_content}}
-    <div class="article-teaser__meta-details">
-      <span class="article-teaser__author-name">{{author_name}}</span>
-      <div class="article-teaser__published-date">
-        {{date_display}}
-      </div>
-      {{consumption_time_content}}
-    </div>
-  </div>
-</article>
+  <footer class="article-teaser__meta">
+    {{author_byline_content}}
+  </footer>
+</div>

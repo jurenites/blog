@@ -1,0 +1,9 @@
+_meta:
+  version: '1.0'
+  entity_type: taxonomy_term
+  uuid: bcd8314a-d899-449f-b685-8ca03e04f66a
+  bundle: tags
+  default_langcode: en
+default:
+  name:
+    - value: '#Font'

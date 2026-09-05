@@ -1,0 +1,29 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 2c9318f9-a23c-48bb-b8e4-b7440da0b698
+  bundle: project
+  default_langcode: en
+  depends:
+    194c52fc-3d1d-4cd4-a567-7cf9ed44e9e7: paragraph
+    bcd8314a-d899-449f-b685-8ca03e04f66a: taxonomy_term
+    c1cd279b-c797-4ecf-8cf8-43bc485c2151: paragraph
+default:
+  status:
+    - value: true
+  title:
+    - value: Roundabout
+  path:
+    -
+      alias: /portfolio/roundabout
+      langcode: en
+  body:
+    -
+      value: '<p>Roundabout began inside the SMEP project as an attempt to make a geometric font land cleanly on a pixel grid without losing its personality.</p>'
+      summary: 'A geometric typeface shaped by pixel grids, open contours, and stencil-like forms.'
+      format: basic_html
+  field_tags:
+    - entity: bcd8314a-d899-449f-b685-8ca03e04f66a
+  field_content_sections:
+    - entity: 194c52fc-3d1d-4cd4-a567-7cf9ed44e9e7
+    - entity: c1cd279b-c797-4ecf-8cf8-43bc485c2151

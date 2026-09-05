@@ -16,7 +16,7 @@
 
     {# Skip-link target: keep id on <main>, never use an <a> without href. #}
     <main id="main-content" role="main" tabindex="-1">
-      {{ page.content }}
+      {{ page.content|without('system_main') }}
     </main>
 
     {% if page.footer %}

@@ -27,12 +27,12 @@
   max-width: var(--component-text-input-width-full);
   min-height: calc(var(--space-scale-base-gap) * 5);
   box-sizing: border-box;
-  padding: 0 calc(var(--space-scale-base-gap) * 2);
+  padding: 0 calc(var(--space-scale-base-gap) * 0.5);
   border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
   border-radius: var(--shape-corner-radius-base);
   background: var(--color-palette-light-black);
   color: var(--theme-dark-text-primary-default);
-  @include tools.typography-caption;
+  @include tools.typography-body;
   @include tools.motion-transition(border-color, box-shadow, background-color);
 }
 
@@ -59,7 +59,7 @@
 
 .text-input__control::placeholder,
 .form-text::placeholder {
-  color: var(--theme-dark-text-secondary-default);
+  color: var(--theme-dark-text-gray);
 }
 
 .text-input__control:hover,

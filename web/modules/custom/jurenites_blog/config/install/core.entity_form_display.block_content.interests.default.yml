@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.interests
+    - field.field.block_content.interests.field_interest_tags
+id: block_content.interests.default
+targetEntityType: block_content
+bundle: interests
+mode: default
+content:
+  info:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Homepage interests'
+    third_party_settings: {  }
+  field_interest_tags:
+    type: entity_reference_autocomplete_tags
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: 'Start typing a Tag name'
+    third_party_settings: {  }
+hidden: {  }

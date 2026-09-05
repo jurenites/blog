@@ -27,8 +27,8 @@ src/token/tokens.yaml
 | Build static Storybook | `npm run build-storybook` |
 | Build Drupal theme assets | `npm run build:theme` |
 | Prepare Figma sync token data | `npm run figma:prepare` |
-| Refresh Drupal and Storybook build identity | `npm run build:info` |
-| Reject stale build identity | `npm run build:info:check` |
+| Refresh generated Storybook build identity | `npm run build:info` |
+| Reject stale Storybook build identity | `npm run build:info:check` |
 | Validate synchronized project version | `npm run version:check` |
 | Bump the normal minor release | `npm run version:bump` |
 | Bump a specific SemVer part | `npm run version:bump -- patch|minor|major` |
@@ -42,8 +42,8 @@ src/token/tokens.yaml
   separate required stage on pull requests and pushes to `main`. Build waits for
   that stage, and deployment waits for build, so code cannot move farther
   through the pipeline after a version or lint failure. After building, it also
-  verifies that the generated Drupal and Storybook identities match the workflow
-  commit supplied by `GITHUB_SHA`.
+  verifies that the generated Storybook identity matches the workflow commit
+  supplied by `GITHUB_SHA`.
 - `release-version.yml` is a manually triggered release preparation workflow.
   Its default `minor` bump advances `1.0.0` to `1.1.0`; `patch` and `major` are
   also available. It opens a reviewable pull request instead of writing directly
@@ -60,17 +60,19 @@ request.
 
 ## Deployment Identity
 
-The watermark is visible in DEV and PROD. Its Git hash is build metadata, not a
-live browser lookup. A local or host checkout uses `git rev-parse HEAD`; GitHub
-Actions uses `GITHUB_SHA`, GitLab uses `CI_COMMIT_SHA`, and another artifact
-builder can pass `JURENITES_GIT_COMMIT` explicitly. Builds reject malformed
-commit values.
+The watermark is visible in DEV and PROD. Its semantic version, release time,
+repository, and collaboration credit come from the tracked
+`web/themes/custom/jurenites_theme/release-info.json`. `npm run version:bump`
+updates that file together with `package.json`, `package-lock.json`, and
+`docs/version.md`, so a production checkout receives the release identity in
+the same `git pull` as the source.
 
-Run `npm run build:info` after creating a local commit when the full theme or
-Storybook build does not otherwise need to run. Use `npm run build:info:check`
-before deployment to catch metadata generated for an older `HEAD`. The same
-non-secret JSON displayed by Drupal is available at
-`/themes/custom/jurenites_theme/build-info.json` on the deployed site.
+Drupal reads the current checkout hash directly and read-only from `.git`; it
+does not generate or modify metadata on the host. Storybook still embeds the
+same tracked release data and the build commit into its static output. GitHub
+Actions supplies `GITHUB_SHA`, while a different artifact builder can supply
+`JURENITES_GIT_COMMIT`. `npm run build:info:check` validates only that generated
+Storybook artifact.
 
 To prevent merging a pull request whose lint stage failed, configure the `lint`
 job from the `Deploy Storybook` workflow as a required status check in the

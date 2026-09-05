@@ -1,0 +1,5 @@
+{% set badge_classes = ['badge'] %}
+{% if color_variant != 'neutral' %}
+  {% set badge_classes = badge_classes|merge(['badge--' ~ color_variant]) %}
+{% endif %}
+<span{{ attributes.addClass(badge_classes) }}>{{ badge_label }}</span>

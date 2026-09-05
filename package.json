@@ -2,9 +2,15 @@
   "name": "blog-jurenites",
   "private": true,
   "type": "module",
-  "version": "1.2.0",
-  "repository": { "type": "git", "url": "https://github.com/jurenites/blog.git" },
-  "visualCredits": [ "Alexander Ilivanov","AI" ],
+  "version": "1.11.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jurenites/blog.git"
+  },
+  "visualCredits": [
+    "Alexander Ilivanov",
+    "AI"
+  ],
   "description": "Storybook and frontend component workspace for the Blog jurenites Drupal theme.",
   "scripts": {
     "version:check": "node scripts/project-version.mjs check",
@@ -24,6 +30,9 @@
     "build:theme": "npm run build:tokens && node scripts/build-theme.mjs",
     "build:all": "npm run build:tokens && node scripts/build-theme.mjs && npm run build-storybook && npm run build:info:check",
     "docs:check": "node scripts/check-docs-freshness.mjs",
+    "test:font-preview": "node --test tests/font-preview.test.mjs",
+    "test:pixel-editor": "node --test tests/pixel-glyph-editor.test.mjs",
+    "test:portfolio-tags": "node --test tests/portfolio-tag-filtering.test.mjs",
     "playwright:install": "PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright npx playwright install chromium",
     "storybook:inspect": "npm run build-storybook && PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node scripts/inspect-storybook.mjs",
     "storybook": "npm run build:tokens && npm run build:storybook-info && storybook dev -p 6006 --host 0.0.0.0 --no-open",
@@ -41,5 +50,8 @@
     "stylelint": "^17.13.0",
     "stylelint-scss": "^7.2.0",
     "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "opentype.js": "2.0.0"
   }
 }

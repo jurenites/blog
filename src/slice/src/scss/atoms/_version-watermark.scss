@@ -31,10 +31,9 @@
     align-items: baseline;
   }
 }
-/*
 .version-watermark--story-preview {
   position: absolute;
-} */
+}
 
 .version-git-hash {
   color: var(--theme-dark-text-primary-default);
@@ -43,7 +42,5 @@
   text-decoration-style: solid;
   text-decoration-thickness: var(--shape-border-width-hairline-default);
   //text-underline-offset: var(--space-scale-two);
-  &:hover{ 
-    color: var(--theme-dark-text-primary-default);
-  }
+
 }

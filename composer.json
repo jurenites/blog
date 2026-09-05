@@ -39,6 +39,7 @@
         "drupal/google_tag": "^2.0",
         "drupal/image_blurry_placeholder": "^1.2",
         "drupal/image_compare": "^1.0",
+        "drupal/layout_paragraphs": "^2.1",
         "drupal/paragraphs": "^1.22",
         "drupal/publication_date": "^3.1",
         "drupal/realname": "^2.0",

@@ -26,5 +26,5 @@ await mkdir(OUTPUT_DIRECTORY, { recursive: true });
 await writeFile(TOKEN_CSS_PATH, token_css_content, "utf8");
 
 console.log(
-  `Storybook version ${build_info.project_version} · ${build_info.commit_hash} · ${build_info.collaboration_credit} (${build_info.created_gmt})`,
+  `Storybook version ${build_info.project_version} · ${build_info.commit_hash} · ${build_info.collaboration_credit.join(" & ")} (${build_info.created_gmt})`,
 );

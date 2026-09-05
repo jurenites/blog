@@ -23,12 +23,14 @@ function jurenites_contact_install(): void {
     'message_subject' => [
       '#title' => 'Subject',
       '#type' => 'textfield',
+      '#placeholder' => 'Enter the subject',
       '#required' => TRUE,
       '#maxlength' => 150,
     ],
     'sender_name' => [
       '#title' => 'Who you are',
       '#type' => 'textfield',
+      '#placeholder' => 'Enter your name',
       '#required' => TRUE,
       '#maxlength' => 150,
       '#default_value' => '[current-user:display-name]',
@@ -36,6 +38,7 @@ function jurenites_contact_install(): void {
     'message_body' => [
       '#title' => 'Message',
       '#type' => 'textarea',
+      '#placeholder' => 'Enter your message',
       '#required' => TRUE,
       '#maxlength' => 5000,
     ],

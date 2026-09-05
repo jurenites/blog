@@ -1,27 +1,45 @@
-import { create_media_loader_noise } from "../../../slice/src/js/script.js";
+import {
+  create_media_loader_noise,
+  initialize_media_loader_progress,
+} from "../../../slice/src/js/script.js";
 import { media_loader_markup } from "./media-loader.markup.js";
 
-const MEDIA_FILE_NAME = "studio-walkthrough.mp4";
-const UPLOAD_PERCENTAGE = 42;
-const STATUS_MESSAGE = "Uploading video";
+const LOADING_PROGRESS_LABEL = "Loading external video";
+const SIMULATED_LOAD_DURATION = 8000;
 
-function render_story({ media_file_name, upload_percentage, status_message }) {
+function render_media_loader_story({ simulated_load_duration_ms }) {
   const story_container = document.createElement("div");
   story_container.className = "storybook-stack storybook-stack--medium";
   story_container.innerHTML = media_loader_markup({
-    media_file_name,
-    upload_percentage,
-    status_message,
+    progress_label: LOADING_PROGRESS_LABEL,
   });
 
+  const media_loader = story_container.querySelector(".media-loader");
   const noise_surface = story_container.querySelector("[data-jurenites-media-loader-noise]");
+  const progress_element = story_container.querySelector(".media-loader__progress");
+  let complete_simulated_load;
+  const simulated_load = new Promise((resolve_simulated_load) => {
+    complete_simulated_load = resolve_simulated_load;
+  });
+  const simulated_load_timer = window.setTimeout(
+    complete_simulated_load,
+    simulated_load_duration_ms,
+  );
   const initialization_frame = window.requestAnimationFrame(() => {
     noise_surface.jurenites_media_loader_initialized = true;
     create_media_loader_noise(noise_surface);
+    initialize_media_loader_progress({
+      completion_promise: simulated_load,
+      expected_wait_duration: simulated_load_duration_ms,
+      loading_container: media_loader,
+      progress_element,
+    });
   });
   const removal_observer = new MutationObserver(() => {
     if (!story_container.isConnected) {
       window.cancelAnimationFrame(initialization_frame);
+      window.clearTimeout(simulated_load_timer);
+      progress_element.jurenites_media_loader_progress_destroy?.();
       noise_surface.jurenites_media_loader_destroy?.();
       removal_observer.disconnect();
     }
@@ -34,23 +52,22 @@ function render_story({ media_file_name, upload_percentage, status_message }) {
 export default {
   title: "Molecules/Media Loader",
   tags: ["autodocs"],
-  render: render_story,
+  render: render_media_loader_story,
   parameters: {
     docs: {
       description: {
-        component: "A 16:9 video-upload placeholder with low-speed independent TV-static frames. Reduced-motion renders one frozen frame.",
+        component: "The Drupal external-video loading state: a 16:9 TV-static placeholder with a one-pixel progress line. The line tracks elapsed wait and completes when the iframe loads; reduced-motion renders one frozen noise frame.",
       },
     },
   },
   argTypes: {
-    media_file_name: { control: "text" },
-    upload_percentage: { control: { type: "range", min: 0, max: 100, step: 1 } },
-    status_message: { control: "text" },
+    simulated_load_duration_ms: {
+      control: { type: "range", min: 1000, max: 20000, step: 1000 },
+      description: "Story-only duration used to demonstrate an iframe load wait.",
+    },
   },
   args: {
-    media_file_name: MEDIA_FILE_NAME,
-    upload_percentage: UPLOAD_PERCENTAGE,
-    status_message: STATUS_MESSAGE,
+    simulated_load_duration_ms: SIMULATED_LOAD_DURATION,
   },
 };
 

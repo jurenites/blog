@@ -1,10 +1,13 @@
 name: Jurenites Blog
 type: module
-description: Provides Blog filtering and stored Article YouTube reference metadata.
+description: Provides Blog filtering and stored external metadata for Article and News content.
 package: Jurenites
 core_version_requirement: ^11
 dependencies:
+  - drupal:block
+  - drupal:block_content
   - drupal:datetime
+  - drupal:field
   - drupal:file
   - drupal:image
   - drupal:link

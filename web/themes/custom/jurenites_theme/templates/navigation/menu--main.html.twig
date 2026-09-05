@@ -1,8 +1,15 @@
 {% if items %}
   <ul class="site-header__links">
     {% for menu_item in items %}
+      {% set link_attributes = {'class': ['site-header__link']} %}
+      {% if menu_item.in_active_trail %}
+        {% set link_attributes = link_attributes|merge({
+          'class': ['site-header__link', 'is-active'],
+          'aria-current': 'page',
+        }) %}
+      {% endif %}
       <li class="site-header__item">
-        {{ link(menu_item.title, menu_item.url, { 'class': ['site-header__link'] }) }}
+        {{ link(menu_item.title, menu_item.url, link_attributes) }}
       </li>
     {% endfor %}
   </ul>

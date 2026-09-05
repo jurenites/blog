@@ -43,6 +43,7 @@
   --theme-dark-surface-background-page: var(--color-palette-black);
   --theme-dark-surface-background-elevation-level-0: var(--color-palette-black);
   --theme-dark-surface-background-elevation-level-1: var(--color-palette-light-black);
+  --theme-dark-surface-background-elevation-level-2: var(--color-palette-deep-gray);
   --theme-dark-text-primary-default: var(--color-palette-white);
   --theme-dark-text-secondary-default: var(--color-palette-light-white);
   --theme-dark-text-light: var(--color-palette-light-white);
@@ -116,19 +117,27 @@
   --motion-easing-sharp-default: cubic-bezier(0.4, 0, 0.6, 1);
   --layout-container-max-tablet-default: 640px;
   --layout-container-max-desktop-default: 1440px;
-  --layout-content-max-readable-default: 720px;
   --layout-content-max-blog-default: 800px;
   --layout-content-max-wide-default: 960px;
   --layout-gutter-mobile-default: 16px;
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
+  --component-footer-navigation-social-icon-size-default: 16px;
+  --component-footer-navigation-linkedin-color-hover: #0A66C2;
+  --component-footer-navigation-facebook-color-hover: #0866FF;
+  --component-footer-navigation-vk-color-hover: #0077FF;
+  --component-footer-navigation-youtube-color-hover: #FF0000;
+  --component-footer-navigation-soundcloud-color-hover: #FF3300;
+  --component-footer-navigation-steam-color-hover: #1A9FFF;
   --component-cookie-policy-notice-layer-default: 9000;
   --component-article-teaser-grid-card-min-width-default: 240px;
   --component-article-teaser-list-media-min-width-default: 180px;
   --component-article-teaser-list-media-max-width-default: 280px;
   --component-article-teaser-shadow-hover-default: 0px 1px 3px 0px #0000001A, 0px 4px 6px -1px #0000001A;
+  --component-news-list-item-media-width-default: 160px;
+  --component-news-list-item-media-width-compact: 120px;
   --component-chip-corner-radius-default: 9999px;
-  --component-form-field-color-validation-error-default: var(--theme-dark-system-error-accent);
+  --component-input-text-color-validation-error-default: var(--theme-dark-system-error-accent);
   --component-site-branding-logo-size-default: 64px;
   --component-watermark-color-identity-default: var(--color-palette-full-white);
   --component-watermark-color-credit-default: var(--color-palette-light-gray);
@@ -165,8 +174,17 @@
   --component-comment-message-color-foreground-default: var(--color-palette-full-black);
   --component-comment-message-corner-radius-default: 20px;
   --component-surface-default-variant: default;
-  --component-date-display-default-mode: month-day-year;
-  --component-date-display-default-display: date-day;
+  --component-date-time-value-default-kind: absolute-date;
+  --component-date-time-value-default-date-display: date-day;
+  --component-date-time-value-locale-default: en-US;
+  --component-date-time-value-format-date-day-month: short;
+  --component-date-time-value-format-date-day-day: numeric;
+  --component-date-time-value-format-date-day-year: numeric;
+  --component-date-time-value-format-date-day-time-month: long;
+  --component-date-time-value-format-date-day-time-day: numeric;
+  --component-date-time-value-format-date-day-time-year: numeric;
+  --component-date-time-value-format-date-day-time-hour: numeric;
+  --component-date-time-value-format-date-day-time-minute: 2-digit;
   --component-timeline-marker-size-default: var(--space-scale-base-gap);
   --component-timeline-marker-size-active: 40px;
   --component-media-loader-progress-height-default: 1px;
@@ -174,6 +192,7 @@
   --component-newsletter-signup-form-min-width-default: 280px;
   --component-numeric-values-tile-min-width-default: 240px;
   --component-numeric-values-tile-min-height-default: 200px;
+  --component-numeric-values-icon-max-width-default: 80px;
 }
 
 $system-breakpoint-mobile-min: 360px;

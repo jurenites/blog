@@ -1,0 +1,40 @@
+// Organism: Interest tags. An editable Content Block linking Tags to Videos.
+
+@use "../tools";
+
+.interest-tags {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 2);
+  width: 100%;
+  max-width: var(--layout-content-max-wide-default);
+  margin-inline: auto;
+
+  &__heading,
+  &__description {
+    margin: 0;
+  }
+
+  &__heading {
+    @include tools.typography-headline-2;
+  }
+
+  &__description {
+    max-width: var(--layout-content-max-blog-default);
+    color: var(--theme-dark-text-secondary-default);
+    @include tools.typography-body;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-scale-base-gap);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+  }
+}

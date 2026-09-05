@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.interests
+    - field.field.block_content.interests.field_interest_tags
+id: block_content.interests.default
+targetEntityType: block_content
+bundle: interests
+mode: default
+content:
+  field_interest_tags:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  info: true

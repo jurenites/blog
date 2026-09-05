@@ -1,0 +1,8 @@
+{# Ordered Tags selected inside the reusable Interests Content Block. #}
+<nav class="interest-tags__navigation" aria-label="{{ 'Video interests'|t }}">
+  <ul class="interest-tags__list">
+    {% for item in items %}
+      <li class="interest-tags__item">{{ item.content }}</li>
+    {% endfor %}
+  </ul>
+</nav>

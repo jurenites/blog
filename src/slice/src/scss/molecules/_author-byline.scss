@@ -2,31 +2,13 @@
 
 .author-byline {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-scale-base-gap);
   width: 100%;
 }
 
-.author-byline__identity {
-  display: flex;
-  flex: 1 1 auto;
-  flex-wrap: wrap;
-  align-items: center;
-  min-width: 0;
-  gap: var(--space-scale-two);
-}
-
-.author-byline__name {
-  margin: 0;
-  color: var(--theme-dark-text-primary-default);
-  @include tools.typography-subtitle-2;
-}
-
-.author-byline__name a {
-  color: inherit;
-}
-
-.author-byline__details {
+.author-byline__timing {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
@@ -34,8 +16,41 @@
   color: var(--theme-dark-text-gray);
 }
 
-.author-byline__details .date-display {
+.author-byline__timing .date-time-value--absolute-date,
+.author-byline__timing .date-time-value--elapsed-time {
   color: inherit;
+}
+
+.author-byline__timing--empty,
+.author-byline__identity-separator--hidden,
+.author-byline__separator--hidden {
+  display: none;
+}
+
+.author-byline--stacked {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+.author-byline--stacked .author-byline__timing {
+  padding-left: calc(var(--space-scale-base-gap) * 4);
+}
+
+.author-byline--stacked .author-byline__identity-separator {
+  display: none;
+}
+
+.author-byline--stacked.author-byline--avatar-small .author-byline__timing {
+  padding-left: calc(var(--space-scale-base-gap) * 3);
+}
+
+.author-byline--stacked.author-byline--avatar-large .author-byline__timing {
+  padding-left: calc(var(--space-scale-base-gap) * 5);
+}
+
+.author-byline--stacked.author-byline--avatar-big .author-byline__timing {
+  padding-left: calc(var(--space-scale-base-gap) * 6);
 }
 
 .author-byline__topics {
@@ -43,6 +58,7 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: calc(var(--space-scale-base-gap) * 0.5);
+  margin-left: auto;
 }
 
 .author-byline__topics .article-tags {
@@ -52,7 +68,6 @@
 @include tools.breakpoint-down("mobile-max") {
   .author-byline {
     align-items: flex-start;
-    flex-wrap: wrap;
   }
 
   .author-byline__topics {

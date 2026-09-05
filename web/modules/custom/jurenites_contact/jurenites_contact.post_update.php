@@ -40,3 +40,34 @@ function jurenites_contact_post_update_replace_math_captcha_with_antibot(): Tran
 
   return t('Protected the Contact form with Antibot and removed its math CAPTCHA.');
 }
+
+/**
+ * Adds guidance placeholders to the public contact fields.
+ */
+function jurenites_contact_post_update_add_contact_placeholders(): TranslatableMarkup {
+  $contact_webform = \Drupal::entityTypeManager()
+    ->getStorage('webform')
+    ->load('contact');
+
+  if (!$contact_webform) {
+    return t('The Contact Webform was not found; no placeholders were added.');
+  }
+
+  $contact_elements = $contact_webform->getElementsDecoded();
+  $contact_placeholders = [
+    'message_subject' => 'Enter the subject',
+    'sender_name' => 'Enter your name',
+    'message_body' => 'Enter your message',
+  ];
+
+  foreach ($contact_placeholders as $element_name => $placeholder_text) {
+    if (isset($contact_elements[$element_name])) {
+      $contact_elements[$element_name]['#placeholder'] = $placeholder_text;
+    }
+  }
+
+  $contact_webform->setElements($contact_elements);
+  $contact_webform->save();
+
+  return t('Added placeholders to the Contact Webform fields.');
+}

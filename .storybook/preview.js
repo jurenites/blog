@@ -6,8 +6,10 @@ import { TOKEN_VALUES } from "../generated/token/tokens.js";
 import {
   initialize_avatar_images,
   initialize_custom_selects,
+  initialize_pixel_glyph_editors,
   initialize_tooltips,
 } from "../src/slice/src/js/script.js";
+import { initialize_font_previews } from "../src/slice/src/js/font-preview.js";
 
 const PREVIEW_WATERMARK_ID = "storybook-preview-watermark";
 
@@ -28,7 +30,6 @@ function create_preview_watermark() {
   const git_hash_link = document.createElement("a");
   const credit_line = document.createElement("span");
   const credit_label = document.createElement("span");
-  const credit_collaboration = document.createElement("span");
 
   watermark_element.id = PREVIEW_WATERMARK_ID;
   watermark_element.className = "version-watermark";
@@ -64,12 +65,27 @@ function create_preview_watermark() {
   credit_line.className = "version-watermark__line";
   credit_label.className = "version-watermark__credit";
   credit_label.textContent = "made by";
-  credit_collaboration.className = "version-watermark__credit_name";
-  credit_collaboration.textContent = build_information.collaboration_credit;
-  credit_line.append(credit_label, credit_collaboration);
+  credit_line.append(credit_label);
+  build_information.collaboration_credit.forEach((collaborator_name, collaborator_index) => {
+    if (collaborator_index > 0) {
+      const collaborator_separator = document.createElement("span");
+      collaborator_separator.className = "version-watermark__separator";
+      collaborator_separator.textContent = "&";
+      credit_line.append(collaborator_separator);
+    }
+
+    const collaborator_element = document.createElement("span");
+    collaborator_element.className = "version-watermark__credit_name";
+    collaborator_element.textContent = collaborator_name;
+    credit_line.append(collaborator_element);
+  });
 
   watermark_element.append(identity_line, credit_line);
   document.body.append(watermark_element);
+}
+
+function remove_preview_watermark() {
+  document.getElementById(PREVIEW_WATERMARK_ID)?.remove();
 }
 
 function token_dimension(token_name) {
@@ -126,14 +142,20 @@ export const parameters = {
 };
 
 export const decorators = [
-  (story_render) => {
+  (story_render, story_context) => {
     document.body.classList.add("jurenites-theme");
     const story_output = story_render();
     window.requestAnimationFrame(() => {
       initialize_avatar_images(document);
       initialize_custom_selects(document);
+      initialize_font_previews(document);
+      initialize_pixel_glyph_editors(document);
       initialize_tooltips(document);
-      create_preview_watermark();
+      if (story_context.parameters.preview_watermark?.disabled) {
+        remove_preview_watermark();
+      } else {
+        create_preview_watermark();
+      }
     });
     return story_output;
   },

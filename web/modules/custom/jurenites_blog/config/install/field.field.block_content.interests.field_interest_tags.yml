@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.interests
+    - field.storage.block_content.field_interest_tags
+    - taxonomy.vocabulary.tags
+id: block_content.interests.field_interest_tags
+field_name: field_interest_tags
+entity_type: block_content
+bundle: interests
+label: 'Interest Tags'
+description: 'Select and order up to six Tags. Each Chip links to Videos filtered by that Tag.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

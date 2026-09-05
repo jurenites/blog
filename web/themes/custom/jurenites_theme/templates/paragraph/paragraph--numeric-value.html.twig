@@ -1,5 +1,8 @@
 {# One repeatable statistic tile inside the parent Numeric Values section. #}
 <li{{ attributes.addClass('numeric-values__tile') }}>
+  {% if numeric_icon_url %}
+    <img class="numeric-values__icon" src="{{ numeric_icon_url }}" alt="">
+  {% endif %}
   <h2 class="numeric-values__number">{{ numeric_value_text }}</h2>
   <p class="numeric-values__description">{{ paragraph.field_numeric_description.value }}</p>
 </li>

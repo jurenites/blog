@@ -23,16 +23,24 @@ without creating one field definition and field table per component control.
 The public Basic page title is always rendered as `h1`; heading level belongs to
 the rendering context, not to author-entered content.
 
-Basic pages and Articles can add a Numeric Values Paragraph through Content
-sections. The section contains repeatable Numeric Value tiles with:
+The homepage uses a reusable Numeric values Content Block containing one to
+eight nested Numeric Value Paragraph items. The block field enforces the
+eight-item limit; its public grid renders no more than four items per row.
+Each item contains:
 
-- Number: short display text such as `80+`.
-- Description: subtitle text such as `Projects I’ve worked on`.
-- Start year: optional numeric source for an automatically calculated elapsed
-  year value; when present, it takes precedence over Number.
+- Number: required short display text such as `80+`.
+- Text: subtitle text such as `Projects I’ve worked on`.
+- Icon image: optional attached SVG file. It renders as an external image at
+  its intrinsic dimensions while preserving the file's own `viewBox` and
+  aspect ratio, with an 80px maximum width guard for oversized files.
 
-The current professional-experience example uses `2010`, so its Number renders
-`16` during 2026 and updates automatically in later calendar years.
+The current professional-experience example stores `16` directly in Number.
+Its two current items omit Icon image, preserving the established two-tile
+presentation.
+
+Basic pages and Articles retain the Numeric Values Paragraph in Content
+sections for existing authored compositions, while the homepage instance is a
+Content Block so its placement is managed through Drupal's block layout.
 
 ## Timeline Event
 
@@ -56,19 +64,42 @@ Everything else can start in `Body`: contribution, what happened, what I learned
 
 ## Project
 
-Purpose: portfolio pages for public or anonymized projects.
+Purpose: structured portfolio pages with reusable interactive sections.
 
-Suggested fields:
+The current `project` bundle owns Title, Body, Image, Tags, and reorderable
+Content sections. `/portfolio` lists published Projects, while canonical aliases
+such as `/portfolio/roundabout` remain editorial content rather than code-side
+node-ID assumptions. Above the Project gallery, `/portfolio` shows every tag
+used by an accessible published Project as a Chip choice. Project tag Chips and
+the choices target `/portfolio?tag=<slug>`; the View validates that single GET
+value through the same resolver used by Blog and filters the published Project
+result set. The active Chip stays in the list with selected styling and no close
+icon; activating it again clears the filter.
 
-- Title
-- Slug
-- Body
-- Project date or date range
-- Company / organization reference
-- Project URL
-- Hero media
-- Visibility: public, anonymized, private
-- Tags
+Roundabout and 4pixel share the existing `#Font` term. The Footer menu's Fonts
+link opens that filtered Portfolio view, and its gray Badge queries the current
+number of accessible published Projects carrying the term. The number is not a
+stored menu value, so ordinary Project publication and tag cache invalidation
+keeps it current.
+
+The available Project sections are:
+
+- Project story: revisionable long-form narrative.
+- Font preview: a controlled `roundabout` or `4pixel` identifier which resolves
+  to a theme-owned local font file and interactive browser.
+- Pixel glyph editor: the blank, non-persistent 5×5 drawing experiment used by
+  the 4pixel Project.
+
+The `jurenites_font_projects` recipe creates the initial Roundabout and 4pixel
+nodes and their ordered Paragraph trees with stable UUIDs. Reapplying the
+recipe creates only missing UUIDs; it does not replace an editor's existing
+copy or intentional changes. A later Windows screenshot can use the existing
+Image field or a deliberately designed media section without changing the font
+tool contract.
+
+Future sortable values such as project dates, organizations, or visibility
+levels should become fields only when a real listing or permissions requirement
+needs them. Until then they remain authored story content.
 
 ## Article
 

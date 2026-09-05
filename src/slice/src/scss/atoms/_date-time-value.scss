@@ -1,0 +1,27 @@
+// Atom: Date Time Value. Compact dates, elapsed time, and content durations.
+
+@use "../tools";
+
+.date-time-value {
+  display: inline-block;
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-caption;
+  font-family: var(--typography-font-family-number);
+  font-variant-numeric: tabular-nums;
+
+  &--elapsed-time {
+    white-space: nowrap;
+  }
+
+  &--duration {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--space-scale-base-gap) * 0.5);
+    color: var(--theme-dark-text-gray);
+  }
+}
+
+.date-time-value__number,
+.date-time-value__unit {
+  color: var(--theme-dark-text-secondary-default);
+}

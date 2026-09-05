@@ -1,0 +1,347 @@
+<?php
+
+/**
+ * @file
+ * Installs the reusable Numeric values content model and homepage block.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\paragraphs\Entity\Paragraph;
+
+const JURENITES_NUMERIC_VALUES_HOMEPAGE_BLOCK_UUID = 'c003d482-a65b-40e4-a05a-b0b203add14e';
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_numeric_values_install(): void {
+  jurenites_numeric_values_update_tile_fields();
+  jurenites_numeric_values_ensure_homepage_block();
+}
+
+/**
+ * Migrates calculated values and provides the SVG icon attachment field.
+ */
+function jurenites_numeric_values_update_tile_fields(): void {
+  $start_year_field = FieldConfig::loadByName(
+    'paragraph',
+    'numeric_value',
+    'field_numeric_start_year',
+  );
+  if ($start_year_field !== NULL) {
+    $paragraph_storage = \Drupal::entityTypeManager()->getStorage('paragraph');
+    $paragraph_ids = $paragraph_storage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('type', 'numeric_value')
+      ->exists('field_numeric_start_year')
+      ->execute();
+    $current_year = (int) date('Y');
+    foreach ($paragraph_storage->loadMultiple($paragraph_ids) as $numeric_item) {
+      $start_year = (int) $numeric_item->get('field_numeric_start_year')->value;
+      if ($start_year < 1900 || $start_year > $current_year
+        || !$numeric_item->get('field_numeric_number')->isEmpty()) {
+        continue;
+      }
+
+      $numeric_item->set('field_numeric_number', (string) ($current_year - $start_year));
+      $numeric_item->save();
+    }
+    $start_year_field->delete();
+  }
+  FieldStorageConfig::loadByName('paragraph', 'field_numeric_start_year')?->delete();
+
+  FieldConfig::loadByName(
+    'paragraph',
+    'numeric_value',
+    'field_numeric_icon',
+  )?->delete();
+  FieldStorageConfig::loadByName('paragraph', 'field_numeric_icon')?->delete();
+
+  $numeric_icon_storage = FieldStorageConfig::loadByName(
+    'paragraph',
+    'field_numeric_icon_image',
+  );
+  if ($numeric_icon_storage === NULL) {
+    $numeric_icon_storage = FieldStorageConfig::create([
+      'field_name' => 'field_numeric_icon_image',
+      'entity_type' => 'paragraph',
+      'type' => 'file',
+      'settings' => [
+        'target_type' => 'file',
+        'display_field' => FALSE,
+        'display_default' => FALSE,
+        'uri_scheme' => 'public',
+      ],
+      'cardinality' => 1,
+      'translatable' => TRUE,
+    ]);
+    $numeric_icon_storage->save();
+  }
+
+  $numeric_icon_field = FieldConfig::loadByName(
+    'paragraph',
+    'numeric_value',
+    'field_numeric_icon_image',
+  );
+  if ($numeric_icon_field === NULL) {
+    FieldConfig::create([
+      'field_storage' => $numeric_icon_storage,
+      'bundle' => 'numeric_value',
+      'label' => 'Icon image',
+      'description' => 'Optional SVG artwork. Its own viewBox and aspect ratio are preserved when displayed.',
+      'required' => FALSE,
+      'translatable' => TRUE,
+      'settings' => [
+        'handler' => 'default:file',
+        'handler_settings' => [],
+        'file_directory' => 'numeric-values/icons',
+        'file_extensions' => 'svg',
+        'max_filesize' => '',
+        'description_field' => FALSE,
+      ],
+    ])->save();
+  }
+
+  $numeric_number_field = FieldConfig::loadByName(
+    'paragraph',
+    'numeric_value',
+    'field_numeric_number',
+  );
+  if ($numeric_number_field !== NULL) {
+    $numeric_number_field->setRequired(TRUE);
+    $numeric_number_field->setDescription('The value displayed in the tile, for example 80+.');
+    $numeric_number_field->save();
+  }
+
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+}
+
+/**
+ * Creates the reusable block type, its fields, initial content, and placement.
+ */
+function jurenites_numeric_values_ensure_homepage_block(): array {
+  $numeric_block_type = BlockContentType::load('numeric_values');
+  if ($numeric_block_type === NULL) {
+    $numeric_block_type = BlockContentType::create([
+      'id' => 'numeric_values',
+      'label' => 'Numeric values',
+      'revision' => TRUE,
+      'description' => 'A reusable section containing up to eight numeric value tiles.',
+    ]);
+    $numeric_block_type->save();
+  }
+
+  $numeric_items_storage = FieldStorageConfig::loadByName('block_content', 'field_numeric_items');
+  if ($numeric_items_storage === NULL) {
+    $numeric_items_storage = FieldStorageConfig::create([
+      'field_name' => 'field_numeric_items',
+      'entity_type' => 'block_content',
+      'type' => 'entity_reference_revisions',
+      'settings' => ['target_type' => 'paragraph'],
+      'cardinality' => 8,
+      'translatable' => TRUE,
+    ]);
+    $numeric_items_storage->save();
+  }
+
+  $numeric_items_field = FieldConfig::loadByName(
+    'block_content',
+    'numeric_values',
+    'field_numeric_items',
+  );
+  if ($numeric_items_field === NULL) {
+    FieldConfig::create([
+      'field_storage' => $numeric_items_storage,
+      'bundle' => 'numeric_values',
+      'label' => 'Numeric value tiles',
+      'description' => 'Add between one and eight tiles. The public layout shows no more than four tiles per row.',
+      'required' => TRUE,
+      'translatable' => TRUE,
+      'settings' => [
+        'handler' => 'default:paragraph',
+        'handler_settings' => [
+          'target_bundles' => ['numeric_value' => 'numeric_value'],
+          'negate' => 0,
+          'target_bundles_drag_drop' => [
+            'numeric_value' => ['weight' => 0, 'enabled' => TRUE],
+            'numeric_values' => ['weight' => 1, 'enabled' => FALSE],
+          ],
+        ],
+      ],
+    ])->save();
+  }
+
+  $numeric_text_field = FieldConfig::loadByName(
+    'paragraph',
+    'numeric_value',
+    'field_numeric_description',
+  );
+  if ($numeric_text_field !== NULL) {
+    $numeric_text_field->setLabel('Text');
+    $numeric_text_field->setDescription(
+      'Short supporting text rendered with the subtitle-1 typography role.',
+    );
+    $numeric_text_field->save();
+  }
+
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+  jurenites_numeric_values_configure_displays();
+
+  $content_block_storage = \Drupal::entityTypeManager()->getStorage('block_content');
+  $numeric_block_ids = $content_block_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('uuid', JURENITES_NUMERIC_VALUES_HOMEPAGE_BLOCK_UUID)
+    ->execute();
+  $homepage_numeric_block = $numeric_block_ids
+    ? $content_block_storage->load(reset($numeric_block_ids))
+    : NULL;
+
+  if (!$homepage_numeric_block instanceof BlockContent) {
+    $project_count_item = Paragraph::create([
+      'type' => 'numeric_value',
+      'field_numeric_number' => '80+',
+      'field_numeric_description' => 'Projects I’ve worked on',
+    ]);
+    $career_years_item = Paragraph::create([
+      'type' => 'numeric_value',
+      'field_numeric_number' => '16',
+      'field_numeric_description' => 'Years I’ve worked in IT',
+    ]);
+    $homepage_numeric_block = BlockContent::create([
+      'uuid' => JURENITES_NUMERIC_VALUES_HOMEPAGE_BLOCK_UUID,
+      'type' => 'numeric_values',
+      'langcode' => 'en',
+      'uid' => 1,
+      'info' => 'Homepage numeric values',
+      'reusable' => TRUE,
+      'field_numeric_items' => [$project_count_item, $career_years_item],
+    ]);
+    $homepage_numeric_block->save();
+  }
+
+  $block_identifier = 'jurenites_theme_numeric_values';
+  $plugin_identifier = 'block_content:' . JURENITES_NUMERIC_VALUES_HOMEPAGE_BLOCK_UUID;
+  $homepage_placement = Block::load($block_identifier) ?? Block::create([
+    'id' => $block_identifier,
+    'theme' => 'jurenites_theme',
+    'plugin' => $plugin_identifier,
+  ]);
+  $homepage_placement->set('plugin', $plugin_identifier);
+  $homepage_placement->setRegion('content');
+  $homepage_placement->setWeight(0);
+  $homepage_placement->set('status', TRUE);
+  $homepage_placement->set('settings', [
+    'id' => $plugin_identifier,
+    'label' => 'Professional experience in numbers',
+    'label_display' => '0',
+    'provider' => 'block_content',
+    'view_mode' => 'full',
+  ]);
+  $homepage_placement->setVisibilityConfig('request_path', [
+    'id' => 'request_path',
+    'negate' => FALSE,
+    'pages' => '<front>',
+  ]);
+  $homepage_placement->save();
+
+  return [
+    'content_block_id' => (int) $homepage_numeric_block->id(),
+    'placement_id' => $homepage_placement->id(),
+  ];
+}
+
+/**
+ * Configures the authoring and public displays for the block and child items.
+ */
+function jurenites_numeric_values_configure_displays(): void {
+  $numeric_block_form = EntityFormDisplay::load('block_content.numeric_values.default')
+    ?? EntityFormDisplay::create([
+      'targetEntityType' => 'block_content',
+      'bundle' => 'numeric_values',
+      'mode' => 'default',
+      'status' => TRUE,
+    ]);
+  $numeric_block_form->setComponent('info', [
+    'type' => 'string_textfield',
+    'weight' => 0,
+    'region' => 'content',
+    'settings' => [
+      'size' => 60,
+      'placeholder' => 'Homepage numeric values',
+    ],
+  ]);
+  $numeric_block_form->setComponent('field_numeric_items', [
+    'type' => 'paragraphs',
+    'weight' => 1,
+    'region' => 'content',
+    'settings' => [
+      'title' => 'Numeric value',
+      'title_plural' => 'Numeric values',
+      'edit_mode' => 'open',
+      'closed_mode' => 'summary',
+      'autocollapse' => 'none',
+      'closed_mode_threshold' => 0,
+      'add_mode' => 'button',
+      'form_display_mode' => 'default',
+      'default_paragraph_type' => 'numeric_value',
+      'features' => [
+        'collapse_edit_all' => 'collapse_edit_all',
+        'duplicate' => 'duplicate',
+      ],
+    ],
+  ]);
+  $numeric_block_form->save();
+
+  $numeric_block_view = EntityViewDisplay::load('block_content.numeric_values.default')
+    ?? EntityViewDisplay::create([
+      'targetEntityType' => 'block_content',
+      'bundle' => 'numeric_values',
+      'mode' => 'default',
+      'status' => TRUE,
+    ]);
+  $numeric_block_view->setComponent('field_numeric_items', [
+    'type' => 'entity_reference_revisions_entity_view',
+    'label' => 'hidden',
+    'settings' => [
+      'view_mode' => 'default',
+      'link' => FALSE,
+    ],
+    'weight' => 0,
+    'region' => 'content',
+  ]);
+  $numeric_block_view->removeComponent('info');
+  $numeric_block_view->save();
+
+  $numeric_item_form = EntityFormDisplay::load('paragraph.numeric_value.default');
+  if ($numeric_item_form !== NULL) {
+    $numeric_item_form->removeComponent('field_numeric_start_year');
+    $numeric_item_form->removeComponent('field_numeric_icon');
+    $numeric_item_form->setComponent('field_numeric_icon_image', [
+      'type' => 'file_generic',
+      'weight' => 1,
+      'region' => 'content',
+      'settings' => [
+        'progress_indicator' => 'throbber',
+      ],
+    ]);
+    $numeric_description_component = $numeric_item_form->getComponent('field_numeric_description');
+    if ($numeric_description_component !== NULL) {
+      $numeric_description_component['weight'] = 2;
+      $numeric_item_form->setComponent('field_numeric_description', $numeric_description_component);
+    }
+    $numeric_item_form->save();
+  }
+
+  $numeric_item_view = EntityViewDisplay::load('paragraph.numeric_value.default');
+  if ($numeric_item_view !== NULL) {
+    $numeric_item_view->removeComponent('field_numeric_icon');
+    $numeric_item_view->removeComponent('field_numeric_start_year');
+    $numeric_item_view->removeComponent('field_numeric_icon_image');
+    $numeric_item_view->save();
+  }
+}

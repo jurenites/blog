@@ -1,10 +1,8 @@
-@use "../tools";
-
 .media-loader {
   position: relative;
   display: grid;
   width: 100%;
-  max-width: var(--layout-content-max-readable-default);
+  max-width: var(--layout-content-max-blog-default);
   aspect-ratio: 16 / 9;
   overflow: hidden;
   margin: 0;
@@ -31,37 +29,12 @@
 
 .media-loader__status {
   z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
   align-self: end;
-  gap: var(--space-scale-base-gap) calc(var(--space-scale-base-gap) * 2);
-  padding: calc(var(--space-scale-base-gap) * 2);
-  background: var(--theme-dark-surface-background-elevation-level-0);
-}
-
-.media-loader__message,
-.media-loader__percentage,
-.media-loader__file-name {
-  margin: 0;
-}
-
-.media-loader__message,
-.media-loader__percentage {
-  color: var(--theme-dark-text-primary-default);
-  @include tools.typography-caption;
-}
-
-.media-loader__file-name {
-  grid-column: 1 / -1;
-  overflow: hidden;
-  color: var(--theme-dark-text-secondary-default);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  @include tools.typography-caption;
+  height: var(--component-media-loader-progress-height-default);
 }
 
 .media-loader__progress {
-  grid-column: 1 / -1;
+  display: block;
   width: 100%;
   height: var(--component-media-loader-progress-height-default);
   overflow: hidden;

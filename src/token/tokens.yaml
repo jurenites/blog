@@ -4,7 +4,6 @@ meta:
   project: blog-jurenites
   status: draft
   sourceWorkflow: "idea-file -> tokens -> Storybook -> Figma -> Drupal"
-  figmaFile: "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites"
   sourceOfTruth: "src/token/tokens.yaml is the editable single source of truth. Generated SCSS/CSS outputs and Figma variables are derived from it."
   typographyBasis: "Typography roles are concise CSS font shorthand values reused by components."
   colorRule: "Colors are HEX only. Never use the CSS opacity property; alpha is expressed as 8-digit HEX (for example shadow colors) so composited colors stay predictable."
@@ -22,7 +21,7 @@ system:
   naming:
     separator: "-" # Flattened token names use dash-separated namespaces.
     pattern: "{layer}-{scope}-{part}-{property}-{state}" # Use the shortest complete name. Each token must be descriptive and multi-part. Never use a lone generic word (invalid: orange, size, card).
-    examples: "component-form-field-color-validation-error-default, theme-dark-surface-background-page, theme-dark-action-primary-default"
+    examples: "component-input-text-color-validation-error-default, theme-dark-surface-background-page, theme-dark-action-primary-default"
 color:
   palette:
     full-black: "#000000"
@@ -62,6 +61,7 @@ theme:
       background-page: color.palette.black
       background-elevation-level-0: color.palette.black
       background-elevation-level-1: color.palette.light-black
+      background-elevation-level-2: color.palette.deep-gray
     text:
       primary-default: color.palette.white
       secondary-default: color.palette.light-white
@@ -128,6 +128,7 @@ shape:
   border-width:
     hairline-default: 1px
     thick-default: 2px
+# TODO this 'elevation' shpuld be moved into a theme.dark.elecation-level-0.shadow and theme.dark.elecation-level-0.backgropund-color we need to reaorganise the token mentioned palces
 elevation:
   shadow:
     level-0: "0px 0px 0px 0px #00000000"
@@ -154,7 +155,6 @@ layout:
     tablet-default: 640px
     desktop-default: 1440px # Maximum centered content width for desktop and larger screens.
   content-max:
-    readable-default: 720px # Readable line-length frame for article and standard page content.
     blog-default: 800px # Blog listing frame for article teasers and pagination.
     wide-default: 960px # Wider frame for content that needs more horizontal room.
   gutter:
@@ -162,6 +162,14 @@ layout:
     tablet-default: 24px
     desktop-default: 32px
 component:
+  footer-navigation:
+    social-icon-size-default: 16px # Compact social icons in the footer.
+    linkedin-color-hover: "#0A66C2"
+    facebook-color-hover: "#0866FF"
+    vk-color-hover: "#0077FF"
+    youtube-color-hover: "#FF0000"
+    soundcloud-color-hover: "#FF3300"
+    steam-color-hover: "#1A9FFF" # Steam's interface blue.
   cookie-policy-notice:
     layer-default: 9000 # Fixed footer notice sits above page content and below the build watermark and tooltips.
   article-teaser:
@@ -169,9 +177,12 @@ component:
     list-media-min-width-default: 180px # Lower bound for list-item media beside its text content.
     list-media-max-width-default: 280px # Upper bound for list-item media beside its text content.
     shadow-hover-default: "0px 1px 3px 0px #0000001A, 0px 4px 6px -1px #0000001A" # Square card hover shadow adapted from the Blog 47 reference.
+  news-list-item:
+    media-width-default: 160px # News stays denser than the standard Article list item.
+    media-width-compact: 120px # Keep the thumbnail left-aligned without crowding compact layouts.
   chip:
     corner-radius-default: 9999px # Pill shape owned by Chip without changing the site's square global radius tokens.
-  form-field:
+  input-text:
     color:
       validation-error-default: theme.dark.system.error-accent
   site-branding:
@@ -226,9 +237,21 @@ component:
     corner-radius-default: 20px # Soft chat-bubble geometry is intentionally scoped away from the square global surface language.
   surface:
     default-variant: default
-  date-display:
-    default-mode: month-day-year
-    default-display: date-day
+  date-time-value:
+    default-kind: absolute-date
+    default-date-display: date-day
+    locale-default: en-US
+    format:
+      date-day:
+        month: short
+        day: numeric
+        year: numeric
+      date-day-time:
+        month: long
+        day: numeric
+        year: numeric
+        hour: numeric
+        minute: 2-digit
   timeline:
     marker-size-default: space.scale.base-gap
     marker-size-active: 40px
@@ -241,3 +264,4 @@ component:
   numeric-values:
     tile-min-width-default: 240px
     tile-min-height-default: 200px
+    icon-max-width-default: 80px # Preserve smaller intrinsic SVG dimensions while preventing oversized uploads.

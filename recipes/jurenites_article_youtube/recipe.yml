@@ -14,6 +14,9 @@ config:
     - field.storage.node.field_youtube_creator_url
     - field.storage.node.field_youtube_published_date
   actions:
+    field.field.node.article.field_image:
+      simpleConfigUpdate:
+        settings.alt_field_required: false
     core.entity_form_display.node.article.default:
       setComponents:
         - name: field_youtube_video

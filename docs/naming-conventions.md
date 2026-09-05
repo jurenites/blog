@@ -123,7 +123,7 @@ Color names make their abstraction layer explicit:
   `theme-dark-text-*`, `theme-dark-action-*`, and `theme-dark-border-*`.
 - Component-specific roles use
   `component-{component-name}-color-{property}-{state}`, for example
-  `component-form-field-color-validation-error-default`. Watermark colors use
+  `component-input-text-color-validation-error-default`. Watermark colors use
   `component-watermark-color-*` because the watermark owns them.
 
 Do not use `component-color-*` without a component name: it does not identify

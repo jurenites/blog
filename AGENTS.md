@@ -86,3 +86,23 @@ During heavy refactoring, do not rewrite every doc for every tiny experiment.
 Before a commit, run `npm run docs:check`; if source history has moved too far
 ahead of the docs checkpoint, review `/docs`, update stale pages, and bump the
 documentation version.
+
+## OpenSpec Planning
+
+Keep OpenSpec artifacts brief and limited to the requested feature. Account for
+the existing Drupal and Storybook architecture; do not invent speculative
+systems, automation, or edge cases without an explicit requirement.
+
+- Keep project-wide ways of working, including token usage, DOM styling, shared
+  component reuse, and validation commands, in `AGENTS.md` or project docs. Do
+  not repeat them in feature proposals or specs.
+- Give each artifact one job: proposal for why and scope, specs for observable
+  behavior, design for decisions, and tasks for implementation. Do not restate
+  the same detail across artifacts.
+- Declare each configurable value once in `design.md` with a meaningful
+  `SCREAMING_SNAKE_CASE` name. Other artifacts reference that name without
+  repeating its literal value.
+- Put machine-readable names in backticks and follow existing Drupal naming;
+  for example, use the node bundle machine name `news`.
+- Prefer a short implementation plan over OpenSpec when persistent,
+  cross-artifact planning would add more overhead than value.

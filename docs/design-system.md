@@ -53,26 +53,44 @@ Components are organised by Atomic Design and ITCSS layers:
 | tools      | `src/slice/src/scss/tools/`    | Mixins (elevation, motion, focus-ring)   |
 | base       | `src/slice/src/scss/base/`     | Reset, global element defaults, typography|
 | atoms      | `src/slice/src/scss/atoms/`    | Avatar, badge, button, chip, crossfade dot, date display, divider, icon, select input, surface, text input, tooltip, two-tone heading |
-| molecules  | `src/slice/src/scss/molecules/`| Article teaser, author byline, breadcrumbs, contact widget, form field, media loader, pagination, project card, pull quote, search form |
-| organisms  | `src/slice/src/scss/organisms/`| Newsletter signup, site header, and larger page sections |
+| molecules  | `src/slice/src/scss/molecules/`| Article teaser, author byline, breadcrumbs, contact widget, input text, media loader, pagination, project card, pull quote, search form |
+| organisms  | `src/slice/src/scss/organisms/`| Font preview, pixel glyph editor, newsletter signup, site header, and larger page sections |
 | components  | `src/slice/src/scss/components/`| Content layout and page-specific compositions |
 
 Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
 `Organisms`, `Components`. Each component has exactly one story; use the
 Controls tab for property combinations.
 
-Form controls share one `Molecules/Form Field` composition. Its controls cover nine standard
-presentations: text, password, textarea, select, single checkbox, radio group,
-checkbox group, choice chips, and file upload. The independent `field_data_type`
-control records whether the conceptual Drupal value is a string, long text,
-Boolean, list, or file; for example, one Boolean value can be inspected as a
-single checkbox, Yes/No radio group, select, or choice chips. Label,
-description, required, disabled, selected, and validation-error states remain
-on that same page.
+Font Preview is a shared Storybook/Drupal organism selected through an
+allowlisted font identifier. Its initial HTML contains the specimen input,
+status, Data table fallback, real local download, and one reusable dialog.
+Progressive enhancement parses the local TTF, creates responsive semantic glyph
+buttons from drawable cmap mappings, and renders the selected outline, points,
+metrics, Unicode mappings, and path data into that dialog. Embedded font names,
+copyright, and license values are displayed as file-derived data; editorial
+claims remain separate authored copy. The download action composes the shared
+Button and Icon contracts with `arrow-download.svg`.
 
-The reusable `Atoms/Select Input` renderer supplies the Form Field select rather
-than duplicating its markup. It emits a native `<select>` first, so forms remain
-usable when JavaScript is unavailable. Progressive enhancement adds an exact
+Pixel Glyph Editor is a 4pixel-specific organism with exactly 25 toggle
+buttons, a duplicated enlarged preview, and a polite filled-count status. Click,
+keyboard, and pointer dragging edit the same blank in-memory 5x5 state. It does
+not persist, upload, or generate a font file. Both organisms keep normal
+geometry in SCSS and tokens, with no presentational sizing attributes in their
+initial markup.
+
+Form controls share one `Molecules/Input fields/Input text` composition.
+Its controls cover nine standard presentations: text, password, textarea,
+select, single checkbox, radio group, checkbox group, choice chips, and file
+upload. The independent `field_data_type` control records whether the
+conceptual Drupal value is a string, long text, Boolean, list, or file; for
+example, one Boolean value can be inspected as a single checkbox, Yes/No radio
+group, select, or choice chips. Label, description, required, disabled,
+selected, and validation-error states remain on that same page.
+
+The reusable `Molecules/Input fields/Select Input` story supplies the select
+renderer used by Input text rather than duplicating its markup. It emits a
+native `<select>` first, so forms remain usable when JavaScript is unavailable.
+Progressive enhancement adds an exact
 40px trigger and suffix target, a 24px one-stroke chevron with a 36px circular
 hover surface, and a keyboard-accessible listbox whose rows are at least 40px.
 The listbox extends 4px beyond each trigger edge, aligns option text with the
@@ -150,11 +168,13 @@ the Article's listing, such as `/blog?tag=ui-ux-design` or
 `/videos?tag=music`. The custom Blog argument plugin transliterates each Tags
 label, lowercases it, replaces
 non-alphanumeric runs with one hyphen, and resolves that readable value to
-Drupal's internal term ID. Each listing View displays the selected tag with a
-clear action and keeps filtering usable through normal navigation, reload, history,
-and copied URLs without requiring a visible exposed form or custom AJAX. Tags
-must have unique labels after slug cleaning so each public value stays
-unambiguous.
+Drupal's internal term ID. Blog and Videos display the selected tag with a clear
+action. Portfolio instead keeps all tags used by accessible published Projects
+visible as Chip choices, marks the active Chip without a close icon, and clears
+it when that selected Chip is activated again. Every listing keeps filtering
+usable through normal navigation, reload, history, and copied URLs without a
+visible exposed form or custom AJAX. Tags must have unique labels after slug
+cleaning so each public value stays unambiguous.
 
 The Crossfade Dot atom keeps its token-backed visible marker inside the standard
 interactive target. Inactive dots use the dark-gray elevation surface, active
@@ -180,11 +200,11 @@ history, so an Article opened from another page still returns to its public
 listing.
 
 Form and input labels use the regular 14px `caption` typography role across the
-Text Input atom, Form Field molecule, and Drupal's native `.form-item` markup.
+Text Input atom, Input text molecule, and Drupal's native `.form-item` markup.
 This keeps `<label>` and form-group `<legend>` text at font weight 400 while
 leaving semibold `subtitle-2` typography available to non-form UI. Storybook's
-Select Input and Form Field examples wrap each label/control pair in
-`.form-field__label-control`, which owns their 8px gap. Form labels use an
+Select Input and Input text examples wrap each label/control pair in
+`.input-text__label-control`, which owns their 8px gap. Form labels use an
 explicit 16px height and line-height so control placement does not depend on the
 font's intrinsic line box.
 
@@ -198,7 +218,9 @@ navigation blocks become the left logo and centered one-level menu, while a
 right-side language picker exposes only `Eng` and `Rus`. It composes the shared
 Select Input atom with a borderless, intrinsic-width header treatment and uses
 Drupal's enabled interface languages and URL negotiation, so it preserves the
-current route and query string. On mobile the logo and language selector
+current route and query string. Drupal's route active trail supplies current-page
+styling, so listing query values such as `/portfolio?tag=font` do not deactivate
+the Portfolio menu item. On mobile the logo and language selector
 remain on the first row while the compact menu moves to a second row and retains
 horizontal scrolling only as a narrow-content fallback. Authenticated pages hide Gin's secondary toolbar to keep the public header
 visually unambiguous; Gin's primary administration navigation remains available.
@@ -291,9 +313,12 @@ opaque JSON value. The Basic page title remains a semantic `h1`; Storybook's
 
 Numeric Values is a responsive Home-page-ready tile section. Each semantic `h2`
 number uses the 64px `numeric-display` role backed by Ubuntu Sans Mono, while
-its Description uses `subtitle-1`. Date Display uses its existing caption scale
-and display variants but uses the same monospaced family for dates and times.
-Drupal exposes repeatable Number and Description fields plus an optional Start
+its Text uses `subtitle-1`. The reusable Drupal Content Block accepts one to
+eight nested items and the grid caps each row at four tiles. Each item can add
+one optional project-owned asset through the shared Icon component; the current
+two homepage items intentionally omit icons. Date Time Value uses the caption scale and
+the same monospaced family for absolute dates, elapsed time, and read/watch
+durations. Numeric Value items expose Number, Text, Icon, and an optional Start
 year used to calculate elapsed years automatically.
 
 The source stays deliberately short, for example
@@ -309,10 +334,11 @@ token; the token-contract lint rejects raw `px`, `rem`, and `em` typography.
 Open Sans is the only website heading/body family. Most typography roles below
 24px use the attached Open Sans Light face at weight 300; the compact `badge`
 role uses semibold 14px for stronger component labels. Roles at 24px and above
-retain their existing weights. Roundabout is demonstration-only and
-appears solely on the Fonts foundation page. 4pixel is reserved for its
-demonstration and compact technical details: the 5px `overline` role is used by
-the version watermark and similarly technical labels.
+retain their existing weights. Roundabout is demonstration-only and appears on
+the Fonts foundation page and its Project's Font Preview. 4pixel is reserved
+for its demonstration, Project preview, and compact technical details: the 5px
+`overline` role is used by the version watermark and similarly technical
+labels.
 Storybook's manager and Docs interface use Open Sans for UI text and the
 `typography.code` role for 14px bold Courier New code and technical metadata.
 Links use a 1px token-backed underline and the primary white text token in
@@ -320,16 +346,32 @@ default and hover states without replacing the surrounding typography. The
 version Git-hash link explicitly retains the 4pixel family and a persistent 1px
 solid underline so it reads as a technical link without relying on color.
 
-Author Byline keeps its name and metadata in one wrapping inline row in both
-Storybook and Drupal. YouTube reference dates use Date Display's `time-since`
-mode with calendar years, months, and days; shorter elapsed values fall back to
-hours and minutes.
+Footer Navigation uses two titled columns of vertically stacked list links:
+Social networks uses the six profiles in the theme's `social-links.json`, and
+Information uses the Footer menu. Both columns remain side by side on mobile,
+with the rights message below. Storybook imports the same profile data as Drupal.
+Social links compose the shared Icon atom at 16px with locally stored monochrome
+`social-*.svg` assets. `currentColor` supports black or white presentation; the
+dark footer uses white, switching the icon and label to each network's color
+on hover and keyboard focus: LinkedIn, Facebook, and VK blue, YouTube red,
+SoundCloud orange, and Steam's interface blue. These colors live in the
+`component.footer-navigation` tokens. Icon geometry comes from Simple Icons 11.15.0;
+provenance and its CC0 notice are stored in `social-icons-license.txt` alongside
+the assets.
+Footer Navigation composes the Badge atom inside its Fonts link. Drupal supplies
+the gray Badge's numeric label from the current count of accessible published
+Projects tagged `#Font`; Storybook exposes the same label, destination, and
+composed markup as controls rather than duplicating Badge HTML.
 
-Consumption Time is the shared atom for Article Teaser and Author Byline read or
-watch durations. It owns the split `minutes`, `unit`, and remaining label markup:
-the integer and `min` use secondary text while `to read` or `to watch` uses gray
-text. The surrounding molecules retain their own author, date, topic, and layout
-responsibilities rather than duplicating the duration markup.
+Author Byline keeps its name and metadata in one wrapping inline row in both
+Storybook and Drupal. Date Time Value owns the three semantic variants used by
+article metadata: absolute dates, elapsed time, and durations. Elapsed YouTube
+reference dates use calendar years, months, and days; shorter values fall back
+to hours and minutes. The duration variant owns the split number, unit, and
+remaining label markup: the integer and `min` use secondary text while `to read`
+or `to watch` uses gray text. Each date and duration remains a machine-readable
+`time` element while surrounding molecules retain author, topic, and layout
+responsibilities.
 
 ## Color
 

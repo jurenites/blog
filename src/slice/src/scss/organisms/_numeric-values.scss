@@ -8,11 +8,27 @@
 
 .numeric-values__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--component-numeric-values-tile-min-width-default), 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(
+      max(
+        var(--component-numeric-values-tile-min-width-default),
+        calc((100% - (var(--space-scale-base-gap) * 6)) / 4)
+      ),
+      1fr
+    )
+  );
   gap: calc(var(--space-scale-base-gap) * 2);
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.numeric-values__icon {
+  display: block;
+  width: auto;
+  max-width: var(--component-numeric-values-icon-max-width-default);
+  height: auto;
 }
 
 .numeric-values__tile {
@@ -24,7 +40,7 @@
   box-sizing: border-box;
   padding: calc(var(--space-scale-base-gap) * 3);
   background: var(--theme-dark-surface-background-elevation-level-0);
-  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
 }
 
 .numeric-values__number {

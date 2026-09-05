@@ -3,31 +3,66 @@
 @use "../tools";
 
 .footer-navigation {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: calc(var(--space-scale-base-gap) * 2);
-  flex-wrap: wrap;
+  display: grid;
+  gap: calc(var(--space-scale-base-gap) * 4);
   width: calc(100% - (var(--layout-gutter-desktop-default) * 2));
   max-width: var(--layout-content-max-wide-default);
   margin: 0 auto var(--layout-gutter-desktop-default);
 }
 
+.footer-navigation__columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: calc(var(--space-scale-base-gap) * 4);
+}
+
+.footer-navigation__heading {
+  margin: 0 0 calc(var(--space-scale-base-gap) * 2);
+  color: var(--theme-dark-text-gray);
+  @include tools.typography-subtitle-1;
+}
+
 .footer-navigation__list {
   @include tools.unstyled-list;
   display: flex;
-  flex-wrap: wrap;
-  gap: calc(var(--space-scale-base-gap) * 2);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-scale-base-gap);
 }
 
 .footer-navigation__link {
-  //@include tools.typography-caption;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-scale-base-gap);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  .badge {
+    text-decoration: none;
+  }
 }
 
 .footer-navigation__rights-message {
   margin: 0;
   color: var(--theme-dark-text-gray);
   @include tools.typography-body;
+}
+
+.footer-navigation .footer-navigation__social-link {
+  color: var(--theme-dark-text-primary-default);
+
+  .icon {
+    width: var(--component-footer-navigation-social-icon-size-default);
+    height: var(--component-footer-navigation-social-icon-size-default);
+  }
+
+  &:hover,
+  &:focus-visible {
+    @each $network-name in linkedin, facebook, vk, youtube, soundcloud, steam {
+      &[data-social-icon="social-#{$network-name}"] {
+        color: var(--component-footer-navigation-#{$network-name}-color-hover);
+      }
+    }
+  }
 }
 
 @include tools.breakpoint-down("mobile-max") {

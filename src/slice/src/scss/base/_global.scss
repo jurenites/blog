@@ -9,45 +9,42 @@ html {
 }
 
 body.jurenites-theme {
-  min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
   background: var(--theme-dark-surface-background-page);
   color: var(--theme-dark-text-primary-default);
   @include tools.typography-body;
-}
 
-body.jurenites-theme.path-frontpage {
-  overflow-x: hidden;
-}
-
-body.jurenites-theme .gin-secondary-toolbar {
-  display: none !important;
-}
-
-body.jurenites-theme a {
-  color: var(--theme-dark-text-primary-default);
-  text-decoration: underline;
-  text-decoration-thickness: var(--space-scale-one);
-  @include tools.motion-transition(color);
-  &hover{
-    color: var(--theme-dark-text-secondary-default);
+  &.path-frontpage {
+    overflow-x: hidden;
   }
-}
 
-body.jurenites-theme a:hover {
-  color: var(--theme-dark-text-primary-default);
-}
+  .gin-secondary-toolbar {
+    display: none !important;
+  }
 
-// Drupal's generated node-link list contains the redundant "Read more" action.
-// Keep the list in the DOM while hiding it everywhere on the public site; the
-// article title and image links use separate classes and remain interactive.
-body.jurenites-theme ul.links.inline {
-  display: none;
-}
+  a {
+    color: var(--theme-dark-text-primary-default);
+    text-decoration: underline;
+    text-decoration-thickness: var(--space-scale-one);
+    @include tools.motion-transition(color);
 
-body.jurenites-theme a:focus-visible,
-body.jurenites-theme button:focus-visible {
-  @include tools.focus-ring;
+    &:hover {
+      color: var(--color-palette-brand-tertiary);
+    }
+  }
+
+  // Drupal's generated node-link list contains the redundant "Read more" action.
+  // Keep the list in the DOM while hiding it everywhere on the public site; the
+  // article title and image links use separate classes and remain interactive.
+  ul.links.inline {
+    display: none;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    @include tools.focus-ring;
+  }
 }
 
 .visually-hidden {
@@ -77,8 +74,13 @@ body.jurenites-theme button:focus-visible {
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   max-width: var(--layout-container-max-desktop-default);
   margin: 0 auto;
   //padding: var(--layout-gutter-desktop-default);
+
+  > main {
+    flex: 1 0 auto;
+    width: 100%;
+  }
 }

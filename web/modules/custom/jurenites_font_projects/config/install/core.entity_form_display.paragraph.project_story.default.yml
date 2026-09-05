@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.project_story.field_project_story_body
+    - paragraphs.paragraphs_type.project_story
+  module:
+    - text
+id: paragraph.project_story.default
+targetEntityType: paragraph
+bundle: project_story
+mode: default
+content:
+  field_project_story_body:
+    type: text_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 12
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+

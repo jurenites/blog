@@ -1,0 +1,22 @@
+_meta:
+  version: '1.0'
+  entity_type: paragraph
+  uuid: 13c3f5c7-2b90-4077-85d8-120b90d6de3e
+  bundle: project_story
+  default_langcode: en
+default:
+  status:
+    - value: true
+  field_project_story_body:
+    -
+      value: |
+        <h2>How little data can still look like a letter?</h2>
+        <p>The original challenge was to minimise the information needed for each character while keeping the result understandable to a person. A packed Boolean bit pattern would be denser, but a visible grid is much easier to read, draw, and discuss. Four pixels were enough for the first logo, but a fuller alphabet demanded compromises: some forms need a 5×5 grid, while narrow lowercase characters can live in 3×5.</p>
+        <p>The font is proportional rather than monospaced. A narrow letter should not reserve the same horizontal space as a wide one, even at this scale. That spacing is part of what keeps the tiny forms readable.</p>
+        <p>I use 4pixel as a watermark on screenshots. A small Python tool adds the mark automatically, giving an image a recognisable signature that can survive ordinary sharing and compression.</p>
+        <p>The work is connected to old DOS and VGA code page 437 bitmap lettering. I also rebuilt an earlier version in <a href="https://fontstruct.com/fontstructions/show/990387/4pixel">FontStruct</a>, expecting a bitmap tool to make the job simple; turning a tiny drawing system into a complete, well-spaced font was harder than it looked.</p>
+        <p>Braille demonstrates that meaningful patterns can be encoded in an even smaller 2×3 cell. It is a writing system built for touch rather than a novelty comparison, and it is a useful reminder that legibility depends on the reader, the medium, and accessible design—not only the number of pixels.</p>
+        <p>Yes, the font called 4pixel is often shown at 5px. The name remembers where it started.</p>
+        <p><strong>Use:</strong> I am making this font available to download and use free of charge. Formal license metadata is not embedded in the current font file.</p>
+      format: basic_html
+

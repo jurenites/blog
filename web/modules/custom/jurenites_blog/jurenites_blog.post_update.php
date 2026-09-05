@@ -9,9 +9,11 @@ use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\Core\Entity\Entity\EntityViewMode;
 use Drupal\Core\Field\Entity\BaseFieldOverride;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\block\Entity\Block;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\node\Entity\NodeType;
 use Drupal\views\Entity\View;
 
 /**
@@ -566,4 +568,270 @@ function jurenites_blog_youtube_video_filter(string $filter_operator): array {
     'group' => 1,
     'exposed' => FALSE,
   ];
+}
+
+/**
+ * Makes News source metadata optional because it is populated on save.
+ */
+function jurenites_blog_post_update_news_automatic_metadata(): TranslatableMarkup {
+  $managed_descriptions = [
+    'field_news_source_name' => 'Filled automatically from the source URL. Administrators can correct this value.',
+    'field_news_source_published' => 'Filled automatically from the source URL. Administrators can correct this value.',
+    'field_image' => 'Filled automatically from the source URL. Administrators can replace this image.',
+  ];
+  foreach ($managed_descriptions as $field_name => $field_description) {
+    $field_config = FieldConfig::loadByName('node', 'news', $field_name);
+    if ($field_config !== NULL) {
+      $field_config->setRequired(FALSE);
+      $field_config->setDescription($field_description);
+      $field_config->save();
+    }
+  }
+
+  $source_url_field = FieldConfig::loadByName(
+    'node',
+    'news',
+    'field_news_source_url',
+  );
+  if ($source_url_field !== NULL) {
+    $source_url_field->setDescription(
+      'The original video or article URL. Source, publication time, and thumbnail are filled automatically when saved.',
+    );
+    $source_url_field->save();
+  }
+
+  return t('Made News source metadata optional and automatically managed.');
+}
+
+/**
+ * Updates the News create-form guidance for automatic metadata.
+ */
+function jurenites_blog_post_update_news_create_form_help(): TranslatableMarkup {
+  $news_type = NodeType::load('news');
+  if ($news_type !== NULL) {
+    $news_type->set(
+      'help',
+      'Add a catchy title and the original source URL. Source details and the thumbnail are filled automatically.',
+    );
+    $news_type->save();
+  }
+
+  return t('Updated the News create-form guidance for automatic metadata.');
+}
+
+/**
+ * Adds the three newest published Blog Articles to the homepage.
+ */
+function jurenites_blog_post_update_homepage_article_tiles(): TranslatableMarkup {
+  $frontpage_view = View::load('frontpage');
+  if ($frontpage_view === NULL) {
+    return t('The Frontpage View was unavailable; the homepage Article tiles were not added.');
+  }
+
+  $display_settings = $frontpage_view->get('display');
+  if (!isset($display_settings['default'], $display_settings['page_2'])) {
+    return t('The Blog display was unavailable; the homepage Article tiles were not added.');
+  }
+
+  $blog_display = $display_settings['page_2'];
+  $homepage_display = $blog_display;
+  $homepage_display['id'] = 'block_1';
+  $homepage_display['display_title'] = 'Homepage Articles';
+  $homepage_display['display_plugin'] = 'block';
+  $homepage_display['position'] = 5;
+  $homepage_display['display_options']['title'] = 'Latest articles';
+  $homepage_display['display_options']['display_description'] = 'The three newest published Blog Articles shown only on the homepage.';
+  $homepage_display['display_options']['block_description'] = 'Homepage Articles';
+  $homepage_display['display_options']['pager'] = [
+    'type' => 'some',
+    'options' => [
+      'offset' => 0,
+      'items_per_page' => 3,
+    ],
+  ];
+  $homepage_display['display_options']['arguments'] = [];
+  $homepage_display['display_options']['sorts'] = [
+    'created' => $display_settings['default']['display_options']['sorts']['created'],
+  ];
+  $homepage_display['display_options']['row'] = [
+    'type' => 'entity:node',
+    'options' => [
+      'view_mode' => 'teaser',
+    ],
+  ];
+  $homepage_display['display_options']['defaults']['title'] = FALSE;
+  $homepage_display['display_options']['defaults']['pager'] = FALSE;
+  $homepage_display['display_options']['defaults']['arguments'] = FALSE;
+  $homepage_display['display_options']['defaults']['filters'] = FALSE;
+  $homepage_display['display_options']['defaults']['sorts'] = FALSE;
+  $homepage_display['display_options']['defaults']['row'] = FALSE;
+  unset($homepage_display['display_options']['path']);
+
+  $display_settings['block_1'] = $homepage_display;
+  $frontpage_view->set('display', $display_settings);
+  $frontpage_view->save();
+
+  $article_block = Block::load('jurenites_theme_latest_articles');
+  if ($article_block === NULL) {
+    $article_block = Block::create([
+      'id' => 'jurenites_theme_latest_articles',
+      'theme' => 'jurenites_theme',
+      'region' => 'content',
+      'weight' => 5,
+      'provider' => NULL,
+      'plugin' => 'views_block:frontpage-block_1',
+      'settings' => [
+        'id' => 'views_block:frontpage-block_1',
+        'label' => 'Latest articles',
+        'label_display' => 'visible',
+        'provider' => 'views',
+        'views_label' => '',
+        'items_per_page' => NULL,
+      ],
+      'visibility' => [
+        'request_path' => [
+          'id' => 'request_path',
+          'negate' => FALSE,
+          'pages' => '<front>',
+        ],
+      ],
+    ]);
+  }
+  else {
+    $article_block->setRegion('content');
+    $article_block->setWeight(5);
+    $article_block->set('settings', [
+      'id' => 'views_block:frontpage-block_1',
+      'label' => 'Latest articles',
+      'label_display' => 'visible',
+      'provider' => 'views',
+      'views_label' => '',
+      'items_per_page' => NULL,
+    ]);
+    $article_block->setVisibilityConfig('request_path', [
+      'id' => 'request_path',
+      'negate' => FALSE,
+      'pages' => '<front>',
+    ]);
+  }
+  $article_block->enable()->save();
+
+  return t('Added the three newest published Blog Articles to the homepage.');
+}
+
+/**
+ * Makes alt text optional for every image field.
+ */
+function jurenites_blog_post_update_optional_image_alt_text(): TranslatableMarkup {
+  $field_storage = \Drupal::entityTypeManager()->getStorage('field_config');
+  $updated_count = 0;
+
+  foreach ($field_storage->loadMultiple() as $field_config) {
+    if ($field_config->getType() !== 'image'
+      || !$field_config->getSetting('alt_field_required')) {
+      continue;
+    }
+
+    $field_config->setSetting('alt_field_required', FALSE)->save();
+    $updated_count++;
+  }
+
+  return t('Made alt text optional for @field_count image fields.', [
+    '@field_count' => $updated_count,
+  ]);
+}
+
+/**
+ * Adds an editable Interests content block to the homepage.
+ */
+function jurenites_blog_post_update_homepage_interest_tiles(): TranslatableMarkup {
+  \Drupal::moduleHandler()->loadInclude('jurenites_blog', 'install');
+  $interests_block = jurenites_blog_ensure_interests_content_block();
+
+  return t('Added editable Interests Content Block @block_id to the homepage.', [
+    '@block_id' => $interests_block['content_block_id'],
+  ]);
+}
+
+/**
+ * Replaces taxonomy-owned image tiles with one reusable Tags content block.
+ */
+function jurenites_blog_post_update_replace_interest_tiles_with_content_block(): TranslatableMarkup {
+  $interest_image_ids = \Drupal::entityQuery('file')
+    ->accessCheck(FALSE)
+    ->condition('uri', 'public://interest-images/%', 'LIKE')
+    ->execute();
+  $interest_images = \Drupal::entityTypeManager()
+    ->getStorage('file')
+    ->loadMultiple($interest_image_ids);
+  foreach ($interest_images as $interest_image) {
+    $interest_image->delete();
+  }
+
+  foreach (['field_interest_image', 'field_featured_interest'] as $obsolete_field_name) {
+    FieldConfig::loadByName(
+      'taxonomy_term',
+      'tags',
+      $obsolete_field_name,
+    )?->delete();
+    FieldStorageConfig::loadByName(
+      'taxonomy_term',
+      $obsolete_field_name,
+    )?->delete();
+  }
+
+  $term_form_display = \Drupal::entityTypeManager()
+    ->getStorage('entity_form_display')
+    ->load('taxonomy_term.tags.default');
+  if ($term_form_display !== NULL) {
+    $term_form_display->removeComponent('field_interest_image');
+    $term_form_display->removeComponent('field_featured_interest');
+    $term_form_display->save();
+  }
+
+  $interest_image_directory = 'public://interest-images';
+  if (\Drupal::service('file_system')->prepareDirectory($interest_image_directory)) {
+    \Drupal::service('file_system')->deleteRecursive($interest_image_directory);
+  }
+
+  \Drupal::moduleHandler()->loadInclude('jurenites_blog', 'install');
+  $interests_block = jurenites_blog_ensure_interests_content_block();
+
+  return t('Created Interests Content Block @block_id and removed @image_count generated interest images.', [
+    '@block_id' => $interests_block['content_block_id'],
+    '@image_count' => count($interest_images),
+  ]);
+}
+
+/**
+ * Prefixes every Tags term for display while preserving clean filter slugs.
+ */
+function jurenites_blog_post_update_prefix_tag_labels(): TranslatableMarkup {
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $term_ids = $term_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('vid', 'tags')
+    ->execute();
+  $updated_count = 0;
+
+  foreach ($term_storage->loadMultiple($term_ids) as $tag_term) {
+    $tag_name = trim($tag_term->label());
+    $prefix_free_name = preg_replace('/^#+\s*/u', '', $tag_name) ?? '';
+    if (in_array($prefix_free_name, ['Game', 'Game Dev'], TRUE)) {
+      $prefix_free_name = 'Game Dev';
+    }
+
+    $prefixed_tag_name = '#' . $prefix_free_name;
+    if ($tag_name === $prefixed_tag_name) {
+      continue;
+    }
+
+    $tag_term->setName($prefixed_tag_name);
+    $tag_term->save();
+    $updated_count++;
+  }
+
+  return t('Prefixed @tag_count Tags terms and standardized Game as #Game Dev.', [
+    '@tag_count' => $updated_count,
+  ]);
 }

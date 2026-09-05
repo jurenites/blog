@@ -1,10 +1,23 @@
 <div class="footer-navigation">
-  <nav aria-label="Site information">
-    <ul class="footer-navigation__list">
-      <li class="footer-navigation__item">
-        <a class="footer-navigation__link" href="{{privacy_policy_url}}">{{privacy_policy_label}}</a>
-      </li>
-    </ul>
-  </nav>
+  <div class="footer-navigation__columns">
+    <nav aria-label="{{social_heading}}">
+      <h2 class="footer-navigation__heading">{{social_heading}}</h2>
+      <ul class="footer-navigation__list">{{social_links_markup}}</ul>
+    </nav>
+    <nav aria-label="{{information_heading}}">
+      <h2 class="footer-navigation__heading">{{information_heading}}</h2>
+      <ul class="footer-navigation__list">
+        <li class="footer-navigation__item">
+          <a class="footer-navigation__link" href="{{privacy_policy_url}}">{{privacy_policy_label}}</a>
+        </li>
+        <li class="footer-navigation__item">
+          <a class="footer-navigation__link" href="{{fonts_url}}">
+            <span>{{fonts_label}}</span>
+            {{fonts_badge_markup}}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
   <p class="footer-navigation__rights-message">{{rights_message}} {{current_year}}</p>
 </div>

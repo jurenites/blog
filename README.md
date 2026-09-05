@@ -82,9 +82,9 @@ npm run build-storybook   # build tokens, then build static Storybook
 npm run figma:prepare     # build tokens before running the Figma sync helper
 npm run docs:check        # check docs version and source/docs drift
 npm run build:theme       # compile Drupal CSS/JS and copy deployable theme fonts
-npm run build:info        # refresh Drupal and Storybook version/commit metadata
+npm run build:info        # refresh generated Storybook version/commit metadata
 npm run build:info:check  # reject metadata generated for an older Git HEAD
-npm run version:check     # verify package, lockfile, and docs versions agree
+npm run version:check     # verify package, lockfile, docs, and release versions agree
 npm run version:bump      # prepare the next minor release version
 
 ```
@@ -121,6 +121,12 @@ after both images load and remains static when reduced motion is requested.
 Manage display exposes the hold and crossfade durations. Two 4px pagination
 dots show the active image and can select either frame, while pointer hover
 pauses automatic rotation.
+
+Layout Paragraphs is installed and enabled alongside Paragraphs, providing the
+supported visual layout widget and formatter for future drag-and-drop content
+sections. Existing Article and Basic page Content sections retain their classic
+Paragraphs widget until a layout-section Paragraph type and the corresponding
+form/view display configuration are deliberately introduced.
 
 ## Media Upload Limit
 

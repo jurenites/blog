@@ -1,0 +1,32 @@
+[
+  {
+    "link_label": "LinkedIn",
+    "link_url": "https://www.linkedin.com/in/alexanderilivanov",
+    "icon_name": "social-linkedin"
+  },
+  {
+    "link_label": "Facebook",
+    "link_url": "https://www.facebook.com/sasha.ilivanov",
+    "icon_name": "social-facebook"
+  },
+  {
+    "link_label": "VKontakte",
+    "link_url": "https://vk.ru/jurenites",
+    "icon_name": "social-vk"
+  },
+  {
+    "link_label": "YouTube",
+    "link_url": "https://www.youtube.com/@jurenites",
+    "icon_name": "social-youtube"
+  },
+  {
+    "link_label": "SoundCloud",
+    "link_url": "https://soundcloud.com/alexander-ilivanov",
+    "icon_name": "social-soundcloud"
+  },
+  {
+    "link_label": "Steam",
+    "link_url": "https://steamcommunity.com/id/jurenites",
+    "icon_name": "social-steam"
+  }
+]

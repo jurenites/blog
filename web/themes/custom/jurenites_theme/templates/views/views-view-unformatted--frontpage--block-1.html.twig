@@ -1,0 +1,8 @@
+{# Homepage Article View using the shared three-tile teaser grid. #}
+<div class="article-teaser-grid">
+  {% for row in rows %}
+    <div{{ row.attributes.addClass('article-teaser-grid__item') }}>
+      {{- row.content -}}
+    </div>
+  {% endfor %}
+</div>

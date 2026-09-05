@@ -1,0 +1,235 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Runtime hooks and shared content helpers for Jurenites font projects.
+ */
+
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Url;
+use Drupal\jurenites_blog\TagSlugResolver;
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\node\NodeInterface;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\TermInterface;
+
+const JURENITES_FONT_PROJECTS_FONT_TERM_UUID = 'bcd8314a-d899-449f-b685-8ca03e04f66a';
+const JURENITES_FONT_PROJECTS_ROUNDABOUT_UUID = '2c9318f9-a23c-48bb-b8e4-b7440da0b698';
+const JURENITES_FONT_PROJECTS_4PIXEL_UUID = '9d1f85ef-6a6c-4d20-8058-6dd018057559';
+const JURENITES_FONT_PROJECTS_FONT_TAG_LABEL = '#Font';
+const JURENITES_FONT_PROJECTS_FONT_TAG_SLUG = 'font';
+const JURENITES_FONT_PROJECTS_FOOTER_LABEL = 'Fonts';
+const JURENITES_FONT_PROJECTS_FOOTER_URI = 'internal:/portfolio?tag=font';
+
+/**
+ * Adds the dynamic font-Project count to the Fonts footer menu item.
+ */
+function jurenites_font_projects_preprocess_menu(array &$menu_variables): void {
+  if (($menu_variables['menu_name'] ?? '') !== 'footer') {
+    return;
+  }
+
+  $tag_slug_resolver = \Drupal::service('jurenites_blog.tag_slug_resolver');
+  assert($tag_slug_resolver instanceof TagSlugResolver);
+  $font_term = $tag_slug_resolver->findTermBySlug(JURENITES_FONT_PROJECTS_FONT_TAG_SLUG);
+  $font_project_count = 0;
+
+  $node_entity_type = \Drupal::entityTypeManager()->getDefinition('node');
+  $badge_cacheability = (new CacheableMetadata())
+    ->addCacheTags(Cache::mergeTags(
+      $node_entity_type->getListCacheTags(),
+      $node_entity_type->getBundleListCacheTags('project'),
+    ))
+    ->addCacheTags(['taxonomy_term_list:tags'])
+    ->addCacheContexts(['user.node_grants:view', 'user.permissions']);
+
+  if ($font_term instanceof TermInterface) {
+    $font_project_count = (int) \Drupal::entityQuery('node')
+      ->accessCheck(TRUE)
+      ->condition('type', 'project')
+      ->condition('status', NodeInterface::PUBLISHED)
+      ->condition('field_tags.target_id', $font_term->id())
+      ->count()
+      ->execute();
+    $badge_cacheability->addCacheableDependency($font_term);
+  }
+
+  foreach ($menu_variables['items'] as &$footer_item) {
+    if (!jurenites_font_projects_is_font_footer_item($footer_item)) {
+      continue;
+    }
+
+    $footer_item['font_project_badge'] = [
+      '#theme' => 'badge',
+      '#badge_label' => (string) $font_project_count,
+      '#color_variant' => 'gray',
+      '#cache' => [
+        'contexts' => $badge_cacheability->getCacheContexts(),
+        'max-age' => $badge_cacheability->getCacheMaxAge(),
+        'tags' => $badge_cacheability->getCacheTags(),
+      ],
+    ];
+  }
+}
+
+/**
+ * Determines whether a built footer item is the Font-filter link.
+ */
+function jurenites_font_projects_is_font_footer_item(array $footer_item): bool {
+  if (!isset($footer_item['url']) || !$footer_item['url'] instanceof Url) {
+    return FALSE;
+  }
+
+  $item_query = $footer_item['url']->getOption('query');
+  if (!is_array($item_query)
+    || ($item_query['tag'] ?? NULL) !== JURENITES_FONT_PROJECTS_FONT_TAG_SLUG) {
+    return FALSE;
+  }
+
+  return $footer_item['url']->getInternalPath() === 'portfolio';
+}
+
+/**
+ * Ensures the shared Font term, seeded assignments, and footer menu link.
+ */
+function jurenites_font_projects_ensure_portfolio_navigation(): array {
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $candidate_term_ids = $term_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('vid', 'tags')
+    ->sort('tid')
+    ->execute();
+  $tag_slug_resolver = \Drupal::service('jurenites_blog.tag_slug_resolver');
+  assert($tag_slug_resolver instanceof TagSlugResolver);
+  $font_term = NULL;
+  foreach ($term_storage->loadMultiple($candidate_term_ids) as $candidate_term) {
+    if ($candidate_term instanceof TermInterface
+      && $tag_slug_resolver->slugify($candidate_term->label()) === JURENITES_FONT_PROJECTS_FONT_TAG_SLUG) {
+      $font_term = $candidate_term;
+      break;
+    }
+  }
+
+  if (!$font_term instanceof TermInterface) {
+    $font_term = Term::create([
+      'uuid' => JURENITES_FONT_PROJECTS_FONT_TERM_UUID,
+      'vid' => 'tags',
+      'name' => JURENITES_FONT_PROJECTS_FONT_TAG_LABEL,
+    ]);
+    $font_term->save();
+  }
+
+  $updated_project_count = 0;
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  foreach ([
+    JURENITES_FONT_PROJECTS_ROUNDABOUT_UUID,
+    JURENITES_FONT_PROJECTS_4PIXEL_UUID,
+  ] as $project_uuid) {
+    $project_ids = $node_storage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('uuid', $project_uuid)
+      ->execute();
+    $project_node = $project_ids ? $node_storage->load(reset($project_ids)) : NULL;
+    if (!$project_node instanceof NodeInterface
+      || !$project_node->hasField('field_tags')) {
+      continue;
+    }
+
+    $assigned_term_ids = array_column($project_node->get('field_tags')->getValue(), 'target_id');
+    if (in_array((string) $font_term->id(), array_map('strval', $assigned_term_ids), TRUE)) {
+      continue;
+    }
+
+    $project_node->get('field_tags')->appendItem(['target_id' => $font_term->id()]);
+    $project_node->save();
+    $updated_project_count++;
+  }
+
+  $menu_link_storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
+  $footer_link_ids = $menu_link_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('menu_name', 'footer')
+    ->condition('link.uri', JURENITES_FONT_PROJECTS_FOOTER_URI)
+    ->execute();
+  $font_footer_link = $footer_link_ids
+    ? $menu_link_storage->load(reset($footer_link_ids))
+    : MenuLinkContent::create([
+      'menu_name' => 'footer',
+      'link' => ['uri' => JURENITES_FONT_PROJECTS_FOOTER_URI],
+    ]);
+  assert($font_footer_link instanceof MenuLinkContent);
+  $font_footer_link->set('title', JURENITES_FONT_PROJECTS_FOOTER_LABEL);
+  $font_footer_link->set('link', ['uri' => JURENITES_FONT_PROJECTS_FOOTER_URI]);
+  $font_footer_link->set('enabled', TRUE);
+  $font_footer_link->set('expanded', FALSE);
+  $font_footer_link->set('weight', 1);
+  $font_footer_link->save();
+
+  return [
+    'font_term_id' => (int) $font_term->id(),
+    'updated_project_count' => $updated_project_count,
+    'footer_link_id' => (int) $font_footer_link->id(),
+  ];
+}
+
+/**
+ * Replaces the feature-created duplicate with the pre-existing font term.
+ */
+function jurenites_font_projects_repair_duplicate_font_term(): int {
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $candidate_term_ids = $term_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('vid', 'tags')
+    ->sort('tid')
+    ->execute();
+  $tag_slug_resolver = \Drupal::service('jurenites_blog.tag_slug_resolver');
+  assert($tag_slug_resolver instanceof TagSlugResolver);
+  $matching_terms = array_values(array_filter(
+    $term_storage->loadMultiple($candidate_term_ids),
+    static fn ($candidate_term): bool => $candidate_term instanceof TermInterface
+      && $tag_slug_resolver->slugify($candidate_term->label()) === JURENITES_FONT_PROJECTS_FONT_TAG_SLUG,
+  ));
+  if (count($matching_terms) < 2) {
+    return 0;
+  }
+
+  $canonical_term = reset($matching_terms);
+  assert($canonical_term instanceof TermInterface);
+  $generated_duplicate = NULL;
+  foreach (array_slice($matching_terms, 1) as $matching_term) {
+    if ($matching_term->uuid() === JURENITES_FONT_PROJECTS_FONT_TERM_UUID) {
+      $generated_duplicate = $matching_term;
+      break;
+    }
+  }
+  if (!$generated_duplicate instanceof TermInterface) {
+    return 0;
+  }
+
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $affected_node_ids = $node_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('field_tags.target_id', $generated_duplicate->id())
+    ->execute();
+  foreach ($node_storage->loadMultiple($affected_node_ids) as $affected_node) {
+    if (!$affected_node instanceof NodeInterface || !$affected_node->hasField('field_tags')) {
+      continue;
+    }
+
+    $replacement_values = [];
+    foreach ($affected_node->get('field_tags')->getValue() as $tag_value) {
+      $replacement_term_id = (int) $tag_value['target_id'] === (int) $generated_duplicate->id()
+        ? (int) $canonical_term->id()
+        : (int) $tag_value['target_id'];
+      $replacement_values[$replacement_term_id] = ['target_id' => $replacement_term_id];
+    }
+    $affected_node->set('field_tags', array_values($replacement_values));
+    $affected_node->save();
+  }
+
+  $generated_duplicate->delete();
+  return count($affected_node_ids);
+}

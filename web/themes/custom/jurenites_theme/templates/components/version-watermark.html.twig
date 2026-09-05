@@ -9,6 +9,11 @@
   </span>
   <span class="version-watermark__line">
     <span class="version-watermark__credit">{{ watermark_credit_text }}</span>
-    <span class="version-watermark__credit_name">{{ watermark_credit_collaboration }}</span>
+    {% for collaborator_name in watermark_credit_collaborators %}
+      {% if not loop.first %}
+        <span class="version-watermark__separator">&amp;</span>
+      {% endif %}
+      <span class="version-watermark__credit_name">{{ collaborator_name }}</span>
+    {% endfor %}
   </span>
 </div>

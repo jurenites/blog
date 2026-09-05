@@ -1,8 +1,0 @@
-{# Shared read/watch duration with the number and unit emphasized together. #}
-{% set consumption_label_parts = consumption_time_label|trim|split(' ', 2) %}
-{% if consumption_time_minutes and consumption_label_parts|first %}
-  <span class="consumption-time">
-    <span class="consumption-time__minutes">{{ consumption_time_minutes }}</span>
-    <span class="consumption-time__label"><span class="consumption-time__unit">{{ consumption_label_parts|first }}</span>{% if consumption_label_parts|length > 1 %} {{ consumption_label_parts|last }}{% endif %}</span>
-  </span>
-{% endif %}

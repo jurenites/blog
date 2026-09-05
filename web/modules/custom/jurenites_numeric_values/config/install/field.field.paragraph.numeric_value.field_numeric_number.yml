@@ -9,8 +9,8 @@ field_name: field_numeric_number
 entity_type: paragraph
 bundle: numeric_value
 label: Number
-description: 'The displayed value, for example 80+. Leave empty when Start year calculates the value.'
-required: false
+description: 'The value displayed in the tile, for example 80+.'
+required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''

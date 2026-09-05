@@ -1,8 +1,10 @@
 name: Jurenites Numeric Values
 type: module
-description: Provides repeatable numeric-value Paragraph sections for Basic pages and Articles.
+description: Provides reusable Numeric values blocks and repeatable numeric-value Paragraph items.
 package: Jurenites
 core_version_requirement: ^11
 dependencies:
+  - drupal:block_content
+  - drupal:file
   - entity_reference_revisions:entity_reference_revisions
   - paragraphs:paragraphs

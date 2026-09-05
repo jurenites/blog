@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: numeric_values
+label: 'Numeric values'
+revision: true
+description: 'A reusable section containing up to eight numeric value tiles.'

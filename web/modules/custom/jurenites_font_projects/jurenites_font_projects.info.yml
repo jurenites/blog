@@ -1,0 +1,14 @@
+name: 'Jurenites font projects'
+type: module
+description: 'Provides Project content, interactive font sections, and the initial Roundabout and 4pixel projects.'
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:image
+  - drupal:node
+  - drupal:path
+  - drupal:taxonomy
+  - drupal:text
+  - entity_reference_revisions:entity_reference_revisions
+  - jurenites_blog:jurenites_blog
+  - paragraphs:paragraphs

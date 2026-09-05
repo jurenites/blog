@@ -1,12 +1,11 @@
 <div class="storybook-stack storybook-stack--wide">
-  <aside class="author-byline" aria-label="{{byline_label}}">
-    {{avatar_content}}
-    <div class="author-byline__identity">
-      <span class="author-byline__name">{{author_name_markup}}</span>
-      <span class="author-byline__details">
-        {{published_date}}
-        {{reading_time_content}}
-      </span>
+  <aside class="author-byline author-byline--{{byline_layout}} author-byline--avatar-{{avatar_size}}" aria-label="{{byline_label}}">
+    {{author_identity_content}}
+    <span class="author-byline__identity-separator{{identity_separator_class_name}}" aria-hidden="true">&middot;</span>
+    <div class="author-byline__timing{{timing_class_name}}">
+      <span class="author-byline__published">{{published_date_content}}</span>
+      <span class="author-byline__separator{{separator_class_name}}" aria-hidden="true">&middot;</span>
+      <span class="author-byline__duration">{{duration_content}}</span>
     </div>
     {{topic_content}}
   </aside>

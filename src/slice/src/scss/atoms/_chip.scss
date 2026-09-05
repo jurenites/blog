@@ -12,24 +12,25 @@
   color: var(--theme-dark-text-secondary-default);
   text-decoration: none;
   user-select: none;
-}
 
-.chip[href]:hover {
-  border-color: var(--theme-dark-border-outline-default);
-  color: var(--theme-dark-text-primary-default);
-}
+  &[href] {
+    font: var(--typography-badge);
+    text-decoration: none;
 
-.chip[href] {
-  font: var(--typography-badge);
-  text-decoration: none;
-}
+    &:hover {
+      background: var(--theme-dark-surface-background-elevation-level-2);
+      border-color: var(--theme-dark-border-outline-default);
+      color: var(--color-palette-brand-tertiary);
+    }
 
-.chip[href]:focus-visible {
-  outline: var(--shape-border-width-thick-default) solid var(--theme-dark-action-primary-default);
-  outline-offset: calc(var(--space-scale-base-gap) * 0.5);
-}
+    &:focus-visible {
+      outline: var(--shape-border-width-thick-default) solid var(--theme-dark-action-primary-default);
+      outline-offset: calc(var(--space-scale-base-gap) * 0.5);
+    }
+  }
 
-.chip--accent {
-  border-color: var(--theme-dark-border-outline-default);
-  color: var(--theme-dark-text-primary-default);
+  &--accent {
+    border-color: var(--theme-dark-border-outline-default);
+    color: var(--theme-dark-text-primary-default);
+  }
 }

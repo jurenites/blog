@@ -3,8 +3,8 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.numeric_value.field_numeric_description
+    - field.field.paragraph.numeric_value.field_numeric_icon_image
     - field.field.paragraph.numeric_value.field_numeric_number
-    - field.field.paragraph.numeric_value.field_numeric_start_year
     - paragraphs.paragraphs_type.numeric_value
 id: paragraph.numeric_value.default
 targetEntityType: paragraph
@@ -19,12 +19,12 @@ content:
       size: 20
       placeholder: '80+'
     third_party_settings: {  }
-  field_numeric_start_year:
-    type: number
+  field_numeric_icon_image:
+    type: file_generic
     weight: 1
     region: content
     settings:
-      placeholder: '2010'
+      progress_indicator: throbber
     third_party_settings: {  }
   field_numeric_description:
     type: string_textfield

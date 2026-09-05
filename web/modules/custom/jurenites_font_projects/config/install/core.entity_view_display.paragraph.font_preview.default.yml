@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.font_preview.field_font_identifier
+    - paragraphs.paragraphs_type.font_preview
+id: paragraph.font_preview.default
+targetEntityType: paragraph
+bundle: font_preview
+mode: default
+content: {  }
+hidden:
+  field_font_identifier: true
+  created: true
+  status: true
+

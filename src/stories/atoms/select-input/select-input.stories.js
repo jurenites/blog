@@ -11,13 +11,13 @@ const IS_DISABLED = false;
 
 function render_story(story_args) {
   const required_indicator_markup = story_args.is_required
-    ? '<span class="form-field__required" aria-hidden="true">&#x20;*</span>'
+    ? '<span class="input-text__required" aria-hidden="true">&#x20;*</span>'
     : "";
 
   return `
     <div class="storybook-stack storybook-stack--medium">
-      <div class="form-field__label-control">
-        <label class="form-field__label" for="${escape_html(story_args.field_id)}">${escape_html(story_args.field_label)}${required_indicator_markup}</label>
+      <div class="input-text__label-control">
+        <label class="input-text__label" for="${escape_html(story_args.field_id)}">${escape_html(story_args.field_label)}${required_indicator_markup}</label>
         ${select_input_markup(story_args)}
       </div>
     </div>
@@ -25,7 +25,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: "Atoms/Select Input",
+  title: "Molecules/Input fields/Select Input",
   tags: ["autodocs"],
   render: render_story,
   parameters: {

@@ -24,7 +24,7 @@
   <div class="article-list-item__body">
     {{ title_prefix }}
     {% if label %}
-      <h2{{ title_attributes.addClass('article-list-item__title') }}>
+      <h2{{ title_attributes.addClass('article-list-item__title').setAttribute('data-jurenites-article-title-transition', 'article-title-' ~ article_id) }}>
         <a class="article-list-item__title-link" href="{{ url }}" rel="bookmark">{{ label }}</a>
       </h2>
     {% endif %}
@@ -54,8 +54,8 @@
             author_url: youtube_author_url,
             published_date_iso: youtube_published_date_iso,
             published_date_markup: youtube_published_date_text,
-            date_value_mode: 'time-since',
-            date_display_variant: 'day-month-year',
+            date_value_kind: 'elapsed-time',
+            date_display_variant: 'date-day',
             reading_time_minutes: reading_time_minutes,
             reading_time_label: reading_time_label,
           } only %}

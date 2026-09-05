@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 1.2.0
-Reviewed: 2026-09-03
+Version: 1.11.1
+Reviewed: 2026-09-04
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -9,16 +9,17 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 
 ## Versioning Policy
 
-- `package.json` owns one version for the whole repository. Drupal, Storybook,
-  generated build information, and this documentation checkpoint use that same
-  project version.
+- `package.json` owns one version for the whole repository. The tracked theme
+  `release-info.json`, Drupal, Storybook, and this documentation checkpoint use
+  that same project version.
 - Version `1.0.0` marks the first production release. Bump the minor version for
   each subsequent delivered project iteration (`1.1.0`, `1.2.0`, and so on).
   Reserve patch bumps for corrections to an existing release and major bumps
   for intentionally incompatible changes.
 - Use `npm run version:bump` for the normal minor increment, or pass `patch`,
   `minor`, or `major` explicitly. The command keeps `package.json`,
-  `package-lock.json`, and this checkpoint synchronized.
+  `package-lock.json`, the tracked theme `release-info.json`, and this checkpoint
+  synchronized.
 - During active refactoring, it is fine to avoid rewriting docs for every small
   experiment. Before committing meaningful source changes, run
   `npm run docs:check` and update docs when the checker reports drift.
@@ -76,11 +77,13 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Project-owned SVG icons are rendered through the shared 24px Icon component
   rather than handwritten inline SVG or text glyphs. Named geometry remains in
   `src/public/assets/icons`; the Blog tag-filter clear action composes the
-  `icon-cross` asset through that shared contract.
+  `cross-big` asset through that shared contract.
 - Full Article YouTube players show the shared animated no-signal noise while
-  their iframe loads. The overlay derives its responsive dimensions and aspect
-  ratio from the field formatter's player box, crossfades to the loaded player
-  over 200ms, and stops rendering after the transition.
+  their iframe loads. The Media Loader adds a one-pixel progress line that tracks
+  elapsed wait against the expected load duration, stops below completion while
+  the request remains pending, and reaches completion only on the iframe load
+  event. The overlay crossfades to the loaded player over 200ms and stops
+  rendering after the transition.
 - Content Layout provides one controlled Storybook composition for generic page
   and node shells, with token-backed readable and wide widths. Drupal's native
   `.layout-content` uses the readable width without requiring another wrapper.
@@ -154,9 +157,9 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   seconds are truncated and hour-long videos remain expressed in total minutes.
   Name and date/time details share one wrapping inline row in Storybook and
   Drupal; elapsed dates use calendar units such as `4 months and 9 days`.
-  Author Byline and Article Teaser both compose the Consumption Time atom, which
-  keeps the minute number and `min` in secondary text while rendering the
-  remaining read/watch purpose in gray.
+  Author Byline and Article Teaser both compose the Date Time Value duration
+  variant, which keeps the minute number and `min` in secondary text while
+  rendering the remaining read/watch purpose in gray.
   The detail credit sits below the iframe and video title, while Drupal retains
   the node owner for its normal editorial history. The video creator Avatar uses
   the stored 16px channel image with initials as its non-blocking fallback.
@@ -164,7 +167,7 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   link to the Blog's validated single-tag GET filter using cleaned tag-label
   slugs rather than internal IDs. Its selected state and clear action require no
   exposed input or custom AJAX.
-- Form Field consolidates nine native control presentations into one Storybook
+- Input text consolidates nine native control presentations into one Storybook
   page. Shared SCSS styles Drupal textareas, selects, checkboxes, radios, file
   uploads, descriptions, disabled states, and validation errors while retaining
   native form markup. Shared and native form labels and legends use regular 14px,
@@ -298,10 +301,17 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Article Tags use Tagify's unlimited entity-reference autocomplete widget.
   Editors can select existing Tags terms or create new terms by entering text.
 - Paragraphs provides structured content sections on Articles and Basic pages.
-  Numeric Values adds a repeatable section of semantic statistic tiles. Each
-  tile stores Number and Description fields, with an optional Start year that
-  calculates elapsed years at render time. Numbers use a 64px Ubuntu Sans Mono
-  role with a slashed zero; descriptions use `subtitle-1`.
+  Stable Layout Paragraphs 2.x and core Layout Discovery are installed and
+  enabled as the visual-layout foundation. The existing Content sections field
+  intentionally retains its classic Paragraphs widget and entity-reference
+  formatter until an explicit layout-section component is designed and added.
+  Numeric Values is a reusable Content Block placed on the homepage before the
+  article and news blocks. Its nested Paragraph field enforces one to eight
+  tiles and the responsive grid caps each row at four. Each item stores Number,
+  Text, and an optional attached SVG Icon image; the current two-item block
+  remains icon-free. Uploaded SVGs keep their intrinsic dimensions, internal
+  viewport, and aspect ratio, with an 80px maximum width. Numbers use a 64px
+  Ubuntu Sans Mono role with a slashed zero; Text uses `subtitle-1`.
   The Two-image crossfade Paragraph requires exactly two Image media items,
   defaults to two-second holds and half-second transitions, exposes both values
   as formatter settings, provides two interactive 4px pagination dots, and
@@ -326,11 +336,11 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   `headline-3`, `headline-4`, `headline-5`, and `headline-6` roles.
 - The screenshot signature displays the shared project version, current UTC
   build update time to the second, seven-character Git hash, and collaboration
-  credit with exact solid token colors in Drupal, the Storybook manager, and
-  every Storybook preview iframe.
-- The Storybook manager and each Canvas or Docs preview own one persistent build
-  watermark. The Version Watermark story additionally remains its intentional
-  component sample and is capped at 200px including Canvas chrome.
+  credit with exact solid token colors in Drupal and every Storybook preview
+  iframe.
+- Each Canvas or Docs preview owns one persistent build watermark. The Storybook
+  manager does not add a second copy, and the Version Watermark story replaces
+  the automatic preview watermark with its intentional component sample.
 - Drupal renders the Version Watermark in every environment, including PROD.
   One build-identity writer updates both Drupal JSON and Storybook JavaScript;
   validation rejects output whose project version or Git commit differs from
@@ -395,11 +405,12 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   and monochrome rounded speech bubble in Storybook and Drupal. An uploaded user
   picture takes priority regardless of Drupal's global comment-picture theme
   toggle, with initials reserved for an empty or failed image. Its header
-  reuses the Article Teaser metadata layout, and Date Display preserves spaces
-  around decorated zero digits in elapsed labels. The Article comment
-  form keeps its fixed restricted text format but does not render Drupal's text
-  format help and selector wrapper for any account. Its action row contains only
-  the Post comment action; Drupal's optional Preview action remains hidden. The
+  reuses the Article Teaser metadata layout, and the Date Time Value elapsed-time
+  variant preserves spaces around decorated zero digits in elapsed labels. The
+  Article comment form keeps its fixed restricted text format but does not render
+  Drupal's text format help and selector wrapper for any account. Its action row
+  contains only the Post comment action; Drupal's optional Preview action remains
+  hidden. The
   Author controls stay hidden while adding comments, but Drupal administrators
   can use them while editing an existing comment to correct its account owner.
 - Gin hides Drupal's Shortcuts toolbar, Bookmarks menu, and page-title action.

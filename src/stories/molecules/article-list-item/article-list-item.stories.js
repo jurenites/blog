@@ -12,8 +12,8 @@ const AVATAR_INITIALS = "HA";
 const AVATAR_IMAGE_URL = "";
 const AVATAR_SIZE = "small";
 const PUBLISHED_DATE = "2026-06-15";
-const DATE_VALUE_MODE = "time-since";
-const DATE_DISPLAY_VARIANT = "day-month-year";
+const DATE_VALUE_KIND = "elapsed-time";
+const DATE_DISPLAY_VARIANT = "date-day";
 const READING_TIME_MINUTES = 20;
 const READING_TIME_LABEL = "min to watch";
 const TOPIC_LIST = "";
@@ -42,7 +42,7 @@ export default {
     avatar_image_url: AVATAR_IMAGE_URL,
     avatar_size: AVATAR_SIZE,
     published_date: PUBLISHED_DATE,
-    date_value_mode: DATE_VALUE_MODE,
+    date_value_kind: DATE_VALUE_KIND,
     date_display_variant: DATE_DISPLAY_VARIANT,
     reading_time_minutes: READING_TIME_MINUTES,
     reading_time_label: READING_TIME_LABEL,

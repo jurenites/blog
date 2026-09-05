@@ -32,8 +32,9 @@ final class TagSlugResolver {
    * Converts a tag label to its lowercase, URL-safe representation.
    */
   public function slugify(string $tagLabel): string {
+    $displayPrefixFreeLabel = preg_replace('/^\s*#+\s*/u', '', $tagLabel) ?? '';
     $transliteratedLabel = $this->transliterationService->transliterate(
-      $tagLabel,
+      $displayPrefixFreeLabel,
       'en',
       '-',
     );

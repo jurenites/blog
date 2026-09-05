@@ -1,0 +1,12 @@
+_meta:
+  version: '1.0'
+  entity_type: paragraph
+  uuid: c1cd279b-c797-4ecf-8cf8-43bc485c2151
+  bundle: font_preview
+  default_langcode: en
+default:
+  status:
+    - value: true
+  field_font_identifier:
+    - value: roundabout
+

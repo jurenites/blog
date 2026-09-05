@@ -1,0 +1,48 @@
+<section class="font-preview font-preview--{{font_identifier}}" data-jurenites-font-preview data-font-url="{{font_url}}" aria-labelledby="{{component_id}}-title">
+  <header class="font-preview__header">
+    <div>
+      <p class="font-preview__eyebrow">Interactive font</p>
+      <h2 class="font-preview__title" id="{{component_id}}-title">{{font_title}}</h2>
+    </div>
+    {{download_action}}
+  </header>
+
+  <div class="font-preview__input">
+    {{text_input}}
+  </div>
+  <p class="font-preview__specimen" data-font-preview-specimen>{{sample_text}}</p>
+  <p class="font-preview__status" data-font-preview-status role="status">Loading glyph data…</p>
+  <div class="font-preview__glyph-grid" data-font-preview-grid aria-label="Drawable Unicode mappings"></div>
+
+  <section class="font-preview__data" aria-labelledby="{{component_id}}-data-title">
+    <h3 id="{{component_id}}-data-title">Data</h3>
+    <div class="font-preview__table-scroll">
+      <table class="font-preview__table">
+        <tbody data-font-preview-metadata>
+          <tr><th scope="row">Status</th><td>Font metadata loads in the browser from the local file.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <dialog class="font-preview__dialog" data-font-preview-dialog aria-labelledby="{{component_id}}-dialog-title">
+    <div class="font-preview__dialog-header">
+      <h3 id="{{component_id}}-dialog-title" data-glyph-dialog-title>Glyph details</h3>
+      {{close_action}}
+    </div>
+    <div class="font-preview__glyph-visual">
+      <svg class="font-preview__glyph-svg" data-glyph-svg role="img" aria-label="Selected glyph vector outline"></svg>
+    </div>
+    <dl class="font-preview__glyph-data">
+      <div><dt>Glyph</dt><dd data-glyph-name>—</dd></div>
+      <div><dt>Unicode</dt><dd data-glyph-unicode>—</dd></div>
+      <div><dt>Index</dt><dd data-glyph-index>—</dd></div>
+      <div><dt>Advance width</dt><dd data-glyph-width>—</dd></div>
+      <div><dt>Left side bearing</dt><dd data-glyph-bearing>—</dd></div>
+    </dl>
+    <details class="font-preview__path-details">
+      <summary>Path data</summary>
+      <pre><code data-glyph-path>No glyph selected.</code></pre>
+    </details>
+  </dialog>
+</section>

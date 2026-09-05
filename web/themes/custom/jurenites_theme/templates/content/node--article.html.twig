@@ -37,16 +37,24 @@
 
   {% if node.field_youtube_video is not empty %}
     <div class="article-detail__youtube-video">
-      <div class="youtube-video-loader" data-jurenites-youtube-video-loader aria-busy="true">
+      <figure class="media-loader youtube-video-loader" data-jurenites-youtube-video-loader aria-busy="true">
         <div
-          class="youtube-video-loader__noise"
+          class="media-loader__noise youtube-video-loader__noise"
           data-jurenites-media-loader-noise
           aria-hidden="true"
         ></div>
         <div class="youtube-video-loader__embed">
           {{ content.field_youtube_video }}
         </div>
-      </div>
+        <figcaption class="media-loader__status">
+          <progress
+            class="media-loader__progress"
+            max="100"
+            value="0"
+            aria-label="{{ 'Loading external video'|t }}"
+          ></progress>
+        </figcaption>
+      </figure>
       {% if youtube_video_title or youtube_author_name %}
         <div class="youtube-video-details">
           {% if youtube_video_title %}
@@ -62,8 +70,8 @@
               author_url: youtube_author_url,
               published_date_iso: youtube_published_date_iso,
               published_date_markup: youtube_published_date_text,
-              date_value_mode: 'time-since',
-              date_display_variant: 'day-month-year',
+              date_value_kind: 'elapsed-time',
+              date_display_variant: 'date-day',
               reading_time_minutes: reading_time_minutes,
               reading_time_label: reading_time_label,
             } only %}

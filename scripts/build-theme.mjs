@@ -3,12 +3,12 @@ import { cp, mkdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as sass from 'sass';
-import { write_build_information } from './build-deployment-info.mjs';
 
 const ROOT_DIRECTORY = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BUILD_PATHS = {
   scss_entry: resolve(ROOT_DIRECTORY, 'src/slice/src/scss/theme.scss'),
   js_entry: resolve(ROOT_DIRECTORY, 'src/slice/src/js/script.js'),
+  font_preview_js_entry: resolve(ROOT_DIRECTORY, 'src/slice/src/js/font-preview-entry.js'),
   fonts_source: resolve(ROOT_DIRECTORY, 'src/public/assets/fonts'),
   fonts_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/assets/fonts'),
   icons_source: resolve(ROOT_DIRECTORY, 'src/public/assets/icons'),
@@ -17,6 +17,10 @@ const BUILD_PATHS = {
   brand_logo_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/logo.svg'),
   css_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/css/style.min.css'),
   js_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/js/script.min.js'),
+  font_preview_js_output: resolve(
+    ROOT_DIRECTORY,
+    'web/themes/custom/jurenites_theme/js/font-preview.min.js',
+  ),
 };
 
 await mkdir(dirname(BUILD_PATHS.css_output), { recursive: true });
@@ -33,7 +37,6 @@ const css_result = sass.compile(BUILD_PATHS.scss_entry, {
 });
 
 await writeFile(BUILD_PATHS.css_output, css_result.css);
-await write_build_information();
 
 await esbuild.build({
   entryPoints: [BUILD_PATHS.js_entry],
@@ -45,6 +48,17 @@ await esbuild.build({
   legalComments: 'none',
 });
 
+await esbuild.build({
+  entryPoints: [BUILD_PATHS.font_preview_js_entry],
+  outfile: BUILD_PATHS.font_preview_js_output,
+  bundle: true,
+  minify: true,
+  sourcemap: false,
+  target: ['es2018'],
+  legalComments: 'none',
+});
+
 console.log(`Built theme assets:
 - ${BUILD_PATHS.css_output}
-- ${BUILD_PATHS.js_output}`);
+- ${BUILD_PATHS.js_output}
+- ${BUILD_PATHS.font_preview_js_output}`);

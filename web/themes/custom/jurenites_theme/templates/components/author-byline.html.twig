@@ -1,39 +1,47 @@
-{# Shared source identity composed from Avatar, publication date, and topics. #}
-<aside class="author-byline" aria-label="{{ byline_label|default('Article author'|t) }}">
-  {% include '@jurenites_theme/components/avatar.html.twig' with {
-    avatar_image: author_avatar_image,
-    avatar_initials: author_avatar_initials,
-    avatar_size: avatar_size|default('medium'),
+{# Flexible attribution composed from reusable who, when, and duration pieces. #}
+{% set resolved_byline_layout = byline_layout|default('inline') %}
+{% set resolved_avatar_size = avatar_size|default('medium') %}
+<aside
+  class="author-byline author-byline--{{ resolved_byline_layout }} author-byline--avatar-{{ resolved_avatar_size }}"
+  aria-label="{{ byline_label|default('Article author'|t) }}"
+>
+  {% include '@jurenites_theme/components/author-identity.html.twig' with {
+    author_prefix_text: author_prefix_text,
+    author_avatar_image: author_avatar_image,
+    author_avatar_initials: author_avatar_initials,
+    avatar_size: resolved_avatar_size,
+    author_name_attributes: author_name_attributes,
+    author_name_markup: author_name_markup,
+    author_name_text: author_name_text,
+    author_url: author_url,
   } only %}
-  <div class="author-byline__identity">
-    <span class="author-byline__name">
-      {% if author_name_markup %}
-        {{ author_name_markup }}
-      {% elseif author_url %}
-        <a href="{{ author_url }}" rel="external noopener">{{ author_name_text }}</a>
-      {% else %}
-        {{ author_name_text }}
-      {% endif %}
-    </span>
-    {% if published_date_markup or (reading_time_minutes and reading_time_label) %}
-      <span class="author-byline__details">
+  {% if published_date_markup or (reading_time_minutes and reading_time_label) %}
+    <span class="author-byline__identity-separator" aria-hidden="true">&middot;</span>
+    <div class="author-byline__timing">
       {% if published_date_markup %}
-        &nbsp;
+        <span class="author-byline__published">
+          {% include '@jurenites_theme/components/date-time-value.html.twig' with {
+            date_time_value_kind: date_value_kind|default('absolute-date'),
+            date_time_datetime: published_date_iso,
+            date_time_display_markup: published_date_markup,
+            date_time_date_display_variant: date_display_variant|default('date-day'),
+          } only %}
+        </span>
+      {% endif %}
+      {% if published_date_markup and reading_time_minutes and reading_time_label %}
         <span class="author-byline__separator" aria-hidden="true">&middot;</span>
-        <time class="date-display date-display--{{ date_value_mode|default('month-day-year') }} date-display--{{ date_display_variant|default('date-day') }}" datetime="{{ published_date_iso }}">{{ published_date_markup }}</time>
       {% endif %}
       {% if reading_time_minutes and reading_time_label %}
-        {% if published_date_markup %}
-          <span class="author-byline__separator" aria-hidden="true">&middot;</span>
-        {% endif %}
-        {% include '@jurenites_theme/components/consumption-time.html.twig' with {
-          consumption_time_minutes: reading_time_minutes,
-          consumption_time_label: reading_time_label,
-        } only %}
+        <span class="author-byline__duration">
+          {% include '@jurenites_theme/components/date-time-value.html.twig' with {
+            date_time_value_kind: 'duration',
+            duration_minutes: reading_time_minutes,
+            duration_label: reading_time_label,
+          } only %}
+        </span>
       {% endif %}
-      </span>
-    {% endif %}
-  </div>
+    </div>
+  {% endif %}
   {% if topic_content %}
     <div class="author-byline__topics">{{ topic_content }}</div>
   {% endif %}

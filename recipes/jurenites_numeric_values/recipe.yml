@@ -1,6 +1,6 @@
 name: 'Jurenites numeric values'
-description: 'Adds repeatable Numeric values sections to Article and Basic page content sections.'
-type: 'Content field'
+description: 'Adds a reusable Numeric values block and repeatable Numeric value items.'
+type: 'Site'
 recipes:
   - jurenites_paragraphs_crossfade
 install:
@@ -8,18 +8,23 @@ install:
 config:
   import:
     jurenites_numeric_values:
+      - block_content.type.numeric_values
+      - core.entity_form_display.block_content.numeric_values.default
       - core.entity_form_display.paragraph.numeric_value.default
       - core.entity_form_display.paragraph.numeric_values.default
+      - core.entity_view_display.block_content.numeric_values.default
       - core.entity_view_display.paragraph.numeric_value.default
       - core.entity_view_display.paragraph.numeric_values.default
+      - field.field.block_content.numeric_values.field_numeric_items
       - field.field.paragraph.numeric_value.field_numeric_description
+      - field.field.paragraph.numeric_value.field_numeric_icon_image
       - field.field.paragraph.numeric_value.field_numeric_number
-      - field.field.paragraph.numeric_value.field_numeric_start_year
       - field.field.paragraph.numeric_values.field_numeric_items
+      - field.storage.block_content.field_numeric_items
       - field.storage.paragraph.field_numeric_description
+      - field.storage.paragraph.field_numeric_icon_image
       - field.storage.paragraph.field_numeric_items
       - field.storage.paragraph.field_numeric_number
-      - field.storage.paragraph.field_numeric_start_year
       - paragraphs.paragraphs_type.numeric_value
       - paragraphs.paragraphs_type.numeric_values
   actions:

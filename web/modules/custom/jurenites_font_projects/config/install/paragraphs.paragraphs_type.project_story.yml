@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+id: project_story
+label: 'Project story'
+icon_uuid: null
+icon_default: null
+description: 'A rich-text section in a Project narrative.'
+behavior_plugins: {  }
+

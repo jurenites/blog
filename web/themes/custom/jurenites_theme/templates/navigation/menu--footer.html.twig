@@ -1,14 +1,38 @@
 {% if items %}
   <div class="footer-navigation">
-    <nav aria-label="{{ 'Site information'|t }}">
-      <ul class="footer-navigation__list">
-        {% for footer_item in items %}
-          <li class="footer-navigation__item">
-            {{ link(footer_item.title, footer_item.url, {'class': ['footer-navigation__link']}) }}
-          </li>
-        {% endfor %}
-      </ul>
-    </nav>
+    <div class="footer-navigation__columns">
+      <nav aria-label="{{ 'Social networks'|t }}">
+        <h2 class="footer-navigation__heading">{{ 'Social networks'|t }}</h2>
+        <ul class="footer-navigation__list">
+          {% for social_link in social_links %}
+            <li class="footer-navigation__item">
+              <a class="footer-navigation__link footer-navigation__social-link" href="{{ social_link.link_url }}" data-social-icon="{{ social_link.icon_name }}" rel="me">
+                {% include '@jurenites_theme/components/icon.html.twig' with {
+                  icon_name: social_link.icon_name,
+                  icon_asset_base_url: icon_asset_base_url
+                } only %}
+                <span>{{ social_link.link_label }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+      <nav aria-label="{{ 'Information'|t }}">
+        <h2 class="footer-navigation__heading">{{ 'Information'|t }}</h2>
+        <ul class="footer-navigation__list">
+          {% for footer_item in items %}
+            <li class="footer-navigation__item">
+              <a href="{{ footer_item.url }}"{{ footer_item.attributes.addClass('footer-navigation__link') }}>
+                <span>{{ footer_item.title }}</span>
+                {% if footer_item.font_project_badge %}
+                  {{ footer_item.font_project_badge }}
+                {% endif %}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
     <p class="footer-navigation__rights-message">{{ 'No rights reserved'|t }} {{ 'now'|date('Y') }}</p>
   </div>
 {% endif %}

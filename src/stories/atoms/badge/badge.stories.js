@@ -1,19 +1,13 @@
 // Atom: Badge. Neutral-tone label; color variant via Controls.
-import badge_template from "./badge.template.html?raw";
+import { badge_markup } from "./badge.markup.js";
 import { token_value } from "../../foundations/token-values.js";
-import { escape_html, render_template } from "../../template.js";
 
 const BADGE_LABEL = "Published";
 const COLOR_VARIANT = token_value("component-badge-default-variant");
 const COLOR_VARIANT_OPTIONS = ["neutral", "gray", "white"];
 
 function render_badge_story({ badge_label, color_variant }) {
-  const base_color_variant = COLOR_VARIANT_OPTIONS[0];
-  const badge_class_name = color_variant === base_color_variant ? "badge" : `badge badge--${color_variant}`;
-  return render_template(badge_template, {
-    badge_class_name,
-    badge_label_text: escape_html(badge_label),
-  });
+  return badge_markup({ badge_label, color_variant });
 }
 
 export default {

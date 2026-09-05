@@ -1,0 +1,241 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for Jurenites Blog.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\taxonomy\Entity\Term;
+
+const JURENITES_BLOG_INTERESTS_BLOCK_UUID = '3f770563-077b-4825-bdf6-e0bc79706c08';
+
+/**
+ * Makes alt text optional for existing image fields.
+ */
+function jurenites_blog_install(): void {
+  $field_storage = \Drupal::entityTypeManager()->getStorage('field_config');
+
+  foreach ($field_storage->loadMultiple() as $field_config) {
+    if ($field_config->getType() !== 'image'
+      || !$field_config->getSetting('alt_field_required')) {
+      continue;
+    }
+
+    $field_config->setSetting('alt_field_required', FALSE)->save();
+  }
+
+  jurenites_blog_ensure_interests_content_block();
+}
+
+/**
+ * Creates the reusable Interests block, its ordered Tags field, and placement.
+ */
+function jurenites_blog_ensure_interests_content_block(): array {
+  $interestsBlockType = BlockContentType::load('interests');
+  if ($interestsBlockType === NULL) {
+    $interestsBlockType = BlockContentType::create([
+      'id' => 'interests',
+      'label' => 'Interests',
+      'revision' => TRUE,
+      'description' => 'An ordered selection of up to six Tags linked to filtered Videos pages.',
+    ]);
+    $interestsBlockType->save();
+  }
+
+  $interestTagsStorage = FieldStorageConfig::loadByName(
+    'block_content',
+    'field_interest_tags',
+  );
+  if ($interestTagsStorage === NULL) {
+    $interestTagsStorage = FieldStorageConfig::create([
+      'field_name' => 'field_interest_tags',
+      'entity_type' => 'block_content',
+      'type' => 'entity_reference',
+      'settings' => [
+        'target_type' => 'taxonomy_term',
+      ],
+      'cardinality' => 6,
+      'translatable' => TRUE,
+    ]);
+    $interestTagsStorage->save();
+  }
+
+  $interestTagsField = FieldConfig::loadByName(
+    'block_content',
+    'interests',
+    'field_interest_tags',
+  );
+  if ($interestTagsField === NULL) {
+    FieldConfig::create([
+      'field_storage' => $interestTagsStorage,
+      'bundle' => 'interests',
+      'label' => 'Interest Tags',
+      'description' => 'Select and order up to six Tags. Each Chip links to Videos filtered by that Tag.',
+      'required' => TRUE,
+      'translatable' => TRUE,
+      'settings' => [
+        'handler' => 'default:taxonomy_term',
+        'handler_settings' => [
+          'target_bundles' => [
+            'tags' => 'tags',
+          ],
+          'sort' => [
+            'field' => '_none',
+            'direction' => 'ASC',
+          ],
+          'auto_create' => FALSE,
+          'auto_create_bundle' => '',
+        ],
+      ],
+    ])->save();
+  }
+
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+  jurenites_blog_configure_interests_displays();
+
+  $interestTagNameCandidates = [
+    '#UI/UX Design' => ['#UI/UX Design', 'UI/UX Design'],
+    '#Programming' => ['#Programming', 'Programming'],
+    '#Cars' => ['#Cars', 'Cars'],
+    '#Game Dev' => ['#Game Dev', 'Game Dev', '#Game', 'Game'],
+    '#Artificial Intelligence' => ['#Artificial Intelligence', 'Artificial Intelligence'],
+    '#Hardware' => ['#Hardware', 'Hardware'],
+  ];
+  $termStorage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $interestTermReferences = [];
+  foreach ($interestTagNameCandidates as $interestTagName => $candidateTagNames) {
+    $matchingTermIds = $termStorage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('vid', 'tags')
+      ->condition('name', $candidateTagNames, 'IN')
+      ->sort('tid')
+      ->range(0, 1)
+      ->execute();
+    $interestTerm = $matchingTermIds
+      ? $termStorage->load(reset($matchingTermIds))
+      : NULL;
+    if (!$interestTerm) {
+      $interestTerm = Term::create([
+        'vid' => 'tags',
+        'name' => $interestTagName,
+      ]);
+      $interestTerm->save();
+    }
+    elseif ($interestTerm->label() !== $interestTagName) {
+      $interestTerm->setName($interestTagName);
+      $interestTerm->save();
+    }
+    $interestTermReferences[] = ['target_id' => $interestTerm->id()];
+  }
+
+  $contentBlockStorage = \Drupal::entityTypeManager()->getStorage('block_content');
+  $interestsBlockIds = $contentBlockStorage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('uuid', JURENITES_BLOG_INTERESTS_BLOCK_UUID)
+    ->execute();
+  $homepageInterestsBlock = $interestsBlockIds
+    ? $contentBlockStorage->load(reset($interestsBlockIds))
+    : NULL;
+  if (!$homepageInterestsBlock instanceof BlockContent) {
+    $homepageInterestsBlock = BlockContent::create([
+      'uuid' => JURENITES_BLOG_INTERESTS_BLOCK_UUID,
+      'type' => 'interests',
+      'langcode' => 'en',
+      'uid' => 1,
+      'info' => 'Homepage interests',
+      'reusable' => TRUE,
+      'field_interest_tags' => $interestTermReferences,
+    ]);
+    $homepageInterestsBlock->save();
+  }
+
+  $placementIdentifier = 'jurenites_theme_interests';
+  $pluginIdentifier = 'block_content:' . JURENITES_BLOG_INTERESTS_BLOCK_UUID;
+  $homepagePlacement = Block::load($placementIdentifier) ?? Block::create([
+    'id' => $placementIdentifier,
+    'theme' => 'jurenites_theme',
+    'plugin' => $pluginIdentifier,
+  ]);
+  $homepagePlacement->set('plugin', $pluginIdentifier);
+  $homepagePlacement->setRegion('content');
+  $homepagePlacement->setWeight(4);
+  $homepagePlacement->set('status', TRUE);
+  $homepagePlacement->set('settings', [
+    'id' => $pluginIdentifier,
+    'label' => 'Homepage interests',
+    'label_display' => '0',
+    'provider' => 'block_content',
+    'view_mode' => 'full',
+  ]);
+  $homepagePlacement->setVisibilityConfig('request_path', [
+    'id' => 'request_path',
+    'negate' => FALSE,
+    'pages' => '<front>',
+  ]);
+  $homepagePlacement->save();
+
+  return [
+    'content_block_id' => (int) $homepageInterestsBlock->id(),
+    'placement_id' => $homepagePlacement->id(),
+  ];
+}
+
+/**
+ * Configures the Interests block authoring and public displays.
+ */
+function jurenites_blog_configure_interests_displays(): void {
+  $interestsBlockForm = EntityFormDisplay::load('block_content.interests.default')
+    ?? EntityFormDisplay::create([
+      'targetEntityType' => 'block_content',
+      'bundle' => 'interests',
+      'mode' => 'default',
+      'status' => TRUE,
+    ]);
+  $interestsBlockForm->setComponent('info', [
+    'type' => 'string_textfield',
+    'weight' => 0,
+    'region' => 'content',
+    'settings' => [
+      'size' => 60,
+      'placeholder' => 'Homepage interests',
+    ],
+  ]);
+  $interestsBlockForm->setComponent('field_interest_tags', [
+    'type' => 'entity_reference_autocomplete_tags',
+    'weight' => 1,
+    'region' => 'content',
+    'settings' => [
+      'match_operator' => 'CONTAINS',
+      'match_limit' => 10,
+      'size' => 60,
+      'placeholder' => 'Start typing a Tag name',
+    ],
+  ]);
+  $interestsBlockForm->save();
+
+  $interestsBlockView = EntityViewDisplay::load('block_content.interests.default')
+    ?? EntityViewDisplay::create([
+      'targetEntityType' => 'block_content',
+      'bundle' => 'interests',
+      'mode' => 'default',
+      'status' => TRUE,
+    ]);
+  $interestsBlockView->setComponent('field_interest_tags', [
+    'type' => 'entity_reference_label',
+    'label' => 'hidden',
+    'settings' => [
+      'link' => TRUE,
+    ],
+    'weight' => 0,
+    'region' => 'content',
+  ]);
+  $interestsBlockView->removeComponent('info');
+  $interestsBlockView->save();
+}

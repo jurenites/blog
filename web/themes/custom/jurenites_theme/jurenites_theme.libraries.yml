@@ -6,3 +6,9 @@ global:
     js/script.min.js: { minified: true }
   dependencies:
     - core/drupal
+
+font-preview:
+  js:
+    js/font-preview.min.js: { minified: true }
+  dependencies:
+    - core/drupal

@@ -9,6 +9,27 @@ use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
+use Drupal\taxonomy\TermInterface;
+
+/**
+ * Keeps Tags term labels in their hash-prefixed display format.
+ */
+function jurenites_blog_taxonomy_term_presave(TermInterface $tag_term): void {
+  if ($tag_term->bundle() !== 'tags') {
+    return;
+  }
+
+  $prefix_free_name = preg_replace(
+    '/^#+\s*/u',
+    '',
+    trim($tag_term->label()),
+  ) ?? '';
+  if (in_array($prefix_free_name, ['Game', 'Game Dev'], TRUE)) {
+    $prefix_free_name = 'Game Dev';
+  }
+
+  $tag_term->setName('#' . $prefix_free_name);
+}
 
 /**
  * Hides automatically managed YouTube metadata from non-administrators.
@@ -39,12 +60,50 @@ function jurenites_blog_form_node_article_form_alter(
 }
 
 /**
- * Populates an empty Article Image field from its YouTube thumbnail.
+ * Hides automatically managed News metadata from non-administrators.
  */
-function jurenites_blog_node_presave(NodeInterface $article_node): void {
-  if ($article_node->bundle() !== 'article') {
+function jurenites_blog_form_node_news_form_alter(
+  array &$news_form,
+  FormStateInterface $form_state,
+): void {
+  if (isset($news_form['field_news_source_url']['widget'][0]['uri'])) {
+    $news_form['field_news_source_url']['widget'][0]['uri']['#description'] = t(
+      'Source, publication time, and thumbnail are filled automatically when saved.',
+    );
+  }
+
+  $news_node = $form_state->getFormObject()->getEntity();
+  if (!$news_node->isNew()
+    && \Drupal::currentUser()->hasPermission('administer nodes')) {
     return;
   }
+
+  $managed_field_names = [
+    'field_news_source_name',
+    'field_news_source_published',
+    'field_image',
+  ];
+  foreach ($managed_field_names as $managed_field_name) {
+    if (isset($news_form[$managed_field_name])) {
+      $news_form[$managed_field_name]['#access'] = FALSE;
+    }
+  }
+}
+
+/**
+ * Populates managed metadata for Article and News content.
+ */
+function jurenites_blog_node_presave(NodeInterface $content_node): void {
+  if ($content_node->bundle() === 'news') {
+    jurenites_blog_set_news_metadata($content_node);
+    return;
+  }
+
+  if ($content_node->bundle() !== 'article') {
+    return;
+  }
+
+  $article_node = $content_node;
 
   $original_node = $article_node->getOriginal();
   $original_identifier = $original_node?->hasField('field_youtube_video')
@@ -243,10 +302,522 @@ function jurenites_blog_youtube_duration_minutes(string $video_page): ?int {
 }
 
 /**
- * Downloads the best available YouTube thumbnail into an Article Image field.
+ * Populates managed metadata for a News source URL.
+ */
+function jurenites_blog_set_news_metadata(NodeInterface $news_node): void {
+  if (!$news_node->hasField('field_news_source_url')
+    || $news_node->get('field_news_source_url')->isEmpty()) {
+    return;
+  }
+
+  $source_url = trim((string) $news_node->get('field_news_source_url')->uri);
+  if ($source_url === '') {
+    return;
+  }
+
+  $original_node = $news_node->getOriginal();
+  $original_url = $original_node?->hasField('field_news_source_url')
+    ? trim((string) $original_node->get('field_news_source_url')->uri)
+    : '';
+  $source_changed = $original_url !== '' && $source_url !== $original_url;
+  $source_name_missing = $news_node->get('field_news_source_name')->isEmpty();
+  $published_time_missing = $news_node->get('field_news_source_published')->isEmpty();
+  $thumbnail_missing = $news_node->get('field_image')->isEmpty();
+
+  if (!$source_changed
+    && !$source_name_missing
+    && !$published_time_missing
+    && !$thumbnail_missing) {
+    return;
+  }
+
+  $video_identifier = jurenites_blog_youtube_identifier($source_url);
+  if ($video_identifier !== '') {
+    jurenites_blog_set_news_youtube_metadata(
+      $news_node,
+      $source_url,
+      $video_identifier,
+      $source_changed,
+    );
+    return;
+  }
+
+  try {
+    $page_metadata = [];
+    try {
+      $source_page = jurenites_blog_load_public_url($source_url, 5 * 1024 * 1024);
+      $page_metadata = jurenites_blog_extract_page_metadata($source_page);
+    }
+    catch (\Throwable $page_exception) {
+      $page_metadata = jurenites_blog_load_oembed_metadata($source_url);
+    }
+
+    if (in_array('', [
+      (string) ($page_metadata['source_name'] ?? ''),
+      (string) ($page_metadata['published_time'] ?? ''),
+      (string) ($page_metadata['thumbnail_url'] ?? ''),
+    ], TRUE)) {
+      try {
+        $oembed_metadata = jurenites_blog_load_oembed_metadata($source_url);
+        foreach ($oembed_metadata as $metadata_name => $metadata_value) {
+          if (($page_metadata[$metadata_name] ?? '') === '' && $metadata_value !== '') {
+            $page_metadata[$metadata_name] = $metadata_value;
+          }
+        }
+      }
+      catch (\Throwable) {
+        // Keep any metadata already found in the source page.
+      }
+    }
+    $source_hostname = strtolower((string) parse_url($source_url, PHP_URL_HOST));
+    $source_name = trim((string) ($page_metadata['source_name'] ?? ''));
+    if ($source_name === '') {
+      $source_name = preg_replace('/^www\./', '', $source_hostname) ?? '';
+    }
+    if (($source_changed || $source_name_missing) && $source_name !== '') {
+      $news_node->set('field_news_source_name', $source_name);
+    }
+
+    $published_time = jurenites_blog_normalize_datetime(
+      (string) ($page_metadata['published_time'] ?? ''),
+    );
+    if (($source_changed || $published_time_missing) && $published_time !== '') {
+      $news_node->set('field_news_source_published', $published_time);
+    }
+
+    $thumbnail_url = jurenites_blog_resolve_source_url(
+      $source_url,
+      (string) ($page_metadata['thumbnail_url'] ?? ''),
+    );
+    if (($source_changed || $thumbnail_missing) && $thumbnail_url !== '') {
+      jurenites_blog_set_news_thumbnail($news_node, $thumbnail_url);
+    }
+  }
+  catch (\Throwable $metadata_exception) {
+    \Drupal::logger('jurenites_blog')->warning(
+      'Unable to save page metadata for News @news_id: @message',
+      [
+        '@news_id' => $news_node->id() ?? 'new',
+        '@message' => $metadata_exception->getMessage(),
+      ],
+    );
+  }
+}
+
+/**
+ * Loads standard and provider-specific values from a known oEmbed endpoint.
+ */
+function jurenites_blog_load_oembed_metadata(string $source_url): array {
+  $resource_url = \Drupal::service('media.oembed.url_resolver')->getResourceUrl($source_url);
+  $resource_body = jurenites_blog_load_public_url($resource_url, 1024 * 1024);
+  $resource_data = json_decode($resource_body, TRUE, flags: JSON_THROW_ON_ERROR);
+  if (!is_array($resource_data)) {
+    throw new \RuntimeException('The oEmbed response is not an object.');
+  }
+
+  return [
+    'source_name' => trim((string) ($resource_data['provider_name'] ?? '')),
+    'published_time' => trim((string) (
+      $resource_data['publication_date']
+      ?? $resource_data['date_published']
+      ?? ''
+    )),
+    'thumbnail_url' => trim((string) ($resource_data['thumbnail_url'] ?? '')),
+  ];
+}
+
+/**
+ * Populates News metadata from the established YouTube workflow.
+ */
+function jurenites_blog_set_news_youtube_metadata(
+  NodeInterface $news_node,
+  string $video_url,
+  string $video_identifier,
+  bool $source_changed,
+): void {
+  $source_name_missing = $news_node->get('field_news_source_name')->isEmpty();
+  $published_time_missing = $news_node->get('field_news_source_published')->isEmpty();
+  $thumbnail_missing = $news_node->get('field_image')->isEmpty();
+
+  if ($source_changed || $source_name_missing) {
+    try {
+      $resource_url = \Drupal::service('media.oembed.url_resolver')->getResourceUrl($video_url);
+      $video_resource = \Drupal::service('media.oembed.resource_fetcher')->fetchResource($resource_url);
+      $source_name = trim((string) $video_resource->getAuthorName());
+      if ($source_name !== '') {
+        $news_node->set('field_news_source_name', $source_name);
+      }
+    }
+    catch (\Throwable $source_exception) {
+      \Drupal::logger('jurenites_blog')->warning(
+        'Unable to save the YouTube source for News @news_id: @message',
+        [
+          '@news_id' => $news_node->id() ?? 'new',
+          '@message' => $source_exception->getMessage(),
+        ],
+      );
+    }
+  }
+
+  if ($source_changed || $published_time_missing) {
+    try {
+      $date_separator = str_contains($video_url, '?') ? '&' : '?';
+      $video_page = jurenites_blog_load_public_url(
+        $video_url . $date_separator . 'hl=en',
+        5 * 1024 * 1024,
+      );
+      $date_found = preg_match('/"publishDate":"([^"]+)"/', $video_page, $date_matches);
+      $published_time = $date_found === 1
+        ? jurenites_blog_normalize_datetime($date_matches[1])
+        : '';
+      if ($published_time !== '') {
+        $news_node->set('field_news_source_published', $published_time);
+      }
+    }
+    catch (\Throwable $date_exception) {
+      \Drupal::logger('jurenites_blog')->warning(
+        'Unable to save the YouTube publication time for News @news_id: @message',
+        [
+          '@news_id' => $news_node->id() ?? 'new',
+          '@message' => $date_exception->getMessage(),
+        ],
+      );
+    }
+  }
+
+  if ($source_changed || $thumbnail_missing) {
+    jurenites_blog_set_youtube_thumbnail($news_node, $video_url, $video_identifier);
+  }
+}
+
+/**
+ * Extracts a YouTube video identifier from supported URL shapes.
+ */
+function jurenites_blog_youtube_identifier(string $video_url): string {
+  $url_parts = parse_url($video_url);
+  if (!is_array($url_parts)) {
+    return '';
+  }
+
+  $video_host = strtolower((string) ($url_parts['host'] ?? ''));
+  $video_path = trim((string) ($url_parts['path'] ?? ''), '/');
+  if ($video_host === 'youtu.be' || $video_host === 'www.youtu.be') {
+    return explode('/', $video_path)[0] ?? '';
+  }
+  if (!in_array($video_host, [
+    'youtube.com',
+    'www.youtube.com',
+    'm.youtube.com',
+  ], TRUE)) {
+    return '';
+  }
+
+  parse_str((string) ($url_parts['query'] ?? ''), $query_parameters);
+  if (isset($query_parameters['v']) && is_string($query_parameters['v'])) {
+    return trim($query_parameters['v']);
+  }
+  if (preg_match('#^(?:shorts|embed)/([^/]+)#', $video_path, $path_matches) === 1) {
+    return trim($path_matches[1]);
+  }
+
+  return '';
+}
+
+/**
+ * Loads a bounded public HTTP(S) resource and validates redirects.
+ */
+function jurenites_blog_load_public_url(string $remote_url, int $byte_limit): string {
+  if (!jurenites_blog_is_public_url($remote_url)) {
+    throw new \InvalidArgumentException('Only public HTTP(S) source URLs can be loaded.');
+  }
+
+  $remote_response = \Drupal::httpClient()->request('GET', $remote_url, [
+    'timeout' => 20,
+    'headers' => [
+      'Accept-Language' => 'en-US,en;q=0.9',
+      'User-Agent' => 'Mozilla/5.0 (compatible; JurenitesNews/1.0)',
+    ],
+    'allow_redirects' => [
+      'max' => 3,
+      'strict' => TRUE,
+      'referer' => FALSE,
+      'on_redirect' => static function (
+        $redirect_request,
+        $redirect_response,
+        $redirect_uri,
+      ): void {
+        if (!jurenites_blog_is_public_url((string) $redirect_uri)) {
+          throw new \RuntimeException('A source redirected to a non-public URL.');
+        }
+      },
+    ],
+  ]);
+  $remote_body = (string) $remote_response->getBody();
+  if (strlen($remote_body) > $byte_limit) {
+    throw new \RuntimeException('The remote resource exceeds the supported size.');
+  }
+
+  return $remote_body;
+}
+
+/**
+ * Reports whether a URL resolves only to public network addresses.
+ */
+function jurenites_blog_is_public_url(string $remote_url): bool {
+  $url_parts = parse_url($remote_url);
+  if (!is_array($url_parts)) {
+    return FALSE;
+  }
+
+  $url_scheme = strtolower((string) ($url_parts['scheme'] ?? ''));
+  $url_host = strtolower((string) ($url_parts['host'] ?? ''));
+  if (!in_array($url_scheme, ['http', 'https'], TRUE)
+    || $url_host === ''
+    || $url_host === 'localhost'
+    || str_ends_with($url_host, '.local')
+    || str_ends_with($url_host, '.internal')) {
+    return FALSE;
+  }
+
+  if (filter_var($url_host, FILTER_VALIDATE_IP) !== FALSE) {
+    return filter_var(
+      $url_host,
+      FILTER_VALIDATE_IP,
+      FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE,
+    ) !== FALSE;
+  }
+
+  $address_records = dns_get_record($url_host, DNS_A | DNS_AAAA);
+  if (!is_array($address_records) || $address_records === []) {
+    return FALSE;
+  }
+  foreach ($address_records as $address_record) {
+    $resolved_address = $address_record['ip'] ?? $address_record['ipv6'] ?? '';
+    if ($resolved_address !== '' && filter_var(
+      $resolved_address,
+      FILTER_VALIDATE_IP,
+      FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE,
+    ) === FALSE) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+/**
+ * Extracts supported Open Graph, article, and JSON-LD values.
+ */
+function jurenites_blog_extract_page_metadata(string $source_page): array {
+  $page_document = new \DOMDocument();
+  $previous_errors = libxml_use_internal_errors(TRUE);
+  $page_loaded = $page_document->loadHTML($source_page);
+  libxml_clear_errors();
+  libxml_use_internal_errors($previous_errors);
+  if (!$page_loaded) {
+    throw new \RuntimeException('The source page HTML could not be read.');
+  }
+
+  $meta_values = [];
+  foreach ($page_document->getElementsByTagName('meta') as $meta_element) {
+    $meta_name = strtolower(trim(
+      $meta_element->getAttribute('property') ?: $meta_element->getAttribute('name'),
+    ));
+    $meta_content = trim(html_entity_decode(
+      $meta_element->getAttribute('content'),
+      ENT_QUOTES | ENT_HTML5,
+    ));
+    if ($meta_name !== '' && $meta_content !== '' && !isset($meta_values[$meta_name])) {
+      $meta_values[$meta_name] = $meta_content;
+    }
+  }
+
+  $structured_values = [];
+  foreach ($page_document->getElementsByTagName('script') as $script_element) {
+    if (strtolower(trim($script_element->getAttribute('type'))) !== 'application/ld+json') {
+      continue;
+    }
+    $structured_data = json_decode(trim($script_element->textContent), TRUE);
+    if (is_array($structured_data)) {
+      $structured_values[] = $structured_data;
+    }
+  }
+
+  $publisher_value = jurenites_blog_find_structured_value($structured_values, 'publisher');
+  $source_name = $meta_values['og:site_name']
+    ?? $meta_values['application-name']
+    ?? jurenites_blog_structured_string($publisher_value, 'name');
+  $published_time = $meta_values['article:published_time']
+    ?? $meta_values['datepublished']
+    ?? $meta_values['date']
+    ?? jurenites_blog_structured_string(
+      jurenites_blog_find_structured_value($structured_values, 'datePublished'),
+    );
+  $thumbnail_url = $meta_values['og:image:secure_url']
+    ?? $meta_values['og:image']
+    ?? $meta_values['twitter:image']
+    ?? jurenites_blog_structured_string(
+      jurenites_blog_find_structured_value($structured_values, 'image'),
+      'url',
+    );
+
+  return [
+    'source_name' => $source_name,
+    'published_time' => $published_time,
+    'thumbnail_url' => $thumbnail_url,
+  ];
+}
+
+/**
+ * Finds the first named value in nested structured metadata.
+ */
+function jurenites_blog_find_structured_value(mixed $structured_data, string $value_name): mixed {
+  if (!is_array($structured_data)) {
+    return NULL;
+  }
+  if (array_key_exists($value_name, $structured_data)) {
+    return $structured_data[$value_name];
+  }
+  foreach ($structured_data as $nested_value) {
+    $found_value = jurenites_blog_find_structured_value($nested_value, $value_name);
+    if ($found_value !== NULL) {
+      return $found_value;
+    }
+  }
+
+  return NULL;
+}
+
+/**
+ * Converts a structured metadata value to a useful string.
+ */
+function jurenites_blog_structured_string(mixed $structured_value, string $value_key = ''): string {
+  if (is_string($structured_value)) {
+    return trim($structured_value);
+  }
+  if (!is_array($structured_value)) {
+    return '';
+  }
+  if ($value_key !== '' && isset($structured_value[$value_key])) {
+    return jurenites_blog_structured_string($structured_value[$value_key]);
+  }
+  foreach ($structured_value as $nested_value) {
+    $nested_string = jurenites_blog_structured_string($nested_value, $value_key);
+    if ($nested_string !== '') {
+      return $nested_string;
+    }
+  }
+
+  return '';
+}
+
+/**
+ * Converts a source timestamp to Drupal's UTC storage format.
+ */
+function jurenites_blog_normalize_datetime(string $source_datetime): string {
+  if (trim($source_datetime) === '') {
+    return '';
+  }
+  try {
+    return (new \DateTimeImmutable($source_datetime))
+      ->setTimezone(new \DateTimeZone('UTC'))
+      ->format('Y-m-d\TH:i:s');
+  }
+  catch (\Throwable) {
+    return '';
+  }
+}
+
+/**
+ * Resolves a page metadata URL against its source page.
+ */
+function jurenites_blog_resolve_source_url(string $source_url, string $candidate_url): string {
+  $candidate_url = trim(html_entity_decode($candidate_url, ENT_QUOTES | ENT_HTML5));
+  if ($candidate_url === '') {
+    return '';
+  }
+  try {
+    return (string) \GuzzleHttp\Psr7\UriResolver::resolve(
+      new \GuzzleHttp\Psr7\Uri($source_url),
+      new \GuzzleHttp\Psr7\Uri($candidate_url),
+    );
+  }
+  catch (\Throwable) {
+    return '';
+  }
+}
+
+/**
+ * Downloads a page thumbnail into the News Image field.
+ */
+function jurenites_blog_set_news_thumbnail(
+  NodeInterface $news_node,
+  string $thumbnail_url,
+): bool {
+  try {
+    $thumbnail_data = jurenites_blog_load_public_url($thumbnail_url, 15 * 1024 * 1024);
+    $image_information = @getimagesizefromstring($thumbnail_data);
+    $image_extensions = [
+      IMAGETYPE_JPEG => 'jpg',
+      IMAGETYPE_PNG => 'png',
+      IMAGETYPE_WEBP => 'webp',
+    ];
+    $image_extension = $image_information !== FALSE
+      ? ($image_extensions[$image_information[2]] ?? NULL)
+      : NULL;
+    if ($image_information === FALSE || $image_extension === NULL) {
+      throw new \RuntimeException('The downloaded News thumbnail format is not supported.');
+    }
+
+    $thumbnail_directory = 'public://news-thumbnails';
+    $directory_ready = \Drupal::service('file_system')->prepareDirectory(
+      $thumbnail_directory,
+      FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS,
+    );
+    if (!$directory_ready) {
+      throw new \RuntimeException('The News thumbnail directory is not writable.');
+    }
+
+    $thumbnail_uri = sprintf(
+      '%s/%s.%s',
+      $thumbnail_directory,
+      hash('sha256', $thumbnail_url),
+      $image_extension,
+    );
+    $thumbnail_file = \Drupal::service('file.repository')->writeData(
+      $thumbnail_data,
+      $thumbnail_uri,
+      FileExists::Replace,
+    );
+    $thumbnail_file->setPermanent();
+    $thumbnail_file->save();
+    $news_node->set('field_image', [
+      'target_id' => $thumbnail_file->id(),
+      'alt' => $news_node->label(),
+      'width' => $image_information[0],
+      'height' => $image_information[1],
+    ]);
+
+    return TRUE;
+  }
+  catch (\Throwable $thumbnail_exception) {
+    \Drupal::logger('jurenites_blog')->warning(
+      'Unable to save the page thumbnail for News @news_id: @message',
+      [
+        '@news_id' => $news_node->id() ?? 'new',
+        '@message' => $thumbnail_exception->getMessage(),
+      ],
+    );
+
+    return FALSE;
+  }
+}
+
+/**
+ * Downloads the best available YouTube thumbnail into a content Image field.
  */
 function jurenites_blog_set_youtube_thumbnail(
-  NodeInterface $article_node,
+  NodeInterface $content_node,
   string $video_url,
   string $video_identifier,
 ): bool {
@@ -333,9 +904,9 @@ function jurenites_blog_set_youtube_thumbnail(
     $thumbnail_file->save();
 
     $thumbnail_alt = trim((string) $video_resource->getTitle());
-    $article_node->set('field_image', [
+    $content_node->set('field_image', [
       'target_id' => $thumbnail_file->id(),
-      'alt' => $thumbnail_alt !== '' ? $thumbnail_alt : $article_node->label(),
+      'alt' => $thumbnail_alt !== '' ? $thumbnail_alt : $content_node->label(),
       'width' => $image_information[0],
       'height' => $image_information[1],
     ]);
@@ -344,9 +915,9 @@ function jurenites_blog_set_youtube_thumbnail(
   }
   catch (\Throwable $thumbnail_exception) {
     \Drupal::logger('jurenites_blog')->warning(
-      'Unable to save the YouTube thumbnail for Article @article_id: @message',
+      'Unable to save the YouTube thumbnail for content @content_id: @message',
       [
-        '@article_id' => $article_node->id() ?? 'new',
+        '@content_id' => $content_node->id() ?? 'new',
         '@message' => $thumbnail_exception->getMessage(),
       ],
     );

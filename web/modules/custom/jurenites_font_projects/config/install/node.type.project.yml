@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Project
+type: project
+description: 'Portfolio work with an introduction and reorderable structured sections.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false
+

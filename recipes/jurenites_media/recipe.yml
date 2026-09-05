@@ -9,3 +9,4 @@ config:
     field.field.media.image.field_media_image:
       simpleConfigUpdate:
         settings.max_filesize: '200 MB'
+        settings.alt_field_required: false
