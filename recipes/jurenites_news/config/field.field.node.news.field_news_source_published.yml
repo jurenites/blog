@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_news_source_published
+    - node.type.news
+  module:
+    - datetime
+id: node.news.field_news_source_published
+field_name: field_news_source_published
+entity_type: node
+bundle: news
+label: 'Source publication time'
+description: 'Filled automatically from the source URL. Administrators can correct this value.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

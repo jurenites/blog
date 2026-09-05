@@ -1,26 +1,13 @@
-const DATE_DISPLAY_FORMATS = {
-  "date-day": {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  },
-  "date-day-time": {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  },
-  "day-month-year": {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  },
-};
+import { token_names, token_value } from "./foundations/token-values.js";
 
-const DATE_DISPLAY_LOCALES = {
-  "day-month-year": "en-GB",
-};
+function date_display_options(display_variant) {
+  const token_prefix = `component-date-time-value-format-${display_variant}-`;
+
+  return Object.fromEntries(token_names(token_prefix).map((token_name) => [
+    token_name.replace(token_prefix, ""),
+    token_value(token_name),
+  ]));
+}
 
 export function normalized_iso_date(source_date) {
   const parsed_date = source_date instanceof Date
@@ -37,20 +24,13 @@ export function formatted_date_display(source_date, display_variant) {
     return String(source_date ?? "");
   }
 
-  const display_locale = DATE_DISPLAY_LOCALES[display_variant] ?? "en-US";
-  return new Intl.DateTimeFormat(display_locale, DATE_DISPLAY_FORMATS[display_variant]).format(parsed_date);
+  const display_locale = token_value("component-date-time-value-locale-default");
+
+  return new Intl.DateTimeFormat(display_locale, date_display_options(display_variant)).format(parsed_date);
 }
 
-function joined_time_parts(time_parts, conjunction_text) {
-  if (time_parts.length < 2) {
-    return time_parts[0] ?? "";
-  }
-
-  if (time_parts.length === 2) {
-    return `${time_parts[0]} ${conjunction_text} ${time_parts[1]}`;
-  }
-
-  return `${time_parts.slice(0, -1).join(", ")} ${conjunction_text} ${time_parts.at(-1)}`;
+function joined_time_parts(time_parts) {
+  return time_parts.join(" ");
 }
 
 function shifted_calendar_date(source_value, added_years, added_months) {
@@ -89,7 +69,6 @@ export function formatted_time_since(source_date, unit_labels = {}, reference_da
   const minutes_text = unit_labels.minutes ?? "minutes";
   const hour_text = unit_labels.hour ?? "hour";
   const hours_text = unit_labels.hours ?? "hours";
-  const conjunction_text = unit_labels.conjunction ?? "and";
   const time_parts = [];
 
   if (elapsed_hours >= 24) {
@@ -125,7 +104,7 @@ export function formatted_time_since(source_date, unit_labels = {}, reference_da
       time_parts.push(`${elapsed_days} ${elapsed_days === 1 ? day_text : days_text}`);
     }
 
-    return joined_time_parts(time_parts, conjunction_text);
+    return joined_time_parts(time_parts);
   }
 
   if (elapsed_hours > 0) {
@@ -136,5 +115,5 @@ export function formatted_time_since(source_date, unit_labels = {}, reference_da
     time_parts.push(`${remaining_minutes} ${remaining_minutes === 1 ? minute_text : minutes_text}`);
   }
 
-  return joined_time_parts(time_parts, conjunction_text);
+  return joined_time_parts(time_parts);
 }

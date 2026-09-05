@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_numeric_icon_image
+    - paragraphs.paragraphs_type.numeric_value
+  module:
+    - file
+id: paragraph.numeric_value.field_numeric_icon_image
+field_name: field_numeric_icon_image
+entity_type: paragraph
+bundle: numeric_value
+label: 'Icon image'
+description: 'Optional SVG artwork. Its own viewBox and aspect ratio are preserved when displayed.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: 'numeric-values/icons'
+  file_extensions: svg
+  max_filesize: ''
+  description_field: false
+field_type: file

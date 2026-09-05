@@ -1,0 +1,64 @@
+{% if font_asset_url %}
+  {{ attach_library('jurenites_theme/font-preview') }}
+  <section class="font-preview font-preview--{{ font_identifier }}" data-jurenites-font-preview data-font-url="{{ font_asset_url }}" aria-labelledby="{{ font_preview_id }}-title">
+    <header class="font-preview__header">
+      <div>
+        <p class="font-preview__eyebrow">{{ 'Interactive font'|t }}</p>
+        <h2 class="font-preview__title" id="{{ font_preview_id }}-title">{{ font_title }}</h2>
+      </div>
+      <a class="button button--secondary font-preview__download" href="{{ font_asset_url }}" download="{{ font_download_filename }}">
+        {% include '@jurenites_theme/components/icon.html.twig' with {
+          icon_name: 'arrow-download',
+          icon_asset_base_url: icon_asset_base_url,
+        } only %}
+        {{ 'Download font'|t }}
+      </a>
+    </header>
+
+    <div class="font-preview__input">
+      <div class="text-input text-input--width-full">
+        <label class="text-input__label" for="{{ font_preview_id }}-input">{{ 'Try it yourself'|t }}</label>
+        <input class="text-input__control" id="{{ font_preview_id }}-input" name="{{ font_identifier }}_sample_text" type="text" value="{{ font_sample_text }}" placeholder="{{ 'Type with this font'|t }}" aria-describedby="{{ font_preview_id }}-hint">
+        <p class="text-input__hint" id="{{ font_preview_id }}-hint">{{ 'The specimen updates while you type.'|t }}</p>
+      </div>
+    </div>
+    <p class="font-preview__specimen" data-font-preview-specimen>{{ font_sample_text }}</p>
+    <p class="font-preview__status" data-font-preview-status role="status">{{ 'Loading glyph data…'|t }}</p>
+    <div class="font-preview__glyph-grid" data-font-preview-grid aria-label="{{ 'Drawable Unicode mappings'|t }}"></div>
+
+    <section class="font-preview__data" aria-labelledby="{{ font_preview_id }}-data-title">
+      <h3 id="{{ font_preview_id }}-data-title">{{ 'Data'|t }}</h3>
+      <div class="font-preview__table-scroll">
+        <table class="font-preview__table">
+          <tbody data-font-preview-metadata>
+            <tr>
+              <th scope="row">{{ 'Status'|t }}</th>
+              <td>{{ 'Font metadata loads in the browser from the local file.'|t }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <dialog class="font-preview__dialog" data-font-preview-dialog aria-labelledby="{{ font_preview_id }}-dialog-title">
+      <div class="font-preview__dialog-header">
+        <h3 id="{{ font_preview_id }}-dialog-title" data-glyph-dialog-title>{{ 'Glyph details'|t }}</h3>
+        <button class="button button--ghost font-preview__dialog-close" type="button" data-font-preview-close>{{ 'Close'|t }}</button>
+      </div>
+      <div class="font-preview__glyph-visual">
+        <svg class="font-preview__glyph-svg" data-glyph-svg role="img" aria-label="{{ 'Selected glyph vector outline'|t }}"></svg>
+      </div>
+      <dl class="font-preview__glyph-data">
+        <div><dt>{{ 'Glyph'|t }}</dt><dd data-glyph-name>—</dd></div>
+        <div><dt>{{ 'Unicode'|t }}</dt><dd data-glyph-unicode>—</dd></div>
+        <div><dt>{{ 'Index'|t }}</dt><dd data-glyph-index>—</dd></div>
+        <div><dt>{{ 'Advance width'|t }}</dt><dd data-glyph-width>—</dd></div>
+        <div><dt>{{ 'Left side bearing'|t }}</dt><dd data-glyph-bearing>—</dd></div>
+      </dl>
+      <details class="font-preview__path-details">
+        <summary>{{ 'Path data'|t }}</summary>
+        <pre><code data-glyph-path>{{ 'No glyph selected.'|t }}</code></pre>
+      </details>
+    </dialog>
+  </section>
+{% endif %}

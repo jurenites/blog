@@ -3,7 +3,7 @@
 @use "../tools";
 
 .select-input__native,
-.form-field__control--select,
+.input-text__control--select,
 .form-select {
   width: 100%;
   min-width: var(--component-text-input-minimum-width-default);
@@ -20,13 +20,13 @@
 }
 
 .select-input__native:not(:disabled):hover,
-.form-field__control--select:not(:disabled):hover,
+.input-text__control--select:not(:disabled):hover,
 .form-select:not(:disabled):hover {
   border-color: var(--theme-dark-text-primary-default);
 }
 
 .select-input__native:focus-visible,
-.form-field__control--select:focus-visible,
+.input-text__control--select:focus-visible,
 .form-select:focus-visible {
   @include tools.focus-ring;
 }
@@ -60,7 +60,7 @@
   padding: 0 0 0 calc(var(--space-scale-base-gap) * 0.5);
   border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
   border-radius: var(--shape-corner-radius-base);
-  background-color: transparent;
+  background: var(--color-palette-light-black);
   color: var(--theme-dark-text-primary-default);
   text-align: start;
   cursor: pointer;
@@ -187,7 +187,7 @@
 }
 
 .select-input__native:disabled,
-.form-field__control--select:disabled,
+.input-text__control--select:disabled,
 .form-select:disabled,
 .select-input--disabled .select-input__trigger {
   border-color: var(--theme-dark-border-outline-default);

@@ -69,13 +69,14 @@ Current Foundations: Colors, Color Abstraction, Color Contrast, Typography,
 Fonts, and Spacing. Their JS reads `generated/token/tokens.js`; their styles read
 `generated/styles/_tokens.scss`.
 
-Current Atoms: Avatar, Badge, Button, Chip, Consumption Time, Date Display,
-Divider, Icon, Surface, Tooltip, Version Watermark.
+Current Atoms: Avatar, Badge, Button, Chip, Divider, Icon, Date Time Value,
+Surface, Tooltip, Version Watermark.
 
 Current Molecules: Article Teaser, Article Blog List Item, Author Byline, Contact
 Me Widget, Pagination, Project Card, Pull Quote.
 
-Current Organisms: Top Nav Menu Site Header.
+Current Organisms: Top Nav Menu Site Header, Font Preview, and Pixel Glyph
+Editor.
 
 Pagination shares one BEM class contract between its Storybook markup helper and
 Drupal's `templates/navigation/pager.html.twig` override. At the token-defined
@@ -84,6 +85,15 @@ current-page status so the component remains usable at the 360px minimum width.
 
 Static source assets, such as local fonts, live in `src/public/` and are served
 by Storybook as root-relative assets.
+
+The Font Preview progressively enhances useful server markup with the pinned,
+self-hosted `opentype.js` parser. It fetches only an allowlisted same-origin TTF,
+caches the parse promise, builds the glyph grid from real drawable cmap
+mappings, and reports the binary's embedded name-table metadata exactly. The
+large parser is emitted as a separate Drupal library and attached only by the
+Font Preview Paragraph; it is not part of the global theme bundle. The 5x5
+Pixel Glyph Editor remains a deterministic in-memory interaction with no saved
+browser or server state.
 
 Current timeline work lives in `src/stories/timeline/` and uses the same token
 and Storybook conventions while it is still being shaped.
@@ -116,10 +126,6 @@ mismatch before building or deploying.
 
 Figma is used for layout, visual exploration, and design review.
 
-Current file:
-
-https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites
-
 The file already has Material 3 Design Kit available. The project should reuse the parts that help, but the site should still feel personal and specific.
 
 Token sync goal:
@@ -150,6 +156,7 @@ Initial custom theme:
 Initial custom modules:
 
 - `jurenites_tokens`
+- `jurenites_font_projects`
 
 Planned custom modules:
 
@@ -165,6 +172,19 @@ Theme source workflow:
 - The Drupal build configures theme-relative font URLs and copies the canonical
   font files from `src/public/assets/fonts/` into the theme's generated assets.
 - Run `npm run build:theme` after source edits.
+
+Apply the font-project content model and missing-only initial content with:
+
+```bash
+docker exec blog_jurenites_web ./vendor/bin/drush recipe ../recipes/jurenites_font_projects -y
+docker exec blog_jurenites_web ./vendor/bin/drush cache:rebuild
+```
+
+The recipe uses stable content UUIDs and is safe to reapply: existing seeded
+Projects and Paragraphs remain editor-owned. Confirm `/portfolio`, both stable
+project aliases, the local font downloads, and 4pixel's editor after applying
+it in each environment. Optional Windows imagery is later editorial media, not
+a recipe or interactive-component dependency.
 
 LLM-specific continuity notes live in `docs/llm-project-memory.md`. Keep that file updated when the site structure or implementation decisions change.
 

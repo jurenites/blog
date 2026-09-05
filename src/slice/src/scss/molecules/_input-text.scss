@@ -1,0 +1,243 @@
+// Molecule: Input text. One accessible composition for Drupal-native controls.
+
+@use "../tools";
+
+.input-text,
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-base-gap);
+  min-width: 0;
+  margin: 0 0 calc(var(--space-scale-base-gap) * 2);
+  padding: 0;
+  border: 0;
+}
+
+.input-text__label-control {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-base-gap);
+  min-width: 0;
+}
+
+.input-text__label,
+.form-item > label,
+.input-text > legend {
+  display: block;
+  flex: 0 0 calc(var(--space-scale-base-gap) * 2);
+  height: calc(var(--space-scale-base-gap) * 2);
+  margin: 0;
+  padding: 0;
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-caption;
+  line-height: calc(var(--space-scale-base-gap) * 2);
+}
+
+.input-text__required,
+.form-required::after {
+  color: var(--component-input-text-color-validation-error-default);
+}
+
+.form-required::after {
+  content: " *";
+}
+
+.input-text__description,
+.form-item .description {
+  margin: 0;
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-caption;
+}
+
+.input-text__error,
+.form-item--error-message {
+  margin: 0;
+  color: var(--component-input-text-color-validation-error-default);
+  @include tools.typography-caption;
+}
+
+.input-text__control--textarea,
+.form-textarea {
+  width: 100%;
+  min-width: var(--component-text-input-minimum-width-default);
+  max-width: var(--component-text-input-width-full);
+  box-sizing: border-box;
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
+  border-radius: var(--shape-corner-radius-base);
+  background: var(--color-palette-light-black);
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-body;
+  @include tools.motion-transition(border-color, box-shadow, background-color);
+  min-height: calc(var(--space-scale-base-gap) * 12);
+  max-height: calc(var(--shape-basic-tile) * 12); // TODO ;repalce this magic number to be somehow lrelated to size ifrom Tokens
+  padding: calc(var(--space-scale-base-gap) * 0.5);
+  resize: vertical;
+}
+
+.input-text__control--textarea::placeholder,
+.form-textarea::placeholder {
+  color: var(--theme-dark-text-gray);
+}
+
+.input-text__control--textarea:hover,
+.form-textarea:hover {
+  border-color: var(--theme-dark-text-primary-default);
+}
+
+.input-text__control--textarea:focus-visible,
+.form-textarea:focus-visible,
+.input-text__file:focus-visible,
+.form-file:focus-visible {
+  @include tools.focus-ring;
+}
+
+.input-text__file,
+.form-file {
+  width: 100%;
+  max-width: var(--component-text-input-width-full);
+  min-height: calc(var(--space-scale-base-gap) * 5);
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-caption;
+}
+
+.input-text__file::file-selector-button,
+.form-file::file-selector-button {
+  min-height: calc(var(--space-scale-base-gap) * 5);
+  margin-right: var(--space-scale-base-gap);
+  padding: 0 calc(var(--space-scale-base-gap) * 2);
+  border: var(--shape-border-width-thick-default) solid var(--theme-dark-border-divider-default);
+  border-radius: var(--shape-corner-radius-base);
+  background: var(--theme-dark-action-secondary-default);
+  color: var(--theme-dark-text-primary-default);
+  cursor: pointer;
+  @include tools.typography-subtitle-2;
+}
+
+.input-text__choices {
+  display: flex;
+  gap: var(--space-scale-base-gap);
+}
+
+.input-text__choices--stacked {
+  flex-direction: column;
+}
+
+.input-text__choices--chips {
+  flex-wrap: wrap;
+}
+
+.input-text__choice {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-scale-base-gap);
+  min-height: calc(var(--space-scale-base-gap) * 5);
+}
+
+.input-text__choice-input,
+.form-checkbox,
+.form-radio {
+  flex: 0 0 auto;
+  width: calc(var(--space-scale-base-gap) * 2);
+  height: calc(var(--space-scale-base-gap) * 2);
+  margin: 0;
+  appearance: none;
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
+  background: var(--color-palette-light-black);
+  cursor: pointer;
+}
+
+.input-text__choice-input--checkbox,
+.form-checkbox {
+  border-radius: var(--shape-corner-radius-small);
+}
+
+.input-text__choice-input--radio,
+.form-radio {
+  border-radius: var(--shape-corner-radius-full);
+}
+
+.input-text__choice-input:checked,
+.form-checkbox:checked,
+.form-radio:checked {
+  border-color: var(--theme-dark-action-primary-default);
+  background: var(--theme-dark-action-primary-default);
+  box-shadow: inset 0 0 0 calc(var(--space-scale-base-gap) * 0.5) var(--theme-dark-surface-background-page);
+}
+
+.input-text__choice-input:focus-visible,
+.form-checkbox:focus-visible,
+.form-radio:focus-visible {
+  @include tools.focus-ring;
+}
+
+.input-text__choice-label {
+  color: var(--theme-dark-text-primary-default);
+  cursor: pointer;
+  @include tools.typography-caption;
+}
+
+.input-text__chip-input {
+  @include tools.visually-hidden;
+}
+
+.input-text__chip-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: calc(var(--space-scale-base-gap) * 5);
+  padding: 0 calc(var(--space-scale-base-gap) * 2);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  border-radius: var(--shape-corner-radius-full);
+  background: var(--color-palette-light-black);
+  color: var(--theme-dark-text-secondary-default);
+  cursor: pointer;
+  @include tools.typography-caption;
+  @include tools.motion-transition(background-color, border-color, color);
+}
+
+.input-text__chip-input:checked + .input-text__chip-label {
+  border-color: var(--theme-dark-action-primary-default);
+  background: var(--theme-dark-action-primary-default);
+  color: var(--theme-dark-text-inverse-default);
+}
+
+.input-text__chip-input:focus-visible + .input-text__chip-label {
+  @include tools.focus-ring;
+}
+
+.input-text--error .input-text__control,
+.input-text--error .select-input__trigger,
+.input-text--error .input-text__choice-input,
+.form-item--error .form-text,
+.form-item--error .form-textarea,
+.form-item--error .form-select,
+.form-item--error .select-input__trigger,
+.form-item--error .form-checkbox,
+.form-item--error .form-radio {
+  border-color: var(--component-input-text-color-validation-error-default);
+}
+
+.input-text--disabled,
+.input-text:disabled,
+.form-item.form-disabled {
+  color: var(--theme-dark-text-secondary-default);
+}
+
+.input-text :disabled,
+.form-item :disabled {
+  cursor: not-allowed;
+}
+
+.form-type-checkbox,
+.form-type-radio {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+}
+
+.form-type-checkbox > .description,
+.form-type-radio > .description,
+.form-type-checkbox > .form-item--error-message,
+.form-type-radio > .form-item--error-message {
+  grid-column: 1 / -1;
+}

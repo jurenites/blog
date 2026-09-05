@@ -2,7 +2,7 @@
 import surface_template from "./surface.template.html?raw";
 import { button_markup } from "../button/button.markup.js";
 import { chip_markup } from "../chip/chip.markup.js";
-import { date_display_markup } from "../date-display/date-display.markup.js";
+import { date_time_value_markup } from "../date-time-value/date-time-value.markup.js";
 import { token_option_names, token_value } from "../../foundations/token-values.js";
 import { render_template } from "../../template.js";
 
@@ -21,14 +21,14 @@ const NESTED_RENDERERS = {
   `,
   chip_group: () => `
     <div class="storybook-stack">
-      ${chip_markup({ chip_label: "ui/ux" })}
-      ${chip_markup({ chip_label: "Design system", is_accent: true })}
+      ${chip_markup({ chip_label: "#UI/UX" })}
+      ${chip_markup({ chip_label: "#Design system", is_accent: true })}
     </div>
   `,
-  date_display: () => date_display_markup({
+  date_time_value: () => date_time_value_markup({
+    value_kind: token_value("component-date-time-value-default-kind"),
     source_date: "2026-06-15",
-    value_mode: token_value("component-date-display-default-mode"),
-    display_variant: token_value("component-date-display-default-display"),
+    date_display_variant: token_value("component-date-time-value-default-date-display"),
   }),
 };
 

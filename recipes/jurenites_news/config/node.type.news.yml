@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+name: News
+type: news
+description: 'A short-lived external video or article promoted through the homepage News block.'
+help: 'Add a catchy title and the original source URL. Source details and the thumbnail are filled automatically.'
+new_revision: true
+preview_mode: 1
+display_submitted: false

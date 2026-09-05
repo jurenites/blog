@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: interests
+label: Interests
+revision: true
+description: 'An ordered selection of up to six Tags linked to filtered Videos pages.'

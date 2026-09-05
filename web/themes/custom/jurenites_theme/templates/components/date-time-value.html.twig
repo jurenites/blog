@@ -1,0 +1,25 @@
+{# Shared dates, elapsed time, and read/watch durations for compact metadata. #}
+{% set resolved_value_kind = date_time_value_kind|default('absolute-date') %}
+{% set resolved_value_classes = [
+  'date-time-value',
+  'date-time-value--' ~ resolved_value_kind,
+]|merge(date_time_additional_classes|default([])) %}
+
+{% if resolved_value_kind == 'duration' %}
+  {% set duration_label_parts = duration_label|default('')|trim|split(' ', 2) %}
+  {% if duration_minutes and duration_label_parts|first %}
+    <time class="{{ resolved_value_classes|join(' ') }}" datetime="PT{{ duration_minutes }}M">
+      <span class="date-time-value__number">{{ duration_minutes }}</span>
+      <span class="date-time-value__label"><span class="date-time-value__unit">{{ duration_label_parts|first }}</span>{% if duration_label_parts|length > 1 %} {{ duration_label_parts|last }}{% endif %}</span>
+    </time>
+  {% endif %}
+{% elseif date_time_datetime and date_time_display_markup %}
+  {% set resolved_date_classes = resolved_value_classes|merge([
+    'date-time-value--' ~ date_time_date_display_variant|default('date-day'),
+  ]) %}
+  <time
+    class="{{ resolved_date_classes|join(' ') }}"
+    datetime="{{ date_time_datetime }}"
+    {% if date_time_exact_date_title %}title="{{ date_time_exact_date_title }}"{% endif %}
+  >{{ date_time_display_markup }}</time>
+{% endif %}

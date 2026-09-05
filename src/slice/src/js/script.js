@@ -1,5 +1,9 @@
+import { initialize_pixel_glyph_editors } from './pixel-glyph-editor.js';
+
 const NOISE_FRAMES_PER_SECOND = 15;
 const NOISE_FRAME_INTERVAL = 1000 / NOISE_FRAMES_PER_SECOND;
+const EXPECTED_VIDEO_LOAD_DURATION = 8000;
+const INCOMPLETE_PROGRESS_LIMIT = 95;
 const SELECT_CHEVRON_URL = typeof document !== 'undefined' && document.currentScript?.src
   ? new URL('../assets/icons/chevron-down.svg', document.currentScript.src).href
   : '/assets/icons/chevron-down.svg';
@@ -160,28 +164,80 @@ export function create_media_loader_noise(noise_surface) {
   };
 }
 
+export function initialize_media_loader_progress({
+  completion_promise,
+  expected_wait_duration,
+  loading_container,
+  progress_element,
+}) {
+  const normalized_wait_duration = Math.max(1, Number(expected_wait_duration) || 1);
+  const progress_started_at = window.performance.now();
+  let progress_animation_frame = 0;
+  let progress_complete = false;
+
+  function render_progress_value(current_time) {
+    if (progress_complete) {
+      return;
+    }
+
+    const elapsed_wait_duration = current_time - progress_started_at;
+    const elapsed_wait_ratio = elapsed_wait_duration / normalized_wait_duration;
+    progress_element.value = Math.min(
+      INCOMPLETE_PROGRESS_LIMIT,
+      elapsed_wait_ratio * 100,
+    );
+    progress_animation_frame = window.requestAnimationFrame(render_progress_value);
+  }
+
+  progress_animation_frame = window.requestAnimationFrame(render_progress_value);
+
+  completion_promise.then(() => {
+    progress_complete = true;
+    window.cancelAnimationFrame(progress_animation_frame);
+    progress_element.value = 100;
+    loading_container.setAttribute('aria-busy', 'false');
+  });
+
+  progress_element.jurenites_media_loader_progress_destroy = function () {
+    progress_complete = true;
+    window.cancelAnimationFrame(progress_animation_frame);
+    delete progress_element.jurenites_media_loader_progress_destroy;
+  };
+}
+
 export function initialize_youtube_video_loader(video_loader) {
   const video_iframe = video_loader.querySelector('iframe');
   const noise_surface = video_loader.querySelector('[data-jurenites-media-loader-noise]');
+  const progress_element = video_loader.querySelector('.media-loader__progress');
 
-  if (!video_iframe || !noise_surface) {
+  if (!video_iframe || !noise_surface || !progress_element) {
     video_loader.removeAttribute('aria-busy');
     return;
   }
 
-  video_iframe.addEventListener('load', () => {
+  const iframe_loaded = new Promise((resolve_iframe_load) => {
+    video_iframe.addEventListener('load', resolve_iframe_load, { once: true });
+  });
+
+  initialize_media_loader_progress({
+    completion_promise: iframe_loaded,
+    expected_wait_duration: EXPECTED_VIDEO_LOAD_DURATION,
+    loading_container: video_loader,
+    progress_element,
+  });
+
+  iframe_loaded.then(() => {
     const destroy_noise_surface = () => {
       noise_surface.jurenites_media_loader_destroy?.();
     };
 
     noise_surface.addEventListener('transitionend', destroy_noise_surface, { once: true });
     video_loader.dataset.loadingStage = 'complete';
-    video_loader.setAttribute('aria-busy', 'false');
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       destroy_noise_surface();
     }
-  }, { once: true });
+  });
 }
 
 export function enable_avatar_image_fallback(avatar_element) {
@@ -763,4 +819,12 @@ if (typeof Drupal !== 'undefined') {
       initialize_cookie_policy_notices(context);
     },
   };
+
+  Drupal.behaviors.jurenites_pixel_glyph_editor = {
+    attach(context) {
+      initialize_pixel_glyph_editors(context);
+    },
+  };
 }
+
+export { initialize_pixel_glyph_editors };

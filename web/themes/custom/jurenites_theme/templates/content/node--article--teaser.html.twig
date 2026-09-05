@@ -4,17 +4,7 @@
  * Article teaser used by Drupal listings.
  */
 #}
-{% set article_id = node.id %}
-{% set article_classes = [
-  'article-teaser',
-  'node--type-' ~ node.bundle|clean_class,
-  'node--view-mode-' ~ view_mode|clean_class,
-  not node.isPublished() ? 'node--unpublished',
-  node.isPromoted() ? 'node--promoted',
-  node.isSticky() ? 'node--sticky',
-] %}
-
-<article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
+<div class="article-teaser">
   {% if content.field_image %}
     <div class="article-teaser__media">
       {{ content.field_image }}
@@ -23,33 +13,34 @@
 
   {{ title_prefix }}
   {% if label %}
-    <h3{{ title_attributes.addClass('article-teaser__title').setAttribute('data-jurenites-article-title-transition', 'article-title-' ~ article_id) }}>
+    <h3{{ title_attributes.addClass('article-teaser__title') }}>
       <a class="article-teaser__title-link" href="{{ url }}" rel="bookmark">{{ label }}</a>
     </h3>
+  {% endif %}
+  {% if node.field_tags is not empty %}
+    {{ content.field_tags }}
   {% endif %}
   {{ title_suffix }}
 
   <div{{ content_attributes.addClass('article-teaser__content') }}>
-    {{ content|without('field_consumption_time_minutes', 'field_image') }}
+    {{ content|without('field_consumption_time_minutes', 'field_image', 'field_tags') }}
   </div>
 
   {% if display_submitted %}
     <footer class="article-teaser__meta">
-      {% include '@jurenites_theme/components/avatar.html.twig' with {
-        avatar_image: author_picture,
-        avatar_initials: author_initials,
+      {% include '@jurenites_theme/components/author-byline.html.twig' with {
+        author_prefix_text: 'Written by'|t,
+        author_avatar_image: author_picture,
+        author_avatar_initials: author_initials,
+        avatar_size: 'medium',
+        author_name_attributes: author_attributes,
+        author_name_markup: author_name,
+        published_date_iso: submitted_date_iso,
+        published_date_markup: submitted_date_text,
+        reading_time_minutes: reading_time_minutes,
+        reading_time_label: reading_time_label,
+        byline_layout: 'stacked',
       } only %}
-      <div{{ author_attributes.addClass('article-teaser__meta-details') }}>
-        {% trans %}Written by {{ author_name }} on{% endtrans %}
-        <time class="date-display date-display--month-day-year date-display--date-day" datetime="{{ submitted_date_iso }}">{{ submitted_date_text }}</time>
-        {% if reading_time_minutes and reading_time_label %}
-          <span class="article-teaser__meta-separator" aria-hidden="true">&middot;</span>
-          {% include '@jurenites_theme/components/consumption-time.html.twig' with {
-            consumption_time_minutes: reading_time_minutes,
-            consumption_time_label: reading_time_label,
-          } only %}
-        {% endif %}
-      </div>
     </footer>
   {% endif %}
-</article>
+</div>

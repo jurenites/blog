@@ -1,0 +1,8 @@
+{# Homepage News View using the shared compact list rhythm. #}
+<div class="article-list news-list">
+  {% for row in rows %}
+    <div{{ row.attributes.addClass('article-list__item', 'news-list__item') }}>
+      {{- row.content -}}
+    </div>
+  {% endfor %}
+</div>

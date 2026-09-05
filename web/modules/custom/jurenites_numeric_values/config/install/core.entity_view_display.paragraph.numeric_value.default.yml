@@ -3,8 +3,8 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.numeric_value.field_numeric_description
+    - field.field.paragraph.numeric_value.field_numeric_icon_image
     - field.field.paragraph.numeric_value.field_numeric_number
-    - field.field.paragraph.numeric_value.field_numeric_start_year
     - paragraphs.paragraphs_type.numeric_value
 id: paragraph.numeric_value.default
 targetEntityType: paragraph
@@ -13,7 +13,7 @@ mode: default
 content: {  }
 hidden:
   field_numeric_description: true
+  field_numeric_icon_image: true
   field_numeric_number: true
-  field_numeric_start_year: true
   created: true
   status: true

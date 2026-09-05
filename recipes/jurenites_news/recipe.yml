@@ -1,0 +1,26 @@
+name: 'Jurenites News'
+description: 'Provides manually curated external News records for the homepage.'
+type: 'Content type'
+install:
+  - block
+  - datetime
+  - image
+  - jurenites_blog
+  - link
+  - node
+  - taxonomy
+  - views
+config:
+  strict:
+    - field.storage.node.field_image
+    - field.storage.node.field_news_source_name
+    - field.storage.node.field_news_source_published
+    - field.storage.node.field_news_source_url
+    - field.storage.node.field_tags
+  actions:
+    user.role.content_editor:
+      grantPermissions:
+        - 'create news content'
+        - 'delete news revisions'
+        - 'delete own news content'
+        - 'edit own news content'

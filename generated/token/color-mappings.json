@@ -129,6 +129,7 @@
     "--theme-dark-surface-background-page": "var(--color-palette-black)",
     "--theme-dark-surface-background-elevation-level-0": "var(--color-palette-black)",
     "--theme-dark-surface-background-elevation-level-1": "var(--color-palette-light-black)",
+    "--theme-dark-surface-background-elevation-level-2": "var(--color-palette-deep-gray)",
     "--theme-dark-text-primary-default": "var(--color-palette-white)",
     "--theme-dark-text-secondary-default": "var(--color-palette-light-white)",
     "--theme-dark-text-light": "var(--color-palette-light-white)",
@@ -152,7 +153,7 @@
     "--theme-dark-system-warning-strong": "var(--color-palette-system-warning-strong)"
   },
   "component_mappings": {
-    "--component-form-field-color-validation-error-default": "var(--theme-dark-system-error-accent)",
+    "--component-input-text-color-validation-error-default": "var(--theme-dark-system-error-accent)",
     "--component-watermark-color-identity-default": "var(--color-palette-full-white)",
     "--component-watermark-color-credit-default": "var(--color-palette-light-gray)",
     "--component-badge-color-background-neutral-default": "var(--color-palette-light-black)",

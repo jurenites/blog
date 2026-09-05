@@ -1,0 +1,49 @@
+{# Homepage preview for a manually curated external News source. #}
+{% set news_classes = [
+  'news-list-item',
+  'node--type-' ~ node.bundle|clean_class,
+  'node--view-mode-' ~ view_mode|clean_class,
+] %}
+
+<article{{ attributes.addClass(news_classes) }}>
+  <div class="news-list-item__media">
+    <a class="news-list-item__image-link" href="{{ news_source_url }}" rel="external">
+      <img src="{{ news_thumbnail_url }}" alt="{{ news_thumbnail_alt }}" loading="lazy">
+    </a>
+  </div>
+
+  <div class="news-list-item__body">
+    {{ title_prefix }}
+    <h2{{ title_attributes.addClass('news-list-item__title') }}>
+      <a class="news-list-item__title-link" href="{{ news_source_url }}" rel="external">
+        <span class="news-list-item__title-text">{{ node.label }}</span>
+        {% include '@jurenites_theme/components/icon.html.twig' with {
+          icon_name: 'external-link',
+          icon_class: 'news-list-item__external-mark',
+          icon_asset_base_url: icon_asset_base_url,
+        } only %}
+      </a>
+    </h2>
+    {{ title_suffix }}
+
+    <div class="news-list-item__source">
+      {# <span class="news-list-item__source-label">{{ 'Source'|t }}</span> #}
+      <span class="news-list-item__source-name">{{ news_source_name }}</span>
+    </div>
+
+    <div class="news-list-item__meta">
+      {% for tag_name in news_tag_names %}
+        <span class="chip chip--accent">{{ tag_name }}</span>
+      {% endfor %}
+      <span class="news-list-item__date">
+        {% include '@jurenites_theme/components/date-time-value.html.twig' with {
+          date_time_value_kind: 'elapsed-time',
+          date_time_datetime: news_published_date_iso,
+          date_time_display_markup: news_published_date_markup,
+          date_time_exact_date_title: news_published_date_title,
+          date_time_date_display_variant: 'date-day',
+        } only %}
+      </span>
+    </div>
+  </div>
+</article>

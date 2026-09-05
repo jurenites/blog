@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_project_story_body
+    - paragraphs.paragraphs_type.project_story
+  module:
+    - text
+id: paragraph.project_story.field_project_story_body
+field_name: field_project_story_body
+entity_type: paragraph
+bundle: project_story
+label: Story
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long
+

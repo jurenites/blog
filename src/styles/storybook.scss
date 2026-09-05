@@ -186,6 +186,10 @@ samp {
   max-width: 640px;
 }
 
+.storybook-stack--portfolio-gallery {
+  max-width: var(--layout-content-max-blog-default);
+}
+
 .icon-gallery {
   display: grid;
   gap: calc(var(--space-scale-base-gap) * 3);

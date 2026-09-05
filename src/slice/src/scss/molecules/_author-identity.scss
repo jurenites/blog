@@ -1,0 +1,35 @@
+@use "../tools";
+
+.author-identity {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-scale-base-gap);
+  max-width: 100%;
+  min-width: 0;
+}
+
+.author-identity__text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-scale-two);
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.author-identity__prefix {
+  color: var(--theme-dark-text-gray);
+  @include tools.typography-caption;
+}
+
+.author-identity__prefix:empty {
+  display: none;
+}
+
+.author-identity__name {
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-subtitle-2;
+}
+
+.author-identity__name a {
+  color: inherit;
+}

@@ -1,0 +1,7 @@
+{% if rows %}
+  <div class="portfolio-grid">
+    {% for row in rows %}
+      <div{{ row.attributes.addClass('portfolio-grid__item') }}>{{ row.content }}</div>
+    {% endfor %}
+  </div>
+{% endif %}

@@ -12,6 +12,7 @@ const STYLE_EXTENSIONS = new Set([".css", ".html", ".scss"]);
 const IGNORED_PATHS = new Set([
   "src/token/tokens.yaml",
   "web/themes/custom/jurenites_theme/css/style.min.css",
+  "web/themes/custom/jurenites_theme/js/font-preview.min.js",
   "web/themes/custom/jurenites_theme/js/script.min.js",
 ]);
 const HEX_PATTERN = /#[0-9a-fA-F]{3,8}\b/g;

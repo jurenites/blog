@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+id: pixel_glyph_editor
+label: 'Pixel glyph editor'
+icon_uuid: null
+icon_default: null
+description: 'Visitor-editable 5×5 monochrome glyph grid.'
+behavior_plugins: {  }
+

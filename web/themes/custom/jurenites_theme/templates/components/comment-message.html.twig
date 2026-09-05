@@ -11,11 +11,14 @@
     {% if comment_permalink_url %}
       <a class="comment-message__permalink article-teaser__published-date" href="{{ comment_permalink_url }}" rel="bookmark">
     {% endif %}
-    <time
-      class="comment-message__timestamp date-display date-display--time-since"
-      datetime="{{ comment_created_date_iso }}"
-      title="{{ comment_created_date_title }}"
-    >{{ comment_created_date_markup }}</time>
+    {% include '@jurenites_theme/components/date-time-value.html.twig' with {
+      date_time_value_kind: 'elapsed-time',
+      date_time_datetime: comment_created_date_iso,
+      date_time_display_markup: comment_created_date_markup,
+      date_time_date_display_variant: 'date-day-time',
+      date_time_exact_date_title: comment_created_date_title,
+      date_time_additional_classes: ['comment-message__timestamp'],
+    } only %}
     {% if comment_permalink_url %}
       </a>
     {% endif %}

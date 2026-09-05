@@ -4,7 +4,7 @@
 
 .content-layout {
   display: grid;
-  grid-template-columns: minmax(0, var(--layout-content-max-readable-default));
+  grid-template-columns: minmax(0, var(--layout-content-max-blog-default));
   justify-content: center;
   gap: calc(var(--space-scale-base-gap) * 4);
   width: 100%;
@@ -16,7 +16,7 @@
 
 .content-layout--with-sidebar {
   grid-template-columns:
-    minmax(0, var(--layout-content-max-readable-default))
+    minmax(0, var(--layout-content-max-blog-default))
     minmax(
       var(--component-content-layout-sidebar-min-width-default),
       var(--component-content-layout-sidebar-max-width-default)
@@ -38,7 +38,7 @@
   flex-direction: column;
   gap: calc(var(--space-scale-base-gap) * 3);
   width: 100%;
-  max-width: var(--layout-content-max-readable-default);
+  max-width: var(--layout-content-max-blog-default);
   min-width: 0;
   margin-inline: auto;
 }

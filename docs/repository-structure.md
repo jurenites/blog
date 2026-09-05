@@ -111,15 +111,17 @@ change the Content sections form or public rendering: those continue using the
 classic Paragraphs configuration until the project adds an explicit layout
 section component and switches the field displays.
 
-Add repeatable Number and Description tiles to those Content sections with:
+Add the reusable homepage Numeric values block and its repeatable tile model with:
 
 ```bash
 docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_numeric_values
 ```
 
-The Numeric Values section uses a nested Numeric Value Paragraph for each tile.
-An optional Start year calculates elapsed years automatically, allowing the
-`2010` professional-experience value to stay current without content edits.
+The `Numeric values` Content Block stores one to eight nested Numeric Value
+Paragraph items. Each item has a required Number, Text, and an optional attached
+SVG Icon image whose intrinsic dimensions, viewport, and aspect ratio are
+preserved up to an 80px maximum width. The installed two-item block is reusable
+and is placed only on the homepage before the article and news blocks.
 
 Apply the structured Basic page heading controls with:
 

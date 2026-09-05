@@ -1,0 +1,83 @@
+@use "../tools";
+
+.pixel-glyph-editor {
+  display: grid;
+  gap: calc(var(--space-scale-base-gap) * 2);
+  width: 100%;
+  padding: calc(var(--space-scale-base-gap) * 2);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  border-radius: var(--shape-corner-radius-base);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+}
+
+.pixel-glyph-editor__header {
+  max-width: calc(var(--shape-basic-tile) * 16);
+}
+
+.pixel-glyph-editor__header h2,
+.pixel-glyph-editor__header p {
+  margin-block: 0 var(--space-scale-base-gap);
+}
+
+.pixel-glyph-editor__eyebrow,
+.pixel-glyph-editor__status {
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-caption;
+}
+
+.pixel-glyph-editor__workspace {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: calc(var(--space-scale-base-gap) * 4);
+}
+
+.pixel-glyph-editor__grid,
+.pixel-glyph-editor__preview {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-scale-one);
+  background: var(--theme-dark-border-divider-default);
+}
+
+.pixel-glyph-editor__grid {
+  width: calc(var(--shape-basic-tile) * 5);
+  touch-action: none;
+}
+
+.pixel-glyph-editor__cell {
+  width: var(--shape-basic-tile);
+  height: var(--shape-basic-tile);
+  padding: 0;
+  border: 0;
+  background: var(--color-palette-full-white);
+  cursor: crosshair;
+
+  &:focus-visible {
+    position: relative;
+    z-index: 1;
+    @include tools.focus-ring;
+  }
+}
+
+.pixel-glyph-editor__cell.is-filled,
+.pixel-glyph-editor__preview-cell.is-filled {
+  background: var(--color-palette-full-black);
+}
+
+.pixel-glyph-editor__status {
+  margin-block: var(--space-scale-base-gap) 0;
+}
+
+.pixel-glyph-editor__preview-block h3 {
+  margin-block-start: 0;
+}
+
+.pixel-glyph-editor__preview {
+  width: calc(var(--shape-basic-tile) * 4);
+}
+
+.pixel-glyph-editor__preview-cell {
+  aspect-ratio: 1;
+  background: var(--color-palette-full-white);
+}

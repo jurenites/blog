@@ -1,0 +1,11 @@
+{# Homepage placement for the editable Numeric values Content Block. #}
+<section{{ attributes.addClass('numeric-values') }} aria-label="{{ configuration.label }}">
+  {{ title_prefix }}
+  {% if label %}
+    <h2{{ title_attributes }}>{{ label }}</h2>
+  {% endif %}
+  {{ title_suffix }}
+  <ul class="numeric-values__grid">
+    {{ content }}
+  </ul>
+</section>

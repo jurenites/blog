@@ -13,7 +13,48 @@ use Drupal\Component\Utility\Html;
 use Drupal\gin\GinNavigation;
 use Drupal\gin\GinSettings;
 use Drupal\jurenites_blog\TagSlugResolver;
+use Drupal\node\NodeInterface;
 use Drupal\taxonomy\TermInterface;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_theme_theme(
+  array $existing_themes,
+  string $theme_type,
+  string $theme_name,
+  string $theme_path,
+): array {
+  return [
+    'badge' => [
+      'variables' => [
+        'attributes' => [],
+        'badge_label' => '',
+        'color_variant' => 'neutral',
+      ],
+      'template' => 'components/badge',
+    ],
+  ];
+}
+
+/**
+ * Supplies the shared social profiles and local SVG assets to the footer.
+ */
+function jurenites_theme_preprocess_menu(array &$menu_variables): void {
+  if (($menu_variables['menu_name'] ?? '') !== 'footer') {
+    return;
+  }
+
+  $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
+  $menu_variables['social_links'] = json_decode(
+    file_get_contents(DRUPAL_ROOT . '/' . $theme_path . '/social-links.json'),
+    TRUE,
+    512,
+    JSON_THROW_ON_ERROR,
+  );
+  $menu_variables['icon_asset_base_url'] = base_path() . $theme_path . '/assets/icons';
+}
 
 /**
  * Composes the public header from Drupal's existing blocks and languages.
@@ -66,6 +107,11 @@ function jurenites_theme_preprocess_page(array &$page_variables): void {
  */
 function jurenites_theme_preprocess_node(array &$node_variables): void {
   $node_entity = $node_variables['node'];
+  if ($node_entity->bundle() === 'news') {
+    jurenites_theme_add_news_metadata($node_variables);
+    return;
+  }
+
   if ($node_entity->bundle() !== 'article') {
     return;
   }
@@ -78,9 +124,7 @@ function jurenites_theme_preprocess_node(array &$node_variables): void {
     DATE_ATOM,
     'UTC',
   );
-  $node_variables['submitted_date_text'] = jurenites_theme_numeric_text_markup(
-    $date_formatter->format($created_timestamp, 'medium'),
-  );
+  $node_variables['submitted_date_text'] = $date_formatter->format($created_timestamp, 'medium');
 
   $owner_name = trim($node_entity->getOwner()->getDisplayName());
   $author_initials_overrides = [
@@ -109,12 +153,76 @@ function jurenites_theme_preprocess_node(array &$node_variables): void {
     $consumption_label = $has_youtube_video
       ? t('min to watch')
       : t('min to read');
-    $node_variables['reading_time_minutes'] = jurenites_theme_numeric_text_markup(
-      (string) $consumption_minutes,
-    );
+    $node_variables['reading_time_minutes'] = (string) $consumption_minutes;
     $node_variables['reading_time_label'] = $consumption_label;
   }
 
+}
+
+/**
+ * Exposes manually curated News fields to the shared list-item template.
+ */
+function jurenites_theme_add_news_metadata(array &$node_variables): void {
+  $news_node = $node_variables['node'];
+  $source_url = trim((string) $news_node->get('field_news_source_url')->uri);
+  $source_name = trim((string) $news_node->get('field_news_source_name')->value);
+  $source_published_value = trim((string) $news_node->get('field_news_source_published')->value);
+
+  $node_variables['news_source_url'] = $source_url;
+  $node_variables['news_source_name'] = $source_name;
+  $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
+  $node_variables['icon_asset_base_url'] = '/' . $theme_path . '/assets/icons';
+  $node_variables['news_tag_names'] = [];
+  foreach ($news_node->get('field_tags')->referencedEntities() as $tag_entity) {
+    if (!$tag_entity instanceof TermInterface) {
+      continue;
+    }
+
+    $node_variables['news_tag_names'][] = $tag_entity->label();
+    CacheableMetadata::createFromObject($tag_entity)
+      ->applyTo($node_variables['elements']);
+  }
+
+  $image_item = $news_node->get('field_image')->first();
+  $image_file = $image_item?->entity;
+  if ($image_file !== NULL) {
+    $node_variables['news_thumbnail_url'] =
+      \Drupal::service('file_url_generator')->generateString($image_file->getFileUri());
+    $node_variables['news_thumbnail_alt'] = trim((string) $image_item->alt)
+      ?: $news_node->label();
+    CacheableMetadata::createFromObject($image_file)
+      ->applyTo($node_variables['elements']);
+  }
+
+  if ($source_published_value === '') {
+    return;
+  }
+
+  $source_date = new \DateTimeImmutable(
+    $source_published_value,
+    new \DateTimeZone('UTC'),
+  );
+  $date_formatter = \Drupal::service('date.formatter');
+  $elapsed_time_markup = jurenites_theme_time_since_markup($source_date);
+  $node_variables['news_published_date_iso'] = $source_date->format(DATE_ATOM);
+  $node_variables['news_published_date_title'] = $date_formatter->format(
+    $source_date->getTimestamp(),
+    'long',
+  );
+  $node_variables['news_published_date_markup'] = Markup::create(sprintf(
+    '%s %s',
+    $elapsed_time_markup,
+    Html::escape((string) t('ago')),
+  ));
+
+  $current_date = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+  $next_update_timestamp = $source_date->diff($current_date)->days >= 1
+    ? $current_date->modify('tomorrow')->setTime(0, 0)->getTimestamp()
+    : $current_date->modify('+1 minute')->getTimestamp();
+  $node_variables['elements']['#cache']['max-age'] = max(
+    0,
+    $next_update_timestamp - $current_date->getTimestamp(),
+  );
 }
 
 /**
@@ -186,11 +294,9 @@ function jurenites_theme_preprocess_comment(array &$comment_variables): void {
     $created_timestamp,
     'long',
   );
-  $comment_variables['comment_created_date_markup'] = jurenites_theme_numeric_text_markup(
-    (string) t('@elapsed_time ago', [
-      '@elapsed_time' => $formatted_time_difference->getString(),
-    ]),
-  );
+  $comment_variables['comment_created_date_markup'] = (string) t('@elapsed_time ago', [
+    '@elapsed_time' => $formatted_time_difference->getString(),
+  ]);
   $comment_variables['comment_permalink_url'] = isset($comment_entity->in_preview)
     ? ''
     : $comment_entity->permalink()->toString();
@@ -341,12 +447,9 @@ function jurenites_theme_time_since_markup(\DateTimeImmutable $source_date): Mar
     }
   }
 
-  $last_time_part = array_pop($translated_parts);
-  $elapsed_time_text = $translated_parts === []
-    ? (string) $last_time_part
-    : implode(', ', $translated_parts) . ' ' . (string) t('and') . ' ' . $last_time_part;
+  $elapsed_time_text = implode(' ', $translated_parts);
 
-  return jurenites_theme_numeric_text_markup($elapsed_time_text);
+  return Markup::create(Html::escape($elapsed_time_text));
 }
 
 /**
@@ -354,37 +457,55 @@ function jurenites_theme_time_since_markup(\DateTimeImmutable $source_date): Mar
  */
 function jurenites_theme_preprocess_paragraph(array &$paragraph_variables): void {
   $paragraph_entity = $paragraph_variables['paragraph'];
+  if ($paragraph_entity->bundle() === 'font_preview') {
+    $font_identifier = trim((string) $paragraph_entity->get('field_font_identifier')->value);
+    $font_registry = [
+      'roundabout' => [
+        'title' => 'Roundabout',
+        'filename' => 'roundabout-regular.ttf',
+        'sample_text' => 'The quick brown fox jumps over the lazy dog.',
+      ],
+      '4pixel' => [
+        'title' => '4pixel',
+        'filename' => '4pixel.ttf',
+        'sample_text' => 'Five big quacking zephyrs jolt my wax bed.',
+      ],
+    ];
+
+    if (!isset($font_registry[$font_identifier])) {
+      return;
+    }
+
+    $font_configuration = $font_registry[$font_identifier];
+    $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
+    $theme_asset_url = '/' . $theme_path . '/assets';
+    $paragraph_variables['font_identifier'] = $font_identifier;
+    $paragraph_variables['font_title'] = $font_configuration['title'];
+    $paragraph_variables['font_asset_url'] = $theme_asset_url . '/fonts/' . $font_configuration['filename'];
+    $paragraph_variables['font_download_filename'] = $font_configuration['filename'];
+    $paragraph_variables['font_sample_text'] = $font_configuration['sample_text'];
+    $paragraph_variables['font_preview_id'] = Html::getId(
+      'font-preview-' . $paragraph_entity->uuid(),
+    );
+    $paragraph_variables['icon_asset_base_url'] = $theme_asset_url . '/icons';
+    return;
+  }
+
   if ($paragraph_entity->bundle() !== 'numeric_value') {
     return;
   }
 
-  $start_year = (int) $paragraph_entity->get('field_numeric_start_year')->value;
-  $current_year = (int) date('Y');
-
-  if ($start_year >= 1900 && $start_year <= $current_year) {
-    $elapsed_years = $current_year - $start_year;
-    $numeric_value_text = (string) $elapsed_years;
-
-    $next_year = (new \DateTimeImmutable('first day of January next year'))->getTimestamp();
-    $paragraph_variables['elements']['#cache']['max-age'] = max(0, $next_year - time());
-  }
-  else {
-    $numeric_value_text = $paragraph_entity->get('field_numeric_number')->value;
+  if ($paragraph_entity->hasField('field_numeric_icon_image')) {
+    $numeric_icon_file = $paragraph_entity->get('field_numeric_icon_image')->entity;
+    if ($numeric_icon_file !== NULL) {
+      $paragraph_variables['numeric_icon_url'] = \Drupal::service('file_url_generator')
+        ->generateString($numeric_icon_file->getFileUri());
+      CacheableMetadata::createFromObject($numeric_icon_file)
+        ->applyTo($paragraph_variables['elements']);
+    }
   }
 
-  $paragraph_variables['numeric_value_text'] = jurenites_theme_numeric_text_markup($numeric_value_text);
-}
-
-/**
- * Escapes text and adds the shared decorative slash to zero characters.
- */
-function jurenites_theme_numeric_text_markup(string|\Stringable|null $numeric_text): Markup {
-  $escaped_numeric_text = Html::escape((string) $numeric_text);
-  return Markup::create(str_replace(
-    '0',
-    '<span class="numeric-zero">0</span>',
-    $escaped_numeric_text,
-  ));
+  $paragraph_variables['numeric_value_text'] = (string) $paragraph_entity->get('field_numeric_number')->value;
 }
 
 /**
@@ -525,7 +646,10 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
     ? $repository_url . '/commit/' . $full_commit_hash
     : '';
   $project_version = $release_information['project_version'] ?? t('unknown');
-  $collaboration_credit = $release_information['collaboration_credit'] ?? t('unknown');
+  $collaboration_credit = $release_information['collaboration_credit'] ?? [];
+  $collaboration_credit = is_array($collaboration_credit)
+    ? array_values(array_filter($collaboration_credit, 'is_string'))
+    : [];
   $released_gmt = $release_information['released_gmt'] ?? t('unknown GMT+0');
   $html_variables['watermark_version_label'] = t('version');
   $html_variables['watermark_version_number'] = $project_version;
@@ -533,7 +657,9 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
   $html_variables['watermark_git_hash'] = $short_commit_hash;
   $html_variables['watermark_git_url'] = $commit_url;
   $html_variables['watermark_credit_text'] = t('made by');
-  $html_variables['watermark_credit_collaboration'] = $collaboration_credit;
+  $html_variables['watermark_credit_collaborators'] = $collaboration_credit !== []
+    ? $collaboration_credit
+    : [(string) t('unknown')];
 }
 
 /**
@@ -646,23 +772,35 @@ function jurenites_theme_theme_suggestions_field_alter(array &$suggestions, arra
 }
 
 /**
- * Turns Article tags into Chip links to their filtered Article listing.
+ * Turns content tags into Chip links to their filtered bundle listing.
  */
 function jurenites_theme_preprocess_field(array &$field_variables): void {
   $field_element = $field_variables['element'];
   $field_name = $field_element['#field_name'] ?? '';
   $entity_bundle = $field_element['#bundle'] ?? '';
 
-  if ($field_name !== 'field_tags' || $entity_bundle !== 'article') {
+  $is_content_tags = $field_name === 'field_tags'
+    && in_array($entity_bundle, ['article', 'project'], TRUE);
+  $is_interest_tags = $field_name === 'field_interest_tags'
+    && $entity_bundle === 'interests';
+  if (!$is_content_tags && !$is_interest_tags) {
     return;
   }
 
   $field_items = $field_element['#items'];
-  $article_entity = $field_items->getEntity();
-  $listing_path = $article_entity->hasField('field_youtube_video')
-    && !$article_entity->get('field_youtube_video')->isEmpty()
-      ? '/videos'
-      : '/blog';
+  $content_entity = $field_items->getEntity();
+  if ($is_interest_tags) {
+    $listing_path = '/videos';
+  }
+  elseif ($entity_bundle === 'project') {
+    $listing_path = '/portfolio';
+  }
+  else {
+    $listing_path = $content_entity->hasField('field_youtube_video')
+      && !$content_entity->get('field_youtube_video')->isEmpty()
+        ? '/videos'
+        : '/blog';
+  }
   $tag_slug_resolver = \Drupal::service('jurenites_blog.tag_slug_resolver');
   assert($tag_slug_resolver instanceof TagSlugResolver);
   foreach ($field_variables['items'] as $item_delta => &$item_variables) {
@@ -679,38 +817,131 @@ function jurenites_theme_preprocess_field(array &$field_variables): void {
 }
 
 /**
- * Exposes the selected tag to the Blog and Videos View templates.
+ * Exposes tag-filter options and the selected tag to listing View templates.
  */
 function jurenites_theme_preprocess_views_view(array &$view_variables): void {
   $view_executable = $view_variables['view'];
-  if ($view_executable->id() !== 'frontpage'
-    || !in_array($view_executable->current_display, ['page_2', 'page_3'], TRUE)) {
-    return;
-  }
-
-  $selected_tag_slug = \Drupal::request()->query->get('tag');
-  if (!is_scalar($selected_tag_slug)) {
+  $listing_path_by_display = [
+    'frontpage:page_2' => '/blog',
+    'frontpage:page_3' => '/videos',
+    'portfolio:page_1' => '/portfolio',
+  ];
+  $listing_display_key = sprintf(
+    '%s:%s',
+    $view_executable->id(),
+    $view_executable->current_display,
+  );
+  if (!isset($listing_path_by_display[$listing_display_key])) {
     return;
   }
 
   $tag_slug_resolver = \Drupal::service('jurenites_blog.tag_slug_resolver');
   assert($tag_slug_resolver instanceof TagSlugResolver);
-  $selected_term = $tag_slug_resolver->findTermBySlug((string) $selected_tag_slug);
+  $selected_tag_slug = \Drupal::request()->query->get('tag');
+  $selected_term = is_scalar($selected_tag_slug)
+    ? $tag_slug_resolver->findTermBySlug((string) $selected_tag_slug)
+    : NULL;
+
+  if ($listing_display_key === 'portfolio:page_1') {
+    jurenites_theme_add_portfolio_tag_options(
+      $view_variables,
+      $view_executable,
+      $tag_slug_resolver,
+      $selected_term instanceof TermInterface ? $selected_term : NULL,
+    );
+  }
+
   if (!$selected_term instanceof TermInterface) {
     return;
   }
 
   $view_variables['selected_tag_label'] = $selected_term->label();
-  $listing_path = $view_executable->current_display === 'page_3'
-    ? '/videos'
-    : '/blog';
+  $listing_path = $listing_path_by_display[$listing_display_key];
   $view_variables['clear_tag_url'] = Url::fromUserInput($listing_path);
-  $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
-  $view_variables['icon_asset_base_url'] = '/' . $theme_path . '/assets/icons';
+  if ($listing_display_key !== 'portfolio:page_1') {
+    $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
+    $view_variables['icon_asset_base_url'] = '/' . $theme_path . '/assets/icons';
+  }
 
   CacheableMetadata::createFromObject($selected_term)
-    ->addCacheContexts(['url.query_args:tag'])
+    ->addCacheContexts([
+      'languages:language_interface',
+      'theme',
+      'url.query_args:tag',
+    ])
     ->applyTo($view_executable->element);
+}
+
+/**
+ * Builds the persistent tag choices from accessible published Projects.
+ */
+function jurenites_theme_add_portfolio_tag_options(
+  array &$view_variables,
+  ViewExecutable $view_executable,
+  TagSlugResolver $tag_slug_resolver,
+  ?TermInterface $selected_term,
+): void {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $node_entity_type = $entity_type_manager->getDefinition('node');
+  $tag_list_cacheability = (new CacheableMetadata())
+    ->addCacheTags($node_entity_type->getListCacheTags())
+    ->addCacheTags($node_entity_type->getBundleListCacheTags('project'))
+    ->addCacheTags(['taxonomy_term_list:tags'])
+    ->addCacheContexts([
+      'languages:language_interface',
+      'url.query_args:tag',
+      'user.node_grants:view',
+      'user.permissions',
+    ]);
+
+  $project_node_ids = $entity_type_manager->getStorage('node')->getQuery()
+    ->accessCheck(TRUE)
+    ->condition('type', 'project')
+    ->condition('status', NodeInterface::PUBLISHED)
+    ->exists('field_tags.target_id')
+    ->execute();
+  $portfolio_tag_options = [];
+
+  foreach ($entity_type_manager->getStorage('node')->loadMultiple($project_node_ids) as $project_node) {
+    if (!$project_node instanceof NodeInterface || !$project_node->hasField('field_tags')) {
+      continue;
+    }
+
+    $tag_list_cacheability->addCacheableDependency($project_node);
+    foreach ($project_node->get('field_tags')->referencedEntities() as $tag_term) {
+      if (!$tag_term instanceof TermInterface) {
+        continue;
+      }
+
+      $term_access = $tag_term->access('view', NULL, TRUE);
+      $tag_list_cacheability->addCacheableDependency($term_access);
+      if (!$term_access->isAllowed()) {
+        continue;
+      }
+
+      $tag_list_cacheability->addCacheableDependency($tag_term);
+      $tag_slug = $tag_slug_resolver->slugify($tag_term->label());
+      $is_selected = $selected_term instanceof TermInterface
+        && (int) $selected_term->id() === (int) $tag_term->id();
+      $portfolio_tag_options[(int) $tag_term->id()] = [
+        'label' => $tag_term->label(),
+        'url' => $is_selected
+          ? Url::fromUserInput('/portfolio')
+          : Url::fromUserInput('/portfolio', ['query' => ['tag' => $tag_slug]]),
+        'is_selected' => $is_selected,
+      ];
+    }
+  }
+
+  uasort(
+    $portfolio_tag_options,
+    static fn(array $first_option, array $second_option): int => strnatcasecmp(
+      (string) $first_option['label'],
+      (string) $second_option['label'],
+    ),
+  );
+  $view_variables['portfolio_tag_options'] = array_values($portfolio_tag_options);
+  $tag_list_cacheability->applyTo($view_executable->element);
 }
 
 /**

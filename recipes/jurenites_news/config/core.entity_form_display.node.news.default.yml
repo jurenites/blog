@@ -1,0 +1,93 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.news.field_image
+    - field.field.node.news.field_news_source_name
+    - field.field.node.news.field_news_source_published
+    - field.field.node.news.field_news_source_url
+    - field.field.node.news.field_tags
+    - node.type.news
+  module:
+    - datetime
+    - image
+    - link
+id: node.news.default
+targetEntityType: node
+bundle: news
+mode: default
+content:
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Catchy News title'
+    third_party_settings: {  }
+  field_news_source_url:
+    type: link_default
+    weight: 1
+    region: content
+    settings:
+      placeholder_url: 'https://example.com/original-story'
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_news_source_name:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Publication or channel'
+    third_party_settings: {  }
+  field_news_source_published:
+    type: datetime_default
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_image:
+    type: image_image
+    weight: 4
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_tags:
+    type: entity_reference_autocomplete_tags
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 10
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 11
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  promote: true
+  sticky: true

@@ -661,6 +661,23 @@ export const TOKEN_RECORDS = [
     "reference_name": "color-palette-light-black"
   },
   {
+    "name": "theme-dark-surface-background-elevation-level-2",
+    "path": [
+      "theme",
+      "dark",
+      "surface",
+      "background-elevation-level-2"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "{color.palette.deep-gray}",
+    "value": "#314158",
+    "css_value": "var(--color-palette-deep-gray)",
+    "resolved_css_value": "#314158",
+    "is_reference": true,
+    "reference_name": "color-palette-deep-gray"
+  },
+  {
     "name": "theme-dark-text-primary-default",
     "path": [
       "theme",
@@ -1911,22 +1928,6 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "layout-content-max-readable-default",
-    "path": [
-      "layout",
-      "content-max",
-      "readable-default"
-    ],
-    "type": "dimension",
-    "description": "Readable line-length frame for article and standard page content.",
-    "source_value": "720px",
-    "value": "720px",
-    "css_value": "720px",
-    "resolved_css_value": "720px",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
     "name": "layout-content-max-blog-default",
     "path": [
       "layout",
@@ -2003,6 +2004,118 @@ export const TOKEN_RECORDS = [
     "value": "32px",
     "css_value": "32px",
     "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-social-icon-size-default",
+    "path": [
+      "component",
+      "footer-navigation",
+      "social-icon-size-default"
+    ],
+    "type": "dimension",
+    "description": "Compact social icons in the footer.",
+    "source_value": "16px",
+    "value": "16px",
+    "css_value": "16px",
+    "resolved_css_value": "16px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-linkedin-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "linkedin-color-hover"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#0A66C2",
+    "value": "#0A66C2",
+    "css_value": "#0A66C2",
+    "resolved_css_value": "#0A66C2",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-facebook-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "facebook-color-hover"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#0866FF",
+    "value": "#0866FF",
+    "css_value": "#0866FF",
+    "resolved_css_value": "#0866FF",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-vk-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "vk-color-hover"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#0077FF",
+    "value": "#0077FF",
+    "css_value": "#0077FF",
+    "resolved_css_value": "#0077FF",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-youtube-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "youtube-color-hover"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FF0000",
+    "value": "#FF0000",
+    "css_value": "#FF0000",
+    "resolved_css_value": "#FF0000",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-soundcloud-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "soundcloud-color-hover"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FF3300",
+    "value": "#FF3300",
+    "css_value": "#FF3300",
+    "resolved_css_value": "#FF3300",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-steam-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "steam-color-hover"
+    ],
+    "type": "string",
+    "description": "Steam's interface blue.",
+    "source_value": "#1A9FFF",
+    "value": "#1A9FFF",
+    "css_value": "#1A9FFF",
+    "resolved_css_value": "#1A9FFF",
     "is_reference": false,
     "reference_name": null
   },
@@ -2087,6 +2200,38 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-news-list-item-media-width-default",
+    "path": [
+      "component",
+      "news-list-item",
+      "media-width-default"
+    ],
+    "type": "dimension",
+    "description": "News stays denser than the standard Article list item.",
+    "source_value": "160px",
+    "value": "160px",
+    "css_value": "160px",
+    "resolved_css_value": "160px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-news-list-item-media-width-compact",
+    "path": [
+      "component",
+      "news-list-item",
+      "media-width-compact"
+    ],
+    "type": "dimension",
+    "description": "Keep the thumbnail left-aligned without crowding compact layouts.",
+    "source_value": "120px",
+    "value": "120px",
+    "css_value": "120px",
+    "resolved_css_value": "120px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-chip-corner-radius-default",
     "path": [
       "component",
@@ -2103,10 +2248,10 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "component-form-field-color-validation-error-default",
+    "name": "component-input-text-color-validation-error-default",
     "path": [
       "component",
-      "form-field",
+      "input-text",
       "color",
       "validation-error-default"
     ],
@@ -2716,27 +2861,27 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "component-date-display-default-mode",
+    "name": "component-date-time-value-default-kind",
     "path": [
       "component",
-      "date-display",
-      "default-mode"
+      "date-time-value",
+      "default-kind"
     ],
     "type": "string",
     "description": "",
-    "source_value": "month-day-year",
-    "value": "month-day-year",
-    "css_value": "month-day-year",
-    "resolved_css_value": "month-day-year",
+    "source_value": "absolute-date",
+    "value": "absolute-date",
+    "css_value": "absolute-date",
+    "resolved_css_value": "absolute-date",
     "is_reference": false,
     "reference_name": null
   },
   {
-    "name": "component-date-display-default-display",
+    "name": "component-date-time-value-default-date-display",
     "path": [
       "component",
-      "date-display",
-      "default-display"
+      "date-time-value",
+      "default-date-display"
     ],
     "type": "string",
     "description": "",
@@ -2744,6 +2889,166 @@ export const TOKEN_RECORDS = [
     "value": "date-day",
     "css_value": "date-day",
     "resolved_css_value": "date-day",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-date-time-value-locale-default",
+    "path": [
+      "component",
+      "date-time-value",
+      "locale-default"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "en-US",
+    "value": "en-US",
+    "css_value": "en-US",
+    "resolved_css_value": "en-US",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-date-time-value-format-date-day-month",
+    "path": [
+      "component",
+      "date-time-value",
+      "format",
+      "date-day",
+      "month"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "short",
+    "value": "short",
+    "css_value": "short",
+    "resolved_css_value": "short",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-date-time-value-format-date-day-day",
+    "path": [
+      "component",
+      "date-time-value",
+      "format",
+      "date-day",
+      "day"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "numeric",
+    "value": "numeric",
+    "css_value": "numeric",
+    "resolved_css_value": "numeric",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-date-time-value-format-date-day-year",
+    "path": [
+      "component",
+      "date-time-value",
+      "format",
+      "date-day",
+      "year"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "numeric",
+    "value": "numeric",
+    "css_value": "numeric",
+    "resolved_css_value": "numeric",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-date-time-value-format-date-day-time-month",
+    "path": [
+      "component",
+      "date-time-value",
+      "format",
+      "date-day-time",
+      "month"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "long",
+    "value": "long",
+    "css_value": "long",
+    "resolved_css_value": "long",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-date-time-value-format-date-day-time-day",
+    "path": [
+      "component",
+      "date-time-value",
+      "format",
+      "date-day-time",
+      "day"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "numeric",
+    "value": "numeric",
+    "css_value": "numeric",
+    "resolved_css_value": "numeric",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-date-time-value-format-date-day-time-year",
+    "path": [
+      "component",
+      "date-time-value",
+      "format",
+      "date-day-time",
+      "year"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "numeric",
+    "value": "numeric",
+    "css_value": "numeric",
+    "resolved_css_value": "numeric",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-date-time-value-format-date-day-time-hour",
+    "path": [
+      "component",
+      "date-time-value",
+      "format",
+      "date-day-time",
+      "hour"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "numeric",
+    "value": "numeric",
+    "css_value": "numeric",
+    "resolved_css_value": "numeric",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-date-time-value-format-date-day-time-minute",
+    "path": [
+      "component",
+      "date-time-value",
+      "format",
+      "date-day-time",
+      "minute"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "2-digit",
+    "value": "2-digit",
+    "css_value": "2-digit",
+    "resolved_css_value": "2-digit",
     "is_reference": false,
     "reference_name": null
   },
@@ -2856,6 +3161,22 @@ export const TOKEN_RECORDS = [
     "value": "200px",
     "css_value": "200px",
     "resolved_css_value": "200px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-numeric-values-icon-max-width-default",
+    "path": [
+      "component",
+      "numeric-values",
+      "icon-max-width-default"
+    ],
+    "type": "dimension",
+    "description": "Preserve smaller intrinsic SVG dimensions while preventing oversized uploads.",
+    "source_value": "80px",
+    "value": "80px",
+    "css_value": "80px",
+    "resolved_css_value": "80px",
     "is_reference": false,
     "reference_name": null
   }

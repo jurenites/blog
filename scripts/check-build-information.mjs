@@ -25,7 +25,8 @@ function parse_storybook_information(script_content) {
 
 function assert_current_identity(output_name, output_information, current_information) {
   const stale_fields = IDENTITY_FIELDS.filter(
-    (field_name) => output_information[field_name] !== current_information[field_name],
+    (field_name) =>
+      JSON.stringify(output_information[field_name]) !== JSON.stringify(current_information[field_name]),
   );
 
   if (stale_fields.length > 0) {

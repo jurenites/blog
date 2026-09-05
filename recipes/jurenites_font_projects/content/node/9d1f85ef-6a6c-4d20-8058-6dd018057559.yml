@@ -1,0 +1,31 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 9d1f85ef-6a6c-4d20-8058-6dd018057559
+  bundle: project
+  default_langcode: en
+  depends:
+    13c3f5c7-2b90-4077-85d8-120b90d6de3e: paragraph
+    b4068fd8-f9f9-4a4a-a006-2fe19185a599: paragraph
+    bcd8314a-d899-449f-b685-8ca03e04f66a: taxonomy_term
+    47f52aff-cda5-4947-a8fc-d46787b77699: paragraph
+default:
+  status:
+    - value: true
+  title:
+    - value: 4pixel
+  path:
+    -
+      alias: /portfolio/4pixel
+      langcode: en
+  body:
+    -
+      value: '<p>4pixel started in 2009 with a logo drawn on a 4×4 grid for capitals and a 3×3 grid for lowercase letters.</p>'
+      summary: 'A deliberately tiny proportional pixel font that grew from a 2009 logo experiment.'
+      format: basic_html
+  field_tags:
+    - entity: bcd8314a-d899-449f-b685-8ca03e04f66a
+  field_content_sections:
+    - entity: 13c3f5c7-2b90-4077-85d8-120b90d6de3e
+    - entity: b4068fd8-f9f9-4a4a-a006-2fe19185a599
+    - entity: 47f52aff-cda5-4947-a8fc-d46787b77699

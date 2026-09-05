@@ -1,0 +1,20 @@
+_meta:
+  version: '1.0'
+  entity_type: paragraph
+  uuid: 194c52fc-3d1d-4cd4-a567-7cf9ed44e9e7
+  bundle: project_story
+  default_langcode: en
+default:
+  status:
+    - value: true
+  field_project_story_body:
+    -
+      value: |
+        <h2>From pixels to open forms</h2>
+        <p>The first idea was pixel-perfect rendering: outlines that meet the screen grid deliberately instead of becoming a blur of accidental half-pixels. Windows font rendering made the problem visible in another way. Subpixel antialiasing can leave a reddish edge on one side and a bluish edge on the other because the screen is resolving the red, green, and blue subpixels separately.</p>
+        <p>Urbanist and Sulphur Point were important references for the geometric rhythm. Roundabout also keeps its numerals close to the height of lowercase letters, so numbers sit inside a sentence instead of towering over it.</p>
+        <p>The recurring form is a circle that almost closes, with a small entry cut into the enclosed shape. Topologically, that cut avoids a fully sealed counter; aesthetically, some letters still keep a real enclosed space when the shape needs it. That tension gradually made the typeface feel like a stencil.</p>
+        <p>A Windows comparison image can be added here later without changing the interactive specimen.</p>
+        <p><strong>Use:</strong> I am making this font available to download and use free of charge. Formal license metadata is not embedded in the current font file.</p>
+      format: basic_html
+

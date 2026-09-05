@@ -1,0 +1,23 @@
+<article class="news-list-item">
+  <div class="news-list-item__media">
+    <a class="news-list-item__image-link" href="{{source_url}}" rel="external">
+      <img src="{{thumbnail_url}}" alt="{{thumbnail_alt}}">
+    </a>
+  </div>
+  <div class="news-list-item__body">
+    <h2 class="news-list-item__title">
+      <a class="news-list-item__title-link" href="{{source_url}}" rel="external">
+        <span class="news-list-item__title-text">{{news_title}}</span>
+        {{external_icon_content}}
+      </a>
+    </h2>
+    <div class="news-list-item__source">
+      <span class="news-list-item__source-label">{{source_label}}</span>
+      <span class="news-list-item__source-name">{{source_name}}</span>
+    </div>
+    <div class="news-list-item__meta">
+      {{tag_list_content}}
+      <span class="news-list-item__date">{{published_date_content}}</span>
+    </div>
+  </div>
+</article>

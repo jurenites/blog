@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+id: font_preview
+label: 'Font preview'
+icon_uuid: null
+icon_default: null
+description: 'Interactive specimen, glyph grid, and font data.'
+behavior_plugins: {  }
+

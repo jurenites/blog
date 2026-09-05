@@ -5,6 +5,7 @@
 .site-footer {
   width: 100%;
   margin-block-start: auto;
+  margin-top: calc(var(--space-scale-base-gap) * 3); ;
 }
 
 .cookie-policy-notice {
@@ -33,7 +34,7 @@
   flex: 1;
   flex-direction: column;
   gap: var(--space-scale-base-gap);
-  max-width: var(--layout-content-max-readable-default);
+  max-width: var(--layout-content-max-blog-default);
 }
 
 .cookie-policy-notice__heading {

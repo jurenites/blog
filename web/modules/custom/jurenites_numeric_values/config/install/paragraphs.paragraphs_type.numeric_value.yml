@@ -5,5 +5,5 @@ id: numeric_value
 label: 'Numeric value'
 icon_uuid: null
 icon_default: null
-description: 'One numeric tile with a Number, Description, and optional automatic start year.'
+description: 'One numeric tile with a required Number, Text, and an optional attached SVG Icon image.'
 behavior_plugins: {  }

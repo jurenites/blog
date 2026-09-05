@@ -8,7 +8,7 @@ id: paragraph.numeric_value.field_numeric_description
 field_name: field_numeric_description
 entity_type: paragraph
 bundle: numeric_value
-label: Description
+label: Text
 description: 'Short supporting text rendered with the subtitle-1 typography role.'
 required: true
 translatable: true

@@ -1,0 +1,211 @@
+@use "../tools";
+
+.font-preview {
+  display: grid;
+  gap: calc(var(--space-scale-base-gap) * 3);
+  width: 100%;
+  min-width: 0;
+  padding: calc(var(--space-scale-base-gap) * 2);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  border-radius: var(--shape-corner-radius-base);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+}
+
+.font-preview__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
+.font-preview__eyebrow,
+.font-preview__status {
+  margin: 0;
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-caption;
+}
+
+.font-preview__title {
+  margin: 0;
+}
+
+.font-preview__input {
+  max-width: var(--component-text-input-width-full);
+}
+
+.font-preview--roundabout .font-preview__input .text-input__control,
+.font-preview--roundabout .font-preview__specimen,
+.font-preview--roundabout .font-preview__glyph-character {
+  font-family: "Roundabout", sans-serif;
+}
+
+.font-preview--4pixel .font-preview__input .text-input__control,
+.font-preview--4pixel .font-preview__specimen,
+.font-preview--4pixel .font-preview__glyph-character {
+  font-family: "4pixel", monospace;
+}
+
+.font-preview__specimen {
+  min-height: calc(var(--shape-basic-tile) * 2);
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: calc(var(--space-scale-base-gap) * 5);
+  line-height: 1.2;
+}
+
+.font-preview__glyph-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--shape-basic-tile), 1fr));
+  gap: var(--space-scale-one);
+  width: 100%;
+  background: var(--theme-dark-border-divider-default);
+}
+
+.font-preview__glyph-tile {
+  display: grid;
+  place-items: center;
+  min-width: var(--shape-basic-tile);
+  min-height: var(--shape-basic-tile);
+  padding: var(--space-scale-two);
+  border: 0;
+  background: var(--theme-dark-surface-background-elevation-level-1);
+  color: var(--theme-dark-text-primary-default);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--theme-dark-action-secondary-hover);
+  }
+
+  &:focus-visible {
+    @include tools.focus-ring;
+  }
+}
+
+.font-preview__glyph-character {
+  font-size: calc(var(--space-scale-base-gap) * 3);
+  line-height: 1;
+}
+
+.font-preview__glyph-code,
+.font-preview__glyph-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: "Ubuntu Sans Mono", monospace;
+  font-size: calc(var(--space-scale-base-gap) * 0.625);
+  line-height: 1.2;
+}
+
+.font-preview__data {
+  min-width: 0;
+}
+
+.font-preview__table-scroll,
+.font-preview__path-details pre {
+  overflow: auto;
+}
+
+.font-preview__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.font-preview__table th,
+.font-preview__table td {
+  padding: var(--space-scale-base-gap);
+  border-block-end: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  text-align: start;
+  vertical-align: top;
+}
+
+.font-preview__dialog {
+  width: min(calc(100% - (var(--space-scale-base-gap) * 4)), calc(var(--shape-basic-tile) * 22));
+  max-height: calc(100% - (var(--space-scale-base-gap) * 4));
+  padding: calc(var(--space-scale-base-gap) * 2);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
+  border-radius: var(--shape-corner-radius-base);
+  background: var(--theme-dark-surface-background-elevation-level-1);
+  color: var(--theme-dark-text-primary-default);
+}
+
+.font-preview__dialog::backdrop {
+  background: var(--color-palette-full-black);
+}
+
+.font-preview__dialog-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--space-scale-base-gap);
+}
+
+.font-preview__dialog-header h3 {
+  margin: 0;
+}
+
+.font-preview__glyph-visual {
+  display: grid;
+  place-items: center;
+  min-height: calc(var(--shape-basic-tile) * 4);
+  margin-block: calc(var(--space-scale-base-gap) * 2);
+  background: var(--color-palette-light-white);
+}
+
+.font-preview__glyph-svg {
+  display: block;
+  width: 100%;
+  height: calc(var(--shape-basic-tile) * 4);
+}
+
+.font-preview__metric-line {
+  stroke: var(--color-palette-light-black);
+  stroke-width: var(--space-scale-two);
+}
+
+.font-preview__metric-line--baseline {
+  stroke-dasharray: var(--space-scale-base-gap);
+}
+
+.font-preview__glyph-outline {
+  fill: var(--color-palette-dark-white);
+  stroke: var(--theme-dark-action-primary-default);
+  stroke-width: var(--space-scale-two);
+}
+
+.font-preview__glyph-point--control {
+  fill: var(--theme-dark-action-primary-default);
+}
+
+.font-preview__glyph-point--endpoint {
+  fill: var(--color-palette-full-black);
+  stroke: var(--theme-dark-action-primary-default);
+  stroke-width: var(--space-scale-two);
+}
+
+.font-preview__glyph-data {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--shape-basic-tile) * 3), 1fr));
+  gap: var(--space-scale-base-gap);
+}
+
+.font-preview__glyph-data div {
+  padding: var(--space-scale-base-gap);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+}
+
+.font-preview__glyph-data dt {
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-caption;
+}
+
+.font-preview__glyph-data dd {
+  margin: 0;
+}
+
+.font-preview__path-details code {
+  white-space: pre;
+  font-family: "Ubuntu Sans Mono", monospace;
+  font-size: calc(var(--space-scale-base-gap) * 1.5);
+}

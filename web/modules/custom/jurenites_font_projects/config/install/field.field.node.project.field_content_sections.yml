@@ -1,0 +1,42 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content_sections
+    - node.type.project
+    - paragraphs.paragraphs_type.font_preview
+    - paragraphs.paragraphs_type.pixel_glyph_editor
+    - paragraphs.paragraphs_type.project_story
+  module:
+    - entity_reference_revisions
+    - paragraphs
+id: node.project.field_content_sections
+field_name: field_content_sections
+entity_type: node
+bundle: project
+label: 'Content sections'
+description: 'Reorder narrative and interactive project sections.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      project_story: project_story
+      font_preview: font_preview
+      pixel_glyph_editor: pixel_glyph_editor
+    negate: 0
+    target_bundles_drag_drop:
+      project_story:
+        weight: 0
+        enabled: true
+      font_preview:
+        weight: 1
+        enabled: true
+      pixel_glyph_editor:
+        weight: 2
+        enabled: true
+field_type: entity_reference_revisions
+

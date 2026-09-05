@@ -1,0 +1,15 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Installation hooks for Jurenites font projects.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_font_projects_install(): void {
+  jurenites_font_projects_ensure_portfolio_navigation();
+}

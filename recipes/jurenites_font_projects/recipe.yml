@@ -1,0 +1,33 @@
+name: 'Jurenites font projects'
+description: 'Adds Project content, Roundabout and 4pixel stories, and their interactive font tools.'
+type: 'Content type'
+recipes:
+  - jurenites_paragraphs_crossfade
+install:
+  - jurenites_font_projects
+config:
+  strict: false
+  import:
+    jurenites_font_projects:
+      - node.type.project
+      - paragraphs.paragraphs_type.project_story
+      - paragraphs.paragraphs_type.font_preview
+      - paragraphs.paragraphs_type.pixel_glyph_editor
+      - field.storage.paragraph.field_project_story_body
+      - field.storage.paragraph.field_font_identifier
+      - field.field.paragraph.project_story.field_project_story_body
+      - field.field.paragraph.font_preview.field_font_identifier
+      - field.field.node.project.body
+      - field.field.node.project.field_image
+      - field.field.node.project.field_tags
+      - field.field.node.project.field_content_sections
+      - core.entity_form_display.paragraph.project_story.default
+      - core.entity_view_display.paragraph.project_story.default
+      - core.entity_form_display.paragraph.font_preview.default
+      - core.entity_view_display.paragraph.font_preview.default
+      - core.entity_form_display.paragraph.pixel_glyph_editor.default
+      - core.entity_view_display.paragraph.pixel_glyph_editor.default
+      - core.entity_form_display.node.project.default
+      - core.entity_view_display.node.project.default
+      - core.entity_view_display.node.project.teaser
+      - views.view.portfolio

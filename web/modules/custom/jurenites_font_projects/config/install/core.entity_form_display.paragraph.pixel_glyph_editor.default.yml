@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.pixel_glyph_editor
+id: paragraph.pixel_glyph_editor.default
+targetEntityType: paragraph
+bundle: pixel_glyph_editor
+mode: default
+content: {  }
+hidden:
+  created: true
+  status: true
+

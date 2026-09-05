@@ -1,0 +1,50 @@
+{# Portfolio View page with persistent tag-filter choices. #}
+{% set view_classes = [dom_id ? 'js-view-dom-id-' ~ dom_id] %}
+<div{{ attributes.addClass(view_classes) }}>
+  {{ title_prefix }}
+  {{ title }}
+  {{ title_suffix }}
+
+  {% if portfolio_tag_options %}
+    <nav class="article-tags portfolio-filter" aria-label="{{ 'Filter Portfolio projects by tag'|t }}">
+      <span class="article-tags__label portfolio-filter__label">{{ 'Filter projects by tag'|t }}</span>
+      <ul class="article-tags__list portfolio-filter__list">
+        {% for tag_option in portfolio_tag_options %}
+          <li class="article-tags__item">
+            <a class="chip portfolio-filter__chip{{ tag_option.is_selected ? ' chip--accent' }}"
+               href="{{ tag_option.url }}"
+               {% if tag_option.is_selected %}
+                 aria-current="true"
+                 aria-label="{{ 'Show all Portfolio projects; current tag is @tag'|t({'@tag': tag_option.label}) }}"
+               {% else %}
+                 aria-label="{{ 'Filter Portfolio projects by @tag'|t({'@tag': tag_option.label}) }}"
+               {% endif %}>{{ tag_option.label }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  {% endif %}
+
+  {% if header %}
+    <header>{{ header }}</header>
+  {% endif %}
+
+  {{ exposed }}
+  {{ attachment_before }}
+
+  {% if rows %}
+    {{ rows }}
+  {% elseif empty %}
+    {{ empty }}
+  {% endif %}
+  {{ pager }}
+
+  {{ attachment_after }}
+  {{ more }}
+
+  {% if footer %}
+    <footer>{{ footer }}</footer>
+  {% endif %}
+
+  {{ feed_icons }}
+</div>
