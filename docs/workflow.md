@@ -91,7 +91,7 @@ self-hosted `opentype.js` parser. It fetches only an allowlisted same-origin TTF
 caches the parse promise, builds the glyph grid from real drawable cmap
 mappings, and reports the binary's embedded name-table metadata exactly. The
 large parser is emitted as a separate Drupal library and attached only by the
-Font Preview Paragraph; it is not part of the global theme bundle. The 5x5
+Font Preview Paragraph; it is not part of the global theme bundle. The 4×4
 Pixel Glyph Editor remains a deterministic in-memory interaction with no saved
 browser or server state.
 

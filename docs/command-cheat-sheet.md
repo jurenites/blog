@@ -12,41 +12,11 @@ than directly on macOS.
 docker exec blog_jurenites_web ./vendor/bin/drush cr
 ```
 
-### Start the DEV containers from any directory
-
-```bash
-docker compose -f /Users/alexanderilivanov/Projects/blog_jurenites/docker-compose.yml up -d
-```
-
-### Check the DEV containers from any directory
-
-```bash
-docker compose -f /Users/alexanderilivanov/Projects/blog_jurenites/docker-compose.yml ps
-```
-
-### Follow Drupal container logs
-
-```bash
-docker logs --follow blog_jurenites_web
-```
-
-### Check Drupal status
-
-```bash
-docker exec blog_jurenites_web ./vendor/bin/drush status
-```
-
 ### Run database updates, then clear cache
 
 ```bash
 docker exec blog_jurenites_web ./vendor/bin/drush updatedb --yes
 docker exec blog_jurenites_web ./vendor/bin/drush cr
-```
-
-### Run Drupal cron
-
-```bash
-docker exec blog_jurenites_web ./vendor/bin/drush cron
 ```
 
 ### Apply project Drupal recipes

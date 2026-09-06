@@ -6,6 +6,7 @@ import { TOKEN_VALUES } from "../generated/token/tokens.js";
 import {
   initialize_avatar_images,
   initialize_custom_selects,
+  initialize_numeric_value_counters,
   initialize_pixel_glyph_editors,
   initialize_site_headers,
   initialize_tooltips,
@@ -150,6 +151,7 @@ export const decorators = [
       initialize_avatar_images(document);
       initialize_custom_selects(document);
       initialize_font_previews(document);
+      initialize_numeric_value_counters(document);
       initialize_pixel_glyph_editors(document);
       initialize_site_headers(document);
       initialize_tooltips(document);

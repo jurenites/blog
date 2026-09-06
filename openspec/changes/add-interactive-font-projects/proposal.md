@@ -10,7 +10,7 @@ Roundabout and 4pixel already ship with the site, but visitors cannot discover t
 - Add a macOS Character Viewer-inspired glyph dialog with an enlarged vector outline, visible on-curve and off-curve/control points, path commands, advance width, glyph name/index, and correctly formatted Unicode code point.
 - Add an embedded font-data table that reports metadata actually present in the font and explicitly marks absent values rather than inventing them.
 - Add a downloadable font action using the shared Icon component and the supplied `arrow-download.svg` asset.
-- Add a 5×5 black-and-white pixel glyph editor to the 4pixel project, using 40px minimum cells and live visual feedback.
+- Add a 4×4 black-and-white pixel glyph editor to the 4pixel project, using 40px cells and the drawing surface itself as immediate visual feedback.
 - Add matching Storybook stories and shared markup helpers for every new visual component, plus Drupal templates/behaviors that consume the same contracts.
 - Add the two supplied origin stories as edited project content: Roundabout’s SMEP, pixel-grid, subpixel-rendering, Urbanist/Sulphur Point, topology, and stencil themes; and 4pixel’s 2009 logo, compact-grid, variable-spacing, watermark, DOS VGA 437, FontStruct, and accessibility themes.
 
@@ -20,7 +20,7 @@ Roundabout and 4pixel already ship with the site, but visitors cannot discover t
 
 - `portfolio/project-content`: Deployable Project records support structured, reorderable portfolio storytelling and include the Roundabout and 4pixel entries.
 - `font/interactive-preview`: A Project can expose a downloadable local font through a live specimen, Unicode-mapped glyph grid, vector-inspection dialog, and embedded metadata table.
-- `font/pixel-glyph-editor`: The 4pixel Project includes an accessible 5×5 visitor-editable monochrome glyph grid with immediate preview feedback.
+- `font/pixel-glyph-editor`: The 4pixel Project includes an accessible 4×4 visitor-editable monochrome glyph grid with immediate feedback in the drawing surface.
 
 ### Modified Capabilities
 

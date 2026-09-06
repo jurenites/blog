@@ -87,7 +87,7 @@ The available Project sections are:
 - Project story: revisionable long-form narrative.
 - Font preview: a controlled `roundabout` or `4pixel` identifier which resolves
   to a theme-owned local font file and interactive browser.
-- Pixel glyph editor: the blank, non-persistent 5×5 drawing experiment used by
+- Pixel glyph editor: the blank, non-persistent 4×4 drawing experiment used by
   the 4pixel Project.
 
 The `jurenites_font_projects` recipe creates the initial Roundabout and 4pixel

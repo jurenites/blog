@@ -169,7 +169,7 @@ component:
     vk-color-hover: "#0077FF"
     youtube-color-hover: "#FF0033" #https://brand.youtube/youtube-logo/
     soundcloud-color-hover: "#FF5500" #https://www.color-hex.com/color-palette/73640
-    steam-color-hover: "#051839" # Steam's interface blue.
+    steam-color-hover: "#66C0F4" # Steam's interface blue.
   cookie-policy-notice:
     layer-default: 9000 # Fixed footer notice sits above page content and below the build watermark and tooltips.
   article-teaser:
@@ -267,3 +267,4 @@ component:
     tile-min-width-default: 240px
     tile-min-height-default: 200px
     icon-max-width-default: 80px # Preserve smaller intrinsic SVG dimensions while preventing oversized uploads.
+    number-font-size-compact: 40px # Keeps grouped thousands and their affixes inside the minimum-width tile.

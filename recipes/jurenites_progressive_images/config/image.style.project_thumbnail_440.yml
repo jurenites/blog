@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - responsive_image
+name: project_thumbnail_440
+label: 'Project thumbnail 440'
+effects:
+  d8859ee7-efc2-4cc3-b03c-5b5c79eaf8cb:
+    uuid: d8859ee7-efc2-4cc3-b03c-5b5c79eaf8cb
+    id: image_scale
+    weight: 1
+    data:
+      width: 440
+      height: 440
+      upscale: false
+  38cc6fb4-babd-49c3-bc1b-8d4084406e52:
+    uuid: 38cc6fb4-babd-49c3-bc1b-8d4084406e52
+    id: image_convert_avif
+    weight: 2
+    data:
+      extension: webp

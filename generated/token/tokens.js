@@ -2112,10 +2112,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "Steam's interface blue.",
-    "source_value": "#051839",
-    "value": "#051839",
-    "css_value": "#051839",
-    "resolved_css_value": "#051839",
+    "source_value": "#66C0F4",
+    "value": "#66C0F4",
+    "css_value": "#66C0F4",
+    "resolved_css_value": "#66C0F4",
     "is_reference": false,
     "reference_name": null
   },
@@ -3193,6 +3193,22 @@ export const TOKEN_RECORDS = [
     "value": "80px",
     "css_value": "80px",
     "resolved_css_value": "80px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-numeric-values-number-font-size-compact",
+    "path": [
+      "component",
+      "numeric-values",
+      "number-font-size-compact"
+    ],
+    "type": "dimension",
+    "description": "Keeps grouped thousands and their affixes inside the minimum-width tile.",
+    "source_value": "40px",
+    "value": "40px",
+    "css_value": "40px",
+    "resolved_css_value": "40px",
     "is_reference": false,
     "reference_name": null
   }

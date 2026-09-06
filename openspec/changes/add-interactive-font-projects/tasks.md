@@ -18,9 +18,10 @@
 
 ## 3. Pixel glyph editor
 
-- [x] 3.1 Add shared pixel-glyph-editor templates, markup helper, and Storybook story with exactly 25 labeled toggle buttons and token-owned cell geometry; verify the initial markup is a blank 5×5 grid with no inline presentational sizing.
-- [x] 3.2 Implement keyboard, click, touch/pointer-drag painting, live enlarged preview, filled-count status, and deterministic non-persistence; verify automated/browser checks cover fill, erase, drag consistency, `aria-pressed`, reload reset, and absence of storage/network writes.
+- [x] 3.1 Add shared pixel-glyph-editor templates, markup helper, and Storybook story with exactly 16 labeled toggle buttons and token-owned cell geometry; verify the initial markup is a blank 4×4 grid with no inline presentational sizing.
+- [x] 3.2 Implement keyboard, click, touch/pointer-drag painting, immediate in-grid feedback, and deterministic non-persistence; verify automated/browser checks cover fill, erase, drag consistency, `aria-pressed`, reload reset, and absence of storage/network writes.
 - [x] 3.3 Add pixel-editor SCSS using the shared basic-tile and dark-theme palette tokens, then verify the grid remains usable at 360px and is absent from the Roundabout Storybook composition.
+- [x] 3.4 Correct the delivered editor to a single 4×4 drawing surface, remove the duplicate Preview and filled-count UI from Drupal and Storybook, and verify the final rendered contract in both environments.
 
 ## 4. Drupal integration and initial content
 

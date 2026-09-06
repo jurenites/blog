@@ -1,4 +1,5 @@
 import { initialize_pixel_glyph_editors } from './pixel-glyph-editor.js';
+import { initialize_numeric_value_counters } from './numeric-values.js';
 
 const NOISE_FRAMES_PER_SECOND = 15;
 const NOISE_FRAME_INTERVAL = 1000 / NOISE_FRAMES_PER_SECOND;
@@ -904,6 +905,13 @@ if (typeof Drupal !== 'undefined') {
       initialize_pixel_glyph_editors(context);
     },
   };
+
+  Drupal.behaviors.jurenites_numeric_value_counters = {
+    attach(counter_context) {
+      initialize_numeric_value_counters(counter_context);
+    },
+  };
 }
 
 export { initialize_pixel_glyph_editors };
+export { initialize_numeric_value_counters };

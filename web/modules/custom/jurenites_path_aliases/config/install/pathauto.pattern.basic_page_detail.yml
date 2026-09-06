@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.page
+  module:
+    - node
+id: basic_page_detail
+label: 'Basic page detail URLs'
+type: 'canonical_entities:node'
+pattern: '/[node:title]'
+selection_criteria:
+  7401f659-4544-4c1d-9b21-e0e67eeff4fa:
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      page: page
+selection_logic: and
+weight: 0
+relationships: {  }

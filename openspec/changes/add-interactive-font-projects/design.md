@@ -16,7 +16,7 @@ The working tree already contains unrelated user changes. Implementation must co
 
 **Non-Goals:**
 
-- Editing font binaries, adding glyphs to the fonts, exporting the 5×5 drawing, or persisting visitor state.
+- Editing font binaries, adding glyphs to the fonts, exporting the 4×4 drawing, or persisting visitor state.
 - Presenting unsupported Unicode ranges, shaping complex text beyond what the selected font/library already supports, or reproducing every macOS Character Viewer control.
 - Capturing the proposed Windows screenshot; the content model will accept it later without making it a release dependency.
 - Backfilling license fields inside the binary font files. Editorial usage terms remain separate until the font sources themselves are updated.
@@ -71,11 +71,11 @@ Drupal Twig and Storybook helpers share the same BEM structure and data contract
 
 The parser must not inject name-table strings or serialized path text as HTML. SVG attributes are built only from numeric commands produced by the parsed allowlisted file. Drupal translations wrap all public UI labels; font metadata and authored names are data, not translated UI.
 
-### Implement the 5×5 editor as accessible toggle buttons
+### Implement the 4×4 editor as accessible toggle buttons
 
-Render 25 buttons from shared markup, each with row/column labeling and `aria-pressed=false`. The enhancement tracks a 25-element Boolean array. Click, Enter, and Space toggle one cell. Pointer-down chooses a paint value, pointer-enter applies it while captured/pressed, and pointer-up/cancel ends painting. A duplicated, non-interactive 5×5 preview and polite filled-count status update from the same state.
+Render 16 buttons from shared markup, each with row/column labeling and `aria-pressed=false`. The enhancement tracks a 16-element Boolean array. Click, Enter, and Space toggle one cell. Pointer-down chooses a paint value, pointer-enter applies it while captured/pressed, and pointer-up/cancel ends painting. The drawing grid is the only visual representation of the glyph; a duplicate Preview section and filled-cell counter would repeat information without helping the drawing task, so neither is rendered.
 
-The blank pattern is deterministic and no localStorage, cookie, request, upload, or binary generation is used. CSS owns all geometry and consumes `shape.basic-tile` for interactive cells; the enlarged preview can use a separate component dimension token only if implementation proves one is reusable and necessary.
+The blank pattern is deterministic and no localStorage, cookie, request, upload, or binary generation is used. CSS owns all geometry and consumes `shape.basic-tile` for interactive cells.
 
 ### Use the shared Icon contract for Download
 

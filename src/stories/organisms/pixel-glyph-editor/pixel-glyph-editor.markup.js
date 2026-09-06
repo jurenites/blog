@@ -1,7 +1,7 @@
 import pixel_glyph_editor_template from "./pixel-glyph-editor.template.html?raw";
 import { escape_html, render_template } from "../../template.js";
 
-const GRID_SIZE = 5;
+const GRID_SIZE = 4;
 
 function cell_button_markup() {
   return Array.from({ length: GRID_SIZE * GRID_SIZE }, (_, cell_index) => {
@@ -11,16 +11,9 @@ function cell_button_markup() {
   }).join("");
 }
 
-function preview_cell_markup() {
-  return Array.from({ length: GRID_SIZE * GRID_SIZE }, () =>
-    '<span class="pixel-glyph-editor__preview-cell" data-pixel-preview-cell aria-hidden="true"></span>')
-    .join("");
-}
-
 export function pixel_glyph_editor_markup({ component_id }) {
   return render_template(pixel_glyph_editor_template, {
     cell_buttons: cell_button_markup(),
     component_id: escape_html(component_id),
-    preview_cells: preview_cell_markup(),
   });
 }

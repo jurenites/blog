@@ -71,12 +71,13 @@ copyright, and license values are displayed as file-derived data; editorial
 claims remain separate authored copy. The download action composes the shared
 Button and Icon contracts with `arrow-download.svg`.
 
-Pixel Glyph Editor is a 4pixel-specific organism with exactly 25 toggle
-buttons, a duplicated enlarged preview, and a polite filled-count status. Click,
-keyboard, and pointer dragging edit the same blank in-memory 5x5 state. It does
-not persist, upload, or generate a font file. Both organisms keep normal
-geometry in SCSS and tokens, with no presentational sizing attributes in their
-initial markup.
+Pixel Glyph Editor is a 4pixel-specific organism with exactly 16 toggle buttons
+in a single 4×4 drawing surface. Click, keyboard, and pointer dragging edit the
+same blank in-memory state; each button exposes its current state through
+`aria-pressed`. The component intentionally has no duplicated Preview section
+or filled-cell counter. It does not persist, upload, or generate a font file.
+Both organisms keep normal geometry in SCSS and tokens, with no presentational
+sizing attributes in their initial markup.
 
 Form controls share one `Molecules/Input fields/Input text` composition.
 Its controls cover nine standard presentations: text, password, textarea,

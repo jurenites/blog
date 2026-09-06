@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - responsive_image
+name: project_thumbnail_880
+label: 'Project thumbnail 880'
+effects:
+  bee21cb9-9077-41df-8798-e1a3c9fe8679:
+    uuid: bee21cb9-9077-41df-8798-e1a3c9fe8679
+    id: image_scale
+    weight: 1
+    data:
+      width: 880
+      height: 880
+      upscale: false
+  2b22ab26-ad75-4d64-8963-9bc661d8530a:
+    uuid: 2b22ab26-ad75-4d64-8963-9bc661d8530a
+    id: image_convert_avif
+    weight: 2
+    data:
+      extension: webp

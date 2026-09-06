@@ -1,12 +1,7 @@
 import {
   create_blank_pixel_pattern,
-  filled_pixel_count,
   update_pixel_cell,
 } from "./pixel-glyph-editor-data.js";
-
-function translated_label(source_label) {
-  return typeof Drupal !== "undefined" ? Drupal.t(source_label) : source_label;
-}
 
 export function initialize_pixel_glyph_editor(pixel_editor) {
   if (pixel_editor.jurenites_pixel_editor_initialized) {
@@ -15,8 +10,6 @@ export function initialize_pixel_glyph_editor(pixel_editor) {
   pixel_editor.jurenites_pixel_editor_initialized = true;
 
   const cell_buttons = Array.from(pixel_editor.querySelectorAll("[data-pixel-cell]"));
-  const preview_cells = Array.from(pixel_editor.querySelectorAll("[data-pixel-preview-cell]"));
-  const status_message = pixel_editor.querySelector("[data-pixel-status]");
   let pixel_pattern = create_blank_pixel_pattern();
   let is_pointer_painting = false;
   let pointer_paint_value = true;
@@ -26,9 +19,7 @@ export function initialize_pixel_glyph_editor(pixel_editor) {
       const is_filled = pixel_pattern[cell_index];
       cell_button.setAttribute("aria-pressed", String(is_filled));
       cell_button.classList.toggle("is-filled", is_filled);
-      preview_cells[cell_index]?.classList.toggle("is-filled", is_filled);
     });
-    status_message.textContent = `${filled_pixel_count(pixel_pattern)} ${translated_label("of 25 pixels filled")}`;
   }
 
   function paint_cell(cell_button, is_filled) {

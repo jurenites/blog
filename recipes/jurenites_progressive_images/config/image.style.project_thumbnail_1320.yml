@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - responsive_image
+name: project_thumbnail_1320
+label: 'Project thumbnail 1320'
+effects:
+  9f7268e5-6e7e-47c1-916e-35344c7fda3f:
+    uuid: 9f7268e5-6e7e-47c1-916e-35344c7fda3f
+    id: image_scale
+    weight: 1
+    data:
+      width: 1320
+      height: 1320
+      upscale: false
+  4228ce02-9e91-4061-aa47-51ad371c321a:
+    uuid: 4228ce02-9e91-4061-aa47-51ad371c321a
+    id: image_convert_avif
+    weight: 2
+    data:
+      extension: webp
