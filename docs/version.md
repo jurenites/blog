@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 1.11.1
-Reviewed: 2026-09-04
+Version: 1.14.0
+Reviewed: 2026-09-06
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -125,9 +125,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   Input uses a local 50% radius only for
   the requested transient 36px hover indicator inside its square suffix target.
 - Article teaser and editorial list links use normal Drupal navigation to the
-  full
-  Article detail route. Their title and image remain separate presentations;
-  they do not morph into the full page through cross-document View Transitions.
+  full Article detail route. Supporting browsers use node-specific
+  cross-document View Transitions to animate the Article title and lead image
+  between the list and detail presentations; reduced-motion users get an
+  instant swap.
 - Article Teaser is the square-corner, bordered editorial card used by the
   homepage three-tile composition. The Drupal Blog and Videos Views use a
   separate, borderless Article Blog List Item with horizontal media and content
@@ -195,9 +196,11 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Select, text, textarea, unchecked choice, and choice-chip controls use the
   light-black palette surface so inputs sit one neutral tone above the default
   page surface. Selected Select Input rows use deep gray to remain distinct.
-- Media Loader provides a 16:9 video-upload placeholder with independent
-  monochrome noise frames, progress, filename, and upload status. Its noise
-  advances at 15 fps and freezes under reduced motion.
+- Media Loader provides a 16:9 image skeleton backed by an image-derived average
+  color and a restrained gradient sheen. Portfolio cards select 440px, 880px,
+  or 1320px WebP candidates for their logical width and pixel density, then
+  crossfade to the completed image. External video loads retain independent
+  monochrome noise frames at 15 fps and freeze under reduced motion.
 - Storybook manager colors now come from generated YAML tokens instead of copied
   HEX values, and token builds enforce that source-of-truth contract.
 - Elevation levels use distinct approved dark-gray surface tokens and generated
@@ -256,9 +259,13 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Top Nav Menu Site Header uses the compact floating structure of Shadcnblocks Navbar 33:
   the Drupal logo sits left, the native one-level Main navigation is centered,
   and a flag-free `Eng`/`Rus` Select Input sits right. It preserves the current
-  route through Drupal language URLs, moves the compact navigation to a second
-  row on mobile, and hides Gin's secondary toolbar for authenticated
-  frontend users.
+  route through Drupal language URLs. Through the 640px mobile maximum, a white
+  24px three-line button replaces the logo on the left, changes into a cross,
+  and opens the Main navigation vertically across the full viewport without a
+  separate overlay. Its hover/focus background and each menu item's hover/focus
+  background use the next lighter grayscale surface. Escape, selecting a link,
+  or returning to tablet width closes the menu. Gin's secondary toolbar remains
+  hidden for authenticated frontend users.
 - Blog discovery and retention patterns now include Breadcrumbs, Search Form,
   and Newsletter Signup, composed from a reusable labeled Text Input atom and
   verified without horizontal overflow at the 360px minimum.

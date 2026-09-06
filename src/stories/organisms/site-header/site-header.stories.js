@@ -4,6 +4,7 @@ const BRAND_LOGO_URL = "/assets/brand/jurenites-logo.svg";
 const BRAND_NAME = "Jurenites home";
 const NAVIGATION_LABELS = "Home, About, Portfolio, Blog, Contact";
 const LANGUAGE_LABELS = "Eng, Rus";
+const MENU_EXPANDED = false;
 
 function render_story(story_args) {
   return site_header_markup(story_args);
@@ -18,13 +19,26 @@ export default {
     brand_logo_url: { control: "text" },
     navigation_labels: { control: "text" },
     language_labels: { control: "text" },
+    menu_expanded: { control: "boolean" },
   },
   args: {
     brand_name: BRAND_NAME,
     brand_logo_url: BRAND_LOGO_URL,
     navigation_labels: NAVIGATION_LABELS,
     language_labels: LANGUAGE_LABELS,
+    menu_expanded: MENU_EXPANDED,
   },
 };
 
 export const default_story = {};
+
+export const mobile_menu_open = {
+  args: {
+    menu_expanded: true,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: "mobile_max",
+    },
+  },
+};

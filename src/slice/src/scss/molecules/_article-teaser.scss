@@ -2,6 +2,44 @@
 
 @use "../tools";
 
+@view-transition {
+  navigation: auto;
+}
+
+[data-jurenites-article-title-transition] {
+  view-transition-name: attr(
+    data-jurenites-article-title-transition type(<custom-ident>),
+    none
+  );
+  view-transition-class: article-title;
+}
+
+[data-jurenites-article-image-transition] {
+  view-transition-name: attr(
+    data-jurenites-article-image-transition type(<custom-ident>),
+    none
+  );
+  view-transition-class: article-image;
+}
+
+::view-transition-group(root) {
+  animation-duration: var(--motion-duration-media-reveal-default);
+  animation-timing-function: var(--motion-easing-standard-default);
+}
+
+::view-transition-group(.article-title),
+::view-transition-group(.article-image) {
+  animation-duration: var(--motion-duration-long-default);
+  animation-timing-function: var(--motion-easing-decelerate-default);
+}
+
+::view-transition-old(.article-title),
+::view-transition-new(.article-title),
+::view-transition-old(.article-image),
+::view-transition-new(.article-image) {
+  mix-blend-mode: normal;
+}
+
 .article-teaser {
   display: flex;
   flex-direction: column;
@@ -10,7 +48,7 @@
   min-height: 100%;
   padding: calc(var(--space-scale-base-gap) * 3);
   cursor: pointer;
-  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
   background: var(--theme-dark-surface-background-elevation-level-0);
   box-shadow: var(--elevation-shadow-level-0);
   transition-property: box-shadow;
@@ -370,7 +408,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(root),
-  ::view-transition-group(.article-title) {
+  ::view-transition-group(.article-title),
+  ::view-transition-group(.article-image) {
     animation-duration: var(--motion-duration-instant-default);
   }
 

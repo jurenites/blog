@@ -41,6 +41,7 @@
         "drupal/image_compare": "^1.0",
         "drupal/layout_paragraphs": "^2.1",
         "drupal/paragraphs": "^1.22",
+        "drupal/pathauto": "^1.15",
         "drupal/publication_date": "^3.1",
         "drupal/realname": "^2.0",
         "drupal/tagify": "^2.0",

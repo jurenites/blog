@@ -6,12 +6,23 @@
         <ul class="footer-navigation__list">
           {% for social_link in social_links %}
             <li class="footer-navigation__item">
-              <a class="footer-navigation__link footer-navigation__social-link" href="{{ social_link.link_url }}" data-social-icon="{{ social_link.icon_name }}" rel="me">
+              <a class="footer-navigation__link footer-navigation__social-link" href="{{ social_link.link_url }}" data-social-icon="{{ social_link.icon_name }}" target="_blank" rel="me noopener noreferrer" aria-label="{{ social_link.link_label }}: {{ social_link.hover_label }} ({{ 'opens in a new window'|t }})">
                 {% include '@jurenites_theme/components/icon.html.twig' with {
                   icon_name: social_link.icon_name,
+                  icon_class: 'footer-navigation__social-network-icon',
                   icon_asset_base_url: icon_asset_base_url
                 } only %}
-                <span>{{ social_link.link_label }}</span>
+                <span class="footer-navigation__social-label" aria-hidden="true">
+                  <span class="footer-navigation__social-label-text footer-navigation__social-label-text--default">{{ social_link.link_label }}</span>
+                  <span class="footer-navigation__social-label-text footer-navigation__social-label-text--hover">
+                    <span>{{ social_link.hover_label }}</span>
+                    {% include '@jurenites_theme/components/icon.html.twig' with {
+                      icon_name: 'external-link',
+                      icon_class: 'footer-navigation__external-mark',
+                      icon_asset_base_url: icon_asset_base_url
+                    } only %}
+                  </span>
+                </span>
               </a>
             </li>
           {% endfor %}

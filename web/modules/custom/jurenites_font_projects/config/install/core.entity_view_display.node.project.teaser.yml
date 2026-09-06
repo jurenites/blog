@@ -7,10 +7,11 @@ dependencies:
     - field.field.node.project.field_content_sections
     - field.field.node.project.field_image
     - field.field.node.project.field_tags
-    - image.style.medium
+    - responsive_image.styles.project_thumbnail
     - node.type.project
   module:
-    - image
+    - image_blurry_placeholder
+    - responsive_image
     - text
     - user
 id: node.project.teaser
@@ -19,14 +20,16 @@ bundle: project
 mode: teaser
 content:
   field_image:
-    type: image
+    type: responsive_image
     label: hidden
     settings:
       image_link: content
-      image_style: medium
+      responsive_image_style: project_thumbnail
       image_loading:
         attribute: lazy
-    third_party_settings: {  }
+    third_party_settings:
+      image_blurry_placeholder:
+        use_blurry_placeholder: true
     weight: 0
     region: content
   body:
@@ -53,4 +56,3 @@ content:
 hidden:
   field_content_sections: true
   langcode: true
-

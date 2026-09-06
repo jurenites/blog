@@ -123,12 +123,12 @@
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
   --component-footer-navigation-social-icon-size-default: 16px;
-  --component-footer-navigation-linkedin-color-hover: #0A66C2;
-  --component-footer-navigation-facebook-color-hover: #0866FF;
+  --component-footer-navigation-linkedin-color-hover: #2867B2;
+  --component-footer-navigation-facebook-color-hover: #1877F2;
   --component-footer-navigation-vk-color-hover: #0077FF;
-  --component-footer-navigation-youtube-color-hover: #FF0000;
-  --component-footer-navigation-soundcloud-color-hover: #FF3300;
-  --component-footer-navigation-steam-color-hover: #1A9FFF;
+  --component-footer-navigation-youtube-color-hover: #FF0033;
+  --component-footer-navigation-soundcloud-color-hover: #FF5500;
+  --component-footer-navigation-steam-color-hover: #051839;
   --component-cookie-policy-notice-layer-default: 9000;
   --component-article-teaser-grid-card-min-width-default: 240px;
   --component-article-teaser-list-media-min-width-default: 180px;
@@ -188,6 +188,7 @@
   --component-timeline-marker-size-default: var(--space-scale-base-gap);
   --component-timeline-marker-size-active: 40px;
   --component-media-loader-progress-height-default: 1px;
+  --component-progressive-image-skeleton-cycle-default: 1600ms;
   --component-crossfade-dot-marker-size-default: 4px;
   --component-newsletter-signup-form-min-width-default: 280px;
   --component-numeric-values-tile-min-width-default: 240px;

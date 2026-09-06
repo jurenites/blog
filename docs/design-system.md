@@ -220,9 +220,14 @@ Select Input atom with a borderless, intrinsic-width header treatment and uses
 Drupal's enabled interface languages and URL negotiation, so it preserves the
 current route and query string. Drupal's route active trail supplies current-page
 styling, so listing query values such as `/portfolio?tag=font` do not deactivate
-the Portfolio menu item. On mobile the logo and language selector
-remain on the first row while the compact menu moves to a second row and retains
-horizontal scrolling only as a narrow-content fallback. Authenticated pages hide Gin's secondary toolbar to keep the public header
+the Portfolio menu item. Through the token-defined 640px mobile maximum, the
+24px three-line menu icon replaces the logo on the left while the language
+selector remains on the right. The icon stays white in every state. Activating
+it turns it into a cross and opens the one-level Main navigation
+as a vertical, full-viewport header surface without a separate overlay. Menu
+items and the menu-toggle background move one grayscale surface level lighter
+on hover or keyboard focus. Escape,
+selecting a menu link, or returning to tablet width closes it. Authenticated pages hide Gin's secondary toolbar to keep the public header
 visually unambiguous; Gin's primary administration navigation remains available.
 The public element defaults are scoped by the `jurenites-theme` body class so
 they do not become unqualified page-wide rules. Gin's navigation keeps its own
@@ -350,11 +355,15 @@ Footer Navigation uses two titled columns of vertically stacked list links:
 Social networks uses the six profiles in the theme's `social-links.json`, and
 Information uses the Footer menu. Both columns remain side by side on mobile,
 with the rights message below. Storybook imports the same profile data as Drupal.
-Social links compose the shared Icon atom at 16px with locally stored monochrome
-`social-*.svg` assets. `currentColor` supports black or white presentation; the
-dark footer uses white, switching the icon and label to each network's color
-on hover and keyboard focus: LinkedIn, Facebook, and VK blue, YouTube red,
-SoundCloud orange, and Steam's interface blue. These colors live in the
+Social links compose the shared Icon atom with locally stored monochrome
+`social-*.svg` assets. Only the explicitly classed social-network icon is reduced
+to 16px; the External Link icon retains the Icon atom's 24px default.
+`currentColor` supports black or white presentation; the dark footer uses white,
+switching the icon and label to each network's color
+on hover and keyboard focus while the platform label changes to the account
+name: LinkedIn, Facebook, and VK blue, YouTube red, SoundCloud orange, and
+Steam's interface blue. The account label ends with the shared External Link
+icon, and each social profile opens in a new window. These colors live in the
 `component.footer-navigation` tokens. Icon geometry comes from Simple Icons 11.15.0;
 provenance and its CC0 notice are stored in `social-icons-license.txt` alongside
 the assets.
@@ -442,14 +451,20 @@ particle count, approximately 6px circles, collision separation, and a delayed
 monochrome tokens. A weak home force redistributes the dots after interaction,
 and `prefers-reduced-motion` produces a static field.
 
-`Molecules/Media Loader` owns the broken-TV noise treatment for a bounded 16:9
-video-upload placeholder. The shader generates a fresh independent grayscale
-value from each logical pixel coordinate and frame seed, without translating a
-spatial field or ordered pattern. Noise advances at 15 frames per second, one
-quarter of the former full-refresh rate, and reduced-motion renders one frozen
-frame. The component also exposes filename, upload status, and native progress
-markup. The editable renderer lives in `src/slice/src/js/script.js`; generated
-theme JavaScript continues to come from `npm run build:theme`.
+`Molecules/Media Loader` owns the bounded 16:9 loading frame. Image loading uses
+an image-derived average color with a restrained gradient skeleton, then
+crossfades to the completed image. The progressive-image behavior calculates
+the color automatically from Drupal's cached 20px inline derivative, so editors
+do not need to enter a HEX value for every upload. The default Storybook story
+also exposes the average color as a color control for visual tuning.
+
+External video loading retains a separate broken-TV noise treatment. Its shader
+generates a fresh independent grayscale value from each logical pixel coordinate
+and frame seed, without translating a spatial field or ordered pattern. Noise
+advances at 15 frames per second, one quarter of the former full-refresh rate,
+and reduced-motion renders one frozen frame. The editable renderer lives in
+`src/slice/src/js/script.js`; generated theme JavaScript continues to come from
+`npm run build:theme`.
 
 Full Article YouTube embeds reuse that noise renderer as an initial no-signal
 layer. The layer occupies the responsive player figure's actual layout box, so

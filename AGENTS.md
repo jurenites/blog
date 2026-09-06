@@ -59,6 +59,15 @@ Runtime code may add temporary sizing only after the page has loaded when it is
 strictly required for skeleton-loading behavior. Do not use that exception for
 the component's normal layout or final rendered appearance.
 
+## Selector Scope
+
+Target the exact semantic element or component role being styled. When a
+composed component contains multiple instances of a shared atom class such as
+`.icon`, `.button`, or `.badge`, give the intended instance a specific BEM class
+and apply overrides to that class. Do not use a broad descendant selector that
+can accidentally style sibling or nested instances of the shared atom. Verify
+that other instances retain the shared atom's default presentation.
+
 ## Token Editing
 
 The editable design-token source is `src/token/tokens.yaml`. Keep it readable with

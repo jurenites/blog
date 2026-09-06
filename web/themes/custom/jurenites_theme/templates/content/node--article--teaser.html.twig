@@ -4,16 +4,21 @@
  * Article teaser used by Drupal listings.
  */
 #}
+{% set article_id = node.id %}
+
 <div class="article-teaser">
   {% if content.field_image %}
-    <div class="article-teaser__media">
+    <div
+      class="article-teaser__media"
+      data-jurenites-article-image-transition="article-image-{{ article_id }}"
+    >
       {{ content.field_image }}
     </div>
   {% endif %}
 
   {{ title_prefix }}
   {% if label %}
-    <h3{{ title_attributes.addClass('article-teaser__title') }}>
+    <h3{{ title_attributes.addClass('article-teaser__title').setAttribute('data-jurenites-article-title-transition', 'article-title-' ~ article_id) }}>
       <a class="article-teaser__title-link" href="{{ url }}" rel="bookmark">{{ label }}</a>
     </h3>
   {% endif %}

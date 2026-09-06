@@ -63,14 +63,18 @@ docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_pr
 ```
 
 This recipe enables the maintained Image Blurry Placeholder module and Drupal's
-standard responsive image styles. The initial HTML contains the image's width
-and height plus an embedded 20px blurry derivative, so the browser reserves the
-correct aspect ratio and paints a preview without another network request. The
-project-owned `web/modules/custom/jurenites_progressive_images` module adds a
-1px loading-state line and pre-generates the preview when Drupal first saves an
-image file. This also covers locally cached YouTube/Vimeo thumbnail files in
-the Media Library. The browser then selects the appropriate 325px, 650px,
-1300px, or 2600px WebP candidate for the layout width and pixel density.
+responsive image styles. The project-owned
+`web/modules/custom/jurenites_progressive_images` module pre-generates a cached
+20px derivative when Drupal first saves an image, then uses that inline data to
+calculate the image's average color in the browser. A restrained gradient
+skeleton and 1px loading-state line remain visible until the final image
+crossfades in. This also covers locally cached YouTube/Vimeo thumbnail files in
+the Media Library.
+
+Portfolio cards use dedicated 440px, 880px, and 1320px WebP candidates. This
+covers 1x, 2x, and 3x density for a card up to 440 logical points wide without
+sending the largest file to every screen. Other responsive image contexts keep
+their existing 325px, 650px, 1300px, and 2600px candidate sets.
 
 The loading line reports discrete states, not downloaded bytes. Native
 responsive image requests intentionally remain under browser control, where

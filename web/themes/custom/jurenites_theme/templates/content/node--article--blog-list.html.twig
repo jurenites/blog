@@ -16,7 +16,10 @@
 
 <article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
   {% if node.field_image is not empty %}
-    <div class="article-list-item__media">
+    <div
+      class="article-list-item__media"
+      data-jurenites-article-image-transition="article-image-{{ article_id }}"
+    >
       {{ content.field_image }}
     </div>
   {% endif %}

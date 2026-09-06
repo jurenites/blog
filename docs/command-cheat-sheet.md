@@ -80,16 +80,16 @@ npm run version:bump
 
 ## PROD Environment
 
-PROD is not configured in this repository yet. Do not copy DEV database
-credentials, container names, or paths to PROD. Connect to the production host,
-change to its deployed project root, and confirm the environment before running
-write commands.
+The ISPmanager production checkout is
+`/var/www/u3614358/data/apps/blog_jurenites`. Do not copy DEV database
+credentials, container names, `.env`, or `settings.php` to PROD.
 
 ### Confirm the production environment
 
 ```bash
+cd /var/www/u3614358/data/apps/blog_jurenites
 pwd
-./vendor/bin/drush status
+/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com status
 ```
 
 Check the reported site URI, database, and Drupal root before continuing.
@@ -111,7 +111,7 @@ record is also available at
 ### Clear the production Drupal cache
 
 ```bash
-/opt/php/8.3/bin/php ./vendor/bin/drush.php cr
+/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
 ```
 
 ### Run production database updates, then clear cache
@@ -119,14 +119,151 @@ record is also available at
 Take a current database backup before database updates.
 
 ```bash
-./vendor/bin/drush updatedb --yes
-./vendor/bin/drush cr
+/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com updatedb --yes
+/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
 ```
 
 ### Run production cron manually
 
 ```bash
-./vendor/bin/drush cron
+/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cron
 ```
 
 Use the hosting scheduler for recurring production cron runs.
+
+## Manual DEV to PROD Content Restore
+
+Use this direction only when DEV intentionally replaces all PROD content. The
+normal long-term content-sync direction is PROD to DEV. The SQL dump contains
+content, users, passwords, configuration, and module state; importing it replaces
+those PROD records. Public files are transferred separately because they are not
+inside the SQL dump.
+
+### Step 1: Create the DEV upload files
+
+Run from the project root on macOS. The timestamp creates a new folder on every
+run, so an older export is not overwritten.
+
+```bash
+cd /Users/alexanderilivanov/Projects/blog_jurenites
+set -o pipefail
+
+EXPORT_TIMESTAMP="$(date +%Y-%m-%d-%H%M%S)"
+EXPORT_DIRECTORY_PATH="$HOME/Downloads/blog_jurenites-export-${EXPORT_TIMESTAMP}"
+SQL_ARCHIVE_PATH="$EXPORT_DIRECTORY_PATH/blog_jurenites-dev-mysql8-${EXPORT_TIMESTAMP}.sql.gz"
+PUBLIC_FILES_ARCHIVE_PATH="$EXPORT_DIRECTORY_PATH/blog_jurenites-public-files-dev-${EXPORT_TIMESTAMP}.tar.gz"
+
+mkdir -p "$EXPORT_DIRECTORY_PATH"
+
+docker exec -e MYSQL_PWD=drupal blog_jurenites_db mariadb-dump \
+  --user=drupal \
+  --single-transaction \
+  --quick \
+  --hex-blob \
+  --add-drop-table \
+  --default-character-set=utf8mb4 \
+  --no-tablespaces \
+  drupal \
+  | LC_ALL=C sed 's/utf8mb4_uca1400_ai_ci/utf8mb4_unicode_ci/g' \
+  | gzip -9 > "$SQL_ARCHIVE_PATH"
+
+COPYFILE_DISABLE=1 tar \
+  --exclude='.DS_Store' \
+  --exclude='._*' \
+  --exclude='*/._*' \
+  --exclude='files/css' \
+  --exclude='files/js' \
+  --exclude='files/php' \
+  --exclude='files/styles' \
+  --exclude='files/translations' \
+  --exclude='files/tmp' \
+  --exclude='files/config_*' \
+  -czf "$PUBLIC_FILES_ARCHIVE_PATH" \
+  -C web/sites/default files
+```
+
+Verify both archives before uploading them:
+
+```bash
+gzip -t "$SQL_ARCHIVE_PATH"
+gzip -t "$PUBLIC_FILES_ARCHIVE_PATH"
+gzip -dc "$SQL_ARCHIVE_PATH" | rg -c '^CREATE TABLE'
+gzip -dc "$SQL_ARCHIVE_PATH" | rg 'utf8mb4_uca1400_ai_ci|^CREATE DATABASE|^USE '
+tar -tzf "$PUBLIC_FILES_ARCHIVE_PATH" | sed -n '1,30p'
+shasum -a 256 "$SQL_ARCHIVE_PATH" "$PUBLIC_FILES_ARCHIVE_PATH"
+open "$EXPORT_DIRECTORY_PATH"
+```
+
+The collation/database search must print nothing. The archive listing must start
+with `files/` and include `files/.htaccess`.
+
+### Step 2: Upload and restore the DEV database
+
+First update the PROD code from `main` so its schema and recipes correspond to
+the database being restored. Then create a private upload directory:
+
+```bash
+cd /var/www/u3614358/data/apps/blog_jurenites
+git pull --ff-only origin main
+mkdir -p /var/www/u3614358/data/backups/incoming
+chmod 700 /var/www/u3614358/data/backups/incoming
+```
+
+Upload both archives with ISPmanager File Manager or FTP to
+`/var/www/u3614358/data/backups/incoming/`; never upload them below either public
+website directory.
+
+In phpMyAdmin:
+
+1. Select the PROD database `u3614358_default`.
+2. Export a current compressed SQL backup and download it before changing tables.
+3. In **Structure**, select every table and choose **Drop**. Confirm only after
+   the backup is safely downloaded.
+4. In **Import**, select the DEV `*.sql.gz` file and start the import.
+5. Continue only after phpMyAdmin reports that the import completed successfully.
+
+Finish the database restore from the PROD project directory:
+
+```bash
+/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com updatedb --yes
+/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
+/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com status
+```
+
+The final status must report `Database: Connected` and `Drupal bootstrap:
+Successful`.
+
+### Step 3: Replace PROD public files from the archive
+
+Set the archive filename to the file that was uploaded. This procedure extracts
+into a staging directory first and keeps the previous PROD files as a rollback.
+
+```bash
+cd /var/www/u3614358/data/apps/blog_jurenites
+
+RESTORE_TIMESTAMP="$(date +%Y-%m-%d-%H%M%S)"
+PUBLIC_FILES_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/blog_jurenites-public-files-dev-2026-09-05.tar.gz"
+FILES_BACKUP_DIRECTORY="/var/www/u3614358/data/backups/files-before-dev-restore-${RESTORE_TIMESTAMP}"
+FILES_STAGING_DIRECTORY="/var/www/u3614358/data/apps/files-restore-${RESTORE_TIMESTAMP}"
+
+if test -f "$PUBLIC_FILES_ARCHIVE_PATH" && \
+  tar -tzf "$PUBLIC_FILES_ARCHIVE_PATH" | sed -n '1,30p' && \
+  mkdir -p "$FILES_BACKUP_DIRECTORY" "$FILES_STAGING_DIRECTORY" && \
+  tar --no-same-owner --exclude='._*' --exclude='*/._*' \
+    -xzf "$PUBLIC_FILES_ARCHIVE_PATH" \
+    -C "$FILES_STAGING_DIRECTORY" && \
+  test -f "$FILES_STAGING_DIRECTORY/files/.htaccess"; then
+  mv web/sites/default/files "$FILES_BACKUP_DIRECTORY/files" && \
+  mv "$FILES_STAGING_DIRECTORY/files" web/sites/default/files && \
+  find web/sites/default/files -type d -exec chmod 755 {} + && \
+  find web/sites/default/files -type f -exec chmod 644 {} + && \
+  /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr && \
+  find web/sites/default/files -type f | wc -l
+else
+  echo "ABORTED: archive or staged files failed validation; live files were not moved."
+fi
+```
+
+Open several image, avatar, and thumbnail URLs on PROD before removing the
+rollback directory. Drupal will regenerate excluded CSS, JS, and image-style
+derivatives when they are requested.

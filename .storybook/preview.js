@@ -7,6 +7,7 @@ import {
   initialize_avatar_images,
   initialize_custom_selects,
   initialize_pixel_glyph_editors,
+  initialize_site_headers,
   initialize_tooltips,
 } from "../src/slice/src/js/script.js";
 import { initialize_font_previews } from "../src/slice/src/js/font-preview.js";
@@ -150,6 +151,7 @@ export const decorators = [
       initialize_custom_selects(document);
       initialize_font_previews(document);
       initialize_pixel_glyph_editors(document);
+      initialize_site_headers(document);
       initialize_tooltips(document);
       if (story_context.parameters.preview_watermark?.disabled) {
         remove_preview_watermark();

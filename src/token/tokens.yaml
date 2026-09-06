@@ -164,12 +164,12 @@ layout:
 component:
   footer-navigation:
     social-icon-size-default: 16px # Compact social icons in the footer.
-    linkedin-color-hover: "#0A66C2"
-    facebook-color-hover: "#0866FF"
+    linkedin-color-hover: "#2867B2" #https://brand.linkedin.com/en-us
+    facebook-color-hover: "#1877F2" #https://www.meta.com/brand/resources/facebook/logo/?srsltid=AfmBOoraVFK97HX6ieR7N9jiy8s7kCosZ5_BZTv1rmvFrK-jg5gEckD_
     vk-color-hover: "#0077FF"
-    youtube-color-hover: "#FF0000"
-    soundcloud-color-hover: "#FF3300"
-    steam-color-hover: "#1A9FFF" # Steam's interface blue.
+    youtube-color-hover: "#FF0033" #https://brand.youtube/youtube-logo/
+    soundcloud-color-hover: "#FF5500" #https://www.color-hex.com/color-palette/73640
+    steam-color-hover: "#051839" # Steam's interface blue.
   cookie-policy-notice:
     layer-default: 9000 # Fixed footer notice sits above page content and below the build watermark and tooltips.
   article-teaser:
@@ -257,6 +257,8 @@ component:
     marker-size-active: 40px
   media-loader:
     progress-height-default: 1px # Intentional exception to the 8px grid because this is a loading indicator line, not layout spacing.
+  progressive-image:
+    skeleton-cycle-default: 1600ms # Slow enough to read as loading state rather than decorative motion.
   crossfade-dot:
     marker-size-default: 4px # Visible marker inside the larger interactive target.
   newsletter-signup:

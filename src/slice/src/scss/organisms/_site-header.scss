@@ -38,11 +38,59 @@
     justify-self: center;
   }
 
+  &__menu-toggle {
+    display: none;
+    place-items: center;
+    width: var(--shape-basic-tile);
+    height: var(--shape-basic-tile);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-palette-full-white);
+    cursor: pointer;
+    @include tools.motion-transition(background-color);
+
+    &:hover,
+    &:active,
+    &:focus-visible {
+      background-color: var(--theme-dark-surface-background-elevation-level-1);
+      color: var(--color-palette-full-white);
+    }
+
+    &:focus-visible {
+      @include tools.focus-ring;
+    }
+  }
+
+  &__menu-icon {
+    display: block;
+    width: var(--shape-icon-viewport);
+    height: var(--shape-icon-viewport);
+  }
+
+  &__menu-line {
+    stroke: currentColor;
+    stroke-width: var(--shape-border-width-thick-default);
+    stroke-linecap: square;
+    transform-box: fill-box;
+    transform-origin: center;
+    @include tools.motion-transition(transform);
+  }
+
   &__links {
     @include tools.unstyled-list;
     display: flex;
     align-items: center;
     gap: calc(var(--space-scale-base-gap) * 4);
+  }
+
+  &__item {
+    @include tools.motion-transition(background-color);
+
+    &:hover,
+    &:focus-within {
+      background-color: var(--theme-dark-surface-background-elevation-level-1);
+    }
   }
 
   &__link {
@@ -115,34 +163,105 @@
   }
 
   @include tools.breakpoint-down("mobile-max") {
-    grid-template-columns: auto auto;
+    grid-template-areas:
+      "brand language"
+      "navigation navigation";
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: var(--space-scale-base-gap) calc(var(--space-scale-base-gap) * 2);
-    width: calc(100% - (var(--layout-gutter-mobile-default) * 2));
+    width: 100%;
     padding: var(--space-scale-base-gap) var(--layout-gutter-mobile-default);
 
-    &__navigation {
-      grid-column: 1 / -1;
-      grid-row: 2;
-      width: 100%;
-      overflow-x: auto;
-      scrollbar-width: none;
+    &__brand {
+      grid-area: brand;
+    }
 
-      &::-webkit-scrollbar {
-        display: none;
-      }
+    &__navigation {
+      grid-area: navigation;
+      justify-self: stretch;
+      width: 100%;
     }
 
     &__links {
-      justify-content: space-between;
-      gap: 0;
+      align-items: stretch;
+      flex-direction: column;
+      gap: var(--space-scale-base-gap);
     }
 
     &__link {
-      padding: 0 calc(var(--space-scale-base-gap) * 0.5);
+      width: 100%;
+      min-height: calc(var(--space-scale-base-gap) * 6);
+      padding: 0 var(--space-scale-base-gap);
+      white-space: normal;
     }
 
     &__language {
+      grid-area: language;
       justify-self: end;
     }
+
+    &__menu-toggle {
+      grid-area: toggle;
+    }
+
+    &--enhanced {
+      grid-template-areas:
+        "toggle language"
+        "navigation navigation";
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    &--enhanced &__brand {
+      display: none;
+    }
+
+    &--enhanced &__navigation {
+      display: none;
+    }
+
+    &--enhanced &__menu-toggle {
+      display: grid;
+    }
+
+    &--enhanced.is-menu-open {
+      position: fixed;
+      inset: 0;
+      grid-template-rows: auto minmax(0, 1fr);
+      align-content: start;
+      width: 100%;
+      min-height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
+      background: var(--theme-dark-surface-background-page);
+    }
+
+    &--enhanced.is-menu-open &__navigation {
+      display: block;
+      align-self: stretch;
+      min-height: 0;
+      padding-block: calc(var(--space-scale-base-gap) * 2);
+      overflow-y: auto;
+    }
+
+    &--enhanced.is-menu-open &__menu-line--top {
+      transform: translateY(calc(var(--space-scale-base-gap) * 0.75)) rotate(45deg);
+    }
+
+    &--enhanced.is-menu-open &__menu-line--middle {
+      transform: scaleX(0);
+    }
+
+    &--enhanced.is-menu-open &__menu-line--bottom {
+      transform: translateY(calc(var(--space-scale-base-gap) * -0.75)) rotate(-45deg);
+    }
+  }
+}
+
+body.has-open-site-menu {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header__menu-line {
+    transition-duration: var(--motion-duration-instant-default);
   }
 }

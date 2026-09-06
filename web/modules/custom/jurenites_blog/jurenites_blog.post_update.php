@@ -835,3 +835,21 @@ function jurenites_blog_post_update_prefix_tag_labels(): TranslatableMarkup {
     '@tag_count' => $updated_count,
   ]);
 }
+
+/**
+ * Restores the page-title block after an invalid response-code restriction.
+ */
+function jurenites_blog_post_update_restore_page_title_block(): TranslatableMarkup {
+  $page_title_block = Block::load('jurenites_theme_page_title');
+  if ($page_title_block === NULL) {
+    return t('The Jurenites page-title block was not present.');
+  }
+
+  $visibility_conditions = $page_title_block->getVisibilityConditions();
+  if ($visibility_conditions->has('response_code')) {
+    $visibility_conditions->removeInstanceId('response_code');
+    $page_title_block->save();
+  }
+
+  return t('Restored the Jurenites page-title block on normal routes.');
+}

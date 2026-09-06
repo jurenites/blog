@@ -7,6 +7,7 @@ export function site_header_markup({
   brand_logo_url,
   navigation_labels,
   language_labels,
+  menu_expanded = false,
 }) {
   const navigation_items = String(navigation_labels)
     .split(",")
@@ -35,5 +36,8 @@ export function site_header_markup({
     brand_logo_url: escape_html(brand_logo_url),
     navigation_items,
     language_select_markup,
+    menu_state_class: menu_expanded ? " is-menu-open" : "",
+    menu_expanded_value: String(menu_expanded),
+    menu_toggle_label: menu_expanded ? "Close main menu" : "Open main menu",
   });
 }

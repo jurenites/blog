@@ -50,19 +50,42 @@
 .footer-navigation .footer-navigation__social-link {
   color: var(--theme-dark-text-primary-default);
 
-  .icon {
-    width: var(--component-footer-navigation-social-icon-size-default);
-    height: var(--component-footer-navigation-social-icon-size-default);
+  .footer-navigation__social-label {
+    display: inline-grid;
+  }
+
+  .footer-navigation__social-label-text {
+    grid-area: 1 / 1;
+  }
+
+  .footer-navigation__social-label-text--hover {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--space-scale-base-gap) * 0.5);
+    visibility: hidden;
   }
 
   &:hover,
   &:focus-visible {
+    .footer-navigation__social-label-text--default {
+      visibility: hidden;
+    }
+
+    .footer-navigation__social-label-text--hover {
+      visibility: visible;
+    }
+
     @each $network-name in linkedin, facebook, vk, youtube, soundcloud, steam {
       &[data-social-icon="social-#{$network-name}"] {
         color: var(--component-footer-navigation-#{$network-name}-color-hover);
       }
     }
   }
+}
+
+.footer-navigation__social-network-icon {
+  width: var(--component-footer-navigation-social-icon-size-default);
+  height: var(--component-footer-navigation-social-icon-size-default);
 }
 
 @include tools.breakpoint-down("mobile-max") {

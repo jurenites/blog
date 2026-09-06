@@ -23,7 +23,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: "Vertical social profiles with shared monochrome 16px SVG icons and individual brand colors on hover/focus, alongside information links and the rights message below.",
+        component: "Vertical social profiles that open in a new window. Hover and keyboard focus reveal each account name, its brand color, and the shared External Link icon. Information links and the rights message appear alongside them.",
       },
     },
   },

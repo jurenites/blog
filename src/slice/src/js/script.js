@@ -280,6 +280,79 @@ export function enable_language_selector(language_select) {
   });
 }
 
+export function enable_site_header_menu(site_header) {
+  if (site_header.jurenites_site_header_initialized) {
+    return;
+  }
+
+  const menu_toggle = site_header.querySelector('[data-jurenites-site-menu-toggle]');
+  const primary_navigation = site_header.querySelector('.site-header__navigation');
+
+  if (!menu_toggle || !primary_navigation) {
+    return;
+  }
+
+  site_header.jurenites_site_header_initialized = true;
+
+  const header_document = site_header.ownerDocument;
+  const header_window = header_document.defaultView;
+  const root_styles = header_window.getComputedStyle(header_document.documentElement);
+  const mobile_max_width = root_styles
+    .getPropertyValue('--system-breakpoint-mobile-max')
+    .trim();
+  const mobile_media_query = header_window.matchMedia(`(max-width: ${mobile_max_width})`);
+  const open_menu_label = menu_toggle.dataset.openLabel;
+  const close_menu_label = menu_toggle.dataset.closeLabel;
+
+  function set_menu_state(menu_is_open, return_toggle_focus = false) {
+    site_header.classList.toggle('is-menu-open', menu_is_open);
+    menu_toggle.setAttribute('aria-expanded', String(menu_is_open));
+    menu_toggle.setAttribute(
+      'aria-label',
+      menu_is_open ? close_menu_label : open_menu_label,
+    );
+    header_document.body.classList.toggle(
+      'has-open-site-menu',
+      menu_is_open && mobile_media_query.matches,
+    );
+
+    if (return_toggle_focus) {
+      menu_toggle.focus();
+    }
+  }
+
+  menu_toggle.addEventListener('click', () => {
+    set_menu_state(menu_toggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  primary_navigation.addEventListener('click', (click_event) => {
+    if (click_event.target.closest('a')) {
+      set_menu_state(false);
+    }
+  });
+
+  header_document.addEventListener('keydown', (keyboard_event) => {
+    if (keyboard_event.key === 'Escape' && menu_toggle.getAttribute('aria-expanded') === 'true') {
+      set_menu_state(false, true);
+    }
+  });
+
+  mobile_media_query.addEventListener('change', (media_event) => {
+    if (!media_event.matches) {
+      set_menu_state(false);
+    }
+  });
+
+  site_header.classList.add('site-header--enhanced');
+  set_menu_state(menu_toggle.getAttribute('aria-expanded') === 'true');
+}
+
+export function initialize_site_headers(header_context) {
+  header_context
+    .querySelectorAll('.site-header')
+    .forEach((site_header) => enable_site_header_menu(site_header));
+}
+
 function associated_select_label(native_select) {
   if (!native_select.id) {
     return null;
@@ -805,6 +878,12 @@ if (typeof Drupal !== 'undefined') {
         language_select.jurenites_language_selector_initialized = true;
         enable_language_selector(language_select);
       });
+    },
+  };
+
+  Drupal.behaviors.jurenites_site_header = {
+    attach(header_context) {
+      initialize_site_headers(header_context);
     },
   };
 

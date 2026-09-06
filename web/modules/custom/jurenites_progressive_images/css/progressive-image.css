@@ -3,7 +3,7 @@
   display: block;
   overflow: hidden;
   width: 100%;
-  background-color: var(--color-surface-panel-default);
+  background-color: var(--theme-dark-surface-background-elevation-level-1);
 }
 
 .jurenites-progressive-image > img,
@@ -16,16 +16,39 @@
   height: auto;
 }
 
+.jurenites-progressive-image > img,
+.jurenites-progressive-image > picture {
+  opacity: 0;
+  transition: opacity var(--motion-duration-media-reveal-default) var(--motion-easing-standard-default);
+}
+
 .jurenites-progressive-image__preview {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  filter: blur(5px);
-  transform: scale(1.04);
-  transition: opacity 240ms ease-out;
+  overflow: hidden;
+  background-color: var(
+    --progressive-image-average-color,
+    var(--theme-dark-surface-background-elevation-level-1)
+  );
+  transition: opacity var(--motion-duration-media-reveal-default) var(--motion-easing-standard-default);
+}
+
+.jurenites-progressive-image__skeleton::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    color-mix(in srgb, var(--theme-dark-text-primary-default) 12%, transparent) 50%,
+    transparent 80%
+  );
+  transform: translateX(-100%);
+  animation: jurenites-progressive-image-skeleton
+    var(--component-progressive-image-skeleton-cycle-default)
+    var(--motion-easing-standard-default)
+    infinite;
 }
 
 .jurenites-progressive-image__loading-line {
@@ -33,10 +56,10 @@
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1;
-  height: 1px;
+  z-index: 2;
+  height: var(--component-media-loader-progress-height-default);
   pointer-events: none;
-  background-color: var(--color-border-subtle-default);
+  background-color: var(--theme-dark-border-divider-default);
 }
 
 .jurenites-progressive-image__loading-line::after {
@@ -44,8 +67,8 @@
   width: var(--progressive-image-completion, 0%);
   height: 100%;
   content: "";
-  background-color: var(--color-action-primary-default);
-  transition: width 240ms ease-out;
+  background-color: var(--theme-dark-action-primary-default);
+  transition: width var(--motion-duration-media-reveal-default) var(--motion-easing-standard-default);
 }
 
 .jurenites-progressive-image[data-loading-stage="placeholder"] {
@@ -64,16 +87,36 @@
   --progressive-image-completion: 100%;
 }
 
+.jurenites-progressive-image[data-loading-stage="complete"] > img,
+.jurenites-progressive-image[data-loading-stage="complete"] > picture {
+  opacity: 1;
+}
+
 .jurenites-progressive-image[data-loading-stage="complete"] .jurenites-progressive-image__preview,
 .jurenites-progressive-image[data-loading-stage="complete"] .jurenites-progressive-image__loading-line {
   opacity: 0;
-  transition: opacity 240ms 240ms ease-out;
+}
+
+.jurenites-progressive-image[data-loading-stage="error"] .jurenites-progressive-image__skeleton::after {
+  animation: none;
+}
+
+@keyframes jurenites-progressive-image-skeleton {
+  to {
+    transform: translateX(100%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .jurenites-progressive-image__loading-line::after,
   .jurenites-progressive-image__preview,
+  .jurenites-progressive-image > img,
+  .jurenites-progressive-image > picture,
   .jurenites-progressive-image[data-loading-stage="complete"] .jurenites-progressive-image__loading-line {
     transition: none;
+  }
+
+  .jurenites-progressive-image__skeleton::after {
+    animation: none;
   }
 }
