@@ -35,10 +35,13 @@ eight-item limit; its public grid renders no more than four items per row.
 Each item contains:
 
 - Number: required short display text such as `80+`.
-- Text: subtitle text such as `Projects I’ve worked on`.
+- Text: subtitle text such as `Projects commercial have worked with`.
 - Icon image: optional attached SVG file. It renders as an external image at
   its intrinsic dimensions while preserving the file's own `viewBox` and
   aspect ratio, with an 80px maximum width guard for oversized files.
+- Link URL: optional internal or external destination with authored
+  call-to-action text. The commercial-project tile uses `See timeline` to link
+  to `/timeline` while its number and descriptive text remain plain content.
 
 The current professional-experience example stores `16` directly in Number.
 Its two current items omit Icon image, preserving the established two-tile
@@ -77,22 +80,26 @@ Each `timeline_item` record contains:
 Project dates from the CV have month precision. They are stored on the first day
 of their month for sorting but displayed only as month and year. A precise
 single-date event, such as November 9, 2023, retains and displays its day.
-Every year occupies the same twelve-row calendar height, with December at the
-top and January at the bottom so scrolling moves backward through time. Duration
-records use an 8px-wide bar aligned to their calendar months; single-date events
-use an 8 × 8px milestone positioned within their month. Overlapping projects
-take the first free one of four parallel lanes. If more than four ranges overlap,
-the shared marker uses a 45-degree yellow-and-white stripe. The year heading
-sticks until the next year replaces it.
+Every completed year occupies the same twelve-row calendar height, with December
+at the top and January at the bottom so scrolling moves backward through time.
+The current year begins with the current month and does not render months that
+have not started. Duration records use an 8px-wide bar aligned to their calendar
+months; single-date events use an 8 × 8px milestone positioned within their
+month. Overlapping projects take the first free one of four parallel lanes. If
+more than four ranges overlap, the shared marker uses a 45-degree
+yellow-and-white stripe. The year heading sticks until the next year replaces it.
 
-An organization appears as a large linked heading only when the chronology
-switches employers; it is not repeated for every project. The sequence includes
-empty calendar years and ends with the January 18, 1989 birth milestone.
+An organization appears as a large linked heading in the same left rail as the
+year. It remains sticky while years, including empty years, pass below it and is
+pushed away only when the next employer transition reaches the rail. It is not
+repeated for every project. The sequence includes empty calendar years and ends
+with the January 18, 1989 birth milestone.
 
 The starter node contains the 72 commercial projects transcribed from the
 current CV plus two authored personal milestones. Later edits happen through the
 single Timeline node form; adding another item creates a Paragraph revision, not
-a node ID.
+a node ID. Timeline is linked from the bottom of the footer Information menu,
+not from the primary navigation.
 
 ## Project
 
@@ -218,8 +225,14 @@ Article has two editorial presentations without requiring another content type:
 
 The public Views queries keep these presentations separate. `/blog` lists
 published Articles whose YouTube field is empty; `/videos` lists published
-Articles whose YouTube field is populated. Both pages retain the same tag
-filtering and editorial list-item presentation. Article Back and Tag links
+Articles whose YouTube field is populated. Both pages retain tag filtering.
+Videos uses a wide grid with three columns on desktop, two on tablets, and one
+on phones. Each tile keeps its thumbnail above the title, description, and
+creator details, reusing the Article Blog List Item markup. The grid preserves
+the existing Views ordering (newest first) and pagination. An introductory note
+explains that these are personally recommended videos for learning, including
+topics not covered elsewhere on the site. Blog keeps its editorial list layout.
+Article Back and Tag links
 return to the listing appropriate to the Article kind.
 
 The creator name, link, publication date, and channel avatar URL are treated as

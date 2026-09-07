@@ -13,6 +13,8 @@ export function footer_navigation_markup({
   fonts_label,
   fonts_url,
   font_project_count,
+  timeline_label,
+  timeline_url,
   rights_message,
   current_year,
 }) {
@@ -46,5 +48,7 @@ export function footer_navigation_markup({
     privacy_policy_label: escape_html(privacy_policy_label),
     privacy_policy_url: escape_html(privacy_policy_url),
     rights_message: escape_html(rights_message),
+    timeline_label: escape_html(timeline_label),
+    timeline_url: escape_html(timeline_url),
   });
 }

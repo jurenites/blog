@@ -23,7 +23,7 @@ function jurenites_timeline_install(): void {
 }
 
 /**
- * Creates the starter Timeline page and its primary-navigation destination.
+ * Creates the starter Timeline page and its footer destination.
  */
 function jurenites_timeline_ensure_content(): array {
   $timeline_node = jurenites_timeline_ensure_node();
@@ -134,7 +134,7 @@ function jurenites_timeline_organization_url(string $organization_name): string 
 }
 
 /**
- * Creates the Timeline link in the main navigation.
+ * Keeps Timeline in the footer Information menu, outside main navigation.
  */
 function jurenites_timeline_ensure_menu_link(): MenuLinkContent {
   $menu_link_storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
@@ -146,15 +146,16 @@ function jurenites_timeline_ensure_menu_link(): MenuLinkContent {
     ? $menu_link_storage->load(reset($timeline_link_ids))
     : MenuLinkContent::create([
       'uuid' => JURENITES_TIMELINE_MENU_LINK_UUID,
-      'menu_name' => 'main',
+      'menu_name' => 'footer',
     ]);
 
   assert($timeline_menu_link instanceof MenuLinkContent);
+  $timeline_menu_link->set('menu_name', 'footer');
   $timeline_menu_link->set('title', 'Timeline');
   $timeline_menu_link->set('link', ['uri' => 'internal:/timeline']);
   $timeline_menu_link->set('enabled', TRUE);
   $timeline_menu_link->set('expanded', FALSE);
-  $timeline_menu_link->set('weight', 2);
+  $timeline_menu_link->set('weight', 4);
   $timeline_menu_link->save();
 
   return $timeline_menu_link;

@@ -175,3 +175,27 @@ function jurenites_timeline_post_update_calendar_scale(): TranslatableMarkup {
     '@item_count' => $updated_item_count,
   ]);
 }
+
+/**
+ * Moves Timeline out of the main navigation and into the footer.
+ */
+function jurenites_timeline_post_update_hide_main_menu_link(): TranslatableMarkup {
+  \Drupal::moduleHandler()->loadInclude('jurenites_timeline', 'install');
+  $timeline_menu_link = jurenites_timeline_ensure_menu_link();
+
+  return t('Moved the Timeline link from the main navigation to the footer. Menu link ID: @menu_link_id.', [
+    '@menu_link_id' => $timeline_menu_link->id(),
+  ]);
+}
+
+/**
+ * Adds Timeline to the bottom of the footer Information menu.
+ */
+function jurenites_timeline_post_update_move_link_to_footer(): TranslatableMarkup {
+  \Drupal::moduleHandler()->loadInclude('jurenites_timeline', 'install');
+  $timeline_menu_link = jurenites_timeline_ensure_menu_link();
+
+  return t('Added Timeline to the footer Information menu. Menu link ID: @menu_link_id.', [
+    '@menu_link_id' => $timeline_menu_link->id(),
+  ]);
+}

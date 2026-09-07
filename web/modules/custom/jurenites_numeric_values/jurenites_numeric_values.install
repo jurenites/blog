@@ -21,7 +21,52 @@ const JURENITES_NUMERIC_VALUES_HOMEPAGE_BLOCK_UUID = 'c003d482-a65b-40e4-a05a-b0
  */
 function jurenites_numeric_values_install(): void {
   jurenites_numeric_values_update_tile_fields();
+  jurenites_numeric_values_update_tile_links();
   jurenites_numeric_values_ensure_homepage_block();
+}
+
+/**
+ * Adds an optional destination to every Numeric value tile.
+ */
+function jurenites_numeric_values_update_tile_links(): void {
+  $numeric_link_storage = FieldStorageConfig::loadByName(
+    'paragraph',
+    'field_numeric_link',
+  );
+  if ($numeric_link_storage === NULL) {
+    $numeric_link_storage = FieldStorageConfig::create([
+      'field_name' => 'field_numeric_link',
+      'entity_type' => 'paragraph',
+      'type' => 'link',
+      'settings' => [],
+      'cardinality' => 1,
+      'translatable' => TRUE,
+    ]);
+    $numeric_link_storage->save();
+  }
+
+  $numeric_link_field = FieldConfig::loadByName(
+    'paragraph',
+    'numeric_value',
+    'field_numeric_link',
+  );
+  if ($numeric_link_field === NULL) {
+    $numeric_link_field = FieldConfig::create([
+      'field_storage' => $numeric_link_storage,
+      'bundle' => 'numeric_value',
+    ]);
+  }
+  $numeric_link_field->setLabel('Link URL');
+  $numeric_link_field->setDescription('Optional internal or external destination with its own call-to-action text.');
+  $numeric_link_field->setRequired(FALSE);
+  $numeric_link_field->setTranslatable(TRUE);
+  $numeric_link_field->setSettings([
+    'title' => 1,
+    'link_type' => 17,
+  ]);
+  $numeric_link_field->save();
+
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
 }
 
 /**
@@ -205,7 +250,11 @@ function jurenites_numeric_values_ensure_homepage_block(): array {
     $project_count_item = Paragraph::create([
       'type' => 'numeric_value',
       'field_numeric_number' => '80+',
-      'field_numeric_description' => 'Projects I’ve worked on',
+      'field_numeric_description' => 'Projects commercial have worked with',
+      'field_numeric_link' => [
+        'uri' => 'internal:/timeline',
+        'title' => 'See timeline',
+      ],
     ]);
     $career_years_item = Paragraph::create([
       'type' => 'numeric_value',
@@ -334,6 +383,15 @@ function jurenites_numeric_values_configure_displays(): void {
       $numeric_description_component['weight'] = 2;
       $numeric_item_form->setComponent('field_numeric_description', $numeric_description_component);
     }
+    $numeric_item_form->setComponent('field_numeric_link', [
+      'type' => 'link_default',
+      'weight' => 3,
+      'region' => 'content',
+      'settings' => [
+        'placeholder_url' => '/timeline',
+        'placeholder_title' => 'See timeline',
+      ],
+    ]);
     $numeric_item_form->save();
   }
 
@@ -342,6 +400,7 @@ function jurenites_numeric_values_configure_displays(): void {
     $numeric_item_view->removeComponent('field_numeric_icon');
     $numeric_item_view->removeComponent('field_numeric_start_year');
     $numeric_item_view->removeComponent('field_numeric_icon_image');
+    $numeric_item_view->removeComponent('field_numeric_link');
     $numeric_item_view->save();
   }
 }

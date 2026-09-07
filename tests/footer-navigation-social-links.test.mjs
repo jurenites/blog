@@ -14,6 +14,10 @@ const FOOTER_MARKUP_SOURCE = readFileSync(
   "src/stories/organisms/footer-navigation/footer-navigation.markup.js",
   "utf8",
 );
+const FOOTER_STORY_SOURCE = readFileSync(
+  "src/stories/organisms/footer-navigation/footer-navigation.stories.js",
+  "utf8",
+);
 const FOOTER_STYLES_SOURCE = readFileSync(
   "src/slice/src/scss/organisms/_footer-navigation.scss",
   "utf8",
@@ -63,4 +67,10 @@ test("Drupal and Storybook expose the same accessible label-swap contract", () =
   assert.doesNotMatch(FOOTER_STYLES_SOURCE, /footer-navigation__social-link[\s\S]*?\.icon\s*\{/);
   assert.match(FOOTER_STYLES_SOURCE, /&:hover,\s*&:focus-visible/);
   assert.match(FOOTER_STYLES_SOURCE, /footer-navigation__social-label-text--hover/);
+});
+
+test("Footer Navigation story keeps Timeline at the bottom of Information", () => {
+  assert.match(FOOTER_STORY_SOURCE, /const TIMELINE_LABEL = "Timeline";/);
+  assert.match(FOOTER_STORY_SOURCE, /const TIMELINE_URL = "\/timeline";/);
+  assert.match(FOOTER_MARKUP_SOURCE, /timeline_label: escape_html\(timeline_label\)/);
 });

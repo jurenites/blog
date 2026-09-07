@@ -9,6 +9,7 @@ import {
   initialize_numeric_value_counters,
   initialize_pixel_glyph_editors,
   initialize_site_headers,
+  initialize_timeline_organization_rails,
   initialize_tooltips,
 } from "../src/slice/src/js/script.js";
 import { initialize_font_previews } from "../src/slice/src/js/font-preview.js";
@@ -158,6 +159,7 @@ export const decorators = [
       initialize_numeric_value_counters(document);
       initialize_pixel_glyph_editors(document);
       initialize_site_headers(document);
+      initialize_timeline_organization_rails(document);
       initialize_tooltips(document);
       if (story_context.parameters.preview_watermark?.disabled) {
         remove_preview_watermark();

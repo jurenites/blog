@@ -9,8 +9,19 @@
   </header>
 
   <div class="timeline__years">
+    {% if timeline_initial_organization %}
+      <div class="timeline__organization-sticky" data-jurenites-timeline-organization-sticky>
+        {% if timeline_initial_organization.url %}
+          <a class="timeline__organization-link" href="{{ timeline_initial_organization.url }}">
+            {{ timeline_initial_organization.name }}
+          </a>
+        {% else %}
+          <span class="timeline__organization-heading">{{ timeline_initial_organization.name }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
     {% for year_group in timeline_year_groups %}
-      <section class="timeline__year-group" aria-labelledby="timeline-year-{{ year_group.year_label }}">
+      <section class="timeline__year-group timeline__year-group--month-count-{{ year_group.visible_month_count }}" aria-labelledby="timeline-year-{{ year_group.year_label }}">
         <h2 id="timeline-year-{{ year_group.year_label }}" class="timeline__year-heading">
           {{ year_group.year_label }}
         </h2>
@@ -24,19 +35,18 @@
           </ol>
           <ol class="timeline__items">
             {% for timeline_item in year_group.timeline_fragments %}
-              <li class="timeline__item timeline__item--{{ timeline_item.item_kind }} timeline__item--lane-{{ timeline_item.lane_number }} timeline__item--ending-month-{{ timeline_item.ending_month }} timeline__item--month-span-{{ timeline_item.month_span }}{% if timeline_item.item_kind == 'event' %} timeline__item--day-{{ timeline_item.day_number }}{% endif %}{% if timeline_item.is_overflow_overlap %} timeline__item--overlap{% endif %}">
+              <li class="timeline__item timeline__item--{{ timeline_item.item_kind }} timeline__item--lane-{{ timeline_item.lane_number }} timeline__item--row-start-{{ timeline_item.row_start }} timeline__item--ending-month-{{ timeline_item.ending_month }} timeline__item--month-span-{{ timeline_item.month_span }}{% if timeline_item.item_kind == 'event' %} timeline__item--day-{{ timeline_item.day_number }}{% endif %}{% if timeline_item.is_overflow_overlap %} timeline__item--overlap{% endif %}">
+                {% if timeline_item.show_details and timeline_item.organization_heading %}
+                  <span
+                    class="timeline__organization-transition"
+                    data-organization-name="{{ timeline_item.organization_heading.name }}"
+                    data-organization-url="{{ timeline_item.organization_heading.url }}"
+                    aria-hidden="true"
+                  ></span>
+                {% endif %}
                 <span class="timeline__marker{% if timeline_item.item_kind == 'project' %} timeline__marker--duration{% endif %}" aria-hidden="true"></span>
                 {% if timeline_item.show_details %}
                   <article class="timeline__item-content">
-                    {% if timeline_item.organization_heading %}
-                      {% if timeline_item.organization_heading.url %}
-                        <a class="timeline__organization-link" href="{{ timeline_item.organization_heading.url }}">
-                          {{ timeline_item.organization_heading.name }}
-                        </a>
-                      {% else %}
-                        <span class="timeline__organization-heading">{{ timeline_item.organization_heading.name }}</span>
-                      {% endif %}
-                    {% endif %}
                     <header class="timeline__item-header">
                       <h3 class="timeline__item-title">{{ timeline_item.item_name }}</h3>
                       {% if timeline_item.emphasis_kind == 'featured' %}

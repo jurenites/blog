@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.field.paragraph.numeric_value.field_numeric_description
     - field.field.paragraph.numeric_value.field_numeric_icon_image
+    - field.field.paragraph.numeric_value.field_numeric_link
     - field.field.paragraph.numeric_value.field_numeric_number
     - paragraphs.paragraphs_type.numeric_value
 id: paragraph.numeric_value.default
@@ -33,6 +34,14 @@ content:
     settings:
       size: 60
       placeholder: 'Projects I’ve worked on'
+    third_party_settings: {  }
+  field_numeric_link:
+    type: link_default
+    weight: 3
+    region: content
+    settings:
+      placeholder_url: /timeline
+      placeholder_title: 'See timeline'
     third_party_settings: {  }
 hidden:
   created: true

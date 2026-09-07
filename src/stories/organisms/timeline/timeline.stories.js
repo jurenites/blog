@@ -2,6 +2,7 @@ import { timeline_markup } from "./timeline.markup.js";
 
 const TIMELINE_HEADING = "Timeline";
 const TIMELINE_INTRODUCTION = "Commercial projects and personal milestones, ordered by when each story began.";
+const TIMELINE_CURRENT_DATE = "2026-09-07";
 const TIMELINE_ITEMS = [
   {
     item_name: "oksenate.gov",
@@ -93,6 +94,7 @@ export default {
     timeline_heading: TIMELINE_HEADING,
     timeline_introduction: TIMELINE_INTRODUCTION,
     timeline_items: TIMELINE_ITEMS,
+    timeline_current_date: TIMELINE_CURRENT_DATE,
   },
 };
 

@@ -2,6 +2,10 @@ import { initialize_pixel_glyph_editors } from './pixel-glyph-editor.js';
 import { initialize_numeric_value_counters } from './numeric-values.js';
 import { initialize_hero_sections } from './hero-section.js';
 import { initialize_layered_scenes, detach_layered_scenes } from './layered-scene.js';
+import {
+  detach_timeline_organization_rails,
+  initialize_timeline_organization_rails,
+} from './timeline.js';
 
 const NOISE_FRAMES_PER_SECOND = 15;
 const NOISE_FRAME_INTERVAL = 1000 / NOISE_FRAMES_PER_SECOND;
@@ -874,6 +878,14 @@ export function initialize_cookie_policy_notices(cookie_notice_context) {
 }
 
 if (typeof Drupal !== 'undefined') {
+  Drupal.behaviors.jurenites_timeline_organization = {
+    attach(timeline_context) {
+      initialize_timeline_organization_rails(timeline_context);
+    },
+    detach(timeline_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_timeline_organization_rails(timeline_context);
+    },
+  };
   Drupal.behaviors.jurenites_layered_scene = {
     attach(scene_context) { initialize_layered_scenes(scene_context); },
     detach(scene_context, drupal_settings, detach_trigger) {
@@ -969,3 +981,4 @@ if (typeof Drupal !== 'undefined') {
 
 export { initialize_pixel_glyph_editors };
 export { initialize_numeric_value_counters };
+export { initialize_timeline_organization_rails };

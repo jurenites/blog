@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.field.paragraph.numeric_value.field_numeric_description
     - field.field.paragraph.numeric_value.field_numeric_icon_image
+    - field.field.paragraph.numeric_value.field_numeric_link
     - field.field.paragraph.numeric_value.field_numeric_number
     - paragraphs.paragraphs_type.numeric_value
 id: paragraph.numeric_value.default
@@ -14,6 +15,7 @@ content: {  }
 hidden:
   field_numeric_description: true
   field_numeric_icon_image: true
+  field_numeric_link: true
   field_numeric_number: true
   created: true
   status: true

@@ -52,9 +52,12 @@
   gap: calc(var(--space-scale-base-gap) * 2);
 }
 
-.path-blog .layout-content,
-.path-videos .layout-content {
+.path-blog .layout-content {
   max-width: var(--layout-content-max-blog-default);
+}
+
+.path-videos .layout-content {
+  max-width: var(--layout-content-max-wide-default);
 }
 
 .content-layout--wide .content-layout__main {

@@ -573,6 +573,15 @@ function jurenites_theme_preprocess_paragraph(array &$paragraph_variables): void
     }
   }
 
+  if ($paragraph_entity->hasField('field_numeric_link')
+    && !$paragraph_entity->get('field_numeric_link')->isEmpty()) {
+    $numeric_link_item = $paragraph_entity
+      ->get('field_numeric_link')
+      ->first();
+    $paragraph_variables['numeric_link_url'] = $numeric_link_item->getUrl()->toString();
+    $paragraph_variables['numeric_link_label'] = trim((string) $numeric_link_item->title) ?: t('See more');
+  }
+
   $paragraph_variables['numeric_value_text'] = (string) $paragraph_entity->get('field_numeric_number')->value;
 }
 

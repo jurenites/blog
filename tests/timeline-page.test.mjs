@@ -39,23 +39,28 @@ test("Starter timeline contains the complete CV project list and exact personal 
   assert.match(timeline_data, /'name' => 'Mullikin Law'.*'emphasis' => 'heart'/);
   assert.match(timeline_data, /'name' => 'Accountia'.*'emphasis' => 'featured'/);
   assert.match(installer_source, /'alias' => '\/timeline'/);
-  assert.match(installer_source, /'menu_name' => 'main'/);
+  assert.match(installer_source, /'menu_name' => 'footer'/);
+  assert.match(installer_source, /\$timeline_menu_link->set\('weight', 4\)/);
 });
 
 test("Timeline rendering provides calendar years, parallel overlap lanes, and shared heart geometry", async () => {
-  const [timeline_template, timeline_styles, heart_icon, timeline_story, timeline_tokens] = await Promise.all([
+  const [timeline_template, timeline_styles, heart_icon, timeline_story, timeline_tokens, timeline_script] = await Promise.all([
     read_project_file(TIMELINE_THEME_TEMPLATE),
     read_project_file("src/slice/src/scss/organisms/_timeline.scss"),
     read_project_file("src/public/assets/icons/heart-timeline.svg"),
     read_project_file("src/stories/organisms/timeline/timeline.stories.js"),
     read_project_file("src/token/tokens.yaml"),
+    read_project_file("src/slice/src/js/timeline.js"),
   ]);
 
   assert.match(timeline_template, /timeline__year-heading/);
   assert.match(timeline_template, /timeline__marker--duration/);
   assert.doesNotMatch(timeline_template, /timeline__duration/);
   assert.match(timeline_template, /timeline__organization-link/);
+  assert.match(timeline_template, /data-jurenites-timeline-organization-sticky/);
+  assert.match(timeline_template, /timeline__organization-transition/);
   assert.match(timeline_template, /timeline__proof-links/);
+  assert.match(timeline_template, /timeline__year-group--month-count-/);
   assert.match(timeline_template, /heart-timeline/);
   assert.doesNotMatch(timeline_template, /\s(?:style|width|height)=/);
   assert.match(timeline_styles, /position: sticky/);
@@ -64,10 +69,14 @@ test("Timeline rendering provides calendar years, parallel overlap lanes, and sh
   assert.match(timeline_styles, /repeat\(12, var\(--component-timeline-month-height-default\)\)/);
   assert.match(timeline_styles, /repeating-linear-gradient/);
   assert.match(timeline_styles, /@for \$lane_number from 1 through 4/);
+  assert.match(timeline_styles, /@for \$visible_month_count from 1 through 12/);
+  assert.match(timeline_styles, /timeline__organization-sticky/);
+  assert.match(timeline_script, /find_active_organization_index/);
   assert.match(timeline_tokens, /month-height-default: 96px/);
   assert.match(heart_icon, /viewBox="0 0 24 24"/);
   assert.match(heart_icon, /stroke-width="1"/);
   assert.match(timeline_story, /Organisms\/Timeline/);
+  assert.match(timeline_story, /TIMELINE_CURRENT_DATE = "2026-09-07"/);
 });
 
 test("Timeline editor provides short descriptions and repeatable proof links", async () => {

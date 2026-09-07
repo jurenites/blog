@@ -9,6 +9,8 @@ const PRIVACY_POLICY_URL = "/privacy-policy";
 const FONTS_LABEL = "Fonts";
 const FONTS_URL = "/portfolio?tag=font";
 const FONT_PROJECT_COUNT = "2";
+const TIMELINE_LABEL = "Timeline";
+const TIMELINE_URL = "/timeline";
 const RIGHTS_MESSAGE = "No rights reserved";
 const CURRENT_YEAR = String(new Date().getFullYear());
 
@@ -36,6 +38,8 @@ export default {
     fonts_label: { control: "text" },
     fonts_url: { control: "text" },
     font_project_count: { control: "text" },
+    timeline_label: { control: "text" },
+    timeline_url: { control: "text" },
     rights_message: { control: "text" },
     current_year: { control: "text" },
   },
@@ -48,6 +52,8 @@ export default {
     fonts_label: FONTS_LABEL,
     fonts_url: FONTS_URL,
     font_project_count: FONT_PROJECT_COUNT,
+    timeline_label: TIMELINE_LABEL,
+    timeline_url: TIMELINE_URL,
     rights_message: RIGHTS_MESSAGE,
     current_year: CURRENT_YEAR,
   },

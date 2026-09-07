@@ -2,7 +2,7 @@
   "name": "blog-jurenites",
   "private": true,
   "type": "module",
-  "version": "1.22.1",
+  "version": "1.25.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/jurenites/blog.git"
@@ -35,7 +35,7 @@
     "test:pixel-editor": "node --test tests/pixel-glyph-editor.test.mjs",
     "test:portfolio-tags": "node --test tests/portfolio-tag-filtering.test.mjs",
     "test:guidelines": "node --test tests/guidelines-page.test.mjs",
-    "test:timeline": "node --test tests/timeline-page.test.mjs",
+    "test:timeline": "node --test tests/timeline-page.test.mjs tests/timeline-organization-rail.test.mjs",
     "playwright:install": "PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright npx playwright install chromium",
     "storybook:inspect": "npm run build-storybook && PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node scripts/inspect-storybook.mjs",
     "storybook": "npm run build:tokens && npm run build:storybook-info && storybook dev -p 6006 --host 0.0.0.0 --no-open",
