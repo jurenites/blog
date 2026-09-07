@@ -60,6 +60,10 @@
   max-width: var(--layout-content-max-wide-default);
 }
 
+.path-timeline .layout-content {
+  max-width: var(--layout-content-max-timeline-default);
+}
+
 .content-layout--wide .content-layout__main {
   max-width: var(--layout-content-max-wide-default);
 }

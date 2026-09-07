@@ -4,6 +4,9 @@ description: 'Owns the public contact Webform, notification handler, and backgro
 package: Jurenites
 core_version_requirement: ^11
 dependencies:
+  - drupal:block
+  - drupal:block_content
+  - drupal:image
   - antibot:antibot
   - webform:webform
   - webform:webform_ui

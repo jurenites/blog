@@ -29,12 +29,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_timeline_kind:
-    type: options_select
-    weight: 1
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_timeline_periods:
     type: daterange_default
     weight: 2
@@ -88,4 +82,5 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_timeline_kind: true
   status: true

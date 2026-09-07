@@ -66,7 +66,7 @@ function jurenites_timeline_ensure_node(): NodeInterface {
     $timeline_paragraph_values = [
       'type' => 'timeline_item',
       'field_timeline_name' => $timeline_item_record['name'],
-      'field_timeline_kind' => $timeline_item_record['kind'] ?? 'project',
+      'field_timeline_kind' => 'project',
       'field_timeline_periods' => $timeline_period_values,
       'field_timeline_emphasis' => $timeline_item_record['emphasis'] ?? 'standard',
     ];
@@ -106,7 +106,7 @@ function jurenites_timeline_ensure_node(): NodeInterface {
     'uid' => 1,
     'title' => 'Timeline',
     'body' => [
-      'value' => '<p>Commercial projects and personal milestones, ordered by when each story began.</p>',
+      'value' => '<p>Commercial projects ordered by when each engagement began.</p>',
       'format' => 'basic_html',
     ],
     'field_timeline_items' => $timeline_paragraphs,

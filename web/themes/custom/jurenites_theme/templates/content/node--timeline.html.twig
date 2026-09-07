@@ -3,7 +3,7 @@
   {{ title_suffix }}
 
   <header class="timeline__header">
-    <p class="timeline__eyebrow">{{ 'Career and life'|t }}</p>
+    <p class="timeline__eyebrow">{{ 'Commercial work'|t }}</p>
     <div class="timeline__introduction">{{ content.body }}</div>
     <p class="timeline__count">{{ timeline_item_count }} {{ 'records'|t }}</p>
   </header>
@@ -12,7 +12,7 @@
     {% if timeline_initial_organization %}
       <div class="timeline__organization-sticky" data-jurenites-timeline-organization-sticky>
         {% if timeline_initial_organization.url %}
-          <a class="timeline__organization-link" href="{{ timeline_initial_organization.url }}">
+          <a class="timeline__organization-link" target="_blank" href="{{ timeline_initial_organization.url }}">
             {{ timeline_initial_organization.name }}
           </a>
         {% else %}
@@ -33,9 +33,9 @@
               </li>
             {% endfor %}
           </ol>
-          <ol class="timeline__items">
+          <ol class="timeline__items" aria-hidden="true">
             {% for timeline_item in year_group.timeline_fragments %}
-              <li class="timeline__item timeline__item--{{ timeline_item.item_kind }} timeline__item--lane-{{ timeline_item.lane_number }} timeline__item--row-start-{{ timeline_item.row_start }} timeline__item--ending-month-{{ timeline_item.ending_month }} timeline__item--month-span-{{ timeline_item.month_span }}{% if timeline_item.item_kind == 'event' %} timeline__item--day-{{ timeline_item.day_number }}{% endif %}{% if timeline_item.is_overflow_overlap %} timeline__item--overlap{% endif %}">
+              <li data-timeline-item-name="{{ timeline_item.item_name }}" class="timeline__item timeline__item--project timeline__item--lane-{{ timeline_item.lane_number }} timeline__item--row-start-{{ timeline_item.row_start }} timeline__item--ending-month-{{ timeline_item.ending_month }} timeline__item--month-span-{{ timeline_item.month_span }}{% if timeline_item.is_overflow_overlap %} timeline__item--overlap{% endif %}">
                 {% if timeline_item.show_details and timeline_item.organization_heading %}
                   <span
                     class="timeline__organization-transition"
@@ -44,17 +44,38 @@
                     aria-hidden="true"
                   ></span>
                 {% endif %}
-                <span class="timeline__marker{% if timeline_item.item_kind == 'project' %} timeline__marker--duration{% endif %}" aria-hidden="true"></span>
-                {% if timeline_item.show_details %}
+                <span class="timeline__marker timeline__marker--duration" aria-hidden="true"></span>
+              </li>
+            {% endfor %}
+          </ol>
+          {% if year_group.timeline_details %}
+            <ol class="timeline__year-details">
+              {% for timeline_item in year_group.timeline_details %}
+                <li class="timeline__year-detail timeline__year-detail--project">
                   <article class="timeline__item-content">
                     <header class="timeline__item-header">
-                      <h3 class="timeline__item-title">{{ timeline_item.item_name }}</h3>
+                      <h3 class="timeline__item-title">
+                        {% if timeline_item.primary_project_url %}
+                          <a class="timeline__item-details-link" href="{{ timeline_item.primary_project_url }}">
+                            {{ timeline_item.item_name }}
+                          </a>
+                        {% else %}
+                          {{ timeline_item.item_name }}
+                        {% endif %}
+                      </h3>
                       {% if timeline_item.emphasis_kind == 'featured' %}
-                        <span class="timeline__emphasis timeline__emphasis--featured">★ {{ 'Featured'|t }}</span>
+                        <span class="timeline__emphasis timeline__emphasis--featured">
+                          {% include '@jurenites_theme/components/icon.html.twig' with {
+                            icon_name: 'star-outline',
+                            icon_class: 'timeline__star-icon',
+                            icon_asset_base_url: icon_asset_base_url,
+                          } only %}
+                          {{ 'Featured'|t }}
+                        </span>
                       {% elseif timeline_item.emphasis_kind == 'heart' %}
                         <span class="timeline__emphasis timeline__emphasis--heart">
                           {% include '@jurenites_theme/components/icon.html.twig' with {
-                            icon_name: 'heart-timeline',
+                            icon_name: 'heart-outline',
                             icon_class: 'timeline__heart-icon',
                             icon_asset_base_url: icon_asset_base_url,
                           } only %}
@@ -62,13 +83,12 @@
                         </span>
                       {% endif %}
                     </header>
-
                     <div class="timeline__metadata">
                       <span class="timeline__period">
                         {% include '@jurenites_theme/components/date-time-value.html.twig' with {
                           date_time_datetime: timeline_item.period.start_iso,
                           date_time_display_markup: timeline_item.period.start_label,
-                          date_time_date_display_variant: timeline_item.item_kind == 'event' ? 'date-day' : 'date-month',
+                          date_time_date_display_variant: 'date-month',
                         } only %}
                         {% if timeline_item.period.is_range %}
                           <span aria-hidden="true">–</span>
@@ -79,26 +99,22 @@
                           } only %}
                         {% endif %}
                       </span>
-                      {% if timeline_item.hours_label %}
-                        <span class="timeline__hours">{{ timeline_item.hours_label }}</span>
-                      {% endif %}
                     </div>
-
                     {% if timeline_item.summary_markup %}
                       <div class="timeline__summary">{{ timeline_item.summary_markup }}</div>
                     {% endif %}
                     {% if timeline_item.proof_links %}
-                      <ul class="timeline__proof-links" aria-label="{{ 'Proof links'|t }}">
+                      <ul class="timeline__proof-links" aria-label="{{ 'Project links'|t }}">
                         {% for proof_link in timeline_item.proof_links %}
                           <li><a href="{{ proof_link.url }}">{{ proof_link.label }}</a></li>
                         {% endfor %}
                       </ul>
                     {% endif %}
                   </article>
-                {% endif %}
-              </li>
-            {% endfor %}
-          </ol>
+                </li>
+              {% endfor %}
+            </ol>
+          {% endif %}
         </div>
       </section>
     {% endfor %}

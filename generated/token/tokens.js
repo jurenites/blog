@@ -1975,6 +1975,22 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "layout-content-max-timeline-default",
+    "path": [
+      "layout",
+      "content-max",
+      "timeline-default"
+    ],
+    "type": "dimension",
+    "description": "Timeline frame for dense chronology text and project details.",
+    "source_value": "1280px",
+    "value": "1280px",
+    "css_value": "1280px",
+    "resolved_css_value": "1280px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "layout-gutter-mobile-default",
     "path": [
       "layout",
@@ -2021,6 +2037,54 @@ export const TOKEN_RECORDS = [
     "resolved_css_value": "32px",
     "is_reference": false,
     "reference_name": null
+  },
+  {
+    "name": "component-contact-photo-max-width-default",
+    "path": [
+      "component",
+      "contact-photo",
+      "max-width-default"
+    ],
+    "type": "dimension",
+    "description": "Independent of the readable Contact form width.",
+    "source_value": "1600px",
+    "value": "1600px",
+    "css_value": "1600px",
+    "resolved_css_value": "1600px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-contact-photo-edge-fade-width-default",
+    "path": [
+      "component",
+      "contact-photo",
+      "edge-fade-width-default"
+    ],
+    "type": "dimension",
+    "description": "Fade every edge; capped proportionally on small images.",
+    "source_value": "100px",
+    "value": "100px",
+    "css_value": "100px",
+    "resolved_css_value": "100px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-contact-photo-background-color",
+    "path": [
+      "component",
+      "contact-photo",
+      "background-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "{component.hero-section.background-edge-color}",
+    "value": "#000207",
+    "css_value": "var(--component-hero-section-background-edge-color)",
+    "resolved_css_value": "#000207",
+    "is_reference": true,
+    "reference_name": "component-hero-section-background-edge-color"
   },
   {
     "name": "component-site-header-backdrop-color-default",
@@ -2419,6 +2483,70 @@ export const TOKEN_RECORDS = [
     "value": "#66C0F4",
     "css_value": "#66C0F4",
     "resolved_css_value": "#66C0F4",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-storybook-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "storybook-color-hover"
+    ],
+    "type": "string",
+    "description": "https://storybook.js.org/branding/",
+    "source_value": "#FF4785",
+    "value": "#FF4785",
+    "css_value": "#FF4785",
+    "resolved_css_value": "#FF4785",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-message-toast-width-default",
+    "path": [
+      "component",
+      "message-toast",
+      "width-default"
+    ],
+    "type": "dimension",
+    "description": "Readable notifications on wide screens.",
+    "source_value": "420px",
+    "value": "420px",
+    "css_value": "420px",
+    "resolved_css_value": "420px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-message-toast-top-offset-default",
+    "path": [
+      "component",
+      "message-toast",
+      "top-offset-default"
+    ],
+    "type": "dimension",
+    "description": "Clear the frontend navigation and its backdrop.",
+    "source_value": "112px",
+    "value": "112px",
+    "css_value": "112px",
+    "resolved_css_value": "112px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-message-toast-layer-default",
+    "path": [
+      "component",
+      "message-toast",
+      "layer-default"
+    ],
+    "type": "number",
+    "description": "Above the header and content.",
+    "source_value": 10001,
+    "value": 10001,
+    "css_value": "10001",
+    "resolved_css_value": "10001",
     "is_reference": false,
     "reference_name": null
   },
@@ -3464,10 +3592,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "dimension",
     "description": "Every calendar year is twelve identical month tracks.",
-    "source_value": "96px",
-    "value": "96px",
-    "css_value": "96px",
-    "resolved_css_value": "96px",
+    "source_value": "32px",
+    "value": "32px",
+    "css_value": "32px",
+    "resolved_css_value": "32px",
     "is_reference": false,
     "reference_name": null
   },

@@ -18,7 +18,7 @@
         {% endif %}
       </li>
 
-      {% if items.first %}
+      {% if items.first and 1 not in items.pages|keys %}
         <li class="pagination__item pagination__item--page">
           <a class="pagination__link" href="{{ items.first.href }}" aria-label="{{ 'Go to first page'|t }}"{{ items.first.attributes|without('href', 'aria-label') }}>1</a>
         </li>
@@ -44,9 +44,9 @@
         <li class="pagination__item pagination__item--page"><span class="pagination__ellipsis" aria-hidden="true">&hellip;</span></li>
       {% endif %}
 
-      {% if items.last %}
+      {% if items.last and page_count not in items.pages|keys %}
         <li class="pagination__item pagination__item--page">
-          <a class="pagination__link" href="{{ items.last.href }}" aria-label="{{ 'Go to last page'|t }}"{{ items.last.attributes|without('href', 'aria-label') }}>{{ items.last.text|default(items.pages|length) }}</a>
+          <a class="pagination__link" href="{{ items.last.href }}" aria-label="{{ 'Go to last page'|t }}"{{ items.last.attributes|without('href', 'aria-label') }}>{{ page_count }}</a>
         </li>
       {% endif %}
 

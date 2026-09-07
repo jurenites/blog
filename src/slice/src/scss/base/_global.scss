@@ -23,7 +23,7 @@ body.jurenites-theme {
     display: none !important;
   }
 
-  a:not(.button) {
+  a:not(.button):not(.site-header__link) {
     color: var(--theme-dark-text-primary-default);
     text-decoration: underline;
     text-decoration-thickness: var(--space-scale-one);

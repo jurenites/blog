@@ -158,11 +158,16 @@ layout:
   content-max:
     blog-default: 800px # Blog listing frame for article teasers and pagination.
     wide-default: 960px # Wider frame for content that needs more horizontal room.
+    timeline-default: 1280px # Timeline frame for dense chronology text and project details.
   gutter:
     mobile-default: 16px
     tablet-default: 24px
     desktop-default: 32px
 component:
+  contact-photo:
+    max-width-default: 1600px # Independent of the readable Contact form width.
+    edge-fade-width-default: 100px # Fade every edge; capped proportionally on small images.
+    background-color: component.hero-section.background-edge-color
   site-header:
     backdrop-color-default: "#00020780" # Half-opacity homepage tint matching the photograph edge.
     backdrop-blur-default: 12px # Soften image details beneath navigation.
@@ -193,6 +198,11 @@ component:
     youtube-color-hover: "#FF0033" #https://brand.youtube/youtube-logo/
     soundcloud-color-hover: "#FF5500" #https://www.color-hex.com/color-palette/73640
     steam-color-hover: "#66C0F4" # Steam's interface blue.
+    storybook-color-hover: "#FF4785" # https://storybook.js.org/branding/
+  message-toast:
+    width-default: 420px # Readable notifications on wide screens.
+    top-offset-default: 112px # Clear the frontend navigation and its backdrop.
+    layer-default: 10001 # Above the header and content.
   cookie-policy-notice:
     layer-default: 9000 # Fixed footer notice sits above page content and below the build watermark and tooltips.
   article-teaser:
@@ -284,7 +294,7 @@ component:
     marker-size-default: space.scale.base-gap # Exact 8px square event marker and duration-bar width.
     marker-size-active: 40px
     line-width-default: shape.border-width.hairline-default # Quiet continuous chronology rail.
-    month-height-default: 96px # Every calendar year is twelve identical month tracks.
+    month-height-default: 32px # Every calendar year is twelve identical month tracks.
     sticky-layer-default: 20 # Keeps the active year above timeline records while its section is in view.
   media-loader:
     progress-height-default: 1px # Intentional exception to the 8px grid because this is a loading indicator line, not layout spacing.

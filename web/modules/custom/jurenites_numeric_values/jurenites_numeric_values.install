@@ -22,6 +22,7 @@ const JURENITES_NUMERIC_VALUES_HOMEPAGE_BLOCK_UUID = 'c003d482-a65b-40e4-a05a-b0
 function jurenites_numeric_values_install(): void {
   jurenites_numeric_values_update_tile_fields();
   jurenites_numeric_values_update_tile_links();
+  jurenites_numeric_values_update_tile_captions();
   jurenites_numeric_values_ensure_homepage_block();
 }
 
@@ -253,7 +254,7 @@ function jurenites_numeric_values_ensure_homepage_block(): array {
       'field_numeric_description' => 'Projects commercial have worked with',
       'field_numeric_link' => [
         'uri' => 'internal:/timeline',
-        'title' => 'See timeline',
+        'title' => 'see Timeline',
       ],
     ]);
     $career_years_item = Paragraph::create([
@@ -389,7 +390,7 @@ function jurenites_numeric_values_configure_displays(): void {
       'region' => 'content',
       'settings' => [
         'placeholder_url' => '/timeline',
-        'placeholder_title' => 'See timeline',
+        'placeholder_title' => 'see Timeline',
       ],
     ]);
     $numeric_item_form->save();
@@ -403,4 +404,31 @@ function jurenites_numeric_values_configure_displays(): void {
     $numeric_item_view->removeComponent('field_numeric_link');
     $numeric_item_view->save();
   }
+}
+
+/**
+ * Adds optional plain caption text and a separate labeled caption link.
+ */
+function jurenites_numeric_values_update_tile_captions(): void {
+  $config_directory = \Drupal::service('extension.list.module')->getPath('jurenites_numeric_values') . '/config/install';
+  $config_source = new \Drupal\Core\Config\FileStorage($config_directory);
+  foreach (['field_numeric_caption', 'field_numeric_caption_link'] as $field_name) {
+    if (FieldStorageConfig::loadByName('paragraph', $field_name) === NULL) {
+      FieldStorageConfig::create($config_source->read('field.storage.paragraph.' . $field_name))->save();
+    }
+    if (FieldConfig::loadByName('paragraph', 'numeric_value', $field_name) === NULL) {
+      FieldConfig::create($config_source->read('field.field.paragraph.numeric_value.' . $field_name))->save();
+    }
+  }
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+
+  $numeric_item_form = EntityFormDisplay::load('paragraph.numeric_value.default');
+  $numeric_form_config = $config_source->read('core.entity_form_display.paragraph.numeric_value.default');
+  $numeric_item_view = EntityViewDisplay::load('paragraph.numeric_value.default');
+  foreach (['field_numeric_caption', 'field_numeric_caption_link'] as $field_name) {
+    $numeric_item_form?->setComponent($field_name, $numeric_form_config['content'][$field_name]);
+    $numeric_item_view?->removeComponent($field_name);
+  }
+  $numeric_item_form?->save();
+  $numeric_item_view?->save();
 }

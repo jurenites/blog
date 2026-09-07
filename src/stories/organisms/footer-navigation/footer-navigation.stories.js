@@ -3,7 +3,13 @@ import social_profiles from "../../../../web/themes/custom/jurenites_theme/socia
 
 const SOCIAL_HEADING = "Social networks";
 const INFORMATION_HEADING = "Information";
+const HOW_I_WORK_HEADING = "How I work";
 const SOCIAL_LINKS = social_profiles;
+const HOW_I_WORK_LINKS = [
+  { link_label: "GitHub", hover_label: "blog_jurenitesr", link_url: "https://github.com/jurenites/blog", icon_name: "brand-github", color_token: "" },
+  { link_label: "Figma", hover_label: "blog jurenites", link_url: "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=928-133&t=n2l2EWw0ldyJzj4u-0", icon_name: "brand-figma", color_token: "" },
+  { link_label: "Storybook", hover_label: "blog jurenites", link_url: "http://storybook.jurenites.com/", icon_name: "brand-storybook", color_token: "storybook" },
+];
 const PRIVACY_POLICY_LABEL = "Privacy Policy";
 const PRIVACY_POLICY_URL = "/privacy-policy";
 const FONTS_LABEL = "Fonts";
@@ -32,6 +38,8 @@ export default {
   argTypes: {
     social_heading: { control: "text" },
     information_heading: { control: "text" },
+    how_i_work_heading: { control: "text" },
+    how_i_work_links: { control: "object" },
     social_links: { control: "object" },
     privacy_policy_label: { control: "text" },
     privacy_policy_url: { control: "text" },
@@ -46,6 +54,8 @@ export default {
   args: {
     social_heading: SOCIAL_HEADING,
     information_heading: INFORMATION_HEADING,
+    how_i_work_heading: HOW_I_WORK_HEADING,
+    how_i_work_links: HOW_I_WORK_LINKS,
     social_links: SOCIAL_LINKS,
     privacy_policy_label: PRIVACY_POLICY_LABEL,
     privacy_policy_url: PRIVACY_POLICY_URL,

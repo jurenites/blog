@@ -1,7 +1,7 @@
 import { timeline_markup } from "./timeline.markup.js";
 
 const TIMELINE_HEADING = "Timeline";
-const TIMELINE_INTRODUCTION = "Commercial projects and personal milestones, ordered by when each story began.";
+const TIMELINE_INTRODUCTION = "Commercial projects ordered by when each engagement began.";
 const TIMELINE_CURRENT_DATE = "2026-09-07";
 const TIMELINE_ITEMS = [
   {
@@ -11,6 +11,7 @@ const TIMELINE_ITEMS = [
     organization_url: "https://thrive.io/",
     periods: [{ start_date: "2026-07-01", end_date: "2026-07-01" }],
     hours_worked: 160,
+    item_summary: "Worked on SCSS accessibility, refined the mobile presentation, and upgraded Drupal core and contributed modules.",
     proof_links: [{ label: "Project website", url: "https://oksenate.gov/" }],
   },
   {
@@ -24,12 +25,11 @@ const TIMELINE_ITEMS = [
     ],
     hours_worked: 5500,
     emphasis_kind: "featured",
-  },
-  {
-    item_name: "My daughter's birthday",
-    item_kind: "event",
-    periods: [{ start_date: "2023-11-09", end_date: "2023-11-09" }],
-    item_summary: "A personal milestone.",
+    item_summary: "Led product design and frontend development for an accounting platform, its Angular interface, and its Storybook design system.",
+    proof_links: [
+      { label: "Project website", url: "https://accountia.no/" },
+      { label: "Figma design", url: "https://www.figma.com/file/4K0S1h3hmZxDLHEXZpaYzU/Accountia" },
+    ],
   },
   {
     item_name: "Nokia",
@@ -74,12 +74,6 @@ const TIMELINE_ITEMS = [
     periods: [{ start_date: "2010-11-01", end_date: "2010-12-01" }],
     hours_worked: 100,
   },
-  {
-    item_name: "My birthday",
-    item_kind: "event",
-    periods: [{ start_date: "1989-01-18", end_date: "1989-01-18" }],
-    item_summary: "The beginning of my journey.",
-  },
 ];
 
 function render_timeline_story(story_arguments) {
@@ -98,4 +92,4 @@ export default {
   },
 };
 
-export const career_and_life_timeline = {};
+export const commercial_projects_timeline = {};

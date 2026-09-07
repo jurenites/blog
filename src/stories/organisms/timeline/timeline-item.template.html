@@ -1,5 +1,4 @@
-<li class="timeline__item timeline__item--{{item_kind}} timeline__item--lane-{{lane_number}} timeline__item--row-start-{{row_start}} timeline__item--ending-month-{{ending_month}} timeline__item--month-span-{{month_span}}{{day_class_name}}{{overlap_class_name}}">
+<li data-timeline-item-name="{{item_name}}" class="timeline__item timeline__item--project timeline__item--lane-{{lane_number}} timeline__item--row-start-{{row_start}} timeline__item--ending-month-{{ending_month}} timeline__item--month-span-{{month_span}}{{overlap_class_name}}">
   {{organization_transition_markup}}
-  <span class="timeline__marker{{duration_marker_class_name}}" aria-hidden="true"></span>
-  {{item_content_markup}}
+  <span class="timeline__marker timeline__marker--duration" aria-hidden="true"></span>
 </li>

@@ -75,6 +75,8 @@ function source_without_style_comments(source_content) {
 const defined_variables = new Set(Object.keys(TOKEN_VALUES).map((token_name) => `--${token_name}`));
 const external_css_variables = new Set([
   "--gin-font-size-s",
+  // Drupal core supplies the current toolbar displacement at runtime.
+  "--drupal-displace-offset-top",
 ]);
 const contract_errors = [];
 const token_source_content = await readFile(TOKEN_SOURCE_PATH, "utf8");

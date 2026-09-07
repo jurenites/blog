@@ -1,7 +1,12 @@
-// Organism: Timeline. A fixed-scale, start-date-sorted career and life chronology.
+// Organism: Timeline. A fixed-scale, start-date-sorted commercial-work chronology.
 
-@use "sass:math";
 @use "../tools";
+
+$timeline-axis-width: calc(
+  (var(--space-scale-base-gap) * 9) +
+  (var(--component-timeline-marker-size-default) * 4)
+);
+$timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
 
 .timeline {
   width: min(100%, calc(var(--space-scale-base-gap) * 168));
@@ -48,15 +53,17 @@
   z-index: calc(var(--component-timeline-sticky-layer-default) + 1);
   display: flex;
   align-items: center;
-  width: calc(var(--space-scale-base-gap) * 24);
+  justify-content: flex-start;
+  width: 100%;
   height: calc(var(--space-scale-base-gap) * 8);
   overflow: hidden;
   background: var(--theme-dark-surface-background-page);
+  text-align: left;
 }
 
 .timeline__year-group {
   display: grid;
-  grid-template-columns: calc(var(--space-scale-base-gap) * 24) minmax(0, 1fr);
+  grid-template-columns: $timeline-label-column-width minmax(0, 1fr);
   align-items: start;
   content-visibility: auto;
 }
@@ -67,6 +74,12 @@
     contain-intrinsic-size: auto calc(var(--component-timeline-month-height-default) * #{$visible_month_count});
 
     .timeline__year-canvas {
+      min-height: calc(var(--component-timeline-month-height-default) * #{$visible_month_count});
+    }
+
+    .timeline__year-canvas::after,
+    .timeline__months,
+    .timeline__items {
       height: calc(var(--component-timeline-month-height-default) * #{$visible_month_count});
     }
   }
@@ -83,15 +96,19 @@
   font: var(--typography-headline-5);
   font-family: var(--typography-font-family-number);
   font-variant-numeric: tabular-nums;
+  text-align: left;
 }
 
 .timeline__year-canvas {
   position: relative;
+  display: grid;
+  grid-template-columns: $timeline-axis-width minmax(0, 1fr);
+  column-gap: calc(var(--space-scale-base-gap) * 4);
 
   &::after {
     position: absolute;
     z-index: 1;
-    inset-block: 0;
+    inset-block-start: 0;
     inset-inline-start: calc(
       (var(--space-scale-base-gap) * 5) +
       ((var(--component-timeline-marker-size-default) - var(--component-timeline-line-width-default)) / 2)
@@ -105,10 +122,13 @@
 .timeline__months,
 .timeline__items {
   position: absolute;
-  inset: 0;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   display: grid;
-  grid-template-columns: calc(var(--space-scale-base-gap) * 5) repeat(4, minmax(0, 1fr));
+  grid-template-columns: calc(var(--space-scale-base-gap) * 5) repeat(4, var(--component-timeline-marker-size-default));
   grid-template-rows: repeat(12, var(--component-timeline-month-height-default));
+  column-gap: var(--space-scale-base-gap);
+  width: $timeline-axis-width;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -139,11 +159,7 @@
 
 .timeline__item {
   position: relative;
-  display: grid;
-  grid-template-columns: var(--component-timeline-marker-size-default) minmax(0, 1fr);
-  gap: var(--space-scale-base-gap);
   min-width: 0;
-  padding-inline-end: var(--space-scale-base-gap);
   pointer-events: auto;
 }
 
@@ -168,14 +184,16 @@
 .timeline__marker {
   position: relative;
   z-index: 2;
+  display: block;
   width: var(--component-timeline-marker-size-default);
   height: var(--component-timeline-marker-size-default);
   background: var(--theme-dark-action-primary-default);
 }
 
 .timeline__marker--duration {
-  height: 100%;
+  height: calc(100% - var(--space-scale-two));
   min-height: var(--component-timeline-marker-size-default);
+  margin-block: var(--space-scale-one);
 }
 
 .timeline__item--overlap .timeline__marker--duration {
@@ -188,35 +206,31 @@
   );
 }
 
-.timeline__item--project .timeline__item-content {
-  align-self: end;
-}
-
-.timeline__item--event {
-  align-self: stretch;
-}
-
-.timeline__item--ending-month-1 .timeline__item-content {
-  position: absolute;
-  inset-block-end: 0;
-  inset-inline: calc(var(--component-timeline-marker-size-default) + var(--space-scale-base-gap)) var(--space-scale-base-gap);
-}
-
-@for $day_number from 1 through 31 {
-  .timeline__item--event.timeline__item--day-#{$day_number} {
-    padding-block-start: calc(
-      (var(--component-timeline-month-height-default) - var(--component-timeline-marker-size-default)) *
-      #{math.div($day_number - 1, 30)}
-    );
-  }
-}
-
 .timeline__item-content {
   position: relative;
   z-index: 1;
   min-width: 0;
-  padding: var(--space-scale-base-gap);
-  background: var(--theme-dark-surface-background-page);
+}
+
+.timeline__year-details {
+  position: relative;
+  z-index: 3;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 4);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline__year-detail {
+  min-width: 0;
+  padding-block-end: calc(var(--space-scale-base-gap) * 4);
+  border-block-end: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
+  content-visibility: auto;
+  contain-intrinsic-size: auto calc(var(--space-scale-base-gap) * 32);
 }
 
 .timeline__organization-link,
@@ -269,6 +283,18 @@
   @include tools.typography-subtitle-1;
 }
 
+.timeline__item-details-link {
+  color: var(--theme-dark-action-primary-default);
+  text-decoration: underline;
+  text-decoration-thickness: var(--shape-border-width-hairline-default);
+  text-underline-offset: calc(var(--space-scale-base-gap) * 0.5);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--theme-dark-action-primary-hover);
+  }
+}
+
 .timeline__emphasis {
   display: inline-flex;
   align-items: center;
@@ -277,6 +303,7 @@
   @include tools.typography-caption;
 }
 
+.timeline__star-icon,
 .timeline__heart-icon {
   width: calc(var(--space-scale-base-gap) * 3);
   height: calc(var(--space-scale-base-gap) * 3);
@@ -294,11 +321,6 @@
 .timeline__period {
   display: inline-flex;
   gap: calc(var(--space-scale-base-gap) * 0.5);
-}
-
-.timeline__hours {
-  color: var(--theme-dark-text-gray);
-  @include tools.typography-machine-readable;
 }
 
 .timeline__summary {
@@ -341,10 +363,11 @@
   }
 
   .timeline__year-group {
-    grid-template-columns: calc(var(--space-scale-base-gap) * 24) minmax(0, 1fr);
+    grid-template-columns: $timeline-label-column-width minmax(0, 1fr);
   }
 
   .timeline__year-heading {
     font: var(--typography-headline-6);
   }
+
 }

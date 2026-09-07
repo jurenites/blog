@@ -12,7 +12,7 @@ field_name: field_timeline_items
 entity_type: node
 bundle: timeline
 label: 'Timeline items'
-description: 'Add projects and one-time events. Public order is calculated from each item’s primary start date; drag order breaks ties.'
+description: 'Add commercial projects. Public order is calculated from each item’s primary start date; drag order breaks ties.'
 required: true
 translatable: true
 default_value: {  }
@@ -28,4 +28,3 @@ settings:
         weight: 0
         enabled: true
 field_type: entity_reference_revisions
-

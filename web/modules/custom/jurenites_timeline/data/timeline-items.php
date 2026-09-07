@@ -10,7 +10,9 @@ declare(strict_types=1);
  * project presentation intentionally displays only month and year.
  */
 
-return [
+$timeline_project_details = require __DIR__ . '/timeline-project-details.php';
+
+$timeline_items = [
   ['name' => 'oksenate.gov', 'organization' => 'Thrive.io', 'periods' => [['2026-07-01', '2026-07-01']], 'hours' => 160],
   ['name' => 'oaiquartz.org', 'organization' => 'Thrive.io', 'periods' => [['2026-06-01', '2026-06-01']]],
   ['name' => 'Accountia', 'organization' => 'Thrive.io', 'periods' => [['2021-10-01', '2026-08-01'], ['2020-03-01', '2020-10-01']], 'hours' => 5500, 'emphasis' => 'featured'],
@@ -83,6 +85,12 @@ return [
   ['name' => 'One Health Body', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-04-01', '2011-10-01']], 'hours' => 300],
   ['name' => 'EMB', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-04-01', '2011-05-01']], 'hours' => 50],
   ['name' => 'HIPAA Security Assessment Toolkit', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2010-11-01', '2010-12-01']], 'hours' => 100],
-  ['name' => "My daughter's birthday", 'kind' => 'event', 'periods' => [['2023-11-09', '2023-11-09']], 'summary' => 'A personal milestone.'],
-  ['name' => 'My birthday', 'kind' => 'event', 'periods' => [['1989-01-18', '1989-01-18']], 'summary' => 'The beginning of my journey.'],
 ];
+
+return array_map(
+  static fn (array $timeline_item): array => array_replace(
+    $timeline_item,
+    $timeline_project_details[$timeline_item['name']] ?? [],
+  ),
+  $timeline_items,
+);

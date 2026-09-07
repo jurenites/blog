@@ -55,6 +55,29 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
     JSON_THROW_ON_ERROR,
   );
   $menu_variables['icon_asset_base_url'] = base_path() . $theme_path . '/assets/icons';
+  $menu_variables['how_i_work_links'] = [
+    [
+      'link_label' => 'GitHub',
+      'hover_label' => 'blog_jurenitesr',
+      'link_url' => 'https://github.com/jurenites/blog',
+      'icon_name' => 'brand-github',
+      'color_token' => '',
+    ],
+    [
+      'link_label' => 'Figma',
+      'hover_label' => 'blog jurenites',
+      'link_url' => 'https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=928-133&t=n2l2EWw0ldyJzj4u-0',
+      'icon_name' => 'brand-figma',
+      'color_token' => '',
+    ],
+    [
+      'link_label' => 'Storybook',
+      'hover_label' => 'blog jurenites',
+      'link_url' => 'http://storybook.jurenites.com/',
+      'icon_name' => 'brand-storybook',
+      'color_token' => 'storybook',
+    ],
+  ];
 }
 
 /**
@@ -100,6 +123,50 @@ function jurenites_theme_preprocess_page(array &$page_variables): void {
       'url' => $language_url->toString(),
       'selected' => $language_id === $current_language_id,
     ];
+  }
+}
+
+/**
+ * Uses the physical LEGO wordmark for a selected LEGO tag or tagged content.
+ */
+function jurenites_theme_preprocess_block(array &$block_variables): void {
+  if (($block_variables['base_plugin_id'] ?? '') !== 'system_branding_block'
+    || empty($block_variables['site_logo'])) {
+    return;
+  }
+
+  $slug_resolver = \Drupal::service('jurenites_blog.tag_slug_resolver');
+  $lego_term = $slug_resolver->findTermBySlug('lego');
+  if (!$lego_term instanceof TermInterface) {
+    return;
+  }
+
+  // Query arrays are not valid tag selections; leave them to route validation.
+  $query_values = \Drupal::request()->query->all();
+  $selected_tag = $query_values['tag'] ?? NULL;
+  $uses_lego_logo = $selected_tag === 'lego';
+  $route_match = \Drupal::routeMatch();
+  $route_term = $route_match->getParameter('taxonomy_term');
+  if ($route_term instanceof TermInterface) {
+    $uses_lego_logo = $uses_lego_logo || $route_term->id() === $lego_term->id();
+  }
+
+  $route_node = $route_match->getParameter('node');
+  if ($route_match->getRouteName() === 'entity.node.canonical'
+    && $route_node instanceof NodeInterface
+    && $route_node->hasField('field_tags')) {
+    foreach ($route_node->get('field_tags') as $tag_item) {
+      if ((string) $tag_item->target_id === (string) $lego_term->id()) {
+        $uses_lego_logo = TRUE;
+        break;
+      }
+    }
+  }
+
+  $block_variables['uses_lego_logo'] = $uses_lego_logo;
+  if ($uses_lego_logo) {
+    $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
+    $block_variables['site_logo'] = base_path() . $theme_path . '/assets/images/jurenites-lego-logo-square-v2.png';
   }
 }
 
@@ -580,6 +647,14 @@ function jurenites_theme_preprocess_paragraph(array &$paragraph_variables): void
       ->first();
     $paragraph_variables['numeric_link_url'] = $numeric_link_item->getUrl()->toString();
     $paragraph_variables['numeric_link_label'] = trim((string) $numeric_link_item->title) ?: t('See more');
+  }
+
+  if ($paragraph_entity->hasField('field_numeric_caption_link')
+    && !$paragraph_entity->get('field_numeric_caption_link')->isEmpty()) {
+    $caption_link_item = $paragraph_entity->get('field_numeric_caption_link')->first();
+    $paragraph_variables['numeric_caption_link_url'] = $caption_link_item->getUrl()->toString();
+    $paragraph_variables['numeric_caption_link_label'] = trim((string) $caption_link_item->title)
+      ?: $paragraph_variables['numeric_caption_link_url'];
   }
 
   $paragraph_variables['numeric_value_text'] = (string) $paragraph_entity->get('field_numeric_number')->value;

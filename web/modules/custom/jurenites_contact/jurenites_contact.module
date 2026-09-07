@@ -5,6 +5,43 @@
  * Contact form integration helpers.
  */
 
+require_once __DIR__ . '/jurenites_contact.photo.inc';
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_contact_theme(): array {
+  return ['jurenites_contact_photo' => ['variables' => ['image_url' => '', 'image_description' => '']]];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function jurenites_contact_block_content_view(array &$build_output, \Drupal\Core\Entity\EntityInterface $block_entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($block_entity->bundle() !== 'contact_photo') {
+    return;
+  }
+  $image_items = $block_entity->get('field_contact_photo');
+  $field_access = $image_items->access('view', NULL, TRUE);
+  $cache_metadata = \Drupal\Core\Cache\CacheableMetadata::createFromObject($block_entity)
+    ->addCacheableDependency($field_access)->addCacheContexts(['languages:language_content']);
+  $photo_build = [];
+  $image_file = $image_items->entity;
+  if ($field_access->isAllowed() && $image_file) {
+    $file_access = $image_file->access('view', NULL, TRUE);
+    $cache_metadata->addCacheableDependency($image_file)->addCacheableDependency($file_access);
+    if ($file_access->isAllowed()) {
+      $photo_build = [
+        '#theme' => 'jurenites_contact_photo',
+        '#image_url' => \Drupal::service('file_url_generator')->generateString($image_file->getFileUri()),
+        '#image_description' => $image_items->alt ?? '',
+      ];
+    }
+  }
+  $cache_metadata->applyTo($photo_build);
+  $build_output['contact_photo'] = $photo_build;
+}
+
 /**
  * Enables Antibot for the contact form and removes its legacy math CAPTCHA.
  */

@@ -54,7 +54,7 @@ function jurenites_numeric_values_post_update_add_tile_links(): TranslatableMark
 
       $numeric_item->set('field_numeric_link', [
         'uri' => 'internal:/timeline',
-        'title' => 'See timeline',
+        'title' => 'see Timeline',
       ]);
       $numeric_item->save();
       $homepage_numeric_block->get('field_numeric_items')->set($item_delta, [
@@ -95,7 +95,7 @@ function jurenites_numeric_values_post_update_add_link_labels(): TranslatableMar
 
       $numeric_item->set('field_numeric_link', [
         'uri' => 'internal:/timeline',
-        'title' => 'See timeline',
+        'title' => 'see Timeline',
       ]);
       $numeric_item->save();
       $homepage_numeric_block->get('field_numeric_items')->set($item_delta, [
@@ -112,4 +112,13 @@ function jurenites_numeric_values_post_update_add_link_labels(): TranslatableMar
   return t('Added authored labels to Numeric value links and updated @tile_count Timeline call to action.', [
     '@tile_count' => $updated_tile_count,
   ]);
+}
+
+/**
+ * Adds separate caption and caption-link fields to numeric tiles.
+ */
+function jurenites_numeric_values_post_update_add_tile_captions(): TranslatableMarkup {
+  \Drupal::moduleHandler()->loadInclude('jurenites_numeric_values', 'install');
+  jurenites_numeric_values_update_tile_captions();
+  return t('Added optional caption text and caption links to numeric tiles.');
 }

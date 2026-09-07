@@ -6,11 +6,17 @@ export function numeric_value_tile_markup({
   numeric_number,
   numeric_description,
   numeric_icon_url = "",
+  numeric_caption = "",
+  numeric_caption_link_label = "",
+  numeric_caption_link_url = "",
   numeric_link_label = "See more",
   numeric_link_url = "",
 }) {
   return render_template(numeric_value_tile_template, {
     numeric_description: escape_html(numeric_description),
+    numeric_caption: numeric_caption || numeric_caption_link_url
+      ? `<p class="numeric-values__caption">${escape_html(numeric_caption)}${numeric_caption_link_url ? ` <a class="numeric-values__caption-link" href="${escape_html(numeric_caption_link_url)}">${escape_html(numeric_caption_link_label || numeric_caption_link_url)}</a>` : ""}</p>`
+      : "",
     numeric_icon: numeric_icon_url
       ? `<img class="numeric-values__icon" src="${escape_html(numeric_icon_url)}" alt="">`
       : "",

@@ -82,9 +82,9 @@ test('numeric tiles support a separate optional link while preserving plain tile
   assert.match(numeric_template, /{{ numeric_link_label }}/);
   assert.match(numeric_template, /<div class="numeric-values__tile-content">/);
   assert.doesNotMatch(numeric_template, /<a class="numeric-values__tile-content/);
-  assert.match(numeric_story, /const PROJECT_LINK_LABEL = "See timeline";/);
+  assert.match(numeric_story, /const PROJECT_LINK_LABEL = "see Timeline";/);
   assert.match(numeric_story, /const PROJECT_LINK_URL = "\/timeline";/);
-  assert.match(numeric_install, /'title' => 'See timeline'/);
+  assert.match(numeric_install, /'title' => 'see Timeline'/);
   assert.match(timeline_install, /\$timeline_menu_link->set\('enabled', TRUE\);/);
   assert.match(timeline_install, /\$timeline_menu_link->set\('weight', 4\);/);
 });

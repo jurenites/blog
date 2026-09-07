@@ -13,7 +13,7 @@
   //max-width: calc(var(--space-scale-base-gap) * 88);
   min-height: calc(var(--space-scale-base-gap) * 8);
   //margin: calc(var(--space-scale-base-gap) * 2) auto 0;
-  padding: var(--space-scale-base-gap) calc(var(--space-scale-base-gap) * 2);
+  padding: var(--space-scale-base-gap);
   //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
   background: var(--theme-dark-surface-background-page);
   //box-shadow: var(--elevation-shadow-level-2);
@@ -29,8 +29,12 @@
 
   &__logo {
     display: block;
-    width: calc(var(--space-scale-base-gap) * 4);
-    height: calc(var(--space-scale-base-gap) * 4);
+    width: calc(var(--space-scale-base-gap) * 6);
+    height: calc(var(--space-scale-base-gap) * 6);
+  }
+
+  &__logo--lego {
+    object-fit: contain;
   }
 
   &__navigation {
@@ -91,6 +95,10 @@
     &:focus-within {
       background-color: var(--theme-dark-surface-background-elevation-level-1);
     }
+  }
+
+  &__item--home {
+    display: none;
   }
 
   &__link {
@@ -169,7 +177,7 @@
     grid-template-columns: minmax(0, 1fr) auto;
     gap: var(--space-scale-base-gap) calc(var(--space-scale-base-gap) * 2);
     width: 100%;
-    padding: var(--space-scale-base-gap) var(--layout-gutter-mobile-default);
+    padding: var(--space-scale-base-gap);
 
     &__brand {
       grid-area: brand;
@@ -185,6 +193,10 @@
       align-items: stretch;
       flex-direction: column;
       gap: var(--space-scale-base-gap);
+    }
+
+    &__item--home {
+      display: list-item;
     }
 
     &__link {

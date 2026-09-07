@@ -1,6 +1,6 @@
 name: Jurenites Timeline
 type: module
-description: Provides the editable CV timeline page and repeatable project or event records.
+description: Provides the editable CV timeline page and repeatable commercial-project records.
 package: Jurenites
 core_version_requirement: ^11
 dependencies:

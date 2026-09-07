@@ -13,9 +13,6 @@ settings:
     -
       value: project
       label: Project
-    -
-      value: event
-      label: 'Single-date event'
   allowed_values_function: ''
 module: options
 locked: false
@@ -24,4 +21,3 @@ translatable: false
 indexes: {  }
 persist_with_no_fields: false
 custom_storage: false
-

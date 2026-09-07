@@ -246,7 +246,10 @@ Select Input atom with a borderless, intrinsic-width header treatment and uses
 Drupal's enabled interface languages and URL negotiation, so it preserves the
 current route and query string. Drupal's route active trail supplies current-page
 styling, so listing query values such as `/portfolio?tag=font` do not deactivate
-the Portfolio menu item. Through the token-defined 640px mobile maximum, the
+the Portfolio menu item. The Home menu item is hidden above the mobile breakpoint;
+the desktop logo links to the front page. Home remains in the mobile menu, identified
+in Drupal by its front-page route rather than its translated label.
+Through the token-defined 640px mobile maximum, the
 24px three-line menu icon replaces the logo on the left while the language
 selector remains on the right. The icon stays white in every state. Activating
 it turns it into a cross and opens the one-level Main navigation
@@ -292,6 +295,9 @@ pages and visible Previous/Next labels appear on larger screens. At 640px and
 below, CSS automatically exposes exactly four `li.pagination__item` elements:
 left arrow, current-page number, total-page number, and right arrow. Arrow links
 retain accessible labels, but no Previous/Next text is visually displayed.
+Drupal renders first/last numbered links only when those pages are outside the
+visible numbered range, preventing duplicate boundary pages. The last-page
+label uses the pager's total page count.
 
 ## Layout
 
@@ -471,6 +477,12 @@ tree already supports adding new typed families such as shadows; gradients need
 a documented token type and formatter before they become universal theme inputs.
 
 ## Homepage background and media noise
+
+At the mobile breakpoint, the homepage hero block has eight base gaps (64px)
+of top padding. The hero photo plane is 70 base gaps (560px) wide and centered
+on the viewport, with its light overlay aligned and image `max-width` disabled.
+The hero clips the excess width to prevent horizontal page scrolling.
+The screen-light toggle is hidden at the mobile breakpoint (640px and below).
 
 The Drupal homepage uses `color.palette.full-black` as a plain background and
 does not initialize a canvas. Storybook exposes `plain-black` and the experimental

@@ -36,16 +36,21 @@ Each item contains:
 
 - Number: required short display text such as `80+`.
 - Text: subtitle text such as `Projects commercial have worked with`.
+- Caption: optional gray text on its own line below Text, using caption typography.
+- Caption link: optional URL and link text following the caption. Domain labels
+  remain gray and underlined, with the shared yellow link hover and focus ring.
+  For tracking notes, enter `*tracked with` as Caption and the domain as link text.
 - Icon image: optional attached SVG file. It renders as an external image at
   its intrinsic dimensions while preserving the file's own `viewBox` and
   aspect ratio, with an 80px maximum width guard for oversized files.
 - Link URL: optional internal or external destination with authored
-  call-to-action text. The commercial-project tile uses `See timeline` to link
+  call-to-action text. The commercial-project tile uses `see Timeline` to link
   to `/timeline` while its number and descriptive text remain plain content.
 
 The current professional-experience example stores `16` directly in Number.
-Its two current items omit Icon image, preserving the established two-tile
-presentation.
+The About page also shows three role-hour tiles, with tracking captions linking
+to `redmine.org`, `atlassian.com`, and `track.toggl.com`. Caption fields are
+optional and do not replace the separate call-to-action link.
 
 Basic pages and Articles retain the Numeric Values Paragraph in Content
 sections for existing authored compositions, while the homepage instance is a
@@ -68,38 +73,57 @@ Paragraphs field.
 Each `timeline_item` record contains:
 
 - Name
-- Type: duration-based project or single-date event
-- One or more date periods; the first Start date controls descending public
+- One or more Start/End date periods; the first Start date controls descending public
   order and Paragraph order breaks ties
 - Optional hours worked and organization, plus the organization's official URL
 - Optional short description copied or adapted from the CV
 - Repeatable proof links for live work, case studies, archived pages, or public
   Dropbox PDFs
-- Emphasis: standard, Featured star, or Special place in my heart
+- Emphasis: standard, Featured with the official `star-outline.svg`, or Special
+  place in my heart with the official `heart-outline.svg`
+
+Hours worked remains available to editors and stored on each record, but is not
+rendered on the public Timeline.
 
 Project dates from the CV have month precision. They are stored on the first day
-of their month for sorting but displayed only as month and year. A precise
-single-date event, such as November 9, 2023, retains and displays its day.
-Every completed year occupies the same twelve-row calendar height, with December
-at the top and January at the bottom so scrolling moves backward through time.
-The current year begins with the current month and does not render months that
-have not started. Duration records use an 8px-wide bar aligned to their calendar
-months; single-date events use an 8 × 8px milestone positioned within their
-month. Overlapping projects take the first free one of four parallel lanes. If
-more than four ranges overlap, the shared marker uses a 45-degree
-yellow-and-white stripe. The year heading sticks until the next year replaces it.
+of their month for sorting but displayed only as month and year. A one-month
+project uses the same month for its Start and End values and still renders as a
+duration bar.
+Every completed year's calendar rail occupies the same twelve 32px rows, with
+December at the top and January at the bottom so scrolling moves backward
+through time. Its right-side project details may make the overall year section
+taller. The current year begins with the current month and does not render
+months that have not started. Duration records use an 8px-wide bar spanning
+exactly the inclusive start and end months, with a small visual break between
+adjacent projects. Overlapping projects take the first free one of four
+parallel lanes. If more than four ranges overlap, the shared marker uses a
+45-degree yellow-and-white stripe. The year heading sticks until the next year
+replaces it.
 
 An organization appears as a large linked heading in the same left rail as the
 year. It remains sticky while years, including empty years, pass below it and is
 pushed away only when the next employer transition reaches the rail. It is not
-repeated for every project. The sequence includes empty calendar years and ends
-with the January 18, 1989 birth milestone.
+repeated for every project. The rendered sequence ends at 2010.
 
 The starter node contains the 72 commercial projects transcribed from the
-current CV plus two authored personal milestones. Later edits happen through the
-single Timeline node form; adding another item creates a Paragraph revision, not
-a node ID. Timeline is linked from the bottom of the footer Information menu,
-not from the primary navigation.
+current CV and no personal milestones. Every commercial project also
+includes its CV description. The 81 URLs explicitly embedded in the CV are
+stored as clickable proof links, including live project pages, Figma and Moqups
+work, App Store listings, and historical Dropbox PDFs; projects without a
+documented URL do not receive a guessed link. Each year keeps its compact 32px
+month scale in a narrow left rail with up to four parallel duration tracks. The
+corresponding project descriptions and links form a wider, left-aligned column
+on the right; dense years grow so those entries stack instead of overlapping.
+When a project has a CV-documented URL, its title links directly to the first
+stored destination; the remaining proof links stay visible below its summary.
+Later edits happen through the single Timeline node form; adding another item
+creates a Paragraph revision, not a node ID. Timeline is linked from the bottom
+of the footer Information menu, not from the primary navigation.
+
+The current Paragraph editor exposes repeatable Start and End date inputs. Its
+drag-and-drop mode changes item order only; it does not change dates or resolve
+overlap. A visual month-grid editor would therefore be a separate admin widget,
+not a capability of the installed Paragraphs date-range control.
 
 ## Project
 
@@ -234,6 +258,29 @@ explains that these are personally recommended videos for learning, including
 topics not covered elsewhere on the site. Blog keeps its editorial list layout.
 Article Back and Tag links
 return to the listing appropriate to the Article kind.
+
+The shared Tags term `#lego` is available for personal builds in `/blog` and
+videos in `/videos`; their filter URLs are `/blog?tag=lego` and
+`/videos?tag=lego`. The Blog install helper and
+`jurenites_blog_post_update_add_lego_tag()` ensure one canonical term without
+assigning it to existing content. Select it in the existing Article Tags field.
+
+The shared site-branding block uses the LEGO photograph whenever the current
+page selects `?tag=lego`, displays the LEGO taxonomy term, or is a canonical
+content page with that tag in `field_tags`. Unfiltered and other-tag pages keep
+the configured logo; there is no persistent browser preference. Branding cache
+metadata varies by route, tag query, and permissions, and invalidates when
+taxonomy terms or the current content change. The existing mobile navigation
+continues to hide the brand when its enhanced menu is active.
+
+The image source is `src/public/assets/images/jurenites-lego-logo-square-v2.png`, copied
+to the theme by `npm run build:theme`. It is an AI-assisted color edit of
+Alexander Ilivanov's physical build, with a near-white baseplate and dark navy
+bricks. Image-edit provenance and the exact prompt are in
+`output/imagegen/lego-logo-edit.txt`. The Site Header `lego_tag` Storybook example
+uses the same asset and SCSS modifier. Both header logos are 48 × 48px,
+with sizing in SCSS. The LEGO image preserves the original square framing
+and uses `object-fit: contain` so the full photograph remains visible.
 
 The creator name, link, publication date, and channel avatar URL are treated as
 managed metadata and hidden from non-administrator Article forms, together with

@@ -171,6 +171,9 @@
   &__item {
     min-width: 0;
   }
+  @include tools.breakpoint-down("mobile-max") {
+    gap: var(--space-scale-base-gap);
+  }
 }
 
 .article-list {

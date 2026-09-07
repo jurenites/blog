@@ -13,6 +13,7 @@ use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
 
 const JURENITES_TIMELINE_MAXIMUM_LANES = 4;
+const JURENITES_TIMELINE_FIRST_YEAR = 2010;
 
 /**
  * Implements hook_preprocess_node().
@@ -31,10 +32,25 @@ function jurenites_timeline_preprocess_node(array &$node_variables): void {
     }
 
     $timeline_paragraph = \Drupal::service('entity.repository')->getTranslationFromContext($timeline_paragraph);
+    if ((string) $timeline_paragraph->get('field_timeline_kind')->value !== 'project') {
+      continue;
+    }
     $timeline_item = jurenites_timeline_build_item($timeline_paragraph);
     $timeline_item['editorial_order'] = $item_delta;
     $timeline_items[] = $timeline_item;
   }
+
+  $timeline_items = array_values(array_filter(
+    $timeline_items,
+    static function (array $timeline_item): bool {
+      foreach ($timeline_item['periods'] as $timeline_period) {
+        if ($timeline_period['end_year'] >= JURENITES_TIMELINE_FIRST_YEAR) {
+          return TRUE;
+        }
+      }
+      return FALSE;
+    },
+  ));
 
   usort(
     $timeline_items,
@@ -89,7 +105,6 @@ function jurenites_timeline_preprocess_node(array &$node_variables): void {
  * Builds one safe, sortable Timeline item presentation record.
  */
 function jurenites_timeline_build_item(ParagraphInterface $timeline_paragraph): array {
-  $timeline_kind = (string) ($timeline_paragraph->get('field_timeline_kind')->value ?: 'project');
   $timeline_periods = [];
   $primary_start_date = '';
 
@@ -105,7 +120,7 @@ function jurenites_timeline_build_item(ParagraphInterface $timeline_paragraph): 
 
     $period_start_date = new DrupalDateTime($period_start_value, 'UTC');
     $period_end_date = new DrupalDateTime($period_end_value, 'UTC');
-    $date_format_pattern = $timeline_kind === 'event' ? 'M j, Y' : 'M Y';
+    $date_format_pattern = 'M Y';
     $timeline_periods[] = [
       'start_iso' => $period_start_date->format('Y-m-d'),
       'end_iso' => $period_end_date->format('Y-m-d'),
@@ -115,7 +130,6 @@ function jurenites_timeline_build_item(ParagraphInterface $timeline_paragraph): 
       'end_year' => (int) $period_end_date->format('Y'),
       'start_month' => (int) $period_start_date->format('n'),
       'end_month' => (int) $period_end_date->format('n'),
-      'start_day' => (int) $period_start_date->format('j'),
       'start_month_number' => ((int) $period_start_date->format('Y') * 12) + (int) $period_start_date->format('n'),
       'end_month_number' => ((int) $period_end_date->format('Y') * 12) + (int) $period_end_date->format('n'),
       'is_range' => $period_start_date->format($date_format_pattern) !== $period_end_date->format($date_format_pattern),
@@ -147,13 +161,16 @@ function jurenites_timeline_build_item(ParagraphInterface $timeline_paragraph): 
 
   return [
     'item_name' => (string) $timeline_paragraph->get('field_timeline_name')->value,
-    'item_kind' => $timeline_kind,
+    'item_kind' => 'project',
     'organization_name' => (string) $timeline_paragraph->get('field_timeline_organization')->value,
     'organization_url' => $organization_url,
     'periods' => $timeline_periods,
     'hours_label' => $timeline_hours === NULL ? '' : (string) t('@hours h', ['@hours' => number_format((int) $timeline_hours)]),
     'summary_markup' => $timeline_summary,
     'proof_links' => $proof_links,
+    'primary_project_url' => $proof_links !== []
+      ? $proof_links[0]['url']
+      : '',
     'emphasis_kind' => (string) ($timeline_paragraph->get('field_timeline_emphasis')->value ?: 'standard'),
     'sort_date' => $primary_start_date ?: '0000-01-01',
   ];
@@ -232,11 +249,15 @@ function jurenites_timeline_build_year_groups(
       }
       $visible_end_year = min($timeline_period['end_year'], $current_year);
       $maximum_year = max($maximum_year, $visible_end_year);
-      $minimum_year = min($minimum_year, $timeline_period['start_year']);
+      $minimum_year = min(
+        $minimum_year,
+        max($timeline_period['start_year'], JURENITES_TIMELINE_FIRST_YEAR),
+      );
       $assignment_key = $item_index . ':' . $period_index;
       $lane_assignment = $lane_assignments[$assignment_key];
 
-      for ($fragment_year = $visible_end_year; $fragment_year >= $timeline_period['start_year']; $fragment_year--) {
+      $visible_start_year = max($timeline_period['start_year'], JURENITES_TIMELINE_FIRST_YEAR);
+      for ($fragment_year = $visible_end_year; $fragment_year >= $visible_start_year; $fragment_year--) {
         $fragment_start_month = $fragment_year === $timeline_period['start_year']
           ? $timeline_period['start_month']
           : 1;
@@ -253,7 +274,8 @@ function jurenites_timeline_build_year_groups(
           'item_kind' => $timeline_item['item_kind'],
           'hours_label' => $timeline_item['hours_label'],
           'summary_markup' => $period_index === 0 ? $timeline_item['summary_markup'] : NULL,
-          'proof_links' => $period_index === 0 ? $timeline_item['proof_links'] : [],
+          'proof_links' => $period_index === 0 ? array_slice($timeline_item['proof_links'], 1) : [],
+          'primary_project_url' => $timeline_item['primary_project_url'],
           'emphasis_kind' => $timeline_item['emphasis_kind'],
           'organization_heading' => $period_index === 0 ? $timeline_item['organization_heading'] : NULL,
           'period' => $timeline_period,
@@ -263,7 +285,6 @@ function jurenites_timeline_build_year_groups(
           'ending_month' => $fragment_end_month,
           'row_start' => $visible_month_count - $fragment_end_month + 1,
           'month_span' => $fragment_end_month - $fragment_start_month + 1,
-          'day_number' => $timeline_period['start_day'],
           'sort_date' => $show_details ? $timeline_period['start_iso'] : sprintf('%04d-12-31', $fragment_year),
         ];
       }
@@ -312,6 +333,10 @@ function jurenites_timeline_build_year_groups(
       'visible_month_count' => $year_number === $current_year ? $current_month : 12,
       'timeline_months' => $timeline_months,
       'timeline_fragments' => $timeline_fragments,
+      'timeline_details' => array_values(array_filter(
+        $timeline_fragments,
+        static fn (array $timeline_fragment): bool => $timeline_fragment['show_details'],
+      )),
     ];
   }
 

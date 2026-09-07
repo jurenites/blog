@@ -1,3 +1,4 @@
+import { install_message_toasts } from './message-toast.js';
 import { initialize_pixel_glyph_editors } from './pixel-glyph-editor.js';
 import { initialize_numeric_value_counters } from './numeric-values.js';
 import { initialize_hero_sections } from './hero-section.js';
@@ -878,6 +879,7 @@ export function initialize_cookie_policy_notices(cookie_notice_context) {
 }
 
 if (typeof Drupal !== 'undefined') {
+  install_message_toasts(Drupal);
   Drupal.behaviors.jurenites_timeline_organization = {
     attach(timeline_context) {
       initialize_timeline_organization_rails(timeline_context);

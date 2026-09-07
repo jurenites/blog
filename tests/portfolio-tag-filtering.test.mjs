@@ -38,6 +38,10 @@ const MAIN_MENU_TEMPLATE_SOURCE = readFileSync(
   "web/themes/custom/jurenites_theme/templates/navigation/menu--main.html.twig",
   "utf8",
 );
+const GLOBAL_STYLES_SOURCE = readFileSync(
+  "src/slice/src/scss/base/_global.scss",
+  "utf8",
+);
 
 test("Footer Navigation composes the shared gray Badge for the font count", () => {
   assert.match(FOOTER_MARKUP_SOURCE, /import \{ badge_markup \}/);
@@ -87,4 +91,8 @@ test("Main navigation uses Drupal's route active trail instead of an exact query
   assert.match(MAIN_MENU_TEMPLATE_SOURCE, /menu_item\.in_active_trail/);
   assert.match(MAIN_MENU_TEMPLATE_SOURCE, /'aria-current': 'page'/);
   assert.match(MAIN_MENU_TEMPLATE_SOURCE, /\['site-header__link', 'is-active'\]/);
+});
+
+test("Global link defaults leave main navigation active colors to the header", () => {
+  assert.match(GLOBAL_STYLES_SOURCE, /a:not\(\.button\):not\(\.site-header__link\)/);
 });

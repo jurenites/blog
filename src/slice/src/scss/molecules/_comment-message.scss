@@ -77,7 +77,7 @@
 
 .comment-message__bubble::before {
   position: absolute;
-  top: calc(var(--space-scale-base-gap) * 2);
+  top: calc(var(--space-scale-base-gap) * 2.4);
   left: calc(var(--space-scale-base-gap) * -0.75);
   width: calc(var(--space-scale-base-gap) * 2);
   height: calc(var(--space-scale-base-gap) * 2);

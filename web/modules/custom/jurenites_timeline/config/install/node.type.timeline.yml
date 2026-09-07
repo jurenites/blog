@@ -3,9 +3,8 @@ status: true
 dependencies: {  }
 name: Timeline
 type: timeline
-description: 'One long-form chronology containing repeatable commercial projects and single-date events.'
+description: 'One long-form chronology containing repeatable commercial projects.'
 help: null
 new_revision: true
 preview_mode: 1
 display_submitted: false
-

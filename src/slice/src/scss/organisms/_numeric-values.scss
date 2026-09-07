@@ -133,3 +133,14 @@
     transform: translateY(-1em);
   }
 }
+
+.numeric-values__caption {
+  margin: 0;
+  color: var(--theme-dark-text-gray);
+  @include tools.typography-caption;
+  overflow-wrap: anywhere;
+}
+
+body.jurenites-theme .numeric-values__caption-link:not(:hover) {
+  color: var(--theme-dark-text-gray);
+}

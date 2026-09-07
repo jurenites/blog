@@ -5,6 +5,5 @@ id: timeline_item
 label: 'Timeline item'
 icon_uuid: null
 icon_default: null
-description: 'A duration-based commercial project or a single-date milestone.'
+description: 'A duration-based commercial project with one or more Start and End date periods.'
 behavior_plugins: {  }
-

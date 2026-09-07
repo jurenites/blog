@@ -6,6 +6,14 @@
     {% endif %}
     <h2 class="numeric-values__number">{{ numeric_value_text }}</h2>
     <p class="numeric-values__description">{{ paragraph.field_numeric_description.value }}</p>
+    {% if paragraph.field_numeric_caption.value or numeric_caption_link_url %}
+      <p class="numeric-values__caption">
+        {{ paragraph.field_numeric_caption.value }}
+        {% if numeric_caption_link_url %}
+          <a class="numeric-values__caption-link" href="{{ numeric_caption_link_url }}">{{ numeric_caption_link_label }}</a>
+        {% endif %}
+      </p>
+    {% endif %}
     {% if numeric_link_url %}
       <a class="numeric-values__link" href="{{ numeric_link_url }}">{{ numeric_link_label }}</a>
     {% endif %}

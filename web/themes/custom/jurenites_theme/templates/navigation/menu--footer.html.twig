@@ -28,10 +28,36 @@
           {% endfor %}
         </ul>
       </nav>
+      <nav aria-label="{{ 'How I work'|t }}">
+        <h2 class="footer-navigation__heading">{{ 'How I work'|t }}</h2>
+        <ul class="footer-navigation__list">
+          {% for how_i_work_link in how_i_work_links %}
+            <li class="footer-navigation__item">
+              <a class="footer-navigation__link footer-navigation__resource-link{% if how_i_work_link.color_token %} footer-navigation__resource-link--{{ how_i_work_link.color_token }}{% endif %}" href="{{ how_i_work_link.link_url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ how_i_work_link.link_label }}: {{ how_i_work_link.hover_label }} ({{ 'opens in a new window'|t }})">
+                {% include '@jurenites_theme/components/icon.html.twig' with {
+                  icon_name: how_i_work_link.icon_name,
+                  icon_class: 'footer-navigation__resource-icon',
+                  icon_asset_base_url: icon_asset_base_url
+                } only %}
+                <span class="footer-navigation__resource-label" aria-hidden="true">
+                  <span class="footer-navigation__resource-label-text footer-navigation__resource-label-text--default">{{ how_i_work_link.link_label }}</span>
+                  <span class="footer-navigation__resource-label-text footer-navigation__resource-label-text--hover">{{ how_i_work_link.hover_label }}</span>
+                </span>
+              </a>
+            </li>
+          {% endfor %}
+          {% for footer_item in items if footer_item.title|lower in ['cookbook', 'guidelines'] %}
+            <li class="footer-navigation__item">
+              <a href="{{ footer_item.url }}" class="footer-navigation__link"><span class="footer-navigation__link-label">{{ footer_item.title|lower == 'guidelines' ? 'Guideline'|t : footer_item.title }}</span></a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
       <nav aria-label="{{ 'Information'|t }}">
         <h2 class="footer-navigation__heading">{{ 'Information'|t }}</h2>
         <ul class="footer-navigation__list">
           {% for footer_item in items %}
+            {% if footer_item.title|lower not in ['cookbook', 'guidelines'] %}
             {% set footer_link_classes = ['footer-navigation__link'] %}
             {% if footer_item.font_project_badge %}
               {% set footer_link_classes = footer_link_classes|merge(['footer-navigation__link--with-badge']) %}
@@ -44,6 +70,7 @@
                 {% endif %}
               </a>
             </li>
+            {% endif %}
           {% endfor %}
         </ul>
       </nav>

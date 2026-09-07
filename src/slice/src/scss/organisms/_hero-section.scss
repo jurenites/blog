@@ -239,9 +239,29 @@ $hero-photo-right-offset: 80px;
 @include tools.breakpoint-down("tablet-max") {
   @include hero-stacked-layout;
 
-  // Clear the homepage navigation so it does not blur the small portrait.
-  .jurenites-front-page .hero-section__scene {
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .hero-section__light-toggle:not([hidden]) {
+    display: none;
+  }
+
+  #block-jurenites-theme-homepage-hero {
     padding-top: calc(var(--space-scale-base-gap) * 8);
+  }
+
+  .hero-section__scene {
+    min-width: 0;
+    padding: 0;
+  }
+
+  .hero-section__photo-plane {
+    width: calc(var(--space-scale-base-gap) * 70);
+    margin-inline-start: calc(50% - (var(--space-scale-base-gap) * 35));
+  }
+
+  .hero-section__image {
+    max-width: none;
   }
 }
 

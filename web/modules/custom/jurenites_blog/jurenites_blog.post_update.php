@@ -17,6 +17,17 @@ use Drupal\node\Entity\NodeType;
 use Drupal\views\Entity\View;
 
 /**
+ * Adds the shared LEGO tag for builds and videos.
+ */
+function jurenites_blog_post_update_add_lego_tag(): TranslatableMarkup {
+  \Drupal::moduleHandler()->loadInclude('jurenites_blog', 'install');
+  $lego_term = jurenites_blog_ensure_lego_tag();
+  return t('Added the shared #lego tag (@term_id) for builds and videos.', [
+    '@term_id' => $lego_term->id(),
+  ]);
+}
+
+/**
  * Backfills Image fields for existing Articles with YouTube videos.
  */
 function jurenites_blog_post_update_youtube_thumbnails(array &$update_sandbox): TranslatableMarkup {

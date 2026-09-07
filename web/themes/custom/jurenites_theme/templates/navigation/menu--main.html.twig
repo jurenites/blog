@@ -8,7 +8,8 @@
           'aria-current': 'page',
         }) %}
       {% endif %}
-      <li class="site-header__item">
+      {% set is_home_link = (menu_item.url.isRouted and menu_item.url.routeName == '<front>') or menu_item.url.toString == path('<front>') %}
+      <li class="site-header__item{% if is_home_link %} site-header__item--home{% endif %}">
         {{ link(menu_item.title, menu_item.url, link_attributes) }}
       </li>
     {% endfor %}

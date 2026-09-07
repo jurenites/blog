@@ -12,7 +12,7 @@
 
 .footer-navigation__columns {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: calc(var(--space-scale-base-gap) * 4);
 }
 
@@ -48,6 +48,41 @@ body.jurenites-theme a.footer-navigation__link--with-badge {
 .footer-navigation__link--with-badge .footer-navigation__link-label {
   text-decoration: underline;
   text-decoration-thickness: var(--space-scale-one);
+}
+
+.footer-navigation__resource-link {
+  .footer-navigation__resource-label {
+    display: inline-grid;
+  }
+
+  .footer-navigation__resource-label-text {
+    grid-area: 1 / 1;
+  }
+
+  .footer-navigation__resource-label-text--hover {
+    visibility: hidden;
+  }
+
+  &:hover,
+  &:focus-visible {
+    .footer-navigation__resource-label-text--default {
+      visibility: hidden;
+    }
+
+    .footer-navigation__resource-label-text--hover {
+      visibility: visible;
+    }
+  }
+}
+
+.footer-navigation__resource-link--storybook:hover,
+.footer-navigation__resource-link--storybook:focus-visible {
+  color: var(--component-footer-navigation-storybook-color-hover);
+}
+
+.footer-navigation__resource-icon {
+  width: var(--component-footer-navigation-social-icon-size-default);
+  height: var(--component-footer-navigation-social-icon-size-default);
 }
 
 .footer-navigation__rights-message {

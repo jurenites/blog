@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 1.25.0
+Version: 1.40.1
 Reviewed: 2026-09-07
 
 This checkpoint says the `/docs` folder has been reviewed against the current
@@ -27,6 +27,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   component behavior, no documentation bump is required.
 
 ## Current Source Contract
+
+- `/contact` ends with an editable complete desk photograph in cool grayscale.
+  The Contact photograph block shares responsive styling with Storybook and
+  remains independent of the disabled layered scene. See `contact-photo.md`.
 
 - Development starts from conversational tasks, with brief plans for substantial
   or expensive-to-reverse changes and durable decisions kept in existing docs.

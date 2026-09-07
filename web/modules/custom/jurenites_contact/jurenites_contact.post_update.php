@@ -8,6 +8,13 @@
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
+ * Adds an editable complete photograph below the Contact form.
+ */
+function jurenites_contact_post_update_add_desk_photograph(): void {
+  jurenites_contact_photo_setup();
+}
+
+/**
  * Adds a server-validated maximum length to the public contact message.
  */
 function jurenites_contact_post_update_bound_message_length(): TranslatableMarkup {
@@ -70,4 +77,17 @@ function jurenites_contact_post_update_add_contact_placeholders(): TranslatableM
   $contact_webform->save();
 
   return t('Added placeholders to the Contact Webform fields.');
+}
+
+/**
+ * Stops recreating the previous-submissions reminder on each Contact visit.
+ */
+function jurenites_contact_post_update_disable_previous_submission_notice(): TranslatableMarkup {
+  $contact_webform = \Drupal::entityTypeManager()->getStorage('webform')->load('contact');
+  if (!$contact_webform) {
+    return t('The Contact Webform was not found; no reminder setting was changed.');
+  }
+  $contact_webform->setSetting('form_previous_submissions', FALSE);
+  $contact_webform->save();
+  return t('Disabled the repeated previous-submissions reminder on Contact.');
 }

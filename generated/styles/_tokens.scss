@@ -120,9 +120,13 @@
   --layout-container-max-desktop-default: 1440px;
   --layout-content-max-blog-default: 800px;
   --layout-content-max-wide-default: 960px;
+  --layout-content-max-timeline-default: 1280px;
   --layout-gutter-mobile-default: 16px;
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
+  --component-contact-photo-max-width-default: 1600px;
+  --component-contact-photo-edge-fade-width-default: 100px;
+  --component-contact-photo-background-color: var(--component-hero-section-background-edge-color);
   --component-site-header-backdrop-color-default: #00020780;
   --component-site-header-backdrop-blur-default: 12px;
   --component-site-header-backdrop-fade-height-default: 32px;
@@ -148,6 +152,10 @@
   --component-footer-navigation-youtube-color-hover: #FF0033;
   --component-footer-navigation-soundcloud-color-hover: #FF5500;
   --component-footer-navigation-steam-color-hover: #66C0F4;
+  --component-footer-navigation-storybook-color-hover: #FF4785;
+  --component-message-toast-width-default: 420px;
+  --component-message-toast-top-offset-default: 112px;
+  --component-message-toast-layer-default: 10001;
   --component-cookie-policy-notice-layer-default: 9000;
   --component-article-teaser-grid-card-min-width-default: 240px;
   --component-article-teaser-list-media-min-width-default: 180px;
@@ -210,7 +218,7 @@
   --component-timeline-marker-size-default: var(--space-scale-base-gap);
   --component-timeline-marker-size-active: 40px;
   --component-timeline-line-width-default: var(--shape-border-width-hairline-default);
-  --component-timeline-month-height-default: 96px;
+  --component-timeline-month-height-default: 32px;
   --component-timeline-sticky-layer-default: 20;
   --component-media-loader-progress-height-default: 1px;
   --component-progressive-image-skeleton-cycle-default: 1600ms;
