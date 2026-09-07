@@ -25,7 +25,48 @@ const glyph_group_labels = {
 };
 
 function translated_label(source_label) {
-  return typeof Drupal !== "undefined" ? Drupal.t(source_label) : source_label;
+  if (typeof Drupal === "undefined") {
+    return source_label;
+  }
+  // Literal calls let Drupal extract these labels into its browser catalogue.
+  const translated_labels = {
+    "Numbers": Drupal.t("Numbers"),
+    "Latin capital letters": Drupal.t("Latin capital letters"),
+    "Roundabout extended capital letters": Drupal.t("Roundabout extended capital letters"),
+    "Latin lowercase letters": Drupal.t("Latin lowercase letters"),
+    "Cyrillic capital letters": Drupal.t("Cyrillic capital letters"),
+    "Cyrillic lowercase letters": Drupal.t("Cyrillic lowercase letters"),
+    "Greek capital letters": Drupal.t("Greek capital letters"),
+    "Roundabout alternate glyph set": Drupal.t("Roundabout alternate glyph set"),
+    "Greek lowercase letters": Drupal.t("Greek lowercase letters"),
+    "Keyboard symbols": Drupal.t("Keyboard symbols"),
+    "Hide additional glyphs": Drupal.t("Hide additional glyphs"),
+    "Show additional glyphs": Drupal.t("Show additional glyphs"),
+    "Displayed Unicode mappings": Drupal.t("Displayed Unicode mappings"),
+    "Family": Drupal.t("Family"),
+    "Style": Drupal.t("Style"),
+    "Full name": Drupal.t("Full name"),
+    "PostScript name": Drupal.t("PostScript name"),
+    "Version": Drupal.t("Version"),
+    "Copyright": Drupal.t("Copyright"),
+    "License": Drupal.t("License"),
+    "License URL": Drupal.t("License URL"),
+    "Designer": Drupal.t("Designer"),
+    "Description": Drupal.t("Description"),
+    "Units per em": Drupal.t("Units per em"),
+    "Ascender": Drupal.t("Ascender"),
+    "Descender": Drupal.t("Descender"),
+    "Glyph count": Drupal.t("Glyph count"),
+    "Not embedded": Drupal.t("Not embedded"),
+    "Glyph details": Drupal.t("Glyph details"),
+    "Inspect": Drupal.t("Inspect"),
+    "Character": Drupal.t("Character"),
+    "Glyph": Drupal.t("Glyph"),
+    "Unicode": Drupal.t("Unicode"),
+    "drawable Unicode mappings": Drupal.t("drawable Unicode mappings"),
+    "Font details could not load. The local download is still available.": Drupal.t("Font details could not load. The local download is still available."),
+  };
+  return translated_labels[source_label] ?? Drupal.t(source_label);
 }
 
 export function load_font_asset(font_url) {
@@ -197,7 +238,7 @@ function render_metadata_table(metadata_body, font_record, displayed_mapping_cou
     const table_value = owner_document.createElement("td");
     table_heading.scope = "row";
     table_heading.textContent = translated_label(metadata_label);
-    table_value.textContent = metadata_value;
+    table_value.textContent = metadata_value === "Not embedded" ? translated_label(metadata_value) : metadata_value;
     table_row.append(table_heading, table_value);
     return table_row;
   });

@@ -243,6 +243,7 @@ function jurenites_theme_add_news_metadata(array &$node_variables): void {
       continue;
     }
 
+    $tag_entity = \Drupal::service('entity.repository')->getTranslationFromContext($tag_entity);
     $node_variables['news_tag_names'][] = $tag_entity->label();
     CacheableMetadata::createFromObject($tag_entity)
       ->applyTo($node_variables['elements']);
@@ -877,7 +878,7 @@ function jurenites_theme_preprocess_field(array &$field_variables): void {
     }
 
     $item_variables['content']['#url'] = Url::fromUserInput($listing_path, [
-      'query' => ['tag' => $tag_slug_resolver->slugify($referenced_term->label())],
+      'query' => ['tag' => $tag_slug_resolver->slugify($referenced_term->getUntranslated()->label())],
     ]);
     $item_variables['content']['#attributes']['class'][] = 'chip';
   }
@@ -922,7 +923,7 @@ function jurenites_theme_preprocess_views_view(array &$view_variables): void {
     return;
   }
 
-  $view_variables['selected_tag_label'] = $selected_term->label();
+  $view_variables['selected_tag_label'] = \Drupal::service('entity.repository')->getTranslationFromContext($selected_term)->label();
   $listing_path = $listing_path_by_display[$listing_display_key];
   $view_variables['clear_tag_url'] = Url::fromUserInput($listing_path);
   if ($listing_display_key !== 'portfolio:page_1') {
@@ -987,11 +988,11 @@ function jurenites_theme_add_portfolio_tag_options(
       }
 
       $tag_list_cacheability->addCacheableDependency($tag_term);
-      $tag_slug = $tag_slug_resolver->slugify($tag_term->label());
+      $tag_slug = $tag_slug_resolver->slugify($tag_term->getUntranslated()->label());
       $is_selected = $selected_term instanceof TermInterface
         && (int) $selected_term->id() === (int) $tag_term->id();
       $portfolio_tag_options[(int) $tag_term->id()] = [
-        'label' => $tag_term->label(),
+        'label' => \Drupal::service('entity.repository')->getTranslationFromContext($tag_term)->label(),
         'url' => $is_selected
           ? Url::fromUserInput('/portfolio')
           : Url::fromUserInput('/portfolio', ['query' => ['tag' => $tag_slug]]),

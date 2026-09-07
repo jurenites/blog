@@ -1,16 +1,4 @@
-<li class="timeline__item timeline__item--{{item_kind}}">
-  <span class="timeline__marker{{duration_marker_classes}}" aria-hidden="true"></span>
-  <article class="timeline__item-content">
-    <header class="timeline__item-header">
-      <h3 class="timeline__item-title">{{item_name}}</h3>
-      {{emphasis_markup}}
-    </header>
-    <div class="timeline__metadata">
-      {{periods_markup}}
-      {{duration_markup}}
-      {{hours_markup}}
-      {{organization_markup}}
-    </div>
-    {{summary_markup}}
-  </article>
+<li class="timeline__item timeline__item--{{item_kind}} timeline__item--lane-{{lane_number}} timeline__item--ending-month-{{ending_month}} timeline__item--month-span-{{month_span}}{{day_class_name}}{{overlap_class_name}}">
+  <span class="timeline__marker{{duration_marker_class_name}}" aria-hidden="true"></span>
+  {{item_content_markup}}
 </li>

@@ -26,37 +26,60 @@ test("Timeline uses one node with repeatable non-node item records", async () =>
   assert.match(period_storage_config, /cardinality: -1/);
 });
 
-test("Starter timeline contains the complete CV project list and exact personal event", async () => {
+test("Starter timeline contains the complete CV project list and exact personal events", async () => {
   const [timeline_data, installer_source] = await Promise.all([
     read_project_file(TIMELINE_MODULE_PATH + "/data/timeline-items.php"),
     read_project_file(TIMELINE_MODULE_PATH + "/jurenites_timeline.install"),
   ]);
   const item_count = (timeline_data.match(/\['name' =>/g) ?? []).length;
 
-  assert.equal(item_count, 73);
+  assert.equal(item_count, 74);
   assert.match(timeline_data, /'2023-11-09', '2023-11-09'/);
+  assert.match(timeline_data, /'1989-01-18', '1989-01-18'/);
   assert.match(timeline_data, /'name' => 'Mullikin Law'.*'emphasis' => 'heart'/);
   assert.match(timeline_data, /'name' => 'Accountia'.*'emphasis' => 'featured'/);
   assert.match(installer_source, /'alias' => '\/timeline'/);
   assert.match(installer_source, /'menu_name' => 'main'/);
 });
 
-test("Timeline rendering provides sticky years, exact markers, and shared heart geometry", async () => {
-  const [timeline_template, timeline_styles, heart_icon, timeline_story] = await Promise.all([
+test("Timeline rendering provides calendar years, parallel overlap lanes, and shared heart geometry", async () => {
+  const [timeline_template, timeline_styles, heart_icon, timeline_story, timeline_tokens] = await Promise.all([
     read_project_file(TIMELINE_THEME_TEMPLATE),
     read_project_file("src/slice/src/scss/organisms/_timeline.scss"),
     read_project_file("src/public/assets/icons/heart-timeline.svg"),
     read_project_file("src/stories/organisms/timeline/timeline.stories.js"),
+    read_project_file("src/token/tokens.yaml"),
   ]);
 
   assert.match(timeline_template, /timeline__year-heading/);
   assert.match(timeline_template, /timeline__marker--duration/);
+  assert.doesNotMatch(timeline_template, /timeline__duration/);
+  assert.match(timeline_template, /timeline__organization-link/);
+  assert.match(timeline_template, /timeline__proof-links/);
   assert.match(timeline_template, /heart-timeline/);
   assert.doesNotMatch(timeline_template, /\s(?:style|width|height)=/);
   assert.match(timeline_styles, /position: sticky/);
   assert.match(timeline_styles, /content-visibility: auto/);
   assert.match(timeline_styles, /component-timeline-marker-size-default/);
+  assert.match(timeline_styles, /repeat\(12, var\(--component-timeline-month-height-default\)\)/);
+  assert.match(timeline_styles, /repeating-linear-gradient/);
+  assert.match(timeline_styles, /@for \$lane_number from 1 through 4/);
+  assert.match(timeline_tokens, /month-height-default: 96px/);
   assert.match(heart_icon, /viewBox="0 0 24 24"/);
   assert.match(heart_icon, /stroke-width="1"/);
   assert.match(timeline_story, /Organisms\/Timeline/);
+});
+
+test("Timeline editor provides short descriptions and repeatable proof links", async () => {
+  const [summary_field, proof_storage, proof_field, organization_field] = await Promise.all([
+    read_project_file(TIMELINE_MODULE_PATH + "/config/install/field.field.paragraph.timeline_item.field_timeline_summary.yml"),
+    read_project_file(TIMELINE_MODULE_PATH + "/config/install/field.storage.paragraph.field_timeline_proof_links.yml"),
+    read_project_file(TIMELINE_MODULE_PATH + "/config/install/field.field.paragraph.timeline_item.field_timeline_proof_links.yml"),
+    read_project_file(TIMELINE_MODULE_PATH + "/config/install/field.field.paragraph.timeline_item.field_timeline_organization_url.yml"),
+  ]);
+
+  assert.match(summary_field, /label: 'Short description'/);
+  assert.match(proof_storage, /cardinality: -1/);
+  assert.match(proof_field, /Dropbox PDF links/);
+  assert.match(organization_field, /Official company website/);
 });

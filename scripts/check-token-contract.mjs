@@ -11,6 +11,8 @@ const SOURCE_EXTENSIONS = new Set([".css", ".html", ".js", ".mjs", ".scss", ".tw
 const STYLE_EXTENSIONS = new Set([".css", ".html", ".scss"]);
 const IGNORED_PATHS = new Set([
   "src/token/tokens.yaml",
+  // Rollup embeds generated token values here; its handwritten inputs are checked.
+  "scripts/figma/dist/plugin.js",
   "web/themes/custom/jurenites_theme/css/ckeditor5.min.css",
   "web/themes/custom/jurenites_theme/css/style.min.css",
   "web/themes/custom/jurenites_theme/js/font-preview.min.js",
@@ -170,7 +172,11 @@ for (const scan_directory of SCAN_DIRECTORIES) {
 
     if (extname(source_path) === ".scss") {
       if (relative_path.startsWith(SHARED_THEME_SCSS_PREFIX)) {
-        const uncommented_source = source_without_style_comments(source_content);
+        const uncommented_source = source_without_style_comments(source_content)
+          // Two author-adjusted photograph coordinates, explicitly kept local.
+          .replace(relative_path === "src/slice/src/scss/organisms/_hero-section.scss"
+            ? /^\$hero-photo-(?:top|right)-offset:\s*\d+(?:\.\d+)?px;/gm : /$^/g,
+          (source_match) => " ".repeat(source_match.length));
         for (const dimension_match of uncommented_source.matchAll(HARDCODED_PIXEL_DIMENSION_PATTERN)) {
           const line_number = uncommented_source.slice(0, dimension_match.index).split("\n").length;
           contract_errors.push(`${relative_path}:${line_number}: hardcoded pixel dimension must use a semantic token`);

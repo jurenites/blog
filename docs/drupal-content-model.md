@@ -68,20 +68,29 @@ Each `timeline_item` record contains:
 - Type: duration-based project or single-date event
 - One or more date periods; the first Start date controls descending public
   order and Paragraph order breaks ties
-- Optional hours worked and organization
-- Optional summary
+- Optional hours worked and organization, plus the organization's official URL
+- Optional short description copied or adapted from the CV
+- Repeatable proof links for live work, case studies, archived pages, or public
+  Dropbox PDFs
 - Emphasis: standard, Featured star, or Special place in my heart
 
 Project dates from the CV have month precision. They are stored on the first day
 of their month for sorting but displayed only as month and year. A precise
 single-date event, such as November 9, 2023, retains and displays its day.
-Duration records use an 8px-wide proportional bar capped for very long work;
-single-date events use an 8 × 8px milestone. The public template groups records
-by their primary Start year, and each year heading sticks until the next group
-replaces it.
+Every year occupies the same twelve-row calendar height, with December at the
+top and January at the bottom so scrolling moves backward through time. Duration
+records use an 8px-wide bar aligned to their calendar months; single-date events
+use an 8 × 8px milestone positioned within their month. Overlapping projects
+take the first free one of four parallel lanes. If more than four ranges overlap,
+the shared marker uses a 45-degree yellow-and-white stripe. The year heading
+sticks until the next year replaces it.
+
+An organization appears as a large linked heading only when the chronology
+switches employers; it is not repeated for every project. The sequence includes
+empty calendar years and ends with the January 18, 1989 birth milestone.
 
 The starter node contains the 72 commercial projects transcribed from the
-current CV plus one authored personal milestone. Later edits happen through the
+current CV plus two authored personal milestones. Later edits happen through the
 single Timeline node form; adding another item creates a Paragraph revision, not
 a node ID.
 

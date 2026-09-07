@@ -66,7 +66,7 @@ final class TagSlugResolver {
     $matchingTerm = NULL;
     foreach ($termStorage->loadMultiple($termIds) as $candidateTerm) {
       if (!$candidateTerm instanceof TermInterface
-        || $this->slugify($candidateTerm->label()) !== $tagSlug) {
+        || $this->slugify($candidateTerm->getUntranslated()->label()) !== $tagSlug) {
         continue;
       }
 

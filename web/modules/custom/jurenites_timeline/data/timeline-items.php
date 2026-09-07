@@ -84,5 +84,5 @@ return [
   ['name' => 'EMB', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-04-01', '2011-05-01']], 'hours' => 50],
   ['name' => 'HIPAA Security Assessment Toolkit', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2010-11-01', '2010-12-01']], 'hours' => 100],
   ['name' => "My daughter's birthday", 'kind' => 'event', 'periods' => [['2023-11-09', '2023-11-09']], 'summary' => 'A personal milestone.'],
+  ['name' => 'My birthday', 'kind' => 'event', 'periods' => [['1989-01-18', '1989-01-18']], 'summary' => 'The beginning of my journey.'],
 ];
-

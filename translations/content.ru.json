@@ -367,7 +367,8 @@
     "delta": 0,
     "property": "value",
     "en": "<p>It all started around 2005: my name tag \"USeR_\", the game <a href=\"https://store.steampowered.com/app/10/CounterStrike/\">CS 1.6,</a> and \"spray paint\"<strong>.</strong> Not as a complete typeface.<br>I was at a stage when want to customise the game, and I had only been modifying internal files in a folder of a game, but I hadn't gone into a modding yet.<br>The restriction was <code>64x64px</code><strong> </strong>grid. As it's been said: \"the best designer starts with a constraint\"<br>I've counted the characters and tried to make symbols fit on the canvas in Paint. What I came up with, you can now see in my logo.&nbsp;<br>I've repainted it multiple times; each time Windows needed to be reinstalled, or game files were corrupted, so it was a lot of iteration of drawing hte same letters again and again.<br><br>4pixel as a font began in 2009, I thought I needed to finish the work to make it fully typable. I wanted to construct its capital letters inside a <code>4×4</code> pixel grid and its lowercase letters inside an even smaller <code>3×3</code> grid.<br>I recreated the font in <a href=\"https://fontstruct.com/fontstructions/show/990387/4pixel\">FontStruct</a>. I assumed that drawing a bitmap-like font in an online tool would be easy because the shapes were so small.<br>Behind that visual experiment was a more technical question: how little information does a person need before a pattern becomes recognisable as a letter?<br><br>A character could be stored more efficiently as a packed sequence of bits. That might be elegant for a computer, but it would be almost meaningless to someone looking at it. A visible grid is different. You can inspect it, draw in it, and immediately understand which pixels create the character. I was interested in finding the smallest grid that remained both economical for a machine and readable to a person.<br><br>Four pixels gave the project its name, but a complete alphabet quickly challenged the purity of that idea. Some letters simply needed more room. A capital <code dir=\"ltr\">W</code>, for example, wants five columns if it is going to remain distinguishable from other angular shapes. The original <code>4×4</code> and <code>3×3</code> system gradually expanded into a mixture of <code>5×5</code> and <code>3×5</code> constructions.<br>That is the slightly funny truth behind the name: 4pixel works best when displayed at a size divisible by <code>5px</code>. (Don't laugh at me because of that)<br><br>The hardest character continues to be the Latin lowercase <code dir=\"ltr\">e</code>.<br>The <code dir=\"ltr\">e</code> needs enough of a rounded, enclosed form to remain recognisable, but it also needs room for the small terminalor legthat prevents it from becoming another circular character. There simply is not enough space to describe both ideas comfortably. You event cans see it altering inside the Font and my logo, using different character shapes.<br><br>I did not want 4pixel to become entirely monospaced. Giving it <code dir=\"ltr\">i</code> the same width as an <code dir=\"ltr\">m</code> wastes valuable space and creates unnatural gaps. Behind that visual experiment was a more technical question: how little information does a person need before a pattern becomes recognisable as a letter?<br><br>Today, I use 4pixel as a watermark on my screenshots. A small Python script automatically adds it to images captured on my computer. It is not meant to be an intrusive signature. It is more like a quiet visual fingerprint: if one of my screenshots appears somewhere, I can still claim that it was mine.<br><br>People sometimes describe the smallest legible pixel alphabet as a <code>2×3</code> system.&nbsp;<br>Here is a discussion of a Reddit thread:&nbsp;<a href=\"https://www.reddit.com/r/PixelArt/comments/ppcd19/smallest_legible_pixel_fonts/\">Smallest legible Pixel fonts</a><br>Braille is not a visual pixel font; it is a writing system designed to be read through touch. It is a valuable reminder that “legibility” cannot be measured by grid size alone. It depends on the reader, the medium, and the way information is experienced.<br><br>&nbsp;</p>",
-    "ru": "<p>Всё началось примерно в 2005 году: мой ник «USeR_», игра <a href=\"https://store.steampowered.com/app/10/CounterStrike/\">CS 1.6,</a> и граффити<strong>.</strong> . Это ещё не был полноценный шрифт.<br>Тогда мне хотелось настроить игру под себя: я менял внутренние файлы в её папке, но до моддинга ещё не добрался.<br>Ограничением была сетка <code>64x64px</code><strong> </strong>. Как говорится, «хороший дизайнер начинает с ограничения».<br>Я посчитал символы и попробовал уместить их на холсте в Paint. Результат теперь можно увидеть в моём логотипе.&nbsp;<br>Я перерисовывал его много раз: после каждой переустановки Windows или повреждения игровых файлов приходилось снова рисовать те же буквы.<br><br>История 4pixel как шрифта началась в 2009 году: я решил довести работу до набора, которым можно печатать. Заглавные буквы я хотел строить в пиксельной сетке <code>4×4</code> , а строчные — в ещё меньшей сетке <code>3×3</code> .<br>Я воссоздал шрифт в <a href=\"https://fontstruct.com/fontstructions/show/990387/4pixel\">FontStruct</a>. Казалось, рисовать растровый шрифт в онлайн-инструменте будет легко: ведь формы такие маленькие.<br>За визуальным экспериментом стоял технический вопрос: какой минимум информации нужен человеку, чтобы распознать в узоре букву?<br><br>Символ можно эффективнее хранить как упакованную последовательность битов. Для компьютера это изящно, но человеку, который на неё смотрит, почти ничего не говорит. Видимая сетка — другое дело: её можно изучать, рисовать в ней и сразу понимать, какие пиксели образуют символ. Мне хотелось найти самую маленькую сетку, которая была бы экономной для машины и читаемой для человека.<br><br>Четыре пикселя дали проекту имя, но полный алфавит быстро поставил чистоту этой идеи под сомнение. Некоторым буквам просто нужно больше места. Заглавной <code dir=\"ltr\">W</code>, например, нужны пять столбцов, чтобы отличаться от других угловатых форм. Исходная система <code>4×4</code> и <code>3×3</code> постепенно превратилась в сочетание конструкций <code>5×5</code> и <code>3×5</code> .<br>В этом и забавная правда названия: 4pixel лучше всего отображается в размере, кратном <code>5px</code>. Только не смейтесь.<br><br>Самым сложным символом остаётся латинская строчная <code dir=\"ltr\">e</code>.<br>Букве <code dir=\"ltr\">e</code> нужна достаточно округлая замкнутая форма, чтобы оставаться узнаваемой, и место для маленького окончания, которое не даёт ей превратиться в очередной круг. Пространства для обеих идей попросту не хватает. Даже в самом шрифте и моём логотипе можно заметить разные варианты этой буквы.<br><br>Мне не хотелось делать 4pixel полностью моноширинным. Если дать букве <code dir=\"ltr\">i</code> такую же ширину, как <code dir=\"ltr\">m</code> , это потратит ценное место и создаст неестественные пробелы. За визуальным экспериментом стоял технический вопрос: какой минимум информации нужен человеку, чтобы распознать в узоре букву?<br><br>Сегодня я использую 4pixel как водяной знак на скриншотах. Небольшой Python-скрипт автоматически добавляет его к снимкам экрана на моём компьютере. Это не навязчивая подпись, а скорее ненавязчивый визуальный отпечаток: если мой скриншот где-то появится, я всё ещё смогу указать на его происхождение.<br><br>Самый маленький читаемый пиксельный алфавит иногда описывают как систему <code>2×3</code> .&nbsp;<br>Вот обсуждение на Reddit:&nbsp;<a href=\"https://www.reddit.com/r/PixelArt/comments/ppcd19/smallest_legible_pixel_fonts/\">Самые маленькие читаемые пиксельные шрифты</a><br>Шрифт Брайля — не визуальный пиксельный шрифт, а письменность для чтения на ощупь. Он напоминает, что читаемость нельзя измерить одним лишь размером сетки: она зависит от читателя, носителя и способа восприятия информации.<br><br>&nbsp;</p>"
+    "ru": "<p>Всё началось примерно в 2005 году: мой ник «USeR_», игра <a href=\"https://store.steampowered.com/app/10/CounterStrike/\">CS 1.6,</a> и граффити<strong>.</strong> Это ещё не был полноценный шрифт.<br>Тогда мне хотелось настроить игру под себя: я менял внутренние файлы в её папке, но до моддинга ещё не добрался.<br>Ограничением была сетка <code>64x64px</code><strong> </strong>. Как говорится, «хороший дизайнер начинает с ограничения».<br>Я посчитал символы и попробовал уместить их на холсте в Paint. Результат теперь можно увидеть в моём логотипе.&nbsp;<br>Я перерисовывал его много раз: после каждой переустановки Windows или повреждения игровых файлов приходилось снова рисовать те же буквы.<br><br>История 4pixel как шрифта началась в 2009 году: я решил довести работу до набора, которым можно печатать. Заглавные буквы я хотел строить в пиксельной сетке <code>4×4</code> , а строчные — в ещё меньшей сетке <code>3×3</code> .<br>Я воссоздал шрифт в <a href=\"https://fontstruct.com/fontstructions/show/990387/4pixel\">FontStruct</a>. Казалось, рисовать растровый шрифт в онлайн-инструменте будет легко: ведь формы такие маленькие.<br>За визуальным экспериментом стоял технический вопрос: какой минимум информации нужен человеку, чтобы распознать в узоре букву?<br><br>Символ можно эффективнее хранить как упакованную последовательность битов. Для компьютера это изящно, но человеку, который на неё смотрит, почти ничего не говорит. Видимая сетка — другое дело: её можно изучать, рисовать в ней и сразу понимать, какие пиксели образуют символ. Мне хотелось найти самую маленькую сетку, которая была бы экономной для машины и читаемой для человека.<br><br>Четыре пикселя дали проекту имя, но полный алфавит быстро поставил чистоту этой идеи под сомнение. Некоторым буквам просто нужно больше места. Заглавной <code dir=\"ltr\">W</code>, например, нужны пять столбцов, чтобы отличаться от других угловатых форм. Исходная система <code>4×4</code> и <code>3×3</code> постепенно превратилась в сочетание конструкций <code>5×5</code> и <code>3×5</code> .<br>В этом и забавная правда названия: 4pixel лучше всего отображается в размере, кратном <code>5px</code>. Только не смейтесь.<br><br>Самым сложным символом остаётся латинская строчная <code dir=\"ltr\">e</code>.<br>Букве <code dir=\"ltr\">e</code> нужна достаточно округлая замкнутая форма, чтобы оставаться узнаваемой, и место для маленького окончания, которое не даёт ей превратиться в очередной круг. Пространства для обеих идей попросту не хватает. Даже в самом шрифте и моём логотипе можно заметить разные варианты этой буквы.<br><br>Мне не хотелось делать 4pixel полностью моноширинным. Если дать букве <code dir=\"ltr\">i</code> такую же ширину, как <code dir=\"ltr\">m</code> , это потратит ценное место и создаст неестественные пробелы. За визуальным экспериментом стоял технический вопрос: какой минимум информации нужен человеку, чтобы распознать в узоре букву?<br><br>Сегодня я использую 4pixel как водяной знак на скриншотах. Небольшой Python-скрипт автоматически добавляет его к снимкам экрана на моём компьютере. Это не навязчивая подпись, а скорее ненавязчивый визуальный отпечаток: если мой скриншот где-то появится, я всё ещё смогу указать на его происхождение.<br><br>Самый маленький читаемый пиксельный алфавит иногда описывают как систему <code>2×3</code> .&nbsp;<br>Вот обсуждение на Reddit:&nbsp;<a href=\"https://www.reddit.com/r/PixelArt/comments/ppcd19/smallest_legible_pixel_fonts/\">Самые маленькие читаемые пиксельные шрифты</a><br>Шрифт Брайля — не визуальный пиксельный шрифт, а письменность для чтения на ощупь. Он напоминает, что читаемость нельзя измерить одним лишь размером сетки: она зависит от читателя, носителя и способа восприятия информации.<br><br>&nbsp;</p>",
+    "previous_ru": "<p>Всё началось примерно в 2005 году: мой ник «USeR_», игра <a href=\"https://store.steampowered.com/app/10/CounterStrike/\">CS 1.6,</a> и граффити<strong>.</strong> . Это ещё не был полноценный шрифт.<br>Тогда мне хотелось настроить игру под себя: я менял внутренние файлы в её папке, но до моддинга ещё не добрался.<br>Ограничением была сетка <code>64x64px</code><strong> </strong>. Как говорится, «хороший дизайнер начинает с ограничения».<br>Я посчитал символы и попробовал уместить их на холсте в Paint. Результат теперь можно увидеть в моём логотипе.&nbsp;<br>Я перерисовывал его много раз: после каждой переустановки Windows или повреждения игровых файлов приходилось снова рисовать те же буквы.<br><br>История 4pixel как шрифта началась в 2009 году: я решил довести работу до набора, которым можно печатать. Заглавные буквы я хотел строить в пиксельной сетке <code>4×4</code> , а строчные — в ещё меньшей сетке <code>3×3</code> .<br>Я воссоздал шрифт в <a href=\"https://fontstruct.com/fontstructions/show/990387/4pixel\">FontStruct</a>. Казалось, рисовать растровый шрифт в онлайн-инструменте будет легко: ведь формы такие маленькие.<br>За визуальным экспериментом стоял технический вопрос: какой минимум информации нужен человеку, чтобы распознать в узоре букву?<br><br>Символ можно эффективнее хранить как упакованную последовательность битов. Для компьютера это изящно, но человеку, который на неё смотрит, почти ничего не говорит. Видимая сетка — другое дело: её можно изучать, рисовать в ней и сразу понимать, какие пиксели образуют символ. Мне хотелось найти самую маленькую сетку, которая была бы экономной для машины и читаемой для человека.<br><br>Четыре пикселя дали проекту имя, но полный алфавит быстро поставил чистоту этой идеи под сомнение. Некоторым буквам просто нужно больше места. Заглавной <code dir=\"ltr\">W</code>, например, нужны пять столбцов, чтобы отличаться от других угловатых форм. Исходная система <code>4×4</code> и <code>3×3</code> постепенно превратилась в сочетание конструкций <code>5×5</code> и <code>3×5</code> .<br>В этом и забавная правда названия: 4pixel лучше всего отображается в размере, кратном <code>5px</code>. Только не смейтесь.<br><br>Самым сложным символом остаётся латинская строчная <code dir=\"ltr\">e</code>.<br>Букве <code dir=\"ltr\">e</code> нужна достаточно округлая замкнутая форма, чтобы оставаться узнаваемой, и место для маленького окончания, которое не даёт ей превратиться в очередной круг. Пространства для обеих идей попросту не хватает. Даже в самом шрифте и моём логотипе можно заметить разные варианты этой буквы.<br><br>Мне не хотелось делать 4pixel полностью моноширинным. Если дать букве <code dir=\"ltr\">i</code> такую же ширину, как <code dir=\"ltr\">m</code> , это потратит ценное место и создаст неестественные пробелы. За визуальным экспериментом стоял технический вопрос: какой минимум информации нужен человеку, чтобы распознать в узоре букву?<br><br>Сегодня я использую 4pixel как водяной знак на скриншотах. Небольшой Python-скрипт автоматически добавляет его к снимкам экрана на моём компьютере. Это не навязчивая подпись, а скорее ненавязчивый визуальный отпечаток: если мой скриншот где-то появится, я всё ещё смогу указать на его происхождение.<br><br>Самый маленький читаемый пиксельный алфавит иногда описывают как систему <code>2×3</code> .&nbsp;<br>Вот обсуждение на Reddit:&nbsp;<a href=\"https://www.reddit.com/r/PixelArt/comments/ppcd19/smallest_legible_pixel_fonts/\">Самые маленькие читаемые пиксельные шрифты</a><br>Шрифт Брайля — не визуальный пиксельный шрифт, а письменность для чтения на ощупь. Он напоминает, что читаемость нельзя измерить одним лишь размером сетки: она зависит от читателя, носителя и способа восприятия информации.<br><br>&nbsp;</p>"
   },
   {
     "entity_type": "node",
@@ -1068,5 +1069,205 @@
     "property": "soft_text",
     "en": "this project",
     "ru": "этом проекте"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "e615b87a-c6ab-429f-b417-09ca51e57204",
+    "bundle": "timeline",
+    "field": "title",
+    "delta": 0,
+    "property": "value",
+    "en": "Timeline",
+    "ru": "Хронология"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "692cd0a7-d285-43f2-b4d3-2fe8b41ccd9d",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "Fluency Academy and Memhack mobile apps",
+    "ru": "Мобильные приложения Fluency Academy и Memhack"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "72651c62-8827-45d4-b815-aa58f17bdcba",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "Funneleyes Web App",
+    "ru": "Веб-приложение Funneleyes"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "7c8bc284-0b7b-4052-a260-978066a498ba",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "Dzing Finance App",
+    "ru": "Финансовое приложение Dzing"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6f27ef58-9136-4b84-aca8-8da84ab3c33e",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "GamerSpeak App",
+    "ru": "Приложение GamerSpeak"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "e5ad32f2-6bb6-4348-83af-9bda329c9e53",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "Neuromation Marketplace and Neurowork",
+    "ru": "Маркетплейс Neuromation и Neurowork"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "72a80438-beff-4acf-8695-a58004a97cb7",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "National Community Church Request form",
+    "ru": "Форма заявки National Community Church"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "cb910bfa-7369-4aea-841d-893d41cf5bca",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "Program DB Novo Ministries",
+    "ru": "База программ Novo Ministries"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "5ce686aa-a64b-4060-bfbe-a45c0ec0c405",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "Internal NDA project",
+    "ru": "Внутренний проект под NDA"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "e13de2f5-ff27-440b-9fc4-c6587ed681bf",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "Life Church Staff App iOS",
+    "ru": "iOS-приложение для сотрудников Life Church"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "1e56cdac-9fd1-4e79-8923-af675bab8a0f",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "Life Church Staff Portal Web",
+    "ru": "Веб-портал сотрудников Life Church"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6c020159-2aaa-46b6-8ad2-f641b54a4e74",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "Oysterlabs Games Server",
+    "ru": "Игровой сервер Oysterlabs"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "bce90329-5f84-4e73-aca3-df0d3a47e2a5",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "Oysterlabs Mail System",
+    "ru": "Почтовая система Oysterlabs"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "e6f79288-28ba-4fb4-b13c-787aced77044",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "Mcbride hospital orthopedic hospital",
+    "ru": "Ортопедическая больница McBride"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "075a5564-ff0b-4abe-a508-97c43f0bed67",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "Harvard Immunology Website",
+    "ru": "Сайт иммунологии Гарвардского университета"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "4b8919fd-e016-4793-9dd5-30807c7c75b7",
+    "bundle": "timeline_item",
+    "field": "field_timeline_summary",
+    "delta": 0,
+    "property": "value",
+    "en": "A special place in my heart.",
+    "ru": "Особое место в моём сердце."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "5a5da126-f8c9-40cc-a538-fd70e0416ca4",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "HIPAA Security Assessment Toolkit",
+    "ru": "Набор инструментов оценки безопасности HIPAA"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "5578f435-e362-427d-9b8f-3b64c446077a",
+    "bundle": "timeline_item",
+    "field": "field_timeline_name",
+    "delta": 0,
+    "property": "value",
+    "en": "My daughter's birthday",
+    "ru": "День рождения моей дочери"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "5578f435-e362-427d-9b8f-3b64c446077a",
+    "bundle": "timeline_item",
+    "field": "field_timeline_summary",
+    "delta": 0,
+    "property": "value",
+    "en": "A personal milestone.",
+    "ru": "Важное событие в личной жизни."
+  },
+  {
+    "entity_type": "menu_link_content",
+    "uuid": "99eaa3fd-6811-4eed-8d7f-92ce4b54ca07",
+    "bundle": "menu_link_content",
+    "field": "title",
+    "delta": 0,
+    "property": "value",
+    "en": "Timeline",
+    "ru": "Хронология"
   }
 ]

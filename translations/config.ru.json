@@ -1,0 +1,146 @@
+[
+  {
+    "config": "block.block.jurenites_theme_cookie_policy_notice",
+    "path": "settings.label",
+    "en": "This website NOT using cookies.",
+    "ru": "Этот сайт НЕ использует cookie."
+  },
+  {
+    "config": "block.block.jurenites_theme_footer_navigation",
+    "path": "settings.label",
+    "en": "Footer navigation",
+    "ru": "Навигация в подвале"
+  },
+  {
+    "config": "block.block.jurenites_theme_latest_articles",
+    "path": "settings.label",
+    "en": "Latest articles",
+    "ru": "Последние статьи"
+  },
+  {
+    "config": "block.block.jurenites_theme_news",
+    "path": "settings.label",
+    "en": "News",
+    "ru": "Новости"
+  },
+  {
+    "config": "block.block.jurenites_theme_numeric_values",
+    "path": "settings.label",
+    "en": "Professional experience in numbers",
+    "ru": "Профессиональный опыт в цифрах"
+  },
+  {
+    "config": "views.view.frontpage",
+    "path": "display.default.display_options.empty.title.title",
+    "en": "Welcome!",
+    "ru": "Добро пожаловать!"
+  },
+  {
+    "config": "views.view.frontpage",
+    "path": "display.block_1.display_options.title",
+    "en": "Latest articles",
+    "ru": "Последние статьи"
+  },
+  {
+    "config": "views.view.frontpage",
+    "path": "display.page_2.display_options.title",
+    "en": "Blog",
+    "ru": "Блог"
+  },
+  {
+    "config": "views.view.frontpage",
+    "path": "display.page_2.display_options.arguments.tag.exception.title",
+    "en": "All",
+    "ru": "Все"
+  },
+  {
+    "config": "views.view.frontpage",
+    "path": "display.page_3.display_options.title",
+    "en": "Videos",
+    "ru": "Видео"
+  },
+  {
+    "config": "views.view.frontpage",
+    "path": "display.page_3.display_options.arguments.tag.exception.title",
+    "en": "All",
+    "ru": "Все"
+  },
+  {
+    "config": "views.view.guidelines",
+    "path": "label",
+    "en": "Guidelines",
+    "ru": "Руководства"
+  },
+  {
+    "config": "views.view.guidelines",
+    "path": "display.default.display_options.title",
+    "en": "Guidelines",
+    "ru": "Руководства"
+  },
+  {
+    "config": "views.view.news",
+    "path": "label",
+    "en": "News",
+    "ru": "Новости"
+  },
+  {
+    "config": "views.view.news",
+    "path": "display.default.display_options.title",
+    "en": "News",
+    "ru": "Новости"
+  },
+  {
+    "config": "views.view.portfolio",
+    "path": "label",
+    "en": "Portfolio",
+    "ru": "Портфолио"
+  },
+  {
+    "config": "views.view.portfolio",
+    "path": "display.default.display_options.title",
+    "en": "Portfolio",
+    "ru": "Портфолио"
+  },
+  {
+    "config": "views.view.portfolio",
+    "path": "display.default.display_options.arguments.tag.exception.title",
+    "en": "All",
+    "ru": "Все"
+  },
+  {
+    "config": "webform.webform.contact",
+    "path": "title",
+    "en": "Contact",
+    "ru": "Контакты"
+  },
+  {
+    "config": "webform.webform.contact",
+    "path": "description",
+    "en": "Send me a message.",
+    "ru": "Напишите мне сообщение."
+  },
+  {
+    "config": "webform.webform.contact",
+    "path": "settings.confirmation_message",
+    "en": "Thank you. Your message has been stored and sent.",
+    "ru": "Спасибо. Ваше сообщение сохранено и отправлено."
+  },
+  {
+    "config": "webform.webform.contact",
+    "path": "settings.confirmation_back_label",
+    "en": "Send another message",
+    "ru": "Отправить ещё одно сообщение"
+  },
+  {
+    "config": "webform.webform.contact",
+    "path": "elements",
+    "en": "message_subject:\n  '#title': Subject\n  '#type': textfield\n  '#required': true\n  '#maxlength': 150\n  '#placeholder': 'Enter the subject'\nsender_name:\n  '#title': 'Who you are'\n  '#type': textfield\n  '#required': true\n  '#maxlength': 150\n  '#default_value': '[current-user:display-name]'\n  '#placeholder': 'Enter your name'\nmessage_body:\n  '#title': Message\n  '#type': textarea\n  '#required': true\n  '#maxlength': 5000\n  '#placeholder': 'Enter your message'\nactions:\n  '#type': webform_actions\n  '#title': 'Submit button(s)'\n  '#submit__label': Send",
+    "ru": "message_subject:\n  '#title': Тема\n  '#type': textfield\n  '#required': true\n  '#maxlength': 150\n  '#placeholder': 'Введите тему'\nsender_name:\n  '#title': 'Ваше имя'\n  '#type': textfield\n  '#required': true\n  '#maxlength': 150\n  '#default_value': '[current-user:display-name]'\n  '#placeholder': 'Введите ваше имя'\nmessage_body:\n  '#title': Сообщение\n  '#type': textarea\n  '#required': true\n  '#maxlength': 5000\n  '#placeholder': 'Введите сообщение'\nactions:\n  '#type': webform_actions\n  '#title': 'Submit button(s)'\n  '#submit__label': Отправить"
+  },
+  {
+    "config": "block.block.jurenites_theme_main_menu",
+    "path": "settings.label",
+    "en": "Main navigation",
+    "ru": "Основная навигация"
+  }
+]

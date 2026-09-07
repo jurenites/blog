@@ -7,7 +7,9 @@ dependencies:
     - field.field.paragraph.timeline_item.field_timeline_kind
     - field.field.paragraph.timeline_item.field_timeline_name
     - field.field.paragraph.timeline_item.field_timeline_organization
+    - field.field.paragraph.timeline_item.field_timeline_organization_url
     - field.field.paragraph.timeline_item.field_timeline_periods
+    - field.field.paragraph.timeline_item.field_timeline_proof_links
     - field.field.paragraph.timeline_item.field_timeline_summary
     - paragraphs.paragraphs_type.timeline_item
 id: paragraph.timeline_item.default
@@ -21,8 +23,9 @@ hidden:
   field_timeline_kind: true
   field_timeline_name: true
   field_timeline_organization: true
+  field_timeline_organization_url: true
   field_timeline_periods: true
+  field_timeline_proof_links: true
   field_timeline_summary: true
   created: true
   status: true
-

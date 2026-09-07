@@ -284,8 +284,7 @@ component:
     marker-size-default: space.scale.base-gap # Exact 8px square event marker and duration-bar width.
     marker-size-active: 40px
     line-width-default: shape.border-width.hairline-default # Quiet continuous chronology rail.
-    duration-month-scale: 4px # Month-to-height rhythm; long ranges are capped below.
-    duration-height-max: 144px # Prevents multi-year records from overwhelming adjacent entries.
+    month-height-default: 96px # Every calendar year is twelve identical month tracks.
     sticky-layer-default: 20 # Keeps the active year above timeline records while its section is in view.
   media-loader:
     progress-height-default: 1px # Intentional exception to the 8px grid because this is a loading indicator line, not layout spacing.

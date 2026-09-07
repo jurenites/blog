@@ -5,7 +5,8 @@ const EYEBROW_HEADING = 'From the desk';
 const SECTION_DESCRIPTION = 'Explore the projects, experiments, and decisions behind the work.';
 const BACKGROUND_IMAGE_URL = '/assets/images/desk-arrival-background.jpg';
 const BACKGROUND_DESCRIPTION = 'A clean desk with two monitors and an open laptop, lit in cool grayscale.';
-const FOREGROUND_IMAGE_URL = '/assets/images/desk-arrival-person.png';
+// Cutout is withheld pending repairs to the hand, arm and color grade.
+const FOREGROUND_IMAGE_URL = '';
 const FOREGROUND_DESCRIPTION = 'Alexander working at the desk, seen from behind.';
 const ARRIVAL_ENABLED = true;
 const PRIMARY_LABEL = 'Explore projects';

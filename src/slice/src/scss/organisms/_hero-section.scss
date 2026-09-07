@@ -1,5 +1,9 @@
 @use "../tools";
 
+// Author-adjusted photo placement. Move the whole photo plane, including its light.
+$hero-photo-top-offset: 40px;
+$hero-photo-right-offset: 80px;
+
 .hero-section {
   position: relative;
   display: grid;
@@ -15,9 +19,15 @@
   position: relative;
   grid-area: 1 / 1;
   align-self: start;
+  padding-top: min($hero-photo-top-offset, 3cqw);
+  padding-right: min($hero-photo-right-offset, 6cqw);
+  pointer-events: none;
+}
+
+.hero-section__photo-plane {
+  position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  pointer-events: none;
   -webkit-mask-image: linear-gradient(
     to right,
     var(--component-hero-section-clear-color),
@@ -41,11 +51,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  padding-top: 40px;
-  padding-right: 80px; //do not replace this "nagic numbers" because it's a eyeballing positioning of an image  
 }
 
-.hero-section__scene::after {
+.hero-section__photo-plane::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -80,41 +88,52 @@
 .hero-section__rays {
   position: absolute;
   inset: 0;
-  filter: blur(var(--component-hero-section-ray-softness-default));
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    // The far end sits lower; the near end extends beyond the screen's clip.
-    clip-path: polygon(77% 48%, 71% 78%, 46% 67%, 46% 35%);
-    background:
-      conic-gradient(
-        from 282deg at 220% 145%,
-        var(--component-hero-section-clear-color) 0deg,
-        var(--component-hero-section-ray-highlight-color) 2deg,
-        var(--component-hero-section-clear-color) 4deg,
-        var(--component-hero-section-ray-highlight-color) 6deg,
-        var(--component-hero-section-clear-color) 8deg,
-        var(--component-hero-section-ray-highlight-color) 10deg,
-        var(--component-hero-section-clear-color) 12deg
-      ),
-      linear-gradient(
-        to right,
-        var(--component-hero-section-clear-color) 46%,
-        var(--component-hero-section-ray-fill-color) 75%
-      );
-  }
+  filter: blur(min(var(--component-hero-section-ray-softness-default), 1cqw));
 }
 
-.hero-section--glow:focus-within .hero-section__glow {
-  filter: brightness(1);
+.hero-section__light-color {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(77% 48%, 71% 78%, 46% 67%, 46% 35%);
+  background: linear-gradient(to right, var(--component-hero-section-clear-color) 46%, var(--component-hero-section-ray-fill-color) 75%);
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .hero-section--glow:hover .hero-section__glow {
-    filter: brightness(1);
-  }
+.hero-section__beam {
+  position: absolute;
+  inset: -12%;
+  background: conic-gradient(
+    from 282deg at 220% 145%,
+    var(--component-hero-section-clear-color) 0deg,
+    var(--component-hero-section-ray-highlight-color) 2deg,
+    var(--component-hero-section-clear-color) 4deg,
+    var(--component-hero-section-ray-highlight-color) 6deg,
+    var(--component-hero-section-clear-color) 8deg,
+    var(--component-hero-section-ray-highlight-color) 10deg,
+    var(--component-hero-section-clear-color) 12deg
+  );
+}
+
+.hero-section--light-active .hero-section__glow { filter: brightness(1); }
+
+.hero-section__light-toggle {
+  display: none;
+  position: absolute;
+  right: var(--layout-gutter-mobile-default);
+  bottom: var(--space-scale-base-gap);
+  pointer-events: auto;
+  padding: var(--space-scale-base-gap);
+  min-height: var(--shape-basic-tile);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
+  background: var(--theme-dark-surface-background-page);
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-caption;
+
+  &:focus-visible { @include tools.focus-ring; }
+  &[aria-pressed="true"] { border-color: var(--theme-dark-action-primary-default); }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .hero-section__light-toggle:not([hidden]) { display: block; }
 }
 
 .hero-section__content {
@@ -219,6 +238,11 @@
 
 @include tools.breakpoint-down("tablet-max") {
   @include hero-stacked-layout;
+
+  // Clear the homepage navigation so it does not blur the small portrait.
+  .jurenites-front-page .hero-section__scene {
+    padding-top: calc(var(--space-scale-base-gap) * 8);
+  }
 }
 
 @container (max-width: #{tools.$system-breakpoint-tablet-max}) {

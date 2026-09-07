@@ -6,6 +6,7 @@ core_version_requirement: ^11
 dependencies:
   - drupal:datetime_range
   - drupal:field
+  - drupal:link
   - drupal:menu_link_content
   - drupal:node
   - drupal:options
@@ -13,4 +14,3 @@ dependencies:
   - drupal:text
   - entity_reference_revisions:entity_reference_revisions
   - paragraphs:paragraphs
-

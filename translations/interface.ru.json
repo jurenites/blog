@@ -1,0 +1,792 @@
+[
+  {
+    "en": "Eng",
+    "ru": "Англ",
+    "context": ""
+  },
+  {
+    "en": "Rus",
+    "ru": "Рус",
+    "context": ""
+  },
+  {
+    "en": "About",
+    "ru": "Обо мне",
+    "context": ""
+  },
+  {
+    "en": "Portfolio",
+    "ru": "Портфолио",
+    "context": ""
+  },
+  {
+    "en": "Timeline",
+    "ru": "Хронология",
+    "context": ""
+  },
+  {
+    "en": "Blog",
+    "ru": "Блог",
+    "context": ""
+  },
+  {
+    "en": "Videos",
+    "ru": "Видео",
+    "context": ""
+  },
+  {
+    "en": "Contact",
+    "ru": "Контакты",
+    "context": ""
+  },
+  {
+    "en": "News",
+    "ru": "Новости",
+    "context": ""
+  },
+  {
+    "en": "Latest articles",
+    "ru": "Последние статьи",
+    "context": ""
+  },
+  {
+    "en": "Welcome!",
+    "ru": "Добро пожаловать!",
+    "context": ""
+  },
+  {
+    "en": "This website NOT using cookies.",
+    "ru": "Этот сайт НЕ использует cookie.",
+    "context": ""
+  },
+  {
+    "en": "Footer navigation",
+    "ru": "Навигация в подвале",
+    "context": ""
+  },
+  {
+    "en": "Social networks",
+    "ru": "Социальные сети",
+    "context": ""
+  },
+  {
+    "en": "Information",
+    "ru": "Информация",
+    "context": ""
+  },
+  {
+    "en": "No rights reserved",
+    "ru": "Все права свободны",
+    "context": ""
+  },
+  {
+    "en": "version",
+    "ru": "версия",
+    "context": ""
+  },
+  {
+    "en": "made by",
+    "ru": "создано",
+    "context": ""
+  },
+  {
+    "en": "Privacy Policy",
+    "ru": "Политика конфиденциальности",
+    "context": ""
+  },
+  {
+    "en": "Cookbook",
+    "ru": "Книга рецептов",
+    "context": ""
+  },
+  {
+    "en": "Fonts",
+    "ru": "Шрифты",
+    "context": ""
+  },
+  {
+    "en": "Guidelines",
+    "ru": "Руководства",
+    "context": ""
+  },
+  {
+    "en": "Hero sections",
+    "ru": "Разделы вводного блока",
+    "context": ""
+  },
+  {
+    "en": "Add comment",
+    "ru": "Добавить комментарий",
+    "context": ""
+  },
+  {
+    "en": "Jurenites home",
+    "ru": "Главная Jurenites",
+    "context": ""
+  },
+  {
+    "en": "Career and life",
+    "ru": "Карьера и жизнь",
+    "context": ""
+  },
+  {
+    "en": "records",
+    "ru": "записей",
+    "context": ""
+  },
+  {
+    "en": "Featured",
+    "ru": "Избранное",
+    "context": ""
+  },
+  {
+    "en": "Special place in my heart",
+    "ru": "Особое место в моём сердце",
+    "context": ""
+  },
+  {
+    "en": "Video interests",
+    "ru": "Видео по интересам",
+    "context": ""
+  },
+  {
+    "en": "Written by",
+    "ru": "Автор",
+    "context": ""
+  },
+  {
+    "en": "Video creator",
+    "ru": "Автор видео",
+    "context": ""
+  },
+  {
+    "en": "Article author",
+    "ru": "Автор статьи",
+    "context": ""
+  },
+  {
+    "en": "Professional experience in numbers",
+    "ru": "Профессиональный опыт в цифрах",
+    "context": ""
+  },
+  {
+    "en": "Loading external video",
+    "ru": "Загрузка внешнего видео",
+    "context": ""
+  },
+  {
+    "en": "Download font",
+    "ru": "Скачать шрифт",
+    "context": ""
+  },
+  {
+    "en": "Try it yourself",
+    "ru": "Попробуйте сами",
+    "context": ""
+  },
+  {
+    "en": "Type with this font",
+    "ru": "Введите текст этим шрифтом",
+    "context": ""
+  },
+  {
+    "en": "Loading glyph data…",
+    "ru": "Загрузка данных глифов…",
+    "context": ""
+  },
+  {
+    "en": "Prioritized Unicode mappings",
+    "ru": "Основные соответствия Unicode",
+    "context": ""
+  },
+  {
+    "en": "More glyphs",
+    "ru": "Больше глифов",
+    "context": ""
+  },
+  {
+    "en": "Fewer glyphs",
+    "ru": "Меньше глифов",
+    "context": ""
+  },
+  {
+    "en": "Additional Unicode mappings",
+    "ru": "Дополнительные соответствия Unicode",
+    "context": ""
+  },
+  {
+    "en": "Data",
+    "ru": "Данные",
+    "context": ""
+  },
+  {
+    "en": "Status",
+    "ru": "Состояние",
+    "context": ""
+  },
+  {
+    "en": "Font metadata loads in the browser from the local file.",
+    "ru": "Метаданные шрифта загружаются в браузере из локального файла.",
+    "context": ""
+  },
+  {
+    "en": "Glyph details",
+    "ru": "Сведения о глифе",
+    "context": ""
+  },
+  {
+    "en": "Close",
+    "ru": "Закрыть",
+    "context": ""
+  },
+  {
+    "en": "Selected glyph vector outline",
+    "ru": "Векторный контур выбранного глифа",
+    "context": ""
+  },
+  {
+    "en": "Glyph",
+    "ru": "Глиф",
+    "context": ""
+  },
+  {
+    "en": "Unicode",
+    "ru": "Unicode",
+    "context": ""
+  },
+  {
+    "en": "Index",
+    "ru": "Индекс",
+    "context": ""
+  },
+  {
+    "en": "Advance width",
+    "ru": "Ширина шага",
+    "context": ""
+  },
+  {
+    "en": "Left side bearing",
+    "ru": "Левый боковой отступ",
+    "context": ""
+  },
+  {
+    "en": "Path data",
+    "ru": "Данные контура",
+    "context": ""
+  },
+  {
+    "en": "Show path data",
+    "ru": "Показать данные контура",
+    "context": ""
+  },
+  {
+    "en": "Hide path data",
+    "ru": "Скрыть данные контура",
+    "context": ""
+  },
+  {
+    "en": "No glyph selected.",
+    "ru": "Глиф не выбран.",
+    "context": ""
+  },
+  {
+    "en": "Current icon",
+    "ru": "Текущий значок",
+    "context": ""
+  },
+  {
+    "en": "The rendered examples below use the same SVG file as the website header.",
+    "ru": "В примерах ниже используется тот же SVG-файл, что и в шапке сайта.",
+    "context": ""
+  },
+  {
+    "en": "Jurenites pixel wordmark icon",
+    "ru": "Пиксельный логотип Jurenites",
+    "context": ""
+  },
+  {
+    "en": "Dark surface",
+    "ru": "Тёмная поверхность",
+    "context": ""
+  },
+  {
+    "en": "Light surface",
+    "ru": "Светлая поверхность",
+    "context": ""
+  },
+  {
+    "en": "Source asset",
+    "ru": "Исходный ресурс",
+    "context": ""
+  },
+  {
+    "en": "Token palette",
+    "ru": "Палитра токенов",
+    "context": ""
+  },
+  {
+    "en": "These values are read from the generated record of src/token/tokens.yaml.",
+    "ru": "Эти значения взяты из сгенерированных данных src/token/tokens.yaml.",
+    "context": ""
+  },
+  {
+    "en": "Language",
+    "ru": "Язык",
+    "context": ""
+  },
+  {
+    "en": "Open main menu",
+    "ru": "Открыть главное меню",
+    "context": ""
+  },
+  {
+    "en": "Close main menu",
+    "ru": "Закрыть главное меню",
+    "context": ""
+  },
+  {
+    "en": "Interactive grid",
+    "ru": "Интерактивная сетка",
+    "context": ""
+  },
+  {
+    "en": "Draw a 4×4 glyph",
+    "ru": "Нарисуйте глиф 4×4",
+    "context": ""
+  },
+  {
+    "en": "Click, tap, use Space or Enter, or drag across cells. Reloading starts from a blank grid.",
+    "ru": "Нажимайте на ячейки мышью, касанием, пробелом или Enter либо проводите по ним. После перезагрузки сетка очищается.",
+    "context": ""
+  },
+  {
+    "en": "4 by 4 pixel drawing grid",
+    "ru": "Пиксельная сетка для рисования 4 на 4",
+    "context": ""
+  },
+  {
+    "en": "Row @row, column @column",
+    "ru": "Строка @row, столбец @column",
+    "context": ""
+  },
+  {
+    "en": "Article navigation",
+    "ru": "Навигация по статьям",
+    "context": ""
+  },
+  {
+    "en": "Back",
+    "ru": "Назад",
+    "context": ""
+  },
+  {
+    "en": "Source",
+    "ru": "Источник",
+    "context": ""
+  },
+  {
+    "en": "opens in a new window",
+    "ru": "открывается в новом окне",
+    "context": ""
+  },
+  {
+    "en": "Pagination",
+    "ru": "Постраничная навигация",
+    "context": ""
+  },
+  {
+    "en": "Go to previous page",
+    "ru": "Перейти на предыдущую страницу",
+    "context": ""
+  },
+  {
+    "en": "Previous",
+    "ru": "Назад",
+    "context": ""
+  },
+  {
+    "en": "Go to first page",
+    "ru": "Перейти на первую страницу",
+    "context": ""
+  },
+  {
+    "en": "Current page",
+    "ru": "Текущая страница",
+    "context": ""
+  },
+  {
+    "en": "Go to page @page",
+    "ru": "Перейти на страницу @page",
+    "context": ""
+  },
+  {
+    "en": "Go to last page",
+    "ru": "Перейти на последнюю страницу",
+    "context": ""
+  },
+  {
+    "en": "Total pages",
+    "ru": "Всего страниц",
+    "context": ""
+  },
+  {
+    "en": "Go to next page",
+    "ru": "Перейти на следующую страницу",
+    "context": ""
+  },
+  {
+    "en": "Next",
+    "ru": "Далее",
+    "context": ""
+  },
+  {
+    "en": "Guideline",
+    "ru": "Руководство",
+    "context": ""
+  },
+  {
+    "en": "Current Videos filter",
+    "ru": "Текущий фильтр видео",
+    "context": ""
+  },
+  {
+    "en": "Selected tag",
+    "ru": "Выбранный тег",
+    "context": ""
+  },
+  {
+    "en": "Remove tag filter: @tag",
+    "ru": "Убрать фильтр по тегу: @tag",
+    "context": ""
+  },
+  {
+    "en": "No videos have been added for this interest yet.",
+    "ru": "Видео по этому интересу пока не добавлены.",
+    "context": ""
+  },
+  {
+    "en": "Filter Portfolio projects by tag",
+    "ru": "Фильтрация проектов портфолио по тегу",
+    "context": ""
+  },
+  {
+    "en": "Filter projects by tag",
+    "ru": "Фильтр проектов по тегу",
+    "context": ""
+  },
+  {
+    "en": "Show all Portfolio projects; current tag is @tag",
+    "ru": "Показать все проекты портфолио; текущий тег: @tag",
+    "context": ""
+  },
+  {
+    "en": "Filter Portfolio projects by @tag",
+    "ru": "Фильтровать проекты портфолио по тегу @tag",
+    "context": ""
+  },
+  {
+    "en": "Current Blog filter",
+    "ru": "Текущий фильтр блога",
+    "context": ""
+  },
+  {
+    "en": "min to watch",
+    "ru": "мин на просмотр",
+    "context": ""
+  },
+  {
+    "en": "min to read",
+    "ru": "мин на чтение",
+    "context": ""
+  },
+  {
+    "en": "ago",
+    "ru": "назад",
+    "context": ""
+  },
+  {
+    "en": "@elapsed_time ago",
+    "ru": "@elapsed_time назад",
+    "context": ""
+  },
+  {
+    "en": "unknown",
+    "ru": "неизвестно",
+    "context": ""
+  },
+  {
+    "en": "unknown GMT+0",
+    "ru": "неизвестно GMT+0",
+    "context": ""
+  },
+  {
+    "en": "Select option",
+    "ru": "Выберите вариант",
+    "context": ""
+  },
+  {
+    "en": "Subject",
+    "ru": "Тема",
+    "context": ""
+  },
+  {
+    "en": "Who you are",
+    "ru": "Ваше имя",
+    "context": ""
+  },
+  {
+    "en": "Message",
+    "ru": "Сообщение",
+    "context": ""
+  },
+  {
+    "en": "Enter the subject",
+    "ru": "Введите тему",
+    "context": ""
+  },
+  {
+    "en": "Enter your name",
+    "ru": "Введите ваше имя",
+    "context": ""
+  },
+  {
+    "en": "Enter your message",
+    "ru": "Введите сообщение",
+    "context": ""
+  },
+  {
+    "en": "Send",
+    "ru": "Отправить",
+    "context": ""
+  },
+  {
+    "en": "Send me a message.",
+    "ru": "Напишите мне сообщение.",
+    "context": ""
+  },
+  {
+    "en": "Send another message",
+    "ru": "Отправить ещё одно сообщение",
+    "context": ""
+  },
+  {
+    "en": "Numbers",
+    "ru": "Цифры",
+    "context": ""
+  },
+  {
+    "en": "Latin capital letters",
+    "ru": "Латинские заглавные буквы",
+    "context": ""
+  },
+  {
+    "en": "Roundabout extended capital letters",
+    "ru": "Расширенные заглавные буквы Roundabout",
+    "context": ""
+  },
+  {
+    "en": "Latin lowercase letters",
+    "ru": "Латинские строчные буквы",
+    "context": ""
+  },
+  {
+    "en": "Cyrillic capital letters",
+    "ru": "Кириллические заглавные буквы",
+    "context": ""
+  },
+  {
+    "en": "Cyrillic lowercase letters",
+    "ru": "Кириллические строчные буквы",
+    "context": ""
+  },
+  {
+    "en": "Greek capital letters",
+    "ru": "Греческие заглавные буквы",
+    "context": ""
+  },
+  {
+    "en": "Roundabout alternate glyph set",
+    "ru": "Альтернативный набор глифов Roundabout",
+    "context": ""
+  },
+  {
+    "en": "Greek lowercase letters",
+    "ru": "Греческие строчные буквы",
+    "context": ""
+  },
+  {
+    "en": "Keyboard symbols",
+    "ru": "Символы клавиатуры",
+    "context": ""
+  },
+  {
+    "en": "Inspect",
+    "ru": "Посмотреть",
+    "context": ""
+  },
+  {
+    "en": "Character",
+    "ru": "Символ",
+    "context": ""
+  },
+  {
+    "en": " drawable Unicode mappings",
+    "ru": " отображаемых соответствий Unicode",
+    "context": ""
+  },
+  {
+    "en": "AI",
+    "ru": "ИИ",
+    "context": ""
+  },
+  {
+    "en": "All",
+    "ru": "Все",
+    "context": ""
+  },
+  {
+    "en": "Thank you. Your message has been stored and sent.",
+    "ru": "Спасибо. Ваше сообщение сохранено и отправлено.",
+    "context": ""
+  },
+  {
+    "en": "Introduction",
+    "ru": "Введение",
+    "context": ""
+  },
+  {
+    "en": "Foundation",
+    "ru": "Основа",
+    "context": ""
+  },
+  {
+    "en": "Brand",
+    "ru": "Бренд",
+    "context": ""
+  },
+  {
+    "en": "System",
+    "ru": "Система",
+    "context": ""
+  },
+  {
+    "en": "drawable Unicode mappings",
+    "ru": "отображаемых соответствий Unicode",
+    "context": ""
+  },
+  {
+    "en": "@hours h",
+    "ru": "@hours ч",
+    "context": ""
+  },
+  {
+    "en": "Main navigation",
+    "ru": "Основная навигация",
+    "context": ""
+  },
+  {
+    "en": "Font details could not load. The local download is still available.",
+    "ru": "Не удалось загрузить сведения о шрифте. Локальный файл по-прежнему доступен для скачивания.",
+    "context": ""
+  },
+  {
+    "en": "You have already submitted this webform.",
+    "ru": "Вы уже отправляли эту форму.",
+    "context": ""
+  },
+  {
+    "en": "View your previous submissions",
+    "ru": "Посмотреть предыдущие отправки",
+    "context": ""
+  },
+  {
+    "en": "Hide additional glyphs",
+    "ru": "Скрыть дополнительные глифы",
+    "context": ""
+  },
+  {
+    "en": "Show additional glyphs",
+    "ru": "Показать дополнительные глифы",
+    "context": ""
+  },
+  {
+    "en": "Family",
+    "ru": "Семейство",
+    "context": ""
+  },
+  {
+    "en": "Style",
+    "ru": "Начертание",
+    "context": ""
+  },
+  {
+    "en": "Full name",
+    "ru": "Полное название",
+    "context": ""
+  },
+  {
+    "en": "PostScript name",
+    "ru": "Имя PostScript",
+    "context": ""
+  },
+  {
+    "en": "Version",
+    "ru": "Версия",
+    "context": ""
+  },
+  {
+    "en": "Copyright",
+    "ru": "Авторские права",
+    "context": ""
+  },
+  {
+    "en": "License",
+    "ru": "Лицензия",
+    "context": ""
+  },
+  {
+    "en": "License URL",
+    "ru": "Ссылка на лицензию",
+    "context": ""
+  },
+  {
+    "en": "Designer",
+    "ru": "Дизайнер",
+    "context": ""
+  },
+  {
+    "en": "Description",
+    "ru": "Описание",
+    "context": ""
+  },
+  {
+    "en": "Units per em",
+    "ru": "Единиц на em",
+    "context": ""
+  },
+  {
+    "en": "Ascender",
+    "ru": "Верхний выносной элемент",
+    "context": ""
+  },
+  {
+    "en": "Descender",
+    "ru": "Нижний выносной элемент",
+    "context": ""
+  },
+  {
+    "en": "Glyph count",
+    "ru": "Количество глифов",
+    "context": ""
+  },
+  {
+    "en": "Not embedded",
+    "ru": "Не указано",
+    "context": ""
+  },
+  {
+    "en": "Displayed Unicode mappings",
+    "ru": "Отображаемые соответствия Unicode",
+    "context": ""
+  }
+]

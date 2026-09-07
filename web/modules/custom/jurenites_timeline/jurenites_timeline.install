@@ -72,6 +72,10 @@ function jurenites_timeline_ensure_node(): NodeInterface {
     ];
     if (!empty($timeline_item_record['organization'])) {
       $timeline_paragraph_values['field_timeline_organization'] = $timeline_item_record['organization'];
+      $organization_url = jurenites_timeline_organization_url($timeline_item_record['organization']);
+      if ($organization_url !== '') {
+        $timeline_paragraph_values['field_timeline_organization_url'] = ['uri' => $organization_url];
+      }
     }
     if (isset($timeline_item_record['hours'])) {
       $timeline_paragraph_values['field_timeline_hours'] = $timeline_item_record['hours'];
@@ -81,6 +85,15 @@ function jurenites_timeline_ensure_node(): NodeInterface {
         'value' => $timeline_item_record['summary'],
         'format' => 'basic_html',
       ];
+    }
+    if (!empty($timeline_item_record['proofs'])) {
+      $timeline_paragraph_values['field_timeline_proof_links'] = array_map(
+        static fn (array $proof_link): array => [
+          'uri' => $proof_link['url'],
+          'title' => $proof_link['title'],
+        ],
+        $timeline_item_record['proofs'],
+      );
     }
 
     $timeline_paragraphs[] = Paragraph::create($timeline_paragraph_values);
@@ -109,6 +122,18 @@ function jurenites_timeline_ensure_node(): NodeInterface {
 }
 
 /**
+ * Returns the official website stored with a starter organization.
+ */
+function jurenites_timeline_organization_url(string $organization_name): string {
+  return match ($organization_name) {
+    'Thrive.io' => 'https://thrive.io/',
+    'OysterLabs.com' => 'https://www.oysterlabs.com/',
+    'VolcanoIdeas.ae' => 'https://volcanoideas.ae/',
+    default => '',
+  };
+}
+
+/**
  * Creates the Timeline link in the main navigation.
  */
 function jurenites_timeline_ensure_menu_link(): MenuLinkContent {
@@ -134,4 +159,3 @@ function jurenites_timeline_ensure_menu_link(): MenuLinkContent {
 
   return $timeline_menu_link;
 }
-

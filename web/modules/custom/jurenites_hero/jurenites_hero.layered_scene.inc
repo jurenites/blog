@@ -137,7 +137,7 @@ function jurenites_hero_layered_scene_seed(): void {
     $plugin_identifier = 'block_content:' . JURENITES_LAYERED_SCENE_UUID;
     Block::create([
       'id' => 'jurenites_theme_desk_arrival', 'theme' => 'jurenites_theme', 'region' => 'content',
-      'weight' => -20, 'status' => TRUE, 'plugin' => $plugin_identifier,
+      'weight' => -20, 'status' => FALSE, 'plugin' => $plugin_identifier,
       'settings' => ['id' => $plugin_identifier, 'label' => 'Desk arrival', 'label_display' => '0', 'provider' => 'block_content', 'view_mode' => 'full'],
       'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => '<front>']],
     ])->save();

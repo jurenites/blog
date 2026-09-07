@@ -10,8 +10,8 @@ id: paragraph.timeline_item.field_timeline_summary
 field_name: field_timeline_summary
 entity_type: paragraph
 bundle: timeline_item
-label: Summary
-description: 'Optional role, contribution, or personal context.'
+label: 'Short description'
+description: 'Optional short description of your role, contribution, or personal context from the CV.'
 required: false
 translatable: true
 default_value: {  }
@@ -19,4 +19,3 @@ default_value_callback: ''
 settings:
   allowed_formats: {  }
 field_type: text_long
-

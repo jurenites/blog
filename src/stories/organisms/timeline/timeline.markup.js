@@ -5,30 +5,12 @@ import { date_time_value_markup } from "../../atoms/date-time-value/date-time-va
 import { icon_markup } from "../../atoms/icon/icon.markup.js";
 import { escape_html, render_template } from "../../template.js";
 
-function inclusive_month_count(start_date, end_date) {
-  const start_value = new Date(start_date + "T00:00:00Z");
-  const end_value = new Date(end_date + "T00:00:00Z");
+const MAXIMUM_LANE_COUNT = 4;
+const MONTH_LABELS = ["Dec", "Nov", "Oct", "Sep", "Aug", "Jul", "Jun", "May", "Apr", "Mar", "Feb", "Jan"];
 
-  return Math.max(
-    1,
-    ((end_value.getUTCFullYear() - start_value.getUTCFullYear()) * 12)
-      + end_value.getUTCMonth() - start_value.getUTCMonth() + 1,
-  );
-}
-
-function duration_text(month_count) {
-  if (month_count < 12) {
-    return month_count + " " + (month_count === 1 ? "month" : "months");
-  }
-
-  const year_count = Math.floor(month_count / 12);
-  const remaining_month_count = month_count % 12;
-  const year_text = year_count + " " + (year_count === 1 ? "year" : "years");
-
-  return remaining_month_count === 0
-    ? year_text
-    : year_text + " " + remaining_month_count + " "
-      + (remaining_month_count === 1 ? "month" : "months");
+function calendar_month_number(date_value) {
+  const calendar_date = new Date(date_value + "T00:00:00Z");
+  return (calendar_date.getUTCFullYear() * 12) + calendar_date.getUTCMonth() + 1;
 }
 
 function period_markup(timeline_period, item_kind) {
@@ -64,42 +46,188 @@ function emphasis_markup(emphasis_kind) {
   return "";
 }
 
-function timeline_item_markup(timeline_item) {
-  const timeline_periods = timeline_item.periods ?? [];
-  const total_month_count = timeline_periods.reduce(
-    (month_total, timeline_period) => month_total
-      + inclusive_month_count(timeline_period.start_date, timeline_period.end_date),
-    0,
-  );
-  const normalized_month_count = Math.max(1, Math.min(36, total_month_count));
-  const is_project_item = timeline_item.item_kind === "project";
+function organization_markup(organization_heading) {
+  if (!organization_heading) {
+    return "";
+  }
+  if (organization_heading.url) {
+    return '<a class="timeline__organization-link" href="'
+      + escape_html(organization_heading.url) + '">'
+      + escape_html(organization_heading.name) + "</a>";
+  }
+  return '<span class="timeline__organization-heading">'
+    + escape_html(organization_heading.name) + "</span>";
+}
 
+function proof_links_markup(proof_links) {
+  if (!proof_links?.length) {
+    return "";
+  }
+  return '<ul class="timeline__proof-links" aria-label="Proof links">'
+    + proof_links.map((proof_link) => '<li><a href="'
+      + escape_html(proof_link.url) + '">' + escape_html(proof_link.label) + "</a></li>").join("")
+    + "</ul>";
+}
+
+function item_content_markup(timeline_fragment) {
+  if (!timeline_fragment.show_details) {
+    return "";
+  }
+  const timeline_item = timeline_fragment.timeline_item;
+  const timeline_period = timeline_fragment.timeline_period;
+  const hours_markup = timeline_item.hours_worked
+    ? '<span class="timeline__hours">'
+      + escape_html(Number(timeline_item.hours_worked).toLocaleString("en-US")) + " h</span>"
+    : "";
+  const summary_markup = timeline_fragment.period_index === 0 && timeline_item.item_summary
+    ? '<div class="timeline__summary"><p>' + escape_html(timeline_item.item_summary) + "</p></div>"
+    : "";
+  const item_proof_links = timeline_fragment.period_index === 0
+    ? timeline_item.proof_links
+    : [];
+
+  return '<article class="timeline__item-content">'
+    + (timeline_fragment.period_index === 0
+      ? organization_markup(timeline_item.organization_heading)
+      : "")
+    + '<header class="timeline__item-header"><h3 class="timeline__item-title">'
+    + escape_html(timeline_item.item_name) + "</h3>"
+    + emphasis_markup(timeline_item.emphasis_kind) + "</header>"
+    + '<div class="timeline__metadata">'
+    + period_markup(timeline_period, timeline_item.item_kind)
+    + hours_markup + "</div>"
+    + summary_markup
+    + proof_links_markup(item_proof_links)
+    + "</article>";
+}
+
+export function assign_timeline_lanes(timeline_items) {
+  const dated_periods = timeline_items.flatMap((timeline_item, item_index) =>
+    (timeline_item.periods ?? []).map((timeline_period, period_index) => ({
+      item_index,
+      period_index,
+      start_month_number: calendar_month_number(timeline_period.start_date),
+      end_month_number: calendar_month_number(timeline_period.end_date),
+    })),
+  ).sort((first_period, second_period) =>
+    first_period.start_month_number - second_period.start_month_number
+      || second_period.end_month_number - first_period.end_month_number,
+  );
+  const lane_end_months = Array(MAXIMUM_LANE_COUNT).fill(Number.NEGATIVE_INFINITY);
+  const lane_assignments = new Map();
+
+  dated_periods.forEach((dated_period) => {
+    let available_lane_index = lane_end_months.findIndex(
+      (lane_end_month) => lane_end_month < dated_period.start_month_number,
+    );
+    let is_overflow_overlap = false;
+    if (available_lane_index === -1) {
+      const earliest_end_month = Math.min(...lane_end_months);
+      available_lane_index = lane_end_months.indexOf(earliest_end_month);
+      is_overflow_overlap = true;
+    }
+    lane_end_months[available_lane_index] = Math.max(
+      lane_end_months[available_lane_index],
+      dated_period.end_month_number,
+    );
+    lane_assignments.set(dated_period.item_index + ":" + dated_period.period_index, {
+      lane_number: available_lane_index + 1,
+      is_overflow_overlap,
+    });
+  });
+
+  return lane_assignments;
+}
+
+function timeline_year_groups(timeline_items) {
+  const sorted_items = [...timeline_items].sort((first_item, second_item) =>
+    String(second_item.periods[0].start_date).localeCompare(first_item.periods[0].start_date),
+  );
+  let current_organization_name = "";
+  sorted_items.forEach((timeline_item) => {
+    timeline_item.organization_heading = null;
+    if (timeline_item.organization_name
+      && timeline_item.organization_name !== current_organization_name) {
+      timeline_item.organization_heading = {
+        name: timeline_item.organization_name,
+        url: timeline_item.organization_url ?? "",
+      };
+      current_organization_name = timeline_item.organization_name;
+    }
+  });
+
+  const lane_assignments = assign_timeline_lanes(sorted_items);
+  const year_fragments = new Map();
+  let maximum_year = Number.NEGATIVE_INFINITY;
+  let minimum_year = Number.POSITIVE_INFINITY;
+
+  sorted_items.forEach((timeline_item, item_index) => {
+    (timeline_item.periods ?? []).forEach((timeline_period, period_index) => {
+      const start_date = new Date(timeline_period.start_date + "T00:00:00Z");
+      const end_date = new Date(timeline_period.end_date + "T00:00:00Z");
+      const start_year = start_date.getUTCFullYear();
+      const end_year = end_date.getUTCFullYear();
+      maximum_year = Math.max(maximum_year, end_year);
+      minimum_year = Math.min(minimum_year, start_year);
+      const lane_assignment = lane_assignments.get(item_index + ":" + period_index);
+
+      for (let fragment_year = end_year; fragment_year >= start_year; fragment_year -= 1) {
+        const starting_month = fragment_year === start_year ? start_date.getUTCMonth() + 1 : 1;
+        const ending_month = fragment_year === end_year ? end_date.getUTCMonth() + 1 : 12;
+        const grouped_fragments = year_fragments.get(fragment_year) ?? [];
+        grouped_fragments.push({
+          timeline_item,
+          timeline_period,
+          period_index,
+          show_details: fragment_year === start_year,
+          lane_number: lane_assignment.lane_number,
+          is_overflow_overlap: lane_assignment.is_overflow_overlap,
+          ending_month,
+          month_span: ending_month - starting_month + 1,
+          day_number: start_date.getUTCDate(),
+        });
+        year_fragments.set(fragment_year, grouped_fragments);
+      }
+    });
+  });
+
+  const year_groups = [];
+  for (let year_number = maximum_year; year_number >= minimum_year; year_number -= 1) {
+    year_groups.push({
+      year_label: String(year_number),
+      timeline_fragments: year_fragments.get(year_number) ?? [],
+    });
+  }
+  return { sorted_items, year_groups };
+}
+
+function timeline_item_markup(timeline_fragment) {
+  const timeline_item = timeline_fragment.timeline_item;
   return render_template(timeline_item_template, {
     item_kind: escape_html(timeline_item.item_kind),
-    item_name: escape_html(timeline_item.item_name),
-    duration_marker_classes: is_project_item
-      ? " timeline__marker--duration timeline__marker--duration-" + normalized_month_count
+    lane_number: escape_html(timeline_fragment.lane_number),
+    ending_month: escape_html(timeline_fragment.ending_month),
+    month_span: escape_html(timeline_fragment.month_span),
+    day_class_name: timeline_item.item_kind === "event"
+      ? " timeline__item--day-" + timeline_fragment.day_number
       : "",
-    emphasis_markup: emphasis_markup(timeline_item.emphasis_kind),
-    periods_markup: timeline_periods
-      .map((timeline_period) => period_markup(timeline_period, timeline_item.item_kind))
-      .join(""),
-    duration_markup: is_project_item
-      ? '<span class="timeline__duration">' + escape_html(duration_text(total_month_count)) + "</span>"
+    overlap_class_name: timeline_fragment.is_overflow_overlap
+      ? " timeline__item--overlap"
       : "",
-    hours_markup: timeline_item.hours_worked
-      ? '<span class="timeline__hours">'
-        + escape_html(Number(timeline_item.hours_worked).toLocaleString("en-US")) + " h</span>"
+    duration_marker_class_name: timeline_item.item_kind === "project"
+      ? " timeline__marker--duration"
       : "",
-    organization_markup: timeline_item.organization_name
-      ? '<span class="timeline__organization">'
-        + escape_html(timeline_item.organization_name) + "</span>"
-      : "",
-    summary_markup: timeline_item.item_summary
-      ? '<div class="timeline__summary"><p>'
-        + escape_html(timeline_item.item_summary) + "</p></div>"
-      : "",
+    item_content_markup: item_content_markup(timeline_fragment),
   });
+}
+
+function timeline_months_markup(year_label) {
+  return MONTH_LABELS.map((month_label, month_index) => {
+    const month_number = 12 - month_index;
+    return '<li class="timeline__month"><time datetime="'
+      + year_label + "-" + String(month_number).padStart(2, "0") + '">'
+      + month_label + "</time></li>";
+  }).join("");
 }
 
 export function timeline_markup({
@@ -107,22 +235,12 @@ export function timeline_markup({
   timeline_introduction,
   timeline_items,
 }) {
-  const sorted_items = [...timeline_items].sort((first_item, second_item) =>
-    String(second_item.periods[0].start_date).localeCompare(first_item.periods[0].start_date),
-  );
-  const year_groups = new Map();
-
-  sorted_items.forEach((timeline_item) => {
-    const year_label = timeline_item.periods[0].start_date.slice(0, 4);
-    const grouped_items = year_groups.get(year_label) ?? [];
-    grouped_items.push(timeline_item);
-    year_groups.set(year_label, grouped_items);
-  });
-
-  const timeline_years_markup = [...year_groups.entries()]
-    .map(([year_label, grouped_items]) => render_template(timeline_year_template, {
-      year_label: escape_html(year_label),
-      timeline_items_markup: grouped_items.map(timeline_item_markup).join(""),
+  const { sorted_items, year_groups } = timeline_year_groups(timeline_items);
+  const timeline_years_markup = year_groups
+    .map((year_group) => render_template(timeline_year_template, {
+      year_label: escape_html(year_group.year_label),
+      timeline_months_markup: timeline_months_markup(year_group.year_label),
+      timeline_items_markup: year_group.timeline_fragments.map(timeline_item_markup).join(""),
     }))
     .join("");
 

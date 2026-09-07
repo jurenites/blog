@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_timeline_proof_links
+    - paragraphs.paragraphs_type.timeline_item
+  module:
+    - link
+id: paragraph.timeline_item.field_timeline_proof_links
+field_name: field_timeline_proof_links
+entity_type: paragraph
+bundle: timeline_item
+label: 'Proof links'
+description: 'Optional public project, case study, archived page, or Dropbox PDF links that show the work.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 2
+  link_type: 17
+field_type: link

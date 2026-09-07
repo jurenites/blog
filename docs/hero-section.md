@@ -35,10 +35,16 @@ action. Arrow keys, Home and End select/focus tabs. No autoplay or pointer-track
 animation runs. Hover/focus reveals subtle ray beams on the emitting side of
 the laptop display. The beam projects lower into the scene, with a blurred
 perimeter and a gradual distance fade. A separate CSS clip keeps the screen edge
-crisp. Slow, randomized hue changes suggest moving screen content; they pause
+crisp. Continuous hue cycles and two overlapping, drifting beam patterns suggest
+moving screen content even with a stationary pointer; they pause
 when the Hero is inactive or the browser tab is hidden. There are no face or shirt
 reflection overlays and no generated god-ray image. The percentage coordinates
 in `.hero-section__glow` follow the supplied photo and scale with the image.
+The image and glow share `.hero-section__photo-plane`. Adjust placement on
+`.hero-section__scene`, never by padding the image alone. The author's 40px top
+and 80px right offsets remain local SCSS variables and scale down on small screens.
+Touch devices have a **Screen light** toggle with a pressed state; keyboard focus
+on the Hero links also reveals the light. The stacked layout supports 360px widths.
 Reduced motion keeps the light static and disables its entrance transition.
 Without JavaScript every slide remains readable and its links remain usable.
 

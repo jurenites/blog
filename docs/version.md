@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 1.19.1
+Version: 1.22.1
 Reviewed: 2026-09-07
 
 This checkpoint says the `/docs` folder has been reviewed against the current
@@ -46,7 +46,13 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   Privacy Policy in the Drupal Footer menu without resetting later revisions.
 - Hero sections are reusable content blocks with editable images, text, links and
   reorderable slides. Shared Storybook/theme styles provide responsive layout,
-  manual accessible navigation and optional CSS screen glow. See `hero-section.md`.
+  manual accessible navigation and optional CSS screen glow. Photo and light share
+  one positioning plane; continuous hues and drifting beams pause when inactive.
+  Touch devices expose a light toggle. See `hero-section.md`.
+- Layered scene blocks combine aligned background and transparent foreground
+  images with editable copy, links and a one-time entrance. Initial Desk arrival
+  placement is disabled pending image rework; native Block layout controls its position and pages.
+  Storybook includes Portfolio, Contact and About uses. See `layered-scene.md`.
 - Editable token source: `src/token/tokens.yaml`.
 - Generated token artifacts: `generated/styles/_tokens.scss`,
   `generated/token/tokens.js`, and the readable three-layer mapping table at

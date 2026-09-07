@@ -3456,34 +3456,18 @@ export const TOKEN_RECORDS = [
     "reference_name": "shape-border-width-hairline-default"
   },
   {
-    "name": "component-timeline-duration-month-scale",
+    "name": "component-timeline-month-height-default",
     "path": [
       "component",
       "timeline",
-      "duration-month-scale"
+      "month-height-default"
     ],
     "type": "dimension",
-    "description": "Month-to-height rhythm; long ranges are capped below.",
-    "source_value": "4px",
-    "value": "4px",
-    "css_value": "4px",
-    "resolved_css_value": "4px",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-timeline-duration-height-max",
-    "path": [
-      "component",
-      "timeline",
-      "duration-height-max"
-    ],
-    "type": "dimension",
-    "description": "Prevents multi-year records from overwhelming adjacent entries.",
-    "source_value": "144px",
-    "value": "144px",
-    "css_value": "144px",
-    "resolved_css_value": "144px",
+    "description": "Every calendar year is twelve identical month tracks.",
+    "source_value": "96px",
+    "value": "96px",
+    "css_value": "96px",
+    "resolved_css_value": "96px",
     "is_reference": false,
     "reference_name": null
   },
