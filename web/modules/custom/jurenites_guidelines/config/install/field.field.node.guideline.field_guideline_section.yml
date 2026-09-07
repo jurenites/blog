@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_guideline_section
+    - node.type.guideline
+  module:
+    - options
+id: node.guideline.field_guideline_section
+field_name: field_guideline_section
+entity_type: node
+bundle: guideline
+label: 'Guideline section'
+description: 'Selects the project-owned visual specimen shown on the tile and detail page.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

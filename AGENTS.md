@@ -96,22 +96,20 @@ Before a commit, run `npm run docs:check`; if source history has moved too far
 ahead of the docs checkpoint, review `/docs`, update stale pages, and bump the
 documentation version.
 
-## OpenSpec Planning
+## Implementation Workflow
 
-Keep OpenSpec artifacts brief and limited to the requested feature. Account for
-the existing Drupal and Storybook architecture; do not invent speculative
-systems, automation, or edge cases without an explicit requirement.
+Work directly from the user's task. Implement small, clear changes, verify the
+result, and refine it through feedback without requiring planning artifacts or
+workflow commands.
 
-- Keep project-wide ways of working, including token usage, DOM styling, shared
-  component reuse, and validation commands, in `AGENTS.md` or project docs. Do
-  not repeat them in feature proposals or specs.
-- Give each artifact one job: proposal for why and scope, specs for observable
-  behavior, design for decisions, and tasks for implementation. Do not restate
-  the same detail across artifacts.
-- Declare each configurable value once in `design.md` with a meaningful
-  `SCREAMING_SNAKE_CASE` name. Other artifacts reference that name without
-  repeating its literal value.
-- Put machine-readable names in backticks and follow existing Drupal naming;
-  for example, use the node bundle machine name `news`.
-- Prefer a short implementation plan over OpenSpec when persistent,
-  cross-artifact planning would add more overhead than value.
+- For substantial features, briefly describe the intended behavior and approach
+  in chat. Clarify only consequential uncertainties before dependent work.
+- Write a short plan before expensive-to-reverse changes such as content
+  migrations, permission changes, or deployment architecture. Use an existing
+  relevant doc when the plan needs to survive across tasks.
+- Account for the existing Drupal and Storybook architecture; do not invent
+  speculative systems, automation, or edge cases without a requirement.
+- Keep durable decisions and delivered behavior in the relevant `/docs` page,
+  and project-wide conventions in `AGENTS.md`. Avoid duplicate feature records.
+- Run checks appropriate to the change and report what was verified, including
+  any runtime or deployment work that remains.

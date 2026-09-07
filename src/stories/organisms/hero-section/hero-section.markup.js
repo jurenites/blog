@@ -23,7 +23,7 @@ export function hero_section_markup({ section_label, eyebrow_heading, background
     additional_classes: `${glow_enabled && background_image_url ? " hero-section--glow" : ""}${background_image_url ? "" : " hero-section--without-image"}`,
     section_label: escape_html(section_label),
     scene_markup: background_image_url
-      ? `<div class="hero-section__scene"><img class="hero-section__image" src="${escape_html(background_image_url)}" alt="${escape_html(image_description)}" decoding="async"><div class="hero-section__glow" aria-hidden="true"></div></div>` : "",
+      ? `<div class="hero-section__scene"><img class="hero-section__image" src="${escape_html(background_image_url)}" alt="${escape_html(image_description)}" decoding="async"><div class="hero-section__glow" aria-hidden="true"><div class="hero-section__rays"></div></div></div>` : "",
     eyebrow_markup: eyebrow_heading ? `<p class="hero-section__eyebrow">${escape_html(eyebrow_heading)}</p>` : "",
     panel_markup,
     navigation_label: "Hero sections",

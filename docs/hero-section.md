@@ -22,10 +22,24 @@ or an uploaded CV's actual URL; installation does not invent a CV download.
 
 ## Behavior and shared implementation
 
+The homepage's sticky 64px top navigation has a 50% dark background tint and
+12px backdrop blur. Both fade to transparent over an additional 32px below the
+menu, keeping text readable over the photograph without a hard lower edge.
+The effect does not intercept clicks or change layout. The expanded mobile
+menu retains its opaque background. **Organisms/Top Nav Menu Site Header →
+Homepage Overlay** demonstrates the shared treatment; its tint, blur and fade
+height are editable under `component.site-header` in `src/token/tokens.yaml`.
+
 The photograph stays still while manual tabs select the message and calls to
 action. Arrow keys, Home and End select/focus tabs. No autoplay or pointer-tracking
-animation runs. Hover/focus adds soft cyan/magenta gradients to the original image;
-no generated god-ray image is used. Reduced motion disables the light transition.
+animation runs. Hover/focus reveals subtle ray beams on the emitting side of
+the laptop display. The beam projects lower into the scene, with a blurred
+perimeter and a gradual distance fade. A separate CSS clip keeps the screen edge
+crisp. Slow, randomized hue changes suggest moving screen content; they pause
+when the Hero is inactive or the browser tab is hidden. There are no face or shirt
+reflection overlays and no generated god-ray image. The percentage coordinates
+in `.hero-section__glow` follow the supplied photo and scale with the image.
+Reduced motion keeps the light static and disables its entrance transition.
 Without JavaScript every slide remains readable and its links remain usable.
 
 At narrow viewport or block-region widths the image is followed by the text. With no image, a readable

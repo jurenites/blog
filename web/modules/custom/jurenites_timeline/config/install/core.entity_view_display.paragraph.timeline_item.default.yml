@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.timeline_item.field_timeline_emphasis
+    - field.field.paragraph.timeline_item.field_timeline_hours
+    - field.field.paragraph.timeline_item.field_timeline_kind
+    - field.field.paragraph.timeline_item.field_timeline_name
+    - field.field.paragraph.timeline_item.field_timeline_organization
+    - field.field.paragraph.timeline_item.field_timeline_periods
+    - field.field.paragraph.timeline_item.field_timeline_summary
+    - paragraphs.paragraphs_type.timeline_item
+id: paragraph.timeline_item.default
+targetEntityType: paragraph
+bundle: timeline_item
+mode: default
+content: {  }
+hidden:
+  field_timeline_emphasis: true
+  field_timeline_hours: true
+  field_timeline_kind: true
+  field_timeline_name: true
+  field_timeline_organization: true
+  field_timeline_periods: true
+  field_timeline_summary: true
+  created: true
+  status: true
+

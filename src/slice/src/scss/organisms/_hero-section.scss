@@ -41,6 +41,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  padding-top: 40px;
+  padding-right: 80px; //do not replace this "nagic numbers" because it's a eyeballing positioning of an image  
 }
 
 .hero-section__scene::after {
@@ -59,11 +61,50 @@
   inset: 0;
   mix-blend-mode: screen;
   filter: brightness(0);
-  background:
-    radial-gradient(ellipse at 73% 65%, var(--component-hero-section-cyan-glow-color), var(--component-hero-section-clear-color) 26%),
-    radial-gradient(ellipse at 39% 31%, var(--component-hero-section-cyan-reflection-color), var(--component-hero-section-clear-color) 14%),
-    radial-gradient(ellipse at 39% 60%, var(--component-hero-section-magenta-reflection-color), var(--component-hero-section-clear-color) 23%);
+  // This half-plane follows the screen edge independently of the soft beam.
+  // Blurring the inner light cannot spill onto the back of the laptop.
+  clip-path: polygon(85.81% 0, 63.29% 100%, 0 100%, 0 0);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    var(--component-hero-section-clear-color) 46%,
+    var(--color-palette-full-black) 72%
+  );
+  mask-image: linear-gradient(
+    to right,
+    var(--component-hero-section-clear-color) 46%,
+    var(--color-palette-full-black) 72%
+  );
   @include tools.motion-transition(filter);
+}
+
+.hero-section__rays {
+  position: absolute;
+  inset: 0;
+  filter: blur(var(--component-hero-section-ray-softness-default));
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    // The far end sits lower; the near end extends beyond the screen's clip.
+    clip-path: polygon(77% 48%, 71% 78%, 46% 67%, 46% 35%);
+    background:
+      conic-gradient(
+        from 282deg at 220% 145%,
+        var(--component-hero-section-clear-color) 0deg,
+        var(--component-hero-section-ray-highlight-color) 2deg,
+        var(--component-hero-section-clear-color) 4deg,
+        var(--component-hero-section-ray-highlight-color) 6deg,
+        var(--component-hero-section-clear-color) 8deg,
+        var(--component-hero-section-ray-highlight-color) 10deg,
+        var(--component-hero-section-clear-color) 12deg
+      ),
+      linear-gradient(
+        to right,
+        var(--component-hero-section-clear-color) 46%,
+        var(--component-hero-section-ray-fill-color) 75%
+      );
+  }
 }
 
 .hero-section--glow:focus-within .hero-section__glow {

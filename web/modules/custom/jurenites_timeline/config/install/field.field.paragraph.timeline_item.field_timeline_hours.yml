@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_timeline_hours
+    - paragraphs.paragraphs_type.timeline_item
+id: paragraph.timeline_item.field_timeline_hours
+field_name: field_timeline_hours
+entity_type: paragraph
+bundle: timeline_item
+label: 'Hours worked'
+description: 'Optional whole-number total from the CV.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: h
+field_type: integer
+

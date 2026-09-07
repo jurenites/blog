@@ -32,9 +32,13 @@
         <h2 class="footer-navigation__heading">{{ 'Information'|t }}</h2>
         <ul class="footer-navigation__list">
           {% for footer_item in items %}
+            {% set footer_link_classes = ['footer-navigation__link'] %}
+            {% if footer_item.font_project_badge %}
+              {% set footer_link_classes = footer_link_classes|merge(['footer-navigation__link--with-badge']) %}
+            {% endif %}
             <li class="footer-navigation__item">
-              <a href="{{ footer_item.url }}"{{ footer_item.attributes.addClass('footer-navigation__link') }}>
-                <span>{{ footer_item.title }}</span>
+              <a href="{{ footer_item.url }}"{{ footer_item.attributes.addClass(footer_link_classes) }}>
+                <span class="footer-navigation__link-label">{{ footer_item.title }}</span>
                 {% if footer_item.font_project_badge %}
                   {{ footer_item.font_project_badge }}
                 {% endif %}

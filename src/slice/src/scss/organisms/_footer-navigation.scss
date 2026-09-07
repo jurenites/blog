@@ -36,9 +36,18 @@
   gap: var(--space-scale-base-gap);
   max-width: 100%;
   overflow-wrap: anywhere;
-  .badge {
-    text-decoration: none;
-  }
+}
+
+// Text decoration painted by a link propagates through inline descendants, so
+// the badge cannot cancel it for itself. Keep the link hit area intact while
+// moving the decoration onto the text-only element.
+body.jurenites-theme a.footer-navigation__link--with-badge {
+  text-decoration: none;
+}
+
+.footer-navigation__link--with-badge .footer-navigation__link-label {
+  text-decoration: underline;
+  text-decoration-thickness: var(--space-scale-one);
 }
 
 .footer-navigation__rights-message {

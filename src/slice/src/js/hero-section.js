@@ -1,3 +1,5 @@
+import { initialize_hero_glow } from './hero-glow.js';
+
 let hero_instance_count = 0;
 
 /** Enhance authored slides without hiding content when JavaScript is unavailable. */
@@ -13,6 +15,7 @@ export function initialize_hero_sections(hero_context = document) {
     if (!slide_navigation || !slide_panels.length || slide_panels.length !== slide_buttons.length) return;
 
     hero_section.dataset.heroInitialized = 'true';
+    initialize_hero_glow(hero_section);
     hero_instance_count += 1;
     const instance_prefix = `hero-section-${hero_instance_count}`;
     let active_index = 0;

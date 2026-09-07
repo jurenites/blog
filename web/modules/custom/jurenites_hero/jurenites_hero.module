@@ -9,11 +9,21 @@ use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 
+require_once __DIR__ . "/jurenites_hero.layered_scene.inc";
+
 /**
  * Implements hook_theme().
  */
 function jurenites_hero_theme(): array {
   return [
+    'jurenites_layered_scene' => [
+      'variables' => [
+        'section_heading' => '', 'eyebrow_heading' => '', 'section_description' => '',
+        'background_image_url' => '', 'background_description' => '',
+        'foreground_image_url' => '', 'foreground_description' => '',
+        'arrival_enabled' => FALSE, 'scene_actions' => [],
+      ],
+    ],
     'jurenites_hero' => [
       'variables' => [
         'section_label' => '', 'eyebrow_heading' => '', 'background_image_url' => '',
@@ -37,6 +47,10 @@ function jurenites_hero_read_field(EntityInterface $content_entity, string $fiel
  * Implements hook_ENTITY_TYPE_view().
  */
 function jurenites_hero_block_content_view(array &$build_output, EntityInterface $block_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($block_entity->bundle() === 'layered_scene') {
+    $build_output['layered_scene'] = jurenites_hero_layered_scene_build($block_entity);
+    return;
+  }
   if ($block_entity->bundle() !== 'hero') {
     return;
   }

@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+id: timeline_item
+label: 'Timeline item'
+icon_uuid: null
+icon_default: null
+description: 'A duration-based commercial project or a single-date milestone.'
+behavior_plugins: {  }
+

@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 1.17.0
+Version: 1.19.1
 Reviewed: 2026-09-07
 
 This checkpoint says the `/docs` folder has been reviewed against the current
@@ -28,6 +28,22 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 
 ## Current Source Contract
 
+- Development starts from conversational tasks, with brief plans for substantial
+  or expensive-to-reverse changes and durable decisions kept in existing docs.
+- The `news` content model, metadata ownership, and homepage-only View are
+  documented in `docs/drupal-content-model.md`.
+- `/timeline` is one editable Timeline node containing repeatable project and
+  single-date-event Paragraphs. Its 73 starter records come from the current CV
+  project history plus one personal milestone; Start date drives year grouping
+  and order, while shared Storybook/theme styles provide duration bars, 8px
+  event squares, sticky years, Featured stars, and the shared 24px heart Icon.
+- `/guidelines` is an ordered Drupal View of editable `guideline` nodes. The
+  initial Logo Icon detail reuses the theme SVG, the Color detail renders the
+  live generated palette records from `src/token/tokens.yaml`, and matching
+  Storybook tile/detail examples share the same source SCSS contract.
+- The editable `/cookbook` Basic Page documents the project workflow in its
+  `basic_html` Body, reserves image and GIF insertion points, and follows
+  Privacy Policy in the Drupal Footer menu without resetting later revisions.
 - Hero sections are reusable content blocks with editable images, text, links and
   reorderable slides. Shared Storybook/theme styles provide responsive layout,
   manual accessible navigation and optional CSS screen glow. See `hero-section.md`.

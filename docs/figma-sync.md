@@ -10,7 +10,7 @@ file should be updated.
 src/token/tokens.yaml
   -> generated/token/tokens.js
   -> scripts/figma/design-system-sync.js
-  -> Figma variables and design-system frames
+  -> Figma variables, text styles, and effect styles
 ```
 
 The Figma sync helper imports `generated/token/tokens.js`. It must not embed a
@@ -20,11 +20,11 @@ mirrored token payload or fallback color values.
 
 1. Edit `src/token/tokens.yaml`.
 2. Run `npm run figma:prepare`.
-3. Run `scripts/figma/design-system-sync.js` as a local Figma plugin
-   development module.
+3. In Figma, import `scripts/figma/manifest.json` as a development plugin.
+4. Run **Blog jurenites token sync** in the target design file.
 
-The script creates or updates the **Design System - Synced** page with color
-variables, typography frames, and UI component frames.
+The script creates or updates source-managed local variables, text styles, and
+effect styles. It does not create or change components or canvas pages.
 
 ## Pull From Figma
 

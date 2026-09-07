@@ -25,6 +25,7 @@ const JURENITES_HERO_BLOCK_UUID = 'a55a4f53-9411-46a9-9742-0d1ddbc4a8c9';
 function jurenites_hero_install(): void {
   jurenites_hero_configure_fields();
   jurenites_hero_create_homepage_block();
+  jurenites_hero_layered_scene_setup();
 }
 
 /**

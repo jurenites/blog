@@ -2023,6 +2023,182 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-site-header-backdrop-color-default",
+    "path": [
+      "component",
+      "site-header",
+      "backdrop-color-default"
+    ],
+    "type": "string",
+    "description": "Half-opacity homepage tint matching the photograph edge.",
+    "source_value": "#00020780",
+    "value": "#00020780",
+    "css_value": "#00020780",
+    "resolved_css_value": "#00020780",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-backdrop-blur-default",
+    "path": [
+      "component",
+      "site-header",
+      "backdrop-blur-default"
+    ],
+    "type": "dimension",
+    "description": "Soften image details beneath navigation.",
+    "source_value": "12px",
+    "value": "12px",
+    "css_value": "12px",
+    "resolved_css_value": "12px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-backdrop-fade-height-default",
+    "path": [
+      "component",
+      "site-header",
+      "backdrop-fade-height-default"
+    ],
+    "type": "dimension",
+    "description": "Feather below the 64px menu without affecting layout.",
+    "source_value": "32px",
+    "value": "32px",
+    "css_value": "32px",
+    "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-guideline-tile-min-width-default",
+    "path": [
+      "component",
+      "guideline",
+      "tile-min-width-default"
+    ],
+    "type": "dimension",
+    "description": "Overview tiles remain readable before the responsive grid adds another column.",
+    "source_value": "280px",
+    "value": "280px",
+    "css_value": "280px",
+    "resolved_css_value": "280px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-guideline-preview-height-default",
+    "path": [
+      "component",
+      "guideline",
+      "preview-height-default"
+    ],
+    "type": "dimension",
+    "description": "Shared media field for Logo Icon, Color, and future guideline previews.",
+    "source_value": "240px",
+    "value": "240px",
+    "css_value": "240px",
+    "resolved_css_value": "240px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-guideline-logo-icon-size-default",
+    "path": [
+      "component",
+      "guideline",
+      "logo-icon-size-default"
+    ],
+    "type": "dimension",
+    "description": "Prominent specimen size; normal header usage keeps the smaller site-branding token.",
+    "source_value": "160px",
+    "value": "160px",
+    "css_value": "160px",
+    "resolved_css_value": "160px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-guideline-specimen-height-default",
+    "path": [
+      "component",
+      "guideline",
+      "specimen-height-default"
+    ],
+    "type": "dimension",
+    "description": "Allows the source icon and its clear space to remain visible on both comparison surfaces.",
+    "source_value": "320px",
+    "value": "320px",
+    "css_value": "320px",
+    "resolved_css_value": "320px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-guideline-swatch-min-width-default",
+    "path": [
+      "component",
+      "guideline",
+      "swatch-min-width-default"
+    ],
+    "type": "dimension",
+    "description": "Keeps token names readable without forcing a fixed column count.",
+    "source_value": "200px",
+    "value": "200px",
+    "css_value": "200px",
+    "resolved_css_value": "200px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-guideline-swatch-height-default",
+    "path": [
+      "component",
+      "guideline",
+      "swatch-height-default"
+    ],
+    "type": "dimension",
+    "description": "Color sample height used by both Drupal and the matching Storybook story.",
+    "source_value": "120px",
+    "value": "120px",
+    "css_value": "120px",
+    "resolved_css_value": "120px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-layered-scene-arrival-duration-default",
+    "path": [
+      "component",
+      "layered-scene",
+      "arrival-duration-default"
+    ],
+    "type": "duration",
+    "description": "One calm foreground entrance after the scene becomes visible.",
+    "source_value": "1100ms",
+    "value": "1100ms",
+    "css_value": "1100ms",
+    "resolved_css_value": "1100ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-layered-scene-arrival-delay-default",
+    "path": [
+      "component",
+      "layered-scene",
+      "arrival-delay-default"
+    ],
+    "type": "duration",
+    "description": "Brief empty-desk pause; never delays page content.",
+    "source_value": "450ms",
+    "value": "450ms",
+    "css_value": "450ms",
+    "resolved_css_value": "450ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-hero-section-background-edge-color",
     "path": [
       "component",
@@ -2055,34 +2231,66 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "component-hero-section-cyan-glow-color",
+    "name": "component-hero-section-ray-fill-color",
     "path": [
       "component",
       "hero-section",
-      "cyan-glow-color"
+      "ray-fill-color"
     ],
     "type": "string",
-    "description": "Restrained light at the supplied laptop screen.",
-    "source_value": "#66FFFF24",
-    "value": "#66FFFF24",
-    "css_value": "#66FFFF24",
-    "resolved_css_value": "#66FFFF24",
+    "description": "Faint cool light confined to the screen's emitting side.",
+    "source_value": "#68CBE812",
+    "value": "#68CBE812",
+    "css_value": "#68CBE812",
+    "resolved_css_value": "#68CBE812",
     "is_reference": false,
     "reference_name": null
   },
   {
-    "name": "component-hero-section-cyan-reflection-color",
+    "name": "component-hero-section-ray-highlight-color",
     "path": [
       "component",
       "hero-section",
-      "cyan-reflection-color"
+      "ray-highlight-color"
     ],
     "type": "string",
-    "description": "",
-    "source_value": "#66FFFF12",
-    "value": "#66FFFF12",
-    "css_value": "#66FFFF12",
-    "resolved_css_value": "#66FFFF12",
+    "description": "Soft beam ridges; no lighting overlays on skin or clothing.",
+    "source_value": "#8DDBF222",
+    "value": "#8DDBF222",
+    "css_value": "#8DDBF222",
+    "resolved_css_value": "#8DDBF222",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-ray-softness-default",
+    "path": [
+      "component",
+      "hero-section",
+      "ray-softness-default"
+    ],
+    "type": "dimension",
+    "description": "Feather the beam perimeter before clipping at the screen edge.",
+    "source_value": "12px",
+    "value": "12px",
+    "css_value": "12px",
+    "resolved_css_value": "12px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-ray-color-duration-default",
+    "path": [
+      "component",
+      "hero-section",
+      "ray-color-duration-default"
+    ],
+    "type": "duration",
+    "description": "Slow color changes evoke moving screen content without flashing.",
+    "source_value": "2800ms",
+    "value": "2800ms",
+    "css_value": "2800ms",
+    "resolved_css_value": "2800ms",
     "is_reference": false,
     "reference_name": null
   },
@@ -2099,22 +2307,6 @@ export const TOKEN_RECORDS = [
     "value": "100px",
     "css_value": "100px",
     "resolved_css_value": "100px",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-hero-section-magenta-reflection-color",
-    "path": [
-      "component",
-      "hero-section",
-      "magenta-reflection-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#FF66FF16",
-    "value": "#FF66FF16",
-    "css_value": "#FF66FF16",
-    "resolved_css_value": "#FF66FF16",
     "is_reference": false,
     "reference_name": null
   },
@@ -3090,6 +3282,42 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-date-time-value-format-date-month-month",
+    "path": [
+      "component",
+      "date-time-value",
+      "format",
+      "date-month",
+      "month"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "short",
+    "value": "short",
+    "css_value": "short",
+    "resolved_css_value": "short",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-date-time-value-format-date-month-year",
+    "path": [
+      "component",
+      "date-time-value",
+      "format",
+      "date-month",
+      "year"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "numeric",
+    "value": "numeric",
+    "css_value": "numeric",
+    "resolved_css_value": "numeric",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-date-time-value-format-date-day-time-month",
     "path": [
       "component",
@@ -3187,7 +3415,7 @@ export const TOKEN_RECORDS = [
       "marker-size-default"
     ],
     "type": "dimension",
-    "description": "",
+    "description": "Exact 8px square event marker and duration-bar width.",
     "source_value": "{space.scale.base-gap}",
     "value": "8px",
     "css_value": "var(--space-scale-base-gap)",
@@ -3208,6 +3436,70 @@ export const TOKEN_RECORDS = [
     "value": "40px",
     "css_value": "40px",
     "resolved_css_value": "40px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-timeline-line-width-default",
+    "path": [
+      "component",
+      "timeline",
+      "line-width-default"
+    ],
+    "type": "dimension",
+    "description": "Quiet continuous chronology rail.",
+    "source_value": "{shape.border-width.hairline-default}",
+    "value": "1px",
+    "css_value": "var(--shape-border-width-hairline-default)",
+    "resolved_css_value": "1px",
+    "is_reference": true,
+    "reference_name": "shape-border-width-hairline-default"
+  },
+  {
+    "name": "component-timeline-duration-month-scale",
+    "path": [
+      "component",
+      "timeline",
+      "duration-month-scale"
+    ],
+    "type": "dimension",
+    "description": "Month-to-height rhythm; long ranges are capped below.",
+    "source_value": "4px",
+    "value": "4px",
+    "css_value": "4px",
+    "resolved_css_value": "4px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-timeline-duration-height-max",
+    "path": [
+      "component",
+      "timeline",
+      "duration-height-max"
+    ],
+    "type": "dimension",
+    "description": "Prevents multi-year records from overwhelming adjacent entries.",
+    "source_value": "144px",
+    "value": "144px",
+    "css_value": "144px",
+    "resolved_css_value": "144px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-timeline-sticky-layer-default",
+    "path": [
+      "component",
+      "timeline",
+      "sticky-layer-default"
+    ],
+    "type": "number",
+    "description": "Keeps the active year above timeline records while its section is in view.",
+    "source_value": 20,
+    "value": 20,
+    "css_value": "20",
+    "resolved_css_value": "20",
     "is_reference": false,
     "reference_name": null
   },

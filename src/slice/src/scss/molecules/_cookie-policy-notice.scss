@@ -11,7 +11,7 @@
 .cookie-policy-notice {
   position: fixed;
   z-index: var(--component-cookie-policy-notice-layer-default);
-  inset-block-end: var(--layout-gutter-desktop-default);
+  //inset-block-end: var(--layout-gutter-desktop-default);
   inset-inline: var(--layout-gutter-desktop-default);
   display: flex;
   align-items: flex-end;

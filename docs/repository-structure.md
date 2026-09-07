@@ -175,6 +175,31 @@ checked, preventing a dismissed notice from flashing during page load. It floats
 above the bottom viewport edge while remaining a non-modal footer block. The
 notice and policy page remain separate Drupal content responsibilities.
 
+Apply the editable project Cookbook with:
+
+```bash
+docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_cookbook
+```
+
+The `jurenites_cookbook` module creates the published `/cookbook` Basic Page and
+places its Drupal Footer menu link directly after Privacy Policy and before the
+dynamic Fonts link. The install copy is a starting point only: after creation,
+the Body and its image or GIF placements belong to Drupal editors.
+
+Apply the public design guidelines with:
+
+```bash
+docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_guidelines
+```
+
+The `jurenites_guidelines` module installs the `guideline` node type, its
+ordered `/guidelines` View, matching tile and detail view modes, and the initial
+Logo Icon and Color nodes. The Logo specimen reuses the theme SVG. The Color
+specimen reads `generated/token/tokens.js`, which is rebuilt from
+`src/token/tokens.yaml`; it does not store a second palette in Drupal content.
+Both visual contracts also have matching Storybook examples. Editors own each
+node's required summary and detailed Body after its stable UUID is created.
+
 ## Media Upload Infrastructure
 
 Image media has an explicit 200 MB Drupal field limit. Supporting request limits

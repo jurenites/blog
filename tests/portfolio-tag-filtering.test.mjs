@@ -14,6 +14,10 @@ const FOOTER_TEMPLATE_SOURCE = readFileSync(
   "src/stories/organisms/footer-navigation/footer-navigation.template.html",
   "utf8",
 );
+const FOOTER_STYLES_SOURCE = readFileSync(
+  "src/slice/src/scss/organisms/_footer-navigation.scss",
+  "utf8",
+);
 const PORTFOLIO_VIEW_SOURCE = readFileSync(
   "web/modules/custom/jurenites_font_projects/config/install/views.view.portfolio.yml",
   "utf8",
@@ -41,6 +45,10 @@ test("Footer Navigation composes the shared gray Badge for the font count", () =
   assert.match(FOOTER_MARKUP_SOURCE, /fonts_badge_markup/);
   assert.match(FOOTER_TEMPLATE_SOURCE, /href="\{\{fonts_url\}\}"/);
   assert.match(FOOTER_TEMPLATE_SOURCE, /\{\{fonts_badge_markup\}\}/);
+  assert.match(FOOTER_TEMPLATE_SOURCE, /footer-navigation__link--with-badge/);
+  assert.match(FOOTER_TEMPLATE_SOURCE, /footer-navigation__link-label/);
+  assert.match(FOOTER_STYLES_SOURCE, /footer-navigation__link--with-badge/);
+  assert.match(FOOTER_STYLES_SOURCE, /footer-navigation__link-label/);
   assert.match(BADGE_TEMPLATE_SOURCE, /class="\{\{badge_class_name\}\}"/);
 });
 

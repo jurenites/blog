@@ -165,7 +165,7 @@ function jurenites_font_projects_ensure_portfolio_navigation(): array {
   $font_footer_link->set('link', ['uri' => JURENITES_FONT_PROJECTS_FOOTER_URI]);
   $font_footer_link->set('enabled', TRUE);
   $font_footer_link->set('expanded', FALSE);
-  $font_footer_link->set('weight', 1);
+  $font_footer_link->set('weight', 2);
   $font_footer_link->save();
 
   return [

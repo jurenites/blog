@@ -8,6 +8,12 @@ Rule: create fields only when Drupal needs to sort, filter, reference, render, o
 
 Purpose: stable site pages such as About and Contact.
 
+The published `/cookbook` Basic Page is the editor-owned working manual for the
+project. Its `basic_html` Body explains the idea, token, Storybook, Drupal,
+verification, and release loop and includes explicit image and GIF placeholders.
+The `jurenites_cookbook` module writes that starter Body only when the stable
+node is first created; later CKEditor revisions are not reset by setup code.
+
 The native Title remains the canonical page title and the first strong segment
 of the Two-tone Heading component. One compound `field_two_tone_heading` field
 stores these optional, translatable properties:
@@ -49,25 +55,35 @@ background image and reorderable `hero_slide` Paragraphs. Text, button labels an
 destinations are authored in the block; placement and page visibility are managed
 through Block layout. See [Hero section](hero-section.md) for editing and setup.
 
-## Timeline Event
+## Timeline
 
-Purpose: turn the CV into an interactive timeline with bookmarks. A timeline event can describe a job, project phase, release, skill shift, or important professional moment.
+Purpose: turn the commercial-project pages of the CV into one long chronology
+without creating a node for every project. One published `timeline` node owns
+the stable `/timeline` alias and a multi-value `field_timeline_items`
+Paragraphs field.
 
-Suggested fields:
+Each `timeline_item` record contains:
 
-- Title
-- Slug
-- Start date
-- End date
-- Body
-- Company / organization reference
-- Project reference
-- Role / occupation
-- Icon or logo media
-- Weight
-- Visibility: public, anonymized, private
+- Name
+- Type: duration-based project or single-date event
+- One or more date periods; the first Start date controls descending public
+  order and Paragraph order breaks ties
+- Optional hours worked and organization
+- Optional summary
+- Emphasis: standard, Featured star, or Special place in my heart
 
-Everything else can start in `Body`: contribution, what happened, what I learned, screenshots, context, criticism, or story details. This keeps each timeline event flexible.
+Project dates from the CV have month precision. They are stored on the first day
+of their month for sorting but displayed only as month and year. A precise
+single-date event, such as November 9, 2023, retains and displays its day.
+Duration records use an 8px-wide proportional bar capped for very long work;
+single-date events use an 8 × 8px milestone. The public template groups records
+by their primary Start year, and each year heading sticks until the next group
+replaces it.
+
+The starter node contains the 72 commercial projects transcribed from the
+current CV plus one authored personal milestone. Later edits happen through the
+single Timeline node form; adding another item creates a Paragraph revision, not
+a node ID.
 
 ## Project
 
@@ -107,6 +123,28 @@ tool contract.
 Future sortable values such as project dates, organizations, or visibility
 levels should become fields only when a real listing or permissions requirement
 needs them. Until then they remain authored story content.
+
+## Guideline
+
+Purpose: maintain the public visual rules and design-system examples behind the
+site. `/guidelines` lists published Guideline nodes as ordered tiles; each node
+has its own canonical detail page.
+
+Guideline uses the native Title plus three deliberate values:
+
+- Guidance: a required `basic_html` Body with a required summary. The summary
+  is the overview-tile description; the Body is editor-owned detail copy.
+- Guideline section: selects the project-owned Logo Icon or Color specimen.
+- Overview order: a whole number used by the Guidelines View so new topics can
+  be inserted without relying on creation dates or node IDs.
+
+The Logo Icon specimen renders the same
+`web/themes/custom/jurenites_theme/logo.svg` used by the site header. The Color
+specimen reads the generated token records derived from
+`src/token/tokens.yaml`, then presents foundation, brand, and system palette
+values through their generated CSS utility classes. Editors can revise the
+guidance without forking those visual sources. The initial aliases are
+`/guidelines/logo-icon` and `/guidelines/color`.
 
 ## Article
 
@@ -183,6 +221,21 @@ duration values, while replacing the YouTube URL clears the old credit and
 collects the new source. Each save also keeps the Authored on calendar date
 aligned with the stored YouTube publication date. The shared Avatar falls back
 to channel initials when its stored URL is empty or invalid.
+
+## News
+
+The `news` bundle stores manually curated external links with an editorial
+title, required Source URL, optional Tags, and managed source name, source
+publication time, and thumbnail. The `jurenites_news` recipe owns its fields,
+displays, and homepage View; `jurenites_blog` collects source metadata, reusing
+the YouTube workflow for videos and page metadata for other web sources.
+Changing the URL triggers a metadata refresh, while failed lookups preserve
+existing values. Administrators can correct managed values.
+
+The recipe's homepage-only News block shows up to three published records,
+ordered by source publication time, newest first. Its News List Item thumbnail
+and title link to the original external URL. The recipe adds no News listing
+page or main-menu item.
 
 ## Gallery Item
 

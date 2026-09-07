@@ -1,0 +1,81 @@
+<article{{ attributes.addClass('timeline') }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  <header class="timeline__header">
+    <p class="timeline__eyebrow">{{ 'Career and life'|t }}</p>
+    <div class="timeline__introduction">{{ content.body }}</div>
+    <p class="timeline__count">{{ timeline_item_count }} {{ 'records'|t }}</p>
+  </header>
+
+  <div class="timeline__years">
+    {% for year_group in timeline_year_groups %}
+      <section class="timeline__year-group" aria-labelledby="timeline-year-{{ year_group.year_label }}">
+        <h2 id="timeline-year-{{ year_group.year_label }}" class="timeline__year-heading">
+          {{ year_group.year_label }}
+        </h2>
+        <ol class="timeline__items">
+          {% for timeline_item in year_group.timeline_items %}
+            <li class="timeline__item timeline__item--{{ timeline_item.item_kind }}">
+              <span
+                class="timeline__marker{% if timeline_item.item_kind == 'project' %} timeline__marker--duration {{ timeline_item.duration_class_name }}{% endif %}"
+                aria-hidden="true"
+              ></span>
+              <article class="timeline__item-content">
+                <header class="timeline__item-header">
+                  <h3 class="timeline__item-title">{{ timeline_item.item_name }}</h3>
+                  {% if timeline_item.emphasis_kind == 'featured' %}
+                    <span class="timeline__emphasis timeline__emphasis--featured">★ {{ 'Featured'|t }}</span>
+                  {% elseif timeline_item.emphasis_kind == 'heart' %}
+                    <span class="timeline__emphasis timeline__emphasis--heart">
+                      {% include '@jurenites_theme/components/icon.html.twig' with {
+                        icon_name: 'heart-timeline',
+                        icon_class: 'timeline__heart-icon',
+                        icon_asset_base_url: icon_asset_base_url,
+                      } only %}
+                      {{ 'Special place in my heart'|t }}
+                    </span>
+                  {% endif %}
+                </header>
+
+                <div class="timeline__metadata">
+                  {% for timeline_period in timeline_item.periods %}
+                    <span class="timeline__period">
+                      {% include '@jurenites_theme/components/date-time-value.html.twig' with {
+                        date_time_datetime: timeline_period.start_iso,
+                        date_time_display_markup: timeline_period.start_label,
+                        date_time_date_display_variant: timeline_item.item_kind == 'event' ? 'date-day' : 'date-month',
+                      } only %}
+                      {% if timeline_period.is_range %}
+                        <span aria-hidden="true">–</span>
+                        {% include '@jurenites_theme/components/date-time-value.html.twig' with {
+                          date_time_datetime: timeline_period.end_iso,
+                          date_time_display_markup: timeline_period.end_label,
+                          date_time_date_display_variant: 'date-month',
+                        } only %}
+                      {% endif %}
+                    </span>
+                  {% endfor %}
+                  {% if timeline_item.item_kind == 'project' %}
+                    <span class="timeline__duration">{{ timeline_item.duration_label }}</span>
+                  {% endif %}
+                  {% if timeline_item.hours_label %}
+                    <span class="timeline__hours">{{ timeline_item.hours_label }}</span>
+                  {% endif %}
+                  {% if timeline_item.organization_name %}
+                    <span class="timeline__organization">{{ timeline_item.organization_name }}</span>
+                  {% endif %}
+                </div>
+
+                {% if timeline_item.summary_markup %}
+                  <div class="timeline__summary">{{ timeline_item.summary_markup }}</div>
+                {% endif %}
+              </article>
+            </li>
+          {% endfor %}
+        </ol>
+      </section>
+    {% endfor %}
+  </div>
+</article>
+

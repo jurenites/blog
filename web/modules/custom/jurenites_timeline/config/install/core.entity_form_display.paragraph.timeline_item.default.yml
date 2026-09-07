@@ -1,0 +1,73 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.timeline_item.field_timeline_emphasis
+    - field.field.paragraph.timeline_item.field_timeline_hours
+    - field.field.paragraph.timeline_item.field_timeline_kind
+    - field.field.paragraph.timeline_item.field_timeline_name
+    - field.field.paragraph.timeline_item.field_timeline_organization
+    - field.field.paragraph.timeline_item.field_timeline_periods
+    - field.field.paragraph.timeline_item.field_timeline_summary
+    - paragraphs.paragraphs_type.timeline_item
+  module:
+    - datetime_range
+    - text
+id: paragraph.timeline_item.default
+targetEntityType: paragraph
+bundle: timeline_item
+mode: default
+content:
+  field_timeline_name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_timeline_kind:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_timeline_periods:
+    type: daterange_default
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_timeline_hours:
+    type: number
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_timeline_organization:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_timeline_emphasis:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_timeline_summary:
+    type: text_textarea
+    weight: 6
+    region: content
+    settings:
+      rows: 3
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+

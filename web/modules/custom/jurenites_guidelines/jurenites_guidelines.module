@@ -1,0 +1,110 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Theme integration for Jurenites guideline nodes.
+ */
+
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function jurenites_guidelines_preprocess_node(array &$node_variables): void {
+  $guideline_node = $node_variables['node'] ?? NULL;
+  if (!$guideline_node instanceof NodeInterface || $guideline_node->bundle() !== 'guideline') {
+    return;
+  }
+
+  $guideline_section = trim((string) $guideline_node->get('field_guideline_section')->value);
+  $body_item = $guideline_node->get('body')->first();
+  $guideline_summary_text = trim((string) ($body_item?->summary ?? ''));
+  $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
+
+  $node_variables['guideline_section'] = $guideline_section;
+  $node_variables['guideline_logo_url'] = base_path() . $theme_path . '/logo.svg';
+  $node_variables['guideline_summary'] = $guideline_summary_text === ''
+    ? []
+    : [
+      '#type' => 'processed_text',
+      '#text' => $guideline_summary_text,
+      '#format' => (string) ($body_item?->format ?? 'basic_html'),
+    ];
+
+  if ($guideline_section === 'color') {
+    $node_variables['guideline_color_groups'] = jurenites_guidelines_color_groups();
+  }
+}
+
+/**
+ * Reads the generated token records and groups the raw color palette.
+ */
+function jurenites_guidelines_color_groups(): array {
+  $token_source_path = DRUPAL_ROOT . '/../generated/token/tokens.js';
+  if (!is_readable($token_source_path)) {
+    return [];
+  }
+
+  $token_source = (string) file_get_contents($token_source_path);
+  $token_record_matches = [];
+  preg_match(
+    '/export const TOKEN_RECORDS = (\[.*?\]);\s*export const TOKEN_VALUES/s',
+    $token_source,
+    $token_record_matches,
+  );
+  if (!isset($token_record_matches[1])) {
+    return [];
+  }
+
+  $token_records = json_decode($token_record_matches[1], TRUE);
+  if (!is_array($token_records)) {
+    return [];
+  }
+
+  $color_groups = [
+    'foundation' => [
+      'group_label' => t('Foundation'),
+      'color_tokens' => [],
+    ],
+    'brand' => [
+      'group_label' => t('Brand'),
+      'color_tokens' => [],
+    ],
+    'system' => [
+      'group_label' => t('System'),
+      'color_tokens' => [],
+    ],
+  ];
+
+  foreach ($token_records as $token_record) {
+    if (!is_array($token_record)
+      || ($token_record['type'] ?? '') !== 'color'
+      || !str_starts_with((string) ($token_record['name'] ?? ''), 'color-palette-')) {
+      continue;
+    }
+
+    $token_name = (string) $token_record['name'];
+    $color_group_key = str_contains($token_name, '-brand-')
+      ? 'brand'
+      : (str_contains($token_name, '-system-') ? 'system' : 'foundation');
+    $token_label = str_replace(
+      ['brand-', 'system-', '-'],
+      ['', '', ' '],
+      substr($token_name, strlen('color-palette-')),
+    );
+
+    $color_groups[$color_group_key]['color_tokens'][] = [
+      'token_label' => ucwords($token_label),
+      'token_name' => $token_name,
+      'token_value' => (string) ($token_record['css_value'] ?? ''),
+      'background_class' => 'u-bg-' . $token_name,
+    ];
+  }
+
+  return array_values(array_filter(
+    $color_groups,
+    static fn (array $color_group): bool => $color_group['color_tokens'] !== [],
+  ));
+}

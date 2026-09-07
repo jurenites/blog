@@ -1,0 +1,143 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Presentation data for the Jurenites Timeline page.
+ */
+
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\node\NodeInterface;
+use Drupal\paragraphs\ParagraphInterface;
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function jurenites_timeline_preprocess_node(array &$node_variables): void {
+  $timeline_node = $node_variables['node'] ?? NULL;
+  if (!$timeline_node instanceof NodeInterface || $timeline_node->bundle() !== 'timeline') {
+    return;
+  }
+
+  $timeline_items = [];
+  foreach ($timeline_node->get('field_timeline_items')->referencedEntities() as $item_delta => $timeline_paragraph) {
+    if (!$timeline_paragraph instanceof ParagraphInterface
+      || $timeline_paragraph->bundle() !== 'timeline_item') {
+      continue;
+    }
+
+    $timeline_item = jurenites_timeline_build_item($timeline_paragraph);
+    $timeline_item['editorial_order'] = $item_delta;
+    $timeline_items[] = $timeline_item;
+  }
+
+  usort(
+    $timeline_items,
+    static fn (array $first_item, array $second_item): int =>
+      strcmp($second_item['sort_date'], $first_item['sort_date'])
+      ?: $first_item['editorial_order'] <=> $second_item['editorial_order'],
+  );
+
+  $timeline_year_groups = [];
+  foreach ($timeline_items as $timeline_item) {
+    $timeline_year = substr($timeline_item['sort_date'], 0, 4);
+    if (!isset($timeline_year_groups[$timeline_year])) {
+      $timeline_year_groups[$timeline_year] = [
+        'year_label' => $timeline_year,
+        'timeline_items' => [],
+      ];
+    }
+    $timeline_year_groups[$timeline_year]['timeline_items'][] = $timeline_item;
+  }
+
+  $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
+  $node_variables['timeline_year_groups'] = array_values($timeline_year_groups);
+  $node_variables['timeline_item_count'] = count($timeline_items);
+  $node_variables['icon_asset_base_url'] = base_path() . $theme_path . '/assets/icons';
+}
+
+/**
+ * Builds one safe, sortable Timeline item presentation record.
+ */
+function jurenites_timeline_build_item(ParagraphInterface $timeline_paragraph): array {
+  $timeline_kind = (string) ($timeline_paragraph->get('field_timeline_kind')->value ?: 'project');
+  $timeline_periods = [];
+  $total_month_count = 0;
+  $primary_start_date = '';
+
+  foreach ($timeline_paragraph->get('field_timeline_periods')->getValue() as $period_delta => $timeline_period_value) {
+    $period_start_value = (string) ($timeline_period_value['value'] ?? '');
+    $period_end_value = (string) ($timeline_period_value['end_value'] ?? $period_start_value);
+    if ($period_start_value === '') {
+      continue;
+    }
+    if ($period_delta === 0) {
+      $primary_start_date = $period_start_value;
+    }
+
+    $period_start_date = new DrupalDateTime($period_start_value, 'UTC');
+    $period_end_date = new DrupalDateTime($period_end_value, 'UTC');
+    $total_month_count += jurenites_timeline_month_count($period_start_date, $period_end_date);
+
+    $date_format_pattern = $timeline_kind === 'event' ? 'M j, Y' : 'M Y';
+    $period_start_label = $period_start_date->format($date_format_pattern);
+    $period_end_label = $period_end_date->format($date_format_pattern);
+    $timeline_periods[] = [
+      'start_iso' => $period_start_date->format('Y-m-d'),
+      'end_iso' => $period_end_date->format('Y-m-d'),
+      'start_label' => $period_start_label,
+      'end_label' => $period_end_label,
+      'is_range' => $period_start_label !== $period_end_label,
+    ];
+  }
+
+  $normalized_duration_months = max(1, min(36, $total_month_count));
+  $timeline_hours = $timeline_paragraph->get('field_timeline_hours')->value;
+  $timeline_summary = $timeline_paragraph->get('field_timeline_summary')->isEmpty()
+    ? NULL
+    : $timeline_paragraph->get('field_timeline_summary')->processed;
+
+  return [
+    'item_name' => (string) $timeline_paragraph->get('field_timeline_name')->value,
+    'item_kind' => $timeline_kind,
+    'organization_name' => (string) $timeline_paragraph->get('field_timeline_organization')->value,
+    'periods' => $timeline_periods,
+    'hours_label' => $timeline_hours === NULL ? '' : number_format((int) $timeline_hours) . ' h',
+    'summary_markup' => $timeline_summary,
+    'emphasis_kind' => (string) ($timeline_paragraph->get('field_timeline_emphasis')->value ?: 'standard'),
+    'duration_class_name' => 'timeline__marker--duration-' . $normalized_duration_months,
+    'duration_label' => jurenites_timeline_duration_label($total_month_count),
+    'sort_date' => $primary_start_date ?: '0000-01-01',
+  ];
+}
+
+/**
+ * Counts inclusive calendar months in a CV date range.
+ */
+function jurenites_timeline_month_count(DrupalDateTime $start_date, DrupalDateTime $end_date): int {
+  $start_month_number = ((int) $start_date->format('Y') * 12) + (int) $start_date->format('n');
+  $end_month_number = ((int) $end_date->format('Y') * 12) + (int) $end_date->format('n');
+
+  return max(1, $end_month_number - $start_month_number + 1);
+}
+
+/**
+ * Formats a readable duration for the visual duration bar.
+ */
+function jurenites_timeline_duration_label(int $month_count): string {
+  if ($month_count < 12) {
+    return (string) \Drupal::translation()->formatPlural($month_count, '1 month', '@count months');
+  }
+
+  $year_count = intdiv($month_count, 12);
+  $remaining_month_count = $month_count % 12;
+  $year_label = (string) \Drupal::translation()->formatPlural($year_count, '1 year', '@count years');
+  if ($remaining_month_count === 0) {
+    return $year_label;
+  }
+  $month_label = (string) \Drupal::translation()
+    ->formatPlural($remaining_month_count, '1 month', '@count months');
+
+  return $year_label . ' ' . $month_label;
+}

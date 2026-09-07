@@ -1,0 +1,1886 @@
+[
+    {
+        "type": "node",
+        "uuid": "b3946e25-c595-4af6-ae8c-622b925a66f5",
+        "id": "1",
+        "bundle": "article",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Reviewing an Interfaces",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>Revuew the UI and UX, Compoentns, highlights, focus points</p>",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "Crouded screen iwth various UI elements",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "646b4d96-c7aa-4556-80a0-c4e6f6f69da8",
+        "id": "2",
+        "bundle": "page",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Comare two fonts",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>today we look into my custom font</p>",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "fa2250dd-24b3-4ed7-b7b1-425d59e71319",
+        "id": "4",
+        "bundle": "page",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "About",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>The mind behind the work<br><br><img src=\"/sites/default/files/inline-images/Alexander_ilivanpov_avatar_512.jpeg\" data-entity-uuid=\"cad7ce4d-2d35-4545-a3f1-66ae56658c09\" data-entity-type=\"file\" alt=\"Alexander Ilivanov smiling at you\" width=\"512\" height=\"512\"><br>I'm a Creator and Project Visioneer. We can work together on something special<br><br>Check out my Google Doc: <a href=\"https://docs.google.com/document/d/1Aec-DgzHUGDfqpIy0LocrFvPZeIqcHZ1SBIWClsj2ZY/edit?tab=t.0\">Alexander Ilivanov CV</a><br><br>&nbsp;</p>",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "b8d41a15-16fa-49db-b70b-a839206e91e6",
+        "id": "5",
+        "bundle": "article",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "The Happy Path design",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>I often see how the documentation describes the \"happy path\", but that's not the correct way to design a system. Always consider the fields related to the process and take into account all the possible combinations of possible situations of \"state\". Most common situatuin is call those as \"rare case scenarios\", but they're not. If you design the system this way, users will inevitably be stuck in this kind of iteration. It's a matter of time and tries.</p>",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "The Happy Path Doesn't Exist: Notes on Software Fluidity",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_channel_avatar",
+                "delta": 0,
+                "property": "value",
+                "en": "https://yt3.googleusercontent.com/uqT-UiPXFegW6ags8rnlXRSTSeCD9HydwBMH77tY75etK5lrK9tg-_cjROM6WMFQGnfWO3tvEA=s64-c-k-c0x00ffffff-no-rj",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_creator_name",
+                "delta": 0,
+                "property": "value",
+                "en": "Interface Studies",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "7efe71eb-4750-4db1-aa3d-899e31b06ad3",
+        "id": "6",
+        "bundle": "article",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Notification Design",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "The Lost Discipline of the Alarm: What Notification Design Forgot",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_channel_avatar",
+                "delta": 0,
+                "property": "value",
+                "en": "https://yt3.googleusercontent.com/uqT-UiPXFegW6ags8rnlXRSTSeCD9HydwBMH77tY75etK5lrK9tg-_cjROM6WMFQGnfWO3tvEA=s64-c-k-c0x00ffffff-no-rj",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_creator_name",
+                "delta": 0,
+                "property": "value",
+                "en": "Interface Studies",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "22021e9b-8c2d-4f4d-b19d-4e4783c84966",
+        "id": "7",
+        "bundle": "article",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Learn design",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "The stupid simple way to learn UI/UX design in exactly 10 minutes",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_channel_avatar",
+                "delta": 0,
+                "property": "value",
+                "en": "https://yt3.googleusercontent.com/ctgml-uf_rbgbXzc0neU8RS2ixlzSTq2bHIR1tVV1NJCS8nrm1fcR24nzs5Sv7pB_C2BTAgNww=s64-c-k-c0x00ffffff-no-rj",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_creator_name",
+                "delta": 0,
+                "property": "value",
+                "en": "Kole Jain",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "0b3de158-2959-43bf-b0db-25b72b542125",
+        "id": "8",
+        "bundle": "article",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Art direction",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "The Secret to Top Tier Art Direction",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_channel_avatar",
+                "delta": 0,
+                "property": "value",
+                "en": "https://yt3.googleusercontent.com/MHPOh0z4MKdPdihFCzB-sVVhGrvfD28D1lX0p7amXuZHVEp7pAIERxxkpaeZdIfFJGu13u_-gg=s64-c-k-c0x00ffffff-no-rj",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_creator_name",
+                "delta": 0,
+                "property": "value",
+                "en": "Hmm... Aha!",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "b191d03d-a2dc-4160-9cf3-1dbca3fbf071",
+        "id": "9",
+        "bundle": "article",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Marapthon",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "Marathon Art Style Breakdown",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_channel_avatar",
+                "delta": 0,
+                "property": "value",
+                "en": "https://yt3.googleusercontent.com/_llzkxQs2GkZOTsZOvrmYTYQoBTkFGyxjS6bbPIqj4qbnK53kEBk-ezZap00fcz3ovBU9L1Jcw=s64-c-k-c0x00ffffff-no-rj",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_creator_name",
+                "delta": 0,
+                "property": "value",
+                "en": "Jake The Alright",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "8ec5aa39-c157-4282-8d9b-395700716db4",
+        "id": "10",
+        "bundle": "article",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "How industry called the profession wrongly",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>We all been here, calling the Role in a team with different labels on top of it; it's fine \"trust the process\". Eventually, we will distinguish the difference between the fields.</p>",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "UI vs UX... vs Product Designer???",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_creator_name",
+                "delta": 0,
+                "property": "value",
+                "en": "Andres The Designer",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "6833f25d-41bb-40c6-bece-e1944afd6720",
+        "id": "11",
+        "bundle": "article",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "See the patterns and bigger picture",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "What I Wish I Knew Before 10 Years in UX (The 3 Levels)",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_creator_name",
+                "delta": 0,
+                "property": "value",
+                "en": "Amir Moradi",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "4d90f0da-f99c-4967-9003-717628c2db82",
+        "id": "12",
+        "bundle": "article",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Test Driven Development ",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>Watching them from times when they were called Continuous Delivery</p>",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "The Crucial AI Shift You Need to Master Right Now",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_creator_name",
+                "delta": 0,
+                "property": "value",
+                "en": "Modern Software Engineering",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "e1bc86aa-a311-4831-ad0b-eac329be7208",
+        "id": "13",
+        "bundle": "article",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Makin a radio",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>I like the idea that someone in our modern world were doing that.</p>",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "Welcome to SexFM",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_creator_name",
+                "delta": 0,
+                "property": "value",
+                "en": "Instant Noodle",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "0b675f2a-3d42-42ab-9d59-fb5128d4f117",
+        "id": "14",
+        "bundle": "article",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Eyegasm & Eargasm",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>Watch advice at x1 speed in 1080HD quality, earphones.</p>",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "Max Cooper - Order From Chaos (official video by Maxime Causeret)",
+                "translatable": true
+            },
+            {
+                "field": "field_youtube_creator_name",
+                "delta": 0,
+                "property": "value",
+                "en": "Max Cooper",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "9e925336-379f-4ee0-a321-56060efc3a84",
+        "id": "15",
+        "bundle": "page",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Privacy Policy",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>This site does not use cookies<span class=\"u-typography-code\">*</span>, analytics, advertising trackers, or browser fingerprinting. It does not build visitor profiles or sell browsing data.<br><span class=\"u-typography-code\">*</span>This web sitee use local browser storage solely to remember that you dismissed the cookie notice (that's the paradox). It contains no identifier, is not transmitted to us, and is not used for analytics or tracking.<br>&nbsp;</p><p>This whole policy is mostly nonsense, faithfully following the pattern. There is no hidden profile behind it, no advertising audience waiting to be assembled, and no consent checkbox disguised as a design decision. The useful part is simple: the site collects nothing about ordinary visitors on purpose. If that practice changes, this page should change before the tracking begins—not after.</p>",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "2c9318f9-a23c-48bb-b8e4-b7440da0b698",
+        "id": "16",
+        "bundle": "project",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Roundabout",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>Roundabout began inside the SMEP project as an attempt to make a geometric font land cleanly on a pixel grid without losing its personality.<br><br>Its all started with that photo:&nbsp;<br><br><img src=\"/sites/default/files/inline-images/IMG_3417.jpg\" data-entity-uuid=\"392a656a-e126-49ba-980f-08e02daf357a\" data-entity-type=\"file\" width=\"296\" height=\"395\"><br><br>I was mesmerised by the idea of a how to dispaly <span>superscript of being a half size of a font symbol; it looks a lot like a chemical formula, and I decided to build on that concept of exactly circular shapes for the whole font.</span><br><br><span>In this case, I was also obsessed with landing the vector of a font exactly on the </span><code><span>1px solid line</span></code><span>, fit to a screen pixel grid, so it became that this font only works at </span><code><span>font-size: 16px;</span></code><span> (double-x; tripple-x;) &nbsp;the font completely breaks when you try to use a different </span><code><span>font-size</span></code><span> (that's a drawback)</span><br><br><span>That rendering of a fonts on <strong>Wondows</strong> machines and <strong>Mac</strong> machines always makes me wonder why we even use </span><strong>ClearType</strong> it looks horrible.<br><a href=\"https://en.wikipedia.org/wiki/Subpixel_rendering\"><span>Subpixel rendering</span></a><span>&nbsp;</span><br><img src=\"/sites/default/files/inline-images/Font%20compare%20windows%20vs%20mac.png\" data-entity-uuid=\"9ac903e2-ec4e-4a7e-b59b-6adc8404c5fb\" data-entity-type=\"file\" width=\"380\" height=\"120\"><br><br>the <a href=\"https://fonts.google.com/specimen/Urbanist?preview.script=Latn\">Urbanist</a> and <a href=\"https://fonts.google.com/specimen/Sulphur+Point?preview.script=Latn&amp;query=Sulphur+Point\">Sulphur Point</a> were important references. I was drawn to their geometric rhythm; I've taken from one of them a complete set of a numbers,&nbsp;<br><br>Eventually I figured out that Headers witha Doube sized Capital letter would be look enormous, so I've also added regular-size capital letters too. Those chars are not simply shrunk vectors but redrawn to fit the <code>1px solid line</code> rule,&nbsp;<br><br>Looking into that letter <code>O</code> also made me think to add another rule. The enclosed spaces inside letters such as <code dir=\"ltr\">o</code>, <code dir=\"ltr\">a</code>, <code dir=\"ltr\">b</code>, and <code dir=\"ltr\">d</code>. The idea was to interrupt it with a small cut. From a topological point of view, the opening removes the hole. But I broke even that rule for some characters, making them fully \"donut\" or a \"cup with a handle\", if you understand my reference.</p>",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "summary",
+                "en": "A geometric typeface shaped by pixel grids, open contours, and stencil-like forms.",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "9d1f85ef-6a6c-4d20-8058-6dd018057559",
+        "id": "17",
+        "bundle": "project",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "4pixel",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>It all started around 2005: my name tag \"USeR_\", the game <a href=\"https://store.steampowered.com/app/10/CounterStrike/\">CS 1.6,</a> and \"spray paint\"<strong>.</strong> Not as a complete typeface.<br>I was at a stage when want to customise the game, and I had only been modifying internal files in a folder of a game, but I hadn't gone into a modding yet.<br>The restriction was <code>64x64px</code><strong> </strong>grid. As it's been said: \"the best designer starts with a constraint\"<br>I've counted the characters and tried to make symbols fit on the canvas in Paint. What I came up with, you can now see in my logo.&nbsp;<br>I've repainted it multiple times; each time Windows needed to be reinstalled, or game files were corrupted, so it was a lot of iteration of drawing hte same letters again and again.<br><br>4pixel as a font began in 2009, I thought I needed to finish the work to make it fully typable. I wanted to construct its capital letters inside a <code>4×4</code> pixel grid and its lowercase letters inside an even smaller <code>3×3</code> grid.<br>I recreated the font in <a href=\"https://fontstruct.com/fontstructions/show/990387/4pixel\">FontStruct</a>. I assumed that drawing a bitmap-like font in an online tool would be easy because the shapes were so small.<br>Behind that visual experiment was a more technical question: how little information does a person need before a pattern becomes recognisable as a letter?<br><br>A character could be stored more efficiently as a packed sequence of bits. That might be elegant for a computer, but it would be almost meaningless to someone looking at it. A visible grid is different. You can inspect it, draw in it, and immediately understand which pixels create the character. I was interested in finding the smallest grid that remained both economical for a machine and readable to a person.<br><br>Four pixels gave the project its name, but a complete alphabet quickly challenged the purity of that idea. Some letters simply needed more room. A capital <code dir=\"ltr\">W</code>, for example, wants five columns if it is going to remain distinguishable from other angular shapes. The original <code>4×4</code> and <code>3×3</code> system gradually expanded into a mixture of <code>5×5</code> and <code>3×5</code> constructions.<br>That is the slightly funny truth behind the name: 4pixel works best when displayed at a size divisible by <code>5px</code>. (Don't laugh at me because of that)<br><br>The hardest character continues to be the Latin lowercase <code dir=\"ltr\">e</code>.<br>The <code dir=\"ltr\">e</code> needs enough of a rounded, enclosed form to remain recognisable, but it also needs room for the small terminalor legthat prevents it from becoming another circular character. There simply is not enough space to describe both ideas comfortably. You event cans see it altering inside the Font and my logo, using different character shapes.<br><br>I did not want 4pixel to become entirely monospaced. Giving it <code dir=\"ltr\">i</code> the same width as an <code dir=\"ltr\">m</code> wastes valuable space and creates unnatural gaps. Behind that visual experiment was a more technical question: how little information does a person need before a pattern becomes recognisable as a letter?<br><br>Today, I use 4pixel as a watermark on my screenshots. A small Python script automatically adds it to images captured on my computer. It is not meant to be an intrusive signature. It is more like a quiet visual fingerprint: if one of my screenshots appears somewhere, I can still claim that it was mine.<br><br>People sometimes describe the smallest legible pixel alphabet as a <code>2×3</code> system.&nbsp;<br>Here is a discussion of a Reddit thread:&nbsp;<a href=\"https://www.reddit.com/r/PixelArt/comments/ppcd19/smallest_legible_pixel_fonts/\">Smallest legible Pixel fonts</a><br>Braille is not a visual pixel font; it is a writing system designed to be read through touch. It is a valuable reminder that “legibility” cannot be measured by grid size alone. It depends on the reader, the medium, and the way information is experienced.<br><br>&nbsp;</p>",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "summary",
+                "en": "A deliberately tiny proportional pixel font that grew from a 2009 logo experiment.",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "d92ecc29-2ed6-4402-a70d-72beaeb46dcb",
+        "id": "18",
+        "bundle": "news",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "ASTRA IS HERE (GPT-6 RELEASED)",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "ASTRA IS HERE (GPT-6 RELEASED)",
+                "translatable": true
+            },
+            {
+                "field": "field_news_source_name",
+                "delta": 0,
+                "property": "value",
+                "en": "Matthew Berman",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "a636494f-7492-4036-a574-e2a04aac9af2",
+        "id": "19",
+        "bundle": "news",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "New York City Bans A.I. in Elementary and Middle Schools",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "New York City Bans A.I. in Elementary and Middle Schools",
+                "translatable": true
+            },
+            {
+                "field": "field_news_source_name",
+                "delta": 0,
+                "property": "value",
+                "en": "The New York Times",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "8dd609b8-0db0-4442-b59f-3bbd0261f337",
+        "id": "20",
+        "bundle": "news",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "I Made a Bet with Tesla",
+                "translatable": true
+            },
+            {
+                "field": "field_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "I Made a Bet with Tesla",
+                "translatable": true
+            },
+            {
+                "field": "field_news_source_name",
+                "delta": 0,
+                "property": "value",
+                "en": "Marques Brownlee",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "f16f6969-f9bb-45c2-a74d-c9dcc141e466",
+        "id": "21",
+        "bundle": "article",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Space heacen HUD revivew",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>Greetings! Today we're going to look into one of my beloved games <a href=\"https://store.steampowered.com/app/979110/Space_Haven/\">Space Haven</a> to the record: I've played 160.3 hours of this game. I've been following this game since its early access until its recent release. Let it be my own review to it.&nbsp;<br><br>I've been expecting a little bit more out of it regarding the way to manipulate objects and play with this game, and how the icons are displaying some sort of information. It was a real joy to play into it, and sometimes I was struggling through the menu trying to find the tools that I want, and being faced with the reality that I can't do what I want with it. If you go into the specifics, as far as I know, you're not able to create a 3x3 grid fully covered. You always end up with only 3x2 layout (or 2x3). and perople wer ewondering im not the only one. There is a <a href=\"https://www.reddit.com/r/SpaceHaven/comments/ayxd7j/question_maximum_ship_size/#:~:text=This%20game%20looks%20great%2C%20but,crews%20in%20the%20late%20game%3F\">Reddit thread</a> discussing this particular topic,<br><br>&nbsp;I will use an official screenshot here, take look at this beauty:<br><br><img src=\"/sites/default/files/inline-images/ss_b1f27d81832ec796dbeeae639e6706b746813407.1920x1080.jpg\" data-entity-uuid=\"d543b4a4-b462-49c5-a99d-3924d2e8b2c8\" data-entity-type=\"file\" width=\"1920\" height=\"1080\"></p>",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "e0f24745-8c34-4d0e-958d-77d2b075ef16",
+        "id": "22",
+        "bundle": "page",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "About ",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<h2>Cookbook</h2><p>This is the working manual for this website: how an idea moves through the design system, Storybook, Drupal, review, and release. It describes the real project workflow, including the places where I deliberately keep content flexible instead of turning every sentence into a field.</p><h2>The project in one loop</h2><ol><li data-list-item-id=\"e6354b0b9ab0d68d9c2503b97bb1f00f5\">Capture the rough idea in <code>idea-file.md</code>.</li><li data-list-item-id=\"e2c4177f44d6db08c2e2ab91d7a0393a5\">Put reusable visual decisions in <code>src/token/tokens.yaml</code>.</li><li data-list-item-id=\"e58baba250536014d04d5bff3526b6251\">Prove reusable interface pieces in Storybook.</li><li data-list-item-id=\"e14f8b0093a032db44fbc353422497fd1\">Connect the proven markup and behavior to Drupal.</li><li data-list-item-id=\"ea639fd21ab76867ba284ed917aab1417\">Build, inspect the served page, and run focused checks.</li><li data-list-item-id=\"e761724dbbb47edcbabc8968ffb5294d8\">Ship the same reviewed source through DEV, STAGE, and PROD without mixing their runtime configuration.</li></ol><blockquote><p><strong>IMAGE PLACEHOLDER — project map.</strong> Add a diagram showing Idea → Tokens → Storybook → Drupal → Verification → Release. Replace this note from the Body editor when the diagram is ready.</p></blockquote><h2>Recipe: turn an idea into a component</h2><ol><li data-list-item-id=\"ed9eaa64b86517184270c800198ef5a36\">Decide what is content, what is behavior, and what is a reusable visual rule.</li><li data-list-item-id=\"e43668d20f1550e4cd92f5d4280fcb827\">Add or reuse semantic design tokens. The editable token source is <code>src/token/tokens.yaml</code>; generated token files are build output.</li><li data-list-item-id=\"e523100a18341636c29a5a7f350ba7981\">Create the smallest useful Storybook example. Visible examples keep their story, template, and markup helper together.</li><li data-list-item-id=\"e1cb27535e7712221a81464b9586b657e\">Test the component’s states and responsive behavior in isolation.</li><li data-list-item-id=\"efd24bbc8238525b7c81a114c3e81f0b9\">Reuse the same semantic markup contract in the Drupal Twig template.</li><li data-list-item-id=\"e5a4f02034875dfb852d50db4ed1c2385\">Compile the theme and verify Drupal’s rendered page, not only the source files.</li></ol><p><code>npm run build:tokens</code> rebuilds and validates design tokens.</p><p><code>npm run storybook</code> opens the component proving ground.</p><p><code>npm run build:theme</code> compiles the deployable Drupal CSS and JavaScript.</p><blockquote><p><strong>GIF PLACEHOLDER — component journey.</strong> Record a short loop that starts with a Storybook control change and ends on the matching Drupal component. Keep it focused on one state change so the GIF remains readable.</p></blockquote><h2>Recipe: decide what belongs in Drupal</h2><p>Drupal is the content and runtime layer. I create a field when Drupal must sort, filter, reference, validate, or query a value. Narrative material stays in a rich-text Body or a reusable Paragraph until a real structural need appears.</p><ul><li data-list-item-id=\"e4f3d50132c85dccc57b8012ba615fcb0\"><strong>Basic Page</strong> is for stable pages such as this Cookbook and the Privacy Policy.</li><li data-list-item-id=\"e34592a99eb1a2b3409de604c4ac445a4\"><strong>Article</strong> is for personal writing and saved video references.</li><li data-list-item-id=\"e05dc845a87386a1f213f5c85d8200c50\"><strong>Project</strong> is for portfolio work with reusable story and interactive sections.</li><li data-list-item-id=\"e122b02118742e37b912f8142506a6867\"><strong>Content Blocks</strong> are reusable editorial regions whose placement belongs to Drupal’s block layout.</li><li data-list-item-id=\"e9cfd8fe28f89a0d961deb683f43256de\"><strong>Paragraphs</strong> are reorderable sections when one Body field is no longer enough.</li></ul><h2>Recipe: edit this Cookbook</h2><ol><li data-list-item-id=\"ef5c5ac7e9f3f8d7500f184949c6d4a08\">In Drupal, open <strong>Content</strong>, find <strong>Cookbook</strong>, and choose <strong>Edit</strong>.</li><li data-list-item-id=\"e904691241c229f5ba8661dac94790534\">Edit the Body with the existing rich-text toolbar. Use headings for structure, lists for repeatable steps, links for references, and code styling for paths or commands.</li><li data-list-item-id=\"e781e58cf9c961f6069dbf9fb5fbdaf6a\">To add a still image, place the cursor at a placeholder and use the image button. Add useful alternative text when the image carries information.</li><li data-list-item-id=\"e879e4abb6765b1160187dc93224e6e60\">To add an animated GIF, use the same image workflow and select a GIF file. Remove the placeholder paragraph after the media is in place.</li><li data-list-item-id=\"ed975df580b50aebb6389bcd2df2592d9\">Preview the page at desktop and mobile widths, then save a new revision with a short explanation.</li></ol><p>The current image workflow accepts PNG, GIF, JPEG, and WebP files. Large files may upload successfully, but an editorial image or GIF should still be compressed so it does not turn documentation into a loading test.</p><blockquote><p><strong>GIF PLACEHOLDER — Drupal editing.</strong> Show the Body editor inserting an image, writing alternative text, previewing the page, and saving a revision.</p></blockquote><h2>Recipe: work locally</h2><ol><li data-list-item-id=\"e0575a2f67c6550e0faefe592d7b22db8\">Start the Docker services.</li><li data-list-item-id=\"ec8b1cf6d9743dda030c2edc8b0cdc4dd\">Open Drupal at <code>http://jurenites.local</code> and Storybook at <code>http://storybook.jurenites.local</code>.</li><li data-list-item-id=\"e4e9130dad1b9ecb42e4e964c38b7981f\">After PHP, Twig, configuration, or compiled-asset changes, clear Drupal caches.</li><li data-list-item-id=\"eaa2b0dfa940df08c54aec6962df41abf\">Inspect the actual browser result and exercise the changed interaction.</li></ol><p><code>docker compose up -d</code> starts the local stack.</p><p><code>docker exec blog_jurenites_web ./vendor/bin/drush cr</code> rebuilds Drupal caches.</p><h2>Recipe: verify before release</h2><ul><li data-list-item-id=\"e6059ce5e6661ad95fe003bce526dd2cb\">Run the focused test for the changed feature.</li><li data-list-item-id=\"e0fe4be504c9ac63ef8cf2f15d5ceb078\">Run <code>npm run lint</code> for repository rules and token contracts.</li><li data-list-item-id=\"e83f1c9fb93c6c413310308e204b3779c\">Run <code>npm run docs:check</code> when source and documentation have moved.</li><li data-list-item-id=\"e56cb081419822a9a3c31df94d50b06e6\">Build Storybook when a visual component changed.</li><li data-list-item-id=\"efb1829dc13c61c7b49798a2f79686dff\">Check the Drupal page anonymously as well as in the editor.</li><li data-list-item-id=\"e9e6d0d358bff442415c43a07a9c74f88\">Keep generated assets synchronized with their editable sources.</li></ul><h2>Recipe: move through environments</h2><p>DEV is where the implementation is assembled and inspected. STAGE is a production-like review. PROD is the public result. Database content, uploaded files, secrets, mail transport, and host configuration are environment-owned; source code and declared setup travel through version control.</p><p>For Drupal updates, the safe shape is: deploy the reviewed code, install locked Composer dependencies, inspect pending database updates, apply them, and rebuild caches. A served-page check completes the deployment proof.</p><blockquote><p><strong>IMAGE PLACEHOLDER — release evidence.</strong> Add a compact screenshot or diagram that distinguishes source commit, generated theme asset, deployed build identity, and the page served by Drupal.</p></blockquote><h2>Definition of done</h2><p>A change is not finished because a file was edited. It is finished when the editable source is clear, generated artifacts agree with it, Drupal uses the intended content or configuration, the browser shows the expected result, focused checks pass, and the documentation still tells the truth.</p><p>This page is intentionally a living document. Update it when the workflow changes; do not preserve an obsolete instruction just because it was once accurate.</p>",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "5b19c3da-06e2-49ac-ae8b-6ae97a729f11",
+        "id": "23",
+        "bundle": "guideline",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Logo Icon",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<h2>One source asset</h2>\n<p>The compact mark is the website theme logo. Use the checked-in SVG as the authoritative artwork so the header, browser surfaces, documentation, and future exports stay aligned.</p>\n<h2>Clear space and size</h2>\n<p>Keep at least one internal pixel-block of clear space around the mark. Preserve the square aspect ratio and choose a size from the design-token system instead of adding width or height attributes to markup.</p>\n<h2>Correct use</h2>\n<ul>\n  <li>Use the original SVG without redrawing its pixel forms.</li>\n  <li>Keep the white background and black artwork intact.</li>\n  <li>Place the icon on a surface with enough contrast to retain its square boundary.</li>\n</ul>\n<h2>Avoid</h2>\n<ul>\n  <li>Do not stretch, crop, rotate, outline, or add shadows to the artwork.</li>\n  <li>Do not recolor individual glyphs or replace the white field with transparency.</li>\n  <li>Do not embed presentational dimensions in HTML.</li>\n</ul>",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "summary",
+                "en": "The compact Jurenites mark, its source asset, spacing, sizing, and correct use.",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "node",
+        "uuid": "d1b3e840-7ed0-4f82-a818-820392f15b17",
+        "id": "24",
+        "bundle": "guideline",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Color",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<h2>Palette and meaning</h2>\n<p>Palette tokens name the available colors. Components should normally consume semantic theme tokens, such as page background, primary text, action, border, success, warning, or error, rather than reaching directly for a raw palette value.</p>\n<h2>One editable source</h2>\n<p>Every swatch above is generated from <code>src/token/tokens.yaml</code>. Update that file first, rebuild the tokens and theme, and verify the result in Storybook and Drupal.</p>\n<h2>Usage rules</h2>\n<ul>\n  <li>Do not write hardcoded color literals in handwritten SCSS, JavaScript, Twig, or Storybook files.</li>\n  <li>Use the semantic token that describes the role, not merely a visually similar color.</li>\n  <li>Express alpha in the source color value; do not use the CSS <code>opacity</code> property for design colors.</li>\n  <li>Check readable foreground and background combinations before introducing a new semantic mapping.</li>\n</ul>",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "summary",
+                "en": "The live foundation, brand, and system palettes generated from the project token source.",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "block_content",
+        "uuid": "287ad0d5-e3cf-4e71-977c-68ae3dca1255",
+        "id": "1",
+        "bundle": "basic",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "info",
+                "delta": 0,
+                "property": "value",
+                "en": "Cookie Policy Notice",
+                "translatable": true
+            },
+            {
+                "field": "body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p class=\"u-typography-caption u-color-theme-dark-text-primary-default\">An EU Commission caused the annual ritual of clicking cookie banners at about <code>334 million human hours</code>.&nbsp;<br>This is not a consent request. Enjoy the free internet without interruption.</p>",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "block_content",
+        "uuid": "c003d482-a65b-40e4-a05a-b0b203add14e",
+        "id": "2",
+        "bundle": "numeric_values",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "info",
+                "delta": 0,
+                "property": "value",
+                "en": "Homepage numeric values",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "block_content",
+        "uuid": "3f770563-077b-4825-bdf6-e0bc79706c08",
+        "id": "3",
+        "bundle": "interests",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "info",
+                "delta": 0,
+                "property": "value",
+                "en": "Homepage interests",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "block_content",
+        "uuid": "a55a4f53-9411-46a9-9742-0d1ddbc4a8c9",
+        "id": "4",
+        "bundle": "hero",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "info",
+                "delta": 0,
+                "property": "value",
+                "en": "Homepage hero",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_eyebrow",
+                "delta": 0,
+                "property": "value",
+                "en": "Design. Build. Collaborate.",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_image",
+                "delta": 0,
+                "property": "alt",
+                "en": "Working at a laptop, illuminated by the screen at night.",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "menu_link_content",
+        "uuid": "210ae089-93b9-4bd8-9e4a-92c77f30fa19",
+        "id": "1",
+        "bundle": "menu_link_content",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "bundle",
+                "delta": 0,
+                "property": "value",
+                "en": "menu_link_content",
+                "translatable": false
+            },
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "About",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "menu_link_content",
+        "uuid": "507b17c9-a255-48a1-9e14-609f995de1fa",
+        "id": "2",
+        "bundle": "menu_link_content",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "bundle",
+                "delta": 0,
+                "property": "value",
+                "en": "menu_link_content",
+                "translatable": false
+            },
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Portfolio",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "menu_link_content",
+        "uuid": "ea3eeb17-d7f6-4dc8-9ab1-54df3253c975",
+        "id": "3",
+        "bundle": "menu_link_content",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "bundle",
+                "delta": 0,
+                "property": "value",
+                "en": "menu_link_content",
+                "translatable": false
+            },
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Blog",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "menu_link_content",
+        "uuid": "216f2857-a468-43b6-aa40-d1651718afe7",
+        "id": "4",
+        "bundle": "menu_link_content",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "bundle",
+                "delta": 0,
+                "property": "value",
+                "en": "menu_link_content",
+                "translatable": false
+            },
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Contact",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "menu_link_content",
+        "uuid": "5c88cff7-e51e-4bf2-9f18-98a9007311ae",
+        "id": "5",
+        "bundle": "menu_link_content",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "bundle",
+                "delta": 0,
+                "property": "value",
+                "en": "menu_link_content",
+                "translatable": false
+            },
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Videos",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "menu_link_content",
+        "uuid": "152542da-1dad-4f78-8016-cc9a762af66b",
+        "id": "6",
+        "bundle": "menu_link_content",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "bundle",
+                "delta": 0,
+                "property": "value",
+                "en": "menu_link_content",
+                "translatable": false
+            },
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Privacy Policy",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "menu_link_content",
+        "uuid": "b321ee25-0c71-4bad-b634-cdadb97ba972",
+        "id": "7",
+        "bundle": "menu_link_content",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "bundle",
+                "delta": 0,
+                "property": "value",
+                "en": "menu_link_content",
+                "translatable": false
+            },
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Fonts",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "menu_link_content",
+        "uuid": "c7c1677c-cbdd-4af5-a353-956abda5a03a",
+        "id": "8",
+        "bundle": "menu_link_content",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "bundle",
+                "delta": 0,
+                "property": "value",
+                "en": "menu_link_content",
+                "translatable": false
+            },
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Cookbook",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "menu_link_content",
+        "uuid": "bf01771e-e628-496d-afbc-726bb4af3fa5",
+        "id": "9",
+        "bundle": "menu_link_content",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "bundle",
+                "delta": 0,
+                "property": "value",
+                "en": "menu_link_content",
+                "translatable": false
+            },
+            {
+                "field": "title",
+                "delta": 0,
+                "property": "value",
+                "en": "Guidelines",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "taxonomy_term",
+        "uuid": "d254c7d1-2b2f-4c14-933a-7e086df6f09e",
+        "id": "1",
+        "bundle": "tags",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "name",
+                "delta": 0,
+                "property": "value",
+                "en": "#UI/UX Design",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "taxonomy_term",
+        "uuid": "fbea9ba7-fc9e-4f61-a599-4e63cbab71f6",
+        "id": "2",
+        "bundle": "tags",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "name",
+                "delta": 0,
+                "property": "value",
+                "en": "#Design",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "taxonomy_term",
+        "uuid": "7a0e0377-bf0f-4ee1-bf8a-b7db0db12538",
+        "id": "3",
+        "bundle": "tags",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "name",
+                "delta": 0,
+                "property": "value",
+                "en": "#Game Dev",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "taxonomy_term",
+        "uuid": "9dba4f98-204f-480b-be18-a152d06f6a01",
+        "id": "5",
+        "bundle": "tags",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "name",
+                "delta": 0,
+                "property": "value",
+                "en": "#Programming",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "taxonomy_term",
+        "uuid": "cd293ebd-58fe-486e-8a2e-ba4ce9e40f79",
+        "id": "6",
+        "bundle": "tags",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "name",
+                "delta": 0,
+                "property": "value",
+                "en": "#Culture",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "taxonomy_term",
+        "uuid": "f53c386f-634d-4f2f-ac85-8c7f56ea37f2",
+        "id": "7",
+        "bundle": "tags",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "name",
+                "delta": 0,
+                "property": "value",
+                "en": "#Music",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "taxonomy_term",
+        "uuid": "f1aa8911-2da3-432d-a524-2ac0ca3de30a",
+        "id": "8",
+        "bundle": "tags",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "name",
+                "delta": 0,
+                "property": "value",
+                "en": "#Artificial Intelligence",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "taxonomy_term",
+        "uuid": "7156217e-6fb2-4735-8b0e-88638b714753",
+        "id": "11",
+        "bundle": "tags",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "name",
+                "delta": 0,
+                "property": "value",
+                "en": "#Cars",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "taxonomy_term",
+        "uuid": "d4e14caa-1179-4e15-815c-f200ab91ae16",
+        "id": "13",
+        "bundle": "tags",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "name",
+                "delta": 0,
+                "property": "value",
+                "en": "#Hardware",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "taxonomy_term",
+        "uuid": "8ec68e33-5857-417d-83e7-3dd45be6e11f",
+        "id": "14",
+        "bundle": "tags",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "name",
+                "delta": 0,
+                "property": "value",
+                "en": "#Font",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "36089893-0bba-4f85-92b7-a86fe6bc44c4",
+        "id": "1",
+        "bundle": "two_image_crossfade",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "2",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "node",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_content_sections",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "194c52fc-3d1d-4cd4-a567-7cf9ed44e9e7",
+        "id": "2",
+        "bundle": "project_story",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "16",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "node",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_content_sections",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            },
+            {
+                "field": "field_project_story_body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>story about Rpondabout</p>",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "c1cd279b-c797-4ecf-8cf8-43bc485c2151",
+        "id": "3",
+        "bundle": "font_preview",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "16",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "node",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_content_sections",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "13c3f5c7-2b90-4077-85d8-120b90d6de3e",
+        "id": "4",
+        "bundle": "project_story",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "17",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "node",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_content_sections",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            },
+            {
+                "field": "field_project_story_body",
+                "delta": 0,
+                "property": "value",
+                "en": "<p>Here is a discussion of a Reddit thread:&nbsp;<a href=\"https://www.reddit.com/r/PixelArt/comments/ppcd19/smallest_legible_pixel_fonts/\">Smallest legible Pixel fonts&nbsp;</a><br><br>try it at: <a href=\"https://fontstruct.com/fontstructions/show/990387/4pixel\">https://fontstruct.com</a></p>",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "b4068fd8-f9f9-4a4a-a006-2fe19185a599",
+        "id": "5",
+        "bundle": "font_preview",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "17",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "node",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_content_sections",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "47f52aff-cda5-4947-a8fc-d46787b77699",
+        "id": "6",
+        "bundle": "pixel_glyph_editor",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "17",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "node",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_content_sections",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "41ff52a9-cb48-47f7-887d-4ffc127da189",
+        "id": "7",
+        "bundle": "numeric_value",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "2",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "block_content",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_numeric_items",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            },
+            {
+                "field": "field_numeric_description",
+                "delta": 0,
+                "property": "value",
+                "en": "Projects commercial have worked with",
+                "translatable": true
+            },
+            {
+                "field": "field_numeric_number",
+                "delta": 0,
+                "property": "value",
+                "en": "80+",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "d8b0a609-badd-4674-bd38-b8b85e09e1e3",
+        "id": "8",
+        "bundle": "numeric_value",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "2",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "block_content",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_numeric_items",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            },
+            {
+                "field": "field_numeric_description",
+                "delta": 0,
+                "property": "value",
+                "en": "Years in IT, Software development",
+                "translatable": true
+            },
+            {
+                "field": "field_numeric_number",
+                "delta": 0,
+                "property": "value",
+                "en": "16",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "93ff7158-07e2-46a4-a736-9c655b42003a",
+        "id": "9",
+        "bundle": "numeric_value",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "2",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "block_content",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_numeric_items",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            },
+            {
+                "field": "field_numeric_description",
+                "delta": 0,
+                "property": "value",
+                "en": "As a Web Developer role",
+                "translatable": true
+            },
+            {
+                "field": "field_numeric_number",
+                "delta": 0,
+                "property": "value",
+                "en": "~10 000h",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "e392af27-f97d-4c76-85a0-dbe013b3b9b2",
+        "id": "10",
+        "bundle": "numeric_value",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "2",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "block_content",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_numeric_items",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            },
+            {
+                "field": "field_numeric_description",
+                "delta": 0,
+                "property": "value",
+                "en": "As a Project Management role",
+                "translatable": true
+            },
+            {
+                "field": "field_numeric_number",
+                "delta": 0,
+                "property": "value",
+                "en": "~10 000h",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "0b212368-c104-4708-bcbf-d509db82cd90",
+        "id": "11",
+        "bundle": "numeric_value",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "2",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "block_content",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_numeric_items",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            },
+            {
+                "field": "field_numeric_description",
+                "delta": 0,
+                "property": "value",
+                "en": "As a Product Designer role",
+                "translatable": true
+            },
+            {
+                "field": "field_numeric_number",
+                "delta": 0,
+                "property": "value",
+                "en": "~8 000h",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "52083d49-5fad-4dc7-b50c-0f09bd87c0f5",
+        "id": "12",
+        "bundle": "hero_slide",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "4",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "block_content",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_hero_slides",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            },
+            {
+                "field": "field_hero_description",
+                "delta": 0,
+                "property": "value",
+                "en": "Have an idea in mind? Let’s make it something people use.",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_heading",
+                "delta": 0,
+                "property": "value",
+                "en": "Let’s build something together.",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_nav_label",
+                "delta": 0,
+                "property": "value",
+                "en": "Collaborate",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_primary",
+                "delta": 0,
+                "property": "title",
+                "en": "Contact me",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_secondary",
+                "delta": 0,
+                "property": "title",
+                "en": "Explore my work",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "906b45fd-55df-4cd2-ba85-82fa05364913",
+        "id": "13",
+        "bundle": "hero_slide",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "4",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "block_content",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_hero_slides",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            },
+            {
+                "field": "field_hero_description",
+                "delta": 0,
+                "property": "value",
+                "en": "Meet the person behind the projects—and see the experience that shaped them.",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_heading",
+                "delta": 0,
+                "property": "value",
+                "en": "The mind behind the work.",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_nav_label",
+                "delta": 0,
+                "property": "value",
+                "en": "About me",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_primary",
+                "delta": 0,
+                "property": "title",
+                "en": "About me",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_secondary",
+                "delta": 0,
+                "property": "title",
+                "en": "Contact me",
+                "translatable": true
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "uuid": "c7488147-7e7b-4a24-9053-ce5f8b6a560e",
+        "id": "14",
+        "bundle": "hero_slide",
+        "has_ru": false,
+        "fields": [
+            {
+                "field": "parent_id",
+                "delta": 0,
+                "property": "value",
+                "en": "4",
+                "translatable": false
+            },
+            {
+                "field": "parent_type",
+                "delta": 0,
+                "property": "value",
+                "en": "block_content",
+                "translatable": false
+            },
+            {
+                "field": "parent_field_name",
+                "delta": 0,
+                "property": "value",
+                "en": "field_hero_slides",
+                "translatable": false
+            },
+            {
+                "field": "behavior_settings",
+                "delta": 0,
+                "property": "value",
+                "en": "a:0:{}",
+                "translatable": false
+            },
+            {
+                "field": "field_hero_description",
+                "delta": 0,
+                "property": "value",
+                "en": "Explore selected projects and the decisions behind them.",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_heading",
+                "delta": 0,
+                "property": "value",
+                "en": "From an idea to something real.",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_nav_label",
+                "delta": 0,
+                "property": "value",
+                "en": "My work",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_primary",
+                "delta": 0,
+                "property": "title",
+                "en": "Explore my work",
+                "translatable": true
+            },
+            {
+                "field": "field_hero_secondary",
+                "delta": 0,
+                "property": "title",
+                "en": "Contact me",
+                "translatable": true
+            }
+        ]
+    }
+]

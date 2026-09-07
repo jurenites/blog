@@ -38,6 +38,12 @@ img {
   height: auto;
 }
 
+img,
+svg {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 button,
 input,
 select,

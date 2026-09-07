@@ -34,7 +34,7 @@ export default {
   tags: ["autodocs"],
   render: hero_section_markup,
   parameters: {
-    docs: { description: { component: "Editable photographic Hero block. Manual tabs change the text and links; hover or keyboard focus adds a restrained CSS glow to the original photograph. There is no autoplay. The glow is composed for the supplied laptop photograph and can be disabled for other images. Without JavaScript all slides remain readable. On narrow screens text follows the image." } },
+    docs: { description: { component: "Editable photographic Hero block. Manual tabs change the text and links; hover or keyboard focus reveals subtle CSS ray beams clipped to the laptop screen edge. Beams fade before the person, without face or shirt reflection overlays. There is no autoplay. The beam geometry follows the supplied photograph and can be disabled for other images. Without JavaScript all slides remain readable. On narrow screens text follows the image." } },
   },
   args: {
     section_label: SECTION_LABEL,

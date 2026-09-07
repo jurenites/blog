@@ -1,0 +1,95 @@
+// Molecule: Guideline Tile. Links a maintained Drupal topic to a token-backed preview.
+
+@use "../tools";
+
+.guidelines-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, var(--component-guideline-tile-min-width-default)), 1fr)
+  );
+  gap: calc(var(--space-scale-base-gap) * 3);
+  align-items: stretch;
+  width: 100%;
+}
+
+.guidelines-grid__item {
+  min-width: 0;
+}
+
+.guideline-tile {
+  height: 100%;
+  overflow: hidden;
+  background: var(--theme-dark-surface-background-elevation-level-0);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  @include tools.motion-transition(border-color, box-shadow, transform);
+}
+
+.guideline-tile:hover,
+.guideline-tile:focus-within {
+  border-color: var(--theme-dark-action-primary-default);
+  transform: translateY(calc(var(--space-scale-base-gap) * -0.5));
+  @include tools.elevation("level-3");
+}
+
+body.jurenites-theme a.guideline-tile__link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: var(--theme-dark-text-primary-default);
+  text-decoration: none;
+}
+
+.guideline-tile__visual {
+  display: grid;
+  place-items: center;
+  min-height: var(--component-guideline-preview-height-default);
+  overflow: hidden;
+  background: var(--theme-dark-surface-background-elevation-level-1);
+  border-bottom: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+}
+
+.guideline-tile__logo {
+  display: block;
+  width: var(--component-guideline-logo-icon-size-default);
+  height: var(--component-guideline-logo-icon-size-default);
+}
+
+.guideline-tile__color-preview {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  min-height: var(--component-guideline-preview-height-default);
+}
+
+.guideline-tile__fallback {
+  @include tools.typography-headline-2;
+}
+
+.guideline-tile__body {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  gap: var(--space-scale-base-gap);
+  padding: calc(var(--space-scale-base-gap) * 3);
+}
+
+.guideline-tile__eyebrow {
+  color: var(--theme-dark-text-gray);
+  text-transform: uppercase;
+  @include tools.typography-eyebrow;
+}
+
+.guideline-tile__title {
+  @include tools.typography-headline-5;
+}
+
+.guideline-tile__summary {
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-body-2;
+}
+
+.guideline-tile__summary .field,
+.guideline-tile__summary p {
+  margin: 0;
+}
