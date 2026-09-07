@@ -1,14 +1,28 @@
 import { parse as parse_font } from "opentype.js";
 import {
   create_font_metadata,
+  create_glyph_metric_viewport,
   create_glyph_inventory,
   format_unicode_code_point,
+  group_glyph_inventory,
   glyph_unicode_mappings,
   serialize_glyph_path,
 } from "./font-preview-data.js";
 
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 const FONT_PROMISES = new Map();
+const glyph_group_labels = {
+  numeric: "Numbers",
+  "latin-uppercase": "Latin capital letters",
+  "roundabout-extended-uppercase": "Roundabout extended capital letters",
+  "latin-lowercase": "Latin lowercase letters",
+  "cyrillic-uppercase": "Cyrillic capital letters",
+  "cyrillic-lowercase": "Cyrillic lowercase letters",
+  "greek-uppercase": "Greek capital letters",
+  "roundabout-alternate-set": "Roundabout alternate glyph set",
+  "greek-lowercase": "Greek lowercase letters",
+  "keyboard-symbols": "Keyboard symbols",
+};
 
 function translated_label(source_label) {
   return typeof Drupal !== "undefined" ? Drupal.t(source_label) : source_label;
@@ -86,46 +100,79 @@ function add_path_points(svg_element, path_commands) {
 function render_glyph_vector(svg_element, font_record, glyph_record) {
   svg_element.replaceChildren();
   const units_per_em = font_record.unitsPerEm;
-  const baseline_y = font_record.ascender;
+  const glyph_viewport = create_glyph_metric_viewport(font_record);
   const advance_width = glyph_record.advanceWidth || units_per_em;
-  const visual_path = glyph_record.getPath(0, baseline_y, units_per_em, {}, font_record);
+  const visual_path = glyph_record.getPath(
+    0,
+    glyph_viewport.baseline_y,
+    units_per_em,
+    {},
+    font_record,
+  );
   const view_padding = Math.max(1, Math.round(units_per_em / 10));
   const view_width = Math.max(advance_width, units_per_em) + (view_padding * 2);
-  const view_height = (font_record.ascender - font_record.descender) + (view_padding * 2);
   const view_start_x = -view_padding;
-  const view_start_y = -view_padding;
   const view_end_x = view_start_x + view_width;
-  const descender_y = baseline_y - font_record.descender;
 
   svg_element.setAttribute(
     "viewBox",
-    `${view_start_x} ${view_start_y} ${view_width} ${view_height}`,
+    `${view_start_x} ${glyph_viewport.view_start_y} ${view_width} ${glyph_viewport.view_height}`,
   );
-  add_metric_line(svg_element, "font-preview__metric-line", view_start_x, 0, view_end_x, 0);
+  add_metric_line(
+    svg_element,
+    "font-preview__metric-line",
+    view_start_x,
+    glyph_viewport.view_start_y,
+    view_end_x,
+    glyph_viewport.view_start_y,
+  );
+  add_metric_line(
+    svg_element,
+    "font-preview__metric-line",
+    view_start_x,
+    glyph_viewport.overshoot_divider_y,
+    view_end_x,
+    glyph_viewport.overshoot_divider_y,
+  );
+  add_metric_line(
+    svg_element,
+    "font-preview__metric-line font-preview__metric-line--ascender",
+    view_start_x,
+    glyph_viewport.ascender_y,
+    view_end_x,
+    glyph_viewport.ascender_y,
+  );
   add_metric_line(
     svg_element,
     "font-preview__metric-line font-preview__metric-line--baseline",
     view_start_x,
-    baseline_y,
+    glyph_viewport.baseline_y,
     view_end_x,
-    baseline_y,
+    glyph_viewport.baseline_y,
   );
   add_metric_line(
     svg_element,
-    "font-preview__metric-line",
+    "font-preview__metric-line font-preview__metric-line--descender",
     view_start_x,
-    descender_y,
+    glyph_viewport.descender_y,
     view_end_x,
-    descender_y,
+    glyph_viewport.descender_y,
   );
-  add_metric_line(svg_element, "font-preview__metric-line", 0, view_start_y, 0, view_height);
+  add_metric_line(
+    svg_element,
+    "font-preview__metric-line",
+    0,
+    glyph_viewport.view_start_y,
+    0,
+    glyph_viewport.view_height,
+  );
   add_metric_line(
     svg_element,
     "font-preview__metric-line",
     advance_width,
-    view_start_y,
+    glyph_viewport.view_start_y,
     advance_width,
-    view_height,
+    glyph_viewport.view_height,
   );
 
   const outline_path = create_svg_element(
@@ -133,7 +180,7 @@ function render_glyph_vector(svg_element, font_record, glyph_record) {
     "path",
     "font-preview__glyph-outline",
   );
-  outline_path.setAttribute("d", visual_path.toPathData({ decimalPlaces: 2 }));
+  outline_path.setAttribute("d", visual_path.toPathData({ decimalPlaces: 2, flipY: false }));
   svg_element.append(outline_path);
   add_path_points(svg_element, visual_path.commands);
 }
@@ -159,7 +206,6 @@ function render_metadata_table(metadata_body, font_record, displayed_mapping_cou
 
 function populate_glyph_dialog(font_preview, font_record, glyph_mapping) {
   const glyph_record = glyph_mapping.glyph_record;
-  const glyph_dialog = font_preview.querySelector("[data-font-preview-dialog]");
   font_preview.querySelector("[data-glyph-dialog-title]").textContent =
     `${translated_label("Glyph details")}: ${glyph_mapping.glyph_name}`;
   font_preview.querySelector("[data-glyph-name]").textContent = glyph_mapping.glyph_name;
@@ -169,7 +215,9 @@ function populate_glyph_dialog(font_preview, font_record, glyph_mapping) {
   font_preview.querySelector("[data-glyph-bearing]").textContent = String(glyph_record.leftSideBearing ?? "—");
   font_preview.querySelector("[data-glyph-path]").textContent = serialize_glyph_path(glyph_record);
   render_glyph_vector(font_preview.querySelector("[data-glyph-svg]"), font_record, glyph_record);
+}
 
+function show_glyph_dialog(glyph_dialog) {
   if (typeof glyph_dialog.showModal === "function") {
     glyph_dialog.showModal();
   }
@@ -179,12 +227,47 @@ function populate_glyph_dialog(font_preview, font_record, glyph_mapping) {
   }
 }
 
+function open_glyph_dialog(font_preview, glyph_button) {
+  const owner_document = font_preview.ownerDocument;
+  const glyph_dialog = font_preview.querySelector("[data-font-preview-dialog]");
+  const glyph_visual = font_preview.querySelector("[data-font-preview-glyph-transition-target]");
+  const reduced_motion_requested = owner_document.defaultView
+    ?.matchMedia("(prefers-reduced-motion: reduce)").matches ?? false;
+  const shared_transition_available = typeof owner_document.startViewTransition === "function"
+    && typeof glyph_dialog.showModal === "function"
+    && glyph_visual
+    && !reduced_motion_requested;
+
+  if (!shared_transition_available) {
+    show_glyph_dialog(glyph_dialog);
+    return;
+  }
+
+  const clear_transition_markers = () => {
+    glyph_button.removeAttribute("data-font-preview-glyph-transition-source");
+    glyph_visual.removeAttribute("data-font-preview-glyph-transition-active");
+  };
+
+  glyph_button.setAttribute("data-font-preview-glyph-transition-source", "");
+
+  try {
+    const glyph_view_transition = owner_document.startViewTransition(() => {
+      glyph_button.removeAttribute("data-font-preview-glyph-transition-source");
+      glyph_visual.setAttribute("data-font-preview-glyph-transition-active", "");
+      glyph_dialog.showModal();
+    });
+    glyph_view_transition.finished.then(clear_transition_markers, clear_transition_markers);
+  }
+  catch (_transition_error) {
+    clear_transition_markers();
+    show_glyph_dialog(glyph_dialog);
+  }
+}
+
 function create_glyph_tile(font_preview, font_record, glyph_mapping) {
   const owner_document = font_preview.ownerDocument;
   const glyph_button = owner_document.createElement("button");
   const glyph_character = owner_document.createElement("span");
-  const glyph_code_point = owner_document.createElement("span");
-  const glyph_name = owner_document.createElement("span");
   const unicode_label = format_unicode_code_point(glyph_mapping.code_point);
 
   glyph_button.className = "font-preview__glyph-tile";
@@ -193,23 +276,59 @@ function create_glyph_tile(font_preview, font_record, glyph_mapping) {
     "aria-label",
     `${translated_label("Inspect")} ${glyph_mapping.glyph_name}, ${unicode_label}`,
   );
-  glyph_button.title = [
+  glyph_button.dataset.tooltipTrigger = "";
+  glyph_button.dataset.tooltipColorVariant = "full-black";
+  glyph_button.dataset.tooltipLabel = [
     `${translated_label("Character")}: ${glyph_mapping.character}`,
     `${translated_label("Glyph")}: ${glyph_mapping.glyph_name}`,
     `${translated_label("Unicode")}: ${unicode_label}`,
-  ].join("\n");
+  ].join(" · ");
   glyph_character.className = "font-preview__glyph-character";
   glyph_character.textContent = glyph_mapping.character;
-  glyph_code_point.className = "font-preview__glyph-code";
-  glyph_code_point.textContent = unicode_label;
-  glyph_name.className = "font-preview__glyph-name";
-  glyph_name.textContent = glyph_mapping.glyph_name;
-  glyph_button.append(glyph_character, glyph_code_point, glyph_name);
+  glyph_button.append(glyph_character);
   glyph_button.addEventListener("click", () => {
     font_preview.jurenites_font_preview_opener = glyph_button;
     populate_glyph_dialog(font_preview, font_record, glyph_mapping);
+    open_glyph_dialog(font_preview, glyph_button);
   });
   return glyph_button;
+}
+
+function create_glyph_group(font_preview, font_record, glyph_group) {
+  const owner_document = font_preview.ownerDocument;
+  const glyph_group_container = owner_document.createElement("section");
+  const glyph_grid = owner_document.createElement("div");
+  const group_label = translated_label(glyph_group_labels[glyph_group.group_name]);
+  const glyph_tiles = glyph_group.glyph_mappings.map((glyph_mapping) =>
+    create_glyph_tile(font_preview, font_record, glyph_mapping));
+
+  glyph_group_container.className = "font-preview__glyph-group";
+  glyph_group_container.dataset.glyphGroup = glyph_group.group_name;
+  glyph_group_container.setAttribute("aria-label", group_label);
+  glyph_grid.className = "font-preview__glyph-grid";
+  glyph_grid.append(...glyph_tiles);
+  glyph_group_container.append(glyph_grid);
+  return glyph_group_container;
+}
+
+function set_additional_glyph_visibility(more_glyphs_toggle, additional_glyph_region, is_visible) {
+  const additional_glyph_count = more_glyphs_toggle.dataset.additionalGlyphCount;
+  const action_label = is_visible ? "Hide additional glyphs" : "Show additional glyphs";
+  more_glyphs_toggle.setAttribute("aria-expanded", String(is_visible));
+  more_glyphs_toggle.setAttribute(
+    "aria-label",
+    `${translated_label(action_label)} (${additional_glyph_count})`,
+  );
+  additional_glyph_region.hidden = !is_visible;
+}
+
+function set_path_data_visibility(path_data_toggle, path_data_region, is_visible) {
+  const action_label = is_visible
+    ? path_data_toggle.dataset.pathHideLabel
+    : path_data_toggle.dataset.pathShowLabel;
+  path_data_toggle.setAttribute("aria-expanded", String(is_visible));
+  path_data_toggle.setAttribute("aria-label", action_label);
+  path_data_region.hidden = !is_visible;
 }
 
 export async function initialize_font_preview(font_preview) {
@@ -218,28 +337,53 @@ export async function initialize_font_preview(font_preview) {
   }
   font_preview.jurenites_font_preview_initialized = true;
 
-  const text_input = font_preview.querySelector(".text-input__control");
-  const specimen_text = font_preview.querySelector("[data-font-preview-specimen]");
   const status_message = font_preview.querySelector("[data-font-preview-status]");
-  const glyph_grid = font_preview.querySelector("[data-font-preview-grid]");
+  const primary_glyph_groups = font_preview.querySelector("[data-font-preview-primary-groups]");
+  const additional_glyph_grid = font_preview.querySelector("[data-font-preview-additional-grid]");
+  const additional_glyph_region = font_preview.querySelector("[data-font-preview-additional-region]");
+  const more_glyphs_toggle = font_preview.querySelector("[data-font-preview-additional-toggle]");
   const metadata_body = font_preview.querySelector("[data-font-preview-metadata]");
   const glyph_dialog = font_preview.querySelector("[data-font-preview-dialog]");
   const close_button = font_preview.querySelector("[data-font-preview-close]");
+  const path_data_toggle = font_preview.querySelector("[data-font-preview-path-toggle]");
+  const path_data_region = font_preview.querySelector("[data-font-preview-path-region]");
 
-  text_input?.addEventListener("input", () => {
-    specimen_text.textContent = text_input.value || translated_label("Try it yourself");
-  });
   close_button?.addEventListener("click", () => glyph_dialog.close());
   glyph_dialog?.addEventListener("close", () => {
     font_preview.jurenites_font_preview_opener?.focus();
   });
+  more_glyphs_toggle?.addEventListener("click", () => {
+    const additional_is_visible = more_glyphs_toggle.getAttribute("aria-expanded") !== "true";
+    set_additional_glyph_visibility(
+      more_glyphs_toggle,
+      additional_glyph_region,
+      additional_is_visible,
+    );
+  });
+  path_data_toggle?.addEventListener("click", () => {
+    const path_data_is_visible = path_data_toggle.getAttribute("aria-expanded") !== "true";
+    set_path_data_visibility(path_data_toggle, path_data_region, path_data_is_visible);
+  });
+  if (path_data_toggle && path_data_region) {
+    set_path_data_visibility(path_data_toggle, path_data_region, false);
+  }
 
   try {
     const font_record = await load_font_asset(font_preview.dataset.fontUrl);
     const glyph_inventory = create_glyph_inventory(font_record);
-    const glyph_tiles = glyph_inventory.map((glyph_mapping) =>
+    const grouped_inventory = group_glyph_inventory(
+      glyph_inventory,
+      font_preview.dataset.fontIdentifier,
+    );
+    const primary_group_elements = grouped_inventory.primary_groups.map((glyph_group) =>
+      create_glyph_group(font_preview, font_record, glyph_group));
+    const additional_glyph_tiles = grouped_inventory.additional_mappings.map((glyph_mapping) =>
       create_glyph_tile(font_preview, font_record, glyph_mapping));
-    glyph_grid.replaceChildren(...glyph_tiles);
+    primary_glyph_groups.replaceChildren(...primary_group_elements);
+    additional_glyph_grid.replaceChildren(...additional_glyph_tiles);
+    more_glyphs_toggle.dataset.additionalGlyphCount = String(additional_glyph_tiles.length);
+    more_glyphs_toggle.hidden = additional_glyph_tiles.length === 0;
+    set_additional_glyph_visibility(more_glyphs_toggle, additional_glyph_region, false);
     render_metadata_table(metadata_body, font_record, glyph_inventory.length);
     status_message.textContent = `${glyph_inventory.length} ${translated_label("drawable Unicode mappings")}`;
     font_preview.dataset.enhancementState = "ready";

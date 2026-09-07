@@ -27,7 +27,7 @@
 /// Accessible keyboard focus ring built from action + shape tokens.
 @mixin focus-ring {
   outline: var(--shape-border-width-thick-default) solid var(--theme-dark-action-primary-default);
-  outline-offset: calc(var(--space-scale-base-gap) * 0.5);
+  //outline-offset: calc(var(--space-scale-base-gap) * 0.5);
 }
 
 /// Reset a list/native element back to a neutral block.

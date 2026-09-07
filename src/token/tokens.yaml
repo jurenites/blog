@@ -58,7 +58,7 @@ color:
 theme:
   dark:
     surface:
-      background-page: color.palette.black
+      background-page: color.palette.dark-black
       background-elevation-level-0: color.palette.black
       background-elevation-level-1: color.palette.light-black
       background-elevation-level-2: color.palette.deep-gray
@@ -103,11 +103,12 @@ typography:
   subtitle-1: '16px var(--typography-font-family-sans)'
   subtitle-2: '14px var(--typography-font-family-sans)'
   eyebrow: '14px var(--typography-font-family-sans)'
-  body: '16px var(--typography-font-family-sans)'
+  body: '300 16px var(--typography-font-family-sans)'
   body-2: '14px var(--typography-font-family-sans)' # Compact supporting copy in cards and dense UI; full article body remains on body.
   link: '300 16px var(--typography-font-family-sans)' # Components add the required underline separately.
   caption: '14px var(--typography-font-family-sans)'
   code: '600 14px var(--typography-font-family-code)' # Storybook code and technical metadata.
+  machine-readable: '14px var(--typography-font-family-number)' # Compact system values and identifiers in the Ubuntu Sans Mono family.
   badge: '500 14px var(--typography-font-family-sans)' # Compact labels that need more emphasis than the 300-weight link role.
   overline: '5px var(--typography-font-family-4pixel)' # Demonstrations and compact technical details such as the version watermark.
   numeric-display: '64px var(--typography-font-family-number)' # Large statistics and other prominent numeric values.
@@ -127,7 +128,7 @@ shape:
     full: 0px
   border-width:
     hairline-default: 1px
-    thick-default: 2px
+    thick-default: 1px
 # TODO this 'elevation' shpuld be moved into a theme.dark.elecation-level-0.shadow and theme.dark.elecation-level-0.backgropund-color we need to reaorganise the token mentioned palces
 elevation:
   shadow:
@@ -162,6 +163,13 @@ layout:
     tablet-default: 24px
     desktop-default: 32px
 component:
+  hero-section:
+    background-edge-color: "#000207" # Sampled from the outer edge of the homepage Hero image for a continuous canvas.
+    clear-color: "#00000000" # Transparent edges of the photographic lighting layer.
+    cyan-glow-color: "#66FFFF24" # Restrained light at the supplied laptop screen.
+    cyan-reflection-color: "#66FFFF12"
+    image-horizontal-fade-width-default: 100px # Blend each side of the Hero image into the homepage canvas.
+    magenta-reflection-color: "#FF66FF16"
   footer-navigation:
     social-icon-size-default: 16px # Compact social icons in the footer.
     linkedin-color-hover: "#2867B2" #https://brand.linkedin.com/en-us
@@ -206,6 +214,8 @@ component:
       full: 400px # Default maximum width for a standalone text input.
       half: 200px # Half of the default text input width.
       quarter: 80px # Quarter of the default width and the minimum supported text input width.
+  font-preview:
+    preview-character-size-default: 16px # Keeps custom-font input text and glyph previews aligned to their intended pixel grid.
   content-layout:
     default-width: readable
     sidebar-min-width-default: 240px

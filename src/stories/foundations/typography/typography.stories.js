@@ -17,6 +17,8 @@ function typography_sample_text(role_name) {
       return "v0.1.10 · build";
     case "numeric-display":
       return "80+ · 16 years · 2010";
+    case "machine-readable":
+      return "U+0053 · glyph-66 · 2048";
     default:
       return "A personal journal about systems and craft";
   }

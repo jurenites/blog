@@ -31,35 +31,62 @@
 }
 
 .font-preview__input {
-  max-width: var(--component-text-input-width-full);
+  width: 100%;
+}
+
+.font-preview__input .text-input__control {
+  max-width: none;
 }
 
 .font-preview--roundabout .font-preview__input .text-input__control,
-.font-preview--roundabout .font-preview__specimen,
 .font-preview--roundabout .font-preview__glyph-character {
   font-family: "Roundabout", sans-serif;
 }
 
 .font-preview--4pixel .font-preview__input .text-input__control,
-.font-preview--4pixel .font-preview__specimen,
 .font-preview--4pixel .font-preview__glyph-character {
   font-family: "4pixel", monospace;
 }
 
-.font-preview__specimen {
-  min-height: calc(var(--shape-basic-tile) * 2);
-  margin: 0;
-  overflow-wrap: anywhere;
-  font-size: calc(var(--space-scale-base-gap) * 5);
-  line-height: 1.2;
+.font-preview__glyph-groups {
+  display: grid;
+  gap: calc(var(--space-scale-base-gap) * 2);
+  min-width: 0;
+}
+
+.font-preview__glyph-group {
+  min-width: 0;
 }
 
 .font-preview__glyph-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--shape-basic-tile), 1fr));
+  grid-template-columns: repeat(auto-fit, var(--shape-basic-tile));
   gap: var(--space-scale-one);
   width: 100%;
-  background: var(--theme-dark-border-divider-default);
+  //background: var(--theme-dark-border-divider-default);
+}
+
+.font-preview__more-toggle {
+  justify-self: start;
+
+  &:hover {
+    border-color: var(--theme-dark-border-outline-default);
+    background: var(--theme-dark-action-secondary-hover);
+    color: var(--color-palette-brand-tertiary);
+  }
+}
+
+.font-preview__more-toggle[hidden],
+.font-preview__additional-glyphs[hidden] {
+  display: none;
+}
+
+.font-preview__more-icon {
+  transition: transform var(--motion-duration-short-default) var(--motion-easing-standard-default);
+}
+
+.font-preview__more-toggle[aria-expanded="true"] .font-preview__more-icon {
+  transform: rotate(180deg);
 }
 
 .font-preview__glyph-tile {
@@ -69,11 +96,11 @@
   min-height: var(--shape-basic-tile);
   padding: var(--space-scale-two);
   border: 0;
-  background: var(--theme-dark-surface-background-elevation-level-1);
+  background-color: var(--color-palette-dark-black);
   color: var(--theme-dark-text-primary-default);
   cursor: pointer;
 
-  &:hover {
+  &:where(button):hover {
     background: var(--theme-dark-action-secondary-hover);
   }
 
@@ -87,15 +114,11 @@
   line-height: 1;
 }
 
-.font-preview__glyph-code,
-.font-preview__glyph-name {
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-family: "Ubuntu Sans Mono", monospace;
-  font-size: calc(var(--space-scale-base-gap) * 0.625);
-  line-height: 1.2;
+.font-preview--roundabout .font-preview__input .text-input__control,
+.font-preview--roundabout .font-preview__glyph-character,
+.font-preview--4pixel .font-preview__input .text-input__control,
+.font-preview--4pixel .font-preview__glyph-character {
+  font-size: var(--component-font-preview-preview-character-size-default);
 }
 
 .font-preview__data {
@@ -118,6 +141,14 @@
   border-block-end: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
   text-align: start;
   vertical-align: top;
+}
+
+.font-preview__table th {
+  @include tools.typography-caption;
+}
+
+.font-preview__table td {
+  @include tools.typography-machine-readable;
 }
 
 .font-preview__dialog {
@@ -148,19 +179,34 @@
 .font-preview__glyph-visual {
   display: grid;
   place-items: center;
-  min-height: calc(var(--shape-basic-tile) * 4);
+  min-height: calc(var(--shape-basic-tile) * 7);
   margin-block: calc(var(--space-scale-base-gap) * 2);
-  background: var(--color-palette-light-white);
+  background: var(--color-palette-dark-black);
+}
+
+[data-font-preview-glyph-transition-source],
+[data-font-preview-glyph-transition-active] {
+  view-transition-name: font-preview-selected-glyph;
+}
+
+::view-transition-group(font-preview-selected-glyph) {
+  animation-duration: var(--motion-duration-extra-long);
+  animation-timing-function: var(--motion-easing-decelerate-default);
+}
+
+::view-transition-old(font-preview-selected-glyph),
+::view-transition-new(font-preview-selected-glyph) {
+  mix-blend-mode: normal;
 }
 
 .font-preview__glyph-svg {
   display: block;
   width: 100%;
-  height: calc(var(--shape-basic-tile) * 4);
+  height: calc(var(--shape-basic-tile) * 7);
 }
 
 .font-preview__metric-line {
-  stroke: var(--color-palette-light-black);
+  stroke: var(--color-palette-light-white);
   stroke-width: var(--space-scale-two);
 }
 
@@ -202,10 +248,52 @@
 
 .font-preview__glyph-data dd {
   margin: 0;
+  @include tools.typography-machine-readable;
 }
 
-.font-preview__path-details code {
+.font-preview__path-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-scale-base-gap);
+}
+
+.font-preview__path-label {
+  @include tools.typography-caption;
+}
+
+.font-preview__path-toggle {
+  justify-content: center;
+  width: var(--shape-basic-tile);
+  min-height: var(--shape-basic-tile);
+  padding: 0;
+}
+
+.font-preview__path-icon {
+  transition: transform var(--motion-duration-short-default) var(--motion-easing-standard-default);
+}
+
+.font-preview__path-toggle[aria-expanded="true"] .font-preview__path-icon {
+  transform: rotate(180deg);
+}
+
+.font-preview__path-details pre {
+  margin: var(--space-scale-base-gap) 0 0;
+  padding: var(--space-scale-base-gap);
+  background-color: var(--color-palette-dark-black);
+}
+
+.font-preview__path-details pre[hidden] {
+  display: none;
+}
+
+.font-preview__path-code {
   white-space: pre;
-  font-family: "Ubuntu Sans Mono", monospace;
-  font-size: calc(var(--space-scale-base-gap) * 1.5);
+  @include tools.typography-machine-readable;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(font-preview-selected-glyph) {
+    animation-duration: var(--motion-duration-instant-default);
+  }
 }

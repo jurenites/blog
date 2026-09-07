@@ -1,0 +1,5 @@
+name: 'Jurenites Hero'
+description: 'Adds an editable Hero block, reorderable slides and initial homepage placement.'
+type: 'Site'
+install:
+  - jurenites_hero

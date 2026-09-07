@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * @file
+ * Builds the Hero's semantic content; the custom theme owns its presentation.
+ */
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_hero_theme(): array {
+  return [
+    'jurenites_hero' => [
+      'variables' => [
+        'section_label' => '', 'eyebrow_heading' => '', 'background_image_url' => '',
+        'image_description' => '', 'glow_enabled' => FALSE, 'hero_slides' => [],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Reads viewable field content and carries its access metadata into rendering.
+ */
+function jurenites_hero_read_field(EntityInterface $content_entity, string $field_name, CacheableMetadata $cache_metadata): mixed {
+  $field_items = $content_entity->get($field_name);
+  $field_access = $field_items->access('view', NULL, TRUE);
+  $cache_metadata->addCacheableDependency($field_access);
+  return $field_access->isAllowed() ? $field_items : NULL;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function jurenites_hero_block_content_view(array &$build_output, EntityInterface $block_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($block_entity->bundle() !== 'hero') {
+    return;
+  }
+  $cache_metadata = CacheableMetadata::createFromObject($block_entity);
+  $cache_metadata->addCacheContexts(['languages:language_content']);
+  $hero_build = [
+    '#theme' => 'jurenites_hero',
+    '#section_label' => (string) t('Introduction'),
+    '#eyebrow_heading' => jurenites_hero_read_field($block_entity, 'field_hero_eyebrow', $cache_metadata)?->value ?? '',
+    '#glow_enabled' => (bool) jurenites_hero_read_field($block_entity, 'field_hero_glow', $cache_metadata)?->value,
+    '#hero_slides' => [],
+  ];
+  $image_items = jurenites_hero_read_field($block_entity, 'field_hero_image', $cache_metadata);
+  $image_file = $image_items?->entity;
+  if ($image_file !== NULL) {
+    $file_access = $image_file->access('view', NULL, TRUE);
+    $cache_metadata->addCacheableDependency($image_file)->addCacheableDependency($file_access);
+    if ($file_access->isAllowed()) {
+      $hero_build['#background_image_url'] = \Drupal::service('file_url_generator')->generateString($image_file->getFileUri());
+      $hero_build['#image_description'] = $image_items->alt ?? '';
+    }
+  }
+  $slide_items = jurenites_hero_read_field($block_entity, 'field_hero_slides', $cache_metadata);
+  foreach ($slide_items?->referencedEntities() ?? [] as $slide_entity) {
+    $slide_entity = \Drupal::service('entity.repository')->getTranslationFromContext($slide_entity);
+    $slide_access = $slide_entity->access('view', NULL, TRUE);
+    $cache_metadata->addCacheableDependency($slide_entity)->addCacheableDependency($slide_access);
+    if (!$slide_access->isAllowed()) {
+      continue;
+    }
+    $slide_content = [
+      'navigation_label' => jurenites_hero_read_field($slide_entity, 'field_hero_nav_label', $cache_metadata)?->value ?? '',
+      'slide_heading' => jurenites_hero_read_field($slide_entity, 'field_hero_heading', $cache_metadata)?->value ?? '',
+      'slide_description' => jurenites_hero_read_field($slide_entity, 'field_hero_description', $cache_metadata)?->value ?? '',
+      'slide_actions' => [],
+    ];
+    foreach (['primary', 'secondary'] as $action_name) {
+      $link_item = jurenites_hero_read_field($slide_entity, 'field_hero_' . $action_name, $cache_metadata)?->first();
+      if ($link_item === NULL || $link_item->isEmpty()) {
+        continue;
+      }
+      $link_url = $link_item->getUrl();
+      $link_access = $link_url->access(NULL, TRUE);
+      $cache_metadata->addCacheableDependency($link_access);
+      if ($link_access->isAllowed()) {
+        $slide_content['slide_actions'][] = [
+          '#type' => 'link', '#title' => $link_item->title, '#url' => $link_url,
+          '#attributes' => ['class' => ['button', 'button--' . $action_name, 'hero-section__action']],
+        ];
+      }
+    }
+    $hero_build['#hero_slides'][] = $slide_content;
+  }
+  $cache_metadata->applyTo($hero_build);
+  $build_output['hero_section'] = $hero_build;
+}

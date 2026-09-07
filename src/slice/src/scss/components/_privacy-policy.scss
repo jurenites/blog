@@ -45,11 +45,11 @@
 .privacy-policy h2 {
   @include tools.typography-headline-5;
 }
-
+/*
 .privacy-policy p:last-child {
   color: var(--theme-dark-text-secondary-default);
   @include tools.typography-body-2;
-}
+}*/
 
 @include tools.breakpoint-down("mobile-max") {
   .privacy-policy__header {

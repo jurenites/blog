@@ -1,5 +1,6 @@
 import { initialize_pixel_glyph_editors } from './pixel-glyph-editor.js';
 import { initialize_numeric_value_counters } from './numeric-values.js';
+import { initialize_hero_sections } from './hero-section.js';
 
 const NOISE_FRAMES_PER_SECOND = 15;
 const NOISE_FRAME_INTERVAL = 1000 / NOISE_FRAMES_PER_SECOND;
@@ -665,8 +666,8 @@ export function initialize_custom_selects(select_context) {
 function tooltip_label_from_trigger(tooltip_trigger) {
   const data_icon_name = tooltip_trigger.getAttribute('data-icon-name');
   const raw_label = data_icon_name
-    || tooltip_trigger.getAttribute('aria-label')
     || tooltip_trigger.getAttribute('data-tooltip-label')
+    || tooltip_trigger.getAttribute('aria-label')
     || tooltip_trigger.getAttribute('title');
 
   if (!raw_label) {
@@ -715,76 +716,111 @@ function position_tooltip(tooltip_trigger, tooltip_element) {
   tooltip_element.style.top = `${Math.max(viewport_gap, Math.min(top_coordinate, tooltip_window.innerHeight - tooltip_bounds.height - viewport_gap))}px`;
 }
 
-export function initialize_tooltips(tooltip_context) {
-  const tooltip_document = tooltip_context.nodeType === 9
-    ? tooltip_context
-    : tooltip_context.ownerDocument;
+function remove_orphaned_tooltips(tooltip_document) {
   tooltip_document.querySelectorAll('[data-jurenites-tooltip-overlay]').forEach((tooltip_overlay) => {
     if (!tooltip_overlay.jurenites_tooltip_trigger?.isConnected) {
       tooltip_overlay.remove();
     }
   });
+}
 
-  tooltip_context.querySelectorAll('[data-tooltip-trigger]').forEach((tooltip_trigger) => {
-    if (tooltip_trigger.jurenites_tooltip_initialized) {
-      return;
-    }
+function initialize_tooltip_trigger(tooltip_trigger) {
+  if (tooltip_trigger.jurenites_tooltip_initialized) {
+    return;
+  }
 
-    const tooltip_label = tooltip_label_from_trigger(tooltip_trigger);
-    const tooltip_color_variant = tooltip_trigger.dataset.tooltipColorVariant;
-    const tooltip_document = tooltip_trigger.ownerDocument;
-    const tooltip_window = tooltip_document.defaultView;
-    const root_styles = tooltip_window.getComputedStyle(tooltip_document.documentElement);
-    const hide_delay = Number.parseFloat(
-      root_styles.getPropertyValue('--motion-duration-short-default'),
-    );
-    const tooltip_element = tooltip_document.createElement('span');
-    let hide_timer = 0;
-    tooltip_element.className = tooltip_color_variant
-      ? `tooltip tooltip--${tooltip_color_variant}`
-      : 'tooltip tooltip--full-black';
-    tooltip_element.dataset.jurenitesTooltipOverlay = '';
-    tooltip_element.jurenites_tooltip_trigger = tooltip_trigger;
-    tooltip_element.setAttribute('role', 'tooltip');
-    tooltip_element.textContent = tooltip_label;
-    tooltip_document.body.appendChild(tooltip_element);
-    tooltip_trigger.setAttribute('aria-describedby', `tooltip-${Math.random().toString(36).slice(2)}`);
-    tooltip_element.id = tooltip_trigger.getAttribute('aria-describedby');
-    tooltip_trigger.jurenites_tooltip_initialized = true;
-    tooltip_trigger.jurenites_tooltip_element = tooltip_element;
+  const tooltip_label = tooltip_label_from_trigger(tooltip_trigger);
+  if (!tooltip_label) {
+    return;
+  }
 
-    const show_tooltip = () => {
-      tooltip_window.clearTimeout(hide_timer);
-      tooltip_element.classList.add('is-visible');
+  const tooltip_color_variant = tooltip_trigger.dataset.tooltipColorVariant;
+  const tooltip_document = tooltip_trigger.ownerDocument;
+  const tooltip_window = tooltip_document.defaultView;
+  const root_styles = tooltip_window.getComputedStyle(tooltip_document.documentElement);
+  const hide_delay = Number.parseFloat(
+    root_styles.getPropertyValue('--motion-duration-short-default'),
+  );
+  const tooltip_element = tooltip_document.createElement('span');
+  let hide_timer = 0;
+  tooltip_element.className = tooltip_color_variant
+    ? `tooltip tooltip--${tooltip_color_variant}`
+    : 'tooltip tooltip--full-black';
+  tooltip_element.dataset.jurenitesTooltipOverlay = '';
+  tooltip_element.jurenites_tooltip_trigger = tooltip_trigger;
+  tooltip_element.setAttribute('role', 'tooltip');
+  tooltip_element.textContent = tooltip_label;
+  tooltip_document.body.appendChild(tooltip_element);
+  tooltip_trigger.removeAttribute('title');
+  tooltip_trigger.setAttribute('aria-describedby', `tooltip-${Math.random().toString(36).slice(2)}`);
+  tooltip_element.id = tooltip_trigger.getAttribute('aria-describedby');
+  tooltip_trigger.jurenites_tooltip_initialized = true;
+  tooltip_trigger.jurenites_tooltip_element = tooltip_element;
+
+  const show_tooltip = () => {
+    tooltip_window.clearTimeout(hide_timer);
+    tooltip_element.classList.add('is-visible');
+    position_tooltip(tooltip_trigger, tooltip_element);
+  };
+  const hide_tooltip = () => {
+    tooltip_window.clearTimeout(hide_timer);
+    tooltip_element.classList.remove('is-visible');
+  };
+  const schedule_tooltip_hide = () => {
+    tooltip_window.clearTimeout(hide_timer);
+    hide_timer = tooltip_window.setTimeout(hide_tooltip, hide_delay);
+  };
+  const reposition_visible_tooltip = () => {
+    if (tooltip_element.classList.contains('is-visible')) {
       position_tooltip(tooltip_trigger, tooltip_element);
-    };
-    const hide_tooltip = () => {
-      tooltip_window.clearTimeout(hide_timer);
-      tooltip_element.classList.remove('is-visible');
-    };
-    const schedule_tooltip_hide = () => {
-      tooltip_window.clearTimeout(hide_timer);
-      hide_timer = tooltip_window.setTimeout(hide_tooltip, hide_delay);
-    };
-    const reposition_visible_tooltip = () => {
-      if (tooltip_element.classList.contains('is-visible')) {
-        position_tooltip(tooltip_trigger, tooltip_element);
-      }
-    };
-    tooltip_trigger.addEventListener('mouseenter', show_tooltip);
-    tooltip_trigger.addEventListener('mouseleave', schedule_tooltip_hide);
-    tooltip_trigger.addEventListener('focus', show_tooltip);
-    tooltip_trigger.addEventListener('blur', schedule_tooltip_hide);
-    tooltip_trigger.addEventListener('keydown', (keyboard_event) => {
-      if (keyboard_event.key === 'Escape') {
-        hide_tooltip();
-      }
-    });
-    tooltip_element.addEventListener('mouseenter', show_tooltip);
-    tooltip_element.addEventListener('mouseleave', schedule_tooltip_hide);
-    tooltip_window.addEventListener('resize', reposition_visible_tooltip);
-    tooltip_window.addEventListener('scroll', reposition_visible_tooltip, true);
+    }
+  };
+  tooltip_trigger.addEventListener('mouseenter', show_tooltip);
+  tooltip_trigger.addEventListener('mouseleave', schedule_tooltip_hide);
+  tooltip_trigger.addEventListener('focus', show_tooltip);
+  tooltip_trigger.addEventListener('blur', schedule_tooltip_hide);
+  tooltip_trigger.addEventListener('keydown', (keyboard_event) => {
+    if (keyboard_event.key === 'Escape') {
+      hide_tooltip();
+    }
   });
+  tooltip_element.addEventListener('mouseenter', show_tooltip);
+  tooltip_element.addEventListener('mouseleave', schedule_tooltip_hide);
+  tooltip_window.addEventListener('resize', reposition_visible_tooltip);
+  tooltip_window.addEventListener('scroll', reposition_visible_tooltip, true);
+}
+
+export function initialize_tooltips(tooltip_context) {
+  const tooltip_document = tooltip_context.nodeType === 9
+    ? tooltip_context
+    : tooltip_context.ownerDocument;
+  const tooltip_window = tooltip_document.defaultView;
+  remove_orphaned_tooltips(tooltip_document);
+
+  if (tooltip_context.matches?.('[data-tooltip-trigger]')) {
+    initialize_tooltip_trigger(tooltip_context);
+  }
+  tooltip_context.querySelectorAll('[data-tooltip-trigger]').forEach((tooltip_trigger) => {
+    initialize_tooltip_trigger(tooltip_trigger);
+  });
+
+  if (!tooltip_document.jurenites_tooltip_observer) {
+    const tooltip_observer = new tooltip_window.MutationObserver((mutation_records) => {
+      remove_orphaned_tooltips(tooltip_document);
+      mutation_records.forEach((mutation_record) => {
+        mutation_record.addedNodes.forEach((added_node) => {
+          if (added_node instanceof tooltip_window.Element) {
+            initialize_tooltips(added_node);
+          }
+        });
+      });
+    });
+    tooltip_observer.observe(tooltip_document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+    tooltip_document.jurenites_tooltip_observer = tooltip_observer;
+  }
 }
 
 const COOKIE_NOTICE_DISMISSED_KEY = 'jurenites-cookie-notice-dismissed-v2';
@@ -837,6 +873,11 @@ export function initialize_cookie_policy_notices(cookie_notice_context) {
 }
 
 if (typeof Drupal !== 'undefined') {
+  Drupal.behaviors.jurenites_hero_section = {
+    attach(hero_context) {
+      initialize_hero_sections(hero_context);
+    },
+  };
   Drupal.behaviors.jurenites_media_loader_noise = {
     attach(context) {
       context.querySelectorAll('[data-jurenites-media-loader-noise]').forEach((noise_surface) => {
@@ -891,6 +932,12 @@ if (typeof Drupal !== 'undefined') {
   Drupal.behaviors.jurenites_custom_select = {
     attach(context) {
       initialize_custom_selects(context);
+    },
+  };
+
+  Drupal.behaviors.jurenites_tooltips = {
+    attach(tooltip_context) {
+      initialize_tooltips(tooltip_context);
     },
   };
 

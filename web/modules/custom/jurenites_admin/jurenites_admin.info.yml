@@ -4,6 +4,9 @@ description: Customizes project administration behavior and Gin branding.
 package: Jurenites
 core_version_requirement: ^11
 dependencies:
+  - drupal:ckeditor5
   - drupal:comment
+  - drupal:editor
+  - drupal:filter
   - drupal:node
   - drupal:user

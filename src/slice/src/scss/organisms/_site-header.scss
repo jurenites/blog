@@ -260,6 +260,18 @@ body.has-open-site-menu {
   overflow: hidden;
 }
 
+.jurenites-front-page .site-header {
+  position: sticky;
+  inset-block-start: 0;
+  margin-block-end: calc(var(--space-scale-base-gap) * -8);
+  background: transparent;
+}
+
+.jurenites-front-page .site-header--enhanced.is-menu-open {
+  margin-block-end: 0;
+  background: var(--component-hero-section-background-edge-color);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .site-header__menu-line {
     transition-duration: var(--motion-duration-instant-default);

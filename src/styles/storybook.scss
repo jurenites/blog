@@ -48,7 +48,7 @@ body,
   min-height: 100%;
 }
 
-code,
+pre code:not(.font-preview__path-code),
 pre,
 kbd,
 samp {

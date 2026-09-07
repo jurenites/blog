@@ -1,0 +1,198 @@
+<?php
+
+/**
+ * @file
+ * Installs the Hero authoring model and an initial, movable homepage block.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\Core\File\FileExists;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\paragraphs\Entity\ParagraphsType;
+
+const JURENITES_HERO_BLOCK_UUID = 'a55a4f53-9411-46a9-9742-0d1ddbc4a8c9';
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_hero_install(): void {
+  jurenites_hero_configure_fields();
+  jurenites_hero_create_homepage_block();
+}
+
+/**
+ * Adds a field and its widget without overwriting existing editor configuration.
+ */
+function jurenites_hero_add_field(string $entity_type, string $bundle_name, string $field_name, array $field_options, array $widget_options): void {
+  $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
+  if ($field_storage === NULL) {
+    $field_storage = FieldStorageConfig::create([
+      'field_name' => $field_name,
+      'entity_type' => $entity_type,
+      'type' => $field_options['type'],
+      'cardinality' => $field_options['cardinality'] ?? 1,
+      'settings' => $field_options['storage_settings'] ?? [],
+      'translatable' => TRUE,
+    ]);
+    $field_storage->save();
+  }
+  if (FieldConfig::loadByName($entity_type, $bundle_name, $field_name) === NULL) {
+    FieldConfig::create([
+      'field_storage' => $field_storage,
+      'bundle' => $bundle_name,
+      'label' => $field_options['label'],
+      'description' => $field_options['description'] ?? '',
+      'required' => $field_options['required'] ?? FALSE,
+      'translatable' => TRUE,
+      'settings' => $field_options['settings'] ?? [],
+      'default_value' => $field_options['default_value'] ?? [],
+    ])->save();
+  }
+  $display_id = "$entity_type.$bundle_name.default";
+  $form_display = EntityFormDisplay::load($display_id) ?? EntityFormDisplay::create([
+    'targetEntityType' => $entity_type, 'bundle' => $bundle_name,
+    'mode' => 'default', 'status' => TRUE,
+  ]);
+  if ($form_display->getComponent($field_name) === NULL) {
+    $form_display->setComponent($field_name, $widget_options + ['region' => 'content']);
+    $form_display->save();
+  }
+  $view_display = EntityViewDisplay::load($display_id) ?? EntityViewDisplay::create([
+    'targetEntityType' => $entity_type, 'bundle' => $bundle_name,
+    'mode' => 'default', 'status' => TRUE,
+  ]);
+  // The component renders the fields together, preserving their access/cache data.
+  $view_display->removeComponent($field_name)->save();
+}
+
+/**
+ * Defines the reusable block and nested, reorderable slide Paragraphs.
+ */
+function jurenites_hero_configure_fields(): void {
+  if (BlockContentType::load('hero') === NULL) {
+    BlockContentType::create([
+      'id' => 'hero', 'label' => 'Hero', 'revision' => TRUE,
+      'description' => 'A background photograph, introduction and manually selected slides with links.',
+    ])->save();
+  }
+  if (ParagraphsType::load('hero_slide') === NULL) {
+    ParagraphsType::create(['id' => 'hero_slide', 'label' => 'Hero slide'])->save();
+  }
+  jurenites_hero_add_field('block_content', 'hero', 'field_hero_image', [
+    'type' => 'image', 'label' => 'Background image',
+    'description' => 'Use a landscape photograph with room for text on the right. On smaller screens the text appears below it.',
+    'storage_settings' => ['target_type' => 'file', 'uri_scheme' => 'public'],
+    'settings' => [
+      'handler' => 'default:file', 'file_directory' => 'hero',
+      'file_extensions' => 'png jpg jpeg webp', 'max_filesize' => '10 MB',
+      'alt_field' => TRUE, 'alt_field_required' => TRUE,
+      'title_field' => FALSE, 'title_field_required' => FALSE,
+      'max_resolution' => '3840x2160', 'min_resolution' => '',
+    ],
+  ], ['type' => 'image_image', 'weight' => 1]);
+  jurenites_hero_add_field('block_content', 'hero', 'field_hero_eyebrow', [
+    'type' => 'string', 'label' => 'Introductory line',
+    'description' => 'Optional small text above the slide headline.',
+  ], ['type' => 'string_textfield', 'weight' => 2]);
+  jurenites_hero_add_field('block_content', 'hero', 'field_hero_glow', [
+    'type' => 'boolean', 'label' => 'Laptop screen glow',
+    'description' => 'Enable the subtle hover/focus light composed for the supplied laptop photo. Disable it when another image does not match.',
+    'default_value' => [['value' => 0]],
+  ], ['type' => 'boolean_checkbox', 'weight' => 3, 'settings' => ['display_label' => TRUE]]);
+  jurenites_hero_add_field('block_content', 'hero', 'field_hero_slides', [
+    'type' => 'entity_reference_revisions', 'label' => 'Hero slides', 'required' => TRUE,
+    'cardinality' => -1, 'storage_settings' => ['target_type' => 'paragraph'],
+    'description' => 'Add, edit and drag slides into the order visitors should see. The first slide appears initially. A single slide hides the navigation.',
+    'settings' => ['handler' => 'default:paragraph', 'handler_settings' => [
+      'target_bundles' => ['hero_slide' => 'hero_slide'],
+      'target_bundles_drag_drop' => ['hero_slide' => ['weight' => 0, 'enabled' => TRUE]],
+    ]],
+  ], ['type' => 'paragraphs', 'weight' => 4, 'settings' => [
+    'title' => 'Slide', 'title_plural' => 'Slides', 'edit_mode' => 'open',
+    'closed_mode' => 'summary', 'autocollapse' => 'none', 'add_mode' => 'button',
+    'form_display_mode' => 'default', 'default_paragraph_type' => 'hero_slide',
+  ]]);
+  foreach ([
+    'field_hero_nav_label' => ['Navigation label', 'A short tab label, for example Collaborate or About me.'],
+    'field_hero_heading' => ['Headline', 'The main message for this slide.'],
+  ] as $field_name => $field_details) {
+    jurenites_hero_add_field('paragraph', 'hero_slide', $field_name, [
+      'type' => 'string', 'label' => $field_details[0], 'description' => $field_details[1], 'required' => TRUE,
+    ], ['type' => 'string_textfield', 'weight' => $field_name === 'field_hero_nav_label' ? 0 : 1]);
+  }
+  jurenites_hero_add_field('paragraph', 'hero_slide', 'field_hero_description', [
+    'type' => 'string_long', 'label' => 'Supporting text',
+  ], ['type' => 'string_textarea', 'weight' => 2, 'settings' => ['rows' => 3]]);
+  foreach (['primary' => 3, 'secondary' => 4] as $action_name => $field_weight) {
+    jurenites_hero_add_field('paragraph', 'hero_slide', 'field_hero_' . $action_name, [
+      'type' => 'link', 'label' => ucfirst($action_name) . ' button',
+      'description' => 'Optional button. Set both its destination and visible link text. A CV can link to its uploaded file URL.',
+      'settings' => ['link_type' => 17, 'title' => 2],
+    ], ['type' => 'link_default', 'weight' => $field_weight]);
+  }
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+}
+
+/**
+ * Seeds content only when absent; never resets edits, ordering or placement.
+ */
+function jurenites_hero_create_homepage_block(): void {
+  $block_storage = \Drupal::entityTypeManager()->getStorage('block_content');
+  $existing_blocks = $block_storage->loadByProperties(['uuid' => JURENITES_HERO_BLOCK_UUID]);
+  if (!$existing_blocks) {
+    $slide_defaults = [
+      ['Collaborate', 'Let’s build something together.', 'Have an idea in mind? Let’s make it something people use.', 'Contact me', '/contact', 'Explore my work', '/portfolio'],
+      ['About me', 'The mind behind the work.', 'Meet the person behind the projects—and see the experience that shaped them.', 'About me', '/about', 'Contact me', '/contact'],
+      ['My work', 'From an idea to something real.', 'Explore selected projects and the decisions behind them.', 'Explore my work', '/portfolio', 'Contact me', '/contact'],
+    ];
+    $hero_slides = [];
+    foreach ($slide_defaults as $slide_values) {
+      $hero_slides[] = Paragraph::create([
+        'type' => 'hero_slide',
+        'field_hero_nav_label' => $slide_values[0], 'field_hero_heading' => $slide_values[1],
+        'field_hero_description' => $slide_values[2],
+        'field_hero_primary' => ['title' => $slide_values[3], 'uri' => 'internal:' . $slide_values[4]],
+        'field_hero_secondary' => ['title' => $slide_values[5], 'uri' => 'internal:' . $slide_values[6]],
+      ]);
+    }
+    $hero_block = BlockContent::create([
+      'uuid' => JURENITES_HERO_BLOCK_UUID, 'type' => 'hero', 'langcode' => 'en',
+      'info' => 'Homepage hero', 'reusable' => TRUE,
+      'field_hero_eyebrow' => 'Design. Build. Collaborate.',
+      'field_hero_glow' => TRUE, 'field_hero_slides' => $hero_slides,
+    ]);
+    $image_path = DRUPAL_ROOT . '/themes/custom/jurenites_theme/assets/images/hero-night.jpg';
+    if (is_file($image_path)) {
+      $image_directory = 'public://hero';
+      \Drupal::service('file_system')->prepareDirectory($image_directory, FileSystemInterface::CREATE_DIRECTORY);
+      $image_file = \Drupal::service('file.repository')->writeData(
+        file_get_contents($image_path), $image_directory . '/hero-night.jpg', FileExists::Rename,
+      );
+      $hero_block->set('field_hero_image', [
+        'target_id' => $image_file->id(),
+        'alt' => 'Working at a laptop, illuminated by the screen at night.',
+      ]);
+    }
+    $hero_block->save();
+  }
+  if (Block::load('jurenites_theme_homepage_hero') === NULL) {
+    $plugin_identifier = 'block_content:' . JURENITES_HERO_BLOCK_UUID;
+    Block::create([
+      'id' => 'jurenites_theme_homepage_hero', 'theme' => 'jurenites_theme',
+      'region' => 'content', 'weight' => -30, 'status' => TRUE,
+      'plugin' => $plugin_identifier,
+      'settings' => [
+        'id' => $plugin_identifier, 'label' => 'Homepage hero', 'label_display' => '0',
+        'provider' => 'block_content', 'view_mode' => 'full',
+      ],
+      'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => '<front>']],
+    ])->save();
+  }
+}

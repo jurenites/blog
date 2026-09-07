@@ -1,0 +1,27 @@
+{% if hero_slides %}
+  <section class="hero-section{{ glow_enabled and background_image_url ? ' hero-section--glow' : '' }}{{ not background_image_url ? ' hero-section--without-image' : '' }}" data-hero-section aria-label="{{ section_label }}">
+    {% if background_image_url %}
+      <div class="hero-section__scene">
+        <img class="hero-section__image" src="{{ background_image_url }}" alt="{{ image_description }}" decoding="async">
+        <div class="hero-section__glow" aria-hidden="true"></div>
+      </div>
+    {% endif %}
+    <div class="hero-section__content">
+      {% if eyebrow_heading %}<p class="hero-section__eyebrow">{{ eyebrow_heading }}</p>{% endif %}
+      <div class="hero-section__panels">
+        {% for slide_content in hero_slides %}
+          <div class="hero-section__panel" data-hero-panel>
+            <h2 class="hero-section__heading">{{ slide_content.slide_heading }}</h2>
+            {% if slide_content.slide_description %}<p class="hero-section__description">{{ slide_content.slide_description }}</p>{% endif %}
+            {% if slide_content.slide_actions %}<div class="hero-section__actions">{{ slide_content.slide_actions }}</div>{% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="hero-section__navigation" data-hero-navigation aria-label="{{ 'Hero sections'|t }}" hidden>
+        {% for slide_content in hero_slides %}
+          <button class="hero-section__tab" type="button" data-hero-select>{{ slide_content.navigation_label }}</button>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endif %}

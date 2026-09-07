@@ -12,6 +12,7 @@ import {
   initialize_tooltips,
 } from "../src/slice/src/js/script.js";
 import { initialize_font_previews } from "../src/slice/src/js/font-preview.js";
+import { initialize_hero_sections } from "../src/slice/src/js/hero-section.js";
 
 const PREVIEW_WATERMARK_ID = "storybook-preview-watermark";
 
@@ -151,6 +152,7 @@ export const decorators = [
       initialize_avatar_images(document);
       initialize_custom_selects(document);
       initialize_font_previews(document);
+      initialize_hero_sections(document);
       initialize_numeric_value_counters(document);
       initialize_pixel_glyph_editors(document);
       initialize_site_headers(document);

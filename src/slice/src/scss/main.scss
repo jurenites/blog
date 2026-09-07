@@ -14,6 +14,7 @@
 
 @use "atoms/button";
 @use "atoms/surface";
+@use "atoms/inline-code";
 @use "atoms/chip";
 @use "atoms/divider";
 @use "atoms/avatar";
@@ -46,6 +47,7 @@
 @use "organisms/site-header";
 @use "organisms/newsletter-signup";
 @use "organisms/numeric-values";
+@use "organisms/hero-section";
 @use "organisms/interest-tags";
 @use "organisms/footer-navigation";
 @use "organisms/font-preview";

@@ -40,7 +40,7 @@
   --color-palette-system-warning-accent: #D3BD88;
   --color-palette-system-warning: #B6974B;
   --color-palette-system-warning-strong: #866F38;
-  --theme-dark-surface-background-page: var(--color-palette-black);
+  --theme-dark-surface-background-page: var(--color-palette-dark-black);
   --theme-dark-surface-background-elevation-level-0: var(--color-palette-black);
   --theme-dark-surface-background-elevation-level-1: var(--color-palette-light-black);
   --theme-dark-surface-background-elevation-level-2: var(--color-palette-deep-gray);
@@ -79,11 +79,12 @@
   --typography-subtitle-1: 16px var(--typography-font-family-sans);
   --typography-subtitle-2: 14px var(--typography-font-family-sans);
   --typography-eyebrow: 14px var(--typography-font-family-sans);
-  --typography-body: 16px var(--typography-font-family-sans);
+  --typography-body: 300 16px var(--typography-font-family-sans);
   --typography-body-2: 14px var(--typography-font-family-sans);
   --typography-link: 300 16px var(--typography-font-family-sans);
   --typography-caption: 14px var(--typography-font-family-sans);
   --typography-code: 600 14px var(--typography-font-family-code);
+  --typography-machine-readable: 14px var(--typography-font-family-number);
   --typography-badge: 500 14px var(--typography-font-family-sans);
   --typography-overline: 5px var(--typography-font-family-4pixel);
   --typography-numeric-display: 64px var(--typography-font-family-number);
@@ -98,7 +99,7 @@
   --shape-corner-radius-base: 0px;
   --shape-corner-radius-full: 0px;
   --shape-border-width-hairline-default: 1px;
-  --shape-border-width-thick-default: 2px;
+  --shape-border-width-thick-default: 1px;
   --elevation-shadow-level-0: 0px 0px 0px 0px #00000000;
   --elevation-shadow-level-1: 0px 1px 3px 0px #0000002E;
   --elevation-shadow-level-2: 0px 2px 6px 0px #00000033;
@@ -122,6 +123,12 @@
   --layout-gutter-mobile-default: 16px;
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
+  --component-hero-section-background-edge-color: #000207;
+  --component-hero-section-clear-color: #00000000;
+  --component-hero-section-cyan-glow-color: #66FFFF24;
+  --component-hero-section-cyan-reflection-color: #66FFFF12;
+  --component-hero-section-image-horizontal-fade-width-default: 100px;
+  --component-hero-section-magenta-reflection-color: #FF66FF16;
   --component-footer-navigation-social-icon-size-default: 16px;
   --component-footer-navigation-linkedin-color-hover: #2867B2;
   --component-footer-navigation-facebook-color-hover: #1877F2;
@@ -152,6 +159,7 @@
   --component-text-input-width-full: 400px;
   --component-text-input-width-half: 200px;
   --component-text-input-width-quarter: 80px;
+  --component-font-preview-preview-character-size-default: 16px;
   --component-content-layout-default-width: readable;
   --component-content-layout-sidebar-min-width-default: 240px;
   --component-content-layout-sidebar-max-width-default: 320px;
@@ -287,6 +295,10 @@ $breakpoints: (
   font: var(--typography-code);
 }
 
+@mixin typography-machine-readable {
+  font: var(--typography-machine-readable);
+}
+
 @mixin typography-badge {
   font: var(--typography-badge);
 }
@@ -353,6 +365,10 @@ $breakpoints: (
 
 .u-typography-code {
   font: var(--typography-code);
+}
+
+.u-typography-machine-readable {
+  font: var(--typography-machine-readable);
 }
 
 .u-typography-badge {

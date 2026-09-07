@@ -43,6 +43,15 @@
   margin-inline: auto;
 }
 
+.layout-content__region,
+.project-detail,
+.project-detail__sections > div,
+.article-detail__content {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
 .path-blog .layout-content,
 .path-videos .layout-content {
   max-width: var(--layout-content-max-blog-default);

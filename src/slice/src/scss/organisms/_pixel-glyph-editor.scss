@@ -24,6 +24,13 @@
   @include tools.typography-caption;
 }
 
+.pixel-glyph-editor__workspace {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
 .pixel-glyph-editor__grid {
   display: grid;
   grid-template-columns: repeat(4, var(--shape-basic-tile));
@@ -38,7 +45,7 @@
   height: var(--shape-basic-tile);
   padding: 0;
   border: 0;
-  background: var(--color-palette-full-white);
+  background: var(--color-palette-dark-black);
   cursor: crosshair;
 
   &:focus-visible {
@@ -49,5 +56,28 @@
 }
 
 .pixel-glyph-editor__cell.is-filled {
-  background: var(--color-palette-full-black);
+  background: var(--color-palette-dark-white);
+}
+
+.pixel-glyph-editor__glyph-preview {
+  flex: 0 0 var(--shape-basic-tile);
+  width: var(--shape-basic-tile);
+  height: var(--shape-basic-tile);
+  padding: 0;
+  cursor: default;
+}
+
+.pixel-glyph-editor__glyph-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: var(--component-font-preview-preview-character-size-default);
+  height: var(--component-font-preview-preview-character-size-default);
+}
+
+.pixel-glyph-editor__glyph-preview-cell {
+  background-color: transparent;
+}
+
+.pixel-glyph-editor__glyph-preview-cell.is-filled {
+  background-color: var(--color-palette-dark-white);
 }

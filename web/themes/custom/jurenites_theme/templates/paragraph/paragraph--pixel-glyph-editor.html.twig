@@ -1,15 +1,24 @@
 {% set component_id = 'pixel-glyph-editor-' ~ paragraph.uuid.value|clean_id %}
 <section class="pixel-glyph-editor" data-jurenites-pixel-glyph-editor aria-labelledby="{{ component_id }}-title">
   <header class="pixel-glyph-editor__header">
-    <p class="pixel-glyph-editor__eyebrow">{{ 'Interactive grid'|t }}</p>
+    {# <p class="pixel-glyph-editor__eyebrow">{{ 'Interactive grid'|t }}</p> #}
     <h2 id="{{ component_id }}-title">{{ 'Draw a 4×4 glyph'|t }}</h2>
     <p>{{ 'Click, tap, use Space or Enter, or drag across cells. Reloading starts from a blank grid.'|t }}</p>
   </header>
-  <div class="pixel-glyph-editor__grid" role="group" aria-label="{{ '4 by 4 pixel drawing grid'|t }}">
-    {% for cell_index in 0..15 %}
-      {% set row_number = (cell_index / 4)|round(0, 'floor') + 1 %}
-      {% set column_number = (cell_index % 4) + 1 %}
-      <button class="pixel-glyph-editor__cell" type="button" data-pixel-cell="{{ cell_index }}" aria-label="{{ 'Row @row, column @column'|t({'@row': row_number, '@column': column_number}) }}" aria-pressed="false"></button>
-    {% endfor %}
+  <div class="pixel-glyph-editor__workspace">
+    <div class="pixel-glyph-editor__grid" role="group" aria-label="{{ '4 by 4 pixel drawing grid'|t }}">
+      {% for cell_index in 0..15 %}
+        {% set row_number = (cell_index / 4)|round(0, 'floor') + 1 %}
+        {% set column_number = (cell_index % 4) + 1 %}
+        <button class="pixel-glyph-editor__cell" type="button" data-pixel-cell="{{ cell_index }}" aria-label="{{ 'Row @row, column @column'|t({'@row': row_number, '@column': column_number}) }}" aria-pressed="false"></button>
+      {% endfor %}
+    </div>
+    <div class="font-preview__glyph-tile pixel-glyph-editor__glyph-preview" aria-hidden="true">
+      <span class="pixel-glyph-editor__glyph-preview-grid">
+        {% for cell_index in 0..15 %}
+          <span class="pixel-glyph-editor__glyph-preview-cell" data-pixel-preview-cell="{{ cell_index }}"></span>
+        {% endfor %}
+      </span>
+    </div>
   </div>
 </section>

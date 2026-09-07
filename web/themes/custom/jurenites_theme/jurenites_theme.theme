@@ -7,6 +7,7 @@
 
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Render\Element;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 use Drupal\Component\Utility\Html;
@@ -112,6 +113,14 @@ function jurenites_theme_preprocess_node(array &$node_variables): void {
     return;
   }
 
+  if ($node_entity->bundle() === 'project') {
+    $node_variables['body_after_sections'] =
+      jurenites_theme_project_has_font_identifier($node_variables, '4pixel')
+      || jurenites_theme_project_has_font_identifier($node_variables, 'roundabout');
+    jurenites_theme_embed_adjacent_pixel_editor($node_variables);
+    return;
+  }
+
   if ($node_entity->bundle() !== 'article') {
     return;
   }
@@ -157,6 +166,62 @@ function jurenites_theme_preprocess_node(array &$node_variables): void {
     $node_variables['reading_time_label'] = $consumption_label;
   }
 
+}
+
+/**
+ * Checks whether a Project contains a Font Preview for a font identifier.
+ */
+function jurenites_theme_project_has_font_identifier(array $node_variables, string $font_identifier): bool {
+  if (empty($node_variables['content']['field_content_sections'])) {
+    return FALSE;
+  }
+
+  $section_builds = $node_variables['content']['field_content_sections'];
+  foreach (Element::children($section_builds) as $section_delta) {
+    $section_paragraph = $section_builds[$section_delta]['#paragraph'] ?? NULL;
+    if ($section_paragraph !== NULL
+      && $section_paragraph->bundle() === 'font_preview'
+      && $section_paragraph->hasField('field_font_identifier')
+      && $section_paragraph->get('field_font_identifier')->value === $font_identifier) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Composes an adjacent 4pixel editor immediately before Font Preview Data.
+ */
+function jurenites_theme_embed_adjacent_pixel_editor(array &$node_variables): void {
+  if (empty($node_variables['content']['field_content_sections'])) {
+    return;
+  }
+
+  $section_builds = &$node_variables['content']['field_content_sections'];
+  $section_deltas = Element::children($section_builds);
+
+  foreach ($section_deltas as $section_position => $section_delta) {
+    $font_preview = $section_builds[$section_delta]['#paragraph'] ?? NULL;
+    if ($font_preview === NULL
+      || $font_preview->bundle() !== 'font_preview'
+      || !$font_preview->hasField('field_font_identifier')
+      || $font_preview->get('field_font_identifier')->value !== '4pixel') {
+      continue;
+    }
+
+    $editor_delta = $section_deltas[$section_position + 1] ?? NULL;
+    $pixel_editor = $editor_delta !== NULL
+      ? ($section_builds[$editor_delta]['#paragraph'] ?? NULL)
+      : NULL;
+    if ($pixel_editor === NULL || $pixel_editor->bundle() !== 'pixel_glyph_editor') {
+      continue;
+    }
+
+    $section_builds[$section_delta]['#pixel_editor_before_data'] = $section_builds[$editor_delta];
+    unset($section_builds[$editor_delta]);
+    return;
+  }
 }
 
 /**
@@ -488,6 +553,8 @@ function jurenites_theme_preprocess_paragraph(array &$paragraph_variables): void
       'font-preview-' . $paragraph_entity->uuid(),
     );
     $paragraph_variables['icon_asset_base_url'] = $theme_asset_url . '/icons';
+    $paragraph_variables['before_data_content'] =
+      $paragraph_variables['elements']['#pixel_editor_before_data'] ?? [];
     return;
   }
 

@@ -6,6 +6,8 @@
 - [x] 1.4 Render Project tags with the shared semantic tag-list/Chip contract, route each tag to `/portfolio?tag=<slug>`, and add the same validated single-value Views argument used by Blog; verify the filtered and cleared Portfolio URLs, markup, result set, and cache context in DEV.
 - [x] 1.5 Make each Project card's underlined 16px title link its sole detail-page action, remove the duplicate `View project` button from Drupal and Storybook templates, and verify the rendered Portfolio DOM and computed typography in DEV.
 - [x] 1.6 Convert the Portfolio to a compact four-column desktop gallery, limit Project cards to thumbnail, title, and optional tags in Drupal and Storybook, and verify the responsive grid and rendered DOM in DEV.
+- [x] 1.7 Add the shared two-base-gap parent stack to Project details, structured Project sections, Drupal content-region blocks, and full Article content fields; verify Project tags and other content-page siblings no longer touch without adding per-child layout padding.
+- [x] 1.8 Move the 4pixel Project body after all structured sections and before tags using the structured font identifier, retain the default Project order elsewhere, and verify DOM order on 4pixel and Roundabout in DEV.
 
 ## 2. Shared font-preview component
 
@@ -13,8 +15,28 @@
 - [x] 2.2 Add the shared font-preview templates and markup helper with separate Roundabout and 4pixel Storybook stories, composing existing Text Input, Button, and Icon helpers instead of duplicating their HTML; verify Storybook renders meaningful pre-enhancement markup without inline `width`, `height`, or `style` attributes.
 - [x] 2.3 Implement the progressively enhanced specimen, cached same-origin font loading, responsive glyph tiles, honest Data table, and failure state; verify automated/browser checks cover live typing, real code-point ordering, no unsupported/empty glyph tiles, local download filenames, and the current binaries' actual embedded license values.
 - [x] 2.4 Implement the native glyph dialog with scalable SVG outline, metric guides, on/off-curve points, metadata, scrollable path code, keyboard opening/closing, and focus restoration; verify uppercase `S` reports `U+0053` and a Storybook browser check exercises pointer and keyboard interaction.
-- [x] 2.5 Add component SCSS and only necessary semantic tokens for the responsive full-width grid, 40px minimum tiles, character-viewer dialog, and approximately 160px glyph visualization; verify token-contract, Stylelint, 360px, and desktop visual checks pass.
+- [x] 2.5 Add component SCSS and only necessary semantic tokens for the responsive full-width grid, 40px minimum tiles, character-viewer dialog, and approximately 160px four-row glyph body; verify token-contract, Stylelint, 360px, and desktop visual checks pass.
 - [x] 2.6 Use the supplied `arrow-download.svg` through the shared Icon contract inside the download Button; verify source and built icon references resolve without handwritten duplicate icon markup.
+- [x] 2.7 Remove the duplicate `font-preview__specimen` output and its input-synchronization behavior from Drupal and Storybook, retain the selected font on the input itself, and verify neither rendered environment contains the mirrored element.
+- [x] 2.8 Apply `FONT_PREVIEW_CHARACTER_SIZE` to the Roundabout and 4pixel preview inputs and glyph characters through a semantic component token; verify both variants compute to the configured size in Drupal and Storybook without changing unrelated text inputs.
+- [x] 2.9 Add the `machine-readable` Ubuntu Sans Mono typography role, apply Caption to Font Preview metadata keys and the new role to values, and verify both columns in Drupal and Storybook.
+- [x] 2.10 Remove the Font Preview wrapper/control width cap so both preview inputs consume the available width; verify Drupal and Storybook geometry while preserving shared Text Input width variants elsewhere.
+- [x] 2.11 Remove the visible glyph-code and glyph-name children from each glyph tile, retaining only the glyph character and accessible button identification; verify Drupal and Storybook DOM plus dialog metadata.
+- [x] 2.12 Correct the 4pixel glyph-detail orientation while preserving Roundabout's orientation; verify the outline, guides, and points stay aligned in Drupal and Storybook.
+- [x] 2.13 Group visible glyphs as numbers, Latin capitals, Latin lowercase, font-specific language letters, and keyboard symbols; place every remaining mapping behind a shared chevron disclosure and verify order, completeness, and interaction in Drupal and Storybook.
+- [x] 2.14 Apply Caption/machine-readable typography to glyph-dialog keys and values, replace the Path data native marker with a basic-tile shared Chevron Button, and use `color.palette.dark-black` for its `<pre>` surface; verify typography, icon source, sizing, and disclosure behavior in Drupal and Storybook.
+- [x] 2.15 Limit 4pixel's visible Cyrillic group to the ordered uppercase Russian alphabet followed by the ordered lowercase Russian alphabet, move every other Cyrillic mapping into additional glyphs, and verify the exact 66-character sequence in automated tests, Storybook, and DEV.
+- [x] 2.16 Give the Font Preview additional-glyph ghost Button the same hover border, background, and brand-tertiary content colors as its secondary Download Button; verify the scoped SCSS and computed hover styles in Storybook and DEV.
+- [x] 2.17 Keep 4pixel's numeric glyph tiles at the fixed shared 40px basic-tile width without distributing unused row space, preserve responsive wrapping and flexible sizing for other groups, and verify computed geometry in Storybook and DEV.
+- [x] 2.18 Split Roundabout's Greek capital and lowercase mappings into two ordered semantic groups with separate glyph grids, move uncased Greek mappings to additional glyphs, and verify the exact group structure in automated tests, Storybook, and DEV.
+- [x] 2.19 Split 4pixel's Cyrillic capital and lowercase mappings into two ordered semantic groups with separate glyph grids, preserve the exact Russian alphabet sequences, and verify the group structure in automated tests, Storybook, and DEV.
+- [x] 2.20 Keep Roundabout's numeric glyph tiles at the fixed shared 40px basic-tile width without distributing unused row space, retain the same 4pixel behavior, and verify computed geometry in automated tests, Storybook, and DEV.
+- [x] 2.21 Move Roundabout's editable Project body after all structured sections and before trailing tags using the structured `roundabout` font identifier, retain the same 4pixel behavior and ordinary Project default, and verify DOM order in automated tests and DEV.
+- [x] 2.22 Add Roundabout's exact requested 26-character extended-capital group immediately between basic Latin capital and lowercase groups, remove those mappings from additional glyphs, and verify its order in automated tests, Storybook, and DEV.
+- [x] 2.23 Add Roundabout's second exact ordered glyph set between Greek capital and lowercase groups, move `U+038F` out of Greek capitals into that set, support intentional repeated mappings across curated groups, and verify automated tests, Storybook, and DEV.
+- [x] 2.24 Keep every Roundabout and 4pixel glyph tile on a fixed 40px shared basic-tile track, remove flexible `1fr` growth, and verify wrapping and computed geometry in automated tests, Storybook, and DEV.
+- [x] 2.25 Animate glyph detail opening from the activated tile into the centered dialog vector area with a scoped same-document View Transition, reduced-motion/direct-opening fallback, and verification in automated tests, Storybook, and DEV.
+- [x] 2.26 Anchor the glyph-detail viewport to a seven-row metric grid with a four-row body, two upper overshoot rows, and one descender row; remove duplicate Y-axis flipping so outlines, guides, and points stay aligned, then verify tall and descending glyphs in automated tests, Storybook, and DEV.
 
 ## 3. Pixel glyph editor
 
@@ -22,6 +44,9 @@
 - [x] 3.2 Implement keyboard, click, touch/pointer-drag painting, immediate in-grid feedback, and deterministic non-persistence; verify automated/browser checks cover fill, erase, drag consistency, `aria-pressed`, reload reset, and absence of storage/network writes.
 - [x] 3.3 Add pixel-editor SCSS using the shared basic-tile and dark-theme palette tokens, then verify the grid remains usable at 360px and is absent from the Roundabout Storybook composition.
 - [x] 3.4 Correct the delivered editor to a single 4×4 drawing surface, remove the duplicate Preview and filled-count UI from Drupal and Storybook, and verify the final rendered contract in both environments.
+- [x] 3.5 Set unfilled cells to `PIXEL_EDITOR_EMPTY_COLOR` and filled cells to `PIXEL_EDITOR_FILLED_COLOR`; verify both computed states in Drupal and Storybook.
+- [x] 3.6 Set Font Preview glyph tiles to `color.palette.dark-black`, add a vertically centered live glyph tile immediately to the right of the 4×4 editor grid, and verify every editor change mirrors into it in Drupal and Storybook.
+- [x] 3.7 Compose the existing adjacent 4pixel pixel-editor Paragraph immediately before the Font Preview Data section in semantic DOM order, mirror that composition in Storybook, and verify one editor plus the requested heading order in both environments.
 
 ## 4. Drupal integration and initial content
 

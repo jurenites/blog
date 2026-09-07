@@ -15,6 +15,17 @@ The system SHALL provide a Project content type whose records have a canonical t
 - **WHEN** an authorized editor changes the order of a Project's structured sections
 - **THEN** the public Project detail page renders those sections in the saved order
 
+### Requirement: Content pages use parent-owned vertical rhythm
+The Project detail SHALL use a two-base-gap vertical stack between its media, introduction, structured sections, and tags. The shared Drupal content region, Project section list, and full Article content fields SHALL use the same parent-owned gap between siblings instead of requiring every child component to add external padding.
+
+#### Scenario: Project detail renders tags after structured sections
+- **WHEN** a Project detail page renders structured content followed by tags
+- **THEN** the parent stack preserves the shared two-base-gap separation between them
+
+#### Scenario: Other content pages render sibling blocks
+- **WHEN** a Drupal content page or full Article renders multiple sibling blocks or fields
+- **THEN** the shared parent container separates those siblings with the same two-base-gap rhythm while each child retains ownership of its internal spacing
+
 ### Requirement: Portfolio exposes published projects
 The system SHALL provide a public Portfolio listing at `/portfolio` and canonical Project detail aliases beneath `/portfolio/`. The listing SHALL include published Projects and SHALL NOT expose unpublished Projects to anonymous visitors. At supported desktop widths, the listing SHALL render a compact four-column gallery and SHALL collapse to fewer columns at narrower widths. Each Project card SHALL contain only its optional thumbnail, underlined 16px title link, and optional tag Chips; the title link SHALL be the single detail-page action, the introductory body SHALL NOT appear in the card, and the card SHALL NOT render a duplicate `View project` button. Project tags SHALL render as Chip links to `/portfolio?tag=<slug>`, and the Portfolio listing SHALL use that single validated GET value to show only Projects carrying the selected Tags term.
 
@@ -45,6 +56,10 @@ The system SHALL make rich project-story, interactive font-preview, and pixel-gl
 #### Scenario: Editor adds ordinary narrative around a tool
 - **WHEN** an editor places rich project-story sections before and after an interactive section
 - **THEN** the public page preserves that authored sequence
+
+#### Scenario: Visitor reaches the end of font Project content
+- **WHEN** a Project contains a Font Preview section whose structured font identifier is `4pixel` or `roundabout`
+- **THEN** its introductory body renders after every structured section and before trailing Project tags, while Projects without either font identifier retain the default introduction-before-sections order
 
 ### Requirement: Initial font Projects are installed idempotently
 The system SHALL provide initial published Project records for Roundabout and 4pixel with stable UUIDs and canonical aliases `/portfolio/roundabout` and `/portfolio/4pixel`. Installation SHALL create a missing record without duplicating an existing record with the same UUID and SHALL preserve normal editorial ownership after creation.

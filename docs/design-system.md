@@ -62,20 +62,41 @@ Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
 Controls tab for property combinations.
 
 Font Preview is a shared Storybook/Drupal organism selected through an
-allowlisted font identifier. Its initial HTML contains the specimen input,
+allowlisted font identifier. Its initial HTML contains one editable preview input
+rendered directly in the selected font, with no synchronized duplicate text,
 status, Data table fallback, real local download, and one reusable dialog.
+The custom-font input text and glyph-tile characters share
+`component.font-preview.preview-character-size-default`, scoped to the
+Roundabout and 4pixel variants rather than the global Text Input contract.
+The Font Preview wrapper fills its component width and removes the composed
+control's maximum width only inside `.font-preview__input`; shared Text Input
+width variants keep their existing limits elsewhere.
 Progressive enhancement parses the local TTF, creates responsive semantic glyph
-buttons from drawable cmap mappings, and renders the selected outline, points,
-metrics, Unicode mappings, and path data into that dialog. Embedded font names,
-copyright, and license values are displayed as file-derived data; editorial
-claims remain separate authored copy. The download action composes the shared
-Button and Icon contracts with `arrow-download.svg`.
+buttons from drawable cmap mappings with only the mapped character visible in
+each dark-black tile. The initial browser groups numbers, Latin capitals, Latin
+lowercase, the font-specific language alphabet (Cyrillic for 4pixel and Greek for
+Roundabout), and printable keyboard symbols in that order. A shared chevron
+Button exposes every remaining mapping in a collapsed additional-glyphs region.
+The accessible button name retains identification details, and the
+dialog renders the selected outline, points, metrics, Unicode mappings, and path
+data. Its 280px SVG viewport anchors the baseline after six 40px rows: four
+font-body rows plus two overshoot rows for tall marks, followed by one 40px
+descender row below the baseline. The renderer performs one OpenType-to-SVG
+Y-axis conversion so the upright outline, guides, and point markers stay in the
+same coordinate system for both fonts. Dialog metadata repeats the Data table's Caption
+key and machine-readable value pairing. Path data starts collapsed behind a
+40px shared ghost Button using `chevron-down.svg`; its machine-readable code
+uses a dark-black `<pre>` surface. Embedded font names, copyright, and license values
+are displayed as file-derived data; editorial claims remain separate authored copy. The download
+action composes the shared Button and Icon contracts with `arrow-download.svg`.
 
 Pixel Glyph Editor is a 4pixel-specific organism with exactly 16 toggle buttons
 in a single 4×4 drawing surface. Click, keyboard, and pointer dragging edit the
 same blank in-memory state; each button exposes its current state through
-`aria-pressed`. The component intentionally has no duplicated Preview section
-or filled-cell counter. It does not persist, upload, or generate a font file.
+`aria-pressed`. A standard 40px Font Preview glyph tile sits to the grid's right,
+vertically centered, and mirrors that state as a 16px 4×4 miniature after every
+change. The component has no separately titled Preview section or filled-cell
+counter. It does not persist, upload, or generate a font file.
 Both organisms keep normal geometry in SCSS and tokens, with no presentational
 sizing attributes in their initial markup.
 
@@ -117,7 +138,11 @@ pages, nodes, full Articles, Basic pages, and teasers. It exposes semantic
 can apply the same `.content-layout` classes without adding another story. The
 Drupal `/blog` and `/videos` listings use the same 800px content-width token so
 article teasers and pagination have slightly more room without widening
-standard pages.
+standard pages. Drupal's content region and full-node content stacks own a
+two-base-gap vertical rhythm between sibling blocks, fields, structured Project
+sections, and Project tags. Individual children do not add compensating layout
+padding, so nested components remain responsible only for their internal
+spacing.
 
 Article teasers and full Article nodes share unique, node-derived View Transition
 names for their titles and lead images. Same-origin navigation therefore morphs
@@ -285,7 +310,8 @@ role mixins instead of rebuilding the shorthand in components:
 ```
 
 Roles: `headline-1/2/3/4/5/6`, `subtitle-1/2`, `eyebrow`, `body`, `body-2`,
-`link`, `caption`, `code`, `badge`, `overline`, and `numeric-display`. Base HTML
+`link`, `caption`, `code`, `machine-readable`, `badge`, `overline`, and
+`numeric-display`. Base HTML
 headings and paragraphs are mapped in `base/_typography.scss`. Anchors inherit
 their surrounding typography by default, so a link inside a heading keeps that
 heading's size and weight. Apply `.text-link` when a standalone link should opt
@@ -347,6 +373,9 @@ for its demonstration, Project preview, and compact technical details: the 5px
 labels.
 Storybook's manager and Docs interface use Open Sans for UI text and the
 `typography.code` role for 14px bold Courier New code and technical metadata.
+Compact system values and identifiers use the regular 14px
+`typography.machine-readable` role backed by Ubuntu Sans Mono; the Font Preview
+metadata table pairs that role with Caption keys.
 Links use a 1px token-backed underline and the primary white text token in
 default and hover states without replacing the surrounding typography. The
 version Git-hash link explicitly retains the 4pixel family and a persistent 1px

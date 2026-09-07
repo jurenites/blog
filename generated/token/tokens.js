@@ -619,12 +619,12 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "",
-    "source_value": "{color.palette.black}",
-    "value": "#0F172B",
-    "css_value": "var(--color-palette-black)",
-    "resolved_css_value": "#0F172B",
+    "source_value": "{color.palette.dark-black}",
+    "value": "#020618",
+    "css_value": "var(--color-palette-dark-black)",
+    "resolved_css_value": "#020618",
     "is_reference": true,
-    "reference_name": "color-palette-black"
+    "reference_name": "color-palette-dark-black"
   },
   {
     "name": "theme-dark-surface-background-elevation-level-0",
@@ -1297,10 +1297,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "16px var(--typography-font-family-sans)",
-    "value": "16px var(--typography-font-family-sans)",
-    "css_value": "16px var(--typography-font-family-sans)",
-    "resolved_css_value": "16px var(--typography-font-family-sans)",
+    "source_value": "300 16px var(--typography-font-family-sans)",
+    "value": "300 16px var(--typography-font-family-sans)",
+    "css_value": "300 16px var(--typography-font-family-sans)",
+    "resolved_css_value": "300 16px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1361,6 +1361,21 @@ export const TOKEN_RECORDS = [
     "value": "600 14px var(--typography-font-family-code)",
     "css_value": "600 14px var(--typography-font-family-code)",
     "resolved_css_value": "600 14px var(--typography-font-family-code)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "typography-machine-readable",
+    "path": [
+      "typography",
+      "machine-readable"
+    ],
+    "type": "string",
+    "description": "Compact system values and identifiers in the Ubuntu Sans Mono family.",
+    "source_value": "14px var(--typography-font-family-number)",
+    "value": "14px var(--typography-font-family-number)",
+    "css_value": "14px var(--typography-font-family-number)",
+    "resolved_css_value": "14px var(--typography-font-family-number)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1592,10 +1607,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "dimension",
     "description": "",
-    "source_value": "2px",
-    "value": "2px",
-    "css_value": "2px",
-    "resolved_css_value": "2px",
+    "source_value": "1px",
+    "value": "1px",
+    "css_value": "1px",
+    "resolved_css_value": "1px",
     "is_reference": false,
     "reference_name": null
   },
@@ -2004,6 +2019,102 @@ export const TOKEN_RECORDS = [
     "value": "32px",
     "css_value": "32px",
     "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-background-edge-color",
+    "path": [
+      "component",
+      "hero-section",
+      "background-edge-color"
+    ],
+    "type": "string",
+    "description": "Sampled from the outer edge of the homepage Hero image for a continuous canvas.",
+    "source_value": "#000207",
+    "value": "#000207",
+    "css_value": "#000207",
+    "resolved_css_value": "#000207",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-clear-color",
+    "path": [
+      "component",
+      "hero-section",
+      "clear-color"
+    ],
+    "type": "string",
+    "description": "Transparent edges of the photographic lighting layer.",
+    "source_value": "#00000000",
+    "value": "#00000000",
+    "css_value": "#00000000",
+    "resolved_css_value": "#00000000",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-cyan-glow-color",
+    "path": [
+      "component",
+      "hero-section",
+      "cyan-glow-color"
+    ],
+    "type": "string",
+    "description": "Restrained light at the supplied laptop screen.",
+    "source_value": "#66FFFF24",
+    "value": "#66FFFF24",
+    "css_value": "#66FFFF24",
+    "resolved_css_value": "#66FFFF24",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-cyan-reflection-color",
+    "path": [
+      "component",
+      "hero-section",
+      "cyan-reflection-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#66FFFF12",
+    "value": "#66FFFF12",
+    "css_value": "#66FFFF12",
+    "resolved_css_value": "#66FFFF12",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-image-horizontal-fade-width-default",
+    "path": [
+      "component",
+      "hero-section",
+      "image-horizontal-fade-width-default"
+    ],
+    "type": "dimension",
+    "description": "Blend each side of the Hero image into the homepage canvas.",
+    "source_value": "100px",
+    "value": "100px",
+    "css_value": "100px",
+    "resolved_css_value": "100px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-magenta-reflection-color",
+    "path": [
+      "component",
+      "hero-section",
+      "magenta-reflection-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FF66FF16",
+    "value": "#FF66FF16",
+    "css_value": "#FF66FF16",
+    "resolved_css_value": "#FF66FF16",
     "is_reference": false,
     "reference_name": null
   },
@@ -2493,6 +2604,22 @@ export const TOKEN_RECORDS = [
     "value": "80px",
     "css_value": "80px",
     "resolved_css_value": "80px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-font-preview-preview-character-size-default",
+    "path": [
+      "component",
+      "font-preview",
+      "preview-character-size-default"
+    ],
+    "type": "dimension",
+    "description": "Keeps custom-font input text and glyph previews aligned to their intended pixel grid.",
+    "source_value": "16px",
+    "value": "16px",
+    "css_value": "16px",
+    "resolved_css_value": "16px",
     "is_reference": false,
     "reference_name": null
   },

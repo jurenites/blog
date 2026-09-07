@@ -5,6 +5,8 @@ core_version_requirement: ^11
 base theme: false
 libraries:
   - jurenites_theme/global
+ckeditor5-stylesheets:
+  - css/ckeditor5.min.css
 regions:
   header: Header
   primary_menu: Primary menu

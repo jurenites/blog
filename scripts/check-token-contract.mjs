@@ -11,6 +11,7 @@ const SOURCE_EXTENSIONS = new Set([".css", ".html", ".js", ".mjs", ".scss", ".tw
 const STYLE_EXTENSIONS = new Set([".css", ".html", ".scss"]);
 const IGNORED_PATHS = new Set([
   "src/token/tokens.yaml",
+  "web/themes/custom/jurenites_theme/css/ckeditor5.min.css",
   "web/themes/custom/jurenites_theme/css/style.min.css",
   "web/themes/custom/jurenites_theme/js/font-preview.min.js",
   "web/themes/custom/jurenites_theme/js/script.min.js",
@@ -42,6 +43,7 @@ const EXPECTED_TYPOGRAPHY_ROLES = new Set([
   "link",
   "caption",
   "code",
+  "machine-readable",
   "badge",
   "overline",
   "numeric-display",

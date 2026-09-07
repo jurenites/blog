@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 1.14.1
-Reviewed: 2026-09-06
+Version: 1.17.0
+Reviewed: 2026-09-07
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -28,6 +28,9 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 
 ## Current Source Contract
 
+- Hero sections are reusable content blocks with editable images, text, links and
+  reorderable slides. Shared Storybook/theme styles provide responsive layout,
+  manual accessible navigation and optional CSS screen glow. See `hero-section.md`.
 - Editable token source: `src/token/tokens.yaml`.
 - Generated token artifacts: `generated/styles/_tokens.scss`,
   `generated/token/tokens.js`, and the readable three-layer mapping table at

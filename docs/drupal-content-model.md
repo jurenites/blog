@@ -42,6 +42,13 @@ Basic pages and Articles retain the Numeric Values Paragraph in Content
 sections for existing authored compositions, while the homepage instance is a
 Content Block so its placement is managed through Drupal's block layout.
 
+## Hero section
+
+The homepage also supports the reusable `hero` Content Block with an editable
+background image and reorderable `hero_slide` Paragraphs. Text, button labels and
+destinations are authored in the block; placement and page visibility are managed
+through Block layout. See [Hero section](hero-section.md) for editing and setup.
+
 ## Timeline Event
 
 Purpose: turn the CV into an interactive timeline with bookmarks. A timeline event can describe a job, project phase, release, skill shift, or important professional moment.
