@@ -1,0 +1,6 @@
+name: 'Jurenites Timeline'
+description: 'Adds one editable Timeline page populated with CV projects and a personal milestone.'
+type: 'Site'
+install:
+  - jurenites_timeline
+

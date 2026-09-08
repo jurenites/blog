@@ -1,0 +1,8 @@
+name: 'Jurenites Cookbook'
+type: module
+description: 'Creates the editable project Cookbook Basic Page and its Footer menu link.'
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:menu_link_content
+  - drupal:node

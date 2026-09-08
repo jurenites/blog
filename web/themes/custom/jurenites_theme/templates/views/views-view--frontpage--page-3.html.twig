@@ -1,9 +1,11 @@
 {# Videos View page with an optional selected-tag summary and clear action. #}
 {% set view_classes = [dom_id ? 'js-view-dom-id-' ~ dom_id] %}
-<div{{ attributes.addClass(view_classes) }}>
+<div{{ attributes.addClass(view_classes).setAttribute('data-video-listing', '') }}>
   {{ title_prefix }}
   {{ title }}
   {{ title_suffix }}
+
+  <p class="video-grid__introduction">{{ 'These are videos I’ve enjoyed and think are worth watching to learn something new. Some explore topics I haven’t covered elsewhere on this site.'|t }}</p>
 
   {% if selected_tag_label %}
     <aside class="blog-filter" aria-label="{{ 'Current Videos filter'|t }}">
@@ -33,7 +35,12 @@
   {% elseif empty %}
     {{ empty }}
   {% endif %}
-  {{ pager }}
+  <p class="video-grid__status" data-video-status role="status" aria-live="polite" aria-atomic="true" hidden
+    data-loading-text="{{ 'Loading more videos…'|t }}"
+    data-loaded-text="{{ 'More videos loaded.'|t }}"
+    data-complete-text="{{ 'All videos loaded.'|t }}"
+    data-error-text="{{ 'Could not load more videos. Use the pagination below to continue.'|t }}"></p>
+  <div data-video-pager>{{ pager }}</div>
 
   {{ attachment_after }}
   {{ more }}

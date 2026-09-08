@@ -619,12 +619,12 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "",
-    "source_value": "{color.palette.black}",
-    "value": "#0F172B",
-    "css_value": "var(--color-palette-black)",
-    "resolved_css_value": "#0F172B",
+    "source_value": "{color.palette.dark-black}",
+    "value": "#020618",
+    "css_value": "var(--color-palette-dark-black)",
+    "resolved_css_value": "#020618",
     "is_reference": true,
-    "reference_name": "color-palette-black"
+    "reference_name": "color-palette-dark-black"
   },
   {
     "name": "theme-dark-surface-background-elevation-level-0",
@@ -1297,10 +1297,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "16px var(--typography-font-family-sans)",
-    "value": "16px var(--typography-font-family-sans)",
-    "css_value": "16px var(--typography-font-family-sans)",
-    "resolved_css_value": "16px var(--typography-font-family-sans)",
+    "source_value": "300 16px/24px var(--typography-font-family-sans)",
+    "value": "300 16px/24px var(--typography-font-family-sans)",
+    "css_value": "300 16px/24px var(--typography-font-family-sans)",
+    "resolved_css_value": "300 16px/24px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1361,6 +1361,21 @@ export const TOKEN_RECORDS = [
     "value": "600 14px var(--typography-font-family-code)",
     "css_value": "600 14px var(--typography-font-family-code)",
     "resolved_css_value": "600 14px var(--typography-font-family-code)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "typography-machine-readable",
+    "path": [
+      "typography",
+      "machine-readable"
+    ],
+    "type": "string",
+    "description": "Compact system values and identifiers in the Ubuntu Sans Mono family.",
+    "source_value": "14px var(--typography-font-family-number)",
+    "value": "14px var(--typography-font-family-number)",
+    "css_value": "14px var(--typography-font-family-number)",
+    "resolved_css_value": "14px var(--typography-font-family-number)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1592,10 +1607,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "dimension",
     "description": "",
-    "source_value": "2px",
-    "value": "2px",
-    "css_value": "2px",
-    "resolved_css_value": "2px",
+    "source_value": "1px",
+    "value": "1px",
+    "css_value": "1px",
+    "resolved_css_value": "1px",
     "is_reference": false,
     "reference_name": null
   },
@@ -1960,6 +1975,22 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "layout-content-max-timeline-default",
+    "path": [
+      "layout",
+      "content-max",
+      "timeline-default"
+    ],
+    "type": "dimension",
+    "description": "Timeline frame for dense chronology text and project details.",
+    "source_value": "1280px",
+    "value": "1280px",
+    "css_value": "1280px",
+    "resolved_css_value": "1280px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "layout-gutter-mobile-default",
     "path": [
       "layout",
@@ -2008,6 +2039,342 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-contact-photo-max-width-default",
+    "path": [
+      "component",
+      "contact-photo",
+      "max-width-default"
+    ],
+    "type": "dimension",
+    "description": "Independent of the readable Contact form width.",
+    "source_value": "1600px",
+    "value": "1600px",
+    "css_value": "1600px",
+    "resolved_css_value": "1600px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-contact-photo-edge-fade-width-default",
+    "path": [
+      "component",
+      "contact-photo",
+      "edge-fade-width-default"
+    ],
+    "type": "dimension",
+    "description": "Fade every edge; capped proportionally on small images.",
+    "source_value": "100px",
+    "value": "100px",
+    "css_value": "100px",
+    "resolved_css_value": "100px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-contact-photo-background-color",
+    "path": [
+      "component",
+      "contact-photo",
+      "background-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "{component.hero-section.background-edge-color}",
+    "value": "#000207",
+    "css_value": "var(--component-hero-section-background-edge-color)",
+    "resolved_css_value": "#000207",
+    "is_reference": true,
+    "reference_name": "component-hero-section-background-edge-color"
+  },
+  {
+    "name": "component-site-header-backdrop-color-default",
+    "path": [
+      "component",
+      "site-header",
+      "backdrop-color-default"
+    ],
+    "type": "string",
+    "description": "Half-opacity homepage tint matching the photograph edge.",
+    "source_value": "#00020780",
+    "value": "#00020780",
+    "css_value": "#00020780",
+    "resolved_css_value": "#00020780",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-backdrop-blur-default",
+    "path": [
+      "component",
+      "site-header",
+      "backdrop-blur-default"
+    ],
+    "type": "dimension",
+    "description": "Soften image details beneath navigation.",
+    "source_value": "12px",
+    "value": "12px",
+    "css_value": "12px",
+    "resolved_css_value": "12px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-backdrop-fade-height-default",
+    "path": [
+      "component",
+      "site-header",
+      "backdrop-fade-height-default"
+    ],
+    "type": "dimension",
+    "description": "Feather below the 64px menu without affecting layout.",
+    "source_value": "32px",
+    "value": "32px",
+    "css_value": "32px",
+    "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-guideline-tile-min-width-default",
+    "path": [
+      "component",
+      "guideline",
+      "tile-min-width-default"
+    ],
+    "type": "dimension",
+    "description": "Overview tiles remain readable before the responsive grid adds another column.",
+    "source_value": "280px",
+    "value": "280px",
+    "css_value": "280px",
+    "resolved_css_value": "280px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-guideline-preview-height-default",
+    "path": [
+      "component",
+      "guideline",
+      "preview-height-default"
+    ],
+    "type": "dimension",
+    "description": "Shared media field for Logo Icon, Color, and future guideline previews.",
+    "source_value": "240px",
+    "value": "240px",
+    "css_value": "240px",
+    "resolved_css_value": "240px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-guideline-logo-icon-size-default",
+    "path": [
+      "component",
+      "guideline",
+      "logo-icon-size-default"
+    ],
+    "type": "dimension",
+    "description": "Prominent specimen size; normal header usage keeps the smaller site-branding token.",
+    "source_value": "96px",
+    "value": "96px",
+    "css_value": "96px",
+    "resolved_css_value": "96px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-guideline-specimen-height-default",
+    "path": [
+      "component",
+      "guideline",
+      "specimen-height-default"
+    ],
+    "type": "dimension",
+    "description": "Allows the source icon and its clear space to remain visible on both comparison surfaces.",
+    "source_value": "320px",
+    "value": "320px",
+    "css_value": "320px",
+    "resolved_css_value": "320px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-guideline-swatch-min-width-default",
+    "path": [
+      "component",
+      "guideline",
+      "swatch-min-width-default"
+    ],
+    "type": "dimension",
+    "description": "Keeps token names readable without forcing a fixed column count.",
+    "source_value": "200px",
+    "value": "200px",
+    "css_value": "200px",
+    "resolved_css_value": "200px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-guideline-swatch-height-default",
+    "path": [
+      "component",
+      "guideline",
+      "swatch-height-default"
+    ],
+    "type": "dimension",
+    "description": "Color sample height used by both Drupal and the matching Storybook story.",
+    "source_value": "120px",
+    "value": "120px",
+    "css_value": "120px",
+    "resolved_css_value": "120px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-layered-scene-arrival-duration-default",
+    "path": [
+      "component",
+      "layered-scene",
+      "arrival-duration-default"
+    ],
+    "type": "duration",
+    "description": "One calm foreground entrance after the scene becomes visible.",
+    "source_value": "1100ms",
+    "value": "1100ms",
+    "css_value": "1100ms",
+    "resolved_css_value": "1100ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-layered-scene-arrival-delay-default",
+    "path": [
+      "component",
+      "layered-scene",
+      "arrival-delay-default"
+    ],
+    "type": "duration",
+    "description": "Brief empty-desk pause; never delays page content.",
+    "source_value": "450ms",
+    "value": "450ms",
+    "css_value": "450ms",
+    "resolved_css_value": "450ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-background-edge-color",
+    "path": [
+      "component",
+      "hero-section",
+      "background-edge-color"
+    ],
+    "type": "string",
+    "description": "Sampled from the outer edge of the homepage Hero image for a continuous canvas.",
+    "source_value": "#000207",
+    "value": "#000207",
+    "css_value": "#000207",
+    "resolved_css_value": "#000207",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-clear-color",
+    "path": [
+      "component",
+      "hero-section",
+      "clear-color"
+    ],
+    "type": "string",
+    "description": "Transparent edges of the photographic lighting layer.",
+    "source_value": "#00000000",
+    "value": "#00000000",
+    "css_value": "#00000000",
+    "resolved_css_value": "#00000000",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-ray-fill-color",
+    "path": [
+      "component",
+      "hero-section",
+      "ray-fill-color"
+    ],
+    "type": "string",
+    "description": "Faint cool light confined to the screen's emitting side.",
+    "source_value": "#68CBE812",
+    "value": "#68CBE812",
+    "css_value": "#68CBE812",
+    "resolved_css_value": "#68CBE812",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-ray-highlight-color",
+    "path": [
+      "component",
+      "hero-section",
+      "ray-highlight-color"
+    ],
+    "type": "string",
+    "description": "Soft beam ridges; no lighting overlays on skin or clothing.",
+    "source_value": "#8DDBF222",
+    "value": "#8DDBF222",
+    "css_value": "#8DDBF222",
+    "resolved_css_value": "#8DDBF222",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-ray-softness-default",
+    "path": [
+      "component",
+      "hero-section",
+      "ray-softness-default"
+    ],
+    "type": "dimension",
+    "description": "Feather the beam perimeter before clipping at the screen edge.",
+    "source_value": "12px",
+    "value": "12px",
+    "css_value": "12px",
+    "resolved_css_value": "12px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-ray-color-duration-default",
+    "path": [
+      "component",
+      "hero-section",
+      "ray-color-duration-default"
+    ],
+    "type": "duration",
+    "description": "Slow color changes evoke moving screen content without flashing.",
+    "source_value": "2800ms",
+    "value": "2800ms",
+    "css_value": "2800ms",
+    "resolved_css_value": "2800ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-hero-section-image-horizontal-fade-width-default",
+    "path": [
+      "component",
+      "hero-section",
+      "image-horizontal-fade-width-default"
+    ],
+    "type": "dimension",
+    "description": "Blend each side of the Hero image into the homepage canvas.",
+    "source_value": "96px",
+    "value": "96px",
+    "css_value": "96px",
+    "resolved_css_value": "96px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-footer-navigation-social-icon-size-default",
     "path": [
       "component",
@@ -2024,6 +2391,22 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-footer-navigation-figma-icon-height-default",
+    "path": [
+      "component",
+      "footer-navigation",
+      "figma-icon-height-default"
+    ],
+    "type": "dimension",
+    "description": "Taller Figma logo; other brand icons remain 16px.",
+    "source_value": "18px",
+    "value": "18px",
+    "css_value": "18px",
+    "resolved_css_value": "18px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-footer-navigation-linkedin-color-hover",
     "path": [
       "component",
@@ -2032,10 +2415,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "#0A66C2",
-    "value": "#0A66C2",
-    "css_value": "#0A66C2",
-    "resolved_css_value": "#0A66C2",
+    "source_value": "#2867B2",
+    "value": "#2867B2",
+    "css_value": "#2867B2",
+    "resolved_css_value": "#2867B2",
     "is_reference": false,
     "reference_name": null
   },
@@ -2048,10 +2431,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "#0866FF",
-    "value": "#0866FF",
-    "css_value": "#0866FF",
-    "resolved_css_value": "#0866FF",
+    "source_value": "#1877F2",
+    "value": "#1877F2",
+    "css_value": "#1877F2",
+    "resolved_css_value": "#1877F2",
     "is_reference": false,
     "reference_name": null
   },
@@ -2080,10 +2463,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "#FF0000",
-    "value": "#FF0000",
-    "css_value": "#FF0000",
-    "resolved_css_value": "#FF0000",
+    "source_value": "#FF0033",
+    "value": "#FF0033",
+    "css_value": "#FF0033",
+    "resolved_css_value": "#FF0033",
     "is_reference": false,
     "reference_name": null
   },
@@ -2096,10 +2479,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "#FF3300",
-    "value": "#FF3300",
-    "css_value": "#FF3300",
-    "resolved_css_value": "#FF3300",
+    "source_value": "#FF5500",
+    "value": "#FF5500",
+    "css_value": "#FF5500",
+    "resolved_css_value": "#FF5500",
     "is_reference": false,
     "reference_name": null
   },
@@ -2112,10 +2495,186 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "Steam's interface blue.",
-    "source_value": "#1A9FFF",
-    "value": "#1A9FFF",
-    "css_value": "#1A9FFF",
-    "resolved_css_value": "#1A9FFF",
+    "source_value": "#66C0F4",
+    "value": "#66C0F4",
+    "css_value": "#66C0F4",
+    "resolved_css_value": "#66C0F4",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-telegram-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "telegram-color-hover"
+    ],
+    "type": "string",
+    "description": "https://telegram.org/tour/screenshots",
+    "source_value": "#2AABEE",
+    "value": "#2AABEE",
+    "css_value": "#2AABEE",
+    "resolved_css_value": "#2AABEE",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-github-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "github-color-hover"
+    ],
+    "type": "string",
+    "description": "https://brand.github.com/foundations/color",
+    "source_value": "#0FBF3E",
+    "value": "#0FBF3E",
+    "css_value": "#0FBF3E",
+    "resolved_css_value": "#0FBF3E",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-storybook-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "storybook-color-hover"
+    ],
+    "type": "string",
+    "description": "https://storybook.js.org/branding/",
+    "source_value": "#FF4785",
+    "value": "#FF4785",
+    "css_value": "#FF4785",
+    "resolved_css_value": "#FF4785",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-figma-overlay-bl-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "figma-overlay-bl-color"
+    ],
+    "type": "string",
+    "description": "Figma brand color overlay.",
+    "source_value": "#F24E1E",
+    "value": "#F24E1E",
+    "css_value": "#F24E1E",
+    "resolved_css_value": "#F24E1E",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-figma-overlay-og-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "figma-overlay-og-color"
+    ],
+    "type": "string",
+    "description": "Figma brand color overlay.",
+    "source_value": "#FF7262",
+    "value": "#FF7262",
+    "css_value": "#FF7262",
+    "resolved_css_value": "#FF7262",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-figma-overlay-jur-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "figma-overlay-jur-color"
+    ],
+    "type": "string",
+    "description": "Figma brand color overlay.",
+    "source_value": "#A259FF",
+    "value": "#A259FF",
+    "css_value": "#A259FF",
+    "resolved_css_value": "#A259FF",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-figma-overlay-eni-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "figma-overlay-eni-color"
+    ],
+    "type": "string",
+    "description": "Figma brand color overlay.",
+    "source_value": "#1ABCFE",
+    "value": "#1ABCFE",
+    "css_value": "#1ABCFE",
+    "resolved_css_value": "#1ABCFE",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-figma-overlay-tes-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "figma-overlay-tes-color"
+    ],
+    "type": "string",
+    "description": "Figma brand color overlay.",
+    "source_value": "#0ACF83",
+    "value": "#0ACF83",
+    "css_value": "#0ACF83",
+    "resolved_css_value": "#0ACF83",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-message-toast-width-default",
+    "path": [
+      "component",
+      "message-toast",
+      "width-default"
+    ],
+    "type": "dimension",
+    "description": "Readable notifications on wide screens.",
+    "source_value": "420px",
+    "value": "420px",
+    "css_value": "420px",
+    "resolved_css_value": "420px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-message-toast-top-offset-default",
+    "path": [
+      "component",
+      "message-toast",
+      "top-offset-default"
+    ],
+    "type": "dimension",
+    "description": "Clear the frontend navigation and its backdrop.",
+    "source_value": "112px",
+    "value": "112px",
+    "css_value": "112px",
+    "resolved_css_value": "112px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-message-toast-layer-default",
+    "path": [
+      "component",
+      "message-toast",
+      "layer-default"
+    ],
+    "type": "number",
+    "description": "Above the header and content.",
+    "source_value": 10001,
+    "value": 10001,
+    "css_value": "10001",
+    "resolved_css_value": "10001",
     "is_reference": false,
     "reference_name": null
   },
@@ -2493,6 +3052,22 @@ export const TOKEN_RECORDS = [
     "value": "80px",
     "css_value": "80px",
     "resolved_css_value": "80px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-font-preview-preview-character-size-default",
+    "path": [
+      "component",
+      "font-preview",
+      "preview-character-size-default"
+    ],
+    "type": "dimension",
+    "description": "Keeps custom-font input text and glyph previews aligned to their intended pixel grid.",
+    "source_value": "16px",
+    "value": "16px",
+    "css_value": "16px",
+    "resolved_css_value": "16px",
     "is_reference": false,
     "reference_name": null
   },
@@ -2963,6 +3538,42 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-date-time-value-format-date-month-month",
+    "path": [
+      "component",
+      "date-time-value",
+      "format",
+      "date-month",
+      "month"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "short",
+    "value": "short",
+    "css_value": "short",
+    "resolved_css_value": "short",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-date-time-value-format-date-month-year",
+    "path": [
+      "component",
+      "date-time-value",
+      "format",
+      "date-month",
+      "year"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "numeric",
+    "value": "numeric",
+    "css_value": "numeric",
+    "resolved_css_value": "numeric",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-date-time-value-format-date-day-time-month",
     "path": [
       "component",
@@ -3053,6 +3664,22 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-timeline-marker-color-active",
+    "path": [
+      "component",
+      "timeline",
+      "marker-color-active"
+    ],
+    "type": "string",
+    "description": "Matching project segments glow on hover and focus.",
+    "source_value": "{color.palette.full-white}",
+    "value": "#FFFFFF",
+    "css_value": "var(--color-palette-full-white)",
+    "resolved_css_value": "#FFFFFF",
+    "is_reference": true,
+    "reference_name": "color-palette-full-white"
+  },
+  {
     "name": "component-timeline-marker-size-default",
     "path": [
       "component",
@@ -3060,7 +3687,7 @@ export const TOKEN_RECORDS = [
       "marker-size-default"
     ],
     "type": "dimension",
-    "description": "",
+    "description": "Exact 8px square event marker and duration-bar width.",
     "source_value": "{space.scale.base-gap}",
     "value": "8px",
     "css_value": "var(--space-scale-base-gap)",
@@ -3085,6 +3712,54 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-timeline-line-width-default",
+    "path": [
+      "component",
+      "timeline",
+      "line-width-default"
+    ],
+    "type": "dimension",
+    "description": "Quiet continuous chronology rail.",
+    "source_value": "{shape.border-width.hairline-default}",
+    "value": "1px",
+    "css_value": "var(--shape-border-width-hairline-default)",
+    "resolved_css_value": "1px",
+    "is_reference": true,
+    "reference_name": "shape-border-width-hairline-default"
+  },
+  {
+    "name": "component-timeline-month-height-default",
+    "path": [
+      "component",
+      "timeline",
+      "month-height-default"
+    ],
+    "type": "dimension",
+    "description": "Every calendar year is twelve identical month tracks.",
+    "source_value": "32px",
+    "value": "32px",
+    "css_value": "32px",
+    "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-timeline-sticky-layer-default",
+    "path": [
+      "component",
+      "timeline",
+      "sticky-layer-default"
+    ],
+    "type": "number",
+    "description": "Keeps the active year above timeline records while its section is in view.",
+    "source_value": 20,
+    "value": 20,
+    "css_value": "20",
+    "resolved_css_value": "20",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-media-loader-progress-height-default",
     "path": [
       "component",
@@ -3097,6 +3772,22 @@ export const TOKEN_RECORDS = [
     "value": "1px",
     "css_value": "1px",
     "resolved_css_value": "1px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-progressive-image-skeleton-cycle-default",
+    "path": [
+      "component",
+      "progressive-image",
+      "skeleton-cycle-default"
+    ],
+    "type": "duration",
+    "description": "Slow enough to read as loading state rather than decorative motion.",
+    "source_value": "1600ms",
+    "value": "1600ms",
+    "css_value": "1600ms",
+    "resolved_css_value": "1600ms",
     "is_reference": false,
     "reference_name": null
   },
@@ -3177,6 +3868,22 @@ export const TOKEN_RECORDS = [
     "value": "80px",
     "css_value": "80px",
     "resolved_css_value": "80px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-numeric-values-number-font-size-compact",
+    "path": [
+      "component",
+      "numeric-values",
+      "number-font-size-compact"
+    ],
+    "type": "dimension",
+    "description": "Keeps grouped thousands and their affixes inside the minimum-width tile.",
+    "source_value": "40px",
+    "value": "40px",
+    "css_value": "40px",
+    "resolved_css_value": "40px",
     "is_reference": false,
     "reference_name": null
   }

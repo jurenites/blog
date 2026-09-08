@@ -1,10 +1,9 @@
 // Atom: Surface (panel/card container). Use Controls for the variant.
-import surface_template from "./surface.template.html?raw";
+import { surface_markup } from "./surface.markup.js";
 import { button_markup } from "../button/button.markup.js";
 import { chip_markup } from "../chip/chip.markup.js";
 import { date_time_value_markup } from "../date-time-value/date-time-value.markup.js";
 import { token_option_names, token_value } from "../../foundations/token-values.js";
-import { render_template } from "../../template.js";
 
 const SURFACE_VARIANT = token_value("component-surface-default-variant");
 const NESTED_COMPONENT = "button_group";
@@ -33,10 +32,8 @@ const NESTED_RENDERERS = {
 };
 
 function render_story({ surface_variant, nested_component }) {
-  const default_surface_variant = token_value("component-surface-default-variant");
-  const surface_class_name = surface_variant === default_surface_variant ? "surface" : `surface surface--${surface_variant}`;
-  return render_template(surface_template, {
-    surface_class_name,
+  return surface_markup({
+    surface_variant,
     nested_content: NESTED_RENDERERS[nested_component](),
   });
 }

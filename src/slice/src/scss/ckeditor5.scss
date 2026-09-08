@@ -1,0 +1,9 @@
+// CKEditor content styles. Keep this intentionally small: the editor needs the
+// same token typography and font faces as the public body, not site layout CSS.
+
+@use "../../../../generated/styles/tokens";
+@use "settings/fonts" with (
+  $font-assets-path: "../assets/fonts"
+);
+@use "base/typography";
+@use "atoms/inline-code";

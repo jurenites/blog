@@ -55,7 +55,7 @@ function control_markup(control_direction, target_page, is_disabled) {
     control_class: is_disabled ? "pagination__control--disabled" : "",
     control_attributes: is_disabled
       ? ' aria-disabled="true"'
-      : ` href="#page-${target_page}" aria-label="Go to ${control_direction} page"`,
+      : ` href="#page-${target_page}" rel="${is_previous ? 'prev' : 'next'}" aria-label="Go to ${control_direction} page"`,
     arrow_symbol: is_previous ? "&larr;" : "&rarr;",
     control_label: is_previous ? "Previous" : "Next",
   });

@@ -17,6 +17,17 @@ use Drupal\node\Entity\NodeType;
 use Drupal\views\Entity\View;
 
 /**
+ * Adds the shared LEGO tag for builds and videos.
+ */
+function jurenites_blog_post_update_add_lego_tag(): TranslatableMarkup {
+  \Drupal::moduleHandler()->loadInclude('jurenites_blog', 'install');
+  $lego_term = jurenites_blog_ensure_lego_tag();
+  return t('Added the shared #lego tag (@term_id) for builds and videos.', [
+    '@term_id' => $lego_term->id(),
+  ]);
+}
+
+/**
  * Backfills Image fields for existing Articles with YouTube videos.
  */
 function jurenites_blog_post_update_youtube_thumbnails(array &$update_sandbox): TranslatableMarkup {
@@ -834,4 +845,22 @@ function jurenites_blog_post_update_prefix_tag_labels(): TranslatableMarkup {
   return t('Prefixed @tag_count Tags terms and standardized Game as #Game Dev.', [
     '@tag_count' => $updated_count,
   ]);
+}
+
+/**
+ * Restores the page-title block after an invalid response-code restriction.
+ */
+function jurenites_blog_post_update_restore_page_title_block(): TranslatableMarkup {
+  $page_title_block = Block::load('jurenites_theme_page_title');
+  if ($page_title_block === NULL) {
+    return t('The Jurenites page-title block was not present.');
+  }
+
+  $visibility_conditions = $page_title_block->getVisibilityConditions();
+  if ($visibility_conditions->has('response_code')) {
+    $visibility_conditions->removeInstanceId('response_code');
+    $page_title_block->save();
+  }
+
+  return t('Restored the Jurenites page-title block on normal routes.');
 }

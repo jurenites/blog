@@ -1,4 +1,4 @@
-// Atom: Icon. Geometry is loaded from the named shared SVG asset.
+// Atom: Icon. Initial geometry is local; the catalog sprite warms after load.
 
 .icon {
   display: inline-flex;
@@ -12,4 +12,16 @@
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.icon-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.icon[data-icon-name="brand-figma"] {
+  --icon-figma-fill: currentColor;
 }

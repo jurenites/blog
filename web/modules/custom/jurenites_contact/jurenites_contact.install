@@ -54,6 +54,7 @@ function jurenites_contact_install(): void {
   $contact_webform->setSetting('form_attributes', [
     'class' => ['contact-form'],
   ]);
+  $contact_webform->setSetting('form_previous_submissions', FALSE);
   $contact_webform->setSetting('confirmation_type', 'page');
   $contact_webform->setSetting('confirmation_title', 'Message sent');
   $contact_webform->setSetting('confirmation_message', 'Thank you. Your message has been stored and sent.');
@@ -109,4 +110,5 @@ function jurenites_contact_install(): void {
   $contact_webform->save();
 
   jurenites_contact_enable_antibot_protection();
+  jurenites_contact_photo_setup();
 }

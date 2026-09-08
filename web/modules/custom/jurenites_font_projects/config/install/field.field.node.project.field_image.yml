@@ -11,7 +11,7 @@ field_name: field_image
 entity_type: node
 bundle: project
 label: 'Hero image'
-description: ''
+description: 'For a sharp Portfolio card on a 440-point 3x mobile display, upload a source image at least 1320 pixels wide.'
 required: false
 translatable: true
 default_value: {  }

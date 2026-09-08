@@ -32,6 +32,34 @@ function jurenites_blog_install(): void {
   }
 
   jurenites_blog_ensure_interests_content_block();
+  jurenites_blog_ensure_lego_tag();
+}
+
+/**
+ * Ensures one canonical LEGO tag without changing existing content assignments.
+ */
+function jurenites_blog_ensure_lego_tag(): Term {
+  $tag_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $slug_resolver = \Drupal::service('jurenites_blog.tag_slug_resolver');
+  $matching_terms = [];
+  foreach ($tag_storage->loadByProperties(['vid' => 'tags']) as $tag_term) {
+    if ($slug_resolver->slugify($tag_term->getUntranslated()->label()) === 'lego') {
+      $matching_terms[] = $tag_term;
+    }
+  }
+  if (count($matching_terms) > 1) {
+    throw new \RuntimeException('Multiple Tags terms resolve to lego; resolve the duplicate before updating.');
+  }
+
+  $lego_term = $matching_terms[0] ?? Term::create([
+    'vid' => 'tags',
+    'name' => '#lego',
+  ]);
+  if ($lego_term->isNew() || $lego_term->label() !== '#lego') {
+    $lego_term->setName('#lego');
+    $lego_term->save();
+  }
+  return $lego_term;
 }
 
 /**

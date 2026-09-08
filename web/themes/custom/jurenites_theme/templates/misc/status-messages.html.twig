@@ -1,0 +1,14 @@
+{# Keep core's internal wrapper contract for subsequent Drupal.Message.add(). #}
+<div data-drupal-messages>
+  <div class="messages__wrapper">
+    {% for message_type, type_messages in message_list %}
+      {% for message_content in type_messages %}
+        <div class="messages messages--{{ message_type }} message-toast message-toast--{{ message_type }}" role="{{ message_type == 'status' ? 'status' : 'alert' }}" aria-label="{{ status_headings[message_type] }}">
+          <strong class="message-toast__heading">{{ status_headings[message_type] }}</strong>
+          <div class="message-toast__content">{{ message_content }}</div>
+          <button hidden class="message-toast__dismiss" type="button" aria-label="{{ 'Dismiss message'|t }}: {{ status_headings[message_type] }}">×</button>
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>

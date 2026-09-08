@@ -63,14 +63,18 @@ docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_pr
 ```
 
 This recipe enables the maintained Image Blurry Placeholder module and Drupal's
-standard responsive image styles. The initial HTML contains the image's width
-and height plus an embedded 20px blurry derivative, so the browser reserves the
-correct aspect ratio and paints a preview without another network request. The
-project-owned `web/modules/custom/jurenites_progressive_images` module adds a
-1px loading-state line and pre-generates the preview when Drupal first saves an
-image file. This also covers locally cached YouTube/Vimeo thumbnail files in
-the Media Library. The browser then selects the appropriate 325px, 650px,
-1300px, or 2600px WebP candidate for the layout width and pixel density.
+responsive image styles. The project-owned
+`web/modules/custom/jurenites_progressive_images` module pre-generates a cached
+20px derivative when Drupal first saves an image, then uses that inline data to
+calculate the image's average color in the browser. A restrained gradient
+skeleton and 1px loading-state line remain visible until the final image
+crossfades in. This also covers locally cached YouTube/Vimeo thumbnail files in
+the Media Library.
+
+Portfolio cards use dedicated 440px, 880px, and 1320px WebP candidates. This
+covers 1x, 2x, and 3x density for a card up to 440 logical points wide without
+sending the largest file to every screen. Other responsive image contexts keep
+their existing 325px, 650px, 1300px, and 2600px candidate sets.
 
 The loading line reports discrete states, not downloaded bytes. Native
 responsive image requests intentionally remain under browser control, where
@@ -163,13 +167,42 @@ Cookie Policy Notice as a reusable Basic Content Block, and places both blocks
 in the theme’s Footer region. Editors own the notice title through the block
 placement label and its paragraphs through the Content Block body. The notice
 does not set cookies or create a browser identifier. Its
-single “Whatever” action stores the versioned boolean
-`jurenites-cookie-notice-dismissed-v2` preference in `localStorage` and hides
+“Whatever” and the accessible 40px square ghost close button (shared `cross-big`
+SVG icon) both store the versioned boolean
+`jurenites-cookie-notice-dismissed-v2` preference in `localStorage` and hide
 the notice; when storage is unavailable, dismissal lasts only for the current
 page view. The block starts hidden and is revealed only after that preference is
-checked, preventing a dismissed notice from flashing during page load. It floats
-above the bottom viewport edge while remaining a non-modal footer block. The
-notice and policy page remain separate Drupal content responsibilities.
+checked, preventing a dismissed notice from flashing during page load. It spans
+the full viewport width, flush with the bottom and both side edges,
+while remaining a non-modal footer block. The desktop content group is centered:
+up to 800px of text, a 24px gap, and a 120px “Whatever” button. The close button
+stays at the right edge, vertically aligned with “Whatever”. On mobile, the copy
+sits above both aligned buttons. The notice and policy page remain separate Drupal content responsibilities.
+
+Apply the editable project Cookbook with:
+
+```bash
+docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_cookbook
+```
+
+The `jurenites_cookbook` module creates the published `/cookbook` Basic Page and
+places its Drupal Footer menu link directly after Privacy Policy and before the
+dynamic Fonts link. The install copy is a starting point only: after creation,
+the Body and its image or GIF placements belong to Drupal editors.
+
+Apply the public design guidelines with:
+
+```bash
+docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_guidelines
+```
+
+The `jurenites_guidelines` module installs the `guideline` node type, its
+ordered `/guidelines` View, matching tile and detail view modes, and the initial
+Logo Icon and Color nodes. The Logo specimen reuses the theme SVG. The Color
+specimen reads `generated/token/tokens.js`, which is rebuilt from
+`src/token/tokens.yaml`; it does not store a second palette in Drupal content.
+Both visual contracts also have matching Storybook examples. Editors own each
+node's required summary and detailed Body after its stable UUID is created.
 
 ## Media Upload Infrastructure
 

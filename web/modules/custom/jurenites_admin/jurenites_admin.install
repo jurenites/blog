@@ -10,4 +10,5 @@
  */
 function jurenites_admin_install(): void {
   jurenites_admin_configure_article_comments();
+  jurenites_admin_configure_editor_typography();
 }

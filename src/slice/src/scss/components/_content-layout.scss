@@ -43,9 +43,25 @@
   margin-inline: auto;
 }
 
-.path-blog .layout-content,
-.path-videos .layout-content {
+.layout-content__region,
+.project-detail,
+.project-detail__sections > div,
+.article-detail__content {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
+.path-blog .layout-content {
   max-width: var(--layout-content-max-blog-default);
+}
+
+.path-videos .layout-content {
+  max-width: var(--layout-content-max-wide-default);
+}
+
+.path-timeline .layout-content {
+  max-width: var(--layout-content-max-timeline-default);
 }
 
 .content-layout--wide .content-layout__main {

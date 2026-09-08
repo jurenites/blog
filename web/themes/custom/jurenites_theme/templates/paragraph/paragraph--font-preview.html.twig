@@ -1,12 +1,8 @@
 {% if font_asset_url %}
   {{ attach_library('jurenites_theme/font-preview') }}
-  <section class="font-preview font-preview--{{ font_identifier }}" data-jurenites-font-preview data-font-url="{{ font_asset_url }}" aria-labelledby="{{ font_preview_id }}-title">
+  <section class="font-preview font-preview--{{ font_identifier }}" data-jurenites-font-preview data-font-identifier="{{ font_identifier }}" data-font-url="{{ font_asset_url }}" aria-label="{{ font_title }}">
     <header class="font-preview__header">
-      <div>
-        <p class="font-preview__eyebrow">{{ 'Interactive font'|t }}</p>
-        <h2 class="font-preview__title" id="{{ font_preview_id }}-title">{{ font_title }}</h2>
-      </div>
-      <a class="button button--secondary font-preview__download" href="{{ font_asset_url }}" download="{{ font_download_filename }}">
+      <a class="button button--secondary button--with-prefix-icon font-preview__download" href="{{ font_asset_url }}" download="{{ font_download_filename }}">
         {% include '@jurenites_theme/components/icon.html.twig' with {
           icon_name: 'arrow-download',
           icon_asset_base_url: icon_asset_base_url,
@@ -18,13 +14,24 @@
     <div class="font-preview__input">
       <div class="text-input text-input--width-full">
         <label class="text-input__label" for="{{ font_preview_id }}-input">{{ 'Try it yourself'|t }}</label>
-        <input class="text-input__control" id="{{ font_preview_id }}-input" name="{{ font_identifier }}_sample_text" type="text" value="{{ font_sample_text }}" placeholder="{{ 'Type with this font'|t }}" aria-describedby="{{ font_preview_id }}-hint">
-        <p class="text-input__hint" id="{{ font_preview_id }}-hint">{{ 'The specimen updates while you type.'|t }}</p>
+        <input class="text-input__control" id="{{ font_preview_id }}-input" name="{{ font_identifier }}_sample_text" type="text" value="{{ font_sample_text }}" placeholder="{{ 'Type with this font'|t }}">
       </div>
     </div>
-    <p class="font-preview__specimen" data-font-preview-specimen>{{ font_sample_text }}</p>
     <p class="font-preview__status" data-font-preview-status role="status">{{ 'Loading glyph data…'|t }}</p>
-    <div class="font-preview__glyph-grid" data-font-preview-grid aria-label="{{ 'Drawable Unicode mappings'|t }}"></div>
+    <div class="font-preview__glyph-groups" data-font-preview-primary-groups aria-label="{{ 'Prioritized Unicode mappings'|t }}"></div>
+    <button class="button button--ghost button--with-prefix-icon font-preview__more-toggle" id="{{ font_preview_id }}-additional-glyphs-toggle" type="button" data-font-preview-additional-toggle aria-expanded="false" aria-controls="{{ font_preview_id }}-additional-glyphs" hidden>
+      {% include '@jurenites_theme/components/icon.html.twig' with {
+        icon_name: 'chevron-down',
+        icon_class: 'font-preview__more-icon',
+        icon_asset_base_url: icon_asset_base_url,
+      } only %}
+      {{ 'More glyphs'|t }}
+    </button>
+    <div class="font-preview__additional-glyphs" id="{{ font_preview_id }}-additional-glyphs" data-font-preview-additional-region role="region" aria-labelledby="{{ font_preview_id }}-additional-glyphs-toggle" hidden>
+      <div class="font-preview__glyph-grid" data-font-preview-additional-grid aria-label="{{ 'Additional Unicode mappings'|t }}"></div>
+    </div>
+
+    {{ before_data_content }}
 
     <section class="font-preview__data" aria-labelledby="{{ font_preview_id }}-data-title">
       <h3 id="{{ font_preview_id }}-data-title">{{ 'Data'|t }}</h3>
@@ -45,7 +52,7 @@
         <h3 id="{{ font_preview_id }}-dialog-title" data-glyph-dialog-title>{{ 'Glyph details'|t }}</h3>
         <button class="button button--ghost font-preview__dialog-close" type="button" data-font-preview-close>{{ 'Close'|t }}</button>
       </div>
-      <div class="font-preview__glyph-visual">
+      <div class="font-preview__glyph-visual" data-font-preview-glyph-transition-target>
         <svg class="font-preview__glyph-svg" data-glyph-svg role="img" aria-label="{{ 'Selected glyph vector outline'|t }}"></svg>
       </div>
       <dl class="font-preview__glyph-data">
@@ -55,10 +62,19 @@
         <div><dt>{{ 'Advance width'|t }}</dt><dd data-glyph-width>—</dd></div>
         <div><dt>{{ 'Left side bearing'|t }}</dt><dd data-glyph-bearing>—</dd></div>
       </dl>
-      <details class="font-preview__path-details">
-        <summary>{{ 'Path data'|t }}</summary>
-        <pre><code data-glyph-path>{{ 'No glyph selected.'|t }}</code></pre>
-      </details>
+      <section class="font-preview__path-details" aria-labelledby="{{ font_preview_id }}-path-title">
+        <div class="font-preview__path-header">
+          <span class="font-preview__path-label" id="{{ font_preview_id }}-path-title">{{ 'Path data'|t }}</span>
+          <button class="button button--ghost button--with-prefix-icon font-preview__path-toggle" type="button" data-font-preview-path-toggle aria-expanded="false" aria-controls="{{ font_preview_id }}-glyph-path" aria-label="{{ 'Show path data'|t }}" data-path-show-label="{{ 'Show path data'|t }}" data-path-hide-label="{{ 'Hide path data'|t }}">
+            {% include '@jurenites_theme/components/icon.html.twig' with {
+              icon_name: 'chevron-down',
+              icon_class: 'font-preview__path-icon',
+              icon_asset_base_url: icon_asset_base_url,
+            } only %}
+          </button>
+        </div>
+        <pre id="{{ font_preview_id }}-glyph-path" data-font-preview-path-region hidden><code class="font-preview__path-code" data-glyph-path>{{ 'No glyph selected.'|t }}</code></pre>
+      </section>
     </dialog>
   </section>
 {% endif %}

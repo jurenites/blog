@@ -1,12 +1,22 @@
+import { CLOSE_ICON_SVG, CHEVRON_ICON_SVG } from '../../../../generated/icons/control-icons.js';
+import { install_icon_sprite } from './icon-sprite.js';
+import { initialize_video_grids, detach_video_grids } from './video-grid.js';
+import { install_asset_warming } from './asset-warming.js';
+import { install_message_toasts } from './message-toast.js';
 import { initialize_pixel_glyph_editors } from './pixel-glyph-editor.js';
+import { initialize_numeric_value_counters } from './numeric-values.js';
+import { initialize_hero_sections } from './hero-section.js';
+import { initialize_layered_scenes, detach_layered_scenes } from './layered-scene.js';
+import {
+  detach_timeline_organization_rails,
+  initialize_timeline_organization_rails,
+} from './timeline.js';
 
 const NOISE_FRAMES_PER_SECOND = 15;
 const NOISE_FRAME_INTERVAL = 1000 / NOISE_FRAMES_PER_SECOND;
 const EXPECTED_VIDEO_LOAD_DURATION = 8000;
 const INCOMPLETE_PROGRESS_LIMIT = 95;
-const SELECT_CHEVRON_URL = typeof document !== 'undefined' && document.currentScript?.src
-  ? new URL('../assets/icons/chevron-down.svg', document.currentScript.src).href
-  : '/assets/icons/chevron-down.svg';
+
 
 const VERTEX_SHADER_SOURCE = `
   attribute vec2 a_canvas_position;
@@ -280,6 +290,79 @@ export function enable_language_selector(language_select) {
   });
 }
 
+export function enable_site_header_menu(site_header) {
+  if (site_header.jurenites_site_header_initialized) {
+    return;
+  }
+
+  const menu_toggle = site_header.querySelector('[data-jurenites-site-menu-toggle]');
+  const primary_navigation = site_header.querySelector('.site-header__navigation');
+
+  if (!menu_toggle || !primary_navigation) {
+    return;
+  }
+
+  site_header.jurenites_site_header_initialized = true;
+
+  const header_document = site_header.ownerDocument;
+  const header_window = header_document.defaultView;
+  const root_styles = header_window.getComputedStyle(header_document.documentElement);
+  const mobile_max_width = root_styles
+    .getPropertyValue('--system-breakpoint-mobile-max')
+    .trim();
+  const mobile_media_query = header_window.matchMedia(`(max-width: ${mobile_max_width})`);
+  const open_menu_label = menu_toggle.dataset.openLabel;
+  const close_menu_label = menu_toggle.dataset.closeLabel;
+
+  function set_menu_state(menu_is_open, return_toggle_focus = false) {
+    site_header.classList.toggle('is-menu-open', menu_is_open);
+    menu_toggle.setAttribute('aria-expanded', String(menu_is_open));
+    menu_toggle.setAttribute(
+      'aria-label',
+      menu_is_open ? close_menu_label : open_menu_label,
+    );
+    header_document.body.classList.toggle(
+      'has-open-site-menu',
+      menu_is_open && mobile_media_query.matches,
+    );
+
+    if (return_toggle_focus) {
+      menu_toggle.focus();
+    }
+  }
+
+  menu_toggle.addEventListener('click', () => {
+    set_menu_state(menu_toggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  primary_navigation.addEventListener('click', (click_event) => {
+    if (click_event.target.closest('a')) {
+      set_menu_state(false);
+    }
+  });
+
+  header_document.addEventListener('keydown', (keyboard_event) => {
+    if (keyboard_event.key === 'Escape' && menu_toggle.getAttribute('aria-expanded') === 'true') {
+      set_menu_state(false, true);
+    }
+  });
+
+  mobile_media_query.addEventListener('change', (media_event) => {
+    if (!media_event.matches) {
+      set_menu_state(false);
+    }
+  });
+
+  site_header.classList.add('site-header--enhanced');
+  set_menu_state(menu_toggle.getAttribute('aria-expanded') === 'true');
+}
+
+export function initialize_site_headers(header_context) {
+  header_context
+    .querySelectorAll('.site-header')
+    .forEach((site_header) => enable_site_header_menu(site_header));
+}
+
 function associated_select_label(native_select) {
   if (!native_select.id) {
     return null;
@@ -317,7 +400,7 @@ export function enable_custom_select(native_select) {
   const select_trigger = document.createElement('button');
   const selected_value_element = document.createElement('span');
   const suffix_element = document.createElement('span');
-  const suffix_icon_element = document.createElement('span');
+  const suffix_icon_element = document.createElement('icon');
   const option_menu = document.createElement('ul');
   const native_options = Array.from(native_select.options);
   const select_label = associated_select_label(native_select);
@@ -363,9 +446,9 @@ export function enable_custom_select(native_select) {
   suffix_element.className = 'select-input__suffix';
   suffix_element.setAttribute('aria-hidden', 'true');
   suffix_icon_element.className = 'select-input__suffix-icon';
-  const chevron_asset_url = native_select.dataset.selectChevronUrl || SELECT_CHEVRON_URL;
-  suffix_icon_element.style.setProperty('-webkit-mask-image', `url("${chevron_asset_url}")`);
-  suffix_icon_element.style.setProperty('mask-image', `url("${chevron_asset_url}")`);
+  suffix_icon_element.classList.add('icon');
+  suffix_icon_element.setAttribute('name', 'chevron-down');
+  suffix_icon_element.innerHTML = CHEVRON_ICON_SVG;
   suffix_element.appendChild(suffix_icon_element);
   select_trigger.append(selected_value_element, suffix_element);
 
@@ -591,8 +674,8 @@ export function initialize_custom_selects(select_context) {
 function tooltip_label_from_trigger(tooltip_trigger) {
   const data_icon_name = tooltip_trigger.getAttribute('data-icon-name');
   const raw_label = data_icon_name
-    || tooltip_trigger.getAttribute('aria-label')
     || tooltip_trigger.getAttribute('data-tooltip-label')
+    || tooltip_trigger.getAttribute('aria-label')
     || tooltip_trigger.getAttribute('title');
 
   if (!raw_label) {
@@ -641,76 +724,111 @@ function position_tooltip(tooltip_trigger, tooltip_element) {
   tooltip_element.style.top = `${Math.max(viewport_gap, Math.min(top_coordinate, tooltip_window.innerHeight - tooltip_bounds.height - viewport_gap))}px`;
 }
 
-export function initialize_tooltips(tooltip_context) {
-  const tooltip_document = tooltip_context.nodeType === 9
-    ? tooltip_context
-    : tooltip_context.ownerDocument;
+function remove_orphaned_tooltips(tooltip_document) {
   tooltip_document.querySelectorAll('[data-jurenites-tooltip-overlay]').forEach((tooltip_overlay) => {
     if (!tooltip_overlay.jurenites_tooltip_trigger?.isConnected) {
       tooltip_overlay.remove();
     }
   });
+}
 
-  tooltip_context.querySelectorAll('[data-tooltip-trigger]').forEach((tooltip_trigger) => {
-    if (tooltip_trigger.jurenites_tooltip_initialized) {
-      return;
-    }
+function initialize_tooltip_trigger(tooltip_trigger) {
+  if (tooltip_trigger.jurenites_tooltip_initialized) {
+    return;
+  }
 
-    const tooltip_label = tooltip_label_from_trigger(tooltip_trigger);
-    const tooltip_color_variant = tooltip_trigger.dataset.tooltipColorVariant;
-    const tooltip_document = tooltip_trigger.ownerDocument;
-    const tooltip_window = tooltip_document.defaultView;
-    const root_styles = tooltip_window.getComputedStyle(tooltip_document.documentElement);
-    const hide_delay = Number.parseFloat(
-      root_styles.getPropertyValue('--motion-duration-short-default'),
-    );
-    const tooltip_element = tooltip_document.createElement('span');
-    let hide_timer = 0;
-    tooltip_element.className = tooltip_color_variant
-      ? `tooltip tooltip--${tooltip_color_variant}`
-      : 'tooltip tooltip--full-black';
-    tooltip_element.dataset.jurenitesTooltipOverlay = '';
-    tooltip_element.jurenites_tooltip_trigger = tooltip_trigger;
-    tooltip_element.setAttribute('role', 'tooltip');
-    tooltip_element.textContent = tooltip_label;
-    tooltip_document.body.appendChild(tooltip_element);
-    tooltip_trigger.setAttribute('aria-describedby', `tooltip-${Math.random().toString(36).slice(2)}`);
-    tooltip_element.id = tooltip_trigger.getAttribute('aria-describedby');
-    tooltip_trigger.jurenites_tooltip_initialized = true;
-    tooltip_trigger.jurenites_tooltip_element = tooltip_element;
+  const tooltip_label = tooltip_label_from_trigger(tooltip_trigger);
+  if (!tooltip_label) {
+    return;
+  }
 
-    const show_tooltip = () => {
-      tooltip_window.clearTimeout(hide_timer);
-      tooltip_element.classList.add('is-visible');
+  const tooltip_color_variant = tooltip_trigger.dataset.tooltipColorVariant;
+  const tooltip_document = tooltip_trigger.ownerDocument;
+  const tooltip_window = tooltip_document.defaultView;
+  const root_styles = tooltip_window.getComputedStyle(tooltip_document.documentElement);
+  const hide_delay = Number.parseFloat(
+    root_styles.getPropertyValue('--motion-duration-short-default'),
+  );
+  const tooltip_element = tooltip_document.createElement('span');
+  let hide_timer = 0;
+  tooltip_element.className = tooltip_color_variant
+    ? `tooltip tooltip--${tooltip_color_variant}`
+    : 'tooltip tooltip--full-black';
+  tooltip_element.dataset.jurenitesTooltipOverlay = '';
+  tooltip_element.jurenites_tooltip_trigger = tooltip_trigger;
+  tooltip_element.setAttribute('role', 'tooltip');
+  tooltip_element.textContent = tooltip_label;
+  tooltip_document.body.appendChild(tooltip_element);
+  tooltip_trigger.removeAttribute('title');
+  tooltip_trigger.setAttribute('aria-describedby', `tooltip-${Math.random().toString(36).slice(2)}`);
+  tooltip_element.id = tooltip_trigger.getAttribute('aria-describedby');
+  tooltip_trigger.jurenites_tooltip_initialized = true;
+  tooltip_trigger.jurenites_tooltip_element = tooltip_element;
+
+  const show_tooltip = () => {
+    tooltip_window.clearTimeout(hide_timer);
+    tooltip_element.classList.add('is-visible');
+    position_tooltip(tooltip_trigger, tooltip_element);
+  };
+  const hide_tooltip = () => {
+    tooltip_window.clearTimeout(hide_timer);
+    tooltip_element.classList.remove('is-visible');
+  };
+  const schedule_tooltip_hide = () => {
+    tooltip_window.clearTimeout(hide_timer);
+    hide_timer = tooltip_window.setTimeout(hide_tooltip, hide_delay);
+  };
+  const reposition_visible_tooltip = () => {
+    if (tooltip_element.classList.contains('is-visible')) {
       position_tooltip(tooltip_trigger, tooltip_element);
-    };
-    const hide_tooltip = () => {
-      tooltip_window.clearTimeout(hide_timer);
-      tooltip_element.classList.remove('is-visible');
-    };
-    const schedule_tooltip_hide = () => {
-      tooltip_window.clearTimeout(hide_timer);
-      hide_timer = tooltip_window.setTimeout(hide_tooltip, hide_delay);
-    };
-    const reposition_visible_tooltip = () => {
-      if (tooltip_element.classList.contains('is-visible')) {
-        position_tooltip(tooltip_trigger, tooltip_element);
-      }
-    };
-    tooltip_trigger.addEventListener('mouseenter', show_tooltip);
-    tooltip_trigger.addEventListener('mouseleave', schedule_tooltip_hide);
-    tooltip_trigger.addEventListener('focus', show_tooltip);
-    tooltip_trigger.addEventListener('blur', schedule_tooltip_hide);
-    tooltip_trigger.addEventListener('keydown', (keyboard_event) => {
-      if (keyboard_event.key === 'Escape') {
-        hide_tooltip();
-      }
-    });
-    tooltip_element.addEventListener('mouseenter', show_tooltip);
-    tooltip_element.addEventListener('mouseleave', schedule_tooltip_hide);
-    tooltip_window.addEventListener('resize', reposition_visible_tooltip);
-    tooltip_window.addEventListener('scroll', reposition_visible_tooltip, true);
+    }
+  };
+  tooltip_trigger.addEventListener('mouseenter', show_tooltip);
+  tooltip_trigger.addEventListener('mouseleave', schedule_tooltip_hide);
+  tooltip_trigger.addEventListener('focus', show_tooltip);
+  tooltip_trigger.addEventListener('blur', schedule_tooltip_hide);
+  tooltip_trigger.addEventListener('keydown', (keyboard_event) => {
+    if (keyboard_event.key === 'Escape') {
+      hide_tooltip();
+    }
   });
+  tooltip_element.addEventListener('mouseenter', show_tooltip);
+  tooltip_element.addEventListener('mouseleave', schedule_tooltip_hide);
+  tooltip_window.addEventListener('resize', reposition_visible_tooltip);
+  tooltip_window.addEventListener('scroll', reposition_visible_tooltip, true);
+}
+
+export function initialize_tooltips(tooltip_context) {
+  const tooltip_document = tooltip_context.nodeType === 9
+    ? tooltip_context
+    : tooltip_context.ownerDocument;
+  const tooltip_window = tooltip_document.defaultView;
+  remove_orphaned_tooltips(tooltip_document);
+
+  if (tooltip_context.matches?.('[data-tooltip-trigger]')) {
+    initialize_tooltip_trigger(tooltip_context);
+  }
+  tooltip_context.querySelectorAll('[data-tooltip-trigger]').forEach((tooltip_trigger) => {
+    initialize_tooltip_trigger(tooltip_trigger);
+  });
+
+  if (!tooltip_document.jurenites_tooltip_observer) {
+    const tooltip_observer = new tooltip_window.MutationObserver((mutation_records) => {
+      remove_orphaned_tooltips(tooltip_document);
+      mutation_records.forEach((mutation_record) => {
+        mutation_record.addedNodes.forEach((added_node) => {
+          if (added_node instanceof tooltip_window.Element) {
+            initialize_tooltips(added_node);
+          }
+        });
+      });
+    });
+    tooltip_observer.observe(tooltip_document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+    tooltip_document.jurenites_tooltip_observer = tooltip_observer;
+  }
 }
 
 const COOKIE_NOTICE_DISMISSED_KEY = 'jurenites-cookie-notice-dismissed-v2';
@@ -723,7 +841,7 @@ export function initialize_cookie_policy_notice(cookie_policy_notice) {
 
   cookie_policy_notice.jurenites_cookie_policy_notice_initialized = true;
   let dismiss_button = cookie_policy_notice.querySelector(
-    '[data-jurenites-cookie-policy-dismiss]',
+    '[data-jurenites-cookie-policy-dismiss], .cookie-policy-notice__dismiss',
   );
 
   if (!dismiss_button) {
@@ -733,6 +851,17 @@ export function initialize_cookie_policy_notice(cookie_policy_notice) {
     dismiss_button.dataset.jurenitesCookiePolicyDismiss = '';
     dismiss_button.textContent = COOKIE_NOTICE_DISMISS_LABEL;
     cookie_policy_notice.appendChild(dismiss_button);
+  }
+
+  let close_button = cookie_policy_notice.querySelector('.cookie-policy-notice__close');
+  if (!close_button) {
+    close_button = document.createElement('button');
+    close_button.className = 'button button--ghost cookie-policy-notice__close';
+    close_button.type = 'button';
+    close_button.setAttribute('aria-label', typeof Drupal !== 'undefined'
+      ? Drupal.t('Close cookie notice') : 'Close cookie notice');
+    close_button.innerHTML = `<icon class="icon cookie-policy-notice__close-icon" name="cross-big" data-icon-name="cross-big" aria-hidden="true">${CLOSE_ICON_SVG}</icon>`;
+    cookie_policy_notice.appendChild(close_button);
   }
 
   try {
@@ -745,7 +874,7 @@ export function initialize_cookie_policy_notice(cookie_policy_notice) {
 
   cookie_policy_notice.hidden = false;
 
-  dismiss_button.addEventListener('click', () => {
+  const dismiss_notice = () => {
     try {
       window.localStorage.setItem(COOKIE_NOTICE_DISMISSED_KEY, 'true');
     } catch (_storage_error) {
@@ -753,7 +882,10 @@ export function initialize_cookie_policy_notice(cookie_policy_notice) {
     }
 
     cookie_policy_notice.hidden = true;
-  });
+  };
+
+  dismiss_button.addEventListener('click', dismiss_notice);
+  close_button.addEventListener('click', dismiss_notice);
 }
 
 export function initialize_cookie_policy_notices(cookie_notice_context) {
@@ -763,6 +895,33 @@ export function initialize_cookie_policy_notices(cookie_notice_context) {
 }
 
 if (typeof Drupal !== 'undefined') {
+  Drupal.behaviors.jurenites_video_grid = {
+    attach(listing_context) { initialize_video_grids(listing_context); },
+    detach(listing_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_video_grids(listing_context);
+    },
+  };
+  install_message_toasts(Drupal);
+  void install_icon_sprite().then(() => install_asset_warming());
+  Drupal.behaviors.jurenites_timeline_organization = {
+    attach(timeline_context) {
+      initialize_timeline_organization_rails(timeline_context);
+    },
+    detach(timeline_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_timeline_organization_rails(timeline_context);
+    },
+  };
+  Drupal.behaviors.jurenites_layered_scene = {
+    attach(scene_context) { initialize_layered_scenes(scene_context); },
+    detach(scene_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_layered_scenes(scene_context);
+    },
+  };
+  Drupal.behaviors.jurenites_hero_section = {
+    attach(hero_context) {
+      initialize_hero_sections(hero_context);
+    },
+  };
   Drupal.behaviors.jurenites_media_loader_noise = {
     attach(context) {
       context.querySelectorAll('[data-jurenites-media-loader-noise]').forEach((noise_surface) => {
@@ -808,9 +967,21 @@ if (typeof Drupal !== 'undefined') {
     },
   };
 
+  Drupal.behaviors.jurenites_site_header = {
+    attach(header_context) {
+      initialize_site_headers(header_context);
+    },
+  };
+
   Drupal.behaviors.jurenites_custom_select = {
     attach(context) {
       initialize_custom_selects(context);
+    },
+  };
+
+  Drupal.behaviors.jurenites_tooltips = {
+    attach(tooltip_context) {
+      initialize_tooltips(tooltip_context);
     },
   };
 
@@ -825,6 +996,14 @@ if (typeof Drupal !== 'undefined') {
       initialize_pixel_glyph_editors(context);
     },
   };
+
+  Drupal.behaviors.jurenites_numeric_value_counters = {
+    attach(counter_context) {
+      initialize_numeric_value_counters(counter_context);
+    },
+  };
 }
 
 export { initialize_pixel_glyph_editors };
+export { initialize_numeric_value_counters };
+export { initialize_timeline_organization_rails };

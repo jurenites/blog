@@ -1,5 +1,6 @@
 // Organism: Numeric values. A responsive list of editorial statistic tiles.
 
+@use "sass:math";
 @use "../tools";
 
 .numeric-values {
@@ -22,6 +23,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  cursor: default;
 }
 
 .numeric-values__icon {
@@ -33,25 +35,112 @@
 
 .numeric-values__tile {
   min-height: var(--component-numeric-values-tile-min-height-default);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+}
+
+.numeric-values__tile-content {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: var(--space-scale-base-gap);
   box-sizing: border-box;
   padding: calc(var(--space-scale-base-gap) * 3);
-  background: var(--theme-dark-surface-background-elevation-level-0);
   //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
 }
 
 .numeric-values__number {
+  height: 1em;
   margin: 0;
   color: var(--theme-dark-text-primary-default);
   @include tools.typography-numeric-display;
   font-variant-numeric: tabular-nums slashed-zero;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.numeric-values__number--compact {
+  font-size: var(--component-numeric-values-number-font-size-compact);
+}
+
+.numeric-values__drum {
+  display: inline-flex;
+  height: 1em;
+  perspective: calc(var(--shape-basic-tile) * 4);
+}
+
+.numeric-values__digit-window {
+  display: inline-block;
+  width: 1ch;
+  height: 1em;
+  overflow: hidden;
+}
+
+.numeric-values__digit-track {
+  display: flex;
+  flex-direction: column;
+  height: 3em;
+  transform: translateY(-1em);
+  transform-style: preserve-3d;
+
+  @for $drum_step from 1 through 9 {
+    &[data-drum-step="#{$drum_step}"] {
+      transform: translateY(calc(-1em - #{math.div($drum_step, 10)}em));
+    }
+  }
+}
+
+.numeric-values__digit-face {
+  display: block;
+  width: 1ch;
+  height: 1em;
+  flex: 0 0 1em;
+  text-align: center;
+  backface-visibility: hidden;
+}
+
+.numeric-values__digit-face--previous {
+  color: var(--theme-dark-text-secondary-default);
+  transform: rotateX(-18deg) scale(0.96);
+  transform-origin: center bottom;
+}
+
+.numeric-values__digit-face--next {
+  color: var(--theme-dark-text-secondary-default);
+  transform: rotateX(18deg) scale(0.96);
+  transform-origin: center top;
+}
+
+.numeric-values__separator,
+.numeric-values__affix {
+  height: 1em;
 }
 
 .numeric-values__description {
   margin: 0;
   color: var(--theme-dark-text-secondary-default);
   @include tools.typography-subtitle-1;
+}
+
+.numeric-values__link {
+  align-self: flex-start;
+  margin-top: auto;
+  @include tools.typography-link;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .numeric-values__digit-track {
+    transform: translateY(-1em);
+  }
+}
+
+.numeric-values__caption {
+  margin: 0;
+  color: var(--theme-dark-text-gray);
+  @include tools.typography-caption;
+  overflow-wrap: anywhere;
+}
+
+body.jurenites-theme .numeric-values__caption-link:not(:hover) {
+  color: var(--theme-dark-text-gray);
 }

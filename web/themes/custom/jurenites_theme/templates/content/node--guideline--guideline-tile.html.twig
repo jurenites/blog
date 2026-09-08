@@ -1,0 +1,28 @@
+{% set guideline_tile_classes = [
+  'guideline-tile',
+  'guideline-tile--' ~ guideline_section|clean_class,
+] %}
+
+<article{{ attributes.addClass(guideline_tile_classes) }}>
+  <a class="guideline-tile__link" href="{{ url }}">
+    <span class="guideline-tile__visual" aria-hidden="true">
+      {% if guideline_section == 'logo_icon' %}
+        <img class="guideline-tile__logo" src="{{ guideline_logo_url }}" alt="" />
+      {% elseif guideline_section == 'color' %}
+        <span class="guideline-tile__color-preview">
+          <span class="u-bg-color-palette-brand-primary"></span>
+          <span class="u-bg-color-palette-brand-secondary"></span>
+          <span class="u-bg-color-palette-brand-tertiary"></span>
+          <span class="u-bg-color-palette-white"></span>
+        </span>
+      {% else %}
+        <span class="guideline-tile__fallback">{{ label|first }}</span>
+      {% endif %}
+    </span>
+    <span class="guideline-tile__body">
+      <span class="guideline-tile__eyebrow">{{ 'Guideline'|t }}</span>
+      <span class="guideline-tile__title">{{ label }}</span>
+      <span class="guideline-tile__summary">{{ content.body }}</span>
+    </span>
+  </a>
+</article>

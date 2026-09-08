@@ -12,6 +12,20 @@ use Drupal\node\NodeInterface;
 use Drupal\taxonomy\TermInterface;
 
 /**
+ * Varies the shared branding before Drupal looks up the rendered block cache.
+ */
+function jurenites_blog_block_build_system_branding_block_alter(array &$block_build): void {
+  $cache_metadata = \Drupal\Core\Cache\CacheableMetadata::createFromRenderArray($block_build);
+  $cache_metadata->addCacheContexts(['route', 'url.query_args:tag', 'user.permissions']);
+  $cache_metadata->addCacheTags(['taxonomy_term_list']);
+  $route_node = \Drupal::routeMatch()->getParameter('node');
+  if ($route_node instanceof NodeInterface) {
+    $cache_metadata->addCacheableDependency($route_node);
+  }
+  $cache_metadata->applyTo($block_build);
+}
+
+/**
  * Keeps Tags term labels in their hash-prefixed display format.
  */
 function jurenites_blog_taxonomy_term_presave(TermInterface $tag_term): void {

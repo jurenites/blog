@@ -1,0 +1,494 @@
+# Generated from interface.ru.json. Edit the JSON source and regenerate.
+msgid ""
+msgstr ""
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+msgid "Eng"
+msgstr "Англ"
+
+msgid "Rus"
+msgstr "Рус"
+
+msgid "About"
+msgstr "Обо мне"
+
+msgid "Portfolio"
+msgstr "Портфолио"
+
+msgid "Timeline"
+msgstr "Хронология"
+
+msgid "Blog"
+msgstr "Блог"
+
+msgid "Videos"
+msgstr "Видео"
+
+msgid "Contact"
+msgstr "Контакты"
+
+msgid "News"
+msgstr "Новости"
+
+msgid "Latest articles"
+msgstr "Последние статьи"
+
+msgid "Welcome!"
+msgstr "Добро пожаловать!"
+
+msgid "This website NOT using cookies."
+msgstr "Этот сайт НЕ использует cookie."
+
+msgid "Footer navigation"
+msgstr "Навигация в подвале"
+
+msgid "Social networks"
+msgstr "Социальные сети"
+
+msgid "Information"
+msgstr "Информация"
+
+msgid "No rights reserved"
+msgstr "Все права свободны"
+
+msgid "version"
+msgstr "версия"
+
+msgid "made by"
+msgstr "создано"
+
+msgid "Privacy Policy"
+msgstr "Политика конфиденциальности"
+
+msgid "Cookbook"
+msgstr "Книга рецептов"
+
+msgid "Fonts"
+msgstr "Шрифты"
+
+msgid "Guidelines"
+msgstr "Руководства"
+
+msgid "Hero sections"
+msgstr "Разделы вводного блока"
+
+msgid "Add comment"
+msgstr "Добавить комментарий"
+
+msgid "Jurenites home"
+msgstr "Главная Jurenites"
+
+msgid "Career and life"
+msgstr "Карьера и жизнь"
+
+msgid "records"
+msgstr "записи"
+
+msgid "Featured"
+msgstr "Избранный проект"
+
+msgid "Special place in my heart"
+msgstr "Особое место в моём сердце"
+
+msgid "Video interests"
+msgstr "Видео по интересам"
+
+msgid "Written by"
+msgstr "Автор"
+
+msgid "Video creator"
+msgstr "Автор видео"
+
+msgid "Article author"
+msgstr "Автор статьи"
+
+msgid "Professional experience in numbers"
+msgstr "Профессиональный опыт в цифрах"
+
+msgid "Loading external video"
+msgstr "Загрузка внешнего видео"
+
+msgid "Download font"
+msgstr "Скачать шрифт"
+
+msgid "Try it yourself"
+msgstr "Попробуйте сами"
+
+msgid "Type with this font"
+msgstr "Введите текст этим шрифтом"
+
+msgid "Loading glyph data…"
+msgstr "Загрузка данных глифов…"
+
+msgid "Prioritized Unicode mappings"
+msgstr "Основные соответствия Unicode"
+
+msgid "More glyphs"
+msgstr "Больше глифов"
+
+msgid "Fewer glyphs"
+msgstr "Меньше глифов"
+
+msgid "Additional Unicode mappings"
+msgstr "Дополнительные соответствия Unicode"
+
+msgid "Data"
+msgstr "Данные"
+
+msgid "Status"
+msgstr "Состояние"
+
+msgid "Font metadata loads in the browser from the local file."
+msgstr "Метаданные шрифта загружаются в браузере из локального файла."
+
+msgid "Glyph details"
+msgstr "Сведения о глифе"
+
+msgid "Close"
+msgstr "Закрыть"
+
+msgid "Selected glyph vector outline"
+msgstr "Векторный контур выбранного глифа"
+
+msgid "Glyph"
+msgstr "Глиф"
+
+msgid "Unicode"
+msgstr "Unicode"
+
+msgid "Index"
+msgstr "Индекс"
+
+msgid "Advance width"
+msgstr "Ширина шага"
+
+msgid "Left side bearing"
+msgstr "Левый боковой отступ"
+
+msgid "Path data"
+msgstr "Данные контура"
+
+msgid "Show path data"
+msgstr "Показать данные контура"
+
+msgid "Hide path data"
+msgstr "Скрыть данные контура"
+
+msgid "No glyph selected."
+msgstr "Глиф не выбран."
+
+msgid "Current icon"
+msgstr "Текущий значок"
+
+msgid "The rendered examples below use the same SVG file as the website header."
+msgstr "В примерах ниже используется тот же SVG-файл, что и в шапке сайта."
+
+msgid "Jurenites pixel wordmark icon"
+msgstr "Пиксельный логотип Jurenites"
+
+msgid "Dark surface"
+msgstr "Тёмная поверхность"
+
+msgid "Light surface"
+msgstr "Светлая поверхность"
+
+msgid "Source asset"
+msgstr "Исходный ресурс"
+
+msgid "Token palette"
+msgstr "Палитра токенов"
+
+msgid "These values are read from the generated record of src/token/tokens.yaml."
+msgstr "Эти значения взяты из сгенерированных данных src/token/tokens.yaml."
+
+msgid "Language"
+msgstr "Язык"
+
+msgid "Open main menu"
+msgstr "Открыть главное меню"
+
+msgid "Close main menu"
+msgstr "Закрыть главное меню"
+
+msgid "Interactive grid"
+msgstr "Интерактивная сетка"
+
+msgid "Draw a 4×4 glyph"
+msgstr "Нарисуйте глиф 4×4"
+
+msgid "Click, tap, use Space or Enter, or drag across cells. Reloading starts from a blank grid."
+msgstr "Нажимайте на ячейки мышью, касанием, пробелом или Enter либо проводите по ним. После перезагрузки сетка очищается."
+
+msgid "4 by 4 pixel drawing grid"
+msgstr "Пиксельная сетка для рисования 4 на 4"
+
+msgid "Row @row, column @column"
+msgstr "Строка @row, столбец @column"
+
+msgid "Article navigation"
+msgstr "Навигация по статьям"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Source"
+msgstr "Источник"
+
+msgid "opens in a new window"
+msgstr "открывается в новом окне"
+
+msgid "Pagination"
+msgstr "Постраничная навигация"
+
+msgid "Go to previous page"
+msgstr "Перейти на предыдущую страницу"
+
+msgid "Previous"
+msgstr "Назад"
+
+msgid "Go to first page"
+msgstr "Перейти на первую страницу"
+
+msgid "Current page"
+msgstr "Текущая страница"
+
+msgid "Go to page @page"
+msgstr "Перейти на страницу @page"
+
+msgid "Go to last page"
+msgstr "Перейти на последнюю страницу"
+
+msgid "Total pages"
+msgstr "Всего страниц"
+
+msgid "Go to next page"
+msgstr "Перейти на следующую страницу"
+
+msgid "Next"
+msgstr "Далее"
+
+msgid "Guideline"
+msgstr "Руководство"
+
+msgid "Current Videos filter"
+msgstr "Текущий фильтр видео"
+
+msgid "Selected tag"
+msgstr "Выбранный тег"
+
+msgid "Remove tag filter: @tag"
+msgstr "Убрать фильтр по тегу: @tag"
+
+msgid "No videos have been added for this interest yet."
+msgstr "Видео по этому интересу пока не добавлены."
+
+msgid "Filter Portfolio projects by tag"
+msgstr "Фильтрация проектов портфолио по тегу"
+
+msgid "Filter projects by tag"
+msgstr "Фильтр проектов по тегу"
+
+msgid "Show all Portfolio projects; current tag is @tag"
+msgstr "Показать все проекты портфолио; текущий тег: @tag"
+
+msgid "Filter Portfolio projects by @tag"
+msgstr "Фильтровать проекты портфолио по тегу @tag"
+
+msgid "Current Blog filter"
+msgstr "Текущий фильтр блога"
+
+msgid "min to watch"
+msgstr "мин на просмотр"
+
+msgid "min to read"
+msgstr "мин на чтение"
+
+msgid "ago"
+msgstr "назад"
+
+msgid "@elapsed_time ago"
+msgstr "@elapsed_time назад"
+
+msgid "unknown"
+msgstr "неизвестно"
+
+msgid "unknown GMT+0"
+msgstr "неизвестно GMT+0"
+
+msgid "Select option"
+msgstr "Выберите вариант"
+
+msgid "Subject"
+msgstr "Тема"
+
+msgid "Who you are"
+msgstr "Ваше имя"
+
+msgid "Message"
+msgstr "Сообщение"
+
+msgid "Enter the subject"
+msgstr "Введите тему"
+
+msgid "Enter your name"
+msgstr "Введите ваше имя"
+
+msgid "Enter your message"
+msgstr "Введите сообщение"
+
+msgid "Send"
+msgstr "Отправить"
+
+msgid "Send me a message."
+msgstr "Напишите мне сообщение."
+
+msgid "Send another message"
+msgstr "Отправить ещё одно сообщение"
+
+msgid "Numbers"
+msgstr "Цифры"
+
+msgid "Latin capital letters"
+msgstr "Латинские заглавные буквы"
+
+msgid "Roundabout extended capital letters"
+msgstr "Расширенные заглавные буквы Roundabout"
+
+msgid "Latin lowercase letters"
+msgstr "Латинские строчные буквы"
+
+msgid "Cyrillic capital letters"
+msgstr "Кириллические заглавные буквы"
+
+msgid "Cyrillic lowercase letters"
+msgstr "Кириллические строчные буквы"
+
+msgid "Greek capital letters"
+msgstr "Греческие заглавные буквы"
+
+msgid "Roundabout alternate glyph set"
+msgstr "Альтернативный набор глифов Roundabout"
+
+msgid "Greek lowercase letters"
+msgstr "Греческие строчные буквы"
+
+msgid "Keyboard symbols"
+msgstr "Символы клавиатуры"
+
+msgid "Inspect"
+msgstr "Посмотреть"
+
+msgid "Character"
+msgstr "Символ"
+
+msgid " drawable Unicode mappings"
+msgstr " отображаемых соответствий Unicode"
+
+msgid "AI"
+msgstr "ИИ"
+
+msgid "All"
+msgstr "Все"
+
+msgid "Thank you. Your message has been stored and sent."
+msgstr "Спасибо. Ваше сообщение сохранено и отправлено."
+
+msgid "Introduction"
+msgstr "Введение"
+
+msgid "Foundation"
+msgstr "Основа"
+
+msgid "Brand"
+msgstr "Бренд"
+
+msgid "System"
+msgstr "Система"
+
+msgid "drawable Unicode mappings"
+msgstr "отображаемых соответствий Unicode"
+
+msgid "@hours h"
+msgstr "@hours ч"
+
+msgid "Main navigation"
+msgstr "Основная навигация"
+
+msgid "Font details could not load. The local download is still available."
+msgstr "Не удалось загрузить сведения о шрифте. Локальный файл по-прежнему доступен для скачивания."
+
+msgid "You have already submitted this webform."
+msgstr "Вы уже отправляли эту форму."
+
+msgid "View your previous submissions"
+msgstr "Посмотреть предыдущие отправки"
+
+msgid "Hide additional glyphs"
+msgstr "Скрыть дополнительные глифы"
+
+msgid "Show additional glyphs"
+msgstr "Показать дополнительные глифы"
+
+msgid "Family"
+msgstr "Семейство"
+
+msgid "Style"
+msgstr "Начертание"
+
+msgid "Full name"
+msgstr "Полное название"
+
+msgid "PostScript name"
+msgstr "Имя PostScript"
+
+msgid "Version"
+msgstr "Версия"
+
+msgid "Copyright"
+msgstr "Авторские права"
+
+msgid "License"
+msgstr "Лицензия"
+
+msgid "License URL"
+msgstr "Ссылка на лицензию"
+
+msgid "Designer"
+msgstr "Дизайнер"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Units per em"
+msgstr "Единиц на em"
+
+msgid "Ascender"
+msgstr "Верхний выносной элемент"
+
+msgid "Descender"
+msgstr "Нижний выносной элемент"
+
+msgid "Glyph count"
+msgstr "Количество глифов"
+
+msgid "Not embedded"
+msgstr "Не указано"
+
+msgid "Displayed Unicode mappings"
+msgstr "Отображаемые соответствия Unicode"
+
+msgid "Commercial work"
+msgstr "Коммерческие проекты"
+
+msgid "Project durations"
+msgstr "Сроки работы над проектами"
+
+msgid "Project links"
+msgstr "Ссылки на проект"
+
+msgid "Proof @number"
+msgstr "Материал @number"

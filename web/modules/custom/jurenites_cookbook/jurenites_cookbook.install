@@ -1,0 +1,190 @@
+<?php
+
+/**
+ * @file
+ * Installs the editable Jurenites project Cookbook.
+ */
+
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
+
+const JURENITES_COOKBOOK_NODE_UUID = 'e0f24745-8c34-4d0e-958d-77d2b075ef16';
+const JURENITES_COOKBOOK_MENU_LINK_UUID = 'c7c1677c-cbdd-4af5-a353-956abda5a03a';
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_cookbook_install(): void {
+  jurenites_cookbook_ensure_content();
+}
+
+/**
+ * Creates the initial page and keeps its footer destination available.
+ *
+ * The body is written only when the stable node does not exist. After that,
+ * Drupal editors own the published copy and reapplying setup does not reset it.
+ */
+function jurenites_cookbook_ensure_content(): array {
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $cookbook_node_ids = $node_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('uuid', JURENITES_COOKBOOK_NODE_UUID)
+    ->execute();
+  $cookbook_node = $cookbook_node_ids
+    ? $node_storage->load(reset($cookbook_node_ids))
+    : NULL;
+
+  if (!$cookbook_node instanceof NodeInterface) {
+    $cookbook_node = Node::create([
+      'uuid' => JURENITES_COOKBOOK_NODE_UUID,
+      'type' => 'page',
+      'langcode' => 'en',
+      'uid' => 1,
+      'title' => 'Cookbook',
+      'body' => [
+        'value' => jurenites_cookbook_initial_body(),
+        'format' => 'basic_html',
+      ],
+      'status' => TRUE,
+      'path' => [
+        'alias' => '/cookbook',
+        'pathauto' => 0,
+      ],
+    ]);
+    $cookbook_node->save();
+  }
+
+  $menu_link_storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
+  $cookbook_link_ids = $menu_link_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('uuid', JURENITES_COOKBOOK_MENU_LINK_UUID)
+    ->execute();
+  $cookbook_footer_link = $cookbook_link_ids
+    ? $menu_link_storage->load(reset($cookbook_link_ids))
+    : MenuLinkContent::create([
+      'uuid' => JURENITES_COOKBOOK_MENU_LINK_UUID,
+      'menu_name' => 'footer',
+    ]);
+
+  assert($cookbook_footer_link instanceof MenuLinkContent);
+  $cookbook_footer_link->set('title', 'Cookbook');
+  $cookbook_footer_link->set('link', [
+    'uri' => 'entity:node/' . $cookbook_node->id(),
+  ]);
+  $cookbook_footer_link->set('enabled', TRUE);
+  $cookbook_footer_link->set('expanded', FALSE);
+  $cookbook_footer_link->set('weight', 1);
+  $cookbook_footer_link->save();
+
+  $font_link_ids = $menu_link_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('menu_name', 'footer')
+    ->condition('link.uri', 'internal:/portfolio?tag=font')
+    ->execute();
+  foreach ($menu_link_storage->loadMultiple($font_link_ids) as $font_footer_link) {
+    $font_footer_link->set('weight', 2);
+    $font_footer_link->save();
+  }
+
+  return [
+    'node_id' => (int) $cookbook_node->id(),
+    'menu_link_id' => (int) $cookbook_footer_link->id(),
+  ];
+}
+
+/**
+ * Returns the one-time starter copy for the editable Body field.
+ */
+function jurenites_cookbook_initial_body(): string {
+  return <<<'HTML'
+<p>This is the working manual for this website: how an idea moves through the design system, Storybook, Drupal, review, and release. It describes the real project workflow, including the places where I deliberately keep content flexible instead of turning every sentence into a field.</p>
+
+<h2>The project in one loop</h2>
+<ol>
+  <li>Capture the rough idea in <code>idea-file.md</code>.</li>
+  <li>Put reusable visual decisions in <code>src/token/tokens.yaml</code>.</li>
+  <li>Prove reusable interface pieces in Storybook.</li>
+  <li>Connect the proven markup and behavior to Drupal.</li>
+  <li>Build, inspect the served page, and run focused checks.</li>
+  <li>Ship the same reviewed source through DEV, STAGE, and PROD without mixing their runtime configuration.</li>
+</ol>
+
+<blockquote>
+  <p><strong>IMAGE PLACEHOLDER — project map.</strong> Add a diagram showing Idea → Tokens → Storybook → Drupal → Verification → Release. Replace this note from the Body editor when the diagram is ready.</p>
+</blockquote>
+
+<h2>Recipe: turn an idea into a component</h2>
+<ol>
+  <li>Decide what is content, what is behavior, and what is a reusable visual rule.</li>
+  <li>Add or reuse semantic design tokens. The editable token source is <code>src/token/tokens.yaml</code>; generated token files are build output.</li>
+  <li>Create the smallest useful Storybook example. Visible examples keep their story, template, and markup helper together.</li>
+  <li>Test the component’s states and responsive behavior in isolation.</li>
+  <li>Reuse the same semantic markup contract in the Drupal Twig template.</li>
+  <li>Compile the theme and verify Drupal’s rendered page, not only the source files.</li>
+</ol>
+<p><code>npm run build:tokens</code> rebuilds and validates design tokens.</p>
+<p><code>npm run storybook</code> opens the component proving ground.</p>
+<p><code>npm run build:theme</code> compiles the deployable Drupal CSS and JavaScript.</p>
+
+<blockquote>
+  <p><strong>GIF PLACEHOLDER — component journey.</strong> Record a short loop that starts with a Storybook control change and ends on the matching Drupal component. Keep it focused on one state change so the GIF remains readable.</p>
+</blockquote>
+
+<h2>Recipe: decide what belongs in Drupal</h2>
+<p>Drupal is the content and runtime layer. I create a field when Drupal must sort, filter, reference, validate, or query a value. Narrative material stays in a rich-text Body or a reusable Paragraph until a real structural need appears.</p>
+<ul>
+  <li><strong>Basic Page</strong> is for stable pages such as this Cookbook and the Privacy Policy.</li>
+  <li><strong>Article</strong> is for personal writing and saved video references.</li>
+  <li><strong>Project</strong> is for portfolio work with reusable story and interactive sections.</li>
+  <li><strong>Content Blocks</strong> are reusable editorial regions whose placement belongs to Drupal’s block layout.</li>
+  <li><strong>Paragraphs</strong> are reorderable sections when one Body field is no longer enough.</li>
+</ul>
+
+<h2>Recipe: edit this Cookbook</h2>
+<ol>
+  <li>In Drupal, open <strong>Content</strong>, find <strong>Cookbook</strong>, and choose <strong>Edit</strong>.</li>
+  <li>Edit the Body with the existing rich-text toolbar. Use headings for structure, lists for repeatable steps, links for references, and code styling for paths or commands.</li>
+  <li>To add a still image, place the cursor at a placeholder and use the image button. Add useful alternative text when the image carries information.</li>
+  <li>To add an animated GIF, use the same image workflow and select a GIF file. Remove the placeholder paragraph after the media is in place.</li>
+  <li>Preview the page at desktop and mobile widths, then save a new revision with a short explanation.</li>
+</ol>
+<p>The current image workflow accepts PNG, GIF, JPEG, and WebP files. Large files may upload successfully, but an editorial image or GIF should still be compressed so it does not turn documentation into a loading test.</p>
+
+<blockquote>
+  <p><strong>GIF PLACEHOLDER — Drupal editing.</strong> Show the Body editor inserting an image, writing alternative text, previewing the page, and saving a revision.</p>
+</blockquote>
+
+<h2>Recipe: work locally</h2>
+<ol>
+  <li>Start the Docker services.</li>
+  <li>Open Drupal at <code>http://jurenites.local</code> and Storybook at <code>http://storybook.jurenites.local</code>.</li>
+  <li>After PHP, Twig, configuration, or compiled-asset changes, clear Drupal caches.</li>
+  <li>Inspect the actual browser result and exercise the changed interaction.</li>
+</ol>
+<p><code>docker compose up -d</code> starts the local stack.</p>
+<p><code>docker exec blog_jurenites_web ./vendor/bin/drush cr</code> rebuilds Drupal caches.</p>
+
+<h2>Recipe: verify before release</h2>
+<ul>
+  <li>Run the focused test for the changed feature.</li>
+  <li>Run <code>npm run lint</code> for repository rules and token contracts.</li>
+  <li>Run <code>npm run docs:check</code> when source and documentation have moved.</li>
+  <li>Build Storybook when a visual component changed.</li>
+  <li>Check the Drupal page anonymously as well as in the editor.</li>
+  <li>Keep generated assets synchronized with their editable sources.</li>
+</ul>
+
+<h2>Recipe: move through environments</h2>
+<p>DEV is where the implementation is assembled and inspected. STAGE is a production-like review. PROD is the public result. Database content, uploaded files, secrets, mail transport, and host configuration are environment-owned; source code and declared setup travel through version control.</p>
+<p>For Drupal updates, the safe shape is: deploy the reviewed code, install locked Composer dependencies, inspect pending database updates, apply them, and rebuild caches. A served-page check completes the deployment proof.</p>
+
+<blockquote>
+  <p><strong>IMAGE PLACEHOLDER — release evidence.</strong> Add a compact screenshot or diagram that distinguishes source commit, generated theme asset, deployed build identity, and the page served by Drupal.</p>
+</blockquote>
+
+<h2>Definition of done</h2>
+<p>A change is not finished because a file was edited. It is finished when the editable source is clear, generated artifacts agree with it, Drupal uses the intended content or configuration, the browser shows the expected result, focused checks pass, and the documentation still tells the truth.</p>
+<p>This page is intentionally a living document. Update it when the workflow changes; do not preserve an obsolete instruction just because it was once accurate.</p>
+HTML;
+}

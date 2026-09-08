@@ -1,0 +1,5 @@
+name: 'Jurenites Guidelines'
+description: 'Adds the editable Guidelines content type, overview page, starter Logo Icon and Color entries, and footer navigation.'
+type: 'Site'
+install:
+  - jurenites_guidelines

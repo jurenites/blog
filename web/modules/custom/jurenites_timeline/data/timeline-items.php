@@ -1,0 +1,96 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Starter timeline records transcribed from Alexander Ilivanov CV pages 2–7.
+ *
+ * CV month precision is normalized to the first day of each month. The public
+ * project presentation intentionally displays only month and year.
+ */
+
+$timeline_project_details = require __DIR__ . '/timeline-project-details.php';
+
+$timeline_items = [
+  ['name' => 'oksenate.gov', 'organization' => 'Thrive.io', 'periods' => [['2026-07-01', '2026-07-01']], 'hours' => 160],
+  ['name' => 'oaiquartz.org', 'organization' => 'Thrive.io', 'periods' => [['2026-06-01', '2026-06-01']]],
+  ['name' => 'Accountia', 'organization' => 'Thrive.io', 'periods' => [['2021-10-01', '2026-08-01'], ['2020-03-01', '2020-10-01']], 'hours' => 5500, 'emphasis' => 'featured'],
+  ['name' => 'Fluency Academy and Memhack mobile apps', 'organization' => 'Thrive.io', 'periods' => [['2021-05-01', '2021-06-01']], 'hours' => 160],
+  ['name' => 'Funneleyes Web App', 'organization' => 'Thrive.io', 'periods' => [['2021-04-01', '2021-05-01']], 'hours' => 200],
+  ['name' => 'Vincofy', 'organization' => 'Thrive.io', 'periods' => [['2020-02-01', '2020-03-01']], 'hours' => 50],
+  ['name' => 'JOacademy', 'organization' => 'Thrive.io', 'periods' => [['2020-01-01', '2020-02-01']], 'hours' => 100],
+  ['name' => 'Visuals2Go', 'organization' => 'Thrive.io', 'periods' => [['2020-01-01', '2020-02-01']], 'hours' => 60],
+  ['name' => 'ScatchApp', 'organization' => 'Thrive.io', 'periods' => [['2019-11-01', '2019-12-01']], 'hours' => 550],
+  ['name' => 'Dzing Finance App', 'organization' => 'Thrive.io', 'periods' => [['2019-10-01', '2020-12-01'], ['2021-06-01', '2021-08-01']], 'hours' => 650, 'emphasis' => 'featured'],
+  ['name' => 'Genlocker / Finch', 'organization' => 'Thrive.io', 'periods' => [['2019-08-01', '2019-10-01']], 'hours' => 100],
+  ['name' => 'Enfusen', 'organization' => 'Thrive.io', 'periods' => [['2019-06-01', '2019-07-01']], 'hours' => 200],
+  ['name' => 'Precision', 'organization' => 'Thrive.io', 'periods' => [['2019-02-01', '2019-03-01']], 'hours' => 160],
+  ['name' => 'Nokia', 'organization' => 'Thrive.io', 'periods' => [['2018-11-01', '2018-12-01']], 'hours' => 260, 'emphasis' => 'featured'],
+  ['name' => 'Greenback', 'organization' => 'Thrive.io', 'periods' => [['2018-10-01', '2019-03-01']], 'hours' => 200],
+  ['name' => 'Raisbeck Performance Systems', 'organization' => 'Thrive.io', 'periods' => [['2018-04-01', '2018-04-01']], 'hours' => 10],
+  ['name' => 'GamerSpeak App', 'organization' => 'Thrive.io', 'periods' => [['2018-03-01', '2018-09-01']], 'hours' => 160],
+  ['name' => 'Neuromation Marketplace and Neurowork', 'organization' => 'Thrive.io', 'periods' => [['2018-01-01', '2018-04-01']], 'hours' => 100, 'emphasis' => 'featured'],
+  ['name' => 'National Community Church Request form', 'organization' => 'Thrive.io', 'periods' => [['2017-12-01', '2017-12-01']], 'hours' => 50],
+  ['name' => 'ArkivMusic Naxos', 'organization' => 'Thrive.io', 'periods' => [['2017-11-01', '2017-11-01']], 'hours' => 10],
+  ['name' => 'Trackimo iOS', 'organization' => 'Thrive.io', 'periods' => [['2017-11-01', '2017-12-01']], 'hours' => 200],
+  ['name' => 'Explore Talent', 'organization' => 'Thrive.io', 'periods' => [['2017-10-01', '2017-10-01']], 'hours' => 30],
+  ['name' => 'Zoolu', 'organization' => 'Thrive.io', 'periods' => [['2017-10-01', '2017-10-01']], 'hours' => 10],
+  ['name' => 'Care & Prayer', 'organization' => 'Thrive.io', 'periods' => [['2017-09-01', '2017-10-01']], 'hours' => 50],
+  ['name' => 'Digital Content', 'organization' => 'Thrive.io', 'periods' => [['2017-08-01', '2017-08-01']], 'hours' => 40],
+  ['name' => 'Program DB Novo Ministries', 'organization' => 'Thrive.io', 'periods' => [['2017-07-01', '2018-09-01']], 'hours' => 650],
+  ['name' => 'Nature Footage', 'organization' => 'Thrive.io', 'periods' => [['2017-06-01', '2017-07-01']], 'hours' => 50],
+  ['name' => 'CurtainCall', 'organization' => 'Thrive.io', 'periods' => [['2017-05-01', '2017-08-01']], 'hours' => 200],
+  ['name' => 'SpectorView', 'organization' => 'Thrive.io', 'periods' => [['2017-03-01', '2017-07-01']], 'hours' => 200],
+  ['name' => 'Commentate', 'organization' => 'Thrive.io', 'periods' => [['2016-12-01', '2017-04-01']], 'hours' => 200],
+  ['name' => 'NeedsApp', 'organization' => 'Thrive.io', 'periods' => [['2016-11-01', '2016-12-01']], 'hours' => 40],
+  ['name' => 'HubPlay Trivia', 'organization' => 'Thrive.io', 'periods' => [['2016-09-01', '2016-11-01']], 'hours' => 150],
+  ['name' => 'Rockhopperz Next Doc Visit', 'organization' => 'Thrive.io', 'periods' => [['2016-05-01', '2016-11-01']], 'hours' => 600],
+  ['name' => 'THDA', 'organization' => 'Thrive.io', 'periods' => [['2016-03-01', '2016-07-01']], 'hours' => 150],
+  ['name' => 'Internal NDA project', 'organization' => 'Thrive.io', 'periods' => [['2015-09-01', '2016-02-01']]],
+  ['name' => 'Kidsvolunteer', 'organization' => 'Thrive.io', 'periods' => [['2015-06-01', '2015-08-01']], 'hours' => 100],
+  ['name' => 'Clarity Grayhawk', 'organization' => 'Thrive.io', 'periods' => [['2015-03-01', '2015-07-01']], 'hours' => 500],
+  ['name' => 'Life Church Blackbriar', 'organization' => 'Thrive.io', 'periods' => [['2014-09-01', '2014-12-01']], 'hours' => 250],
+  ['name' => 'Life Church Staff App iOS', 'organization' => 'Thrive.io', 'periods' => [['2014-06-01', '2014-07-01']], 'hours' => 50],
+  ['name' => 'Life Church Staff Portal Web', 'organization' => 'Thrive.io', 'periods' => [['2014-06-01', '2015-02-01']], 'hours' => 500],
+  ['name' => 'Life Church LifeGroups', 'organization' => 'Thrive.io', 'periods' => [['2014-02-01', '2014-08-01']], 'hours' => 350],
+  ['name' => 'Life Church Volunteer', 'organization' => 'Thrive.io', 'periods' => [['2013-11-01', '2014-05-01']], 'hours' => 600],
+  ['name' => 'Life Church Roku', 'organization' => 'Thrive.io', 'periods' => [['2013-10-01', '2013-11-01']], 'hours' => 100],
+  ['name' => 'Oysterlabs Games Server', 'organization' => 'OysterLabs.com', 'periods' => [['2013-08-01', '2013-12-01']], 'hours' => 150],
+  ['name' => 'Oysterlabs Mail System', 'organization' => 'OysterLabs.com', 'periods' => [['2013-08-01', '2013-10-01']], 'hours' => 150],
+  ['name' => 'OK State Fair', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2013-05-01', '2013-07-01']], 'hours' => 150],
+  ['name' => 'Community Health System', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2013-02-01', '2013-04-01']], 'hours' => 250],
+  ['name' => 'wemultiply', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2013-01-01', '2013-03-01']], 'hours' => 50],
+  ['name' => 'Global-ny.com', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2012-11-01', '2012-12-01']], 'hours' => 50],
+  ['name' => 'Mcbride hospital orthopedic hospital', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2012-10-01', '2013-07-01']], 'hours' => 100],
+  ['name' => 'Hawaii Experience', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2012-10-01', '2013-01-01']], 'hours' => 200],
+  ['name' => 'AGC Aerospace', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2012-09-01', '2012-12-01']], 'hours' => 180],
+  ['name' => 'Wiley Post Airport', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2012-07-01', '2012-08-01']], 'hours' => 50],
+  ['name' => 'Harvard Immunology Website', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2012-06-01', '2012-08-01']], 'hours' => 50],
+  ['name' => 'Give Me Liberte', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2012-05-01', '2012-08-01']], 'hours' => 100],
+  ['name' => 'Continental', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2012-05-01', '2012-12-01']], 'hours' => 100],
+  ['name' => 'AdoTube', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2012-02-01', '2013-09-01']], 'hours' => 360],
+  ['name' => 'Bricktown OKC', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2012-01-01', '2012-02-01']], 'hours' => 50],
+  ['name' => 'Science Museum Oklahoma', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2012-01-01', '2013-01-01']], 'hours' => 400],
+  ['name' => 'Chevy Music Showcase', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2012-01-01', '2012-02-01']], 'hours' => 50],
+  ['name' => 'Automobile Alley', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-12-01', '2012-03-01']], 'hours' => 50],
+  ['name' => 'OU Law', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-10-01', '2012-04-01']], 'hours' => 250],
+  ['name' => 'Will Rogers Lobby Bar / Western Concepts Tasting Room', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-07-01', '2011-08-01']], 'hours' => 150],
+  ['name' => 'Variety Care', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-07-01', '2011-09-01']], 'hours' => 50],
+  ['name' => 'Mullikin Law', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-06-01', '2011-08-01']], 'hours' => 50, 'emphasis' => 'heart', 'summary' => 'A special place in my heart.'],
+  ['name' => 'Smartstart OK', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-06-01', '2011-07-01']], 'hours' => 100],
+  ['name' => "Oklahoma Children's Theatre", 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-06-01', '2012-12-01']], 'hours' => 600, 'emphasis' => 'featured'],
+  ['name' => 'Basin Energy', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-05-01', '2011-08-01']], 'hours' => 50],
+  ['name' => 'Flexability Concepts', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-05-01', '2012-12-01']], 'hours' => 100],
+  ['name' => 'One Health Body', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-04-01', '2011-10-01']], 'hours' => 300],
+  ['name' => 'EMB', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2011-04-01', '2011-05-01']], 'hours' => 50],
+  ['name' => 'HIPAA Security Assessment Toolkit', 'organization' => 'VolcanoIdeas.ae', 'periods' => [['2010-11-01', '2010-12-01']], 'hours' => 100],
+];
+
+return array_map(
+  static fn (array $timeline_item): array => array_replace(
+    $timeline_item,
+    $timeline_project_details[$timeline_item['name']] ?? [],
+  ),
+  $timeline_items,
+);

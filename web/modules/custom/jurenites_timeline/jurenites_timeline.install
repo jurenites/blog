@@ -1,0 +1,162 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Installs the editable CV timeline and its starter content.
+ */
+
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
+use Drupal\paragraphs\Entity\Paragraph;
+
+const JURENITES_TIMELINE_NODE_UUID = 'e615b87a-c6ab-429f-b417-09ca51e57204';
+const JURENITES_TIMELINE_MENU_LINK_UUID = '99eaa3fd-6811-4eed-8d7f-92ce4b54ca07';
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_timeline_install(): void {
+  jurenites_timeline_ensure_content();
+}
+
+/**
+ * Creates the starter Timeline page and its footer destination.
+ */
+function jurenites_timeline_ensure_content(): array {
+  $timeline_node = jurenites_timeline_ensure_node();
+  $timeline_menu_link = jurenites_timeline_ensure_menu_link();
+
+  return [
+    'timeline_node_id' => (int) $timeline_node->id(),
+    'menu_link_id' => (int) $timeline_menu_link->id(),
+  ];
+}
+
+/**
+ * Creates one Timeline node without replacing later editorial changes.
+ */
+function jurenites_timeline_ensure_node(): NodeInterface {
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $timeline_node_ids = $node_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('uuid', JURENITES_TIMELINE_NODE_UUID)
+    ->execute();
+  $timeline_node = $timeline_node_ids
+    ? $node_storage->load(reset($timeline_node_ids))
+    : NULL;
+
+  if ($timeline_node instanceof NodeInterface) {
+    return $timeline_node;
+  }
+
+  $timeline_item_records = require __DIR__ . '/data/timeline-items.php';
+  $timeline_paragraphs = [];
+  foreach ($timeline_item_records as $timeline_item_record) {
+    $timeline_period_values = array_map(
+      static fn (array $timeline_period): array => [
+        'value' => $timeline_period[0],
+        'end_value' => $timeline_period[1],
+      ],
+      $timeline_item_record['periods'],
+    );
+
+    $timeline_paragraph_values = [
+      'type' => 'timeline_item',
+      'field_timeline_name' => $timeline_item_record['name'],
+      'field_timeline_kind' => 'project',
+      'field_timeline_periods' => $timeline_period_values,
+      'field_timeline_emphasis' => $timeline_item_record['emphasis'] ?? 'standard',
+    ];
+    if (!empty($timeline_item_record['organization'])) {
+      $timeline_paragraph_values['field_timeline_organization'] = $timeline_item_record['organization'];
+      $organization_url = jurenites_timeline_organization_url($timeline_item_record['organization']);
+      if ($organization_url !== '') {
+        $timeline_paragraph_values['field_timeline_organization_url'] = ['uri' => $organization_url];
+      }
+    }
+    if (isset($timeline_item_record['hours'])) {
+      $timeline_paragraph_values['field_timeline_hours'] = $timeline_item_record['hours'];
+    }
+    if (!empty($timeline_item_record['summary'])) {
+      $timeline_paragraph_values['field_timeline_summary'] = [
+        'value' => $timeline_item_record['summary'],
+        'format' => 'basic_html',
+      ];
+    }
+    if (!empty($timeline_item_record['proofs'])) {
+      $timeline_paragraph_values['field_timeline_proof_links'] = array_map(
+        static fn (array $proof_link): array => [
+          'uri' => $proof_link['url'],
+          'title' => $proof_link['title'],
+        ],
+        $timeline_item_record['proofs'],
+      );
+    }
+
+    $timeline_paragraphs[] = Paragraph::create($timeline_paragraph_values);
+  }
+
+  $timeline_node = Node::create([
+    'uuid' => JURENITES_TIMELINE_NODE_UUID,
+    'type' => 'timeline',
+    'langcode' => 'en',
+    'uid' => 1,
+    'title' => 'Timeline',
+    'body' => [
+      'value' => '<p>Commercial projects ordered by when each engagement began.</p>',
+      'format' => 'basic_html',
+    ],
+    'field_timeline_items' => $timeline_paragraphs,
+    'status' => TRUE,
+    'path' => [
+      'alias' => '/timeline',
+      'pathauto' => 0,
+    ],
+  ]);
+  $timeline_node->save();
+
+  return $timeline_node;
+}
+
+/**
+ * Returns the official website stored with a starter organization.
+ */
+function jurenites_timeline_organization_url(string $organization_name): string {
+  return match ($organization_name) {
+    'Thrive.io' => 'https://thrive.io/',
+    'OysterLabs.com' => 'https://www.oysterlabs.com/',
+    'VolcanoIdeas.ae' => 'https://volcanoideas.ae/',
+    default => '',
+  };
+}
+
+/**
+ * Keeps Timeline in the footer Information menu, outside main navigation.
+ */
+function jurenites_timeline_ensure_menu_link(): MenuLinkContent {
+  $menu_link_storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
+  $timeline_link_ids = $menu_link_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('uuid', JURENITES_TIMELINE_MENU_LINK_UUID)
+    ->execute();
+  $timeline_menu_link = $timeline_link_ids
+    ? $menu_link_storage->load(reset($timeline_link_ids))
+    : MenuLinkContent::create([
+      'uuid' => JURENITES_TIMELINE_MENU_LINK_UUID,
+      'menu_name' => 'footer',
+    ]);
+
+  assert($timeline_menu_link instanceof MenuLinkContent);
+  $timeline_menu_link->set('menu_name', 'footer');
+  $timeline_menu_link->set('title', 'Timeline');
+  $timeline_menu_link->set('link', ['uri' => 'internal:/timeline']);
+  $timeline_menu_link->set('enabled', TRUE);
+  $timeline_menu_link->set('expanded', FALSE);
+  $timeline_menu_link->set('weight', 4);
+  $timeline_menu_link->save();
+
+  return $timeline_menu_link;
+}

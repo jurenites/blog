@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Guideline
+type: guideline
+description: 'A maintained design-system topic shown on the Guidelines overview and its own detail page.'
+help: 'Choose the structured section renderer, write a concise required summary for the tile, then maintain the detailed guidance in Body.'
+new_revision: true
+preview_mode: 1
+display_submitted: false

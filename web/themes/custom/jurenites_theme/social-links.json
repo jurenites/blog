@@ -1,31 +1,37 @@
 [
   {
     "link_label": "LinkedIn",
+    "hover_label": "alexanderilivanov",
     "link_url": "https://www.linkedin.com/in/alexanderilivanov",
     "icon_name": "social-linkedin"
   },
   {
     "link_label": "Facebook",
+    "hover_label": "sasha.ilivanov",
     "link_url": "https://www.facebook.com/sasha.ilivanov",
     "icon_name": "social-facebook"
   },
   {
     "link_label": "VKontakte",
-    "link_url": "https://vk.ru/jurenites",
+    "hover_label": "user_ytko",
+    "link_url": "https://vk.com/user_ytko",
     "icon_name": "social-vk"
   },
   {
     "link_label": "YouTube",
+    "hover_label": "@jurenites",
     "link_url": "https://www.youtube.com/@jurenites",
     "icon_name": "social-youtube"
   },
   {
     "link_label": "SoundCloud",
+    "hover_label": "alexander-ilivanov",
     "link_url": "https://soundcloud.com/alexander-ilivanov",
     "icon_name": "social-soundcloud"
   },
   {
     "link_label": "Steam",
+    "hover_label": "jurenites",
     "link_url": "https://steamcommunity.com/id/jurenites",
     "icon_name": "social-steam"
   }

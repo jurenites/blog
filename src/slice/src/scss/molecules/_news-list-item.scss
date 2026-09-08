@@ -59,7 +59,7 @@
   &__title-link {
     display: inline-flex;
     align-items: center;
-    gap: calc(var(--space-scale-base-gap) * 0.5);
+    //gap: calc(var(--space-scale-base-gap) * 0.5);
     color: var(--theme-dark-text-primary-default);
     text-decoration: none;
     @include tools.motion-transition(color);

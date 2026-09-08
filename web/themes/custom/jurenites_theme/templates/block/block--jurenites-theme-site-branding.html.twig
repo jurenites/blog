@@ -1,7 +1,8 @@
 {{ title_prefix }}
 {% if site_logo %}
-  <a class="site-header__brand" href="{{ path('<front>') }}" rel="home" aria-label="{{ 'Jurenites home'|t }}">
-    <img class="site-header__logo" src="{{ site_logo }}" alt="" fetchpriority="high" />
+  <a class="site-header__brand" href="{{ path('<front>') }}" rel="home" aria-label="{{ 'Alexander Ilivanov — home'|t }}">
+    <img class="site-header__logo{% if uses_lego_logo %} site-header__logo--lego{% endif %}" src="{{ site_logo }}" alt="" fetchpriority="high" />
+    <span class="site-header__brand-name">Alexander Ilivanov</span>
   </a>
 {% endif %}
 {{ title_suffix }}

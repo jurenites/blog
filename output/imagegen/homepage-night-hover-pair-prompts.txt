@@ -1,0 +1,17 @@
+Tool: built-in image_gen
+Palette source: src/token/tokens.yaml
+
+DEFAULT STATE PROMPT
+Use case: precise-object-edit.
+Edit target: the supplied real photographic website hero.
+Make ONE localized retouch only: iron/smooth the white T-shirt, especially the many small crumpled creases across the abdomen at x=37.8%, y=64.9%, chest, shoulder and sleeve. Remove excessive fine wrinkles and crinkling so it looks freshly ironed soft cotton. Retain a few natural broad folds at the armpit, sleeve edge and waist, fabric texture, seams, neckline, shirt silhouette and realistic existing light/shadow. Do not make plastic flat fabric.
+STRICT preservation: every area outside the T-shirt must remain unchanged. Preserve the exact person's identity, face, hair, expression, eyes, body outline, posture, both hands/fingers, wristwatch, laptop, camera perspective, framing and dark slate background. Preserve original cool desaturated color grading and exposure. No rays or new colored lighting in this base image. No additions, typography, logos or watermark. Keep the same landscape aspect ratio and exact composition. Deliver one single edited image, not a comparison.
+
+HOVER STATE PROMPT
+Use case: lighting-weather.
+Asset type: second image for a photographic website hero hover crossfade.
+Input image is the EDIT TARGET and the finished default state. Retain exact image dimensions, camera, crop, composition and geometry so these two states can crossfade without any movement.
+Change ONLY illumination and atmospheric light. Add cinematic volumetric god rays that visibly originate from the open laptop's inner display on the RIGHT, casting toward the person's face, torso and hands on the LEFT. Soft broad shafts of screen light through a very faint local haze, visibly directional and physically coherent, strongest close to the screen and feathering naturally outward. Light rays should be elegant and clearly visible but not an opaque white triangle, laser lines, fantasy magic, lightning, or a rainbow stripe diagram. No overhead or celestial light source.
+Use restrained cyan and magenta accents sampled from actual website tokens: brand-primary #66FFFF and brand-secondary #FF66FF with softer #AAFFFF and #FFAAFF. Let cyan dominate the face, forearms and hands, with subtle violet/magenta reflections on the white shirt and edges of the cheek and neck. Preserve facial detail and recognizable identity. Allow a brighter luminous screen edge while retaining the laptop silhouette and avoiding clipped face/shirt highlights.
+Keep the surrounding background very dark cold slate; keep the outer margins quiet. It should feel like vibrant creative content on the screen is lighting the real person in the same photograph. No actual content or text needs to be visible on the edge-on screen.
+STRICT invariants: exact same real person, facial anatomy, hair, expression, gaze, pose, body proportions, freshly smoothed T-shirt including its few remaining natural folds, watch, hands and fingers, keyboard and laptop, supporting surface. Do not move, reshape, regenerate or beautify the subject. No restored clutter. No new objects. No typography, logos or watermark. One image only, no comparison or collage.

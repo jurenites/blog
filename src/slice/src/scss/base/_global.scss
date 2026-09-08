@@ -23,7 +23,10 @@ body.jurenites-theme {
     display: none !important;
   }
 
-  a {
+  // Badged footer links own their decoration: underline the label only, never
+  // the anchor. An ancestor underline cannot be cancelled by the nested Badge.
+  // Keep this exclusion in :where() so it adds no priority to other links.
+  a:not(.button):not(.site-header__link):not(.site-header__brand):where(:not(.footer-navigation__link--with-badge)) {
     color: var(--theme-dark-text-primary-default);
     text-decoration: underline;
     text-decoration-thickness: var(--space-scale-one);

@@ -8,6 +8,12 @@ Rule: create fields only when Drupal needs to sort, filter, reference, render, o
 
 Purpose: stable site pages such as About and Contact.
 
+The published `/cookbook` Basic Page is the editor-owned working manual for the
+project. Its `basic_html` Body explains the idea, token, Storybook, Drupal,
+verification, and release loop and includes explicit image and GIF placeholders.
+The `jurenites_cookbook` module writes that starter Body only when the stable
+node is first created; later CKEditor revisions are not reset by setup code.
+
 The native Title remains the canonical page title and the first strong segment
 of the Two-tone Heading component. One compound `field_two_tone_heading` field
 stores these optional, translatable properties:
@@ -29,38 +35,102 @@ eight-item limit; its public grid renders no more than four items per row.
 Each item contains:
 
 - Number: required short display text such as `80+`.
-- Text: subtitle text such as `Projects I’ve worked on`.
+- Text: subtitle text such as `Projects commercial have worked with`.
+- Caption: optional gray text on its own line below Text, using caption typography.
+- Caption link: optional URL and link text following the caption. Domain labels
+  remain gray and underlined, with the shared yellow link hover and focus ring.
+  For tracking notes, enter `*tracked with` as Caption and the domain as link text.
 - Icon image: optional attached SVG file. It renders as an external image at
   its intrinsic dimensions while preserving the file's own `viewBox` and
   aspect ratio, with an 80px maximum width guard for oversized files.
+- Link URL: optional internal or external destination with authored
+  call-to-action text. The commercial-project tile uses `see Timeline` to link
+  to `/timeline` while its number and descriptive text remain plain content.
 
 The current professional-experience example stores `16` directly in Number.
-Its two current items omit Icon image, preserving the established two-tile
-presentation.
+The About page also shows three role-hour tiles, with tracking captions linking
+to `redmine.org`, `atlassian.com`, and `track.toggl.com`. Caption fields are
+optional and do not replace the separate call-to-action link.
 
 Basic pages and Articles retain the Numeric Values Paragraph in Content
 sections for existing authored compositions, while the homepage instance is a
 Content Block so its placement is managed through Drupal's block layout.
 
-## Timeline Event
+## Hero section
 
-Purpose: turn the CV into an interactive timeline with bookmarks. A timeline event can describe a job, project phase, release, skill shift, or important professional moment.
+The homepage also supports the reusable `hero` Content Block with an editable
+background image and reorderable `hero_slide` Paragraphs. Text, button labels and
+destinations are authored in the block; placement and page visibility are managed
+through Block layout. See [Hero section](hero-section.md) for editing and setup.
 
-Suggested fields:
+## Timeline
 
-- Title
-- Slug
-- Start date
-- End date
-- Body
-- Company / organization reference
-- Project reference
-- Role / occupation
-- Icon or logo media
-- Weight
-- Visibility: public, anonymized, private
+Purpose: turn the commercial-project pages of the CV into one long chronology
+without creating a node for every project. One published `timeline` node owns
+the stable `/timeline` alias and a multi-value `field_timeline_items`
+Paragraphs field.
 
-Everything else can start in `Body`: contribution, what happened, what I learned, screenshots, context, criticism, or story details. This keeps each timeline event flexible.
+Each `timeline_item` record contains:
+
+- Name
+- One or more Start/End date periods; the first Start date controls descending public
+  order and Paragraph order breaks ties
+- Optional hours worked and organization, plus the organization's official URL
+- Optional short description copied or adapted from the CV
+- Repeatable proof links for live work, case studies, archived pages, or public
+  Dropbox PDFs
+- Emphasis: standard, Featured with the official `star-outline.svg`, or Special
+  place in my heart with the official `heart-outline.svg`
+
+Hours worked remains available to editors and stored on each record, but is not
+rendered on the public Timeline.
+
+Project dates from the CV have month precision. They are stored on the first day
+of their month for sorting but displayed only as month and year. A one-month
+project uses the same month for its Start and End values and still renders as a
+duration bar.
+Every completed year's calendar rail occupies the same twelve 32px rows, with
+December at the top and January at the bottom so scrolling moves backward
+through time. The enhanced layout stacks calendar years with no gaps and places
+descriptions in a separate flowing column. A sticky calendar viewport follows
+the text's start-month anchors as the page scrolls; dense descriptions can take
+more space without stretching the calendar. The current year begins with the current month and does not render
+months that have not started. Duration records use an 8px-wide bar spanning
+exactly the inclusive start and end months, with a small visual break between
+adjacent projects; ranges continuing across a year boundary have no break.
+Overlapping projects take the first free one of four
+parallel lanes. If more than four ranges overlap, the shared marker uses a
+45-degree yellow-and-white stripe. The year heading sticks until the next year
+replaces it.
+
+An organization appears as a large linked heading in the same left rail as the
+year. It remains sticky while years, including empty years, pass below it and is
+pushed away only when the next employer transition reaches the rail. It is not
+repeated for every project. The rendered sequence ends at 2010.
+
+The starter node contains the 72 commercial projects transcribed from the
+current CV and no personal milestones. Every commercial project also
+includes its CV description. The 81 URLs explicitly embedded in the CV are
+stored as clickable proof links, including live project pages, Figma and Moqups
+work, App Store listings, and historical Dropbox PDFs; projects without a
+documented URL do not receive a guessed link. Each year keeps its compact 32px
+month scale in a narrow left rail with up to four parallel duration tracks. The
+corresponding project descriptions and links form a wider, left-aligned column
+on the right; dense text groups grow so those entries stack instead of overlapping.
+Hover or keyboard focus on a card or duration segment highlights every segment
+of that project in full white with a small glow, and gives its cards a lighter
+background. Duration buttons also jump to their corresponding period's card.
+Without JavaScript the complete grouped chronology remains readable.
+When a project has a CV-documented URL, its title links directly to the first
+stored destination; the remaining proof links stay visible below its summary.
+Later edits happen through the single Timeline node form; adding another item
+creates a Paragraph revision, not a node ID. Timeline is linked from the bottom
+of the footer Information menu, not from the primary navigation.
+
+The current Paragraph editor exposes repeatable Start and End date inputs. Its
+drag-and-drop mode changes item order only; it does not change dates or resolve
+overlap. A visual month-grid editor would therefore be a separate admin widget,
+not a capability of the installed Paragraphs date-range control.
 
 ## Project
 
@@ -87,7 +157,7 @@ The available Project sections are:
 - Project story: revisionable long-form narrative.
 - Font preview: a controlled `roundabout` or `4pixel` identifier which resolves
   to a theme-owned local font file and interactive browser.
-- Pixel glyph editor: the blank, non-persistent 5×5 drawing experiment used by
+- Pixel glyph editor: the blank, non-persistent 4×4 drawing experiment used by
   the 4pixel Project.
 
 The `jurenites_font_projects` recipe creates the initial Roundabout and 4pixel
@@ -100,6 +170,31 @@ tool contract.
 Future sortable values such as project dates, organizations, or visibility
 levels should become fields only when a real listing or permissions requirement
 needs them. Until then they remain authored story content.
+
+## Guideline
+
+Guideline tiles keep their body text free of underlines. Only the tile title
+is underlined when the title itself is hovered.
+
+Purpose: maintain the public visual rules and design-system examples behind the
+site. `/guidelines` lists published Guideline nodes as ordered tiles; each node
+has its own canonical detail page.
+
+Guideline uses the native Title plus three deliberate values:
+
+- Guidance: a required `basic_html` Body with a required summary. The summary
+  is the overview-tile description; the Body is editor-owned detail copy.
+- Guideline section: selects the project-owned Logo Icon or Color specimen.
+- Overview order: a whole number used by the Guidelines View so new topics can
+  be inserted without relying on creation dates or node IDs.
+
+The Logo Icon specimen renders the same
+`web/themes/custom/jurenites_theme/logo.svg` used by the site header. The Color
+specimen reads the generated token records derived from
+`src/token/tokens.yaml`, then presents foundation, brand, and system palette
+values through their generated CSS utility classes. Editors can revise the
+guidance without forking those visual sources. The initial aliases are
+`/guidelines/logo-icon` and `/guidelines/color`.
 
 ## Article
 
@@ -164,9 +259,45 @@ Article has two editorial presentations without requiring another content type:
 
 The public Views queries keep these presentations separate. `/blog` lists
 published Articles whose YouTube field is empty; `/videos` lists published
-Articles whose YouTube field is populated. Both pages retain the same tag
-filtering and editorial list-item presentation. Article Back and Tag links
+Articles whose YouTube field is populated. Both pages retain tag filtering.
+Videos uses a wide grid with three columns on desktop, two on tablets, and one
+on phones. Each tile keeps its thumbnail above the title, description, and
+creator details, reusing the Article Blog List Item markup. The grid preserves
+the existing Views ordering (newest first). As the visitor approaches the end,
+the theme fetches the native next-page URL and appends its cards, retaining tag
+filters and reattaching thumbnail, avatar, and tooltip behaviors. Only one page
+loads at a time; the final page stops loading and announces completion. Native
+pagination remains the server-rendered fallback when JavaScript or intersection
+observation is unavailable, or when a request fails or times out after 15 seconds.
+The fallback advances with each appended page so its Next link continues from
+the last loaded batch. Direct paginated URLs still work. An introductory note
+explains that these are personally recommended videos for learning, including
+topics not covered elsewhere on the site. Blog keeps its editorial list layout.
+Article Back and Tag links
 return to the listing appropriate to the Article kind.
+
+The shared Tags term `#lego` is available for personal builds in `/blog` and
+videos in `/videos`; their filter URLs are `/blog?tag=lego` and
+`/videos?tag=lego`. The Blog install helper and
+`jurenites_blog_post_update_add_lego_tag()` ensure one canonical term without
+assigning it to existing content. Select it in the existing Article Tags field.
+
+The shared site-branding block uses the LEGO photograph whenever the current
+page selects `?tag=lego`, displays the LEGO taxonomy term, or is a canonical
+content page with that tag in `field_tags`. Unfiltered and other-tag pages keep
+the configured logo; there is no persistent browser preference. Branding cache
+metadata varies by route, tag query, and permissions, and invalidates when
+taxonomy terms or the current content change. The existing mobile navigation
+continues to hide the brand when its enhanced menu is active.
+
+The image source is `src/public/assets/images/jurenites-lego-logo-square-v2.png`, copied
+to the theme by `npm run build:theme`. It is an AI-assisted color edit of
+Alexander Ilivanov's physical build, with a near-white baseplate and dark navy
+bricks. Image-edit provenance and the exact prompt are in
+`output/imagegen/lego-logo-edit.txt`. The Site Header `lego_tag` Storybook example
+uses the same asset and SCSS modifier. Both header logos are 48 × 48px,
+with sizing in SCSS. The LEGO image preserves the original square framing
+and uses `object-fit: contain` so the full photograph remains visible.
 
 The creator name, link, publication date, and channel avatar URL are treated as
 managed metadata and hidden from non-administrator Article forms, together with
@@ -176,6 +307,21 @@ duration values, while replacing the YouTube URL clears the old credit and
 collects the new source. Each save also keeps the Authored on calendar date
 aligned with the stored YouTube publication date. The shared Avatar falls back
 to channel initials when its stored URL is empty or invalid.
+
+## News
+
+The `news` bundle stores manually curated external links with an editorial
+title, required Source URL, optional Tags, and managed source name, source
+publication time, and thumbnail. The `jurenites_news` recipe owns its fields,
+displays, and homepage View; `jurenites_blog` collects source metadata, reusing
+the YouTube workflow for videos and page metadata for other web sources.
+Changing the URL triggers a metadata refresh, while failed lookups preserve
+existing values. Administrators can correct managed values.
+
+The recipe's homepage-only News block shows up to three published records,
+ordered by source publication time, newest first. Its News List Item thumbnail
+and title link to the original external URL. The recipe adds no News listing
+page or main-menu item.
 
 ## Gallery Item
 

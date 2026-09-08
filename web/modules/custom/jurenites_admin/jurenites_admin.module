@@ -7,13 +7,130 @@
 
 use Drupal\comment\CommentingStatus;
 use Drupal\comment\CommentInterface;
+use Drupal\ckeditor5\HTMLRestrictions;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Extension\Extension;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\editor\Entity\Editor;
 use Drupal\field\Entity\FieldConfig;
+use Drupal\filter\Entity\FilterFormat;
 use Drupal\user\Entity\Role;
 use Drupal\user\RoleInterface;
+
+/**
+ * Returns the public typography role labels from the design system.
+ */
+function jurenites_admin_editor_typography_roles(): array {
+  return [
+    'headline-1' => 'Headline 1',
+    'headline-2' => 'Headline 2',
+    'headline-3' => 'Headline 3',
+    'headline-4' => 'Headline 4',
+    'headline-5' => 'Headline 5',
+    'headline-6' => 'Headline 6',
+    'subtitle-1' => 'Subtitle 1',
+    'subtitle-2' => 'Subtitle 2',
+    'eyebrow' => 'Eyebrow',
+    'body' => 'Body',
+    'body-2' => 'Body 2',
+    'link' => 'Link',
+    'caption' => 'Caption',
+    'code' => 'Code',
+    'machine-readable' => 'Machine readable',
+    'badge' => 'Badge',
+    'overline' => 'Overline',
+    'numeric-display' => 'Numeric display',
+  ];
+}
+
+/**
+ * Returns the token-backed typography styles exposed in CKEditor.
+ */
+function jurenites_admin_editor_typography_styles(): array {
+  $typography_styles = [];
+  foreach (jurenites_admin_editor_typography_roles() as $role_name => $role_label) {
+    $typography_styles[] = [
+      'label' => $role_label,
+      'element' => sprintf(
+        '<span class="u-typography-%s">',
+        $role_name,
+      ),
+    ];
+  }
+
+  return $typography_styles;
+}
+
+/**
+ * Adds the project typography list to CKEditor-backed body text formats.
+ */
+function jurenites_admin_configure_editor_typography(): int {
+  $typography_styles = jurenites_admin_editor_typography_styles();
+  $typography_classes = array_map(
+    static fn(string $role_name): string => 'u-typography-' . $role_name,
+    array_keys(jurenites_admin_editor_typography_roles()),
+  );
+  $updated_editor_count = 0;
+
+  foreach (['basic_html', 'full_html'] as $editor_format_id) {
+    $text_editor = Editor::load($editor_format_id);
+    if ($text_editor === NULL || $text_editor->getEditor() !== 'ckeditor5') {
+      continue;
+    }
+
+    $editor_settings = $text_editor->getSettings();
+    $toolbar_items = $editor_settings['toolbar']['items'] ?? [];
+    if (!in_array('style', $toolbar_items, TRUE)) {
+      $heading_position = array_search('heading', $toolbar_items, TRUE);
+      $style_position = $heading_position === FALSE
+        ? count($toolbar_items)
+        : $heading_position + 1;
+      array_splice($toolbar_items, $style_position, 0, ['style']);
+    }
+    $editor_settings['toolbar']['items'] = $toolbar_items;
+
+    $existing_styles = $editor_settings['plugins']['ckeditor5_style']['styles'] ?? [];
+    $unrelated_styles = array_values(array_filter(
+      $existing_styles,
+      static fn(array $existing_style): bool => !str_contains(
+        $existing_style['element'] ?? '',
+        'u-typography-',
+      ),
+    ));
+    $editor_settings['plugins']['ckeditor5_style']['styles'] = array_merge(
+      $unrelated_styles,
+      $typography_styles,
+    );
+
+    $text_editor->setSettings($editor_settings)->save();
+    $updated_editor_count++;
+
+    $text_format = FilterFormat::load($editor_format_id);
+    if ($text_format === NULL || !$text_format->filters('filter_html')->status) {
+      continue;
+    }
+
+    $filter_configuration = $text_format
+      ->filters('filter_html')
+      ->getConfiguration();
+    $current_restrictions = HTMLRestrictions::fromString(
+      $filter_configuration['settings']['allowed_html'],
+    );
+    $typography_restrictions = HTMLRestrictions::fromString(sprintf(
+      '<span class="%s">',
+      implode(' ', $typography_classes),
+    ));
+    $filter_configuration['settings']['allowed_html'] = $current_restrictions
+      ->merge($typography_restrictions)
+      ->toFilterHtmlAllowedTagsString();
+    $text_format
+      ->setFilterConfig('filter_html', $filter_configuration)
+      ->save();
+  }
+
+  return $updated_editor_count;
+}
 
 /**
  * Implements hook_entity_presave().

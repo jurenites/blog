@@ -1,0 +1,158 @@
+// Organism: Guideline Detail. Project-owned specimens plus editable Drupal copy.
+
+@use "../tools";
+
+.path-guidelines .layout-content,
+.page-node-type-guideline .layout-content {
+  max-width: var(--layout-content-max-wide-default);
+}
+
+.guidelines-view__introduction,
+.guideline-detail__summary {
+  max-width: var(--layout-content-max-blog-default);
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-subtitle-1;
+}
+
+.guidelines-view__introduction,
+.guideline-detail__summary p {
+  margin: 0;
+}
+
+.guideline-detail {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 6);
+}
+
+.guideline-specimen {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 3);
+}
+
+.guideline-specimen__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-base-gap);
+  max-width: var(--layout-content-max-blog-default);
+}
+
+.guideline-specimen__title,
+.guideline-specimen__description,
+.guideline-color-palette__group-title {
+  margin: 0;
+}
+
+.guideline-specimen__description {
+  color: var(--theme-dark-text-secondary-default);
+}
+
+.guideline-logo-specimen__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
+.guideline-logo-specimen__surface {
+  display: grid;
+  place-items: center;
+  gap: calc(var(--space-scale-base-gap) * 2);
+  min-height: var(--component-guideline-specimen-height-default);
+  margin: 0;
+  padding: calc(var(--space-scale-base-gap) * 4);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+}
+
+.guideline-logo-specimen__surface--dark {
+  background: var(--theme-dark-surface-background-page);
+  color: var(--theme-dark-text-primary-default);
+}
+
+.guideline-logo-specimen__surface--light {
+  background: var(--color-palette-white);
+  color: var(--theme-dark-text-inverse-default);
+}
+
+.guideline-logo-specimen__image {
+  display: block;
+  width: var(--component-guideline-logo-icon-size-default);
+  height: var(--component-guideline-logo-icon-size-default);
+}
+
+.guideline-logo-specimen__surface figcaption,
+.guideline-logo-specimen__source {
+  @include tools.typography-caption;
+}
+
+.guideline-logo-specimen__source {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-scale-base-gap);
+  margin: 0;
+  color: var(--theme-dark-text-secondary-default);
+}
+
+.guideline-color-palette__group {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
+.guideline-color-palette__grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, var(--component-guideline-swatch-min-width-default)), 1fr)
+  );
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
+.guideline-color-swatch {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--theme-dark-surface-background-elevation-level-0);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+}
+
+.guideline-color-swatch__sample {
+  display: block;
+  min-height: var(--component-guideline-swatch-height-default);
+  border-bottom: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+}
+
+.guideline-color-swatch__information {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 0.5);
+  padding: calc(var(--space-scale-base-gap) * 2);
+}
+
+.guideline-color-swatch__label {
+  @include tools.typography-subtitle-2;
+}
+
+.guideline-color-swatch__value,
+.guideline-color-swatch__name {
+  overflow-wrap: anywhere;
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-machine-readable;
+}
+
+.guideline-detail__content {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 2);
+  max-width: var(--layout-content-max-blog-default);
+}
+
+.guideline-detail__content .field--name-body > *:first-child {
+  margin-top: 0;
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .guideline-logo-specimen__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

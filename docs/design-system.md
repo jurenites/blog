@@ -62,21 +62,43 @@ Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
 Controls tab for property combinations.
 
 Font Preview is a shared Storybook/Drupal organism selected through an
-allowlisted font identifier. Its initial HTML contains the specimen input,
+allowlisted font identifier. Its initial HTML contains one editable preview input
+rendered directly in the selected font, with no synchronized duplicate text,
 status, Data table fallback, real local download, and one reusable dialog.
+The custom-font input text and glyph-tile characters share
+`component.font-preview.preview-character-size-default`, scoped to the
+Roundabout and 4pixel variants rather than the global Text Input contract.
+The Font Preview wrapper fills its component width and removes the composed
+control's maximum width only inside `.font-preview__input`; shared Text Input
+width variants keep their existing limits elsewhere.
 Progressive enhancement parses the local TTF, creates responsive semantic glyph
-buttons from drawable cmap mappings, and renders the selected outline, points,
-metrics, Unicode mappings, and path data into that dialog. Embedded font names,
-copyright, and license values are displayed as file-derived data; editorial
-claims remain separate authored copy. The download action composes the shared
-Button and Icon contracts with `arrow-download.svg`.
+buttons from drawable cmap mappings with only the mapped character visible in
+each dark-black tile. The initial browser groups numbers, Latin capitals, Latin
+lowercase, the font-specific language alphabet (Cyrillic for 4pixel and Greek for
+Roundabout), and printable keyboard symbols in that order. A shared chevron
+Button exposes every remaining mapping in a collapsed additional-glyphs region.
+The accessible button name retains identification details, and the
+dialog renders the selected outline, points, metrics, Unicode mappings, and path
+data. Its 280px SVG viewport anchors the baseline after six 40px rows: four
+font-body rows plus two overshoot rows for tall marks, followed by one 40px
+descender row below the baseline. The renderer performs one OpenType-to-SVG
+Y-axis conversion so the upright outline, guides, and point markers stay in the
+same coordinate system for both fonts. Dialog metadata repeats the Data table's Caption
+key and machine-readable value pairing. Path data starts collapsed behind a
+40px shared ghost Button using `chevron-down.svg`; its machine-readable code
+uses a dark-black `<pre>` surface. Embedded font names, copyright, and license values
+are displayed as file-derived data; editorial claims remain separate authored copy. The download
+action composes the shared Button and Icon contracts with `arrow-download.svg`.
 
-Pixel Glyph Editor is a 4pixel-specific organism with exactly 25 toggle
-buttons, a duplicated enlarged preview, and a polite filled-count status. Click,
-keyboard, and pointer dragging edit the same blank in-memory 5x5 state. It does
-not persist, upload, or generate a font file. Both organisms keep normal
-geometry in SCSS and tokens, with no presentational sizing attributes in their
-initial markup.
+Pixel Glyph Editor is a 4pixel-specific organism with exactly 16 toggle buttons
+in a single 4×4 drawing surface. Click, keyboard, and pointer dragging edit the
+same blank in-memory state; each button exposes its current state through
+`aria-pressed`. A standard 40px Font Preview glyph tile sits to the grid's right,
+vertically centered, and mirrors that state as a 16px 4×4 miniature after every
+change. The component has no separately titled Preview section or filled-cell
+counter. It does not persist, upload, or generate a font file.
+Both organisms keep normal geometry in SCSS and tokens, with no presentational
+sizing attributes in their initial markup.
 
 Form controls share one `Molecules/Input fields/Input text` composition.
 Its controls cover nine standard presentations: text, password, textarea,
@@ -114,9 +136,13 @@ pages, nodes, full Articles, Basic pages, and teasers. It exposes semantic
 `readable` and `wide` content widths plus an optional sidebar. Drupal's native
 `.layout-content` consumes the readable width directly; future Twig templates
 can apply the same `.content-layout` classes without adding another story. The
-Drupal `/blog` and `/videos` listings use the same 800px content-width token so
-article teasers and pagination have slightly more room without widening
-standard pages.
+Drupal `/blog` listing uses the 800px readable content-width token; `/videos`
+uses the 960px wide token for its responsive grid. Drupal's content region and
+full-node content stacks own a
+two-base-gap vertical rhythm between sibling blocks, fields, structured Project
+sections, and Project tags. Individual children do not add compensating layout
+padding, so nested components remain responsible only for their internal
+spacing.
 
 Article teasers and full Article nodes share unique, node-derived View Transition
 names for their titles and lead images. Same-origin navigation therefore morphs
@@ -133,6 +159,17 @@ one column on mobile. This keeps both listings readable without treating every
 post as a homepage card. Drupal gives this presentation its own `blog_list`
 view mode, keeping its markup and render cache independent from the homepage
 `teaser` cards.
+
+`Organisms/Blog/Video Grid` composes those list items into three, two, or one
+columns. Its Lazy Loading story runs the same scroll behavior as Drupal with
+three simulated pages; Pagination Fallback and Loading Failure show the native
+pager recovery. A polite status region announces loading, completion, and errors
+without moving keyboard focus. The shared pagination renderer provides the
+same `rel="next"` link contract as Drupal.
+The completion message uses the shared gray text token.
+Run `npm run test:video-grid` with the optional Playwright browser setup used by
+`storybook:inspect`. `PLAYWRIGHT_MODULE_PATH` can select a bundled Playwright
+module, and `PLAYWRIGHT_CHROME_CHANNEL=chrome` can use installed Chrome.
 
 Article teaser metadata composes the shared Avatar atom. Storybook's Uploaded
 state and Drupal's native compact-user `author_picture` use the same image slot;
@@ -186,14 +223,67 @@ The Icon Atom Storybook gallery presents the selected icon first, including its
 machine name. Gallery items are keyboard-accessible clickable controls, and
 hover/focus uses the next elevation surface to make the interaction visible.
 
-The Breadcrumbs molecule retains its Storybook class contract for future use,
-but Drupal currently suppresses breadcrumb trails on every route, including
-Webforms and node detail pages. Full Article pages show only a
+Icons required by the current page render their own SVG geometry immediately.
+`scripts/build-icon-sprite.mjs` generates `icon-geometry.html.twig` from the
+editable files in `src/public/assets/icons/`; the shared Twig Icon component
+renders only the requested icon branch, including one shared Figma geometry for all states.
+The whole icon catalog is not embedded in the HTML shell. Internal SVG IDs are
+scoped per instance so repeated icons cannot clash with the deferred sprite.
+
+The cookie notice close button is server-rendered with its cross geometry before
+the notice is revealed. Enhanced Select chevrons and the JavaScript fallback for
+the cookie close button use a generated two-icon module, shipped inside the
+normal theme script. They never wait for a sprite request, window.load or hover.
+SCSS continues to own dimensions and colors. Storybook's Icon helper renders the
+same generated geometry directly; its gallery and composed examples therefore
+have the same initial-loading behavior as Drupal.
+
+The versioned catalog sprite is still fetched after window.load for later
+client-created symbols and HTTP cache reuse. Failure or delay of that optional
+request cannot hide current-page icons. It retries once after 1.5 seconds, with
+an eight-second timeout per attempt. Next-page asset warming retains its bounded
+idle/intent behavior. The load event covers eager resources, not lazy images.
+
+Theme and Storybook builds generate immediate markup and the versioned sprite
+from the same source geometry. Rebuild and clear Drupal caches after SVG changes;
+restart Storybook after editing sources. Ship the generated Twig and JavaScript
+alongside the sprite manifest and hashed files. Retain older hashed files for
+cached HTML. Deployment cache headers control retention and revalidation.
+
+After the icon loader settles, `asset-warming.js` uses idle time to inspect one likely next
+public page (the first Article title, otherwise a header navigation link).
+Hover or keyboard focus can prepare a second destination. Each page view has a
+budget of two destination requests, one at a time, with a five-second timeout
+and a 256 KiB HTML inspection limit. Up to six previously unseen same-origin
+stylesheet, script and image URLs per destination receive low-priority HTTP
+prefetch hints; at most two images are hinted. Existing resource requests and
+already hinted URLs are deduplicated. This prepares the image `src` fallback;
+responsive derivatives, CSS-referenced fonts/backgrounds and videos are not
+recursively fetched. Browsers may decline prefetch hints or evict cached assets.
+
+Warming pauses for hidden tabs, offline connections, Save-Data and reported
+2G/3G connections, and is disabled for signed-in pages. Only header navigation
+and Article title/image links qualify. External URLs, downloads, query/hash
+links, administration/account/action paths, redirects and private/no-store
+responses are excluded. A `data-no-prefetch` ancestor opts a link out. Native
+navigation remains unchanged; HTTP cache headers govern reuse and revalidation.
+There is no service worker or custom persistent cache. Verify deployment cache
+headers separately; local behavior does not prove production cache policy.
+
+
+The Breadcrumbs molecule and Drupal share the same class contract. Nested pages
+show a trail when Drupal resolves an accessible parent beyond Home, for example
+`Guidelines / Logo Icon`. First-level pages have no breadcrumb trail. The final
+item is the current page title with `aria-current="page"`. Footer links highlight
+the current page and ancestors resolved by Drupal's breadcrumb or menu active
+trail: `aria-current="page"` identifies the destination itself, while `location`
+identifies its parent section. Route and path cache contexts keep these states
+and breadcrumb titles separate between sibling pages. Full Article pages show only a
 top-left Back link to `/blog` for personal Articles or `/videos` for YouTube
 reference Articles, with the name-addressable Icon Atom. Its
 `arrow-left` geometry lives in
 `src/public/assets/icons/arrow-left.svg`, is copied to the Drupal theme during
-the theme build, and remains a current-color, 1px-stroke line icon. Breadcrumb
+the theme build, and remains a current-color, 1px-stroke line icon.
 The Back link uses the caption typography role.
 The Back link follows the Article-kind destination and does not use browser
 history, so an Article opened from another page still returns to its public
@@ -220,9 +310,17 @@ Select Input atom with a borderless, intrinsic-width header treatment and uses
 Drupal's enabled interface languages and URL negotiation, so it preserves the
 current route and query string. Drupal's route active trail supplies current-page
 styling, so listing query values such as `/portfolio?tag=font` do not deactivate
-the Portfolio menu item. On mobile the logo and language selector
-remain on the first row while the compact menu moves to a second row and retains
-horizontal scrolling only as a narrow-content fallback. Authenticated pages hide Gin's secondary toolbar to keep the public header
+the Portfolio menu item. The Home menu item is hidden above the mobile breakpoint;
+the desktop logo links to the front page. Home remains in the mobile menu, identified
+in Drupal by its front-page route rather than its translated label.
+Through the token-defined 640px mobile maximum, the
+24px three-line menu icon replaces the logo on the left while the language
+selector remains on the right. The icon stays white in every state. Activating
+it turns it into a cross and opens the one-level Main navigation
+as a vertical, full-viewport header surface without a separate overlay. Menu
+items and the menu-toggle background move one grayscale surface level lighter
+on hover or keyboard focus. Escape,
+selecting a menu link, or returning to tablet width closes it. Authenticated pages hide Gin's secondary toolbar to keep the public header
 visually unambiguous; Gin's primary administration navigation remains available.
 The public element defaults are scoped by the `jurenites-theme` body class so
 they do not become unqualified page-wide rules. Gin's navigation keeps its own
@@ -261,6 +359,9 @@ pages and visible Previous/Next labels appear on larger screens. At 640px and
 below, CSS automatically exposes exactly four `li.pagination__item` elements:
 left arrow, current-page number, total-page number, and right arrow. Arrow links
 retain accessible labels, but no Previous/Next text is visually displayed.
+Drupal renders first/last numbered links only when those pages are outside the
+visible numbered range, preventing duplicate boundary pages. The last-page
+label uses the pager's total page count.
 
 ## Layout
 
@@ -279,7 +380,8 @@ role mixins instead of rebuilding the shorthand in components:
 ```
 
 Roles: `headline-1/2/3/4/5/6`, `subtitle-1/2`, `eyebrow`, `body`, `body-2`,
-`link`, `caption`, `code`, `badge`, `overline`, and `numeric-display`. Base HTML
+`link`, `caption`, `code`, `machine-readable`, `badge`, `overline`, and
+`numeric-display`. Base HTML
 headings and paragraphs are mapped in `base/_typography.scss`. Anchors inherit
 their surrounding typography by default, so a link inside a heading keeps that
 heading's size and weight. Apply `.text-link` when a standalone link should opt
@@ -341,20 +443,31 @@ for its demonstration, Project preview, and compact technical details: the 5px
 labels.
 Storybook's manager and Docs interface use Open Sans for UI text and the
 `typography.code` role for 14px bold Courier New code and technical metadata.
+Compact system values and identifiers use the regular 14px
+`typography.machine-readable` role backed by Ubuntu Sans Mono; the Font Preview
+metadata table pairs that role with Caption keys.
 Links use a 1px token-backed underline and the primary white text token in
 default and hover states without replacing the surrounding typography. The
 version Git-hash link explicitly retains the 4pixel family and a persistent 1px
 solid underline so it reads as a technical link without relying on color.
 
-Footer Navigation uses two titled columns of vertically stacked list links:
-Social networks uses the six profiles in the theme's `social-links.json`, and
-Information uses the Footer menu. Both columns remain side by side on mobile,
-with the rights message below. Storybook imports the same profile data as Drupal.
-Social links compose the shared Icon atom at 16px with locally stored monochrome
-`social-*.svg` assets. `currentColor` supports black or white presentation; the
-dark footer uses white, switching the icon and label to each network's color
-on hover and keyboard focus: LinkedIn, Facebook, and VK blue, YouTube red,
-SoundCloud orange, and Steam's interface blue. These colors live in the
+Footer Navigation uses four titled columns of vertically stacked list links:
+Social networks, Messengers, How I work, and Information. The columns stack on
+mobile, with the rights message below. Storybook imports the same social profile
+data as Drupal.
+Social links compose the shared Icon atom with locally stored monochrome
+`social-*.svg` assets. Only the explicitly classed social-network icon is reduced
+to 16px, along with the How I work brand icons. Figma alone uses an 18px-high
+viewport and the complete `brand-figma.svg` geometry in both states: its fills
+inherit `currentColor` at rest and restore token-backed brand colors on hover
+or keyboard focus. The External Link icon retains the Icon atom's 24px default
+and appears only inside the hover/focus label for all three external-link groups.
+`currentColor` supports black or white presentation; the dark footer uses white,
+switching the icon and label to each network's color
+on hover and keyboard focus while the platform label changes to the account
+name: LinkedIn, Facebook, and VK blue, YouTube red, SoundCloud orange, and
+Steam's interface blue. The account label ends with the shared External Link
+icon, and each social profile opens in a new window. These colors live in the
 `component.footer-navigation` tokens. Icon geometry comes from Simple Icons 11.15.0;
 provenance and its CC0 notice are stored in `social-icons-license.txt` alongside
 the assets.
@@ -362,6 +475,15 @@ Footer Navigation composes the Badge atom inside its Fonts link. Drupal supplies
 the gray Badge's numeric label from the current count of accessible published
 Projects tagged `#Font`; Storybook exposes the same label, destination, and
 composed markup as controls rather than duplicating Badge HTML.
+Numeric badges use `badge--numeric`: the Numeric Display role's Ubuntu Sans Mono
+family, with tabular digits and a slashed zero, while retaining the compact Badge
+size. The Fonts count enables this style in both Drupal and Storybook.
+The Fonts label and its underline turn yellow on hover and keyboard focus;
+the nested Badge keeps its own colors. The anchor itself has no text
+decoration, so the Badge number never receives an underline. Global link defaults
+explicitly exclude badged footer links; do not replace this with a specificity
+override. Badge uses both flex alignment axes to center its label within its
+minimum width and height.
 
 Author Byline keeps its name and metadata in one wrapping inline row in both
 Storybook and Drupal. Date Time Value owns the three semantic variants used by
@@ -433,6 +555,12 @@ a documented token type and formatter before they become universal theme inputs.
 
 ## Homepage background and media noise
 
+At the mobile breakpoint, the homepage hero block has eight base gaps (64px)
+of top padding. The hero photo plane is 70 base gaps (560px) wide and centered
+on the viewport, with its light overlay aligned and image `max-width` disabled.
+The hero clips the excess width to prevent horizontal page scrolling.
+The screen-light toggle is hidden at the mobile breakpoint (640px and below).
+
 The Drupal homepage uses `color.palette.full-black` as a plain background and
 does not initialize a canvas. Storybook exposes `plain-black` and the experimental
 `particle-attraction` treatment through the `Components/Backgrounds`
@@ -442,14 +570,20 @@ particle count, approximately 6px circles, collision separation, and a delayed
 monochrome tokens. A weak home force redistributes the dots after interaction,
 and `prefers-reduced-motion` produces a static field.
 
-`Molecules/Media Loader` owns the broken-TV noise treatment for a bounded 16:9
-video-upload placeholder. The shader generates a fresh independent grayscale
-value from each logical pixel coordinate and frame seed, without translating a
-spatial field or ordered pattern. Noise advances at 15 frames per second, one
-quarter of the former full-refresh rate, and reduced-motion renders one frozen
-frame. The component also exposes filename, upload status, and native progress
-markup. The editable renderer lives in `src/slice/src/js/script.js`; generated
-theme JavaScript continues to come from `npm run build:theme`.
+`Molecules/Media Loader` owns the bounded 16:9 loading frame. Image loading uses
+an image-derived average color with a restrained gradient skeleton, then
+crossfades to the completed image. The progressive-image behavior calculates
+the color automatically from Drupal's cached 20px inline derivative, so editors
+do not need to enter a HEX value for every upload. The default Storybook story
+also exposes the average color as a color control for visual tuning.
+
+External video loading retains a separate broken-TV noise treatment. Its shader
+generates a fresh independent grayscale value from each logical pixel coordinate
+and frame seed, without translating a spatial field or ordered pattern. Noise
+advances at 15 frames per second, one quarter of the former full-refresh rate,
+and reduced-motion renders one frozen frame. The editable renderer lives in
+`src/slice/src/js/script.js`; generated theme JavaScript continues to come from
+`npm run build:theme`.
 
 Full Article YouTube embeds reuse that noise renderer as an initial no-signal
 layer. The layer occupies the responsive player figure's actual layout box, so
@@ -545,6 +679,11 @@ We keep our distinction: editable source in `src/slice/`, compiled minified asse
 in the theme `css/` and `js/`. The Drupal-specific `theme.scss` entrypoint
 configures relative font URLs, and `npm run build:theme` copies source fonts from
 `src/public/assets/fonts/` into the generated theme asset directory.
+
+## Button hover states
+
+Ghost buttons use the same gray hover background token as secondary buttons
+(`--theme-dark-action-secondary-hover`) across Drupal and Storybook.
 
 ## Naming convention
 

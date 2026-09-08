@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_numeric_caption
+    - paragraphs.paragraphs_type.numeric_value
+id: paragraph.numeric_value.field_numeric_caption
+field_name: field_numeric_caption
+entity_type: paragraph
+bundle: numeric_value
+label: Caption
+description: 'Optional gray caption on a separate line below Text, for example *tracked with.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

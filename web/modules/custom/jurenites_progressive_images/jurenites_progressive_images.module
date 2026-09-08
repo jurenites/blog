@@ -36,6 +36,38 @@ function jurenites_progressive_images_preprocess_image(array &$image_variables):
     return;
   }
 
+  $inline_styles = (array) ($image_variables['attributes']['style'] ?? []);
+  $remaining_styles = [];
+  foreach ($inline_styles as $inline_style) {
+    if (preg_match('/^background-image:\s*url\((.*)\);?$/', $inline_style, $preview_match) === 1) {
+      $image_variables['attributes']['data-progressive-image-preview'] = trim(
+        $preview_match[1],
+        " \t\n\r\0\x0B\"'"
+      );
+      continue;
+    }
+    $remaining_styles[] = $inline_style;
+  }
+
+  if ($remaining_styles === []) {
+    unset($image_variables['attributes']['style']);
+  }
+  else {
+    $image_variables['attributes']['style'] = $remaining_styles;
+  }
+
+  $intrinsic_width = $image_variables['attributes']['width'] ?? NULL;
+  $intrinsic_height = $image_variables['attributes']['height'] ?? NULL;
+  if ($intrinsic_width !== NULL && $intrinsic_height !== NULL) {
+    $image_variables['attributes']['data-progressive-image-width'] = $intrinsic_width;
+    $image_variables['attributes']['data-progressive-image-height'] = $intrinsic_height;
+    unset(
+      $image_variables['attributes']['width'],
+      $image_variables['attributes']['height']
+    );
+  }
+
+  unset($image_variables['attributes']['use-blurry-placeholder']);
   $image_variables['attributes']['data-progressive-image'] = '';
   $image_variables['#attached']['library'][] = 'jurenites_progressive_images/loading-state';
 }

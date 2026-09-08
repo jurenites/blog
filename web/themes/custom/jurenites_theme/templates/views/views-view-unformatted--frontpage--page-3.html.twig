@@ -1,10 +1,10 @@
-{# Videos list using the dedicated Article Blog List Item presentation. #}
+{# Videos grid preserves the chronological order supplied by Views. #}
 {% if title %}
   <h3>{{ title }}</h3>
 {% endif %}
-<div class="article-list">
+<div class="video-grid">
   {% for row in rows %}
-    <div{{ row.attributes.addClass('article-list__item') }}>
+    <div{{ row.attributes.addClass('video-grid__item') }}>
       {{- row.content -}}
     </div>
   {% endfor %}

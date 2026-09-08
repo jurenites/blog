@@ -77,10 +77,10 @@
 
 .comment-message__bubble::before {
   position: absolute;
-  top: var(--space-scale-base-gap);
-  left: calc(var(--space-scale-base-gap) * -0.5);
-  width: var(--space-scale-base-gap);
-  height: var(--space-scale-base-gap);
+  top: calc(var(--space-scale-base-gap) * 2.4);
+  left: calc(var(--space-scale-base-gap) * -0.75);
+  width: calc(var(--space-scale-base-gap) * 2);
+  height: calc(var(--space-scale-base-gap) * 2);
   transform: rotate(45deg);
   background: inherit;
   content: "";

@@ -1,0 +1,62 @@
+@use "../tools";
+
+[data-drupal-messages] {
+  position: fixed;
+  inset-block-start: calc(var(--component-message-toast-top-offset-default) + var(--drupal-displace-offset-top, var(--space-scale-zero)));
+  inset-inline-end: calc(var(--space-scale-base-gap) * 2);
+  z-index: var(--component-message-toast-layer-default);
+  width: min(var(--component-message-toast-width-default), calc(100% - var(--space-scale-base-gap) * 4));
+  max-height: calc(100dvh - var(--component-message-toast-top-offset-default) - var(--drupal-displace-offset-top, var(--space-scale-zero)) - var(--space-scale-base-gap) * 2);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  pointer-events: none;
+}
+
+.message-toast {
+  position: relative;
+  margin-block-end: var(--space-scale-base-gap);
+  padding: calc(var(--space-scale-base-gap) * 2);
+  padding-inline-end: calc(var(--space-scale-base-gap) * 7);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
+  border-inline-start: calc(var(--space-scale-base-gap) * 0.5) solid var(--theme-dark-system-success-soft);
+  background: var(--theme-dark-surface-background-elevation-level-1);
+  color: var(--theme-dark-text-primary-default);
+  box-shadow: var(--elevation-shadow-level-2);
+  overflow-wrap: anywhere;
+  pointer-events: auto;
+  @include tools.typography-body;
+
+  &--warning { border-inline-start-color: var(--theme-dark-system-warning-accent); }
+  &--error { border-inline-start-color: var(--theme-dark-system-error-soft); }
+
+  &__heading {
+    display: block;
+    margin-block-end: var(--space-scale-base-gap);
+    font-weight: bold;
+  }
+
+  &__content > :last-child { margin-block-end: 0; }
+
+  &__dismiss {
+    position: absolute;
+    inset-block-start: var(--space-scale-base-gap);
+    inset-inline-end: var(--space-scale-base-gap);
+    display: grid;
+    place-items: center;
+    width: calc(var(--space-scale-base-gap) * 5.5);
+    height: calc(var(--space-scale-base-gap) * 5.5);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: calc(var(--space-scale-base-gap) * 3);
+    cursor: pointer;
+
+    &:hover { background: var(--theme-dark-surface-background-page); }
+    &:focus-visible { @include tools.focus-ring; }
+  }
+}
+
+// Server-rendered notifications remain readable when JavaScript is disabled.
+.message-toast__dismiss[hidden] { display: none; }

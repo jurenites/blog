@@ -1,0 +1,58 @@
+.contact-photo {
+  width: 100%;
+  margin: calc(var(--space-scale-base-gap) * 6) 0 0;
+  overflow: hidden;
+  max-width: var(--component-contact-photo-max-width-default);
+  margin-inline: auto;
+  background: var(--component-contact-photo-background-color);
+}
+
+.contact-photo__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  // Intersect horizontal and vertical fades so corners also become transparent.
+  mask-image:
+    linear-gradient(to right,
+      var(--component-hero-section-clear-color),
+      var(--color-palette-full-black) min(var(--component-contact-photo-edge-fade-width-default), 25%),
+      var(--color-palette-full-black) calc(100% - min(var(--component-contact-photo-edge-fade-width-default), 25%)),
+      var(--component-hero-section-clear-color)),
+    linear-gradient(to bottom,
+      var(--component-hero-section-clear-color),
+      var(--color-palette-full-black) min(var(--component-contact-photo-edge-fade-width-default), 25%),
+      var(--color-palette-full-black) calc(100% - min(var(--component-contact-photo-edge-fade-width-default), 25%)),
+      var(--component-hero-section-clear-color));
+  mask-composite: intersect;
+}
+
+// A page with this photo keeps its readable blocks narrow and gives only the
+// photograph the larger canvas. Header and footer retain their shared width.
+html:has(.jurenites-theme .contact-photo),
+.jurenites-theme:has(.contact-photo) {
+  // The HTML shell also consumes this variable for its initial background.
+  --theme-dark-surface-background-page: var(--component-contact-photo-background-color);
+}
+
+.jurenites-theme:has(.contact-photo) {
+  background: var(--component-contact-photo-background-color);
+
+  .layout-container { max-width: var(--component-contact-photo-max-width-default); }
+  .layout-content { max-width: var(--component-contact-photo-max-width-default); }
+
+  .layout-content__region > :not(:has(.contact-photo)) {
+    width: 100%;
+    max-width: var(--layout-content-max-blog-default);
+    margin-inline: auto;
+  }
+
+  .layout-container > .site-header,
+  .layout-container > .site-footer {
+    width: 100%;
+    max-width: var(--layout-container-max-desktop-default);
+    margin-inline: auto;
+    background: var(--component-contact-photo-background-color);
+  }
+}

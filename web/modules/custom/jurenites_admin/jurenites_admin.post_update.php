@@ -59,3 +59,27 @@ function jurenites_admin_post_update_enable_personal_article_comments(): string 
     ['@count' => $updated_article_count],
   );
 }
+
+/**
+ * Adds token-backed typography choices to CKEditor body text formats.
+ */
+function jurenites_admin_post_update_add_editor_typography(): string {
+  $updated_editor_count = jurenites_admin_configure_editor_typography();
+
+  return t(
+    'Added the project typography list to @count CKEditor text formats.',
+    ['@count' => $updated_editor_count],
+  );
+}
+
+/**
+ * Shortens the CKEditor typography labels to the role names.
+ */
+function jurenites_admin_post_update_shorten_editor_typography_labels(): string {
+  $updated_editor_count = jurenites_admin_configure_editor_typography();
+
+  return t(
+    'Shortened typography labels in @count CKEditor text formats.',
+    ['@count' => $updated_editor_count],
+  );
+}

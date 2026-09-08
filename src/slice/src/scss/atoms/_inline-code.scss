@@ -1,0 +1,20 @@
+// Inline code snippets. Block code remains owned by its containing component.
+
+@use "../tools";
+
+:is(.inline-code, code:not(pre code)) {
+  padding: calc(var(--space-scale-base-gap) * 0.5);
+  background: var(--theme-dark-surface-background-elevation-level-1);
+  color: var(--color-palette-dark-white);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  @include tools.typography-machine-readable;
+}
+
+// Keep the snippet distinct when its containing surface already uses level 1.
+:is(
+  .inline-code--on-elevation-level-1,
+  .surface--raised :is(.inline-code, code:not(pre code))
+) {
+  background: var(--theme-dark-surface-background-elevation-level-2);
+}

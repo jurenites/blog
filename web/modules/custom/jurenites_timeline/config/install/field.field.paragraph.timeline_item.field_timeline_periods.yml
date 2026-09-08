@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_timeline_periods
+    - paragraphs.paragraphs_type.timeline_item
+  module:
+    - datetime_range
+id: paragraph.timeline_item.field_timeline_periods
+field_name: field_timeline_periods
+entity_type: paragraph
+bundle: timeline_item
+label: 'Date periods'
+description: 'The first start date controls public ordering. Add another period when work resumed later. For month-only CV dates, use the first day of the month; projects display month and year only.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: daterange
+

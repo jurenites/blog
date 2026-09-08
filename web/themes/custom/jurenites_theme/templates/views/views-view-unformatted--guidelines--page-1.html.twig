@@ -1,0 +1,7 @@
+{% if rows %}
+  <div class="guidelines-grid">
+    {% for row in rows %}
+      <div{{ row.attributes.addClass('guidelines-grid__item') }}>{{ row.content }}</div>
+    {% endfor %}
+  </div>
+{% endif %}

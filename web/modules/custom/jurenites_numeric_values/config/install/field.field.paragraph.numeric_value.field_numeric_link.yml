@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_numeric_link
+    - paragraphs.paragraphs_type.numeric_value
+  module:
+    - link
+id: paragraph.numeric_value.field_numeric_link
+field_name: field_numeric_link
+entity_type: paragraph
+bundle: numeric_value
+label: 'Link URL'
+description: 'Optional internal or external destination with its own call-to-action text.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

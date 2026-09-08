@@ -5,12 +5,21 @@
     {% if language_options %}
       <div class="site-header__language">
         <label class="visually-hidden" for="site-header-language-select">{{ 'Language'|t }}</label>
-        <select class="select-input__native site-header__language-select" id="site-header-language-select" name="site_header_language_select" data-jurenites-select data-jurenites-language-select data-select-chevron-url="/themes/custom/jurenites_theme/assets/icons/chevron-down.svg">
+        <select class="select-input__native site-header__language-select" id="site-header-language-select" name="site_header_language_select" data-jurenites-select data-jurenites-language-select>
           {% for language_option in language_options %}
             <option value="{{ language_option.url }}"{% if language_option.selected %} selected{% endif %}>{{ language_option.label }}</option>
           {% endfor %}
         </select>
       </div>
+    {% endif %}
+    {% if main_navigation %}
+      <button class="site-header__menu-toggle" type="button" aria-expanded="false" aria-controls="site-header-primary-navigation" aria-label="{{ 'Open main menu'|t }}" data-jurenites-site-menu-toggle data-open-label="{{ 'Open main menu'|t }}" data-close-label="{{ 'Close main menu'|t }}">
+        <svg class="site-header__menu-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path class="site-header__menu-line site-header__menu-line--top" d="M3 6H21" />
+          <path class="site-header__menu-line site-header__menu-line--middle" d="M3 12H21" />
+          <path class="site-header__menu-line site-header__menu-line--bottom" d="M3 18H21" />
+        </svg>
+      </button>
     {% endif %}
   </header>
 {% endif %}

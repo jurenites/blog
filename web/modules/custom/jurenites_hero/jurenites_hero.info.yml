@@ -1,0 +1,12 @@
+name: Jurenites Hero
+type: module
+description: Editable photographic Hero content blocks with reorderable slides.
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:block
+  - drupal:block_content
+  - drupal:image
+  - drupal:link
+  - entity_reference_revisions:entity_reference_revisions
+  - paragraphs:paragraphs

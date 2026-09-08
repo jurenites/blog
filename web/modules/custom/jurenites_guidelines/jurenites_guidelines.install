@@ -1,0 +1,181 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Installs the editable Jurenites design guidelines.
+ */
+
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
+
+const JURENITES_GUIDELINES_LOGO_NODE_UUID = '5b19c3da-06e2-49ac-ae8b-6ae97a729f11';
+const JURENITES_GUIDELINES_COLOR_NODE_UUID = 'd1b3e840-7ed0-4f82-a818-820392f15b17';
+const JURENITES_GUIDELINES_MENU_LINK_UUID = 'bf01771e-e628-496d-afbc-726bb4af3fa5';
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_guidelines_install(): void {
+  jurenites_guidelines_ensure_content();
+}
+
+/**
+ * Creates the starter guidelines and the overview footer destination.
+ */
+function jurenites_guidelines_ensure_content(): array {
+  $logo_guideline = jurenites_guidelines_ensure_node(
+    JURENITES_GUIDELINES_LOGO_NODE_UUID,
+    'Logo Icon',
+    'logo_icon',
+    10,
+    '/guidelines/logo-icon',
+    'The compact Jurenites mark, its source asset, spacing, sizing, and correct use.',
+    <<<'HTML'
+<h2>One source asset</h2>
+<p>The compact mark is the website theme logo. Use the checked-in SVG as the authoritative artwork so the header, browser surfaces, documentation, and future exports stay aligned.</p>
+<h2>Clear space and size</h2>
+<p>Keep at least one internal pixel-block of clear space around the mark. Preserve the square aspect ratio and choose a size from the design-token system instead of adding width or height attributes to markup.</p>
+<h2>Correct use</h2>
+<ul>
+  <li>Use the original SVG without redrawing its pixel forms.</li>
+  <li>Keep the white background and black artwork intact.</li>
+  <li>Place the icon on a surface with enough contrast to retain its square boundary.</li>
+</ul>
+<h2>Avoid</h2>
+<ul>
+  <li>Do not stretch, crop, rotate, outline, or add shadows to the artwork.</li>
+  <li>Do not recolor individual glyphs or replace the white field with transparency.</li>
+  <li>Do not embed presentational dimensions in HTML.</li>
+</ul>
+HTML,
+  );
+
+  $color_guideline = jurenites_guidelines_ensure_node(
+    JURENITES_GUIDELINES_COLOR_NODE_UUID,
+    'Color',
+    'color',
+    20,
+    '/guidelines/color',
+    'The live foundation, brand, and system palettes generated from the project token source.',
+    <<<'HTML'
+<h2>Palette and meaning</h2>
+<p>Palette tokens name the available colors. Components should normally consume semantic theme tokens, such as page background, primary text, action, border, success, warning, or error, rather than reaching directly for a raw palette value.</p>
+<h2>One editable source</h2>
+<p>Every swatch above is generated from <code>src/token/tokens.yaml</code>. Update that file first, rebuild the tokens and theme, and verify the result in Storybook and Drupal.</p>
+<h2>Usage rules</h2>
+<ul>
+  <li>Do not write hardcoded color literals in handwritten SCSS, JavaScript, Twig, or Storybook files.</li>
+  <li>Use the semantic token that describes the role, not merely a visually similar color.</li>
+  <li>Express alpha in the source color value; do not use the CSS <code>opacity</code> property for design colors.</li>
+  <li>Check readable foreground and background combinations before introducing a new semantic mapping.</li>
+</ul>
+HTML,
+  );
+
+  $menu_link_storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
+  $guidelines_link_ids = $menu_link_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('uuid', JURENITES_GUIDELINES_MENU_LINK_UUID)
+    ->execute();
+  $guidelines_footer_link = $guidelines_link_ids
+    ? $menu_link_storage->load(reset($guidelines_link_ids))
+    : MenuLinkContent::create([
+      'uuid' => JURENITES_GUIDELINES_MENU_LINK_UUID,
+      'menu_name' => 'footer',
+    ]);
+
+  assert($guidelines_footer_link instanceof MenuLinkContent);
+  $guidelines_footer_link->set('title', 'Guidelines');
+  $guidelines_footer_link->set('link', ['uri' => 'internal:/guidelines']);
+  $guidelines_footer_link->set('enabled', TRUE);
+  $guidelines_footer_link->set('expanded', FALSE);
+  $guidelines_footer_link->set('weight', 3);
+  $guidelines_footer_link->save();
+
+  return [
+    'logo_node_id' => (int) $logo_guideline->id(),
+    'color_node_id' => (int) $color_guideline->id(),
+    'menu_link_id' => (int) $guidelines_footer_link->id(),
+  ];
+}
+
+/**
+ * Creates one starter node without replacing later editorial changes.
+ */
+function jurenites_guidelines_ensure_node(
+  string $guideline_uuid,
+  string $guideline_title,
+  string $guideline_section,
+  int $guideline_order,
+  string $guideline_alias,
+  string $guideline_summary,
+  string $guideline_body,
+): NodeInterface {
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $guideline_node_ids = $node_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('uuid', $guideline_uuid)
+    ->execute();
+  $guideline_node = $guideline_node_ids
+    ? $node_storage->load(reset($guideline_node_ids))
+    : NULL;
+
+  if ($guideline_node instanceof NodeInterface) {
+    $guideline_requires_save = FALSE;
+
+    if ($guideline_node->get('field_guideline_section')->isEmpty()) {
+      $guideline_node->set('field_guideline_section', $guideline_section);
+      $guideline_requires_save = TRUE;
+    }
+    if ($guideline_node->get('field_guideline_order')->isEmpty()) {
+      $guideline_node->set('field_guideline_order', $guideline_order);
+      $guideline_requires_save = TRUE;
+    }
+    if ($guideline_node->get('body')->isEmpty()) {
+      $guideline_node->set('body', [
+        'summary' => $guideline_summary,
+        'value' => $guideline_body,
+        'format' => 'basic_html',
+      ]);
+      $guideline_requires_save = TRUE;
+    }
+    if ($guideline_node->get('path')->isEmpty()) {
+      $guideline_node->set('path', [
+        'alias' => $guideline_alias,
+        'pathauto' => 0,
+      ]);
+      $guideline_requires_save = TRUE;
+    }
+    if ($guideline_requires_save) {
+      $guideline_node->save();
+    }
+
+    return $guideline_node;
+  }
+
+  $guideline_node = Node::create([
+    'uuid' => $guideline_uuid,
+    'type' => 'guideline',
+    'langcode' => 'en',
+    'uid' => 1,
+    'title' => $guideline_title,
+    'body' => [
+      'summary' => $guideline_summary,
+      'value' => $guideline_body,
+      'format' => 'basic_html',
+    ],
+    'field_guideline_section' => $guideline_section,
+    'field_guideline_order' => $guideline_order,
+    'status' => TRUE,
+    'path' => [
+      'alias' => $guideline_alias,
+      'pathauto' => 0,
+    ],
+  ]);
+  $guideline_node->save();
+
+  return $guideline_node;
+}

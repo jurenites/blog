@@ -1,0 +1,12 @@
+Tool: built-in image_gen
+Source: /Users/alexanderilivanov/Downloads/IMG_5347.heic (converted to JPEG for tool compatibility; original unchanged)
+Palette source: src/token/tokens.yaml
+
+Use case: precise-object-edit
+Asset type: full-width homepage photographic hero, landscape 16:9, ideally 3840 x 2160.
+Input image 1 is the EDIT TARGET, a real photograph of the user, not a loose inspiration.
+Primary request: carefully retouch this exact photograph. Remove the unwanted shadowed background table and monitor/equipment in the bottom-left corner completely, filling their area with a clean unobtrusive dark background. Reduce severe low-light chroma noise throughout, retaining natural photographic texture and real facial detail.
+Color treatment: restrained cold blue-gray near-monochrome grade derived from the website's actual design tokens: color.palette.black #0F172B (page background), light-black #1D293D, deep-gray #314158, dark-gray #45556C, gray #62748E, light-gray #90A1B9, pale-gray #CAD5E2, white #F8FAFC. Remove orange skin cast and purple/magenta spill, with cool desaturated skin and cool soft white shirt highlights. This is subtle slate grayscale, NOT saturated blue/cyan sci-fi lighting. Maintain dimensional screen light on face, hands and shirt. Background and outer edges should settle into a very dark smooth slate near the page background #0F172B, with no visible room clutter.
+Composition: preserve the original 16:9 landscape framing, subject placement left of center, original laptop on the right and dark negative space. Keep the entire head, arms, hands and laptop visible as in source. Preserve the genuine photographic scene.
+Invariants: preserve this person's actual identity, exact face shape, hairline and hairstyle, expression, gaze direction, body proportions, posture, white T-shirt folds, watch, fingers and hand placement. Preserve the laptop and its perspective, keyboard and illuminated screen edge. Keep the main surface directly supporting the laptop; remove ONLY the separate distracting bottom-left background furniture/equipment. Do not invent a new face, beautify, reshape the body, change age, alter the pose, add headphones, or turn this into an illustration/3D render. No new furniture, objects, interface, typography, logos or watermark.
+Deliver one finished clean photorealistic hero image.

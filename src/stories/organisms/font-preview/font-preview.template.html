@@ -1,18 +1,20 @@
-<section class="font-preview font-preview--{{font_identifier}}" data-jurenites-font-preview data-font-url="{{font_url}}" aria-labelledby="{{component_id}}-title">
+<section class="font-preview font-preview--{{font_identifier}}" data-jurenites-font-preview data-font-identifier="{{font_identifier}}" data-font-url="{{font_url}}" aria-label="{{font_title}}">
   <header class="font-preview__header">
-    <div>
-      <p class="font-preview__eyebrow">Interactive font</p>
-      <h2 class="font-preview__title" id="{{component_id}}-title">{{font_title}}</h2>
-    </div>
+
     {{download_action}}
   </header>
 
   <div class="font-preview__input">
     {{text_input}}
   </div>
-  <p class="font-preview__specimen" data-font-preview-specimen>{{sample_text}}</p>
   <p class="font-preview__status" data-font-preview-status role="status">Loading glyph data…</p>
-  <div class="font-preview__glyph-grid" data-font-preview-grid aria-label="Drawable Unicode mappings"></div>
+  <div class="font-preview__glyph-groups" data-font-preview-primary-groups aria-label="Prioritized Unicode mappings"></div>
+  {{more_glyphs_toggle}}
+  <div class="font-preview__additional-glyphs" id="{{component_id}}-additional-glyphs" data-font-preview-additional-region role="region" aria-labelledby="{{component_id}}-additional-glyphs-toggle" hidden>
+    <div class="font-preview__glyph-grid" data-font-preview-additional-grid aria-label="Additional Unicode mappings"></div>
+  </div>
+
+  {{before_data_content}}
 
   <section class="font-preview__data" aria-labelledby="{{component_id}}-data-title">
     <h3 id="{{component_id}}-data-title">Data</h3>
@@ -30,7 +32,7 @@
       <h3 id="{{component_id}}-dialog-title" data-glyph-dialog-title>Glyph details</h3>
       {{close_action}}
     </div>
-    <div class="font-preview__glyph-visual">
+    <div class="font-preview__glyph-visual" data-font-preview-glyph-transition-target>
       <svg class="font-preview__glyph-svg" data-glyph-svg role="img" aria-label="Selected glyph vector outline"></svg>
     </div>
     <dl class="font-preview__glyph-data">
@@ -40,9 +42,12 @@
       <div><dt>Advance width</dt><dd data-glyph-width>—</dd></div>
       <div><dt>Left side bearing</dt><dd data-glyph-bearing>—</dd></div>
     </dl>
-    <details class="font-preview__path-details">
-      <summary>Path data</summary>
-      <pre><code data-glyph-path>No glyph selected.</code></pre>
-    </details>
+    <section class="font-preview__path-details" aria-labelledby="{{component_id}}-path-title">
+      <div class="font-preview__path-header">
+        <span class="font-preview__path-label" id="{{component_id}}-path-title">Path data</span>
+        {{path_data_toggle}}
+      </div>
+      <pre id="{{component_id}}-glyph-path" data-font-preview-path-region hidden><code class="font-preview__path-code" data-glyph-path>No glyph selected.</code></pre>
+    </section>
   </dialog>
 </section>

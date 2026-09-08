@@ -1,5 +1,15 @@
 # Project Workflow
 
+Tasks start in conversation. Small, clear changes go directly through
+implementation, verification, and feedback. Substantial features get a brief
+outline in chat; content migrations, permission changes, and deployment
+architecture get a short plan before implementation. No separate proposal or
+specification files are required for routine delivery.
+
+Keep durable decisions and delivered behavior in the relevant existing `/docs`
+page so later tasks can recover context. `AGENTS.md` defines the working rules;
+Storybook and appropriate source, build, and runtime checks verify the result.
+
 ## 1. Idea File
 
 `idea-file.md` is the rough source of truth for product direction, content ideas, feature ideas, and implementation notes. It is intentionally allowed to be messy.
@@ -91,7 +101,7 @@ self-hosted `opentype.js` parser. It fetches only an allowlisted same-origin TTF
 caches the parse promise, builds the glyph grid from real drawable cmap
 mappings, and reports the binary's embedded name-table metadata exactly. The
 large parser is emitted as a separate Drupal library and attached only by the
-Font Preview Paragraph; it is not part of the global theme bundle. The 5x5
+Font Preview Paragraph; it is not part of the global theme bundle. The 4×4
 Pixel Glyph Editor remains a deterministic in-memory interaction with no saved
 browser or server state.
 

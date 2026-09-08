@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 1.11.1
-Reviewed: 2026-09-04
+Version: 1.46.4
+Reviewed: 2026-09-08
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -28,6 +28,35 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 
 ## Current Source Contract
 
+- `/contact` ends with an editable complete desk photograph in cool grayscale.
+  The Contact photograph block shares responsive styling with Storybook and
+  remains independent of the disabled layered scene. See `contact-photo.md`.
+
+- Development starts from conversational tasks, with brief plans for substantial
+  or expensive-to-reverse changes and durable decisions kept in existing docs.
+- The `news` content model, metadata ownership, and homepage-only View are
+  documented in `docs/drupal-content-model.md`.
+- `/timeline` is one editable Timeline node containing repeatable project and
+  single-date-event Paragraphs. Its 73 starter records come from the current CV
+  project history plus one personal milestone; Start date drives year grouping
+  and order, while shared Storybook/theme styles provide duration bars, 8px
+  event squares, sticky years, Featured stars, and the shared 24px heart Icon.
+- `/guidelines` is an ordered Drupal View of editable `guideline` nodes. The
+  initial Logo Icon detail reuses the theme SVG, the Color detail renders the
+  live generated palette records from `src/token/tokens.yaml`, and matching
+  Storybook tile/detail examples share the same source SCSS contract.
+- The editable `/cookbook` Basic Page documents the project workflow in its
+  `basic_html` Body, reserves image and GIF insertion points, and follows
+  Privacy Policy in the Drupal Footer menu without resetting later revisions.
+- Hero sections are reusable content blocks with editable images, text, links and
+  reorderable slides. Shared Storybook/theme styles provide responsive layout,
+  manual accessible navigation and optional CSS screen glow. Photo and light share
+  one positioning plane; continuous hues and drifting beams pause when inactive.
+  Touch devices expose a light toggle. See `hero-section.md`.
+- Layered scene blocks combine aligned background and transparent foreground
+  images with editable copy, links and a one-time entrance. Initial Desk arrival
+  placement is disabled pending image rework; native Block layout controls its position and pages.
+  Storybook includes Portfolio, Contact and About uses. See `layered-scene.md`.
 - Editable token source: `src/token/tokens.yaml`.
 - Generated token artifacts: `generated/styles/_tokens.scss`,
   `generated/token/tokens.js`, and the readable three-layer mapping table at
@@ -65,9 +94,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Pagination uses one class contract across Storybook, shared SCSS, and Drupal's
   pager override. At mobile width it automatically switches to four list items:
   previous arrow, current page, total pages, and next arrow.
-- Breadcrumbs retain a reusable Storybook and shared-SCSS contract, but Drupal
-  currently suppresses breadcrumb trails on every route, including Webforms and
-  node detail pages. Full Articles show only a text Back link to `/blog` for
+- Breadcrumbs use the shared Storybook/SCSS contract on nested pages with an
+  accessible parent beyond Home. Footer navigation highlights the current page
+  and its parent section, including Guidelines on both overview and detail pages.
+  First-level pages have no trail. Full Articles show only a text Back link to `/blog` for
   personal Articles or `/videos` for YouTube references, with a replaceable
   24px, 1px-stroke left-arrow Icon Atom. The link uses normal anchor navigation
   rather than browser history.
@@ -125,9 +155,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   Input uses a local 50% radius only for
   the requested transient 36px hover indicator inside its square suffix target.
 - Article teaser and editorial list links use normal Drupal navigation to the
-  full
-  Article detail route. Their title and image remain separate presentations;
-  they do not morph into the full page through cross-document View Transitions.
+  full Article detail route. Supporting browsers use node-specific
+  cross-document View Transitions to animate the Article title and lead image
+  between the list and detail presentations; reduced-motion users get an
+  instant swap.
 - Article Teaser is the square-corner, bordered editorial card used by the
   homepage three-tile composition. The Drupal Blog and Videos Views use a
   separate, borderless Article Blog List Item with horizontal media and content
@@ -195,9 +226,11 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Select, text, textarea, unchecked choice, and choice-chip controls use the
   light-black palette surface so inputs sit one neutral tone above the default
   page surface. Selected Select Input rows use deep gray to remain distinct.
-- Media Loader provides a 16:9 video-upload placeholder with independent
-  monochrome noise frames, progress, filename, and upload status. Its noise
-  advances at 15 fps and freezes under reduced motion.
+- Media Loader provides a 16:9 image skeleton backed by an image-derived average
+  color and a restrained gradient sheen. Portfolio cards select 440px, 880px,
+  or 1320px WebP candidates for their logical width and pixel density, then
+  crossfade to the completed image. External video loads retain independent
+  monochrome noise frames at 15 fps and freeze under reduced motion.
 - Storybook manager colors now come from generated YAML tokens instead of copied
   HEX values, and token builds enforce that source-of-truth contract.
 - Elevation levels use distinct approved dark-gray surface tokens and generated
@@ -256,9 +289,13 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Top Nav Menu Site Header uses the compact floating structure of Shadcnblocks Navbar 33:
   the Drupal logo sits left, the native one-level Main navigation is centered,
   and a flag-free `Eng`/`Rus` Select Input sits right. It preserves the current
-  route through Drupal language URLs, moves the compact navigation to a second
-  row on mobile, and hides Gin's secondary toolbar for authenticated
-  frontend users.
+  route through Drupal language URLs. Through the 640px mobile maximum, a white
+  24px three-line button replaces the logo on the left, changes into a cross,
+  and opens the Main navigation vertically across the full viewport without a
+  separate overlay. Its hover/focus background and each menu item's hover/focus
+  background use the next lighter grayscale surface. Escape, selecting a link,
+  or returning to tablet width closes the menu. Gin's secondary toolbar remains
+  hidden for authenticated frontend users.
 - Blog discovery and retention patterns now include Breadcrumbs, Search Form,
   and Newsletter Signup, composed from a reusable labeled Text Input atom and
   verified without horizontal overflow at the 360px minimum.

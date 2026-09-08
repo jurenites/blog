@@ -29,3 +29,10 @@ Structure > Webforms > Contact > Results.
 Email transport is environment-owned. The recipe configures the recipient and
 message handler, but STAGE and PROD must provide a working Drupal mail transport
 before delivery can be considered verified.
+
+Contact disables Webform's `form_previous_submissions` reminder. Webform otherwise
+recreates this status message on every GET for visitors with previous submissions
+and permission to view them; dismissing a toast does not persist across requests.
+The install hook and `disable_previous_submission_notice` post-update set the
+Contact-specific option to false. Submission history, access rules, limits, and
+successful-submission confirmations remain unchanged.

@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_timeline_items
+    - node.type.timeline
+    - paragraphs.paragraphs_type.timeline_item
+  module:
+    - entity_reference_revisions
+id: node.timeline.field_timeline_items
+field_name: field_timeline_items
+entity_type: node
+bundle: timeline
+label: 'Timeline items'
+description: 'Add commercial projects. Public order is calculated from each item’s primary start date; drag order breaks ties.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      timeline_item: timeline_item
+    negate: 0
+    target_bundles_drag_drop:
+      timeline_item:
+        weight: 0
+        enabled: true
+field_type: entity_reference_revisions

@@ -9,7 +9,7 @@ const DURATION_MINUTES = 1;
 const DURATION_LABEL = "min to read";
 
 const VALUE_KIND_OPTIONS = ["absolute-date", "elapsed-time", "duration"];
-const DATE_DISPLAY_VARIANT_OPTIONS = ["date-day", "date-day-time"];
+const DATE_DISPLAY_VARIANT_OPTIONS = ["date-day", "date-month", "date-day-time"];
 
 function render_date_time_value_story(story_arguments) {
   return date_time_value_markup(story_arguments);

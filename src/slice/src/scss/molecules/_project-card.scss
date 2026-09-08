@@ -51,6 +51,14 @@
   object-fit: cover;
 }
 
+.project-card__media .jurenites-progressive-image,
+.project-card__media .jurenites-progressive-image > img,
+.project-card__media .jurenites-progressive-image > picture,
+.project-card__media .jurenites-progressive-image > picture > img {
+  width: 100%;
+  height: 100%;
+}
+
 .project-card__body {
   display: flex;
   flex-direction: column;

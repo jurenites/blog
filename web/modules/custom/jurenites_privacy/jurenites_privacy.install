@@ -105,7 +105,7 @@ HTML;
   jurenites_privacy_ensure_footer_block(
     'jurenites_theme_cookie_policy_notice',
     'block_content:' . JURENITES_COOKIE_POLICY_BLOCK_UUID,
-    'We are NOT using cookies.',
+    'This website NOT using cookies.',
     0,
     [
       'label_display' => 'visible',

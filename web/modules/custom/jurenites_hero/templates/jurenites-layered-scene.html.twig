@@ -1,0 +1,14 @@
+<section class="layered-scene{{ not background_image_url ? ' layered-scene--without-image' : '' }}" data-layered-scene data-arrival-enabled="{{ arrival_enabled ? 'true' : 'false' }}" aria-label="{{ section_heading }}">
+  {% if background_image_url %}
+    <div class="layered-scene__frame">
+      <img class="layered-scene__background" src="{{ background_image_url }}" alt="{{ background_description }}" decoding="async">
+      {% if foreground_image_url %}<img class="layered-scene__foreground" src="{{ foreground_image_url }}" alt="{{ foreground_description }}" decoding="async">{% endif %}
+    </div>
+  {% endif %}
+  <div class="layered-scene__content">
+    {% if eyebrow_heading %}<p class="layered-scene__eyebrow">{{ eyebrow_heading }}</p>{% endif %}
+    <h2 class="layered-scene__heading">{{ section_heading }}</h2>
+    {% if section_description %}<p class="layered-scene__description">{{ section_description }}</p>{% endif %}
+    {% if scene_actions %}<div class="layered-scene__actions">{{ scene_actions }}</div>{% endif %}
+  </div>
+</section>

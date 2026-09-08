@@ -126,7 +126,7 @@
     }
   },
   "theme_to_palette": {
-    "--theme-dark-surface-background-page": "var(--color-palette-black)",
+    "--theme-dark-surface-background-page": "var(--color-palette-dark-black)",
     "--theme-dark-surface-background-elevation-level-0": "var(--color-palette-black)",
     "--theme-dark-surface-background-elevation-level-1": "var(--color-palette-light-black)",
     "--theme-dark-surface-background-elevation-level-2": "var(--color-palette-deep-gray)",

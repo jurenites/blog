@@ -23,6 +23,11 @@
     @include tools.focus-ring;
   }
 
+  &--with-prefix-icon {
+    justify-content: flex-start;
+    padding-inline-start: var(--space-scale-base-gap);
+  }
+
   // Drupal adds `.form-submit` to its native submit controls. Treat those
   // controls as the primary Button variant without rewriting Drupal markup.
   &--primary,
@@ -51,6 +56,7 @@
     color: var(--theme-dark-text-primary-default);
 
     &:hover {
+      background: var(--theme-dark-action-secondary-hover);
       color: var(--theme-dark-text-secondary-default);
     }
   }
@@ -61,4 +67,10 @@
     background: var(--theme-dark-surface-background-elevation-level-0);
     cursor: not-allowed;
   }
+}
+
+// Links rendered as Button atoms should retain button presentation rather than
+// the global underlined link treatment.
+a.button {
+  text-decoration: none;
 }

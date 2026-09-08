@@ -19,6 +19,7 @@ export const INTERACTIVE_PREVIEW = {
   render: ({ font_title, sample_text }) => `
     <div class="storybook-stack storybook-stack--wide">
       ${font_preview_markup({
+        before_data_content: pixel_glyph_editor_markup({ component_id: "four-pixel-editor" }),
         component_id: "four-pixel-font-preview",
         font_identifier: "4pixel",
         font_title,
@@ -26,7 +27,6 @@ export const INTERACTIVE_PREVIEW = {
         download_filename: DOWNLOAD_FILENAME,
         sample_text,
       })}
-      ${pixel_glyph_editor_markup({ component_id: "four-pixel-editor" })}
     </div>
   `,
 };

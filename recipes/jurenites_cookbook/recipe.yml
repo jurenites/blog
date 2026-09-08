@@ -1,0 +1,5 @@
+name: 'Jurenites project Cookbook'
+description: 'Adds the editable Cookbook Basic Page and its Footer menu link.'
+type: 'Site'
+install:
+  - jurenites_cookbook

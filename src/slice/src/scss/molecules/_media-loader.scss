@@ -11,15 +11,61 @@
   background: var(--color-palette-full-black);
 }
 
+.media-loader__skeleton,
+.media-loader__content,
 .media-loader__noise,
 .media-loader__status {
   grid-area: 1 / 1;
 }
 
+.media-loader__skeleton,
+.media-loader__content,
 .media-loader__noise,
 .media-loader__noise > canvas {
   width: 100%;
   height: 100%;
+}
+
+.media-loader__skeleton {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  background-color: var(
+    --media-loader-average-color,
+    var(--theme-dark-surface-background-elevation-level-1)
+  );
+  filter: opacity(100%);
+  transition: filter var(--motion-duration-media-reveal-default) var(--motion-easing-standard-default);
+}
+
+.media-loader__skeleton::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    color-mix(in srgb, var(--theme-dark-text-primary-default) 12%, transparent) 50%,
+    transparent 80%
+  );
+  transform: translateX(-100%);
+  animation: media-loader-skeleton
+    var(--component-progressive-image-skeleton-cycle-default)
+    var(--motion-easing-standard-default)
+    infinite;
+}
+
+.media-loader__content {
+  z-index: 0;
+  filter: opacity(0%);
+  transition: filter var(--motion-duration-media-reveal-default) var(--motion-easing-standard-default);
+}
+
+.media-loader__content img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .media-loader__noise > canvas {
@@ -53,4 +99,31 @@
 
 .media-loader__progress::-moz-progress-bar {
   background: var(--theme-dark-action-primary-default);
+}
+
+.media-loader--image-skeleton[data-loading-stage="complete"] .media-loader__skeleton,
+.media-loader--image-skeleton[data-loading-stage="complete"] .media-loader__status {
+  filter: opacity(0%);
+}
+
+.media-loader--image-skeleton[data-loading-stage="complete"] .media-loader__content {
+  filter: opacity(100%);
+}
+
+@keyframes media-loader-skeleton {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-loader__skeleton,
+  .media-loader__content,
+  .media-loader__status {
+    transition-duration: var(--motion-duration-instant-default);
+  }
+
+  .media-loader__skeleton::after {
+    animation: none;
+  }
 }

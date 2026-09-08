@@ -11,17 +11,15 @@
 .cookie-policy-notice {
   position: fixed;
   z-index: var(--component-cookie-policy-notice-layer-default);
-  inset-block-end: var(--layout-gutter-desktop-default);
-  inset-inline: var(--layout-gutter-desktop-default);
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  inset-block-end: 0;
+  inset-inline: 0;
+  display: grid;
+  grid-template-columns: minmax(0, var(--layout-content-max-blog-default)) calc(var(--space-scale-base-gap) * 15);
+  align-items: center;
+  justify-content: center;
   gap: calc(var(--space-scale-base-gap) * 3);
   width: auto;
-  max-width: var(--layout-content-max-wide-default);
-  margin-inline: auto;
-  padding: calc(var(--space-scale-base-gap) * 3);
-  //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  padding: calc(var(--space-scale-base-gap) * 3) calc(var(--space-scale-base-gap) * 11);
   background: var(--theme-dark-surface-background-elevation-level-1);
 }
 
@@ -31,7 +29,6 @@
 
 .cookie-policy-notice__content {
   display: flex;
-  flex: 1;
   flex-direction: column;
   gap: var(--space-scale-base-gap);
   max-width: var(--layout-content-max-blog-default);
@@ -59,19 +56,43 @@
 }
 
 .cookie-policy-notice__dismiss {
-  flex: none;
+  width: calc(var(--space-scale-base-gap) * 15);
+}
+
+.cookie-policy-notice__close {
+  position: absolute;
+  inset-inline-end: calc(var(--space-scale-base-gap) * 3);
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  justify-content: center;
+  width: calc(var(--space-scale-base-gap) * 5);
+  height: calc(var(--space-scale-base-gap) * 5);
+  padding: 0;
+  border-radius: 0;
 }
 
 @include tools.breakpoint-down("mobile-max") {
   .cookie-policy-notice {
-    inset-block-end: var(--layout-gutter-mobile-default);
-    inset-inline: var(--layout-gutter-mobile-default);
-    align-items: stretch;
-    flex-direction: column;
-    width: auto;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: calc(var(--space-scale-base-gap) * 2);
+    padding: calc(var(--space-scale-base-gap) * 2);
+  }
+
+  .cookie-policy-notice__content {
+    grid-column: 1 / -1;
+  }
+
+  .cookie-policy-notice__close {
+    position: static;
+    transform: none;
+    grid-column: 2;
+    grid-row: 2;
   }
 
   .cookie-policy-notice__dismiss {
-    width: 100%;
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
   }
 }

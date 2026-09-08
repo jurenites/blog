@@ -58,7 +58,7 @@ color:
 theme:
   dark:
     surface:
-      background-page: color.palette.black
+      background-page: color.palette.dark-black
       background-elevation-level-0: color.palette.black
       background-elevation-level-1: color.palette.light-black
       background-elevation-level-2: color.palette.deep-gray
@@ -103,11 +103,12 @@ typography:
   subtitle-1: '16px var(--typography-font-family-sans)'
   subtitle-2: '14px var(--typography-font-family-sans)'
   eyebrow: '14px var(--typography-font-family-sans)'
-  body: '16px var(--typography-font-family-sans)'
+  body: '300 16px/24px var(--typography-font-family-sans)'
   body-2: '14px var(--typography-font-family-sans)' # Compact supporting copy in cards and dense UI; full article body remains on body.
   link: '300 16px var(--typography-font-family-sans)' # Components add the required underline separately.
   caption: '14px var(--typography-font-family-sans)'
   code: '600 14px var(--typography-font-family-code)' # Storybook code and technical metadata.
+  machine-readable: '14px var(--typography-font-family-number)' # Compact system values and identifiers in the Ubuntu Sans Mono family.
   badge: '500 14px var(--typography-font-family-sans)' # Compact labels that need more emphasis than the 300-weight link role.
   overline: '5px var(--typography-font-family-4pixel)' # Demonstrations and compact technical details such as the version watermark.
   numeric-display: '64px var(--typography-font-family-number)' # Large statistics and other prominent numeric values.
@@ -127,7 +128,7 @@ shape:
     full: 0px
   border-width:
     hairline-default: 1px
-    thick-default: 2px
+    thick-default: 1px
 # TODO this 'elevation' shpuld be moved into a theme.dark.elecation-level-0.shadow and theme.dark.elecation-level-0.backgropund-color we need to reaorganise the token mentioned palces
 elevation:
   shadow:
@@ -157,19 +158,59 @@ layout:
   content-max:
     blog-default: 800px # Blog listing frame for article teasers and pagination.
     wide-default: 960px # Wider frame for content that needs more horizontal room.
+    timeline-default: 1280px # Timeline frame for dense chronology text and project details.
   gutter:
     mobile-default: 16px
     tablet-default: 24px
     desktop-default: 32px
 component:
+  contact-photo:
+    max-width-default: 1600px # Independent of the readable Contact form width.
+    edge-fade-width-default: 100px # Fade every edge; capped proportionally on small images.
+    background-color: component.hero-section.background-edge-color
+  site-header:
+    backdrop-color-default: "#00020780" # Half-opacity homepage tint matching the photograph edge.
+    backdrop-blur-default: 12px # Soften image details beneath navigation.
+    backdrop-fade-height-default: 32px # Feather below the 64px menu without affecting layout.
+  guideline:
+    tile-min-width-default: 280px # Overview tiles remain readable before the responsive grid adds another column.
+    preview-height-default: 240px # Shared media field for Logo Icon, Color, and future guideline previews.
+    logo-icon-size-default: 96px # Prominent specimen size; normal header usage keeps the smaller site-branding token.
+    specimen-height-default: 320px # Allows the source icon and its clear space to remain visible on both comparison surfaces.
+    swatch-min-width-default: 200px # Keeps token names readable without forcing a fixed column count.
+    swatch-height-default: 120px # Color sample height used by both Drupal and the matching Storybook story.
+  layered-scene:
+    arrival-duration-default: 1100ms # One calm foreground entrance after the scene becomes visible.
+    arrival-delay-default: 450ms # Brief empty-desk pause; never delays page content.
+  hero-section:
+    background-edge-color: "#000207" # Sampled from the outer edge of the homepage Hero image for a continuous canvas.
+    clear-color: "#00000000" # Transparent edges of the photographic lighting layer.
+    ray-fill-color: "#68CBE812" # Faint cool light confined to the screen's emitting side.
+    ray-highlight-color: "#8DDBF222" # Soft beam ridges; no lighting overlays on skin or clothing.
+    ray-softness-default: 12px # Feather the beam perimeter before clipping at the screen edge.
+    ray-color-duration-default: 2800ms # Slow color changes evoke moving screen content without flashing.
+    image-horizontal-fade-width-default: 96px # Blend each side of the Hero image into the homepage canvas.
   footer-navigation:
     social-icon-size-default: 16px # Compact social icons in the footer.
-    linkedin-color-hover: "#0A66C2"
-    facebook-color-hover: "#0866FF"
+    figma-icon-height-default: 18px # Taller Figma logo; other brand icons remain 16px.
+    linkedin-color-hover: "#2867B2" #https://brand.linkedin.com/en-us
+    facebook-color-hover: "#1877F2" #https://www.meta.com/brand/resources/facebook/logo/?srsltid=AfmBOoraVFK97HX6ieR7N9jiy8s7kCosZ5_BZTv1rmvFrK-jg5gEckD_
     vk-color-hover: "#0077FF"
-    youtube-color-hover: "#FF0000"
-    soundcloud-color-hover: "#FF3300"
-    steam-color-hover: "#1A9FFF" # Steam's interface blue.
+    youtube-color-hover: "#FF0033" #https://brand.youtube/youtube-logo/
+    soundcloud-color-hover: "#FF5500" #https://www.color-hex.com/color-palette/73640
+    steam-color-hover: "#66C0F4" # Steam's interface blue.
+    telegram-color-hover: "#2AABEE" # https://telegram.org/tour/screenshots
+    github-color-hover: "#0FBF3E" # https://brand.github.com/foundations/color
+    storybook-color-hover: "#FF4785" # https://storybook.js.org/branding/
+    figma-overlay-bl-color: "#F24E1E" # Figma brand color overlay.
+    figma-overlay-og-color: "#FF7262" # Figma brand color overlay.
+    figma-overlay-jur-color: "#A259FF" # Figma brand color overlay.
+    figma-overlay-eni-color: "#1ABCFE" # Figma brand color overlay.
+    figma-overlay-tes-color: "#0ACF83" # Figma brand color overlay.
+  message-toast:
+    width-default: 420px # Readable notifications on wide screens.
+    top-offset-default: 112px # Clear the frontend navigation and its backdrop.
+    layer-default: 10001 # Above the header and content.
   cookie-policy-notice:
     layer-default: 9000 # Fixed footer notice sits above page content and below the build watermark and tooltips.
   article-teaser:
@@ -206,6 +247,8 @@ component:
       full: 400px # Default maximum width for a standalone text input.
       half: 200px # Half of the default text input width.
       quarter: 80px # Quarter of the default width and the minimum supported text input width.
+  font-preview:
+    preview-character-size-default: 16px # Keeps custom-font input text and glyph previews aligned to their intended pixel grid.
   content-layout:
     default-width: readable
     sidebar-min-width-default: 240px
@@ -246,6 +289,9 @@ component:
         month: short
         day: numeric
         year: numeric
+      date-month:
+        month: short
+        year: numeric
       date-day-time:
         month: long
         day: numeric
@@ -253,10 +299,16 @@ component:
         hour: numeric
         minute: 2-digit
   timeline:
-    marker-size-default: space.scale.base-gap
+    marker-color-active: color.palette.full-white # Matching project segments glow on hover and focus.
+    marker-size-default: space.scale.base-gap # Exact 8px square event marker and duration-bar width.
     marker-size-active: 40px
+    line-width-default: shape.border-width.hairline-default # Quiet continuous chronology rail.
+    month-height-default: 32px # Every calendar year is twelve identical month tracks.
+    sticky-layer-default: 20 # Keeps the active year above timeline records while its section is in view.
   media-loader:
     progress-height-default: 1px # Intentional exception to the 8px grid because this is a loading indicator line, not layout spacing.
+  progressive-image:
+    skeleton-cycle-default: 1600ms # Slow enough to read as loading state rather than decorative motion.
   crossfade-dot:
     marker-size-default: 4px # Visible marker inside the larger interactive target.
   newsletter-signup:
@@ -265,3 +317,4 @@ component:
     tile-min-width-default: 240px
     tile-min-height-default: 200px
     icon-max-width-default: 80px # Preserve smaller intrinsic SVG dimensions while preventing oversized uploads.
+    number-font-size-compact: 40px # Keeps grouped thousands and their affixes inside the minimum-width tile.

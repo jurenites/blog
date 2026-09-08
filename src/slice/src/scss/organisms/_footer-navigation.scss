@@ -12,7 +12,7 @@
 
 .footer-navigation__columns {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: calc(var(--space-scale-base-gap) * 4);
 }
 
@@ -36,9 +36,127 @@
   gap: var(--space-scale-base-gap);
   max-width: 100%;
   overflow-wrap: anywhere;
-  .badge {
-    text-decoration: none;
+}
+
+body.jurenites-theme .footer-navigation a.footer-navigation__link.is-active {
+  color: var(--color-palette-brand-tertiary);
+  text-decoration-color: currentColor;
+}
+
+// Fonts link contract: the nested Badge number must NEVER be underlined or turn
+// yellow on hover/focus. The Fonts label AND its underline turn yellow normally;
+// only the Badge keeps its own colors. An ancestor's underline cannot be cancelled
+// on the Badge: remove it from the anchor and paint it on the label only.
+// _global.scss explicitly excludes this link from its defaults. Preserve that
+// exclusion: adding :not() clauses to global defaults previously broke this fix
+// by increasing specificity. Do not rely on a specificity contest here.
+body.jurenites-theme .footer-navigation a.footer-navigation__link--with-badge {
+  color: var(--theme-dark-text-primary-default);
+  text-decoration: none;
+  @include tools.motion-transition(color);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-palette-brand-tertiary);
+
+    > .footer-navigation__link-label {
+      text-decoration-color: var(--color-palette-brand-tertiary);
+    }
   }
+}
+
+.footer-navigation__link--with-badge > .footer-navigation__link-label {
+  text-decoration: underline;
+  text-decoration-thickness: var(--space-scale-one);
+  @include tools.motion-transition(text-decoration-color);
+}
+
+body.jurenites-theme .footer-navigation a.footer-navigation__link--with-badge > .badge--gray {
+  background: var(--component-badge-color-background-gray-default);
+  color: var(--component-badge-color-foreground-gray-default);
+  text-decoration: none;
+}
+
+.footer-navigation__resource-link {
+  .footer-navigation__resource-label {
+    display: inline-grid;
+  }
+
+  .footer-navigation__resource-label-text {
+    grid-area: 1 / 1;
+  }
+
+  .footer-navigation__resource-label-text--hover {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-scale-zero);
+    visibility: hidden;
+  }
+
+  &:hover,
+  &:focus-visible {
+    .footer-navigation__resource-label-text--default {
+      visibility: hidden;
+    }
+
+    .footer-navigation__resource-label-text--hover {
+      visibility: visible;
+    }
+  }
+}
+
+.footer-navigation__external-mark {
+  //margin-inline-start: calc(var(--space-scale-base-gap) * 0.5);
+}
+
+body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--storybook:hover,
+body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--storybook:focus-visible {
+  color: var(--component-footer-navigation-storybook-color-hover);
+}
+
+body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--github:hover,
+body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--github:focus-visible {
+  color: var(--component-footer-navigation-github-color-hover);
+}
+
+body.jurenites-theme .footer-navigation .footer-navigation__resource-link--figma:hover,
+body.jurenites-theme .footer-navigation .footer-navigation__resource-link--figma:focus-visible {
+  color: var(--theme-dark-text-primary-default);
+}
+
+.footer-navigation__resource-label-part--figma-overlay-bl {
+  color: var(--component-footer-navigation-figma-overlay-bl-color);
+}
+
+.footer-navigation__resource-label-part--figma-overlay-og {
+  color: var(--component-footer-navigation-figma-overlay-og-color);
+}
+
+.footer-navigation__resource-label-part--figma-overlay-jur {
+  color: var(--component-footer-navigation-figma-overlay-jur-color);
+}
+
+.footer-navigation__resource-label-part--figma-overlay-eni {
+  color: var(--component-footer-navigation-figma-overlay-eni-color);
+}
+
+.footer-navigation__resource-label-part--figma-overlay-tes {
+  color: var(--component-footer-navigation-figma-overlay-tes-color);
+}
+
+.footer-navigation__resource-icon {
+  width: var(--component-footer-navigation-social-icon-size-default);
+  height: var(--component-footer-navigation-social-icon-size-default);
+}
+
+// Figma keeps one complete logo, with a slightly taller brand-specific viewport.
+.footer-navigation__resource-link--figma .footer-navigation__resource-icon {
+  height: var(--component-footer-navigation-figma-icon-height-default);
+}
+
+.footer-navigation__resource-link--figma:hover .footer-navigation__resource-icon,
+.footer-navigation__resource-link--figma:focus-visible .footer-navigation__resource-icon {
+  --icon-figma-fill: initial;
 }
 
 .footer-navigation__rights-message {
@@ -47,27 +165,58 @@
   @include tools.typography-body;
 }
 
-.footer-navigation .footer-navigation__social-link {
+body.jurenites-theme .footer-navigation .footer-navigation__social-link {
   color: var(--theme-dark-text-primary-default);
 
-  .icon {
-    width: var(--component-footer-navigation-social-icon-size-default);
-    height: var(--component-footer-navigation-social-icon-size-default);
+  .footer-navigation__social-label {
+    display: inline-grid;
+  }
+
+  .footer-navigation__social-label-text {
+    grid-area: 1 / 1;
+  }
+
+  .footer-navigation__social-label-text--hover {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--space-scale-base-gap) * 0.5);
+    visibility: hidden;
   }
 
   &:hover,
   &:focus-visible {
+    .footer-navigation__social-label-text--default {
+      visibility: hidden;
+    }
+
+    .footer-navigation__social-label-text--hover {
+      visibility: visible;
+    }
+
     @each $network-name in linkedin, facebook, vk, youtube, soundcloud, steam {
       &[data-social-icon="social-#{$network-name}"] {
         color: var(--component-footer-navigation-#{$network-name}-color-hover);
       }
     }
+
+    &[data-social-icon="messenger-brand-telegram"] {
+      color: var(--component-footer-navigation-telegram-color-hover);
+    }
   }
+}
+
+.footer-navigation__social-network-icon {
+  width: var(--component-footer-navigation-social-icon-size-default);
+  height: var(--component-footer-navigation-social-icon-size-default);
 }
 
 @include tools.breakpoint-down("mobile-max") {
   .footer-navigation {
     width: calc(100% - (var(--layout-gutter-mobile-default) * 2));
     margin-bottom: var(--layout-gutter-mobile-default);
+  }
+
+  .footer-navigation__columns {
+    grid-template-columns: 1fr;
   }
 }

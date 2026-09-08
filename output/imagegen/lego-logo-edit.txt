@@ -1,0 +1,6 @@
+Tool: built-in image_gen (edit mode).
+Source: /Users/alexanderilivanov/Downloads/user_logo_48_Lego.png
+Saved asset: src/public/assets/images/jurenites-lego-logo-square-v2.png
+Supersedes the cropped v1 image. Square framing is required.
+
+Use case: precise-object-edit. Asset type: square website logo photograph. Edit target: the attached ORIGINAL SQUARE photo of the user's actual physical LEGO wordmark. Produce a SQUARE 1:1 image. Preserve the exact original full framing: all baseplate visible above and below the wordmark, same wordmark position and size relative to the square, same arrangement of every brick and stud, including the small rightmost brick. ONLY change color grading: lighten the gray baseplate/studs toward near-white, and darken the blue/cyan/purple wordmark bricks toward navy blue for clearer contrast. Keep the real photograph's imperfect texture, lighting, shadows and construction. Do not polish, smooth, redesign, rearrange, magnify, crop or stretch anything. Do not crop around the wordmark. The entire original square composition must remain square and intact. No added text or objects.

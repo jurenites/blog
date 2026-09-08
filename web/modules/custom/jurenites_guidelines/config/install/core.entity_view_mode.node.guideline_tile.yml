@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.guideline_tile
+label: 'Guideline tile'
+description: 'Compact overview tile for one Guideline.'
+targetEntityType: node
+cache: true

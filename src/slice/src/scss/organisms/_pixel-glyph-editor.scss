@@ -19,8 +19,7 @@
   margin-block: 0 var(--space-scale-base-gap);
 }
 
-.pixel-glyph-editor__eyebrow,
-.pixel-glyph-editor__status {
+.pixel-glyph-editor__eyebrow {
   color: var(--theme-dark-text-secondary-default);
   @include tools.typography-caption;
 }
@@ -28,20 +27,16 @@
 .pixel-glyph-editor__workspace {
   display: flex;
   flex-wrap: wrap;
-  align-items: start;
-  gap: calc(var(--space-scale-base-gap) * 4);
-}
-
-.pixel-glyph-editor__grid,
-.pixel-glyph-editor__preview {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: var(--space-scale-one);
-  background: var(--theme-dark-border-divider-default);
+  align-items: center;
+  gap: calc(var(--space-scale-base-gap) * 2);
 }
 
 .pixel-glyph-editor__grid {
-  width: calc(var(--shape-basic-tile) * 5);
+  display: grid;
+  grid-template-columns: repeat(4, var(--shape-basic-tile));
+  gap: var(--space-scale-one);
+  width: fit-content;
+  background: var(--theme-dark-border-divider-default);
   touch-action: none;
 }
 
@@ -50,7 +45,7 @@
   height: var(--shape-basic-tile);
   padding: 0;
   border: 0;
-  background: var(--color-palette-full-white);
+  background: var(--color-palette-dark-black);
   cursor: crosshair;
 
   &:focus-visible {
@@ -60,24 +55,29 @@
   }
 }
 
-.pixel-glyph-editor__cell.is-filled,
-.pixel-glyph-editor__preview-cell.is-filled {
-  background: var(--color-palette-full-black);
+.pixel-glyph-editor__cell.is-filled {
+  background: var(--color-palette-dark-white);
 }
 
-.pixel-glyph-editor__status {
-  margin-block: var(--space-scale-base-gap) 0;
+.pixel-glyph-editor__glyph-preview {
+  flex: 0 0 var(--shape-basic-tile);
+  width: var(--shape-basic-tile);
+  height: var(--shape-basic-tile);
+  padding: 0;
+  cursor: default;
 }
 
-.pixel-glyph-editor__preview-block h3 {
-  margin-block-start: 0;
+.pixel-glyph-editor__glyph-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: var(--component-font-preview-preview-character-size-default);
+  height: var(--component-font-preview-preview-character-size-default);
 }
 
-.pixel-glyph-editor__preview {
-  width: calc(var(--shape-basic-tile) * 4);
+.pixel-glyph-editor__glyph-preview-cell {
+  background-color: transparent;
 }
 
-.pixel-glyph-editor__preview-cell {
-  aspect-ratio: 1;
-  background: var(--color-palette-full-white);
+.pixel-glyph-editor__glyph-preview-cell.is-filled {
+  background-color: var(--color-palette-dark-white);
 }

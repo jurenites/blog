@@ -1,0 +1,6 @@
+{# The content region owns spacing between page-level Drupal blocks. #}
+{% if content %}
+  <div{{ attributes.addClass('layout-content__region') }}>
+    {{ content }}
+  </div>
+{% endif %}

@@ -3,6 +3,7 @@ description: 'Adds Project content, Roundabout and 4pixel stories, and their int
 type: 'Content type'
 recipes:
   - jurenites_paragraphs_crossfade
+  - jurenites_progressive_images
 install:
   - jurenites_font_projects
 config:

@@ -1,4 +1,4 @@
-{# Drupal breadcrumb trails are temporarily hidden; Articles retain Blog navigation. #}
+{{ breadcrumb_navigation_cache }}
 {% if article_back_url %}
   <nav class="breadcrumbs" aria-label="{{ 'Article navigation'|t }}">
     <a class="breadcrumbs__back-link" href="{{ article_back_url }}">
@@ -9,5 +9,19 @@
       } only %}
       <span>{{ 'Back'|t }}</span>
     </a>
+  </nav>
+{% elseif breadcrumb|length > 1 %}
+  <nav class="breadcrumbs" aria-label="{{ 'Breadcrumb'|t }}">
+    <ol class="breadcrumbs__list">
+      {% for breadcrumb_item in breadcrumb %}
+        <li class="breadcrumbs__item"{% if loop.last %} aria-current="page"{% endif %}>
+          {% if breadcrumb_item.url %}
+            <a class="breadcrumbs__link" href="{{ breadcrumb_item.url }}">{{ breadcrumb_item.text }}</a>
+          {% else %}
+            <span class="breadcrumbs__current">{{ breadcrumb_item.text }}</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
   </nav>
 {% endif %}

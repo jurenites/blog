@@ -1,0 +1,11 @@
+# Cold grayscale desk pair
+
+- `empty-desk-cold.png`: cleaned background from the built-in image editor; `empty-desk-cold.jpg` is the smaller web copy.
+- `person-back-cold.png`: 4032 x 2268 transparent person, locally denoised and graded from the original cutout. Original alpha is restored after color processing. The original warm cutout remains available.
+- `grade-person.swift`: reproducible local grade. Reads the current `light-gray` and Hero `background-edge-color` from `src/token/tokens.yaml`; does not embed an independent palette.
+- The cleaned desk is one fixed background. Only the person layer changes visibility. Generative cleanup can alter equipment details slightly; it is never alternated with the original desk during the fade.
+- These are prepared assets and a conversational preview, not a Drupal deployment.
+
+## Desk cleanup prompt (built-in image editor)
+
+Edit Image 1 (empty desk photograph); Image 2 is ONLY a lighting and cool grayscale style reference. Produce a cleaned photographic empty desk background, same exact landscape composition, perspective, monitor corners, desk outline, keyboard and laptop position as Image 1. Preserve both external monitors plus open laptop as the three screens; preserve the closed laptop on the left. Do not add a person. Remove mug, loose earbud wires and other loose tabletop cable clutter, small adapters/objects, bright green LEDs, monitor desktop icons, menus and text. Screens should be clean blank dim luminous cool neutral gray, not glowing white. Remove noisy room details into near-black darkness and improve noise without plastic surfaces. Match the restrained cold near-monochrome look of Image 2, no brown laptop screen or purple/green casts. Palette guides taken from website tokens: outer background #000207, deep near-black #020618 and #0F172B, subtle gray #62748E and #90A1B9, restrained highlights #CAD5E2 and #F8FAFC. These are guides for photographic tonality, not flat graphic color blocks. Keep image mostly dark with soft monitor light on the desk, readable edges, realistic photographic texture. No invented godrays, bloom, dust, fake reflections, text, logos, extra objects. CRITICAL geometry lock: do not move, tilt, redesign, recenter, zoom or resize any equipment relative to the original canvas. This background will receive an already aligned transparent person layer.

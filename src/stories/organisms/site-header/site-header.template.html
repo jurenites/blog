@@ -1,14 +1,22 @@
 <div class="storybook-shell">
-  <header class="site-header">
+  <header class="site-header{{menu_state_class}}">
     <a class="site-header__brand" href="#home" aria-label="{{brand_name}}">
-      <img class="site-header__logo" src="{{brand_logo_url}}" alt="" />
+      <img class="site-header__logo{{logo_style_class}}" src="{{brand_logo_url}}" alt="" />
+      <span class="site-header__brand-name">{{brand_full_name}}</span>
     </a>
-    <nav class="site-header__navigation" aria-label="Primary navigation">
+    <nav class="site-header__navigation" id="storybook-primary-navigation" aria-label="Primary navigation">
       <ul class="site-header__links">{{navigation_items}}</ul>
     </nav>
     <div class="site-header__language">
       <label class="visually-hidden" for="storybook-language-select">Language</label>
       {{language_select_markup}}
     </div>
+    <button class="site-header__menu-toggle" type="button" aria-expanded="{{menu_expanded_value}}" aria-controls="storybook-primary-navigation" aria-label="{{menu_toggle_label}}" data-jurenites-site-menu-toggle data-open-label="Open main menu" data-close-label="Close main menu">
+      <svg class="site-header__menu-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path class="site-header__menu-line site-header__menu-line--top" d="M3 6H21" />
+        <path class="site-header__menu-line site-header__menu-line--middle" d="M3 12H21" />
+        <path class="site-header__menu-line site-header__menu-line--bottom" d="M3 18H21" />
+      </svg>
+    </button>
   </header>
 </div>

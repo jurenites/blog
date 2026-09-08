@@ -40,7 +40,7 @@
   --color-palette-system-warning-accent: #D3BD88;
   --color-palette-system-warning: #B6974B;
   --color-palette-system-warning-strong: #866F38;
-  --theme-dark-surface-background-page: var(--color-palette-black);
+  --theme-dark-surface-background-page: var(--color-palette-dark-black);
   --theme-dark-surface-background-elevation-level-0: var(--color-palette-black);
   --theme-dark-surface-background-elevation-level-1: var(--color-palette-light-black);
   --theme-dark-surface-background-elevation-level-2: var(--color-palette-deep-gray);
@@ -79,11 +79,12 @@
   --typography-subtitle-1: 16px var(--typography-font-family-sans);
   --typography-subtitle-2: 14px var(--typography-font-family-sans);
   --typography-eyebrow: 14px var(--typography-font-family-sans);
-  --typography-body: 16px var(--typography-font-family-sans);
+  --typography-body: 300 16px/24px var(--typography-font-family-sans);
   --typography-body-2: 14px var(--typography-font-family-sans);
   --typography-link: 300 16px var(--typography-font-family-sans);
   --typography-caption: 14px var(--typography-font-family-sans);
   --typography-code: 600 14px var(--typography-font-family-code);
+  --typography-machine-readable: 14px var(--typography-font-family-number);
   --typography-badge: 500 14px var(--typography-font-family-sans);
   --typography-overline: 5px var(--typography-font-family-4pixel);
   --typography-numeric-display: 64px var(--typography-font-family-number);
@@ -98,7 +99,7 @@
   --shape-corner-radius-base: 0px;
   --shape-corner-radius-full: 0px;
   --shape-border-width-hairline-default: 1px;
-  --shape-border-width-thick-default: 2px;
+  --shape-border-width-thick-default: 1px;
   --elevation-shadow-level-0: 0px 0px 0px 0px #00000000;
   --elevation-shadow-level-1: 0px 1px 3px 0px #0000002E;
   --elevation-shadow-level-2: 0px 2px 6px 0px #00000033;
@@ -119,16 +120,50 @@
   --layout-container-max-desktop-default: 1440px;
   --layout-content-max-blog-default: 800px;
   --layout-content-max-wide-default: 960px;
+  --layout-content-max-timeline-default: 1280px;
   --layout-gutter-mobile-default: 16px;
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
+  --component-contact-photo-max-width-default: 1600px;
+  --component-contact-photo-edge-fade-width-default: 100px;
+  --component-contact-photo-background-color: var(--component-hero-section-background-edge-color);
+  --component-site-header-backdrop-color-default: #00020780;
+  --component-site-header-backdrop-blur-default: 12px;
+  --component-site-header-backdrop-fade-height-default: 32px;
+  --component-guideline-tile-min-width-default: 280px;
+  --component-guideline-preview-height-default: 240px;
+  --component-guideline-logo-icon-size-default: 96px;
+  --component-guideline-specimen-height-default: 320px;
+  --component-guideline-swatch-min-width-default: 200px;
+  --component-guideline-swatch-height-default: 120px;
+  --component-layered-scene-arrival-duration-default: 1100ms;
+  --component-layered-scene-arrival-delay-default: 450ms;
+  --component-hero-section-background-edge-color: #000207;
+  --component-hero-section-clear-color: #00000000;
+  --component-hero-section-ray-fill-color: #68CBE812;
+  --component-hero-section-ray-highlight-color: #8DDBF222;
+  --component-hero-section-ray-softness-default: 12px;
+  --component-hero-section-ray-color-duration-default: 2800ms;
+  --component-hero-section-image-horizontal-fade-width-default: 96px;
   --component-footer-navigation-social-icon-size-default: 16px;
-  --component-footer-navigation-linkedin-color-hover: #0A66C2;
-  --component-footer-navigation-facebook-color-hover: #0866FF;
+  --component-footer-navigation-figma-icon-height-default: 18px;
+  --component-footer-navigation-linkedin-color-hover: #2867B2;
+  --component-footer-navigation-facebook-color-hover: #1877F2;
   --component-footer-navigation-vk-color-hover: #0077FF;
-  --component-footer-navigation-youtube-color-hover: #FF0000;
-  --component-footer-navigation-soundcloud-color-hover: #FF3300;
-  --component-footer-navigation-steam-color-hover: #1A9FFF;
+  --component-footer-navigation-youtube-color-hover: #FF0033;
+  --component-footer-navigation-soundcloud-color-hover: #FF5500;
+  --component-footer-navigation-steam-color-hover: #66C0F4;
+  --component-footer-navigation-telegram-color-hover: #2AABEE;
+  --component-footer-navigation-github-color-hover: #0FBF3E;
+  --component-footer-navigation-storybook-color-hover: #FF4785;
+  --component-footer-navigation-figma-overlay-bl-color: #F24E1E;
+  --component-footer-navigation-figma-overlay-og-color: #FF7262;
+  --component-footer-navigation-figma-overlay-jur-color: #A259FF;
+  --component-footer-navigation-figma-overlay-eni-color: #1ABCFE;
+  --component-footer-navigation-figma-overlay-tes-color: #0ACF83;
+  --component-message-toast-width-default: 420px;
+  --component-message-toast-top-offset-default: 112px;
+  --component-message-toast-layer-default: 10001;
   --component-cookie-policy-notice-layer-default: 9000;
   --component-article-teaser-grid-card-min-width-default: 240px;
   --component-article-teaser-list-media-min-width-default: 180px;
@@ -152,6 +187,7 @@
   --component-text-input-width-full: 400px;
   --component-text-input-width-half: 200px;
   --component-text-input-width-quarter: 80px;
+  --component-font-preview-preview-character-size-default: 16px;
   --component-content-layout-default-width: readable;
   --component-content-layout-sidebar-min-width-default: 240px;
   --component-content-layout-sidebar-max-width-default: 320px;
@@ -180,19 +216,27 @@
   --component-date-time-value-format-date-day-month: short;
   --component-date-time-value-format-date-day-day: numeric;
   --component-date-time-value-format-date-day-year: numeric;
+  --component-date-time-value-format-date-month-month: short;
+  --component-date-time-value-format-date-month-year: numeric;
   --component-date-time-value-format-date-day-time-month: long;
   --component-date-time-value-format-date-day-time-day: numeric;
   --component-date-time-value-format-date-day-time-year: numeric;
   --component-date-time-value-format-date-day-time-hour: numeric;
   --component-date-time-value-format-date-day-time-minute: 2-digit;
+  --component-timeline-marker-color-active: var(--color-palette-full-white);
   --component-timeline-marker-size-default: var(--space-scale-base-gap);
   --component-timeline-marker-size-active: 40px;
+  --component-timeline-line-width-default: var(--shape-border-width-hairline-default);
+  --component-timeline-month-height-default: 32px;
+  --component-timeline-sticky-layer-default: 20;
   --component-media-loader-progress-height-default: 1px;
+  --component-progressive-image-skeleton-cycle-default: 1600ms;
   --component-crossfade-dot-marker-size-default: 4px;
   --component-newsletter-signup-form-min-width-default: 280px;
   --component-numeric-values-tile-min-width-default: 240px;
   --component-numeric-values-tile-min-height-default: 200px;
   --component-numeric-values-icon-max-width-default: 80px;
+  --component-numeric-values-number-font-size-compact: 40px;
 }
 
 $system-breakpoint-mobile-min: 360px;
@@ -285,6 +329,10 @@ $breakpoints: (
   font: var(--typography-code);
 }
 
+@mixin typography-machine-readable {
+  font: var(--typography-machine-readable);
+}
+
 @mixin typography-badge {
   font: var(--typography-badge);
 }
@@ -351,6 +399,10 @@ $breakpoints: (
 
 .u-typography-code {
   font: var(--typography-code);
+}
+
+.u-typography-machine-readable {
+  font: var(--typography-machine-readable);
 }
 
 .u-typography-badge {
