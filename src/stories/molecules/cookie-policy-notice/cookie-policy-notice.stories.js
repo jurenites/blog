@@ -4,6 +4,7 @@ import { cookie_policy_notice_markup } from "./cookie-policy-notice.markup.js";
 const EXAMPLE_NOTICE_HEADING = "This website NOT using cookies.";
 const EXAMPLE_NOTICE_MESSAGE = "An EU Commission estimate puts the annual ritual of clicking cookie banners at about 334 million human hours. This is not a consent request.";
 const EXAMPLE_CLOSING_MESSAGE = "Enjoy the free internet without interruption.";
+const EXAMPLE_CLOSE_BUTTON_LABEL = "Close cookie notice";
 const EXAMPLE_DISMISS_BUTTON_LABEL = "Whatever";
 
 function render_story(story_args) {
@@ -25,12 +26,14 @@ export default {
     notice_heading: { control: "text" },
     notice_message: { control: "text" },
     closing_message: { control: "text" },
+    close_button_label: { control: "text" },
     dismiss_button_label: { control: "text" },
   },
   args: {
     notice_heading: EXAMPLE_NOTICE_HEADING,
     notice_message: EXAMPLE_NOTICE_MESSAGE,
     closing_message: EXAMPLE_CLOSING_MESSAGE,
+    close_button_label: EXAMPLE_CLOSE_BUTTON_LABEL,
     dismiss_button_label: EXAMPLE_DISMISS_BUTTON_LABEL,
   },
 };

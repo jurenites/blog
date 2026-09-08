@@ -25,6 +25,12 @@
     color: var(--theme-dark-text-primary-default);
     text-decoration: none;
     @include tools.typography-subtitle-1;
+    @include tools.motion-transition(background-color);
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--theme-dark-surface-background-elevation-level-1);
+    }
   }
 
   &__logo {

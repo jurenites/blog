@@ -113,14 +113,7 @@
   display: block;
   width: calc(var(--space-scale-base-gap) * 3);
   height: calc(var(--space-scale-base-gap) * 3);
-  background-color: currentcolor;
   color: inherit;
-  -webkit-mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  mask-position: center;
-  mask-repeat: no-repeat;
-  mask-size: contain;
   transform: rotate(0deg);
   @include tools.motion-transition(transform);
   transition-duration: var(--motion-duration-short-default);

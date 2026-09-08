@@ -8,7 +8,10 @@ export function icon_markup({ icon_name, class_name = "", with_tooltip = false }
   return render_template(icon_template, {
     class_name: class_name ? ` ${escape_html(class_name)}` : "",
     icon_name: escape_html(safe_icon_name),
-    icon_source: escape_html(`/assets/icons/${safe_icon_name}.svg`),
+    icon_source: escape_html(`#jurenites-icon-${safe_icon_name}`),
+    hover_icon_markup: safe_icon_name === "brand-figma"
+      ? '<svg class="icon__svg icon__svg--hover" viewBox="0 0 24 24" fill="currentColor"><use href="#jurenites-icon-brand-figma-hover"></use></svg>'
+      : "",
     tooltip_trigger_attribute: with_tooltip ? ' data-tooltip-trigger' : "",
   });
 }

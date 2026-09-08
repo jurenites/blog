@@ -212,6 +212,53 @@ The Icon Atom Storybook gallery presents the selected icon first, including its
 machine name. Gallery items are keyboard-accessible clickable controls, and
 hover/focus uses the next elevation surface to make the interaction visible.
 
+Shared icons use one deferred SVG symbol sprite generated from editable SVGs
+in `src/public/assets/icons/` by `scripts/build-icon-sprite.mjs`. Theme builds
+write `assets/icon-sprites/icons.{content-hash}.svg` and a server-read manifest.
+The HTML shell contains only its URL in `data-icon-sprite-url`; icon geometry is
+absent from the initial response. After `window.load`, `icon-sprite.js` schedules
+one low-priority same-origin fetch and inserts the returned sprite into the DOM.
+The load event covers eager page resources, not lazy images or future scrolling.
+No preload or external SVG use reference triggers an earlier sprite request.
+
+Named Icon instances continue to reference `#jurenites-icon-{name}`, including
+Select chevrons and both Figma states. SCSS reserves their dimensions while
+loading. Icons become visible only after the sprite arrives; without JavaScript
+or after two failed attempts they stay absent, while text labels/native controls
+remain usable. The loader times out after eight seconds and retries once after
+1.5 seconds. It runs for all visitors, including signed-in/Save-Data sessions:
+current-page icons are required assets, separate from optional speculation.
+
+Browser HTTP caching reuses the hashed file across pages, though every document
+waits until its own load event before inserting the sprite. Changing geometry
+changes the URL; rebuild and clear Drupal caches when changing icons. Deploy the
+manifest and hashed files together and retain older hashed files for cached HTML.
+Source view boxes, fills and namespaced clip references are preserved. Storybook
+builds the same file into its static assets and uses the same deferred loader;
+restart Storybook after editing icon sources. Deployment cache headers still
+control retention/revalidation; there is no promise of a permanent cache entry.
+
+After the icon loader settles, `asset-warming.js` uses idle time to inspect one likely next
+public page (the first Article title, otherwise a header navigation link).
+Hover or keyboard focus can prepare a second destination. Each page view has a
+budget of two destination requests, one at a time, with a five-second timeout
+and a 256 KiB HTML inspection limit. Up to six previously unseen same-origin
+stylesheet, script and image URLs per destination receive low-priority HTTP
+prefetch hints; at most two images are hinted. Existing resource requests and
+already hinted URLs are deduplicated. This prepares the image `src` fallback;
+responsive derivatives, CSS-referenced fonts/backgrounds and videos are not
+recursively fetched. Browsers may decline prefetch hints or evict cached assets.
+
+Warming pauses for hidden tabs, offline connections, Save-Data and reported
+2G/3G connections, and is disabled for signed-in pages. Only header navigation
+and Article title/image links qualify. External URLs, downloads, query/hash
+links, administration/account/action paths, redirects and private/no-store
+responses are excluded. A `data-no-prefetch` ancestor opts a link out. Native
+navigation remains unchanged; HTTP cache headers govern reuse and revalidation.
+There is no service worker or custom persistent cache. Verify deployment cache
+headers separately; local behavior does not prove production cache policy.
+
+
 The Breadcrumbs molecule retains its Storybook class contract for future use,
 but Drupal currently suppresses breadcrumb trails on every route, including
 Webforms and node detail pages. Full Article pages show only a
@@ -407,6 +454,10 @@ Footer Navigation composes the Badge atom inside its Fonts link. Drupal supplies
 the gray Badge's numeric label from the current count of accessible published
 Projects tagged `#Font`; Storybook exposes the same label, destination, and
 composed markup as controls rather than duplicating Badge HTML.
+The Fonts link keeps its label and Badge colors unchanged on hover and keyboard
+focus; only the label's underline turns yellow. The anchor itself has no text
+decoration, so the Badge number never receives an underline. The footer override
+must match or exceed the global link selector's specificity in every state.
 
 Author Byline keeps its name and metadata in one wrapping inline row in both
 Storybook and Drupal. Date Time Value owns the three semantic variants used by
@@ -602,6 +653,11 @@ We keep our distinction: editable source in `src/slice/`, compiled minified asse
 in the theme `css/` and `js/`. The Drupal-specific `theme.scss` entrypoint
 configures relative font URLs, and `npm run build:theme` copies source fonts from
 `src/public/assets/fonts/` into the generated theme asset directory.
+
+## Button hover states
+
+Ghost buttons use the same gray hover background token as secondary buttons
+(`--theme-dark-action-secondary-hover`) across Drupal and Storybook.
 
 ## Naming convention
 

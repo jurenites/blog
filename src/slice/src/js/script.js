@@ -1,3 +1,5 @@
+import { install_icon_sprite } from './icon-sprite.js';
+import { install_asset_warming } from './asset-warming.js';
 import { install_message_toasts } from './message-toast.js';
 import { initialize_pixel_glyph_editors } from './pixel-glyph-editor.js';
 import { initialize_numeric_value_counters } from './numeric-values.js';
@@ -12,9 +14,7 @@ const NOISE_FRAMES_PER_SECOND = 15;
 const NOISE_FRAME_INTERVAL = 1000 / NOISE_FRAMES_PER_SECOND;
 const EXPECTED_VIDEO_LOAD_DURATION = 8000;
 const INCOMPLETE_PROGRESS_LIMIT = 95;
-const SELECT_CHEVRON_URL = typeof document !== 'undefined' && document.currentScript?.src
-  ? new URL('../assets/icons/chevron-down.svg', document.currentScript.src).href
-  : '/assets/icons/chevron-down.svg';
+
 
 const VERTEX_SHADER_SOURCE = `
   attribute vec2 a_canvas_position;
@@ -398,7 +398,7 @@ export function enable_custom_select(native_select) {
   const select_trigger = document.createElement('button');
   const selected_value_element = document.createElement('span');
   const suffix_element = document.createElement('span');
-  const suffix_icon_element = document.createElement('span');
+  const suffix_icon_element = document.createElement('icon');
   const option_menu = document.createElement('ul');
   const native_options = Array.from(native_select.options);
   const select_label = associated_select_label(native_select);
@@ -444,9 +444,9 @@ export function enable_custom_select(native_select) {
   suffix_element.className = 'select-input__suffix';
   suffix_element.setAttribute('aria-hidden', 'true');
   suffix_icon_element.className = 'select-input__suffix-icon';
-  const chevron_asset_url = native_select.dataset.selectChevronUrl || SELECT_CHEVRON_URL;
-  suffix_icon_element.style.setProperty('-webkit-mask-image', `url("${chevron_asset_url}")`);
-  suffix_icon_element.style.setProperty('mask-image', `url("${chevron_asset_url}")`);
+  suffix_icon_element.classList.add('icon');
+  suffix_icon_element.setAttribute('name', 'chevron-down');
+  suffix_icon_element.innerHTML = '<svg class="icon__svg" viewBox="0 0 24 24" fill="none"><use href="#jurenites-icon-chevron-down"></use></svg>';
   suffix_element.appendChild(suffix_icon_element);
   select_trigger.append(selected_value_element, suffix_element);
 
@@ -839,7 +839,7 @@ export function initialize_cookie_policy_notice(cookie_policy_notice) {
 
   cookie_policy_notice.jurenites_cookie_policy_notice_initialized = true;
   let dismiss_button = cookie_policy_notice.querySelector(
-    '[data-jurenites-cookie-policy-dismiss]',
+    '[data-jurenites-cookie-policy-dismiss], .cookie-policy-notice__dismiss',
   );
 
   if (!dismiss_button) {
@@ -849,6 +849,17 @@ export function initialize_cookie_policy_notice(cookie_policy_notice) {
     dismiss_button.dataset.jurenitesCookiePolicyDismiss = '';
     dismiss_button.textContent = COOKIE_NOTICE_DISMISS_LABEL;
     cookie_policy_notice.appendChild(dismiss_button);
+  }
+
+  let close_button = cookie_policy_notice.querySelector('.cookie-policy-notice__close');
+  if (!close_button) {
+    close_button = document.createElement('button');
+    close_button.className = 'button button--ghost cookie-policy-notice__close';
+    close_button.type = 'button';
+    close_button.setAttribute('aria-label', typeof Drupal !== 'undefined'
+      ? Drupal.t('Close cookie notice') : 'Close cookie notice');
+    close_button.innerHTML = '<icon class="icon cookie-policy-notice__close-icon" name="cross-big" data-icon-name="cross-big" aria-hidden="true"><svg class="icon__svg" viewBox="0 0 24 24" fill="currentColor"><use href="#jurenites-icon-cross-big" fill="currentColor"></use></svg></icon>';
+    cookie_policy_notice.appendChild(close_button);
   }
 
   try {
@@ -861,7 +872,7 @@ export function initialize_cookie_policy_notice(cookie_policy_notice) {
 
   cookie_policy_notice.hidden = false;
 
-  dismiss_button.addEventListener('click', () => {
+  const dismiss_notice = () => {
     try {
       window.localStorage.setItem(COOKIE_NOTICE_DISMISSED_KEY, 'true');
     } catch (_storage_error) {
@@ -869,7 +880,10 @@ export function initialize_cookie_policy_notice(cookie_policy_notice) {
     }
 
     cookie_policy_notice.hidden = true;
-  });
+  };
+
+  dismiss_button.addEventListener('click', dismiss_notice);
+  close_button.addEventListener('click', dismiss_notice);
 }
 
 export function initialize_cookie_policy_notices(cookie_notice_context) {
@@ -880,6 +894,7 @@ export function initialize_cookie_policy_notices(cookie_notice_context) {
 
 if (typeof Drupal !== 'undefined') {
   install_message_toasts(Drupal);
+  void install_icon_sprite().then(() => install_asset_warming());
   Drupal.behaviors.jurenites_timeline_organization = {
     attach(timeline_context) {
       initialize_timeline_organization_rails(timeline_context);

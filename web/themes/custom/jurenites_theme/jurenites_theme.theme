@@ -55,20 +55,52 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
     JSON_THROW_ON_ERROR,
   );
   $menu_variables['icon_asset_base_url'] = base_path() . $theme_path . '/assets/icons';
+  $menu_variables['messenger_links'] = [
+    [
+      'link_label' => 'Telegram',
+      'hover_label' => '@jurenites',
+      'link_url' => 'https://t.me/jurenites',
+      'icon_name' => 'brand-telegram',
+    ],
+  ];
+  $how_i_work_menu_items = [];
+  $information_menu_items = [];
+  foreach ($menu_variables['items'] as $footer_menu_item) {
+    $footer_item_title = strtolower(strip_tags((string) ($footer_menu_item['title'] ?? '')));
+    if (in_array($footer_item_title, ['cookbook', 'guidelines'], TRUE)) {
+      if ($footer_item_title === 'guidelines') {
+        $footer_menu_item['title'] = t('Guideline');
+      }
+      $how_i_work_menu_items[] = $footer_menu_item;
+    }
+    else {
+      $information_menu_items[] = $footer_menu_item;
+    }
+  }
+  $menu_variables['how_i_work_menu_items'] = $how_i_work_menu_items;
+  $menu_variables['information_menu_items'] = $information_menu_items;
   $menu_variables['how_i_work_links'] = [
     [
       'link_label' => 'GitHub',
-      'hover_label' => 'blog_jurenitesr',
+      'hover_label' => 'blog_jurenites',
       'link_url' => 'https://github.com/jurenites/blog',
       'icon_name' => 'brand-github',
-      'color_token' => '',
+      'color_token' => 'github',
     ],
     [
       'link_label' => 'Figma',
       'hover_label' => 'blog jurenites',
       'link_url' => 'https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=928-133&t=n2l2EWw0ldyJzj4u-0',
       'icon_name' => 'brand-figma',
-      'color_token' => '',
+      'color_token' => 'figma',
+      'hover_parts' => [
+        ['text' => 'bl', 'color_token' => 'figma-overlay-bl'],
+        ['text' => 'og', 'color_token' => 'figma-overlay-og'],
+        ['text' => "\u{00A0}", 'color_token' => ''],
+        ['text' => 'jur', 'color_token' => 'figma-overlay-jur'],
+        ['text' => 'eni', 'color_token' => 'figma-overlay-eni'],
+        ['text' => 'tes', 'color_token' => 'figma-overlay-tes'],
+      ],
     ],
     [
       'link_label' => 'Storybook',
@@ -781,6 +813,16 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
   }
 
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
+  $sprite_manifest_path = DRUPAL_ROOT . '/' . $theme_path . '/assets/icon-sprites/manifest.json';
+  $sprite_manifest = is_readable($sprite_manifest_path)
+    ? json_decode(file_get_contents($sprite_manifest_path), TRUE)
+    : [];
+  $sprite_asset_name = $sprite_manifest['asset_name'] ?? '';
+  if (preg_match('/^icons\.[a-f0-9]{16}\.svg$/', $sprite_asset_name)) {
+    $html_variables['attributes']['data-icon-sprite-url'] = base_path() . $theme_path
+      . '/assets/icon-sprites/' . $sprite_asset_name;
+  }
+
   $release_info_path = DRUPAL_ROOT . '/' . $theme_path . '/release-info.json';
 
   $release_information = is_readable($release_info_path)

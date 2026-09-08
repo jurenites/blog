@@ -167,13 +167,17 @@ Cookie Policy Notice as a reusable Basic Content Block, and places both blocks
 in the theme’s Footer region. Editors own the notice title through the block
 placement label and its paragraphs through the Content Block body. The notice
 does not set cookies or create a browser identifier. Its
-single “Whatever” action stores the versioned boolean
-`jurenites-cookie-notice-dismissed-v2` preference in `localStorage` and hides
+“Whatever” and the accessible 40px square ghost close button (shared `cross-big`
+SVG icon) both store the versioned boolean
+`jurenites-cookie-notice-dismissed-v2` preference in `localStorage` and hide
 the notice; when storage is unavailable, dismissal lasts only for the current
 page view. The block starts hidden and is revealed only after that preference is
-checked, preventing a dismissed notice from flashing during page load. It floats
-above the bottom viewport edge while remaining a non-modal footer block. The
-notice and policy page remain separate Drupal content responsibilities.
+checked, preventing a dismissed notice from flashing during page load. It spans
+the full viewport width, flush with the bottom and both side edges,
+while remaining a non-modal footer block. The desktop content group is centered:
+up to 800px of text, a 24px gap, and a 120px “Whatever” button. The close button
+stays at the right edge, vertically aligned with “Whatever”. On mobile, the copy
+sits above both aligned buttons. The notice and policy page remain separate Drupal content responsibilities.
 
 Apply the editable project Cookbook with:
 

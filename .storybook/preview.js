@@ -1,3 +1,4 @@
+import { install_icon_sprite } from '../src/slice/src/js/icon-sprite.js';
 // Storybook consumes the same compiled design system as the Drupal theme:
 // src/slice/src/scss/main.scss is the single CSS source of truth.
 import "../src/slice/src/scss/main.scss";
@@ -15,6 +16,8 @@ import {
 import { initialize_font_previews } from "../src/slice/src/js/font-preview.js";
 import { initialize_hero_sections } from "../src/slice/src/js/hero-section.js";
 import { initialize_layered_scenes } from "../src/slice/src/js/layered-scene.js";
+
+void install_icon_sprite();
 
 const PREVIEW_WATERMARK_ID = "storybook-preview-watermark";
 

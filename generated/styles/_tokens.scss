@@ -79,7 +79,7 @@
   --typography-subtitle-1: 16px var(--typography-font-family-sans);
   --typography-subtitle-2: 14px var(--typography-font-family-sans);
   --typography-eyebrow: 14px var(--typography-font-family-sans);
-  --typography-body: 300 16px var(--typography-font-family-sans);
+  --typography-body: 300 16px/24px var(--typography-font-family-sans);
   --typography-body-2: 14px var(--typography-font-family-sans);
   --typography-link: 300 16px var(--typography-font-family-sans);
   --typography-caption: 14px var(--typography-font-family-sans);
@@ -132,7 +132,7 @@
   --component-site-header-backdrop-fade-height-default: 32px;
   --component-guideline-tile-min-width-default: 280px;
   --component-guideline-preview-height-default: 240px;
-  --component-guideline-logo-icon-size-default: 160px;
+  --component-guideline-logo-icon-size-default: 96px;
   --component-guideline-specimen-height-default: 320px;
   --component-guideline-swatch-min-width-default: 200px;
   --component-guideline-swatch-height-default: 120px;
@@ -144,7 +144,7 @@
   --component-hero-section-ray-highlight-color: #8DDBF222;
   --component-hero-section-ray-softness-default: 12px;
   --component-hero-section-ray-color-duration-default: 2800ms;
-  --component-hero-section-image-horizontal-fade-width-default: 100px;
+  --component-hero-section-image-horizontal-fade-width-default: 96px;
   --component-footer-navigation-social-icon-size-default: 16px;
   --component-footer-navigation-linkedin-color-hover: #2867B2;
   --component-footer-navigation-facebook-color-hover: #1877F2;
@@ -152,7 +152,14 @@
   --component-footer-navigation-youtube-color-hover: #FF0033;
   --component-footer-navigation-soundcloud-color-hover: #FF5500;
   --component-footer-navigation-steam-color-hover: #66C0F4;
+  --component-footer-navigation-telegram-color-hover: #2AABEE;
+  --component-footer-navigation-github-color-hover: #0FBF3E;
   --component-footer-navigation-storybook-color-hover: #FF4785;
+  --component-footer-navigation-figma-overlay-bl-color: #F24E1E;
+  --component-footer-navigation-figma-overlay-og-color: #FF7262;
+  --component-footer-navigation-figma-overlay-jur-color: #A259FF;
+  --component-footer-navigation-figma-overlay-eni-color: #1ABCFE;
+  --component-footer-navigation-figma-overlay-tes-color: #0ACF83;
   --component-message-toast-width-default: 420px;
   --component-message-toast-top-offset-default: 112px;
   --component-message-toast-layer-default: 10001;

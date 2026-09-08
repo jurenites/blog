@@ -1,4 +1,4 @@
-// Atom: Icon. Geometry is loaded from the named shared SVG asset.
+// Atom: Icon. Space is reserved while the shared sprite loads after window load.
 
 .icon {
   display: inline-flex;
@@ -12,4 +12,16 @@
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.icon-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.icon__svg--hover {
+  display: none;
 }

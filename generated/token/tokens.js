@@ -1297,10 +1297,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "300 16px var(--typography-font-family-sans)",
-    "value": "300 16px var(--typography-font-family-sans)",
-    "css_value": "300 16px var(--typography-font-family-sans)",
-    "resolved_css_value": "300 16px var(--typography-font-family-sans)",
+    "source_value": "300 16px/24px var(--typography-font-family-sans)",
+    "value": "300 16px/24px var(--typography-font-family-sans)",
+    "css_value": "300 16px/24px var(--typography-font-family-sans)",
+    "resolved_css_value": "300 16px/24px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -2175,10 +2175,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "dimension",
     "description": "Prominent specimen size; normal header usage keeps the smaller site-branding token.",
-    "source_value": "160px",
-    "value": "160px",
-    "css_value": "160px",
-    "resolved_css_value": "160px",
+    "source_value": "96px",
+    "value": "96px",
+    "css_value": "96px",
+    "resolved_css_value": "96px",
     "is_reference": false,
     "reference_name": null
   },
@@ -2367,10 +2367,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "dimension",
     "description": "Blend each side of the Hero image into the homepage canvas.",
-    "source_value": "100px",
-    "value": "100px",
-    "css_value": "100px",
-    "resolved_css_value": "100px",
+    "source_value": "96px",
+    "value": "96px",
+    "css_value": "96px",
+    "resolved_css_value": "96px",
     "is_reference": false,
     "reference_name": null
   },
@@ -2487,6 +2487,38 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-footer-navigation-telegram-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "telegram-color-hover"
+    ],
+    "type": "string",
+    "description": "https://telegram.org/tour/screenshots",
+    "source_value": "#2AABEE",
+    "value": "#2AABEE",
+    "css_value": "#2AABEE",
+    "resolved_css_value": "#2AABEE",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-github-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "github-color-hover"
+    ],
+    "type": "string",
+    "description": "https://brand.github.com/foundations/color",
+    "source_value": "#0FBF3E",
+    "value": "#0FBF3E",
+    "css_value": "#0FBF3E",
+    "resolved_css_value": "#0FBF3E",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-footer-navigation-storybook-color-hover",
     "path": [
       "component",
@@ -2499,6 +2531,86 @@ export const TOKEN_RECORDS = [
     "value": "#FF4785",
     "css_value": "#FF4785",
     "resolved_css_value": "#FF4785",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-figma-overlay-bl-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "figma-overlay-bl-color"
+    ],
+    "type": "string",
+    "description": "Figma brand color overlay.",
+    "source_value": "#F24E1E",
+    "value": "#F24E1E",
+    "css_value": "#F24E1E",
+    "resolved_css_value": "#F24E1E",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-figma-overlay-og-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "figma-overlay-og-color"
+    ],
+    "type": "string",
+    "description": "Figma brand color overlay.",
+    "source_value": "#FF7262",
+    "value": "#FF7262",
+    "css_value": "#FF7262",
+    "resolved_css_value": "#FF7262",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-figma-overlay-jur-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "figma-overlay-jur-color"
+    ],
+    "type": "string",
+    "description": "Figma brand color overlay.",
+    "source_value": "#A259FF",
+    "value": "#A259FF",
+    "css_value": "#A259FF",
+    "resolved_css_value": "#A259FF",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-figma-overlay-eni-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "figma-overlay-eni-color"
+    ],
+    "type": "string",
+    "description": "Figma brand color overlay.",
+    "source_value": "#1ABCFE",
+    "value": "#1ABCFE",
+    "css_value": "#1ABCFE",
+    "resolved_css_value": "#1ABCFE",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-figma-overlay-tes-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "figma-overlay-tes-color"
+    ],
+    "type": "string",
+    "description": "Figma brand color overlay.",
+    "source_value": "#0ACF83",
+    "value": "#0ACF83",
+    "css_value": "#0ACF83",
+    "resolved_css_value": "#0ACF83",
     "is_reference": false,
     "reference_name": null
   },

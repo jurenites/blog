@@ -28,6 +28,33 @@
           {% endfor %}
         </ul>
       </nav>
+      <nav aria-label="{{ 'Messengers'|t }}">
+        <h2 class="footer-navigation__heading">{{ 'Messengers'|t }}</h2>
+        <ul class="footer-navigation__list">
+          {% for messenger_link in messenger_links %}
+            <li class="footer-navigation__item">
+              <a class="footer-navigation__link footer-navigation__social-link footer-navigation__messenger-link" href="{{ messenger_link.link_url }}" data-social-icon="messenger-{{ messenger_link.icon_name }}" target="_blank" rel="me noopener noreferrer" aria-label="{{ messenger_link.link_label }}: {{ messenger_link.hover_label }} ({{ 'opens in a new window'|t }})">
+                {% include '@jurenites_theme/components/icon.html.twig' with {
+                  icon_name: messenger_link.icon_name,
+                  icon_class: 'footer-navigation__social-network-icon',
+                  icon_asset_base_url: icon_asset_base_url
+                } only %}
+                <span class="footer-navigation__social-label" aria-hidden="true">
+                  <span class="footer-navigation__social-label-text footer-navigation__social-label-text--default">{{ messenger_link.link_label }}</span>
+                  <span class="footer-navigation__social-label-text footer-navigation__social-label-text--hover">
+                    <span>{{ messenger_link.hover_label }}</span>
+                    {% include '@jurenites_theme/components/icon.html.twig' with {
+                      icon_name: 'external-link',
+                      icon_class: 'footer-navigation__external-mark',
+                      icon_asset_base_url: icon_asset_base_url
+                    } only %}
+                  </span>
+                </span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
       <nav aria-label="{{ 'How I work'|t }}">
         <h2 class="footer-navigation__heading">{{ 'How I work'|t }}</h2>
         <ul class="footer-navigation__list">
@@ -40,15 +67,23 @@
                   icon_asset_base_url: icon_asset_base_url
                 } only %}
                 <span class="footer-navigation__resource-label" aria-hidden="true">
-                  <span class="footer-navigation__resource-label-text footer-navigation__resource-label-text--default">{{ how_i_work_link.link_label }}</span>
-                  <span class="footer-navigation__resource-label-text footer-navigation__resource-label-text--hover">{{ how_i_work_link.hover_label }}</span>
+                  <span class="footer-navigation__resource-label-text footer-navigation__resource-label-text--default">{{ how_i_work_link.link_label }}{% include '@jurenites_theme/components/icon.html.twig' with {
+                    icon_name: 'external-link',
+                    icon_class: 'footer-navigation__external-mark',
+                    icon_asset_base_url: icon_asset_base_url
+                  } only %}</span>
+                  <span class="footer-navigation__resource-label-text footer-navigation__resource-label-text--hover"><span>{%- if how_i_work_link.hover_parts -%}{%- for hover_part in how_i_work_link.hover_parts -%}<span class="footer-navigation__resource-label-part{% if hover_part.color_token %} footer-navigation__resource-label-part--{{ hover_part.color_token }}{% endif %}">{{- hover_part.text -}}</span>{%- endfor -%}{%- else -%}{{- how_i_work_link.hover_label -}}{%- endif -%}</span>{% include '@jurenites_theme/components/icon.html.twig' with {
+                    icon_name: 'external-link',
+                    icon_class: 'footer-navigation__external-mark',
+                    icon_asset_base_url: icon_asset_base_url
+                  } only %}</span>
                 </span>
               </a>
             </li>
           {% endfor %}
-          {% for footer_item in items if footer_item.title|lower in ['cookbook', 'guidelines'] %}
+          {% for footer_item in how_i_work_menu_items %}
             <li class="footer-navigation__item">
-              <a href="{{ footer_item.url }}" class="footer-navigation__link"><span class="footer-navigation__link-label">{{ footer_item.title|lower == 'guidelines' ? 'Guideline'|t : footer_item.title }}</span></a>
+              <a href="{{ footer_item.url }}"{{ footer_item.attributes.addClass(['footer-navigation__link']) }}><span class="footer-navigation__link-label">{{ footer_item.title }}</span></a>
             </li>
           {% endfor %}
         </ul>
@@ -56,8 +91,7 @@
       <nav aria-label="{{ 'Information'|t }}">
         <h2 class="footer-navigation__heading">{{ 'Information'|t }}</h2>
         <ul class="footer-navigation__list">
-          {% for footer_item in items %}
-            {% if footer_item.title|lower not in ['cookbook', 'guidelines'] %}
+          {% for footer_item in information_menu_items %}
             {% set footer_link_classes = ['footer-navigation__link'] %}
             {% if footer_item.font_project_badge %}
               {% set footer_link_classes = footer_link_classes|merge(['footer-navigation__link--with-badge']) %}
@@ -70,7 +104,6 @@
                 {% endif %}
               </a>
             </li>
-            {% endif %}
           {% endfor %}
         </ul>
       </nav>

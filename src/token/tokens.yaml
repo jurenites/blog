@@ -103,7 +103,7 @@ typography:
   subtitle-1: '16px var(--typography-font-family-sans)'
   subtitle-2: '14px var(--typography-font-family-sans)'
   eyebrow: '14px var(--typography-font-family-sans)'
-  body: '300 16px var(--typography-font-family-sans)'
+  body: '300 16px/24px var(--typography-font-family-sans)'
   body-2: '14px var(--typography-font-family-sans)' # Compact supporting copy in cards and dense UI; full article body remains on body.
   link: '300 16px var(--typography-font-family-sans)' # Components add the required underline separately.
   caption: '14px var(--typography-font-family-sans)'
@@ -175,7 +175,7 @@ component:
   guideline:
     tile-min-width-default: 280px # Overview tiles remain readable before the responsive grid adds another column.
     preview-height-default: 240px # Shared media field for Logo Icon, Color, and future guideline previews.
-    logo-icon-size-default: 160px # Prominent specimen size; normal header usage keeps the smaller site-branding token.
+    logo-icon-size-default: 96px # Prominent specimen size; normal header usage keeps the smaller site-branding token.
     specimen-height-default: 320px # Allows the source icon and its clear space to remain visible on both comparison surfaces.
     swatch-min-width-default: 200px # Keeps token names readable without forcing a fixed column count.
     swatch-height-default: 120px # Color sample height used by both Drupal and the matching Storybook story.
@@ -189,7 +189,7 @@ component:
     ray-highlight-color: "#8DDBF222" # Soft beam ridges; no lighting overlays on skin or clothing.
     ray-softness-default: 12px # Feather the beam perimeter before clipping at the screen edge.
     ray-color-duration-default: 2800ms # Slow color changes evoke moving screen content without flashing.
-    image-horizontal-fade-width-default: 100px # Blend each side of the Hero image into the homepage canvas.
+    image-horizontal-fade-width-default: 96px # Blend each side of the Hero image into the homepage canvas.
   footer-navigation:
     social-icon-size-default: 16px # Compact social icons in the footer.
     linkedin-color-hover: "#2867B2" #https://brand.linkedin.com/en-us
@@ -198,7 +198,14 @@ component:
     youtube-color-hover: "#FF0033" #https://brand.youtube/youtube-logo/
     soundcloud-color-hover: "#FF5500" #https://www.color-hex.com/color-palette/73640
     steam-color-hover: "#66C0F4" # Steam's interface blue.
+    telegram-color-hover: "#2AABEE" # https://telegram.org/tour/screenshots
+    github-color-hover: "#0FBF3E" # https://brand.github.com/foundations/color
     storybook-color-hover: "#FF4785" # https://storybook.js.org/branding/
+    figma-overlay-bl-color: "#F24E1E" # Figma brand color overlay.
+    figma-overlay-og-color: "#FF7262" # Figma brand color overlay.
+    figma-overlay-jur-color: "#A259FF" # Figma brand color overlay.
+    figma-overlay-eni-color: "#1ABCFE" # Figma brand color overlay.
+    figma-overlay-tes-color: "#0ACF83" # Figma brand color overlay.
   message-toast:
     width-default: 420px # Readable notifications on wide screens.
     top-offset-default: 112px # Clear the frontend navigation and its backdrop.

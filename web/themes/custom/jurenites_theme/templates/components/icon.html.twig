@@ -1,5 +1,10 @@
 <icon class="icon{% if icon_class %} {{ icon_class }}{% endif %}" name="{{ icon_name }}" data-icon-name="{{ icon_name }}" aria-hidden="true">
-  <svg class="icon__svg" viewBox="0 0 24 24" fill="none">
-    <use href="{{ icon_asset_base_url }}/{{ icon_name }}.svg"></use>
+  <svg class="icon__svg" viewBox="0 0 24 24" fill="currentColor">
+    <use href="#jurenites-icon-{{ icon_name }}" fill="currentColor"></use>
   </svg>
+  {% if icon_name == 'brand-figma' %}
+    <svg class="icon__svg icon__svg--hover" viewBox="0 0 24 24" fill="currentColor">
+      <use href="#jurenites-icon-brand-figma-hover"></use>
+    </svg>
+  {% endif %}
 </icon>

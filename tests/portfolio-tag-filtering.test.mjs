@@ -42,6 +42,10 @@ const GLOBAL_STYLES_SOURCE = readFileSync(
   "src/slice/src/scss/base/_global.scss",
   "utf8",
 );
+const SITE_HEADER_STYLES_SOURCE = readFileSync(
+  "src/slice/src/scss/organisms/_site-header.scss",
+  "utf8",
+);
 
 test("Footer Navigation composes the shared gray Badge for the font count", () => {
   assert.match(FOOTER_MARKUP_SOURCE, /import \{ badge_markup \}/);
@@ -95,4 +99,8 @@ test("Main navigation uses Drupal's route active trail instead of an exact query
 
 test("Global link defaults leave main navigation active colors to the header", () => {
   assert.match(GLOBAL_STYLES_SOURCE, /a:not\(\.button\):not\(\.site-header__link\)/);
+});
+
+test("Brand hover uses the same elevated header surface as menu items", () => {
+  assert.match(SITE_HEADER_STYLES_SOURCE, /&__brand[\s\S]*?&:hover,[\s\S]*?&:focus-visible[\s\S]*?background-color: var\(--theme-dark-surface-background-elevation-level-1\)/);
 });
