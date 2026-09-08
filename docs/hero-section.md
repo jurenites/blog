@@ -22,13 +22,20 @@ or an uploaded CV's actual URL; installation does not invent a CV download.
 
 ## Behavior and shared implementation
 
-The homepage's sticky 64px top navigation has a 50% dark background tint and
+The homepage's sticky top navigation has a 50% dark background tint and
 12px backdrop blur. Both fade to transparent over an additional 32px below the
 menu, keeping text readable over the photograph without a hard lower edge.
 The effect does not intercept clicks or change layout. The expanded mobile
 menu retains its opaque background. **Organisms/Top Nav Menu Site Header →
 Homepage Overlay** demonstrates the shared treatment; its tint, blur and fade
 height are editable under `component.site-header` in `src/token/tokens.yaml`.
+
+The shared header home link pairs the logo with “Alexander Ilivanov” in the
+`headline-3` typography role and `color.palette.full-white`. The name is a text
+span, so branding does not add a heading to the page outline. The same treatment
+appears in the header's Storybook examples, including the LEGO logo variant.
+On tablets, navigation occupies a second row to leave room for the full name.
+The existing enhanced mobile menu replaces the brand with the menu toggle.
 
 The photograph stays still while manual tabs select the message and calls to
 action. Arrow keys, Home and End select/focus tabs. No autoplay or pointer-tracking

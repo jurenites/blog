@@ -131,13 +131,15 @@
   },
   {
     "en": "records",
-    "ru": "записей",
-    "context": ""
+    "ru": "записи",
+    "context": "",
+    "previous_ru": "записей"
   },
   {
     "en": "Featured",
-    "ru": "Избранное",
-    "context": ""
+    "ru": "Избранный проект",
+    "context": "",
+    "previous_ru": "Избранное"
   },
   {
     "en": "Special place in my heart",
@@ -787,6 +789,26 @@
   {
     "en": "Displayed Unicode mappings",
     "ru": "Отображаемые соответствия Unicode",
+    "context": ""
+  },
+  {
+    "en": "Commercial work",
+    "ru": "Коммерческие проекты",
+    "context": ""
+  },
+  {
+    "en": "Project durations",
+    "ru": "Сроки работы над проектами",
+    "context": ""
+  },
+  {
+    "en": "Project links",
+    "ru": "Ссылки на проект",
+    "context": ""
+  },
+  {
+    "en": "Proof @number",
+    "ru": "Материал @number",
     "context": ""
   }
 ]

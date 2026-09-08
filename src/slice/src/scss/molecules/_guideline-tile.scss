@@ -32,7 +32,7 @@
   @include tools.elevation("level-3");
 }
 
-body.jurenites-theme a.guideline-tile__link {
+body.jurenites-theme a.guideline-tile__link:not(.button):not(.site-header__link):not(.site-header__brand) {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -82,6 +82,10 @@ body.jurenites-theme a.guideline-tile__link {
 
 .guideline-tile__title {
   @include tools.typography-headline-5;
+}
+
+.guideline-tile__title:hover {
+  text-decoration: underline;
 }
 
 .guideline-tile__summary {

@@ -10,6 +10,9 @@ export function footer_navigation_markup({
   information_heading,
   how_i_work_heading,
   how_i_work_links,
+  guideline_label,
+  guideline_url,
+  guideline_active_state = "",
   messenger_links,
   social_links,
   privacy_policy_label,
@@ -24,6 +27,7 @@ export function footer_navigation_markup({
 }) {
   const fonts_badge_markup = badge_markup({
     badge_label: font_project_count,
+    numeric_style: true,
     color_variant: "gray",
   });
 
@@ -32,6 +36,12 @@ export function footer_navigation_markup({
     messengers_heading: escape_html(messengers_heading),
     information_heading: escape_html(information_heading),
     how_i_work_heading: escape_html(how_i_work_heading),
+    guideline_label: escape_html(guideline_label),
+    guideline_url: escape_html(guideline_url),
+    guideline_active_class: guideline_active_state ? " is-active" : "",
+    guideline_current_attribute: ["page", "location"].includes(guideline_active_state)
+      ? `aria-current="${guideline_active_state}"`
+      : "",
     messenger_links_markup: messenger_links.map((messenger_link) => render_template(footer_navigation_item_template, {
       external_icon_markup: icon_markup({
         icon_name: "external-link",

@@ -368,7 +368,7 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
 .timeline__item-header {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: end;
   gap: calc(var(--space-scale-base-gap) * 0.5) var(--space-scale-base-gap);
 }
 

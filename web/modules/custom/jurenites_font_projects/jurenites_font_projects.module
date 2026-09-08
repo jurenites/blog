@@ -65,6 +65,7 @@ function jurenites_font_projects_preprocess_menu(array &$menu_variables): void {
     $footer_item['font_project_badge'] = [
       '#theme' => 'badge',
       '#badge_label' => (string) $font_project_count,
+      '#numeric_style' => TRUE,
       '#color_variant' => 'gray',
       '#cache' => [
         'contexts' => $badge_cacheability->getCacheContexts(),

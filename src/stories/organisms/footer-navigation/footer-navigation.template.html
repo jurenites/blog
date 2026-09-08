@@ -10,7 +10,12 @@
     </nav>
     <nav aria-label="{{how_i_work_heading}}">
       <h2 class="footer-navigation__heading">{{how_i_work_heading}}</h2>
-      <ul class="footer-navigation__list">{{how_i_work_links_markup}}</ul>
+      <ul class="footer-navigation__list">
+        {{how_i_work_links_markup}}
+        <li class="footer-navigation__item">
+          <a class="footer-navigation__link{{guideline_active_class}}" href="{{guideline_url}}" {{guideline_current_attribute}}><span class="footer-navigation__link-label">{{guideline_label}}</span></a>
+        </li>
+      </ul>
     </nav>
     <nav aria-label="{{information_heading}}">
       <h2 class="footer-navigation__heading">{{information_heading}}</h2>

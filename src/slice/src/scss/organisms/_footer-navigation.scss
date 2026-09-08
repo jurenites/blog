@@ -38,15 +38,22 @@
   overflow-wrap: anywhere;
 }
 
+body.jurenites-theme .footer-navigation a.footer-navigation__link.is-active {
+  color: var(--color-palette-brand-tertiary);
+  text-decoration-color: currentColor;
+}
+
 // Fonts link contract: the nested Badge number must NEVER be underlined or turn
 // yellow on hover/focus. The Fonts label AND its underline turn yellow normally;
 // only the Badge keeps its own colors. An ancestor's underline cannot be cancelled
-// on the Badge: remove it from the anchor and paint it on the label only. Keep this selector
-// at least as specific as the global a:not(.button):not(.site-header__link) rule,
-// including its hover state, or that rule restores the unwanted decoration.
+// on the Badge: remove it from the anchor and paint it on the label only.
+// _global.scss explicitly excludes this link from its defaults. Preserve that
+// exclusion: adding :not() clauses to global defaults previously broke this fix
+// by increasing specificity. Do not rely on a specificity contest here.
 body.jurenites-theme .footer-navigation a.footer-navigation__link--with-badge {
   color: var(--theme-dark-text-primary-default);
   text-decoration: none;
+  @include tools.motion-transition(color);
 
   &:hover,
   &:focus-visible {

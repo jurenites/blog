@@ -5,11 +5,21 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: calc(var(--space-scale-base-gap) * 0.5) var(--space-scale-base-gap);
+  // The label is a flex item: text-align cannot center it in the minimum width.
+  justify-content: center;
+  padding: calc(var(--space-scale-base-gap) * 0.5) calc(var(--space-scale-base-gap) * 0.5);
   border-radius: var(--shape-corner-radius-small);
   background: var(--component-badge-color-background-neutral-default);
   color: var(--component-badge-color-foreground-neutral-default);
+  max-height: calc(var(--space-scale-base-gap) * 3);
+  min-width: calc(var(--space-scale-base-gap) * 3);
   @include tools.typography-badge;
+
+  &--numeric {
+    // Use Numeric Display's family without its 64px display size.
+    font-family: var(--typography-font-family-number);
+    font-variant-numeric: tabular-nums slashed-zero;
+  }
 
   &--gray {
     background: var(--component-badge-color-background-gray-default);

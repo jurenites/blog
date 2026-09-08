@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Component\Utility\Unicode;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
 
@@ -124,8 +125,8 @@ function jurenites_timeline_build_item(ParagraphInterface $timeline_paragraph): 
     $timeline_periods[] = [
       'start_iso' => $period_start_date->format('Y-m-d'),
       'end_iso' => $period_end_date->format('Y-m-d'),
-      'start_label' => $period_start_date->format($date_format_pattern),
-      'end_label' => $period_end_date->format($date_format_pattern),
+      'start_label' => Unicode::ucfirst($period_start_date->format($date_format_pattern)),
+      'end_label' => Unicode::ucfirst($period_end_date->format($date_format_pattern)),
       'start_year' => (int) $period_start_date->format('Y'),
       'end_year' => (int) $period_end_date->format('Y'),
       'start_month' => (int) $period_start_date->format('n'),
@@ -160,9 +161,9 @@ function jurenites_timeline_build_item(ParagraphInterface $timeline_paragraph): 
   }
 
   return [
-    'item_name' => (string) $timeline_paragraph->get('field_timeline_name')->value,
+    'item_name' => (string) $timeline_paragraph->getUntranslated()->get('field_timeline_name')->value,
     'item_kind' => 'project',
-    'organization_name' => (string) $timeline_paragraph->get('field_timeline_organization')->value,
+    'organization_name' => (string) $timeline_paragraph->getUntranslated()->get('field_timeline_organization')->value,
     'organization_url' => $organization_url,
     'periods' => $timeline_periods,
     'hours_label' => $timeline_hours === NULL ? '' : (string) t('@hours h', ['@hours' => number_format((int) $timeline_hours)]),
@@ -329,7 +330,7 @@ function jurenites_timeline_build_year_groups(
         continue;
       }
       $timeline_months[] = [
-        'label' => $month_name,
+        'label' => Unicode::ucfirst($month_name),
         'datetime' => sprintf('%04d-%02d', $year_number, $month_number),
       ];
     }

@@ -86,10 +86,10 @@ msgid "Career and life"
 msgstr "Карьера и жизнь"
 
 msgid "records"
-msgstr "записей"
+msgstr "записи"
 
 msgid "Featured"
-msgstr "Избранное"
+msgstr "Избранный проект"
 
 msgid "Special place in my heart"
 msgstr "Особое место в моём сердце"
@@ -480,3 +480,15 @@ msgstr "Не указано"
 
 msgid "Displayed Unicode mappings"
 msgstr "Отображаемые соответствия Unicode"
+
+msgid "Commercial work"
+msgstr "Коммерческие проекты"
+
+msgid "Project durations"
+msgstr "Сроки работы над проектами"
+
+msgid "Project links"
+msgstr "Ссылки на проект"
+
+msgid "Proof @number"
+msgstr "Материал @number"

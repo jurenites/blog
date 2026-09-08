@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 1.44.1
+Version: 1.46.4
 Reviewed: 2026-09-08
 
 This checkpoint says the `/docs` folder has been reviewed against the current
@@ -94,9 +94,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Pagination uses one class contract across Storybook, shared SCSS, and Drupal's
   pager override. At mobile width it automatically switches to four list items:
   previous arrow, current page, total pages, and next arrow.
-- Breadcrumbs retain a reusable Storybook and shared-SCSS contract, but Drupal
-  currently suppresses breadcrumb trails on every route, including Webforms and
-  node detail pages. Full Articles show only a text Back link to `/blog` for
+- Breadcrumbs use the shared Storybook/SCSS contract on nested pages with an
+  accessible parent beyond Home. Footer navigation highlights the current page
+  and its parent section, including Guidelines on both overview and detail pages.
+  First-level pages have no trail. Full Articles show only a text Back link to `/blog` for
   personal Articles or `/videos` for YouTube references, with a replaceable
   24px, 1px-stroke left-arrow Icon Atom. The link uses normal anchor navigation
   rather than browser history.

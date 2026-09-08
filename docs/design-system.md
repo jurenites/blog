@@ -271,14 +271,19 @@ There is no service worker or custom persistent cache. Verify deployment cache
 headers separately; local behavior does not prove production cache policy.
 
 
-The Breadcrumbs molecule retains its Storybook class contract for future use,
-but Drupal currently suppresses breadcrumb trails on every route, including
-Webforms and node detail pages. Full Article pages show only a
+The Breadcrumbs molecule and Drupal share the same class contract. Nested pages
+show a trail when Drupal resolves an accessible parent beyond Home, for example
+`Guidelines / Logo Icon`. First-level pages have no breadcrumb trail. The final
+item is the current page title with `aria-current="page"`. Footer links highlight
+the current page and ancestors resolved by Drupal's breadcrumb or menu active
+trail: `aria-current="page"` identifies the destination itself, while `location`
+identifies its parent section. Route and path cache contexts keep these states
+and breadcrumb titles separate between sibling pages. Full Article pages show only a
 top-left Back link to `/blog` for personal Articles or `/videos` for YouTube
 reference Articles, with the name-addressable Icon Atom. Its
 `arrow-left` geometry lives in
 `src/public/assets/icons/arrow-left.svg`, is copied to the Drupal theme during
-the theme build, and remains a current-color, 1px-stroke line icon. Breadcrumb
+the theme build, and remains a current-color, 1px-stroke line icon.
 The Back link uses the caption typography role.
 The Back link follows the Article-kind destination and does not use browser
 history, so an Article opened from another page still returns to its public
@@ -470,10 +475,15 @@ Footer Navigation composes the Badge atom inside its Fonts link. Drupal supplies
 the gray Badge's numeric label from the current count of accessible published
 Projects tagged `#Font`; Storybook exposes the same label, destination, and
 composed markup as controls rather than duplicating Badge HTML.
+Numeric badges use `badge--numeric`: the Numeric Display role's Ubuntu Sans Mono
+family, with tabular digits and a slashed zero, while retaining the compact Badge
+size. The Fonts count enables this style in both Drupal and Storybook.
 The Fonts label and its underline turn yellow on hover and keyboard focus;
 the nested Badge keeps its own colors. The anchor itself has no text
-decoration, so the Badge number never receives an underline. The footer override
-must match or exceed the global link selector's specificity in every state.
+decoration, so the Badge number never receives an underline. Global link defaults
+explicitly exclude badged footer links; do not replace this with a specificity
+override. Badge uses both flex alignment axes to center its label within its
+minimum width and height.
 
 Author Byline keeps its name and metadata in one wrapping inline row in both
 Storybook and Drupal. Date Time Value owns the three semantic variants used by

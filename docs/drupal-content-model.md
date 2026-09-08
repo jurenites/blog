@@ -173,6 +173,9 @@ needs them. Until then they remain authored story content.
 
 ## Guideline
 
+Guideline tiles keep their body text free of underlines. Only the tile title
+is underlined when the title itself is hovered.
+
 Purpose: maintain the public visual rules and design-system examples behind the
 site. `/guidelines` lists published Guideline nodes as ordered tiles; each node
 has its own canonical detail page.

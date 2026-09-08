@@ -32,6 +32,7 @@ function jurenites_theme_theme(
       'variables' => [
         'attributes' => [],
         'badge_label' => '',
+        'numeric_style' => FALSE,
         'color_variant' => 'neutral',
       ],
       'template' => 'components/badge',
@@ -65,7 +66,29 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
   ];
   $how_i_work_menu_items = [];
   $information_menu_items = [];
+  $route_match = \Drupal::routeMatch();
+  $parent_breadcrumb = \Drupal::service('breadcrumb')->build($route_match);
+  $ancestor_urls = array_map(
+    static fn($breadcrumb_link): string => $breadcrumb_link->getUrl()->toString(),
+    $parent_breadcrumb->getLinks(),
+  );
+  $current_page_url = Url::fromRoute('<current>')->toString();
+  $navigation_cache = CacheableMetadata::createFromObject($parent_breadcrumb)
+    ->addCacheContexts(['route', 'url.path']);
+  $menu_variables['footer_navigation_cache'] = [];
+  $navigation_cache->applyTo($menu_variables['footer_navigation_cache']);
   foreach ($menu_variables['items'] as $footer_menu_item) {
+    $footer_item_url = $footer_menu_item['url']->toString();
+    // Query-specific links such as Fonts retain their own exact-link behavior.
+    $is_section_link = !$footer_menu_item['url']->getOption('query');
+    $is_current_page = $is_section_link && $footer_item_url === $current_page_url;
+    $is_parent_page = $is_section_link
+      && $footer_item_url !== Url::fromRoute('<front>')->toString()
+      && (in_array($footer_item_url, $ancestor_urls, TRUE) || $footer_menu_item['in_active_trail']);
+    if ($is_current_page || $is_parent_page) {
+      $footer_menu_item['attributes']->addClass('is-active');
+      $footer_menu_item['attributes']->setAttribute('aria-current', $is_current_page ? 'page' : 'location');
+    }
     $footer_item_title = strtolower(strip_tags((string) ($footer_menu_item['title'] ?? '')));
     if (in_array($footer_item_title, ['cookbook', 'guidelines'], TRUE)) {
       if ($footer_item_title === 'guidelines') {
@@ -861,6 +884,13 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
  */
 function jurenites_theme_preprocess_breadcrumb(array &$breadcrumb_variables): void {
   $route_match = \Drupal::routeMatch();
+  $breadcrumb_cache = (new CacheableMetadata())->addCacheContexts(['route', 'url.path']);
+  $node_entity = $route_match->getParameter('node');
+  if ($node_entity instanceof NodeInterface) {
+    $breadcrumb_cache->addCacheableDependency($node_entity);
+  }
+  $breadcrumb_variables['breadcrumb_navigation_cache'] = [];
+  $breadcrumb_cache->applyTo($breadcrumb_variables['breadcrumb_navigation_cache']);
   $route_name = (string) $route_match->getRouteName();
   $route_object = $route_match->getRouteObject();
   $requested_path = trim(\Drupal::request()->getPathInfo(), '/');

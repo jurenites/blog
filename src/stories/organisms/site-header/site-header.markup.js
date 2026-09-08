@@ -4,6 +4,7 @@ import { escape_html, render_template } from "../../template.js";
 
 export function site_header_markup({
   brand_name,
+  brand_full_name,
   brand_logo_url,
   uses_lego_logo = false,
   navigation_labels,
@@ -35,6 +36,7 @@ export function site_header_markup({
 
   return render_template(site_header_template, {
     brand_name: escape_html(brand_name),
+    brand_full_name: escape_html(brand_full_name),
     brand_logo_url: escape_html(brand_logo_url),
     logo_style_class: uses_lego_logo ? " site-header__logo--lego" : "",
     navigation_items,

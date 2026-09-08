@@ -8,6 +8,29 @@ $catalogue_root = dirname(__DIR__, 2) . '/translations';
 $content_rows = json_decode(file_get_contents($catalogue_root . '/content.ru.json'), TRUE, 512, JSON_THROW_ON_ERROR);
 $interface_rows = json_decode(file_get_contents($catalogue_root . '/interface.ru.json'), TRUE, 512, JSON_THROW_ON_ERROR);
 $apply_changes = getenv('JURENITES_TRANSLATIONS_APPLY') === '1';
+$import_scope = getenv('JURENITES_TRANSLATIONS_SCOPE') ?: 'all';
+if (!in_array($import_scope, ['all', 'timeline'], TRUE)) {
+  throw new \RuntimeException('Unknown translation scope: ' . $import_scope);
+}
+if ($import_scope === 'timeline') {
+  $timeline_uuids = [];
+  foreach ($content_rows as $content_row) {
+    if ($content_row['entity_type'] !== 'node' || $content_row['bundle'] !== 'timeline') {
+      continue;
+    }
+    $timeline_node = \Drupal::service('entity.repository')->loadEntityByUuid('node', $content_row['uuid']);
+    if (!$timeline_node) {
+      throw new \RuntimeException('Missing timeline: ' . $content_row['uuid']);
+    }
+    $timeline_uuids[$timeline_node->uuid()] = TRUE;
+    foreach ($timeline_node->get('field_timeline_items')->referencedEntities() as $timeline_paragraph) {
+      $timeline_uuids[$timeline_paragraph->uuid()] = TRUE;
+    }
+  }
+  $content_rows = array_values(array_filter($content_rows, static fn (array $content_row): bool => isset($timeline_uuids[$content_row['uuid']])));
+  $timeline_strings = ['Timeline', 'Commercial work', 'records', 'Project durations', 'Project links', 'Proof @number', 'Featured', 'Special place in my heart', '@hours h'];
+  $interface_rows = array_values(array_filter($interface_rows, static fn (array $interface_row): bool => $interface_row['context'] === '' && in_array($interface_row['en'], $timeline_strings, TRUE)));
+}
 $entity_groups = [];
 foreach ($content_rows as $content_row) {
   $entity_key = $content_row['entity_type'] . ':' . $content_row['uuid'];
@@ -89,6 +112,9 @@ try {
     foreach ($entity_groups[$entity_key] as $content_row) {
       $field_values = $translated_entity->get($content_row['field'])->getValue();
       if (($field_values[$content_row['delta']][$content_row['property']] ?? NULL) !== $content_row['ru']) {
+        // Older translations may lack newly added items. Preserve the source
+        // item's text format or link URI when supplying its translated text.
+        $field_values[$content_row['delta']] ??= $content_entity->getUntranslated()->get($content_row['field'])->getValue()[$content_row['delta']];
         $field_values[$content_row['delta']][$content_row['property']] = $content_row['ru'];
         $translated_entity->set($content_row['field'], $field_values);
         $entity_changed = TRUE;

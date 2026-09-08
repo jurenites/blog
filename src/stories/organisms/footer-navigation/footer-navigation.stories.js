@@ -5,6 +5,11 @@ const SOCIAL_HEADING = "Social networks";
 const MESSENGERS_HEADING = "Messengers";
 const INFORMATION_HEADING = "Information";
 const HOW_I_WORK_HEADING = "How I work";
+const GUIDELINE_LABEL = "Guideline";
+const GUIDELINE_URL = "/guidelines";
+const GUIDELINE_ACTIVE_STATE = "";
+const GUIDELINE_PARENT_STATE = "location";
+const GUIDELINE_PAGE_STATE = "page";
 const SOCIAL_LINKS = social_profiles;
 const MESSENGER_LINKS = [
   { link_label: "Telegram", hover_label: "@jurenites", link_url: "https://t.me/jurenites", icon_name: "brand-telegram" },
@@ -44,6 +49,9 @@ export default {
     messengers_heading: { control: "text" },
     information_heading: { control: "text" },
     how_i_work_heading: { control: "text" },
+    guideline_label: { control: "text" },
+    guideline_url: { control: "text" },
+    guideline_active_state: { control: "select", options: ["", "page", "location"] },
     how_i_work_links: { control: "object" },
     messenger_links: { control: "object" },
     social_links: { control: "object" },
@@ -62,6 +70,9 @@ export default {
     messengers_heading: MESSENGERS_HEADING,
     information_heading: INFORMATION_HEADING,
     how_i_work_heading: HOW_I_WORK_HEADING,
+    guideline_label: GUIDELINE_LABEL,
+    guideline_url: GUIDELINE_URL,
+    guideline_active_state: GUIDELINE_ACTIVE_STATE,
     how_i_work_links: HOW_I_WORK_LINKS,
     messenger_links: MESSENGER_LINKS,
     social_links: SOCIAL_LINKS,
@@ -78,3 +89,11 @@ export default {
 };
 
 export const default_story = {};
+
+export const guideline_parent_active = {
+  args: { guideline_active_state: GUIDELINE_PARENT_STATE },
+};
+
+export const guideline_page_active = {
+  args: { guideline_active_state: GUIDELINE_PAGE_STATE },
+};
