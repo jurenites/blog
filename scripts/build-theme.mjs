@@ -1,4 +1,4 @@
-import { write_icon_sprite_assets } from './build-icon-sprite.mjs';
+import { write_icon_sprite_assets, write_initial_icon_markup } from './build-icon-sprite.mjs';
 import * as esbuild from 'esbuild';
 import { cp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
@@ -36,6 +36,7 @@ async function remove_generated_trailing_whitespace(output_path) {
   await writeFile(output_path, generated_source.replace(/[ \t]+$/gm, ''));
 }
 
+await write_initial_icon_markup(ROOT_DIRECTORY);
 await write_icon_sprite_assets(resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/assets/icon-sprites'));
 
 await mkdir(dirname(BUILD_PATHS.css_output), { recursive: true });

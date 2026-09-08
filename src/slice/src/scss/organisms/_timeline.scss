@@ -188,6 +188,10 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
   width: var(--component-timeline-marker-size-default);
   height: var(--component-timeline-marker-size-default);
   background: var(--theme-dark-action-primary-default);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
 }
 
 .timeline__marker--duration {
@@ -204,6 +208,97 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
     var(--theme-dark-text-primary-default) var(--space-scale-two),
     var(--theme-dark-text-primary-default) calc(var(--space-scale-two) * 2)
   );
+}
+
+.timeline__marker--continues-before {
+  height: calc(100% - var(--space-scale-one));
+  margin-block-end: 0;
+}
+
+.timeline__marker--continues-after {
+  height: calc(100% - var(--space-scale-one));
+  margin-block-start: 0;
+}
+
+.timeline__marker--continues-before.timeline__marker--continues-after {
+  height: 100%;
+  margin-block: 0;
+}
+
+.timeline__item .timeline__marker.is-project-highlighted {
+  z-index: 4;
+  background: var(--component-timeline-marker-color-active);
+  box-shadow: 0 0 var(--space-scale-base-gap) var(--component-timeline-marker-color-active);
+}
+
+.timeline__year-detail.is-project-highlighted {
+  background: var(--theme-dark-surface-background-elevation-level-0);
+}
+
+.timeline__marker:focus-visible,
+.timeline__year-detail:focus-visible {
+  outline: var(--shape-border-width-hairline-default) solid var(--component-timeline-marker-color-active);
+  outline-offset: var(--space-scale-two);
+}
+
+.timeline__synchronized-layout {
+  display: grid;
+  grid-template-columns: calc(#{$timeline-label-column-width} + #{$timeline-axis-width}) minmax(0, 1fr);
+  column-gap: calc(var(--space-scale-base-gap) * 4);
+  align-items: start;
+}
+
+.timeline__rail-window {
+  position: sticky;
+  top: calc(var(--space-scale-base-gap) * 8);
+  height: calc(100dvh - (var(--space-scale-base-gap) * 8));
+  overflow: hidden;
+  overflow-anchor: none;
+  scrollbar-width: none;
+}
+
+.timeline__details-column {
+  min-width: 0;
+}
+
+.timeline--synchronized {
+  .timeline__year-group {
+    content-visibility: visible;
+  }
+
+  .timeline__year-heading {
+    inset-block-start: 0;
+  }
+
+  .timeline__year-canvas {
+    display: block;
+  }
+
+  .timeline__year-detail {
+    content-visibility: visible;
+    padding: var(--space-scale-base-gap);
+    scroll-margin-block: calc(var(--space-scale-base-gap) * 10);
+  }
+
+  .timeline__year-details {
+    padding-block-end: calc(var(--space-scale-base-gap) * 4);
+  }
+}
+
+@for $month_count from 1 through 12 {
+  .timeline--synchronized .timeline__year-group--month-count-#{$month_count} {
+    height: calc(var(--component-timeline-month-height-default) * #{$month_count});
+  }
+
+  .timeline__detail-group--months-#{$month_count} {
+    min-height: calc(var(--component-timeline-month-height-default) * #{$month_count});
+  }
+}
+
+@for $leading_months from 0 through 11 {
+  .timeline__detail-group--leading-months-#{$leading_months} {
+    padding-block-start: calc(var(--component-timeline-month-height-default) * #{$leading_months});
+  }
 }
 
 .timeline__item-content {
@@ -368,6 +463,36 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
 
   .timeline__year-heading {
     font: var(--typography-headline-6);
+  }
+
+  .timeline--synchronized {
+    overflow: visible;
+
+    .timeline__years {
+      min-width: 0;
+    }
+
+    .timeline__synchronized-layout {
+      grid-template-columns: calc(var(--space-scale-base-gap) * 17) minmax(0, 1fr);
+      column-gap: var(--space-scale-base-gap);
+    }
+
+    .timeline__year-group {
+      grid-template-columns: calc(var(--space-scale-base-gap) * 6) minmax(0, 1fr);
+    }
+
+    .timeline__months,
+    .timeline__items {
+      width: calc(var(--space-scale-base-gap) * 11);
+      grid-template-columns: calc(var(--space-scale-base-gap) * 3) repeat(4, var(--component-timeline-marker-size-default));
+    }
+
+    .timeline__year-canvas::after {
+      inset-inline-start: calc(
+        (var(--space-scale-base-gap) * 3) +
+        ((var(--component-timeline-marker-size-default) - var(--component-timeline-line-width-default)) / 2)
+      );
+    }
   }
 
 }

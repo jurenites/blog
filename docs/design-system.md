@@ -136,9 +136,9 @@ pages, nodes, full Articles, Basic pages, and teasers. It exposes semantic
 `readable` and `wide` content widths plus an optional sidebar. Drupal's native
 `.layout-content` consumes the readable width directly; future Twig templates
 can apply the same `.content-layout` classes without adding another story. The
-Drupal `/blog` and `/videos` listings use the same 800px content-width token so
-article teasers and pagination have slightly more room without widening
-standard pages. Drupal's content region and full-node content stacks own a
+Drupal `/blog` listing uses the 800px readable content-width token; `/videos`
+uses the 960px wide token for its responsive grid. Drupal's content region and
+full-node content stacks own a
 two-base-gap vertical rhythm between sibling blocks, fields, structured Project
 sections, and Project tags. Individual children do not add compensating layout
 padding, so nested components remain responsible only for their internal
@@ -159,6 +159,17 @@ one column on mobile. This keeps both listings readable without treating every
 post as a homepage card. Drupal gives this presentation its own `blog_list`
 view mode, keeping its markup and render cache independent from the homepage
 `teaser` cards.
+
+`Organisms/Blog/Video Grid` composes those list items into three, two, or one
+columns. Its Lazy Loading story runs the same scroll behavior as Drupal with
+three simulated pages; Pagination Fallback and Loading Failure show the native
+pager recovery. A polite status region announces loading, completion, and errors
+without moving keyboard focus. The shared pagination renderer provides the
+same `rel="next"` link contract as Drupal.
+The completion message uses the shared gray text token.
+Run `npm run test:video-grid` with the optional Playwright browser setup used by
+`storybook:inspect`. `PLAYWRIGHT_MODULE_PATH` can select a bundled Playwright
+module, and `PLAYWRIGHT_CHROME_CHANNEL=chrome` can use installed Chrome.
 
 Article teaser metadata composes the shared Avatar atom. Storybook's Uploaded
 state and Drupal's native compact-user `author_picture` use the same image slot;
@@ -212,31 +223,32 @@ The Icon Atom Storybook gallery presents the selected icon first, including its
 machine name. Gallery items are keyboard-accessible clickable controls, and
 hover/focus uses the next elevation surface to make the interaction visible.
 
-Shared icons use one deferred SVG symbol sprite generated from editable SVGs
-in `src/public/assets/icons/` by `scripts/build-icon-sprite.mjs`. Theme builds
-write `assets/icon-sprites/icons.{content-hash}.svg` and a server-read manifest.
-The HTML shell contains only its URL in `data-icon-sprite-url`; icon geometry is
-absent from the initial response. After `window.load`, `icon-sprite.js` schedules
-one low-priority same-origin fetch and inserts the returned sprite into the DOM.
-The load event covers eager page resources, not lazy images or future scrolling.
-No preload or external SVG use reference triggers an earlier sprite request.
+Icons required by the current page render their own SVG geometry immediately.
+`scripts/build-icon-sprite.mjs` generates `icon-geometry.html.twig` from the
+editable files in `src/public/assets/icons/`; the shared Twig Icon component
+renders only the requested icon branch, including one shared Figma geometry for all states.
+The whole icon catalog is not embedded in the HTML shell. Internal SVG IDs are
+scoped per instance so repeated icons cannot clash with the deferred sprite.
 
-Named Icon instances continue to reference `#jurenites-icon-{name}`, including
-Select chevrons and both Figma states. SCSS reserves their dimensions while
-loading. Icons become visible only after the sprite arrives; without JavaScript
-or after two failed attempts they stay absent, while text labels/native controls
-remain usable. The loader times out after eight seconds and retries once after
-1.5 seconds. It runs for all visitors, including signed-in/Save-Data sessions:
-current-page icons are required assets, separate from optional speculation.
+The cookie notice close button is server-rendered with its cross geometry before
+the notice is revealed. Enhanced Select chevrons and the JavaScript fallback for
+the cookie close button use a generated two-icon module, shipped inside the
+normal theme script. They never wait for a sprite request, window.load or hover.
+SCSS continues to own dimensions and colors. Storybook's Icon helper renders the
+same generated geometry directly; its gallery and composed examples therefore
+have the same initial-loading behavior as Drupal.
 
-Browser HTTP caching reuses the hashed file across pages, though every document
-waits until its own load event before inserting the sprite. Changing geometry
-changes the URL; rebuild and clear Drupal caches when changing icons. Deploy the
-manifest and hashed files together and retain older hashed files for cached HTML.
-Source view boxes, fills and namespaced clip references are preserved. Storybook
-builds the same file into its static assets and uses the same deferred loader;
-restart Storybook after editing icon sources. Deployment cache headers still
-control retention/revalidation; there is no promise of a permanent cache entry.
+The versioned catalog sprite is still fetched after window.load for later
+client-created symbols and HTTP cache reuse. Failure or delay of that optional
+request cannot hide current-page icons. It retries once after 1.5 seconds, with
+an eight-second timeout per attempt. Next-page asset warming retains its bounded
+idle/intent behavior. The load event covers eager resources, not lazy images.
+
+Theme and Storybook builds generate immediate markup and the versioned sprite
+from the same source geometry. Rebuild and clear Drupal caches after SVG changes;
+restart Storybook after editing sources. Ship the generated Twig and JavaScript
+alongside the sprite manifest and hashed files. Retain older hashed files for
+cached HTML. Deployment cache headers control retention and revalidation.
 
 After the icon loader settles, `asset-warming.js` uses idle time to inspect one likely next
 public page (the first Article title, otherwise a header navigation link).
@@ -434,13 +446,17 @@ default and hover states without replacing the surrounding typography. The
 version Git-hash link explicitly retains the 4pixel family and a persistent 1px
 solid underline so it reads as a technical link without relying on color.
 
-Footer Navigation uses two titled columns of vertically stacked list links:
-Social networks uses the six profiles in the theme's `social-links.json`, and
-Information uses the Footer menu. Both columns remain side by side on mobile,
-with the rights message below. Storybook imports the same profile data as Drupal.
+Footer Navigation uses four titled columns of vertically stacked list links:
+Social networks, Messengers, How I work, and Information. The columns stack on
+mobile, with the rights message below. Storybook imports the same social profile
+data as Drupal.
 Social links compose the shared Icon atom with locally stored monochrome
 `social-*.svg` assets. Only the explicitly classed social-network icon is reduced
-to 16px; the External Link icon retains the Icon atom's 24px default.
+to 16px, along with the How I work brand icons. Figma alone uses an 18px-high
+viewport and the complete `brand-figma.svg` geometry in both states: its fills
+inherit `currentColor` at rest and restore token-backed brand colors on hover
+or keyboard focus. The External Link icon retains the Icon atom's 24px default
+and appears only inside the hover/focus label for all three external-link groups.
 `currentColor` supports black or white presentation; the dark footer uses white,
 switching the icon and label to each network's color
 on hover and keyboard focus while the platform label changes to the account
@@ -454,8 +470,8 @@ Footer Navigation composes the Badge atom inside its Fonts link. Drupal supplies
 the gray Badge's numeric label from the current count of accessible published
 Projects tagged `#Font`; Storybook exposes the same label, destination, and
 composed markup as controls rather than duplicating Badge HTML.
-The Fonts link keeps its label and Badge colors unchanged on hover and keyboard
-focus; only the label's underline turns yellow. The anchor itself has no text
+The Fonts label and its underline turn yellow on hover and keyboard focus;
+the nested Badge keeps its own colors. The anchor itself has no text
 decoration, so the Badge number never receives an underline. The footer override
 must match or exceed the global link selector's specificity in every state.
 

@@ -2391,6 +2391,22 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-footer-navigation-figma-icon-height-default",
+    "path": [
+      "component",
+      "footer-navigation",
+      "figma-icon-height-default"
+    ],
+    "type": "dimension",
+    "description": "Taller Figma logo; other brand icons remain 16px.",
+    "source_value": "18px",
+    "value": "18px",
+    "css_value": "18px",
+    "resolved_css_value": "18px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-footer-navigation-linkedin-color-hover",
     "path": [
       "component",
@@ -3646,6 +3662,22 @@ export const TOKEN_RECORDS = [
     "resolved_css_value": "2-digit",
     "is_reference": false,
     "reference_name": null
+  },
+  {
+    "name": "component-timeline-marker-color-active",
+    "path": [
+      "component",
+      "timeline",
+      "marker-color-active"
+    ],
+    "type": "string",
+    "description": "Matching project segments glow on hover and focus.",
+    "source_value": "{color.palette.full-white}",
+    "value": "#FFFFFF",
+    "css_value": "var(--color-palette-full-white)",
+    "resolved_css_value": "#FFFFFF",
+    "is_reference": true,
+    "reference_name": "color-palette-full-white"
   },
   {
     "name": "component-timeline-marker-size-default",

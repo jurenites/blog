@@ -1,4 +1,4 @@
 <li data-timeline-item-name="{{item_name}}" class="timeline__item timeline__item--project timeline__item--lane-{{lane_number}} timeline__item--row-start-{{row_start}} timeline__item--ending-month-{{ending_month}} timeline__item--month-span-{{month_span}}{{overlap_class_name}}">
   {{organization_transition_markup}}
-  <span class="timeline__marker timeline__marker--duration" aria-hidden="true"></span>
+  <button type="button" class="timeline__marker timeline__marker--duration{{continuation_classes}}" data-project-key="{{project_key}}" data-period-key="{{period_key}}" aria-label="{{item_name}}: {{period_label}}"></button>
 </li>

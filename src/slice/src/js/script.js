@@ -1,4 +1,6 @@
+import { CLOSE_ICON_SVG, CHEVRON_ICON_SVG } from '../../../../generated/icons/control-icons.js';
 import { install_icon_sprite } from './icon-sprite.js';
+import { initialize_video_grids, detach_video_grids } from './video-grid.js';
 import { install_asset_warming } from './asset-warming.js';
 import { install_message_toasts } from './message-toast.js';
 import { initialize_pixel_glyph_editors } from './pixel-glyph-editor.js';
@@ -446,7 +448,7 @@ export function enable_custom_select(native_select) {
   suffix_icon_element.className = 'select-input__suffix-icon';
   suffix_icon_element.classList.add('icon');
   suffix_icon_element.setAttribute('name', 'chevron-down');
-  suffix_icon_element.innerHTML = '<svg class="icon__svg" viewBox="0 0 24 24" fill="none"><use href="#jurenites-icon-chevron-down"></use></svg>';
+  suffix_icon_element.innerHTML = CHEVRON_ICON_SVG;
   suffix_element.appendChild(suffix_icon_element);
   select_trigger.append(selected_value_element, suffix_element);
 
@@ -858,7 +860,7 @@ export function initialize_cookie_policy_notice(cookie_policy_notice) {
     close_button.type = 'button';
     close_button.setAttribute('aria-label', typeof Drupal !== 'undefined'
       ? Drupal.t('Close cookie notice') : 'Close cookie notice');
-    close_button.innerHTML = '<icon class="icon cookie-policy-notice__close-icon" name="cross-big" data-icon-name="cross-big" aria-hidden="true"><svg class="icon__svg" viewBox="0 0 24 24" fill="currentColor"><use href="#jurenites-icon-cross-big" fill="currentColor"></use></svg></icon>';
+    close_button.innerHTML = `<icon class="icon cookie-policy-notice__close-icon" name="cross-big" data-icon-name="cross-big" aria-hidden="true">${CLOSE_ICON_SVG}</icon>`;
     cookie_policy_notice.appendChild(close_button);
   }
 
@@ -893,6 +895,12 @@ export function initialize_cookie_policy_notices(cookie_notice_context) {
 }
 
 if (typeof Drupal !== 'undefined') {
+  Drupal.behaviors.jurenites_video_grid = {
+    attach(listing_context) { initialize_video_grids(listing_context); },
+    detach(listing_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_video_grids(listing_context);
+    },
+  };
   install_message_toasts(Drupal);
   void install_icon_sprite().then(() => install_asset_warming());
   Drupal.behaviors.jurenites_timeline_organization = {

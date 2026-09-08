@@ -33,7 +33,7 @@
               </li>
             {% endfor %}
           </ol>
-          <ol class="timeline__items" aria-hidden="true">
+          <ol class="timeline__items" aria-label="{{ 'Project durations'|t }}">
             {% for timeline_item in year_group.timeline_fragments %}
               <li data-timeline-item-name="{{ timeline_item.item_name }}" class="timeline__item timeline__item--project timeline__item--lane-{{ timeline_item.lane_number }} timeline__item--row-start-{{ timeline_item.row_start }} timeline__item--ending-month-{{ timeline_item.ending_month }} timeline__item--month-span-{{ timeline_item.month_span }}{% if timeline_item.is_overflow_overlap %} timeline__item--overlap{% endif %}">
                 {% if timeline_item.show_details and timeline_item.organization_heading %}
@@ -44,14 +44,14 @@
                     aria-hidden="true"
                   ></span>
                 {% endif %}
-                <span class="timeline__marker timeline__marker--duration" aria-hidden="true"></span>
+                <button type="button" class="timeline__marker timeline__marker--duration{% if timeline_item.continues_before %} timeline__marker--continues-before{% endif %}{% if timeline_item.continues_after %} timeline__marker--continues-after{% endif %}" data-project-key="{{ timeline_item.project_key }}" data-period-key="{{ timeline_item.period_key }}" aria-label="{{ timeline_item.item_name }}: {{ timeline_item.period.start_label }} – {{ timeline_item.period.end_label }}"></button>
               </li>
             {% endfor %}
           </ol>
           {% if year_group.timeline_details %}
             <ol class="timeline__year-details">
               {% for timeline_item in year_group.timeline_details %}
-                <li class="timeline__year-detail timeline__year-detail--project">
+                <li class="timeline__year-detail timeline__year-detail--project" data-project-key="{{ timeline_item.project_key }}" data-period-key="{{ timeline_item.period_key }}" data-start-month="{{ timeline_item.start_month }}" tabindex="0">
                   <article class="timeline__item-content">
                     <header class="timeline__item-header">
                       <h3 class="timeline__item-title">

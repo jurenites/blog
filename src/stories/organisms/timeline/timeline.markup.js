@@ -212,6 +212,11 @@ function timeline_year_groups(timeline_items, timeline_current_date) {
         const visible_month_count = fragment_year === current_year ? current_month : 12;
         const grouped_fragments = year_fragments.get(fragment_year) ?? [];
         grouped_fragments.push({
+          project_key: 'project-' + item_index,
+          period_key: 'project-' + item_index + '-period-' + period_index,
+          start_month: start_date.getUTCMonth() + 1,
+          continues_before: fragment_year > start_year,
+          continues_after: fragment_year < visible_end_year,
           timeline_item,
           timeline_period,
           period_index,
@@ -238,7 +243,8 @@ function timeline_year_groups(timeline_items, timeline_current_date) {
       timeline_fragments: year_fragments.get(year_number) ?? [],
       timeline_details: (year_fragments.get(year_number) ?? []).filter(
         (timeline_fragment) => timeline_fragment.show_details,
-      ),
+      ).sort((first_fragment, second_fragment) =>
+        second_fragment.timeline_period.start_date.localeCompare(first_fragment.timeline_period.start_date)),
     });
   }
   const initial_organization = sorted_items.find(
@@ -250,6 +256,11 @@ function timeline_year_groups(timeline_items, timeline_current_date) {
 function timeline_item_markup(timeline_fragment) {
   const timeline_item = timeline_fragment.timeline_item;
   return render_template(timeline_item_template, {
+    project_key: escape_html(timeline_fragment.project_key),
+    period_key: escape_html(timeline_fragment.period_key),
+    period_label: escape_html(timeline_fragment.timeline_period.start_date + ' – ' + timeline_fragment.timeline_period.end_date),
+    continuation_classes: (timeline_fragment.continues_before ? ' timeline__marker--continues-before' : '')
+      + (timeline_fragment.continues_after ? ' timeline__marker--continues-after' : ''),
     item_name: escape_html(timeline_item.item_name),
     lane_number: escape_html(timeline_fragment.lane_number),
     ending_month: escape_html(timeline_fragment.ending_month),
@@ -292,7 +303,10 @@ export function timeline_markup({
       timeline_months_markup: timeline_months_markup(year_group.year_label, year_group.visible_month_count),
       timeline_items_markup: year_group.timeline_fragments.map(timeline_item_markup).join(""),
       timeline_details_markup: year_group.timeline_details
-        .map((timeline_fragment) => '<li class="timeline__year-detail timeline__year-detail--project">'
+        .map((timeline_fragment) => '<li class="timeline__year-detail timeline__year-detail--project" tabindex="0" data-project-key="'
+          + escape_html(timeline_fragment.project_key) + '" data-period-key="'
+          + escape_html(timeline_fragment.period_key) + '" data-start-month="'
+          + escape_html(timeline_fragment.start_month) + '">'
           + item_content_markup(timeline_fragment) + "</li>")
         .join(""),
     }))

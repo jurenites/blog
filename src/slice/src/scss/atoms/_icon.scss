@@ -1,4 +1,4 @@
-// Atom: Icon. Space is reserved while the shared sprite loads after window load.
+// Atom: Icon. Initial geometry is local; the catalog sprite warms after load.
 
 .icon {
   display: inline-flex;
@@ -22,6 +22,6 @@
   pointer-events: none;
 }
 
-.icon__svg--hover {
-  display: none;
+.icon[data-icon-name="brand-figma"] {
+  --icon-figma-fill: currentColor;
 }

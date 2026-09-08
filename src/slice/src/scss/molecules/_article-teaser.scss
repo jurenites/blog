@@ -285,6 +285,18 @@
     gap: calc(var(--space-scale-base-gap) * 2);
   }
 
+  &__status {
+    min-height: calc(var(--space-scale-base-gap) * 3);
+    margin-block: calc(var(--space-scale-base-gap) * 3);
+    color: var(--theme-dark-text-secondary-default);
+    text-align: center;
+    @include tools.typography-body-2;
+  }
+
+  &__status--complete {
+    color: var(--theme-dark-text-gray);
+  }
+
   &__introduction {
     max-width: var(--layout-content-max-blog-default);
     margin: 0 0 calc(var(--space-scale-base-gap) * 3);

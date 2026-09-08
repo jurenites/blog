@@ -33,7 +33,6 @@ export function footer_navigation_markup({
     information_heading: escape_html(information_heading),
     how_i_work_heading: escape_html(how_i_work_heading),
     messenger_links_markup: messenger_links.map((messenger_link) => render_template(footer_navigation_item_template, {
-      default_external_icon_markup: "",
       external_icon_markup: icon_markup({
         icon_name: "external-link",
         class_name: "footer-navigation__external-mark",
@@ -51,10 +50,6 @@ export function footer_navigation_markup({
       resource_link_class: "footer-navigation__messenger-link",
     })).join(""),
     how_i_work_links_markup: how_i_work_links.map((resource_link) => render_template(footer_navigation_item_template, {
-      default_external_icon_markup: icon_markup({
-        icon_name: "external-link",
-        class_name: "footer-navigation__external-mark",
-      }),
       external_icon_markup: icon_markup({
         icon_name: "external-link",
         class_name: "footer-navigation__external-mark",
@@ -74,7 +69,6 @@ export function footer_navigation_markup({
       resource_link_class: `footer-navigation__resource-link${resource_link.color_token ? ` footer-navigation__resource-link--${resource_link.color_token}` : ""}`,
     })).join(""),
     social_links_markup: social_links.map((social_link) => render_template(footer_navigation_item_template, {
-      default_external_icon_markup: "",
       external_icon_markup: icon_markup({
         icon_name: "external-link",
         class_name: "footer-navigation__external-mark",

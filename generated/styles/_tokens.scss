@@ -146,6 +146,7 @@
   --component-hero-section-ray-color-duration-default: 2800ms;
   --component-hero-section-image-horizontal-fade-width-default: 96px;
   --component-footer-navigation-social-icon-size-default: 16px;
+  --component-footer-navigation-figma-icon-height-default: 18px;
   --component-footer-navigation-linkedin-color-hover: #2867B2;
   --component-footer-navigation-facebook-color-hover: #1877F2;
   --component-footer-navigation-vk-color-hover: #0077FF;
@@ -222,6 +223,7 @@
   --component-date-time-value-format-date-day-time-year: numeric;
   --component-date-time-value-format-date-day-time-hour: numeric;
   --component-date-time-value-format-date-day-time-minute: 2-digit;
+  --component-timeline-marker-color-active: var(--color-palette-full-white);
   --component-timeline-marker-size-default: var(--space-scale-base-gap);
   --component-timeline-marker-size-active: 40px;
   --component-timeline-line-width-default: var(--shape-border-width-hairline-default);

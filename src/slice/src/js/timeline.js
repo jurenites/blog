@@ -1,3 +1,5 @@
+import { initialize_timeline_layout } from './timeline-layout.js';
+
 export function find_active_organization_index(transition_offsets, activation_offset) {
   let active_transition_index = 0;
   transition_offsets.forEach((transition_offset, transition_index) => {
@@ -134,6 +136,9 @@ export function initialize_timeline_organization_rail(timeline_element) {
     passive: true,
     signal: listener_controller.signal,
   });
+  timeline_element.addEventListener('timeline:calendar-scroll', schedule_sticky_update, {
+    signal: listener_controller.signal,
+  });
   timeline_element.jurenites_timeline_organization_destroy = () => {
     listener_controller.abort();
     timeline_window.cancelAnimationFrame(update_animation_frame);
@@ -148,7 +153,10 @@ export function initialize_timeline_organization_rails(timeline_context = docume
   if (timeline_context.matches?.('.timeline')) {
     timeline_elements.unshift(timeline_context);
   }
-  timeline_elements.forEach(initialize_timeline_organization_rail);
+  timeline_elements.forEach((timeline_element) => {
+    initialize_timeline_layout(timeline_element);
+    initialize_timeline_organization_rail(timeline_element);
+  });
 }
 
 export function detach_timeline_organization_rails(timeline_context = document) {
@@ -158,5 +166,6 @@ export function detach_timeline_organization_rails(timeline_context = document) 
   }
   timeline_elements.forEach((timeline_element) => {
     timeline_element.jurenites_timeline_organization_destroy?.();
+    timeline_element.jurenites_timeline_layout_destroy?.();
   });
 }

@@ -91,11 +91,14 @@ project uses the same month for its Start and End values and still renders as a
 duration bar.
 Every completed year's calendar rail occupies the same twelve 32px rows, with
 December at the top and January at the bottom so scrolling moves backward
-through time. Its right-side project details may make the overall year section
-taller. The current year begins with the current month and does not render
+through time. The enhanced layout stacks calendar years with no gaps and places
+descriptions in a separate flowing column. A sticky calendar viewport follows
+the text's start-month anchors as the page scrolls; dense descriptions can take
+more space without stretching the calendar. The current year begins with the current month and does not render
 months that have not started. Duration records use an 8px-wide bar spanning
 exactly the inclusive start and end months, with a small visual break between
-adjacent projects. Overlapping projects take the first free one of four
+adjacent projects; ranges continuing across a year boundary have no break.
+Overlapping projects take the first free one of four
 parallel lanes. If more than four ranges overlap, the shared marker uses a
 45-degree yellow-and-white stripe. The year heading sticks until the next year
 replaces it.
@@ -113,7 +116,11 @@ work, App Store listings, and historical Dropbox PDFs; projects without a
 documented URL do not receive a guessed link. Each year keeps its compact 32px
 month scale in a narrow left rail with up to four parallel duration tracks. The
 corresponding project descriptions and links form a wider, left-aligned column
-on the right; dense years grow so those entries stack instead of overlapping.
+on the right; dense text groups grow so those entries stack instead of overlapping.
+Hover or keyboard focus on a card or duration segment highlights every segment
+of that project in full white with a small glow, and gives its cards a lighter
+background. Duration buttons also jump to their corresponding period's card.
+Without JavaScript the complete grouped chronology remains readable.
 When a project has a CV-documented URL, its title links directly to the first
 stored destination; the remaining proof links stay visible below its summary.
 Later edits happen through the single Timeline node form; adding another item
@@ -253,7 +260,14 @@ Articles whose YouTube field is populated. Both pages retain tag filtering.
 Videos uses a wide grid with three columns on desktop, two on tablets, and one
 on phones. Each tile keeps its thumbnail above the title, description, and
 creator details, reusing the Article Blog List Item markup. The grid preserves
-the existing Views ordering (newest first) and pagination. An introductory note
+the existing Views ordering (newest first). As the visitor approaches the end,
+the theme fetches the native next-page URL and appends its cards, retaining tag
+filters and reattaching thumbnail, avatar, and tooltip behaviors. Only one page
+loads at a time; the final page stops loading and announces completion. Native
+pagination remains the server-rendered fallback when JavaScript or intersection
+observation is unavailable, or when a request fails or times out after 15 seconds.
+The fallback advances with each appended page so its Next link continues from
+the last loaded batch. Direct paginated URLs still work. An introductory note
 explains that these are personally recommended videos for learning, including
 topics not covered elsewhere on the site. Blog keeps its editorial list layout.
 Article Back and Tag links

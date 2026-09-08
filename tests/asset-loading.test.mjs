@@ -1,3 +1,5 @@
+import { ICON_SHAPES } from '../generated/icons/icon-markup.js';
+import { CLOSE_ICON_SVG, CHEVRON_ICON_SVG } from '../generated/icons/control-icons.js';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { readFile, readdir } from 'node:fs/promises';
@@ -138,4 +140,30 @@ test('failed speculation does not prevent a later navigation-intent request', as
   test_browser.document_events.get('focusin')({ target: link_fixture('/portfolio') });
   await settle_requests();
   assert.equal(request_count, 2);
+});
+
+
+test('initial control geometry remains available without any sprite or external request', () => {
+  for (const control_shape of [CLOSE_ICON_SVG, CHEVRON_ICON_SVG]) {
+    assert.match(control_shape, /<svg[^>]+viewBox="0 0 24 24"/);
+    assert.match(control_shape, /<path[^>]+d="[^"]+"/);
+    assert.doesNotMatch(control_shape, /<use|href=|__ICON_/);
+  }
+  assert.match(CHEVRON_ICON_SVG, /stroke="currentColor"/);
+});
+
+test('each initial icon renders its own geometry with scoped internal references', async () => {
+  const icon_files = (await readdir(new URL('../src/public/assets/icons/', import.meta.url))).filter((file_name) => file_name.endsWith('.svg'));
+  assert.equal(Object.keys(ICON_SHAPES).length, icon_files.length);
+  for (const icon_shape of Object.values(ICON_SHAPES)) {
+    assert.match(icon_shape, /<svg/);
+    assert.doesNotMatch(icon_shape, /<use[^>]+href="#jurenites-icon-/);
+    for (const reference_match of icon_shape.matchAll(/url\(#([^)]+)\)/g)) {
+      assert.ok(reference_match[1].includes('__ICON_INSTANCE__'));
+      assert.ok(icon_shape.includes(`id="${reference_match[1]}"`));
+    }
+  }
+  const cookie_template = await readFile(new URL('../web/themes/custom/jurenites_theme/templates/block/block--jurenites-theme-cookie-policy-notice.html.twig', import.meta.url), 'utf8');
+  assert.match(cookie_template, /<button[^>]+cookie-policy-notice__close/);
+  assert.match(cookie_template, /icon_name: 'cross-big'/);
 });

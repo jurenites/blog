@@ -39,9 +39,9 @@
 }
 
 // Fonts link contract: the nested Badge number must NEVER be underlined or turn
-// yellow on hover/focus. Keep both text colors fixed; only the Fonts underline
-// changes to yellow. An ancestor's underline cannot be cancelled on the Badge:
-// remove it from the anchor and paint it on the label only. Keep this selector
+// yellow on hover/focus. The Fonts label AND its underline turn yellow normally;
+// only the Badge keeps its own colors. An ancestor's underline cannot be cancelled
+// on the Badge: remove it from the anchor and paint it on the label only. Keep this selector
 // at least as specific as the global a:not(.button):not(.site-header__link) rule,
 // including its hover state, or that rule restores the unwanted decoration.
 body.jurenites-theme .footer-navigation a.footer-navigation__link--with-badge {
@@ -50,7 +50,7 @@ body.jurenites-theme .footer-navigation a.footer-navigation__link--with-badge {
 
   &:hover,
   &:focus-visible {
-    color: var(--theme-dark-text-primary-default);
+    color: var(--color-palette-brand-tertiary);
 
     > .footer-navigation__link-label {
       text-decoration-color: var(--color-palette-brand-tertiary);
@@ -99,10 +99,7 @@ body.jurenites-theme .footer-navigation a.footer-navigation__link--with-badge > 
 }
 
 .footer-navigation__external-mark {
-  flex: 0 0 auto;
-  width: var(--component-footer-navigation-social-icon-size-default);
-  height: var(--component-footer-navigation-social-icon-size-default);
-  margin-inline-start: calc(var(--space-scale-base-gap) * 0.5);
+  //margin-inline-start: calc(var(--space-scale-base-gap) * 0.5);
 }
 
 body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--storybook:hover,
@@ -145,15 +142,14 @@ body.jurenites-theme .footer-navigation .footer-navigation__resource-link--figma
   height: var(--component-footer-navigation-social-icon-size-default);
 }
 
-// Both brand states use symbols already present in the document.
-.footer-navigation__resource-link--figma:hover .footer-navigation__resource-icon > .icon__svg,
-.footer-navigation__resource-link--figma:focus-visible .footer-navigation__resource-icon > .icon__svg {
-  display: none;
+// Figma keeps one complete logo, with a slightly taller brand-specific viewport.
+.footer-navigation__resource-link--figma .footer-navigation__resource-icon {
+  height: var(--component-footer-navigation-figma-icon-height-default);
 }
 
-.footer-navigation__resource-link--figma:hover .footer-navigation__resource-icon > .icon__svg--hover,
-.footer-navigation__resource-link--figma:focus-visible .footer-navigation__resource-icon > .icon__svg--hover {
-  display: block;
+.footer-navigation__resource-link--figma:hover .footer-navigation__resource-icon,
+.footer-navigation__resource-link--figma:focus-visible .footer-navigation__resource-icon {
+  --icon-figma-fill: initial;
 }
 
 .footer-navigation__rights-message {

@@ -1,4 +1,4 @@
-import { write_icon_sprite_assets } from './build-icon-sprite.mjs';
+import { write_icon_sprite_assets, write_initial_icon_markup } from './build-icon-sprite.mjs';
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -24,6 +24,7 @@ const build_info = await write_build_information();
 const token_css_content = `/* GENERATED from token and font sources. Do not edit. */\n${root_block}\n\n${font_css}`;
 
 await mkdir(OUTPUT_DIRECTORY, { recursive: true });
+await write_initial_icon_markup(PROJECT_DIRECTORY);
 await write_icon_sprite_assets(resolve(OUTPUT_DIRECTORY, "assets/icon-sprites"));
 await writeFile(TOKEN_CSS_PATH, token_css_content, "utf8");
 

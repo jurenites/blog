@@ -67,11 +67,7 @@
                   icon_asset_base_url: icon_asset_base_url
                 } only %}
                 <span class="footer-navigation__resource-label" aria-hidden="true">
-                  <span class="footer-navigation__resource-label-text footer-navigation__resource-label-text--default">{{ how_i_work_link.link_label }}{% include '@jurenites_theme/components/icon.html.twig' with {
-                    icon_name: 'external-link',
-                    icon_class: 'footer-navigation__external-mark',
-                    icon_asset_base_url: icon_asset_base_url
-                  } only %}</span>
+                  <span class="footer-navigation__resource-label-text footer-navigation__resource-label-text--default">{{ how_i_work_link.link_label }}</span>
                   <span class="footer-navigation__resource-label-text footer-navigation__resource-label-text--hover"><span>{%- if how_i_work_link.hover_parts -%}{%- for hover_part in how_i_work_link.hover_parts -%}<span class="footer-navigation__resource-label-part{% if hover_part.color_token %} footer-navigation__resource-label-part--{{ hover_part.color_token }}{% endif %}">{{- hover_part.text -}}</span>{%- endfor -%}{%- else -%}{{- how_i_work_link.hover_label -}}{%- endif -%}</span>{% include '@jurenites_theme/components/icon.html.twig' with {
                     icon_name: 'external-link',
                     icon_class: 'footer-navigation__external-mark',

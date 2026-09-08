@@ -48,3 +48,24 @@ export async function storybook_sprite_placeholder() {
   if (!/^icons\.[a-f0-9]{16}\.svg$/.test(asset_name)) throw new Error('Invalid sprite manifest');
   return `<span hidden data-icon-sprite-url="./assets/icon-sprites/${asset_name}"></span>`;
 }
+
+// Initial components include only their own geometry, never the entire catalog.
+export async function write_initial_icon_markup(project_directory) {
+  const sprite_source = await build_icon_sprite();
+  const icon_shapes = {};
+  for (const symbol_match of sprite_source.matchAll(/<symbol id="jurenites-icon-([^"]+)"([^>]*)>([\s\S]*?)<\/symbol>/g)) {
+    const [, icon_name, svg_attributes, shape_content] = symbol_match;
+    const scoped_content = shape_content.replaceAll(`jurenites-${icon_name}-`, `jurenites-__ICON_INSTANCE__-${icon_name}-`);
+    icon_shapes[icon_name] = `<svg class="icon__svg__ICON_CLASS__"${svg_attributes}>${scoped_content}</svg>`;
+  }
+  const generated_directory = resolve(project_directory, 'generated/icons');
+  await mkdir(generated_directory, { recursive: true });
+  await writeFile(resolve(generated_directory, 'icon-markup.js'), `// Generated from src/public/assets/icons. Do not edit.\nexport const ICON_SHAPES = ${JSON.stringify(icon_shapes, null, 2)};\n`);
+  await writeFile(resolve(generated_directory, 'control-icons.js'), `// Generated control geometry: no network dependency.\nexport const CLOSE_ICON_SVG = ${JSON.stringify(icon_shapes['cross-big'].replace('__ICON_CLASS__', ''))};\nexport const CHEVRON_ICON_SVG = ${JSON.stringify(icon_shapes['chevron-down'].replace('__ICON_CLASS__', ''))};\n`);
+  const twig_branches = Object.entries(icon_shapes).map(([icon_name, icon_shape], icon_index) => {
+    const twig_shape = icon_shape.replaceAll('__ICON_INSTANCE__', '{{ icon_instance_id }}').replace('__ICON_CLASS__', '{{ icon_svg_extra_class|default(\'\') }}');
+    return `{% ${icon_index === 0 ? 'if' : 'elseif'} icon_name == '${icon_name}' %}\n${twig_shape}`;
+  });
+  const twig_source = `{# Generated from editable SVG assets. Only the requested icon is rendered. #}\n{% set icon_instance_id = 'initial-icon-' ~ random(2147483647) %}\n${twig_branches.join('\n')}\n{% endif %}\n`;
+  await writeFile(resolve(project_directory, 'web/themes/custom/jurenites_theme/templates/components/icon-geometry.html.twig'), twig_source);
+}

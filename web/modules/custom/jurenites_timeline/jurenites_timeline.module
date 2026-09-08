@@ -270,6 +270,11 @@ function jurenites_timeline_build_year_groups(
         $show_details = $fragment_year === $timeline_period['start_year'];
         $visible_month_count = $fragment_year === $current_year ? $current_month : 12;
         $year_fragments[$fragment_year][] = [
+          'project_key' => 'project-' . $item_index,
+          'period_key' => 'project-' . $item_index . '-period-' . $period_index,
+          'start_month' => $timeline_period['start_month'],
+          'continues_before' => $fragment_year > $timeline_period['start_year'],
+          'continues_after' => $fragment_year < $visible_end_year,
           'item_name' => $timeline_item['item_name'],
           'item_kind' => $timeline_item['item_kind'],
           'hours_label' => $timeline_item['hours_label'],
