@@ -2,7 +2,7 @@
   "name": "blog-jurenites",
   "private": true,
   "type": "module",
-  "version": "1.46.4",
+  "version": "1.48.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/jurenites/blog.git"

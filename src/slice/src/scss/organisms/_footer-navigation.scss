@@ -210,6 +210,25 @@ body.jurenites-theme .footer-navigation .footer-navigation__social-link {
   height: var(--component-footer-navigation-social-icon-size-default);
 }
 
+.footer-navigation__messenger-link[data-social-icon="messenger-brand-gmail"] > .footer-navigation__social-network-icon {
+  --icon-gmail-fill: currentColor;
+
+  width: calc(var(--component-footer-navigation-gmail-icon-height-default) * 800 / 636.36322);
+  height: var(--component-footer-navigation-gmail-icon-height-default);
+}
+
+// Match the global anchor specificity so Gmail retains its brand text color.
+body.jurenites-theme .footer-navigation a.footer-navigation__messenger-link[data-social-icon="messenger-brand-gmail"] {
+  &:hover,
+  &:focus-visible {
+    color: var(--component-footer-navigation-gmail-color-hover);
+
+    > .footer-navigation__social-network-icon {
+      --icon-gmail-fill: initial;
+    }
+  }
+}
+
 @include tools.breakpoint-down("mobile-max") {
   .footer-navigation {
     width: calc(100% - (var(--layout-gutter-mobile-default) * 2));

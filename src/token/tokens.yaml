@@ -192,6 +192,20 @@ component:
     image-horizontal-fade-width-default: 96px # Blend each side of the Hero image into the homepage canvas.
   footer-navigation:
     social-icon-size-default: 16px # Compact social icons in the footer.
+    gmail-icon-height-default: 12px # Rectangular Gmail mark, independently adjustable.
+    gmail-gradient-red-color: "#FC413D"
+    gmail-gradient-light-green-color: "#60D673"
+    gmail-gradient-green-color: "#42C868"
+    gmail-gradient-deep-green-color: "#0EBC5F"
+    gmail-gradient-teal-color: "#00A9BB"
+    gmail-gradient-blue-color: "#3C90FF"
+    gmail-gradient-deep-blue-color: "#3186FF"
+    gmail-gradient-pink-color: "#FF63A0"
+    gmail-gradient-orange-color: "#FC5C30"
+    gmail-gradient-amber-color: "#FEB10C"
+    gmail-gradient-yellow-color: "#FEC700"
+    gmail-gradient-light-yellow-color: "#FFDB0F"
+    gmail-color-hover: "#EA4335" # Google brand red.
     figma-icon-height-default: 18px # Taller Figma logo; other brand icons remain 16px.
     linkedin-color-hover: "#2867B2" #https://brand.linkedin.com/en-us
     facebook-color-hover: "#1877F2" #https://www.meta.com/brand/resources/facebook/logo/?srsltid=AfmBOoraVFK97HX6ieR7N9jiy8s7kCosZ5_BZTv1rmvFrK-jg5gEckD_

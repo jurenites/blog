@@ -2391,6 +2391,230 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-footer-navigation-gmail-icon-height-default",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-icon-height-default"
+    ],
+    "type": "dimension",
+    "description": "Rectangular Gmail mark, independently adjustable.",
+    "source_value": "12px",
+    "value": "12px",
+    "css_value": "12px",
+    "resolved_css_value": "12px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-gradient-red-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-gradient-red-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FC413D",
+    "value": "#FC413D",
+    "css_value": "#FC413D",
+    "resolved_css_value": "#FC413D",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-gradient-light-green-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-gradient-light-green-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#60D673",
+    "value": "#60D673",
+    "css_value": "#60D673",
+    "resolved_css_value": "#60D673",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-gradient-green-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-gradient-green-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#42C868",
+    "value": "#42C868",
+    "css_value": "#42C868",
+    "resolved_css_value": "#42C868",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-gradient-deep-green-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-gradient-deep-green-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#0EBC5F",
+    "value": "#0EBC5F",
+    "css_value": "#0EBC5F",
+    "resolved_css_value": "#0EBC5F",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-gradient-teal-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-gradient-teal-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#00A9BB",
+    "value": "#00A9BB",
+    "css_value": "#00A9BB",
+    "resolved_css_value": "#00A9BB",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-gradient-blue-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-gradient-blue-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#3C90FF",
+    "value": "#3C90FF",
+    "css_value": "#3C90FF",
+    "resolved_css_value": "#3C90FF",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-gradient-deep-blue-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-gradient-deep-blue-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#3186FF",
+    "value": "#3186FF",
+    "css_value": "#3186FF",
+    "resolved_css_value": "#3186FF",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-gradient-pink-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-gradient-pink-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FF63A0",
+    "value": "#FF63A0",
+    "css_value": "#FF63A0",
+    "resolved_css_value": "#FF63A0",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-gradient-orange-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-gradient-orange-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FC5C30",
+    "value": "#FC5C30",
+    "css_value": "#FC5C30",
+    "resolved_css_value": "#FC5C30",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-gradient-amber-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-gradient-amber-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FEB10C",
+    "value": "#FEB10C",
+    "css_value": "#FEB10C",
+    "resolved_css_value": "#FEB10C",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-gradient-yellow-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-gradient-yellow-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FEC700",
+    "value": "#FEC700",
+    "css_value": "#FEC700",
+    "resolved_css_value": "#FEC700",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-gradient-light-yellow-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-gradient-light-yellow-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FFDB0F",
+    "value": "#FFDB0F",
+    "css_value": "#FFDB0F",
+    "resolved_css_value": "#FFDB0F",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-gmail-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "gmail-color-hover"
+    ],
+    "type": "string",
+    "description": "Google brand red.",
+    "source_value": "#EA4335",
+    "value": "#EA4335",
+    "css_value": "#EA4335",
+    "resolved_css_value": "#EA4335",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-footer-navigation-figma-icon-height-default",
     "path": [
       "component",

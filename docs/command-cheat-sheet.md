@@ -238,3 +238,169 @@ fi
 Open several image, avatar, and thumbnail URLs on PROD before removing the
 rollback directory. Drupal will regenerate excluded CSS, JS, and image-style
 derivatives when they are requested.
+
+## Deploy Storybook to PROD
+
+Production Storybook is a static browser application, not a permanent Node
+development server. The generated site remains interactive and includes the
+Storybook manager, stories, controls, documentation, JavaScript, CSS, fonts,
+and other assets. Serve `storybook-static/`; do not point the subdomain at the
+`.storybook/` configuration directory.
+
+The ISPmanager host cannot build this project reliably: its 256 MB memory limit
+caused WebAssembly allocation failures even with restricted Node heaps, and its
+Ruby/Psych version cannot parse the token source used by the build. Build the
+exact PROD `main` commit on macOS, upload the result, and let Nginx serve it.
+
+### Step 1: Build the exact `main` commit on macOS
+
+This isolated build does not switch branches or modify the current working
+tree. Run it from the local project directory:
+
+```bash
+cd /Users/alexanderilivanov/Projects/blog_jurenites
+
+git fetch https://github.com/jurenites/blog.git main
+
+PRODUCTION_COMMIT_HASH="$(git rev-parse FETCH_HEAD)"
+SHORT_COMMIT_HASH="$(git rev-parse --short=7 "$PRODUCTION_COMMIT_HASH")"
+STORYBOOK_BUILD_DATE="$(date +%Y-%m-%d)"
+STORYBOOK_BUILD_DIRECTORY="$(mktemp -d /private/tmp/blog_jurenites-storybook.XXXXXX)"
+STORYBOOK_SOURCE_DIRECTORY="$STORYBOOK_BUILD_DIRECTORY/source"
+STORYBOOK_ARCHIVE_PATH="/Users/alexanderilivanov/Downloads/blog_jurenites-storybook-${SHORT_COMMIT_HASH}-${STORYBOOK_BUILD_DATE}.tar.gz"
+
+mkdir -p "$STORYBOOK_SOURCE_DIRECTORY"
+git archive --format=tar \
+  --output="$STORYBOOK_BUILD_DIRECTORY/source.tar" \
+  "$PRODUCTION_COMMIT_HASH"
+tar -xf "$STORYBOOK_BUILD_DIRECTORY/source.tar" \
+  -C "$STORYBOOK_SOURCE_DIRECTORY"
+
+cd "$STORYBOOK_SOURCE_DIRECTORY"
+npm ci --no-audit --no-fund
+JURENITES_GIT_COMMIT="$PRODUCTION_COMMIT_HASH" npm run build-storybook
+
+test -f storybook-static/index.html
+test -f storybook-static/storybook-build-info.js
+COPYFILE_DISABLE=1 tar -czf "$STORYBOOK_ARCHIVE_PATH" \
+  -C "$STORYBOOK_SOURCE_DIRECTORY" storybook-static
+```
+
+Verify the artifact before uploading it:
+
+```bash
+gzip -t "$STORYBOOK_ARCHIVE_PATH"
+tar -tzf "$STORYBOOK_ARCHIVE_PATH" | grep -Fx 'storybook-static/index.html'
+tar -xOf "$STORYBOOK_ARCHIVE_PATH" \
+  storybook-static/storybook-build-info.js | grep "$SHORT_COMMIT_HASH"
+shasum -a 256 "$STORYBOOK_ARCHIVE_PATH"
+open -R "$STORYBOOK_ARCHIVE_PATH"
+```
+
+The archive check must find both `storybook-static/index.html` and the expected
+seven-character commit hash. The archive is only a transfer package; after it
+is extracted, the subdomain serves the complete interactive Storybook build.
+
+### Step 2: Upload and install the Storybook build
+
+Upload the verified `blog_jurenites-storybook-*.tar.gz` file with ISPmanager
+File Manager or FTP to this private directory:
+
+```text
+/var/www/u3614358/data/backups/incoming/
+```
+
+On PROD, set `STORYBOOK_ARCHIVE_PATH` to the actual uploaded filename. Extract
+to staging and keep the previous build as a timestamped rollback:
+
+```bash
+cd /var/www/u3614358/data/apps/blog_jurenites
+
+STORYBOOK_DEPLOY_TIMESTAMP="$(date +%Y-%m-%d-%H%M%S)"
+STORYBOOK_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/blog_jurenites-storybook-COMMIT-DATE.tar.gz"
+STORYBOOK_STAGING_DIRECTORY="/var/www/u3614358/data/apps/storybook-restore-${STORYBOOK_DEPLOY_TIMESTAMP}"
+STORYBOOK_LIVE_DIRECTORY="/var/www/u3614358/data/apps/blog_jurenites/storybook-static"
+STORYBOOK_BACKUP_DIRECTORY="/var/www/u3614358/data/backups/storybook-before-${STORYBOOK_DEPLOY_TIMESTAMP}"
+
+if test -f "$STORYBOOK_ARCHIVE_PATH" && \
+  mkdir -p "$STORYBOOK_STAGING_DIRECTORY" && \
+  tar --no-same-owner --exclude='._*' --exclude='*/._*' \
+    -xzf "$STORYBOOK_ARCHIVE_PATH" \
+    -C "$STORYBOOK_STAGING_DIRECTORY" && \
+  test -f "$STORYBOOK_STAGING_DIRECTORY/storybook-static/index.html" && \
+  test -f "$STORYBOOK_STAGING_DIRECTORY/storybook-static/storybook-build-info.js"; then
+  if test -d "$STORYBOOK_LIVE_DIRECTORY"; then
+    mv "$STORYBOOK_LIVE_DIRECTORY" "$STORYBOOK_BACKUP_DIRECTORY"
+  fi
+  if test ! -e "$STORYBOOK_LIVE_DIRECTORY" && \
+    mv "$STORYBOOK_STAGING_DIRECTORY/storybook-static" "$STORYBOOK_LIVE_DIRECTORY"; then
+    find "$STORYBOOK_LIVE_DIRECTORY" -type d -exec chmod 755 {} +
+    find "$STORYBOOK_LIVE_DIRECTORY" -type f -exec chmod 644 {} +
+    echo "STORYBOOK BUILD INSTALLED"
+  else
+    echo "ABORTED: restoring the previous Storybook build."
+    if test -d "$STORYBOOK_BACKUP_DIRECTORY" && \
+      test ! -e "$STORYBOOK_LIVE_DIRECTORY"; then
+      mv "$STORYBOOK_BACKUP_DIRECTORY" "$STORYBOOK_LIVE_DIRECTORY"
+    fi
+  fi
+else
+  echo "ABORTED: archive or staged Storybook failed validation."
+fi
+```
+
+Do not continue until the command prints `STORYBOOK BUILD INSTALLED` and this
+check prints `BUILD READY`:
+
+```bash
+test -f /var/www/u3614358/data/apps/blog_jurenites/storybook-static/index.html \
+  && echo "BUILD READY" || echo "BUILD MISSING"
+```
+
+### Step 3: Point the ISPmanager subdomain at the build
+
+In ISPmanager, keep the existing website named `storybook.jurenites.com`.
+Storybook does not need PHP. Its index page is `index.html`. On this hosting
+plan, the website directory is fixed at
+`/var/www/u3614358/data/www/storybook.jurenites.com`, so replace the placeholder
+directory with a symlink while retaining a rollback copy:
+
+```bash
+STORYBOOK_DEPLOY_TIMESTAMP="$(date +%Y-%m-%d-%H%M%S)"
+STORYBOOK_LIVE_DIRECTORY="/var/www/u3614358/data/apps/blog_jurenites/storybook-static"
+STORYBOOK_WEB_DIRECTORY="/var/www/u3614358/data/www/storybook.jurenites.com"
+STORYBOOK_PLACEHOLDER_BACKUP="${STORYBOOK_WEB_DIRECTORY}.pre-symlink-${STORYBOOK_DEPLOY_TIMESTAMP}"
+
+if test ! -f "$STORYBOOK_LIVE_DIRECTORY/index.html"; then
+  echo "ABORTED: Storybook build is missing."
+elif test -L "$STORYBOOK_WEB_DIRECTORY"; then
+  readlink -f "$STORYBOOK_WEB_DIRECTORY"
+elif test -d "$STORYBOOK_WEB_DIRECTORY"; then
+  mv "$STORYBOOK_WEB_DIRECTORY" "$STORYBOOK_PLACEHOLDER_BACKUP" && \
+  ln -s "$STORYBOOK_LIVE_DIRECTORY" "$STORYBOOK_WEB_DIRECTORY" && \
+  echo "STORYBOOK SUBDOMAIN LINKED"
+else
+  echo "ABORTED: ISPmanager website directory was not found."
+fi
+```
+
+For later releases, keep the subdomain symlink and repeat only Steps 1 and 2;
+the symlink continues to target the replaced `storybook-static` directory.
+
+### Step 4: Verify the public subdomain and TLS
+
+Verify the filesystem path and public response:
+
+```bash
+readlink -f /var/www/u3614358/data/www/storybook.jurenites.com
+namei -l /var/www/u3614358/data/www/storybook.jurenites.com/index.html
+curl -I http://storybook.jurenites.com/
+curl -I https://storybook.jurenites.com/
+```
+
+Both public requests must return `200`, and the resolved path must end in
+`/apps/blog_jurenites/storybook-static`. If HTTP returns ISPmanager's large
+placeholder page, the website directory is not linked to the build. If HTTP
+works but HTTPS presents a self-signed certificate, issue or select a trusted
+certificate for `storybook.jurenites.com` in ISPmanager before enabling an
+HTTP-to-HTTPS redirect.

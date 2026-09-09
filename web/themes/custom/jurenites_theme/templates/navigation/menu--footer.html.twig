@@ -29,12 +29,13 @@
           {% endfor %}
         </ul>
       </nav>
-      <nav aria-label="{{ 'Messengers'|t }}">
-        <h2 class="footer-navigation__heading">{{ 'Messengers'|t }}</h2>
+      <nav aria-label="{{ 'Get in touch'|t }}">
+        <h2 class="footer-navigation__heading">{{ 'Get in touch'|t }}</h2>
         <ul class="footer-navigation__list">
           {% for messenger_link in messenger_links %}
+            {% set is_email_link = messenger_link.link_url starts with 'mailto:' %}
             <li class="footer-navigation__item">
-              <a class="footer-navigation__link footer-navigation__social-link footer-navigation__messenger-link" href="{{ messenger_link.link_url }}" data-social-icon="messenger-{{ messenger_link.icon_name }}" target="_blank" rel="me noopener noreferrer" aria-label="{{ messenger_link.link_label }}: {{ messenger_link.hover_label }} ({{ 'opens in a new window'|t }})">
+              <a class="footer-navigation__link footer-navigation__social-link footer-navigation__messenger-link" href="{{ messenger_link.link_url }}" data-social-icon="messenger-{{ messenger_link.icon_name }}"{% if not is_email_link %} target="_blank" rel="me noopener noreferrer"{% endif %} aria-label="{{ messenger_link.link_label }}: {{ messenger_link.hover_label }} ({{ is_email_link ? 'opens your email app'|t : 'opens in a new window'|t }})">
                 {% include '@jurenites_theme/components/icon.html.twig' with {
                   icon_name: messenger_link.icon_name,
                   icon_class: 'footer-navigation__social-network-icon',
@@ -44,11 +45,11 @@
                   <span class="footer-navigation__social-label-text footer-navigation__social-label-text--default">{{ messenger_link.link_label }}</span>
                   <span class="footer-navigation__social-label-text footer-navigation__social-label-text--hover">
                     <span>{{ messenger_link.hover_label }}</span>
-                    {% include '@jurenites_theme/components/icon.html.twig' with {
+                    {% if not is_email_link %}{% include '@jurenites_theme/components/icon.html.twig' with {
                       icon_name: 'external-link',
                       icon_class: 'footer-navigation__external-mark',
                       icon_asset_base_url: icon_asset_base_url
-                    } only %}
+                    } only %}{% endif %}
                   </span>
                 </span>
               </a>

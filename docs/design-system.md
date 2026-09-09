@@ -452,7 +452,7 @@ version Git-hash link explicitly retains the 4pixel family and a persistent 1px
 solid underline so it reads as a technical link without relying on color.
 
 Footer Navigation uses four titled columns of vertically stacked list links:
-Social networks, Messengers, How I work, and Information. The columns stack on
+Social networks, Get in touch, How I work, and Information. The columns stack on
 mobile, with the rights message below. Storybook imports the same social profile
 data as Drupal.
 Social links compose the shared Icon atom with locally stored monochrome
@@ -471,6 +471,15 @@ icon, and each social profile opens in a new window. These colors live in the
 `component.footer-navigation` tokens. Icon geometry comes from Simple Icons 11.15.0;
 provenance and its CC0 notice are stored in `social-icons-license.txt` alongside
 the assets.
+Get in touch includes Telegram and Gmail (`mailto:jurenites@gmail.com`). Gmail
+reveals the email address on hover and keyboard focus, with Google red from its
+footer token (`#EA4335`), with anchor specificity that overrides the global yellow
+hover color. Its updated 2026 Icon inherits the white text color at rest and
+reveals token-backed gradients on hover or keyboard focus. It retains its
+original aspect ratio and a separate 12px
+height token for optical size adjustment. The
+email link opens the mail app and omits the external-window mark and target.
+
 Footer Navigation composes the Badge atom inside its Fonts link. Drupal supplies
 the gray Badge's numeric label from the current count of accessible published
 Projects tagged `#Font`; Storybook exposes the same label, destination, and
