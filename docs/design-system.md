@@ -473,8 +473,9 @@ provenance and its CC0 notice are stored in `social-icons-license.txt` alongside
 the assets.
 Get in touch includes Telegram and Gmail (`mailto:jurenites@gmail.com`). Gmail
 reveals the email address on hover and keyboard focus, with Google red from its
-footer token (`#EA4335`), with anchor specificity that overrides the global yellow
-hover color. Its updated 2026 Icon inherits the white text color at rest and
+footer token (`#EA4335`). The global yellow hover rule excludes footer social
+and resource links through a zero-specificity `:where()` condition; their
+component rules own the brand colors for hover and keyboard focus. Its updated 2026 Icon inherits the white text color at rest and
 reveals token-backed gradients on hover or keyboard focus. It retains its
 original aspect ratio and a separate 12px
 height token for optical size adjustment. The

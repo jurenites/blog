@@ -32,7 +32,9 @@ body.jurenites-theme {
     text-decoration-thickness: var(--space-scale-one);
     @include tools.motion-transition(color);
 
-    &:hover {
+    // Footer brand links supply their own hover colors. Keep this exclusion
+    // at zero specificity so component selectors do not need stronger overrides.
+    &:where(:not(.footer-navigation__social-link, .footer-navigation__resource-link)):hover {
       color: var(--color-palette-brand-tertiary);
     }
   }

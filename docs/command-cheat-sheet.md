@@ -30,6 +30,8 @@ docker exec blog_jurenites_web ./vendor/bin/drush recipe /opt/drupal/recipes/jur
 docker exec blog_jurenites_web ./vendor/bin/drush recipe /opt/drupal/recipes/jurenites_cookbook
 ```
 
+
+
 ### Build project assets
 
 Run these commands from the project folder:
@@ -85,6 +87,29 @@ record is also available at
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
 ```
 
+
+
+### Restore missing production fonts
+
+If Ubuntu Sans Mono falls back to Courier New and its font URL returns 404,
+restore the theme font copies from the existing checkout. This needs no Node
+build or database update:
+
+```bash
+cd /var/www/u3614358/data/apps/blog_jurenites
+mkdir -p web/themes/custom/jurenites_theme/assets/fonts && \
+  cp src/public/assets/fonts/* web/themes/custom/jurenites_theme/assets/fonts/ && \
+  chmod 755 web/themes/custom/jurenites_theme/assets/fonts && \
+  chmod 644 web/themes/custom/jurenites_theme/assets/fonts/* && \
+  /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
+```
+
+Verify `/themes/custom/jurenites_theme/assets/fonts/ubuntu-sans-mono-regular.ttf`
+and `/themes/custom/jurenites_theme/assets/fonts/opensans-regular.woff` return
+HTTP 200, then reload the page. Theme font copies and licenses are now included
+with compiled CSS in Git deployments; include the entire font directory in the
+commit when updating font sources.
+
 ### Run production database updates, then clear cache
 
 Take a current database backup before database updates.
@@ -93,6 +118,8 @@ Take a current database backup before database updates.
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com updatedb --yes
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
 ```
+
+
 
 ### Run production cron manually
 
@@ -189,7 +216,7 @@ In phpMyAdmin:
 1. Select the PROD database `u3614358_default`.
 2. Export a current compressed SQL backup and download it before changing tables.
 3. In **Structure**, select every table and choose **Drop**. Confirm only after
-   the backup is safely downloaded.
+  the backup is safely downloaded.
 4. In **Import**, select the DEV `*.sql.gz` file and start the import.
 5. Continue only after phpMyAdmin reports that the import completed successfully.
 
@@ -201,8 +228,7 @@ Finish the database restore from the PROD project directory:
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com status
 ```
 
-The final status must report `Database: Connected` and `Drupal bootstrap:
-Successful`.
+The final status must report `Database: Connected` and `Drupal bootstrap: Successful`.
 
 ### Step 3: Replace PROD public files from the archive
 
@@ -356,6 +382,8 @@ check prints `BUILD READY`:
 test -f /var/www/u3614358/data/apps/blog_jurenites/storybook-static/index.html \
   && echo "BUILD READY" || echo "BUILD MISSING"
 ```
+
+
 
 ### Step 3: Point the ISPmanager subdomain at the build
 

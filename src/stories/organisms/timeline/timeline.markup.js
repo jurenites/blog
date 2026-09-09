@@ -7,6 +7,7 @@ import { escape_html, render_template } from "../../template.js";
 
 const MAXIMUM_LANE_COUNT = 4;
 const FIRST_TIMELINE_YEAR = 2010;
+const FIRST_TIMELINE_MONTH = 8;
 const MONTH_LABELS = ["Dec", "Nov", "Oct", "Sep", "Aug", "Jul", "Jun", "May", "Apr", "Mar", "Feb", "Jan"];
 
 function calendar_month_number(date_value) {
@@ -204,10 +205,16 @@ function timeline_year_groups(timeline_items, timeline_current_date) {
         fragment_year >= Math.max(start_year, FIRST_TIMELINE_YEAR);
         fragment_year -= 1
       ) {
-        const starting_month = fragment_year === start_year ? start_date.getUTCMonth() + 1 : 1;
+        const starting_month = Math.max(
+          fragment_year === start_year ? start_date.getUTCMonth() + 1 : 1,
+          fragment_year === FIRST_TIMELINE_YEAR ? FIRST_TIMELINE_MONTH : 1,
+        );
         let ending_month = fragment_year === end_year ? end_date.getUTCMonth() + 1 : 12;
         if (fragment_year === current_year) {
           ending_month = Math.min(ending_month, current_month);
+        }
+        if (starting_month > ending_month) {
+          continue;
         }
         const visible_month_count = fragment_year === current_year ? current_month : 12;
         const grouped_fragments = year_fragments.get(fragment_year) ?? [];
@@ -239,7 +246,8 @@ function timeline_year_groups(timeline_items, timeline_current_date) {
   for (let year_number = maximum_year; year_number >= minimum_year; year_number -= 1) {
     year_groups.push({
       year_label: String(year_number),
-      visible_month_count: year_number === current_year ? current_month : 12,
+      visible_month_count: (year_number === current_year ? current_month : 12)
+        - (year_number === FIRST_TIMELINE_YEAR ? FIRST_TIMELINE_MONTH - 1 : 0),
       timeline_fragments: year_fragments.get(year_number) ?? [],
       timeline_details: (year_fragments.get(year_number) ?? []).filter(
         (timeline_fragment) => timeline_fragment.show_details,
@@ -277,8 +285,10 @@ function timeline_item_markup(timeline_fragment) {
 }
 
 function timeline_months_markup(year_label, visible_month_count) {
-  return MONTH_LABELS.slice(12 - visible_month_count).map((month_label, visible_month_index) => {
-    const month_index = (12 - visible_month_count) + visible_month_index;
+  const first_month = Number(year_label) === FIRST_TIMELINE_YEAR ? FIRST_TIMELINE_MONTH : 1;
+  const last_month = first_month + visible_month_count - 1;
+  return MONTH_LABELS.slice(12 - last_month, 13 - first_month).map((month_label, visible_month_index) => {
+    const month_index = (12 - last_month) + visible_month_index;
     const month_number = 12 - month_index;
     return '<li class="timeline__month"><time datetime="'
       + year_label + "-" + String(month_number).padStart(2, "0") + '">'
