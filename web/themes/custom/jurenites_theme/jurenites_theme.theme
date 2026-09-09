@@ -63,6 +63,12 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
       'link_url' => 'https://t.me/jurenites',
       'icon_name' => 'brand-telegram',
     ],
+    [
+      'link_label' => 'Gmail',
+      'hover_label' => 'jurenites@gmail.com',
+      'link_url' => 'mailto:jurenites@gmail.com',
+      'icon_name' => 'brand-gmail',
+    ],
   ];
   $how_i_work_menu_items = [];
   $information_menu_items = [];

@@ -43,16 +43,17 @@ export function footer_navigation_markup({
       ? `aria-current="${guideline_active_state}"`
       : "",
     messenger_links_markup: messenger_links.map((messenger_link) => render_template(footer_navigation_item_template, {
-      external_icon_markup: icon_markup({
+      link_target_attributes: messenger_link.link_url.startsWith("mailto:") ? "" : 'target="_blank" rel="me noopener noreferrer"',
+      external_icon_markup: messenger_link.link_url.startsWith("mailto:") ? "" : icon_markup({
         icon_name: "external-link",
         class_name: "footer-navigation__external-mark",
       }),
       hover_label: escape_html(messenger_link.hover_label),
       hover_label_markup: escape_html(messenger_link.hover_label),
       link_label: escape_html(messenger_link.link_label),
-      link_accessible_label: escape_html(`${messenger_link.link_label}: ${messenger_link.hover_label} (opens in a new window)`),
+      link_accessible_label: escape_html(`${messenger_link.link_label}: ${messenger_link.hover_label} (${messenger_link.link_url.startsWith("mailto:") ? "opens your email app" : "opens in a new window"})`),
       link_url: escape_html(messenger_link.link_url),
-      icon_name: escape_html(messenger_link.icon_name),
+      icon_name: escape_html(`messenger-${messenger_link.icon_name}`),
       social_icon_markup: icon_markup({
         icon_name: messenger_link.icon_name,
         class_name: "footer-navigation__social-network-icon",
@@ -60,6 +61,7 @@ export function footer_navigation_markup({
       resource_link_class: "footer-navigation__messenger-link",
     })).join(""),
     how_i_work_links_markup: how_i_work_links.map((resource_link) => render_template(footer_navigation_item_template, {
+      link_target_attributes: 'target="_blank" rel="me noopener noreferrer"',
       external_icon_markup: icon_markup({
         icon_name: "external-link",
         class_name: "footer-navigation__external-mark",
@@ -79,6 +81,7 @@ export function footer_navigation_markup({
       resource_link_class: `footer-navigation__resource-link${resource_link.color_token ? ` footer-navigation__resource-link--${resource_link.color_token}` : ""}`,
     })).join(""),
     social_links_markup: social_links.map((social_link) => render_template(footer_navigation_item_template, {
+      link_target_attributes: 'target="_blank" rel="me noopener noreferrer"',
       external_icon_markup: icon_markup({
         icon_name: "external-link",
         class_name: "footer-navigation__external-mark",

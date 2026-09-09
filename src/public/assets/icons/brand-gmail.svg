@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 800 636.36322">
+  <path fill="var(--icon-gmail-fill, url(#a))" d="M 627.27193,81.819216 H 799.99875 V 581.8179 c 0,30.12265 -24.42266,54.54532 -54.54531,54.54532 h -90.90885 a 27.272655,27.272655 0 0 1 -27.27266,-27.27266 z" />
+  <path fill="var(--icon-gmail-fill, var(--component-footer-navigation-gmail-gradient-red-color))" d="M 172.72768,81.819216 H 8.5692711e-4 V 581.8179 c 0,30.12265 24.42266207289,54.54532 54.54531007289,54.54532 h 90.908853 a 27.272655,27.272655 0 0 0 27.27266,-27.27266 z" />
+  <path fill="var(--icon-gmail-fill, url(#b))" d="M 141.93685,20.255746 C 105.42331,-10.435083 50.946177,-5.7169131 20.255349,30.796627 -10.435479,67.305622 -5.7173098,121.78275 30.79623,152.47813 l 345.80818,290.6765 a 36.36354,36.36354 0 0 0 46.79533,0 L 769.20792,152.47358 C 805.71691,121.78275 810.43508,67.305622 779.74426,30.792081 749.05343,-5.7169131 694.5763,-10.435083 658.0673,20.255746 L 399.9998,237.18245 Z" />
+  <defs>
+    <linearGradient id="a" x1="165" x2="165" y1="44" y2="166" gradientUnits="userSpaceOnUse" gradientTransform="matrix(4.5454426,0,0,4.5454426,-36.362684,-118.18025)">
+      <stop stop-color="var(--component-footer-navigation-gmail-gradient-light-green-color)" />
+      <stop offset=".17" stop-color="var(--component-footer-navigation-gmail-gradient-green-color)" />
+      <stop offset=".39" stop-color="var(--component-footer-navigation-gmail-gradient-deep-green-color)" />
+      <stop offset=".62" stop-color="var(--component-footer-navigation-gmail-gradient-teal-color)" />
+      <stop offset=".86" stop-color="var(--component-footer-navigation-gmail-gradient-blue-color)" />
+      <stop offset="1" stop-color="var(--component-footer-navigation-gmail-gradient-deep-blue-color)" />
+    </linearGradient>
+    <linearGradient id="b" x1="8" x2="184" y1="46.130001" y2="46.130001" gradientUnits="userSpaceOnUse" gradientTransform="matrix(4.5454426,0,0,4.5454426,-36.362684,-118.18025)">
+      <stop offset=".08" stop-color="var(--component-footer-navigation-gmail-gradient-pink-color)" />
+      <stop offset=".3" stop-color="var(--component-footer-navigation-gmail-gradient-red-color)" />
+      <stop offset=".5" stop-color="var(--component-footer-navigation-gmail-gradient-red-color)" />
+      <stop offset=".65" stop-color="var(--component-footer-navigation-gmail-gradient-red-color)" />
+      <stop offset=".72" stop-color="var(--component-footer-navigation-gmail-gradient-orange-color)" />
+      <stop offset=".86" stop-color="var(--component-footer-navigation-gmail-gradient-amber-color)" />
+      <stop offset=".91" stop-color="var(--component-footer-navigation-gmail-gradient-yellow-color)" />
+      <stop offset=".96" stop-color="var(--component-footer-navigation-gmail-gradient-light-yellow-color)" />
+    </linearGradient>
+  </defs>
+</svg>
