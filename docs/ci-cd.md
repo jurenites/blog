@@ -58,6 +58,19 @@ GitHub. Prepare a release locally with `npm run version:bump`, or trigger
 `Prepare Project Release` in GitHub Actions to receive a version-only pull
 request.
 
+## Drupal Font Assets
+
+The editable fonts and their licenses live in `src/public/assets/fonts/`.
+`npm run build:theme` copies them to
+`web/themes/custom/jurenites_theme/assets/fonts/`. Commit these deployable copies
+alongside the compiled theme CSS so a Git-based PROD update includes every font
+referenced by that CSS without requiring a build on the server. Previously this
+directory was ignored, allowing the CSS to arrive while font requests returned
+404 and Ubuntu Sans Mono fell back to Courier New.
+
+For an existing PROD checkout missing these files, use the font repair procedure
+in `docs/command-cheat-sheet.md`.
+
 ## Deployment Identity
 
 The watermark is visible in DEV and PROD. Its semantic version, release time,

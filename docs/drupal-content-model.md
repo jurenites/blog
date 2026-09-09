@@ -360,3 +360,5 @@ Start with a small set:
 - Visibility
 
 Add more only when content entry becomes painful without them.
+
+The commercial Timeline calendar starts at August 2010; its 2010 section shows August through December in both Drupal and Storybook.

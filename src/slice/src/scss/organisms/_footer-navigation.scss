@@ -217,7 +217,7 @@ body.jurenites-theme .footer-navigation .footer-navigation__social-link {
   height: var(--component-footer-navigation-gmail-icon-height-default);
 }
 
-// Match the global anchor specificity so Gmail retains its brand text color.
+// Gmail reveals its brand gradient together with the account label.
 body.jurenites-theme .footer-navigation a.footer-navigation__messenger-link[data-social-icon="messenger-brand-gmail"] {
   &:hover,
   &:focus-visible {
