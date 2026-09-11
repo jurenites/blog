@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @file
+ * Renders authored skills with field access, translations and cache metadata.
+ */
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_skills_theme(): array {
+  return ['jurenites_skills' => ['variables' => [
+    'section_heading' => '', 'section_description' => '', 'supporting_note' => '',
+    'ratings_reviewed' => FALSE, 'skill_items' => [], 'timeline_url' => '',
+  ]]];
+}
+
+/**
+ * Reads only viewable values, including the field access cache metadata.
+ */
+function jurenites_skills_read_field(EntityInterface $content_entity, string $field_name, CacheableMetadata $cache_metadata): mixed {
+  $field_items = $content_entity->get($field_name);
+  $field_access = $field_items->access('view', NULL, TRUE);
+  $cache_metadata->addCacheableDependency($field_access);
+  return $field_access->isAllowed() ? $field_items : NULL;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function jurenites_skills_block_content_view(array &$build_output, EntityInterface $block_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($block_entity->bundle() !== 'skills_profile') {
+    return;
+  }
+  $cache_metadata = CacheableMetadata::createFromObject($block_entity);
+  $cache_metadata->addCacheContexts(['languages:language_content', 'languages:language_interface']);
+  $skill_build = [
+    '#theme' => 'jurenites_skills', '#skill_items' => [],
+    '#ratings_reviewed' => (bool) jurenites_skills_read_field($block_entity, 'field_skills_reviewed', $cache_metadata)?->value,
+    '#timeline_url' => \Drupal\Core\Url::fromUserInput('/timeline')->toString(),
+  ];
+  foreach (['section_heading' => 'field_skills_heading', 'section_description' => 'field_skills_intro', 'supporting_note' => 'field_skills_note'] as $output_key => $field_name) {
+    $skill_build['#' . $output_key] = jurenites_skills_read_field($block_entity, $field_name, $cache_metadata)?->value ?? '';
+  }
+  $paragraph_items = jurenites_skills_read_field($block_entity, 'field_skills_items', $cache_metadata);
+  foreach ($paragraph_items?->referencedEntities() ?? [] as $skill_entity) {
+    $skill_entity = \Drupal::service('entity.repository')->getTranslationFromContext($skill_entity);
+    $skill_access = $skill_entity->access('view', NULL, TRUE);
+    $cache_metadata->addCacheableDependency($skill_entity)->addCacheableDependency($skill_access);
+    if (!$skill_access->isAllowed()) {
+      continue;
+    }
+    $skill_data = [];
+    foreach (['technology_name' => 'field_skill_name', 'skill_category' => 'field_skill_category', 'skill_description' => 'field_skill_description', 'experience_note' => 'field_skill_evidence'] as $output_key => $field_name) {
+      $skill_data[$output_key] = jurenites_skills_read_field($skill_entity, $field_name, $cache_metadata)?->value ?? '';
+    }
+    if ($skill_data['technology_name'] === '') {
+      continue;
+    }
+    $score_value = jurenites_skills_read_field($skill_entity, 'field_skill_score', $cache_metadata)?->value;
+    $skill_data['skill_score'] = is_numeric($score_value) && (float) $score_value >= 0 && (float) $score_value <= 5
+      ? number_format((float) $score_value, 1, '.', '') : NULL;
+    $skill_build['#skill_items'][] = $skill_data;
+  }
+  $cache_metadata->applyTo($skill_build);
+  $build_output['skills_profile'] = $skill_build;
+}

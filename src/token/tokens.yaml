@@ -90,8 +90,7 @@ theme:
 typography:
   font-family:
     sans: ["Open Sans", "Helvetica Neue", Arial, sans-serif] # Base UI/body family.
-    code: ["Courier New", Courier, monospace] # Bold code text in Storybook.
-    number: ["Ubuntu Sans Mono", "Courier New", monospace] # Humanist numeric family with a slashed zero.
+    number: ["Ubuntu Sans Mono", monospace] # Humanist monospace family for machine-readable text and numbers.
     roundabout: [Roundabout, "Open Sans", sans-serif] # Demonstration-only custom font; never use for website headings or UI.
     4pixel: [4pixel, monospace] # Demonstration and compact technical-detail font.
   headline-1: '600 96px var(--typography-font-family-sans)' # <h1>
@@ -107,11 +106,12 @@ typography:
   body-2: '14px var(--typography-font-family-sans)' # Compact supporting copy in cards and dense UI; full article body remains on body.
   link: '300 16px var(--typography-font-family-sans)' # Components add the required underline separately.
   caption: '14px var(--typography-font-family-sans)'
-  code: '600 14px var(--typography-font-family-code)' # Storybook code and technical metadata.
-  machine-readable: '14px var(--typography-font-family-number)' # Compact system values and identifiers in the Ubuntu Sans Mono family.
-  badge: '500 14px var(--typography-font-family-sans)' # Compact labels that need more emphasis than the 300-weight link role.
-  overline: '5px var(--typography-font-family-4pixel)' # Demonstrations and compact technical details such as the version watermark.
+  badge: '500 12px var(--typography-font-family-sans)'
+
   numeric-display: '64px var(--typography-font-family-number)' # Large statistics and other prominent numeric values.
+  machine-readable: '14px var(--typography-font-family-number)' # Compact system values and identifiers in the Ubuntu Sans Mono family.
+
+  overline: '5px var(--typography-font-family-4pixel)' # Demonstrations and compact technical details such as the version watermark.
 space:
   scale:
     zero: 0px
@@ -151,6 +151,7 @@ motion:
     decelerate-default: [0, 0, 0.2, 1]
     accelerate-default: [0.4, 0, 1, 1]
     sharp-default: [0.4, 0, 0.6, 1]
+    pulse-default: [0.1, 0.5, 0.6, 1] # Expanding radius accelerates gently before fading away.
 layout:
   container-max:
     tablet-default: 640px
@@ -164,6 +165,12 @@ layout:
     tablet-default: 24px
     desktop-default: 32px
 component:
+  game-of-life:
+    counter-digit-width-default: 5px # Fixed advance for every 4pixel Overline digit, including the narrower 1.
+    cell-size-default: 8px # Outer cell size; adjacent cells share their 1px border.
+    live-size-default: 4px # Centered living square inside each cell.
+    border-size-default: 1px
+    control-size-default: 32px # Compact, icon-only pause/play control.
   contact-photo:
     max-width-default: 1600px # Independent of the readable Contact form width.
     edge-fade-width-default: 100px # Fade every edge; capped proportionally on small images.
@@ -172,6 +179,12 @@ component:
     backdrop-color-default: "#00020780" # Half-opacity homepage tint matching the photograph edge.
     backdrop-blur-default: 12px # Soften image details beneath navigation.
     backdrop-fade-height-default: 32px # Feather below the 64px menu without affecting layout.
+    brand-name-compact-width-default: 48px # Reserves only enough inline space for the separate A and I initials.
+    brand-name-letter-font-size-start: 32px # Added letters grow into the 40px headline role.
+    brand-name-letter-spacing-start: -2px # Added letters begin slightly compressed before reaching normal spacing.
+    brand-name-reveal-duration-default: 325ms # Each letter reveals and closes at twice the original speed.
+    brand-name-reveal-stagger-default: 25ms # Consecutive letters expand at twice the original speed.
+    brand-name-hold-duration-default: 2000ms # Hold after the full reveal completes and hover or focus leaves.
   guideline:
     tile-min-width-default: 280px # Overview tiles remain readable before the responsive grid adds another column.
     preview-height-default: 240px # Shared media field for Logo Icon, Color, and future guideline previews.
@@ -182,14 +195,22 @@ component:
   layered-scene:
     arrival-duration-default: 1100ms # One calm foreground entrance after the scene becomes visible.
     arrival-delay-default: 450ms # Brief empty-desk pause; never delays page content.
+  # About-page technology profile: decimal confidence and responsive card spacing.
+  skills-profile:
+    padding-compact-default: 24px
+    padding-header-default: 48px
+    padding-item-default: 40px
+    score-size-compact-default: 32px
+    score-size-default: 44px
+
   hero-section:
-    background-edge-color: "#000207" # Sampled from the outer edge of the homepage Hero image for a continuous canvas.
+    background-edge-color: "#000207" # Sampled from the outer edge of the Hero image for a continuous canvas.
     clear-color: "#00000000" # Transparent edges of the photographic lighting layer.
     ray-fill-color: "#68CBE812" # Faint cool light confined to the screen's emitting side.
     ray-highlight-color: "#8DDBF222" # Soft beam ridges; no lighting overlays on skin or clothing.
     ray-softness-default: 12px # Feather the beam perimeter before clipping at the screen edge.
     ray-color-duration-default: 2800ms # Slow color changes evoke moving screen content without flashing.
-    image-horizontal-fade-width-default: 96px # Blend each side of the Hero image into the homepage canvas.
+    image-edge-fade-width-default: 100px # Blend every image edge into its matching page canvas; capped on small images.
   footer-navigation:
     social-icon-size-default: 16px # Compact social icons in the footer.
     gmail-icon-height-default: 12px # Rectangular Gmail mark, independently adjustable.
@@ -206,6 +227,10 @@ component:
     gmail-gradient-yellow-color: "#FEC700"
     gmail-gradient-light-yellow-color: "#FFDB0F"
     gmail-color-hover: "#EA4335" # Google brand red.
+    yandex-mail-icon-height-default: 12px # Envelope height, matching Gmail's optical size.
+    yandex-mail-color-hover: "#FFCC00" # https://www.brandcolorcode.com/yandex-mail
+    yandex-mail-light-yellow-color: "#FFDA3E"
+    yandex-mail-red-color: "#FF3333"
     figma-icon-height-default: 18px # Taller Figma logo; other brand icons remain 16px.
     linkedin-color-hover: "#2867B2" #https://brand.linkedin.com/en-us
     facebook-color-hover: "#1877F2" #https://www.meta.com/brand/resources/facebook/logo/?srsltid=AfmBOoraVFK97HX6ieR7N9jiy8s7kCosZ5_BZTv1rmvFrK-jg5gEckD_
@@ -325,6 +350,14 @@ component:
     skeleton-cycle-default: 1600ms # Slow enough to read as loading state rather than decorative motion.
   crossfade-dot:
     marker-size-default: 4px # Visible marker inside the larger interactive target.
+  pulse-indicator:
+    container-size-default: 24px # Compact field around the dot; the animated radius may extend beyond it.
+    marker-size-default: 8px # Shared resting diameter for the central dot and animated radius.
+    radius-scale-expanded: 4 # Expands the 8px radius to a 32px diameter.
+    animation-duration-default: 3000ms # Calm repeating pulse adapted from the visual reference.
+    dot-color-default: color.palette.full-white
+    radius-color-start: "#FFFFFF40" # 25% white at the start of each pulse.
+    radius-color-end: "#FFFFFF00" # Fully transparent at maximum diameter and during reset.
   newsletter-signup:
     form-min-width-default: 280px
   numeric-values:

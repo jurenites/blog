@@ -9,6 +9,12 @@
   {% if body_after_sections %}
     <div class="project-detail__introduction">{{ content.body }}</div>
   {% endif %}
+  {% if node.hasField('field_comparison_images') and node.field_comparison_images|length == 2 %}
+    <section class="project-detail__comparison" aria-label="{{ 'Before and after'|t }}">
+      <h2>{{ 'Before and after'|t }}</h2>
+      {{ content.field_comparison_images }}
+    </section>
+  {% endif %}
   {% if content.field_tags %}
     <div class="project-detail__tags">{{ content.field_tags }}</div>
   {% endif %}

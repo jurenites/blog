@@ -2,7 +2,9 @@
   <header class="site-header{{menu_state_class}}">
     <a class="site-header__brand" href="#home" aria-label="{{brand_name}}">
       <img class="site-header__logo{{logo_style_class}}" src="{{brand_logo_url}}" alt="" />
-      <span class="site-header__brand-name">{{brand_full_name}}</span>
+      <span class="site-header__brand-name" aria-hidden="true">
+        <span class="site-header__brand-name-short">{{brand_name_markup}}</span>
+      </span>
     </a>
     <nav class="site-header__navigation" id="storybook-primary-navigation" aria-label="Primary navigation">
       <ul class="site-header__links">{{navigation_items}}</ul>

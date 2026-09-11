@@ -1,0 +1,152 @@
+@use "../tools";
+
+.skills-profile {
+  margin-block: calc(var(--space-scale-base-gap) * 6);
+  overflow: hidden;
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+  color: var(--theme-dark-text-primary-default);
+}
+
+.skills-profile__header,
+.skills-profile__footer {
+  padding: clamp(var(--component-skills-profile-padding-compact-default), 4vw, var(--component-skills-profile-padding-header-default));
+}
+
+.skills-profile__eyebrow {
+  margin: 0 0 calc(var(--space-scale-base-gap) * 2);
+  color: var(--theme-dark-action-primary-default);
+  text-transform: uppercase;
+  @include tools.typography-eyebrow;
+}
+
+.skills-profile__heading {
+  margin: 0;
+  @include tools.typography-headline-3;
+}
+
+.skills-profile__intro {
+  max-width: 64ch;
+  margin-block: calc(var(--space-scale-base-gap) * 2) 0;
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-body;
+}
+
+.skills-profile__rating-note {
+  margin-block: calc(var(--space-scale-base-gap) * 3) 0;
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-body-2;
+}
+
+.skills-profile__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  @include tools.unstyled-list;
+}
+
+.skills-profile__item {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: clamp(var(--component-skills-profile-padding-compact-default), 4vw, var(--component-skills-profile-padding-item-default));
+  border-block-start: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+}
+
+.skills-profile__item:nth-child(even) {
+  border-inline-start: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+}
+
+.skills-profile__item-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
+.skills-profile__identity {
+  min-width: 0;
+}
+
+.skills-profile__category {
+  margin: 0 0 var(--space-scale-base-gap);
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-eyebrow;
+}
+
+.skills-profile__technology {
+  margin: 0;
+  overflow-wrap: anywhere;
+  @include tools.typography-headline-5;
+}
+
+.skills-profile__score {
+  flex-shrink: 0;
+  margin: 0;
+  font-family: var(--typography-font-family-number);
+  font-size: clamp(var(--component-skills-profile-score-size-compact-default), 4vw, var(--component-skills-profile-score-size-default));
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+  white-space: nowrap;
+  color: var(--theme-dark-action-primary-default);
+}
+
+.skills-profile__score-total {
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-body-2;
+}
+
+.skills-profile__description {
+  margin-block: calc(var(--space-scale-base-gap) * 2);
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-body-2;
+}
+
+.skills-profile__evidence {
+  margin-block: auto 0;
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-body-2;
+}
+
+.skills-profile__footer {
+  display: grid;
+  gap: calc(var(--space-scale-base-gap) * 2);
+  border-block-start: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+}
+
+.skills-profile__supporting-note,
+.skills-profile__scale-description,
+.skills-profile__unrated {
+  margin: 0;
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-body-2;
+}
+
+.skills-profile__scale-toggle {
+  width: fit-content;
+  cursor: pointer;
+  @include tools.typography-body-2;
+}
+
+.skills-profile__scale-toggle:focus-visible {
+  @include tools.focus-ring;
+}
+
+.skills-profile__scale-description {
+  margin-top: var(--space-scale-base-gap);
+  max-width: 76ch;
+}
+
+.skills-profile__timeline-link {
+  justify-self: start;
+  @include tools.typography-body-2;
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .skills-profile__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .skills-profile__item:nth-child(even) {
+    border-inline-start: 0;
+  }
+}

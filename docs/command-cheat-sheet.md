@@ -91,7 +91,7 @@ record is also available at
 
 ### Restore missing production fonts
 
-If Ubuntu Sans Mono falls back to Courier New and its font URL returns 404,
+If Ubuntu Sans Mono falls back to a generic monospace font and its font URL returns 404,
 restore the theme font copies from the existing checkout. This needs no Node
 build or database update:
 
@@ -281,9 +281,16 @@ exact PROD `main` commit on macOS, upload the result, and let Nginx serve it.
 ### Step 1: Build the exact `main` commit on macOS
 
 This isolated build does not switch branches or modify the current working
-tree. Run it from the local project directory:
+tree. Run this entire step in the **local macOS Terminal**, never in the
+ISPmanager shell. The first check deliberately stops a Linux shell before any
+paths or build variables are created:
 
 ```bash
+test "$(uname -s)" = "Darwin" || {
+  echo "ABORTED: run Storybook Step 1 in the local macOS Terminal, not on PROD."
+  exit 1
+}
+
 cd /Users/alexanderilivanov/Projects/blog_jurenites
 
 git fetch https://github.com/jurenites/blog.git main

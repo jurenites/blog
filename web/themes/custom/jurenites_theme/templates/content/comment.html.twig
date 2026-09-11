@@ -6,6 +6,7 @@
   {% endif %}
 
   {{ title_prefix }}
+  <h2 class="visually-hidden">{{ 'Comment by @author_name'|t({'@author_name': comment_author_name}) }}</h2>
   {{ title_suffix }}
   {% include '@jurenites_theme/components/comment-message.html.twig' with {
     comment_author_avatar_image: comment_author_avatar_image,

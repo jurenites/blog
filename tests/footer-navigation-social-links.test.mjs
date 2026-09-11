@@ -50,11 +50,16 @@ test("social profiles declare the requested hover labels and destinations", () =
 test("Drupal and Storybook expose the same accessible label-swap contract", () => {
   for (const template_source of [DRUPAL_FOOTER_TEMPLATE_SOURCE, FOOTER_ITEM_TEMPLATE_SOURCE]) {
     assert.match(template_source, /aria-label=/);
-    assert.match(template_source, /target="_blank"/);
-    assert.match(template_source, /rel="me noopener noreferrer"/);
     assert.match(template_source, /footer-navigation__social-label-text--default/);
     assert.match(template_source, /footer-navigation__social-label-text--hover/);
   }
+
+  for (const link_source of [DRUPAL_FOOTER_TEMPLATE_SOURCE, FOOTER_MARKUP_SOURCE]) {
+    assert.match(link_source, /target="_blank"/);
+    assert.match(link_source, /rel="me noopener noreferrer"/);
+    assert.match(link_source, /mailto:/);
+  }
+  assert.match(FOOTER_ITEM_TEMPLATE_SOURCE, /\{\{link_target_attributes\}\}/);
 
   assert.match(DRUPAL_FOOTER_TEMPLATE_SOURCE, /icon_name: 'external-link'/);
   assert.match(DRUPAL_FOOTER_TEMPLATE_SOURCE, /icon_class: 'footer-navigation__external-mark'/);

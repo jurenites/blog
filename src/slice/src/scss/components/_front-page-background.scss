@@ -3,6 +3,12 @@
   background: var(--component-hero-section-background-edge-color);
 }
 
+.homepage-block__heading {
+  width: 100%;
+  max-width: var(--layout-content-max-wide-default);
+  margin-inline: auto;
+}
+
 .background-preview {
   position: relative;
   min-height: 100vh;

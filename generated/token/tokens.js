@@ -1061,30 +1061,6 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "typography-font-family-code",
-    "path": [
-      "typography",
-      "font-family",
-      "code"
-    ],
-    "type": "fontFamily",
-    "description": "Bold code text in Storybook.",
-    "source_value": [
-      "Courier New",
-      "Courier",
-      "monospace"
-    ],
-    "value": [
-      "Courier New",
-      "Courier",
-      "monospace"
-    ],
-    "css_value": "\"Courier New\", \"Courier\", monospace",
-    "resolved_css_value": "\"Courier New\", \"Courier\", monospace",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
     "name": "typography-font-family-number",
     "path": [
       "typography",
@@ -1092,19 +1068,17 @@ export const TOKEN_RECORDS = [
       "number"
     ],
     "type": "fontFamily",
-    "description": "Humanist numeric family with a slashed zero.",
+    "description": "Humanist monospace family for machine-readable text and numbers.",
     "source_value": [
       "Ubuntu Sans Mono",
-      "Courier New",
       "monospace"
     ],
     "value": [
       "Ubuntu Sans Mono",
-      "Courier New",
       "monospace"
     ],
-    "css_value": "\"Ubuntu Sans Mono\", \"Courier New\", monospace",
-    "resolved_css_value": "\"Ubuntu Sans Mono\", \"Courier New\", monospace",
+    "css_value": "\"Ubuntu Sans Mono\", monospace",
+    "resolved_css_value": "\"Ubuntu Sans Mono\", monospace",
     "is_reference": false,
     "reference_name": null
   },
@@ -1350,17 +1324,32 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "typography-code",
+    "name": "typography-badge",
     "path": [
       "typography",
-      "code"
+      "badge"
     ],
     "type": "string",
-    "description": "Storybook code and technical metadata.",
-    "source_value": "600 14px var(--typography-font-family-code)",
-    "value": "600 14px var(--typography-font-family-code)",
-    "css_value": "600 14px var(--typography-font-family-code)",
-    "resolved_css_value": "600 14px var(--typography-font-family-code)",
+    "description": "",
+    "source_value": "500 12px var(--typography-font-family-sans)",
+    "value": "500 12px var(--typography-font-family-sans)",
+    "css_value": "500 12px var(--typography-font-family-sans)",
+    "resolved_css_value": "500 12px var(--typography-font-family-sans)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "typography-numeric-display",
+    "path": [
+      "typography",
+      "numeric-display"
+    ],
+    "type": "string",
+    "description": "Large statistics and other prominent numeric values.",
+    "source_value": "64px var(--typography-font-family-number)",
+    "value": "64px var(--typography-font-family-number)",
+    "css_value": "64px var(--typography-font-family-number)",
+    "resolved_css_value": "64px var(--typography-font-family-number)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1380,21 +1369,6 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "typography-badge",
-    "path": [
-      "typography",
-      "badge"
-    ],
-    "type": "string",
-    "description": "Compact labels that need more emphasis than the 300-weight link role.",
-    "source_value": "500 14px var(--typography-font-family-sans)",
-    "value": "500 14px var(--typography-font-family-sans)",
-    "css_value": "500 14px var(--typography-font-family-sans)",
-    "resolved_css_value": "500 14px var(--typography-font-family-sans)",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
     "name": "typography-overline",
     "path": [
       "typography",
@@ -1406,21 +1380,6 @@ export const TOKEN_RECORDS = [
     "value": "5px var(--typography-font-family-4pixel)",
     "css_value": "5px var(--typography-font-family-4pixel)",
     "resolved_css_value": "5px var(--typography-font-family-4pixel)",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "typography-numeric-display",
-    "path": [
-      "typography",
-      "numeric-display"
-    ],
-    "type": "string",
-    "description": "Large statistics and other prominent numeric values.",
-    "source_value": "64px var(--typography-font-family-number)",
-    "value": "64px var(--typography-font-family-number)",
-    "css_value": "64px var(--typography-font-family-number)",
-    "resolved_css_value": "64px var(--typography-font-family-number)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1911,6 +1870,32 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "motion-easing-pulse-default",
+    "path": [
+      "motion",
+      "easing",
+      "pulse-default"
+    ],
+    "type": "cubicBezier",
+    "description": "Expanding radius accelerates gently before fading away.",
+    "source_value": [
+      0.1,
+      0.5,
+      0.6,
+      1
+    ],
+    "value": [
+      0.1,
+      0.5,
+      0.6,
+      1
+    ],
+    "css_value": "cubic-bezier(0.1, 0.5, 0.6, 1)",
+    "resolved_css_value": "cubic-bezier(0.1, 0.5, 0.6, 1)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "layout-container-max-tablet-default",
     "path": [
       "layout",
@@ -2039,6 +2024,86 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-game-of-life-counter-digit-width-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "counter-digit-width-default"
+    ],
+    "type": "dimension",
+    "description": "Fixed advance for every 4pixel Overline digit, including the narrower 1.",
+    "source_value": "5px",
+    "value": "5px",
+    "css_value": "5px",
+    "resolved_css_value": "5px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-cell-size-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "cell-size-default"
+    ],
+    "type": "dimension",
+    "description": "Outer cell size; adjacent cells share their 1px border.",
+    "source_value": "8px",
+    "value": "8px",
+    "css_value": "8px",
+    "resolved_css_value": "8px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-live-size-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "live-size-default"
+    ],
+    "type": "dimension",
+    "description": "Centered living square inside each cell.",
+    "source_value": "4px",
+    "value": "4px",
+    "css_value": "4px",
+    "resolved_css_value": "4px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-border-size-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "border-size-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "1px",
+    "value": "1px",
+    "css_value": "1px",
+    "resolved_css_value": "1px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-control-size-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "control-size-default"
+    ],
+    "type": "dimension",
+    "description": "Compact, icon-only pause/play control.",
+    "source_value": "32px",
+    "value": "32px",
+    "css_value": "32px",
+    "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-contact-photo-max-width-default",
     "path": [
       "component",
@@ -2131,6 +2196,102 @@ export const TOKEN_RECORDS = [
     "value": "32px",
     "css_value": "32px",
     "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-compact-width-default",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-compact-width-default"
+    ],
+    "type": "dimension",
+    "description": "Reserves only enough inline space for the separate A and I initials.",
+    "source_value": "48px",
+    "value": "48px",
+    "css_value": "48px",
+    "resolved_css_value": "48px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-letter-font-size-start",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-letter-font-size-start"
+    ],
+    "type": "dimension",
+    "description": "Added letters grow into the 40px headline role.",
+    "source_value": "32px",
+    "value": "32px",
+    "css_value": "32px",
+    "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-letter-spacing-start",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-letter-spacing-start"
+    ],
+    "type": "dimension",
+    "description": "Added letters begin slightly compressed before reaching normal spacing.",
+    "source_value": "-2px",
+    "value": "-2px",
+    "css_value": "-2px",
+    "resolved_css_value": "-2px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-reveal-duration-default",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-reveal-duration-default"
+    ],
+    "type": "duration",
+    "description": "Each letter reveals and closes at twice the original speed.",
+    "source_value": "325ms",
+    "value": "325ms",
+    "css_value": "325ms",
+    "resolved_css_value": "325ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-reveal-stagger-default",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-reveal-stagger-default"
+    ],
+    "type": "duration",
+    "description": "Consecutive letters expand at twice the original speed.",
+    "source_value": "25ms",
+    "value": "25ms",
+    "css_value": "25ms",
+    "resolved_css_value": "25ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-hold-duration-default",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-hold-duration-default"
+    ],
+    "type": "duration",
+    "description": "Hold after the full reveal completes and hover or focus leaves.",
+    "source_value": "2000ms",
+    "value": "2000ms",
+    "css_value": "2000ms",
+    "resolved_css_value": "2000ms",
     "is_reference": false,
     "reference_name": null
   },
@@ -2263,6 +2424,86 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-skills-profile-padding-compact-default",
+    "path": [
+      "component",
+      "skills-profile",
+      "padding-compact-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "24px",
+    "value": "24px",
+    "css_value": "24px",
+    "resolved_css_value": "24px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-skills-profile-padding-header-default",
+    "path": [
+      "component",
+      "skills-profile",
+      "padding-header-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "48px",
+    "value": "48px",
+    "css_value": "48px",
+    "resolved_css_value": "48px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-skills-profile-padding-item-default",
+    "path": [
+      "component",
+      "skills-profile",
+      "padding-item-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "40px",
+    "value": "40px",
+    "css_value": "40px",
+    "resolved_css_value": "40px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-skills-profile-score-size-compact-default",
+    "path": [
+      "component",
+      "skills-profile",
+      "score-size-compact-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "32px",
+    "value": "32px",
+    "css_value": "32px",
+    "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-skills-profile-score-size-default",
+    "path": [
+      "component",
+      "skills-profile",
+      "score-size-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "44px",
+    "value": "44px",
+    "css_value": "44px",
+    "resolved_css_value": "44px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-hero-section-background-edge-color",
     "path": [
       "component",
@@ -2270,7 +2511,7 @@ export const TOKEN_RECORDS = [
       "background-edge-color"
     ],
     "type": "string",
-    "description": "Sampled from the outer edge of the homepage Hero image for a continuous canvas.",
+    "description": "Sampled from the outer edge of the Hero image for a continuous canvas.",
     "source_value": "#000207",
     "value": "#000207",
     "css_value": "#000207",
@@ -2359,18 +2600,18 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "component-hero-section-image-horizontal-fade-width-default",
+    "name": "component-hero-section-image-edge-fade-width-default",
     "path": [
       "component",
       "hero-section",
-      "image-horizontal-fade-width-default"
+      "image-edge-fade-width-default"
     ],
     "type": "dimension",
-    "description": "Blend each side of the Hero image into the homepage canvas.",
-    "source_value": "96px",
-    "value": "96px",
-    "css_value": "96px",
-    "resolved_css_value": "96px",
+    "description": "Blend every image edge into its matching page canvas; capped on small images.",
+    "source_value": "100px",
+    "value": "100px",
+    "css_value": "100px",
+    "resolved_css_value": "100px",
     "is_reference": false,
     "reference_name": null
   },
@@ -2611,6 +2852,70 @@ export const TOKEN_RECORDS = [
     "value": "#EA4335",
     "css_value": "#EA4335",
     "resolved_css_value": "#EA4335",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-yandex-mail-icon-height-default",
+    "path": [
+      "component",
+      "footer-navigation",
+      "yandex-mail-icon-height-default"
+    ],
+    "type": "dimension",
+    "description": "Envelope height, matching Gmail's optical size.",
+    "source_value": "12px",
+    "value": "12px",
+    "css_value": "12px",
+    "resolved_css_value": "12px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-yandex-mail-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "yandex-mail-color-hover"
+    ],
+    "type": "string",
+    "description": "https://www.brandcolorcode.com/yandex-mail",
+    "source_value": "#FFCC00",
+    "value": "#FFCC00",
+    "css_value": "#FFCC00",
+    "resolved_css_value": "#FFCC00",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-yandex-mail-light-yellow-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "yandex-mail-light-yellow-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FFDA3E",
+    "value": "#FFDA3E",
+    "css_value": "#FFDA3E",
+    "resolved_css_value": "#FFDA3E",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-yandex-mail-red-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "yandex-mail-red-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FF3333",
+    "value": "#FF3333",
+    "css_value": "#FF3333",
+    "resolved_css_value": "#FF3333",
     "is_reference": false,
     "reference_name": null
   },
@@ -4028,6 +4333,118 @@ export const TOKEN_RECORDS = [
     "value": "4px",
     "css_value": "4px",
     "resolved_css_value": "4px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-pulse-indicator-container-size-default",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "container-size-default"
+    ],
+    "type": "dimension",
+    "description": "Compact field around the dot; the animated radius may extend beyond it.",
+    "source_value": "24px",
+    "value": "24px",
+    "css_value": "24px",
+    "resolved_css_value": "24px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-pulse-indicator-marker-size-default",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "marker-size-default"
+    ],
+    "type": "dimension",
+    "description": "Shared resting diameter for the central dot and animated radius.",
+    "source_value": "8px",
+    "value": "8px",
+    "css_value": "8px",
+    "resolved_css_value": "8px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-pulse-indicator-radius-scale-expanded",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "radius-scale-expanded"
+    ],
+    "type": "number",
+    "description": "Expands the 8px radius to a 32px diameter.",
+    "source_value": 4,
+    "value": 4,
+    "css_value": "4",
+    "resolved_css_value": "4",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-pulse-indicator-animation-duration-default",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "animation-duration-default"
+    ],
+    "type": "duration",
+    "description": "Calm repeating pulse adapted from the visual reference.",
+    "source_value": "3000ms",
+    "value": "3000ms",
+    "css_value": "3000ms",
+    "resolved_css_value": "3000ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-pulse-indicator-dot-color-default",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "dot-color-default"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "{color.palette.full-white}",
+    "value": "#FFFFFF",
+    "css_value": "var(--color-palette-full-white)",
+    "resolved_css_value": "#FFFFFF",
+    "is_reference": true,
+    "reference_name": "color-palette-full-white"
+  },
+  {
+    "name": "component-pulse-indicator-radius-color-start",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "radius-color-start"
+    ],
+    "type": "string",
+    "description": "25% white at the start of each pulse.",
+    "source_value": "#FFFFFF40",
+    "value": "#FFFFFF40",
+    "css_value": "#FFFFFF40",
+    "resolved_css_value": "#FFFFFF40",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-pulse-indicator-radius-color-end",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "radius-color-end"
+    ],
+    "type": "string",
+    "description": "Fully transparent at maximum diameter and during reset.",
+    "source_value": "#FFFFFF00",
+    "value": "#FFFFFF00",
+    "css_value": "#FFFFFF00",
+    "resolved_css_value": "#FFFFFF00",
     "is_reference": false,
     "reference_name": null
   },

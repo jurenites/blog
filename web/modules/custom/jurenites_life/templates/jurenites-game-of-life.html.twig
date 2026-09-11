@@ -1,0 +1,8 @@
+<div class="game-of-life" data-game-of-life data-live-label="{{ 'Live'|t }}" data-paused-label="{{ 'Paused'|t }}" data-paused="false">
+  <canvas class="game-of-life__canvas" role="img" aria-label="{{ 'Conway’s Game of Life. Move the pointer to draw live cells; the cell beneath it stays alive.'|t }}">{{ 'A live Game of Life simulation is available with JavaScript enabled.'|t }}</canvas>
+  <p class="game-of-life__status" data-life-status aria-live="off"><span data-life-label>{{ 'Live'|t }}</span> <span class="game-of-life__generation" data-life-generation><span class="game-of-life__digit">0</span></span></p>
+  <button type="button" class="button button--ghost game-of-life__pause-button" data-life-pause data-pause-label="{{ 'Pause simulation'|t }}" data-resume-label="{{ 'Play simulation'|t }}" aria-label="{{ 'Pause simulation'|t }}" aria-pressed="false" hidden>
+    {% include '@jurenites_theme/components/icon.html.twig' with { icon_name: 'pause-rect', icon_class: 'game-of-life__pause-icon' } only %}
+    {% include '@jurenites_theme/components/icon.html.twig' with { icon_name: 'play-triangle', icon_class: 'game-of-life__play-icon' } only %}
+  </button>
+</div>

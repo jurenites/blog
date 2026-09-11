@@ -1,5 +1,7 @@
 import { CLOSE_ICON_SVG, CHEVRON_ICON_SVG } from '../../../../generated/icons/control-icons.js';
 import { install_icon_sprite } from './icon-sprite.js';
+import { enable_site_header_brand } from './site-header-brand.js';
+import { initialize_game_of_life, detach_game_of_life } from './game-of-life.js';
 import { initialize_video_grids, detach_video_grids } from './video-grid.js';
 import { install_asset_warming } from './asset-warming.js';
 import { install_message_toasts } from './message-toast.js';
@@ -358,6 +360,9 @@ export function enable_site_header_menu(site_header) {
 }
 
 export function initialize_site_headers(header_context) {
+  header_context
+    .querySelectorAll('.site-header__brand')
+    .forEach((brand_link) => enable_site_header_brand(brand_link));
   header_context
     .querySelectorAll('.site-header')
     .forEach((site_header) => enable_site_header_menu(site_header));
@@ -1000,6 +1005,13 @@ if (typeof Drupal !== 'undefined') {
   Drupal.behaviors.jurenites_numeric_value_counters = {
     attach(counter_context) {
       initialize_numeric_value_counters(counter_context);
+    },
+  };
+
+  Drupal.behaviors.jurenites_game_of_life = {
+    attach(page_context) { initialize_game_of_life(page_context); },
+    detach(page_context, page_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_game_of_life(page_context);
     },
   };
 }

@@ -1,0 +1,41 @@
+[
+  {
+    "device": "monitor",
+    "frames": 192,
+    "fps": 24.0,
+    "seconds": 8.0,
+    "dimensions": [
+      768,
+      480
+    ],
+    "loop_transform_error": 0.0,
+    "animated_objects": 6,
+    "bytes": 649299
+  },
+  {
+    "device": "laptop",
+    "frames": 192,
+    "fps": 24.0,
+    "seconds": 8.0,
+    "dimensions": [
+      768,
+      480
+    ],
+    "loop_transform_error": 0.0,
+    "animated_objects": 6,
+    "bytes": 947936
+  },
+  {
+    "device": "phone",
+    "frames": 192,
+    "fps": 24.0,
+    "seconds": 8.0,
+    "dimensions": [
+      768,
+      480
+    ],
+    "loop_transform_error": 0.0,
+    "animated_objects": 6,
+    "bytes": 455933
+  }
+]

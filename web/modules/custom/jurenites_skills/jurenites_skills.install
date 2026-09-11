@@ -1,0 +1,144 @@
+<?php
+
+/**
+ * @file
+ * Adds one reusable skills block with reorderable, revisioned skill Paragraphs.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\paragraphs\Entity\ParagraphsType;
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_skills_install(): void {
+  jurenites_skills_setup();
+}
+
+/**
+ * Creates missing fields without changing existing editor configuration.
+ */
+function jurenites_skills_add_field(string $entity_type, string $bundle_name, string $field_name, array $field_options, array $widget_options): void {
+  $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
+  if ($field_storage === NULL) {
+    $field_storage = FieldStorageConfig::create([
+      'field_name' => $field_name, 'entity_type' => $entity_type,
+      'type' => $field_options['type'], 'cardinality' => $field_options['cardinality'] ?? 1,
+      'settings' => $field_options['storage_settings'] ?? [], 'translatable' => TRUE,
+    ]);
+    $field_storage->save();
+  }
+  if (FieldConfig::loadByName($entity_type, $bundle_name, $field_name) === NULL) {
+    FieldConfig::create([
+      'field_storage' => $field_storage, 'bundle' => $bundle_name,
+      'label' => $field_options['label'], 'description' => $field_options['description'] ?? '',
+      'required' => $field_options['required'] ?? FALSE,
+      'settings' => $field_options['settings'] ?? [], 'translatable' => TRUE,
+    ])->save();
+  }
+  $display_id = "$entity_type.$bundle_name.default";
+  $form_display = EntityFormDisplay::load($display_id) ?? EntityFormDisplay::create([
+    'targetEntityType' => $entity_type, 'bundle' => $bundle_name, 'mode' => 'default', 'status' => TRUE,
+  ]);
+  if ($form_display->getComponent($field_name) === NULL) {
+    $form_display->setComponent($field_name, $widget_options + ['region' => 'content'])->save();
+  }
+  $view_display = EntityViewDisplay::load($display_id) ?? EntityViewDisplay::create([
+    'targetEntityType' => $entity_type, 'bundle' => $bundle_name, 'mode' => 'default', 'status' => TRUE,
+  ]);
+  $view_display->removeComponent($field_name)->save();
+}
+
+/**
+ * Seeds only missing content; safe to repeat without resetting authored ratings.
+ */
+function jurenites_skills_setup(): void {
+  if (BlockContentType::load('skills_profile') === NULL) {
+    BlockContentType::create(['id' => 'skills_profile', 'label' => 'Skills profile', 'revision' => TRUE])->save();
+  }
+  if (ParagraphsType::load('technology_skill') === NULL) {
+    ParagraphsType::create(['id' => 'technology_skill', 'label' => 'Technology skill'])->save();
+  }
+  foreach ([
+    'field_skills_heading' => ['Section heading', 'string', 0],
+    'field_skills_intro' => ['Introduction', 'string_long', 1],
+    'field_skills_note' => ['Supporting experience', 'string_long', 4],
+  ] as $field_name => $field_details) {
+    jurenites_skills_add_field('block_content', 'skills_profile', $field_name, [
+      'type' => $field_details[1], 'label' => $field_details[0],
+    ], ['type' => $field_details[1] === 'string' ? 'string_textfield' : 'string_textarea', 'weight' => $field_details[2]]);
+  }
+  jurenites_skills_add_field('block_content', 'skills_profile', 'field_skills_reviewed', [
+    'type' => 'boolean', 'label' => 'I have personally reviewed these ratings',
+    'description' => 'Leave unchecked for suggested draft scores. Check only after assessing your current independent ability. 1 = basic awareness; 2 = guided work; 3 = independent routine work; 4 = complex work; 5 = deep expertise. Decimals are subjective, not test results.',
+  ], ['type' => 'boolean_checkbox', 'weight' => 2, 'settings' => ['display_label' => TRUE]]);
+  jurenites_skills_add_field('block_content', 'skills_profile', 'field_skills_items', [
+    'type' => 'entity_reference_revisions', 'label' => 'Technologies', 'cardinality' => -1,
+    'storage_settings' => ['target_type' => 'paragraph'],
+    'settings' => ['handler' => 'default:paragraph', 'handler_settings' => [
+      'target_bundles' => ['technology_skill' => 'technology_skill'],
+      'target_bundles_drag_drop' => ['technology_skill' => ['weight' => 0, 'enabled' => TRUE]],
+    ]],
+  ], ['type' => 'paragraphs', 'weight' => 3, 'settings' => [
+    'title' => 'Technology', 'title_plural' => 'Technologies', 'edit_mode' => 'closed',
+    'closed_mode' => 'summary', 'autocollapse' => 'none', 'add_mode' => 'button',
+    'form_display_mode' => 'default', 'default_paragraph_type' => 'technology_skill',
+  ]]);
+  foreach ([
+    'field_skill_name' => ['Technology', 'string', 0],
+    'field_skill_category' => ['Category', 'string', 1],
+    'field_skill_description' => ['What I use it for', 'string_long', 2],
+    'field_skill_evidence' => ['CV experience', 'string_long', 3],
+  ] as $field_name => $field_details) {
+    jurenites_skills_add_field('paragraph', 'technology_skill', $field_name, [
+      'type' => $field_details[1], 'label' => $field_details[0], 'required' => $field_name === 'field_skill_name',
+    ], ['type' => $field_details[1] === 'string' ? 'string_textfield' : 'string_textarea', 'weight' => $field_details[2]]);
+  }
+  jurenites_skills_add_field('paragraph', 'technology_skill', 'field_skill_score', [
+    'type' => 'decimal', 'label' => 'Current confidence / 5',
+    'description' => 'Optional decimal from 0.0 to 5.0. Leave blank if not yet assessed; a missing rating is not zero.',
+    'storage_settings' => ['precision' => 2, 'scale' => 1], 'settings' => ['min' => 0, 'max' => 5],
+  ], ['type' => 'number', 'weight' => 4]);
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+
+  $block_uuid = '0a3f8606-ecf5-4da3-9c26-a4e7eac1f734';
+  $block_storage = \Drupal::entityTypeManager()->getStorage('block_content');
+  if (!$block_storage->loadByProperties(['uuid' => $block_uuid])) {
+    $seed_content = json_decode(file_get_contents(__DIR__ . '/data/skills.json'), TRUE, 512, JSON_THROW_ON_ERROR);
+    $skill_items = [];
+    foreach ($seed_content['skill_items'] as $skill_data) {
+      $skill_items[] = Paragraph::create([
+        'type' => 'technology_skill',
+        'field_skill_name' => $skill_data['technology_name'],
+        'field_skill_category' => $skill_data['skill_category'],
+        'field_skill_description' => $skill_data['skill_description'],
+        'field_skill_evidence' => $skill_data['experience_note'],
+        'field_skill_score' => $skill_data['skill_score'],
+      ]);
+    }
+    BlockContent::create([
+      'uuid' => $block_uuid, 'type' => 'skills_profile', 'langcode' => 'en',
+      'info' => 'About web development skills', 'reusable' => TRUE,
+      'field_skills_heading' => $seed_content['section_heading'],
+      'field_skills_intro' => $seed_content['section_description'],
+      'field_skills_note' => $seed_content['supporting_note'],
+      'field_skills_reviewed' => FALSE, 'field_skills_items' => $skill_items,
+    ])->save();
+  }
+  if (Block::load('jurenites_theme_about_skills') === NULL) {
+    $plugin_identifier = 'block_content:' . $block_uuid;
+    Block::create([
+      'id' => 'jurenites_theme_about_skills', 'theme' => 'jurenites_theme', 'region' => 'content',
+      'weight' => 5, 'status' => TRUE, 'plugin' => $plugin_identifier,
+      'settings' => ['id' => $plugin_identifier, 'label' => 'Web development skills', 'label_display' => '0', 'provider' => 'block_content', 'view_mode' => 'full'],
+      'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => "/about\n/obo"]],
+    ])->save();
+  }
+}

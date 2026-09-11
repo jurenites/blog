@@ -46,15 +46,19 @@ function jurenites_blog_taxonomy_term_presave(TermInterface $tag_term): void {
 }
 
 /**
- * Hides automatically managed YouTube metadata from non-administrators.
+ * Groups automatically managed YouTube metadata in a collapsed section.
  */
 function jurenites_blog_form_node_article_form_alter(
   array &$form,
   FormStateInterface $form_state,
 ): void {
-  if (\Drupal::currentUser()->hasPermission('administer nodes')) {
-    return;
-  }
+  $form['youtube_metadata'] = [
+    '#type' => 'details',
+    '#title' => t('YouTube metadata'),
+    '#description' => t('These fields are filled automatically from YouTube when the Article is saved.'),
+    '#open' => FALSE,
+    '#weight' => ($form['field_youtube_video']['#weight'] ?? 2) + 0.5,
+  ];
 
   $managed_field_names = [
     'field_youtube_creator_name',
@@ -64,13 +68,32 @@ function jurenites_blog_form_node_article_form_alter(
   ];
   foreach ($managed_field_names as $managed_field_name) {
     if (isset($form[$managed_field_name])) {
-      $form[$managed_field_name]['#access'] = FALSE;
+      // Group presentation without changing the field's submitted value path.
+      $form[$managed_field_name]['#group'] = 'youtube_metadata';
     }
   }
 
   if (isset($form['field_youtube_video']['widget'][0]['video_id'])) {
-    $form['field_youtube_video']['widget'][0]['video_id']['#access'] = FALSE;
+    // The video ID is informational markup; URL validation still derives it.
+    $form['youtube_metadata']['video_identifier'] = $form['field_youtube_video']['widget'][0]['video_id'];
+    $form['youtube_metadata']['video_identifier']['#weight'] = -1;
+    unset($form['field_youtube_video']['widget'][0]['video_id']);
   }
+
+  if (isset($form['field_youtube_channel_avatar'])
+    && !\Drupal::currentUser()->hasPermission('administer nodes')) {
+    $form['field_youtube_channel_avatar']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Applies the Article metadata section to the node edit route as well.
+ */
+function jurenites_blog_form_node_article_edit_form_alter(
+  array &$form,
+  FormStateInterface $form_state,
+): void {
+  jurenites_blog_form_node_article_form_alter($form, $form_state);
 }
 
 /**

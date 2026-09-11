@@ -2,7 +2,18 @@
 {% if site_logo %}
   <a class="site-header__brand" href="{{ path('<front>') }}" rel="home" aria-label="{{ 'Alexander Ilivanov — home'|t }}">
     <img class="site-header__logo{% if uses_lego_logo %} site-header__logo--lego{% endif %}" src="{{ site_logo }}" alt="" fetchpriority="high" />
-    <span class="site-header__brand-name">Alexander Ilivanov</span>
+    <span class="site-header__brand-name" aria-hidden="true">
+      <span class="site-header__brand-name-short">
+        <span class="site-header__brand-name-word site-header__brand-name-word--first">
+          <span class="site-header__brand-name-initial">A</span>
+          <span class="site-header__brand-name-remainder"><span class="site-header__brand-name-letter">l</span><span class="site-header__brand-name-letter">e</span><span class="site-header__brand-name-letter">x</span><span class="site-header__brand-name-letter">a</span><span class="site-header__brand-name-letter">n</span><span class="site-header__brand-name-letter">d</span><span class="site-header__brand-name-letter">e</span><span class="site-header__brand-name-letter">r</span></span>
+        </span>
+        <span class="site-header__brand-name-word site-header__brand-name-word--last">
+          <span class="site-header__brand-name-initial">I</span>
+          <span class="site-header__brand-name-remainder"><span class="site-header__brand-name-letter">l</span><span class="site-header__brand-name-letter">i</span><span class="site-header__brand-name-letter">v</span><span class="site-header__brand-name-letter">a</span><span class="site-header__brand-name-letter">n</span><span class="site-header__brand-name-letter">o</span><span class="site-header__brand-name-letter">v</span></span>
+        </span>
+      </span>
+    </span>
   </a>
 {% endif %}
 {{ title_suffix }}

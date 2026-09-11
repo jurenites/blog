@@ -14,6 +14,7 @@ const SOCIAL_LINKS = social_profiles;
 const MESSENGER_LINKS = [
   { link_label: "Telegram", hover_label: "@jurenites", link_url: "https://t.me/jurenites", icon_name: "brand-telegram" },
   { link_label: "Gmail", hover_label: "jurenites@gmail.com", link_url: "mailto:jurenites@gmail.com", icon_name: "brand-gmail" },
+  { link_label: "Yandex.Mail", hover_label: "jurenites@yandex.ru", link_url: "mailto:jurenites@yandex.ru", icon_name: "brand-yandex-mail" },
 ];
 const HOW_I_WORK_LINKS = [
   { link_label: "GitHub", hover_label: "blog_jurenites", link_url: "https://github.com/jurenites/blog", icon_name: "brand-github", color_token: "github" },
@@ -41,7 +42,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: "Social profiles and Telegram open in a new window; Gmail opens your email app. Hover and keyboard focus reveal each account name, its brand color, and, for web links, the shared External Link icon. Information links and the rights message appear alongside them.",
+        component: "Social profiles and Telegram open in a new window; Gmail and Yandex.Mail open your email app. Hover and keyboard focus reveal each account name, its brand color, and, for web links, the shared External Link icon. Information links and the rights message appear alongside them.",
       },
     },
   },

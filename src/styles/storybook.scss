@@ -52,7 +52,7 @@ pre code:not(.font-preview__path-code),
 pre,
 kbd,
 samp {
-  font: var(--typography-code) !important;
+  font: var(--typography-machine-readable) !important;
 }
 
 #storybook-docs {
@@ -152,6 +152,11 @@ samp {
   overflow: hidden;
 }
 
+.storybook-shell--pulse-indicator-preview {
+  display: grid;
+  place-items: center;
+}
+
 .storybook-stack {
   display: flex;
   flex-direction: column;
@@ -187,6 +192,7 @@ samp {
 }
 
 .storybook-stack--portfolio-gallery {
+  gap: 0;
   max-width: var(--layout-content-max-blog-default);
 }
 
@@ -297,7 +303,7 @@ $storybook-color-block-size-compact: 40px;
 
 .color-block__chip-text {
   color: inherit;
-  @include tools.typography-code;
+  @include tools.typography-machine-readable;
 }
 
 .color-block__information {
@@ -317,7 +323,7 @@ $storybook-color-block-size-compact: 40px;
   overflow: hidden;
   color: inherit;
   overflow-wrap: anywhere;
-  @include tools.typography-code;
+  @include tools.typography-machine-readable;
 }
 
 .color-block__secondary:empty,
@@ -479,7 +485,7 @@ $storybook-color-block-size-compact: 40px;
 .type-mapping__token,
 .type-mapping__details {
   color: var(--theme-dark-text-secondary-default);
-  @include tools.typography-code;
+  @include tools.typography-machine-readable;
 }
 
 .type-mapping__details > div {

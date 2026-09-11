@@ -1,0 +1,12 @@
+# Intermediate render caches; final blend, stills and MP4s remain visible to Git.
+*.log
+*.blend1
+reframe-phone.py
+verify-delivery.py
+renders/*-frames/
+renders/*-frames-cropped-proof/
+renders/*proof.png
+renders/*-video-check.png
+
+inspection/
+renders/*-frames-placeholder-*/

@@ -179,7 +179,7 @@ body.jurenites-theme .footer-navigation .footer-navigation__social-link {
   .footer-navigation__social-label-text--hover {
     display: inline-flex;
     align-items: center;
-    gap: calc(var(--space-scale-base-gap) * 0.5);
+    gap: var(--space-scale-two);
     visibility: hidden;
   }
 
@@ -225,6 +225,27 @@ body.jurenites-theme .footer-navigation a.footer-navigation__messenger-link[data
 
     > .footer-navigation__social-network-icon {
       --icon-gmail-fill: initial;
+    }
+  }
+}
+
+.footer-navigation__messenger-link[data-social-icon="messenger-brand-yandex-mail"] > .footer-navigation__social-network-icon {
+  --icon-yandex-mail-default-display: inline;
+  --icon-yandex-mail-color-display: none;
+
+  width: calc(var(--component-footer-navigation-yandex-mail-icon-height-default) * 16 / 11);
+  height: var(--component-footer-navigation-yandex-mail-icon-height-default);
+}
+
+// https://www.brandcolorcode.com/yandex-mail
+body.jurenites-theme .footer-navigation a.footer-navigation__messenger-link[data-social-icon="messenger-brand-yandex-mail"] {
+  &:hover,
+  &:focus-visible {
+    color: var(--component-footer-navigation-yandex-mail-color-hover);
+
+    > .footer-navigation__social-network-icon {
+      --icon-yandex-mail-default-display: none;
+      --icon-yandex-mail-color-display: inline;
     }
   }
 }

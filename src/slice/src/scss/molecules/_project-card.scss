@@ -9,6 +9,10 @@
   gap: calc(var(--space-scale-base-gap) * 2);
 }
 
+.portfolio-filter + .portfolio-grid {
+  margin-top: var(--space-scale-base-gap);
+}
+
 .portfolio-grid__item {
   min-width: 0;
 }

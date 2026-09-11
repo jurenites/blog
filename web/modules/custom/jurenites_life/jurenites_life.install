@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Adds a native optional video-reference field without changing Article routing.
+ */
+
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_life_install(): void {
+  if (!FieldStorageConfig::loadByName('node', 'field_supporting_videos')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_supporting_videos', 'entity_type' => 'node',
+      'type' => 'entity_reference', 'cardinality' => -1,
+      'settings' => ['target_type' => 'media'],
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'article', 'field_supporting_videos')) {
+    FieldConfig::create([
+      'field_name' => 'field_supporting_videos', 'entity_type' => 'node', 'bundle' => 'article',
+      'label' => 'Supporting videos', 'translatable' => TRUE,
+      'description' => 'Optional films below the article. Keep the main YouTube field empty for personal Blog posts.',
+      'settings' => ['handler' => 'default:media', 'handler_settings' => ['target_bundles' => ['remote_video' => 'remote_video']]],
+    ])->save();
+  }
+  $form_display = EntityFormDisplay::load('node.article.default');
+  if ($form_display) {
+    $form_display->setComponent('field_supporting_videos', ['type' => 'media_library_widget', 'weight' => 20])->save();
+  }
+  $view_display = EntityViewDisplay::load('node.article.default');
+  if ($view_display) {
+    $view_display->setComponent('field_supporting_videos', [
+      'type' => 'entity_reference_entity_view', 'label' => 'hidden', 'weight' => 20,
+      'settings' => ['view_mode' => 'default', 'link' => FALSE],
+    ])->save();
+  }
+  foreach (['teaser', 'blog_list'] as $view_mode) {
+    $list_display = EntityViewDisplay::load('node.article.' . $view_mode);
+    if ($list_display) $list_display->removeComponent('field_supporting_videos')->save();
+  }
+}

@@ -41,7 +41,7 @@ code,
 pre,
 kbd,
 samp {
-  font: var(--typography-code) !important;
+  font: var(--typography-machine-readable) !important;
 }
 
 input:not([role="switch"]),

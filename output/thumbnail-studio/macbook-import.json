@@ -1,0 +1,17 @@
+{
+  "creator": "jackbaeten",
+  "license": "CC BY 4.0",
+  "source_url": "https://sketchfab.com/3d-models/macbook-pro-m3-16-inch-2024-8e34fc2b303144f78490007d91ff57c4",
+  "imported_meshes": 62,
+  "missing_images": [],
+  "screen_dimensions_m": [
+    0.3438515067100525,
+    0.22253938481557123
+  ],
+  "screen_center": [
+    -3.2782554626464844e-07,
+    0.09156379103660583,
+    0.1304943561553955
+  ],
+  "source_path": "/Users/alexanderilivanov/Projects/blog_jurenites/output/thumbnail-studio/source-assets/macbook/original-macbook-pro-m3.blend"
+}

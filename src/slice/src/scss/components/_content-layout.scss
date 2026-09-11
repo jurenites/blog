@@ -56,12 +56,29 @@
   max-width: var(--layout-content-max-blog-default);
 }
 
+.project-detail__image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .path-videos .layout-content {
   max-width: var(--layout-content-max-wide-default);
 }
 
 .path-timeline .layout-content {
   max-width: var(--layout-content-max-timeline-default);
+}
+
+// The About hero spans the site frame; neighboring blocks retain their reading width.
+.layout-content:has(> .layout-content__region > #block-jurenites-theme-homepage-hero) {
+  max-width: none;
+
+  > .layout-content__region > :not(#block-jurenites-theme-homepage-hero) {
+    width: 100%;
+    max-width: var(--layout-content-max-blog-default);
+    margin-inline: auto;
+  }
 }
 
 .content-layout--wide .content-layout__main {

@@ -46,6 +46,23 @@ const SITE_HEADER_STYLES_SOURCE = readFileSync(
   "src/slice/src/scss/organisms/_site-header.scss",
   "utf8",
 );
+const SITE_HEADER_STORY_SOURCE = readFileSync(
+  "src/stories/organisms/site-header/site-header.stories.js",
+  "utf8",
+);
+const SITE_HEADER_MARKUP_SOURCE = readFileSync(
+  "src/stories/organisms/site-header/site-header.markup.js",
+  "utf8",
+);
+const SITE_HEADER_TEMPLATE_SOURCE = readFileSync(
+  "src/stories/organisms/site-header/site-header.template.html",
+  "utf8",
+);
+const SITE_BRANDING_TEMPLATE_SOURCE = readFileSync(
+  "web/themes/custom/jurenites_theme/templates/block/block--jurenites-theme-site-branding.html.twig",
+  "utf8",
+);
+const DESIGN_TOKEN_SOURCE = readFileSync("src/token/tokens.yaml", "utf8");
 
 test("Footer Navigation composes the shared gray Badge for the font count", () => {
   assert.match(FOOTER_MARKUP_SOURCE, /import \{ badge_markup \}/);
@@ -103,4 +120,23 @@ test("Global link defaults leave main navigation active colors to the header", (
 
 test("Brand hover uses the same elevated header surface as menu items", () => {
   assert.match(SITE_HEADER_STYLES_SOURCE, /&__brand[\s\S]*?&:hover,[\s\S]*?&:focus-visible[\s\S]*?background-color: var\(--theme-dark-surface-background-elevation-level-1\)/);
+});
+
+test("Brand initials expand into separate names without moving navigation", () => {
+  assert.match(SITE_HEADER_STORY_SOURCE, /const BRAND_FULL_NAME = "Alexander Ilivanov"/);
+  assert.doesNotMatch(SITE_HEADER_STORY_SOURCE, /BRAND_SHORT_NAME/);
+  assert.match(SITE_HEADER_MARKUP_SOURCE, /function brand_name_markup\(brand_full_name\)/);
+  assert.match(SITE_HEADER_MARKUP_SOURCE, /site-header__brand-name-letter/);
+  assert.match(SITE_HEADER_TEMPLATE_SOURCE, /site-header__brand-name-short">\{\{brand_name_markup\}\}/);
+  assert.doesNotMatch(SITE_HEADER_TEMPLATE_SOURCE, /site-header__brand-name-full/);
+  assert.match(SITE_BRANDING_TEMPLATE_SOURCE, /site-header__brand-name-initial">A</);
+  assert.match(SITE_BRANDING_TEMPLATE_SOURCE, /site-header__brand-name-initial">I</);
+  assert.match(SITE_BRANDING_TEMPLATE_SOURCE, /site-header__brand-name-word--first/);
+  assert.match(SITE_BRANDING_TEMPLATE_SOURCE, /site-header__brand-name-word--last/);
+  assert.match(SITE_BRANDING_TEMPLATE_SOURCE, /aria-label="\{\{ 'Alexander Ilivanov — home'\|t \}\}"/);
+  assert.match(SITE_HEADER_STYLES_SOURCE, /&__brand-name[\s\S]*?inline-size: var\(--component-site-header-brand-name-compact-width-default\)/);
+  assert.match(SITE_HEADER_STYLES_SOURCE, /&__brand-name-short[\s\S]*?position: absolute/);
+  assert.match(SITE_HEADER_STYLES_SOURCE, /&__brand:hover &__brand-name-letter[\s\S]*?max-inline-size: 2ch/);
+  assert.match(SITE_HEADER_STYLES_SOURCE, /transition-delay: var\(--component-site-header-brand-name-hold-duration-default\)/);
+  assert.match(DESIGN_TOKEN_SOURCE, /brand-name-hold-duration-default: 2000ms/);
 });

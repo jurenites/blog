@@ -66,7 +66,7 @@ The editable fonts and their licenses live in `src/public/assets/fonts/`.
 alongside the compiled theme CSS so a Git-based PROD update includes every font
 referenced by that CSS without requiring a build on the server. Previously this
 directory was ignored, allowing the CSS to arrive while font requests returned
-404 and Ubuntu Sans Mono fell back to Courier New.
+404 and Ubuntu Sans Mono fell through to a fallback monospace font.
 
 For an existing PROD checkout missing these files, use the font repair procedure
 in `docs/command-cheat-sheet.md`.

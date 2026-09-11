@@ -1,4 +1,21 @@
 @use "../tools";
+@use "sass:string";
+
+@function brand-name-transition-delay($stagger-count) {
+  @if $stagger-count == 0 {
+    @return var(--motion-duration-instant-default);
+  }
+
+  $delay-value: "var(--component-site-header-brand-name-reveal-stagger-default)";
+
+  @if $stagger-count > 1 {
+    @for $delay-index from 2 through $stagger-count {
+      $delay-value: "#{$delay-value} + var(--component-site-header-brand-name-reveal-stagger-default)";
+    }
+  }
+
+  @return string.unquote("calc(#{$delay-value})");
+}
 
 .site-header {
   //position: sticky;
@@ -19,6 +36,9 @@
   //box-shadow: var(--elevation-shadow-level-2);
 
   &__brand {
+    position: relative;
+    z-index: 1;
+    max-width: var(--component-site-header-brand-name-compact-width-default);
     display: inline-flex;
     align-items: center;
     gap: calc(var(--space-scale-base-gap) * 2);
@@ -35,8 +55,77 @@
   }
 
   &__brand-name {
+    position: relative;
+    flex: 0 0 var(--component-site-header-brand-name-compact-width-default);
+    inline-size: var(--component-site-header-brand-name-compact-width-default);
+    block-size: 1.2em;
+    padding-right: var(--space-scale-base-gap);
     color: var(--color-palette-full-white);
     @include tools.typography-headline-3;
+  }
+
+  &__brand-name-short {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 0;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-scale-two);
+    pointer-events: none;
+    transform: translateY(-50%);
+    white-space: nowrap;
+  }
+
+  &__brand-name-word,
+  &__brand-name-remainder {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  &__brand-name-initial {
+    flex: 0 0 auto;
+  }
+
+  &__brand-name-letter {
+    display: inline-block;
+    max-inline-size: 0;
+    overflow: hidden;
+    filter: opacity(0%);
+    font-size: var(--component-site-header-brand-name-letter-font-size-start);
+    letter-spacing: var(--component-site-header-brand-name-letter-spacing-start);
+    transition-property: max-inline-size, filter, font-size, letter-spacing;
+    transition-duration: var(--component-site-header-brand-name-reveal-duration-default);
+    transition-timing-function: var(--motion-easing-standard-default);
+    transition-delay: var(--component-site-header-brand-name-hold-duration-default);
+  }
+
+  &__brand--enhanced &__brand-name-letter {
+    transition-delay: var(--motion-duration-instant-default);
+  }
+
+  &__brand.is-brand-revealed &__brand-name-letter,
+  &__brand:hover &__brand-name-letter,
+  &__brand:focus-visible &__brand-name-letter {
+    max-inline-size: 2ch;
+    filter: opacity(100%);
+    font-size: inherit;
+    letter-spacing: var(--space-scale-zero);
+  }
+
+  @for $letter-index from 1 through 8 {
+    &__brand.is-brand-revealed &__brand-name-word--first &__brand-name-letter:nth-child(#{$letter-index}),
+    &__brand:hover &__brand-name-word--first &__brand-name-letter:nth-child(#{$letter-index}),
+    &__brand:focus-visible &__brand-name-word--first &__brand-name-letter:nth-child(#{$letter-index}) {
+      transition-delay: brand-name-transition-delay($letter-index - 1);
+    }
+  }
+
+  @for $letter-index from 1 through 7 {
+    &__brand.is-brand-revealed &__brand-name-word--last &__brand-name-letter:nth-child(#{$letter-index}),
+    &__brand:hover &__brand-name-word--last &__brand-name-letter:nth-child(#{$letter-index}),
+    &__brand:focus-visible &__brand-name-word--last &__brand-name-letter:nth-child(#{$letter-index}) {
+      transition-delay: brand-name-transition-delay($letter-index + 7);
+    }
   }
 
   &__logo {
@@ -344,6 +433,12 @@ body.has-open-site-menu {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .site-header__brand-name-letter {
+    transition-property: none;
+    transition-duration: var(--motion-duration-instant-default);
+    transition-delay: var(--motion-duration-instant-default);
+  }
+
   .site-header__menu-line {
     transition-duration: var(--motion-duration-instant-default);
   }

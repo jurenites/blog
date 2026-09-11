@@ -10,11 +10,14 @@
   'node--type-' ~ node.bundle|clean_class,
   'node--view-mode-' ~ view_mode|clean_class,
   not node.isPublished() ? 'node--unpublished',
+  content.game_of_life ? 'article-detail--game-of-life',
 ] %}
 
 <article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
   {{ title_prefix }}
   {{ title_suffix }}
+
+  {{ content.game_of_life }}
 
   {% if display_submitted and node.field_youtube_video is empty %}
     {% include '@jurenites_theme/components/author-byline.html.twig' with {
@@ -86,6 +89,7 @@
 
   <div{{ content_attributes.addClass('article-detail__content') }}>
     {{ content|without(
+      'game_of_life',
       'field_image',
       'field_consumption_time_minutes',
       'field_tags',

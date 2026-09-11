@@ -7,12 +7,12 @@
 {% set article_id = node.id %}
 
 <div class="article-teaser">
-  {% if content.field_image %}
+  {% if content.game_of_life or content.field_image %}
     <div
-      class="article-teaser__media"
+      class="article-teaser__media{{ content.game_of_life ? ' article-teaser__media--game-of-life' }}"
       data-jurenites-article-image-transition="article-image-{{ article_id }}"
     >
-      {{ content.field_image }}
+      {{ content.game_of_life ? content.game_of_life : content.field_image }}
     </div>
   {% endif %}
 
@@ -28,7 +28,7 @@
   {{ title_suffix }}
 
   <div{{ content_attributes.addClass('article-teaser__content') }}>
-    {{ content|without('field_consumption_time_minutes', 'field_image', 'field_tags') }}
+    {{ content|without('game_of_life', 'field_consumption_time_minutes', 'field_image', 'field_tags') }}
   </div>
 
   {% if display_submitted %}

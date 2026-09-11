@@ -1,0 +1,15 @@
+{
+  "section_heading": "The web is my foundation.",
+  "section_description": "I connect product thinking with hands-on web experience: from Drupal websites and PHP backends to the components that bring a design system to life.",
+  "supporting_note": "Also in my toolkit: Docker and Composer. Earlier projects include Laravel, Symfony 2 and WordPress; that experience is part of my foundation, with a refresher needed before new work.",
+  "skill_items": [
+    {"technology_name": "Drupal", "skill_category": "CMS & content", "skill_description": "Content models, Views, custom modules, theming and site maintenance.", "experience_note": "Drupal 6–11 · Nokia, Novo Ministries, oksenate.gov", "skill_score": 3.4},
+    {"technology_name": "HTML & CSS / SCSS", "skill_category": "Frontend", "skill_description": "Responsive page layouts, interface styling and accessibility refinements.", "experience_note": "Accountia design system · oksenate.gov mobile & SCSS", "skill_score": 3.6},
+    {"technology_name": "PHP", "skill_category": "Backend", "skill_description": "CMS features, server-side application logic and REST API development.", "experience_note": "Drupal projects · Laravel volunteer system · Symfony 2 APIs", "skill_score": 2.8},
+    {"technology_name": "JavaScript / jQuery", "skill_category": "Frontend", "skill_description": "Browser interactions, Ajax requests and dynamic interface behaviour.", "experience_note": "CV programming stack · Mullikin Law Ajax sorting", "skill_score": 2.7},
+    {"technology_name": "Angular", "skill_category": "Application UI", "skill_description": "Integrating a design system into an Angular frontend with a development team.", "experience_note": "Accountia · frontend & design-system integration", "skill_score": 2.4},
+    {"technology_name": "Storybook", "skill_category": "Design systems", "skill_description": "Developing interface components in isolation and documenting their presentation.", "experience_note": "Accountia · component library & design tokens", "skill_score": 3.5},
+    {"technology_name": "MySQL", "skill_category": "Data", "skill_description": "Relational data modelling: entities, field definitions and relationships.", "experience_note": "CV database stack · schema design at OysterLabs and Precision", "skill_score": 2.8},
+    {"technology_name": "Git", "skill_category": "Development workflow", "skill_description": "Version control for tracking and coordinating changes to a codebase.", "experience_note": "Listed in my CV · GitHub & GitLab workflow", "skill_score": 3.0}
+  ]
+}

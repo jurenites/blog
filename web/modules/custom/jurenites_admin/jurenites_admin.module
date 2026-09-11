@@ -8,13 +8,20 @@
 use Drupal\comment\CommentingStatus;
 use Drupal\comment\CommentInterface;
 use Drupal\ckeditor5\HTMLRestrictions;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultInterface;
+use Drupal\Core\Database\Query\AlterableInterface;
+use Drupal\Core\Database\Query\SelectInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Extension\Extension;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\editor\Entity\Editor;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\filter\Entity\FilterFormat;
+use Drupal\node\NodeInterface;
 use Drupal\user\Entity\Role;
 use Drupal\user\RoleInterface;
 
@@ -36,7 +43,6 @@ function jurenites_admin_editor_typography_roles(): array {
     'body-2' => 'Body 2',
     'link' => 'Link',
     'caption' => 'Caption',
-    'code' => 'Code',
     'machine-readable' => 'Machine readable',
     'badge' => 'Badge',
     'overline' => 'Overline',
@@ -117,11 +123,15 @@ function jurenites_admin_configure_editor_typography(): int {
     $current_restrictions = HTMLRestrictions::fromString(
       $filter_configuration['settings']['allowed_html'],
     );
+    $obsolete_typography_restrictions = HTMLRestrictions::fromString(
+      '<span class="u-typography-code">',
+    );
     $typography_restrictions = HTMLRestrictions::fromString(sprintf(
       '<span class="%s">',
       implode(' ', $typography_classes),
     ));
     $filter_configuration['settings']['allowed_html'] = $current_restrictions
+      ->diff($obsolete_typography_restrictions)
       ->merge($typography_restrictions)
       ->toFilterHtmlAllowedTagsString();
     $text_format
@@ -157,6 +167,82 @@ function jurenites_admin_entity_presave(EntityInterface $saved_entity): void {
 }
 
 /**
+ * Supplies a language-specific published-comment count to Article translations.
+ */
+function jurenites_admin_entity_prepare_view(string $entity_type_id, array $entities, array $displays, string $view_mode): void {
+  if ($entity_type_id !== 'node' || $view_mode !== 'full') {
+    return;
+  }
+
+  $article_language_records = [];
+  $article_entity_ids = [];
+  foreach ($entities as $entity_key => $article_entity) {
+    if (!$article_entity instanceof NodeInterface
+      || $article_entity->bundle() !== 'article') {
+      continue;
+    }
+
+    if (!$article_entity->hasField('comment')) {
+      continue;
+    }
+
+    $article_entity_id = (int) $article_entity->id();
+    $article_language_records[$entity_key] = [
+      'entity_id' => $article_entity_id,
+      'language_id' => $article_entity->language()->getId(),
+    ];
+    $article_entity_ids[] = $article_entity_id;
+  }
+
+  if ($article_language_records === []) {
+    return;
+  }
+
+  $comment_count_query = \Drupal::database()->select('comment_field_data', 'comment_data');
+  $comment_count_query->addField('comment_data', 'entity_id');
+  $comment_count_query->addField('comment_data', 'langcode');
+  $comment_count_query->addExpression('COUNT(comment_data.cid)', 'language_comment_count');
+  $comment_count_query
+    ->condition('comment_data.entity_id', array_unique($article_entity_ids), 'IN')
+    ->condition('comment_data.entity_type', 'node')
+    ->condition('comment_data.field_name', 'comment')
+    ->condition('comment_data.status', CommentInterface::PUBLISHED)
+    ->condition('comment_data.default_langcode', 1)
+    ->groupBy('comment_data.entity_id')
+    ->groupBy('comment_data.langcode');
+
+  $language_comment_counts = [];
+  foreach ($comment_count_query->execute() as $comment_count_record) {
+    $comment_count_key = $comment_count_record->entity_id . ':' . $comment_count_record->langcode;
+    $language_comment_counts[$comment_count_key] = (int) $comment_count_record->language_comment_count;
+  }
+
+  foreach ($article_language_records as $entity_key => $article_language_record) {
+    $comment_count_key = $article_language_record['entity_id'] . ':' . $article_language_record['language_id'];
+    $entities[$entity_key]->get('comment')->comment_count = $language_comment_counts[$comment_count_key] ?? 0;
+  }
+}
+
+/**
+ * Filters the native comment thread query to the viewed Article language.
+ */
+function jurenites_admin_query_comment_filter_alter(AlterableInterface $comment_query): void {
+  if (!$comment_query instanceof SelectInterface) {
+    return;
+  }
+
+  $commented_entity = $comment_query->getMetaData('entity');
+  $comment_field_name = $comment_query->getMetaData('field_name');
+  if (!$commented_entity instanceof NodeInterface
+    || $commented_entity->bundle() !== 'article'
+    || $comment_field_name !== 'comment') {
+    return;
+  }
+
+  $comment_query->condition('c.langcode', $commented_entity->language()->getId());
+}
+
+/**
  * Keeps Article comments public while reserving authorship for content editors.
  */
 function jurenites_admin_configure_article_comments(): int {
@@ -184,7 +270,7 @@ function jurenites_admin_configure_article_comments(): int {
       foreach ($view_permissions as $view_permission) {
         $viewer_role->grantPermission($view_permission);
       }
-      foreach (['post comments', 'skip comment approval', 'edit own comments'] as $posting_permission) {
+      foreach (['post comments', 'skip comment approval', 'edit own comments', 'delete own article comments'] as $posting_permission) {
         $viewer_role->revokePermission($posting_permission);
       }
       $viewer_role->save();
@@ -198,6 +284,7 @@ function jurenites_admin_configure_article_comments(): int {
       'post comments',
       'skip comment approval',
       'edit own comments',
+      'delete own article comments',
       'use text format restricted_html',
     ] as $editor_permission) {
       $content_editor_role->grantPermission($editor_permission);
@@ -227,6 +314,31 @@ function jurenites_admin_configure_article_comments(): int {
 }
 
 /**
+ * Implements hook_comment_access().
+ */
+function jurenites_admin_comment_access(CommentInterface $comment_entity, string $operation_name, AccountInterface $user_account): AccessResultInterface {
+  if ($operation_name !== 'delete') {
+    return AccessResult::neutral();
+  }
+
+  $commented_entity = $comment_entity->getCommentedEntity();
+  $delete_access = AccessResult::allowedIf(
+    $user_account->isAuthenticated()
+    && $user_account->hasPermission('delete own article comments')
+    && (string) $user_account->id() === (string) $comment_entity->getOwnerId()
+    && $commented_entity instanceof NodeInterface
+    && $commented_entity->bundle() === 'article'
+    && $comment_entity->getFieldName() === 'comment'
+  )->cachePerPermissions()->cachePerUser()->addCacheableDependency($comment_entity);
+
+  if ($commented_entity !== NULL) {
+    $delete_access->addCacheableDependency($commented_entity);
+  }
+
+  return $delete_access;
+}
+
+/**
  * Implements hook_form_BASE_FORM_ID_alter() for native comment forms.
  */
 function jurenites_admin_form_comment_form_alter(array &$comment_form, FormStateInterface $form_state, string $form_id): void {
@@ -239,6 +351,31 @@ function jurenites_admin_form_comment_form_alter(array &$comment_form, FormState
   if ($commented_entity?->getEntityTypeId() !== 'node'
     || $commented_entity->bundle() !== 'article') {
     return;
+  }
+
+  if ($comment_entity->isNew()) {
+    $content_language_id = \Drupal::languageManager()
+      ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+      ->getId();
+    jurenites_admin_set_article_comment_language($comment_entity, $content_language_id);
+    $comment_form_language_id = $comment_entity->language()->getId();
+    $form_state->set('langcode', $comment_form_language_id);
+    $form_state->set('entity_default_langcode', $comment_form_language_id);
+  }
+  else {
+    $comment_language_options = [];
+    foreach ($commented_entity->getTranslationLanguages() as $translation_language) {
+      $comment_language_options[$translation_language->getId()] = $translation_language->getName();
+    }
+    $comment_form['comment_language_id'] = [
+      '#type' => 'select',
+      '#title' => t('Comment language'),
+      '#description' => t('The comment appears only with this Article translation.'),
+      '#options' => $comment_language_options,
+      '#default_value' => $comment_entity->language()->getId(),
+      '#weight' => -1,
+    ];
+    $comment_form['#entity_builders'][] = 'jurenites_admin_build_article_comment_language';
   }
 
   if (isset($comment_form['subject'])) {
@@ -258,8 +395,50 @@ function jurenites_admin_form_comment_form_alter(array &$comment_form, FormState
     $comment_form['actions']['preview']['#access'] = FALSE;
   }
   if (isset($comment_form['actions']['submit'])) {
-    $comment_form['actions']['submit']['#value'] = t('Post comment');
+    $comment_form['actions']['submit']['#value'] = $comment_entity->isNew()
+      ? t('Post comment')
+      : t('Save comment');
   }
+}
+
+/**
+ * Applies the selected Article translation language when editing a comment.
+ */
+function jurenites_admin_build_article_comment_language(
+  string $entity_type_id,
+  CommentInterface $comment_entity,
+  array &$comment_form,
+  FormStateInterface $form_state,
+): void {
+  if ($comment_entity->isNew()) {
+    return;
+  }
+
+  $commented_entity = $comment_entity->getCommentedEntity();
+  $comment_language_id = (string) $form_state->getValue('comment_language_id');
+  if ($commented_entity instanceof NodeInterface
+    && $commented_entity->bundle() === 'article'
+    && $commented_entity->hasTranslation($comment_language_id)) {
+    $comment_entity->set('langcode', $comment_language_id);
+  }
+}
+
+/**
+ * Assigns a new Article comment to the language version being commented on.
+ */
+function jurenites_admin_set_article_comment_language(CommentInterface $comment_entity, string $content_language_id): void {
+  if (!$comment_entity->isNew()) {
+    return;
+  }
+
+  $commented_entity = $comment_entity->getCommentedEntity();
+  if (!$commented_entity instanceof NodeInterface
+    || $commented_entity->bundle() !== 'article'
+    || !$commented_entity->hasTranslation($content_language_id)) {
+    return;
+  }
+
+  $comment_entity->set('langcode', $content_language_id);
 }
 
 /**

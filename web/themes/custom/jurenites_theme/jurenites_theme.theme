@@ -69,6 +69,12 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
       'link_url' => 'mailto:jurenites@gmail.com',
       'icon_name' => 'brand-gmail',
     ],
+    [
+      'link_label' => 'Yandex.Mail',
+      'hover_label' => 'jurenites@yandex.ru',
+      'link_url' => 'mailto:jurenites@yandex.ru',
+      'icon_name' => 'brand-yandex-mail',
+    ],
   ];
   $how_i_work_menu_items = [];
   $information_menu_items = [];
@@ -188,9 +194,16 @@ function jurenites_theme_preprocess_page(array &$page_variables): void {
 }
 
 /**
- * Uses the physical LEGO wordmark for a selected LEGO tag or tagged content.
+ * Styles homepage block headings and selects the contextual LEGO wordmark.
  */
 function jurenites_theme_preprocess_block(array &$block_variables): void {
+  if (in_array($block_variables['elements']['#id'] ?? '', [
+    'jurenites_theme_latest_articles',
+    'jurenites_theme_news',
+  ], TRUE)) {
+    $block_variables['title_attributes']['class'][] = 'homepage-block__heading';
+  }
+
   if (($block_variables['base_plugin_id'] ?? '') !== 'system_branding_block'
     || empty($block_variables['site_logo'])) {
     return;
@@ -491,9 +504,18 @@ function jurenites_theme_preprocess_comment(array &$comment_variables): void {
   $comment_variables['comment_created_date_markup'] = (string) t('@elapsed_time ago', [
     '@elapsed_time' => $formatted_time_difference->getString(),
   ]);
-  $comment_variables['comment_permalink_url'] = isset($comment_entity->in_preview)
-    ? ''
-    : $comment_entity->permalink()->toString();
+  $comment_variables['comment_permalink_url'] = '';
+  if (!isset($comment_entity->in_preview)) {
+    $comment_language_id = $comment_entity->language()->getId();
+    $commented_entity_translation = $commented_entity->hasTranslation($comment_language_id)
+      ? $commented_entity->getTranslation($comment_language_id)
+      : $commented_entity;
+    $comment_permalink = $commented_entity_translation->toUrl();
+    $comment_permalink->setOption('fragment', 'comment-' . $comment_entity->id());
+    $comment_variables['comment_permalink_url'] = $comment_permalink->toString();
+    CacheableMetadata::createFromObject($commented_entity_translation)
+      ->applyTo($comment_variables['elements']);
+  }
 
   CacheableMetadata::createFromObject($formatted_time_difference)
     ->applyTo($comment_variables['elements']);
@@ -827,6 +849,24 @@ function jurenites_theme_git_commit_hash(string $project_directory): string {
 }
 
 /**
+ * Returns the first route segment without the configured language prefix.
+ */
+function jurenites_theme_language_neutral_root_path(
+  string $request_path,
+  string $language_prefix,
+): string {
+  $normalized_path = trim($request_path, '/');
+  $normalized_prefix = trim($language_prefix, '/');
+  if ($normalized_prefix !== ''
+    && ($normalized_path === $normalized_prefix
+      || str_starts_with($normalized_path, $normalized_prefix . '/'))) {
+    $normalized_path = ltrim(substr($normalized_path, strlen($normalized_prefix)), '/');
+  }
+
+  return explode('/', $normalized_path, 2)[0] ?? '';
+}
+
+/**
  * Adds tracked release identity and read-only Git identity to global HTML.
  */
 function jurenites_theme_preprocess_html(array &$html_variables): void {
@@ -836,9 +876,17 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
     unset($html_variables['page_top']['navigation']);
   }
 
-  $current_path = trim(\Drupal::request()->getPathInfo(), '/');
-  if (in_array($current_path, ['blog', 'videos'], TRUE)) {
-    $html_variables['attributes']['class'][] = 'path-' . $current_path;
+  $url_language_id = \Drupal::languageManager()
+    ->getCurrentLanguage(LanguageInterface::TYPE_URL)
+    ->getId();
+  $language_prefixes = \Drupal::config('language.negotiation')->get('url.prefixes') ?? [];
+  $language_prefix = (string) ($language_prefixes[$url_language_id] ?? '');
+  $root_page_path = jurenites_theme_language_neutral_root_path(
+    \Drupal::request()->getPathInfo(),
+    $language_prefix,
+  );
+  if ($root_page_path !== '') {
+    $html_variables['attributes']['class'][] = 'path-' . Html::getClass($root_page_path);
   }
 
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
@@ -1008,6 +1056,13 @@ function jurenites_theme_preprocess_field(array &$field_variables): void {
   $field_element = $field_variables['element'];
   $field_name = $field_element['#field_name'] ?? '';
   $entity_bundle = $field_element['#bundle'] ?? '';
+
+  if ($field_name === 'field_image' && $entity_bundle === 'project') {
+    foreach ($field_variables['items'] as &$image_item_variables) {
+      $image_item_variables['content']['#attributes']['class'][] = 'project-detail__image';
+    }
+    return;
+  }
 
   $is_content_tags = $field_name === 'field_tags'
     && in_array($entity_bundle, ['article', 'project'], TRUE);

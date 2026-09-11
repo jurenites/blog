@@ -89,3 +89,9 @@ body.jurenites-theme {
     width: 100%;
   }
 }
+
+// The home header overlaps the page canvas; reserve its 64px height and 32px
+// backdrop fade before the first main-content block begins.
+.jurenites-front-page > .layout-container > #main-content {
+  padding-block-start: calc(var(--space-scale-base-gap) * 12);
+}

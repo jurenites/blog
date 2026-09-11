@@ -153,6 +153,9 @@ Transitions use normal navigation, and reduced-motion users get an instant swap.
 Article Teaser is a square-corner editorial card with a 16:9 image, bordered
 surface, and a token-backed 150ms shadow transition. It is reserved for the
 homepage three-tile composition and Storybook's `three_tile_grid` example.
+The homepage's Latest articles and News block H2 headings use the dedicated
+`.homepage-block__heading` class, with `layout.content.max.wide.default` as their
+maximum width and automatic inline margins to align with the block content.
 The Blog and Videos Views use a separate borderless Article Blog List Item: a
 horizontal media-and-content row with the same metadata contract, collapsing to
 one column on mobile. This keeps both listings readable without treating every
@@ -218,6 +221,13 @@ interactive target. Inactive dots use the dark-gray elevation surface, active
 dots use solid white, and pointer hover uses the shared hairline outline width.
 The shared `.crossfade-dot` class is consumed by both Storybook and Drupal's
 two-image crossfade paginator.
+
+The decorative Pulse Indicator atom adapts the expanding-dot treatment from
+Billy Sweeney's portfolio. An 8px solid marker stays fixed while a translucent
+8px radius expands to four times its diameter over three seconds and fades to
+transparent. Its source markup uses scoped `.pulse-indicator` BEM classes,
+Storybook exposes running and paused examples, and reduced-motion preferences
+leave only the static central dot visible.
 
 The Icon Atom Storybook gallery presents the selected icon first, including its
 machine name. Gallery items are keyboard-accessible clickable controls, and
@@ -311,8 +321,18 @@ Drupal's enabled interface languages and URL negotiation, so it preserves the
 current route and query string. Drupal's route active trail supplies current-page
 styling, so listing query values such as `/portfolio?tag=font` do not deactivate
 the Portfolio menu item. The Home menu item is hidden above the mobile breakpoint;
-the desktop logo links to the front page. Home remains in the mobile menu, identified
-in Drupal by its front-page route rather than its translated label.
+the desktop logo links to the front page. Beside it, separate “A” and “I” initials
+expand into “Alexander Ilivanov” letter by letter on hover or keyboard focus.
+Added letters grow and loosen their spacing as they appear. The animated name is
+absolutely positioned inside a fixed compact slot, preserving the centered menu's
+position. Even a brief hover triggers the complete reveal, followed by a two-second
+hold before closing. Continued hover or keyboard focus keeps it open; leaving
+restarts the hold after any remaining reveal finishes. Letter transitions take
+325ms with a 25ms stagger, twice the original animation speed. Reduced motion
+shows and hides the letters immediately while preserving the hold. Drupal and
+Storybook use the same brand interaction behavior.
+Home remains in the mobile menu, identified in Drupal by its front-page route
+rather than its translated label.
 Through the token-defined 640px mobile maximum, the
 24px three-line menu icon replaces the logo on the left while the language
 selector remains on the right. The icon stays white in every state. Activating
@@ -380,7 +400,7 @@ role mixins instead of rebuilding the shorthand in components:
 ```
 
 Roles: `headline-1/2/3/4/5/6`, `subtitle-1/2`, `eyebrow`, `body`, `body-2`,
-`link`, `caption`, `code`, `machine-readable`, `badge`, `overline`, and
+`link`, `caption`, `machine-readable`, `badge`, `overline`, and
 `numeric-display`. Base HTML
 headings and paragraphs are mapped in `base/_typography.scss`. Anchors inherit
 their surrounding typography by default, so a link inside a heading keeps that
@@ -442,10 +462,9 @@ for its demonstration, Project preview, and compact technical details: the 5px
 `overline` role is used by the version watermark and similarly technical
 labels.
 Storybook's manager and Docs interface use Open Sans for UI text and the
-`typography.code` role for 14px bold Courier New code and technical metadata.
-Compact system values and identifiers use the regular 14px
-`typography.machine-readable` role backed by Ubuntu Sans Mono; the Font Preview
-metadata table pairs that role with Caption keys.
+regular 14px `typography.machine-readable` role, backed by Ubuntu Sans Mono,
+for code, technical metadata, compact system values, and identifiers. The Font
+Preview metadata table pairs that role with Caption keys.
 Links use a 1px token-backed underline and the primary white text token in
 default and hover states without replacing the surrounding typography. The
 version Git-hash link explicitly retains the 4pixel family and a persistent 1px
@@ -480,6 +499,14 @@ reveals token-backed gradients on hover or keyboard focus. It retains its
 original aspect ratio and a separate 12px
 height token for optical size adjustment. The
 email link opens the mail app and omits the external-window mark and target.
+Yandex.Mail follows the same behavior, linking to `mailto:jurenites@yandex.ru`
+and revealing `jurenites@yandex.ru` on hover or keyboard focus. Its label uses
+the Yandex.Mail yellow hover token, with the brand-color source recorded in SCSS
+and tokens. The supplied altered white SVG is shown at rest, preserving its
+81% upper-panel opacity and 54% lower-panel fill opacity. Hover and keyboard
+focus replace it with the official Wikimedia full-color envelope. Both versions
+preserve their geometry and aspect ratios within one fixed icon viewport, with
+a separate 12px height token.
 
 Footer Navigation composes the Badge atom inside its Fonts link. Drupal supplies
 the gray Badge's numeric label from the current count of accessible published
@@ -565,10 +592,12 @@ a documented token type and formatter before they become universal theme inputs.
 
 ## Homepage background and media noise
 
-At the mobile breakpoint, the homepage hero block has eight base gaps (64px)
+At the mobile breakpoint, the About-page Hero block has eight base gaps (64px)
 of top padding. The hero photo plane is 70 base gaps (560px) wide and centered
 on the viewport, with its light overlay aligned and image `max-width` disabled.
-The hero clips the excess width to prevent horizontal page scrolling.
+Its 100px four-edge mask is capped at 25% of each dimension and reveals the
+matching Hero edge color used by the complete About-page shell. The hero clips
+the excess width to prevent horizontal page scrolling.
 The screen-light toggle is hidden at the mobile breakpoint (640px and below).
 
 The Drupal homepage uses `color.palette.full-black` as a plain background and

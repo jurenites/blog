@@ -10,9 +10,9 @@ const FONT_ROWS = [
     sample_text: "The default interface and body font.",
   },
   {
-    font_label: "Ubuntu Sans Mono / numeric",
+    font_label: "Ubuntu Sans Mono / machine readable",
     font_class: "font-family-sample__text--ubuntu-sans-mono",
-    sample_text: "0123456789",
+    sample_text: "U+0053 · glyph-66 · 2048",
   },
   {
     font_label: "Roundabout / custom display",

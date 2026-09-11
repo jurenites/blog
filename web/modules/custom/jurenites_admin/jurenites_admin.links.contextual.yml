@@ -1,0 +1,10 @@
+jurenites_admin.comment_edit:
+  title: 'Edit comment'
+  route_name: entity.comment.edit_form
+  group: comment
+
+jurenites_admin.comment_delete:
+  title: 'Delete'
+  route_name: entity.comment.delete_form
+  group: comment
+  weight: 10

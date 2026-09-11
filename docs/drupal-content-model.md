@@ -58,10 +58,11 @@ Content Block so its placement is managed through Drupal's block layout.
 
 ## Hero section
 
-The homepage also supports the reusable `hero` Content Block with an editable
-background image and reorderable `hero_slide` Paragraphs. Text, button labels and
-destinations are authored in the block; placement and page visibility are managed
-through Block layout. See [Hero section](hero-section.md) for editing and setup.
+The About page uses the reusable `hero` Content Block with an editable background
+image and reorderable `hero_slide` Paragraphs. English and Russian content,
+button labels and destinations are authored in the translated block; placement
+and page visibility are managed through Block layout. The block is withheld from
+both language homepages. See [Hero section](hero-section.md) for editing and setup.
 
 ## Timeline
 
@@ -159,6 +160,52 @@ The available Project sections are:
   to a theme-owned local font file and interactive browser.
 - Pixel glyph editor: the blank, non-persistent 4×4 drawing experiment used by
   the 4pixel Project.
+- Numeric values: existing editable statistic tiles, also used for case-study
+  outcomes.
+
+The Oksenate case study lives at `/portfolio/oksenate`. It uses the existing
+Project Image for the user-supplied homepage hero screenshot dated 11 September
+2026 (preserved without cropping), an authored
+introduction, Numeric Values, and six editable Project story paragraphs. The
+Lighthouse graphic reports the engagement notes' accessibility result of
+91 to 98 at release, not a current audit or a complete compliance claim. The
+notes' WAVE 7.4/9.9 figure is omitted because its scoring basis is unclear.
+The story preserves subcontractor attribution and distinguishes rehearsal time
+from the reported production upgrade window. Supporting implementation history
+in the Oksenate checkout includes the Drupal 11 upgrade, Slick compatibility,
+video sharing, table spacing and mobile-control fixes.
+
+Editors can use the optional **Comparison images** field on Project to select
+two Image media items, Before first and After second. Use aligned screenshots
+and meaningful image alt text. The existing accessible image-comparison
+formatter appears below the narrative only when both items are selected; no
+placeholder or incomplete slider is shown. The field starts empty on Oksenate.
+
+To create this content in another environment after the existing font-project,
+numeric-values and image-comparison recipes have been applied, run
+`drush php:script scripts/create-oksenate-project.php` from the repository root.
+The script adds the existing numeric paragraph choice and optional comparison
+field without replacing other Project controls, then creates the node using a
+stable UUID. Rerunning it preserves existing editorial content. Initial copy
+lives in `scripts/content/oksenate.json`; subsequent edits belong in Drupal.
+Rebuild the token-derived graphic with `node scripts/build-oksenate-graphic.mjs`
+after `npm run build:tokens`, then run `npm run build:theme` to copy the image
+assets into the theme. The matching Storybook example is
+`Molecules/Audit Comparison`. Content was prepared and checked locally; this
+does not deploy the new page to PROD.
+
+SMEP's first personal-project article lives at `/portfolio/smep`, authored by
+the `alexander` account. It introduces the incremental-game concept, the August
+2019 start, Spaceplan and Cookie Clicker as personal genre references, and the
+intention to return to development with more spare time and modern tools.
+Six editable Project story sections include the original Google Doc and Figma
+file as external links under Project files. The document stays linked in its
+original form; no exported attachment or new field is required. Proposed
+mechanics remain described as design intentions rather than shipped features.
+Run `drush php:script scripts/create-smep-project.php` after the existing
+font-project recipe to create the article from `scripts/content/smep.json`.
+Reruns preserve the existing node and its editorial changes. Initial creation
+and verification are local; production publishing is a separate operation.
 
 The `jurenites_font_projects` recipe creates the initial Roundabout and 4pixel
 nodes and their ordered Paragraph trees with stable UUIDs. Reapplying the
@@ -200,6 +247,11 @@ guidance without forking those visual sources. The initial aliases are
 
 Purpose: personal blog posts, long-form analysis, and saved YouTube references.
 
+The [Conway's Game of Life Article](game-of-life.md) combines editable long-form
+copy with a node-scoped live experiment, local diagrams, and native Remote video
+Media in the optional Supporting videos field. Those supporting films do not
+change the Article's Blog/Video listing classification.
+
 Suggested fields:
 
 - Title
@@ -239,6 +291,15 @@ Suggested fields:
 - Publish state
 - Promoted to front page: disabled by default for new Articles. Editors can
   still enable it explicitly, and existing Articles retain their current value.
+- Comments: native comments are attached to the shared Article node but record
+  the content language used when they are posted. English and Russian Article
+  translations render separate language-matched discussions.
+  The comment pencil menu offers **Edit comment** and **Delete**. Content editors
+  can delete their own Article comments through the `delete own article comments`
+  permission; comment administrators retain Drupal's broader access. Delete opens
+  the native confirmation form and permanently removes the comment and its
+  replies, then returns to the Article. Anonymous visitors and other comment
+  authors do not gain deletion access.
 
 Article has two editorial presentations without requiring another content type:
 
@@ -299,10 +360,15 @@ uses the same asset and SCSS modifier. Both header logos are 48 × 48px,
 with sizing in SCSS. The LEGO image preserves the original square framing
 and uses `object-fit: contain` so the full photograph remains visible.
 
-The creator name, link, publication date, and channel avatar URL are treated as
-managed metadata and hidden from non-administrator Article forms, together with
-the derived YouTube video ID. Administrators can still inspect or override the
-stored metadata. Automatic source collection fills empty creator, date, and
+Article add and edit forms keep the YouTube video URL visible. The derived
+YouTube video ID, creator name, creator URL, and publication date appear in a
+native **YouTube metadata** section that starts collapsed. Article editors can
+expand it to inspect the ID or edit the credit fields. Field submission paths
+remain unchanged. The channel avatar URL is also inside this collapsed section
+and remains administrator-only.
+The grouping runs for both the default Article form and the separate
+`node_article_edit_form` used by `/node/{node}/edit`.
+Automatic source collection fills empty creator, date, and
 duration values, while replacing the YouTube URL clears the old credit and
 collects the new source. Each save also keeps the Authored on calendar date
 aligned with the stored YouTube publication date. The shared Avatar falls back

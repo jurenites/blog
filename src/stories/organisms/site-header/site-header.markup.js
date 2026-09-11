@@ -2,6 +2,23 @@ import site_header_template from "./site-header.template.html?raw";
 import { select_input_markup } from "../../atoms/select-input/select-input.markup.js";
 import { escape_html, render_template } from "../../template.js";
 
+function brand_name_markup(brand_full_name) {
+  const brand_name_words = String(brand_full_name).trim().split(/\s+/).filter(Boolean);
+  const brand_word_values = [brand_name_words[0] || "", brand_name_words.slice(1).join(" ")].filter(Boolean);
+
+  return brand_word_values
+    .map((brand_word_value, brand_word_index) => {
+      const [initial_character, ...remaining_characters] = Array.from(brand_word_value);
+      const brand_word_position = brand_word_index === 0 ? "first" : "last";
+      const remaining_letters_markup = remaining_characters
+        .map((remaining_character) => `<span class="site-header__brand-name-letter">${escape_html(remaining_character)}</span>`)
+        .join("");
+
+      return `<span class="site-header__brand-name-word site-header__brand-name-word--${brand_word_position}"><span class="site-header__brand-name-initial">${escape_html(initial_character)}</span><span class="site-header__brand-name-remainder">${remaining_letters_markup}</span></span>`;
+    })
+    .join("");
+}
+
 export function site_header_markup({
   brand_name,
   brand_full_name,
@@ -36,7 +53,7 @@ export function site_header_markup({
 
   return render_template(site_header_template, {
     brand_name: escape_html(brand_name),
-    brand_full_name: escape_html(brand_full_name),
+    brand_name_markup: brand_name_markup(brand_full_name),
     brand_logo_url: escape_html(brand_logo_url),
     logo_style_class: uses_lego_logo ? " site-header__logo--lego" : "",
     navigation_items,

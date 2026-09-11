@@ -1,0 +1,85 @@
+<p>I love watching tiny squares come alive. A few switch on, a few disappear, and suddenly there is something I can follow: a pulse, a little travelling shape, a collision, a patch of unexpected quiet. I know there is no creature inside the screen. I know the program is counting neighbours. That knowledge makes the experience more fascinating to me.</p>
+<p>This article is my tribute to <a href="https://en.wikipedia.org/wiki/John_Horton_Conway">John Horton Conway</a> (1937–2020), and to the pleasure of discovering how much can happen when a small set of rules is given room to unfold. His Game of Life has influenced how I look at code, patterns, and the physical world around me.</p>
+<p>The field above is an actual simulation running in your browser. Move your cursor through it and you change its present; the rules calculate what happens next. It is this connection between a tiny intervention and an unfolding consequence that I wanted at the beginning of the page.</p>
+
+<h2>A tribute to a curious mind</h2>
+<p>Conway devised Life in 1970. Martin Gardner introduced it to a wide audience through his Mathematical Games column in Scientific American that October. It became one of the most recognisable examples of a cellular automaton: a system of cells whose states change according to local rules. <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Wikipedia’s overview</a> is a useful starting point for its history and terminology.</p>
+<p>Conway’s work reached far beyond this one invention, into subjects including group theory, geometry, number theory, and combinatorial games. Princeton’s <a href="https://www.princeton.edu/news/2020/04/14/mathematician-john-horton-conway-magical-genius-known-inventing-game-life-dies-age">memorial article</a> describes both that breadth and the curiosity he shared with students and colleagues. He died on 11 April 2020, aged 82.</p>
+<p>For me, honouring him here means keeping some of that curiosity active. A visitor can read a rule, try a small change, and discover something through watching. A mathematical idea becomes a place to spend a little time.</p>
+<p>One of the supporting films below is <a href="https://www.numberphile.com/videos/inventing-game-of-life-john-conway">Numberphile’s interview about inventing Life</a>. Hearing Conway explain the process gives the idea a human voice. The experiment came from someone trying possibilities, observing what happened, and caring about whether the result was interesting.</p>
+
+<h2>Rules you can hold in your head</h2>
+<p>Imagine a sheet of squared paper. Every square is either alive or dead. Each has eight neighbours: the four beside it and the four touching its corners. A generation is one complete update of the sheet.</p>
+<ul>
+  <li>A living cell with two or three living neighbours survives.</li>
+  <li>A dead cell with exactly three living neighbours becomes alive.</li>
+  <li>In every other case, the cell is dead in the next generation.</li>
+</ul>
+<p>All cells update simultaneously. You count neighbours in the old generation, calculate the new generation separately, then replace the old one. Otherwise the answer could depend on whether the program happened to scan from left to right or right to left. That would be a different system.</p>
+<p>The compact name is <code>B3/S23</code>: birth with three neighbours; survival with two or three. “Birth,” “survival,” and “death” are convenient names for switching between two states. They do not mean that an individual square is biologically alive.</p>
+<p>Paul Callahan’s <a href="https://www.math.com/students/wonders/life/life.html">illustrated introduction to Life</a> walks through the rules and familiar patterns. The beauty is that there is no additional instruction telling the program to make a moving object. Movement can appear from those same local updates.</p>
+
+<h2>Stillness, rhythm, and something that travels</h2>
+<p>Three small examples make the rules easier to see. A two-by-two block stays unchanged: every living cell has three neighbours. A row of three cells, called a blinker, becomes a column, then a row again. A five-cell glider passes through four phases and reappears shifted one cell diagonally.</p>
+<p><img src="/themes/custom/jurenites_theme/assets/images/game-of-life/patterns.png" alt="Three Life patterns: a stable two-by-two block, a three-cell blinker shown horizontally and vertically, and a glider shown again one cell diagonally away after four generations."></p>
+<p>Original pattern diagrams for this article. The glider images show generations zero and four; the intermediate phases are omitted.</p>
+<p>With the glider, the positions on the board stay fixed. What travels is a pattern of activity. New cells turn on and others turn off, yet I recognise a continuing shape. That small distinction holds much of the appeal for me. Continuity can belong to a relationship between parts, even as the participating parts change.</p>
+<p>Once I recognise a blinker, I start noticing rhythms elsewhere in the field. Once I recognise a glider, I start following trajectories. The same sea of pixels becomes easier to read. Nothing about the underlying rule has changed; I have learned a more useful level at which to describe it.</p>
+
+<h2>What I mean by emergence</h2>
+<p>When I call this emergent behaviour, I mean that recognisable larger patterns arise from interactions between smaller parts. The code specifies how a cell responds to its neighbours. It does not need a separate “glider” object with a direction, destination, or movement animation.</p>
+<p>A glider can nevertheless become a useful object in my explanation. At one level I am counting live neighbours. At another I am describing a moving shape. Both descriptions help, and they answer different questions.</p>
+<p>This is what keeps bringing me back. I can understand each update and still be surprised by a long sequence of them. Knowing the rule does not mean I have already imagined every consequence of the rule. A larger field gives those consequences room to encounter one another.</p>
+<p>Some starts collapse quickly. Some leave scattered islands. Some settle into repetition. When a run becomes quiet, that is a result too. I do not want the program to secretly rescue every boring patch or keep inventing activity to entertain me. I want to see what the chosen conditions actually do.</p>
+<p>Randomness is useful for choosing a starting arrangement. After that, ordinary Life is deterministic: the same board gives the same next board. In this page’s experiment, moving the pointer supplies a new intervention. Leave the field alone and there is no ongoing random instruction steering its future.</p>
+
+<h2>Tiny squares, tiny circles</h2>
+<p>I have a particular affection for the visual simplicity of this world. Small squares make the grid legible. Small circles make the same activity feel a little softer, like a field of lights. I enjoy both.</p>
+<p><img src="/themes/custom/jurenites_theme/assets/images/game-of-life/squares-and-circles.png" alt="The same glider rendered once as five tiny squares and once as five tiny circles, at identical grid positions."></p>
+<p>Original comparison: the positions and states are identical. Only the drawing changes.</p>
+<p>The comparison image shows how the same living cells can be drawn in different ways while retaining their square-grid positions and eight neighbours. A circular drawing does not give a cell new neighbours or different birth conditions. The live experiment on this page uses squares.</p>
+<p>That distinction is useful when exploring examples online. Sometimes an unfamiliar appearance is a different rendering of Conway’s Life. Sometimes it comes from a different grid, a different neighbourhood, or a different state space. Each choice is interesting, but it changes a different part of the experiment.</p>
+
+<h2>A family of possible worlds</h2>
+<p>Conway’s rule is one member of a much larger family. Keep the same square grid and binary states, but change the neighbour counts that permit birth and survival, and the resulting world can behave very differently.</p>
+<ul>
+  <li><strong>Conway’s Life — B3/S23.</strong> The rule running at the top of this page.</li>
+  <li><strong>HighLife — B36/S23.</strong> Survival stays the same, but a dead cell can also be born with six neighbours.</li>
+  <li><strong>Seeds — B2/S.</strong> A dead cell is born with two neighbours. No living cell survives into the next generation; continuing activity must come through fresh births.</li>
+  <li><strong>Day &amp; Night — B3678/S34678.</strong> A larger selection of birth and survival counts gives another setting for travelling and repeating patterns.</li>
+</ul>
+<p>Jason Summers maintains <a href="https://entropymine.com/jason/life/alt/">pattern collections for these alternative rules</a>, including downloadable examples. This is a wonderful rabbit hole: change a few permitted counts, then investigate what becomes possible.</p>
+<p>I find the comparison more revealing when I change one thing at a time. Keep a starting pattern, choose another rule, and watch where their futures separate. A tiny edit in the definition can be a substantial edit in the behaviour.</p>
+<p>The simulation here deliberately uses only Conway’s original birth and survival rule. The alternatives are invitations to explore further, with their names written out so that the examples are easy to find again.</p>
+
+<h2>When the field becomes soft: Lenia</h2>
+<p><a href="https://chakazul.github.io/lenia.html">Lenia, by Bert Wang-Chak Chan</a>, takes cellular automata in a different direction. It generalises the discrete ingredients of Life into a continuous formulation, explored numerically in its implementations. Instead of only an on/off state and eight immediate neighbours, its patterns develop through smoothly varying states and a wider neighbourhood.</p>
+<p>The result can look remarkably organic: soft bodies, rounded structures, and activity that resembles locomotion. Chan’s project presents these as artificial-life patterns, with research papers, code, videos, and a web demo. They are not simply Conway cells drawn as circles.</p>
+<p>The second supporting film below, <a href="https://www.youtube.com/watch?v=iE46jKYcI4Y">Lenia: Mathematical Life Forms</a>, is linked from the creator’s project page. It is a good visual companion to the sharp little squares above. Both interest me because a specified process can produce forms that I would not have thought to draw by hand.</p>
+<p>Watching these patterns, I notice how readily I describe something as a body or a creature. That is part of the experience, and also a reason to stay curious about the mechanism. What is the field actually calculating? Which aspect of the result makes me perceive an individual?</p>
+
+<h2>How this changes the way I look at reality</h2>
+<p>The thought that stays with me is that a world can contain far more variety than its basic ingredients suggest. In Life, there is one kind of cell, two states, and a local update rule. Yet I can talk about objects, rhythms, collisions, and histories.</p>
+<p>That gives me an analogy for the physical universe. Quarks and electrons belong to the underlying description of matter. Quarks form the constituents of protons and neutrons, and nuclei and electrons form atoms. Atomic structure and interactions help explain chemistry; chemistry supports an extraordinary variety of materials and processes. CERN’s <a href="https://home.cern/science/physics/standard-model/">introduction to the Standard Model</a> is a reference for the particle-and-interaction part of that picture.</p>
+<p>I want to be careful about the word “simple” here. The actual mathematics of quantum physics is demanding, and our physical theories are not a three-line cellular-automaton rule. What fascinates me is the possibility of common underlying principles giving rise to many higher-level structures.</p>
+<p>Helium makes a useful contrast. Its ordinary neutral atom has a filled first electron shell and is exceptionally unreactive under ordinary conditions. The <a href="https://periodic-table.rsc.org/element/2/helium">Royal Society of Chemistry’s helium entry</a> describes its electron configuration and properties. Chemical bonding concerns electrons and electromagnetic interactions; it is different from binding protons and neutrons inside a nucleus.</p>
+<p>Our universe contains many elements and an enormous range of chemical arrangements, rather than only one kind of inert atom. I find that variety astonishing. The properties of the pieces allow combinations; the combinations have properties of their own; those properties open further possibilities.</p>
+<p>This is a personal analogy, not evidence that the universe literally runs Conway’s algorithm or sits on a hidden square grid. The simulation helps me think about layers of explanation. It gives me an accessible experience of how knowing something about the parts can coexist with surprise at the whole.</p>
+<p>It also makes me more patient with complexity. When I see an intricate result, I want to look for the relationships that sustain it: what can interact, what is conserved, what changes, and what repeats? Life does not answer all those questions about reality. It makes me want to ask them.</p>
+
+<h2>Why I want to code these systems</h2>
+<p>Writing a small simulation feels like making a question executable. I define a state, specify an interaction, and let the consequences become visible. The code is a way of asking, “What happens if these are the rules?”</p>
+<p>The honest part is keeping the mechanism clear. In Conway’s Life, I count neighbours, apply birth and survival, and swap two boards. I can test a still block, a blinker, and a glider before trusting a more complicated run. A surprising result becomes more satisfying when I know it did not come from a basic update error.</p>
+<p>I also need to distinguish the mathematical world from the practical display. Classical Life has an infinite grid. This page fits its columns and rows to the available space in a 16:9 field. Cells occupy 8px squares with shared 1px borders, and their living centres are 4px squares. An 800px detail field holds 114 columns across 799px of grid; the 281px Blog thumbnail holds 40 columns. Its opposite edges connect, so a pattern leaving one side can arrive at the other. That finite, wrapping world can eventually allow encounters that would not happen on an infinite plane.</p>
+<p>The pointer draws a continuous line of living cells. The cell underneath a stationary cursor stays alive while the rest of the trail evolves under the ordinary rules. Moving away releases that cell back into the simulation. The small button at the bottom right pauses or resumes the field. The top-left counter shows its generation. The same simulation also runs in this article’s Blog thumbnail, with its cell count fitted to that smaller space.</p>
+<p>If your device requests reduced motion, the field starts paused. It also stops evolving while it is outside the viewport or the tab is hidden. Those are presentation decisions for a reading experience; they do not introduce different birth or survival rules.</p>
+
+<h2>A place to return to</h2>
+<p>I want this article to remain a place for collecting discoveries: an unusual pattern, another rule, a film that makes a connection visible, or a thought that develops after spending more time with the field. The squares and circles are a starting point for a longer conversation.</p>
+<p>For now, try something small. Pause a busy field to inspect a single generation, then resume it. Move your cursor across the grid to plant new life. Let a quiet configuration stay quiet for a moment. Watch what your intervention changes, and what the system does once you leave it alone.</p>
+<p>That is the feeling I want to preserve in this tribute to Conway: a few rules, something worth looking at, and the pleasure of discovering a consequence I had not anticipated.</p>
+
+<h2>Watch: Conway and a softer kind of Life</h2>
+<p><strong>Inventing Game of Life (John Conway)</strong> — Numberphile, filmed by Brady Haran. Conway describes how the game came about. <a href="https://www.youtube.com/watch?v=R9Plq-D1gEk">Watch on YouTube</a>.</p>
+<p><strong>Lenia: Mathematical Life Forms</strong> — Bert Wang-Chak Chan. A visual exploration of continuous cellular automata. <a href="https://www.youtube.com/watch?v=iE46jKYcI4Y">Watch on YouTube</a>.</p>
+<p>The films below are external videos credited to their creators. The field at the top is the live experiment.</p>

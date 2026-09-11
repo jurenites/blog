@@ -1,0 +1,129 @@
+@use "../tools";
+
+.game-of-life {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-palette-full-black);
+}
+
+.game-of-life-preview--detail {
+  max-width: var(--layout-content-max-blog-default);
+}
+
+.game-of-life-preview--thumbnail {
+  max-width: calc(var(--component-article-teaser-list-media-max-width-default) + var(--component-game-of-life-border-size-default));
+}
+
+.game-of-life__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-palette-full-black);
+  color: var(--theme-dark-text-primary-default);
+  cursor: crosshair;
+}
+
+.game-of-life__status {
+  display: inline-flex;
+  gap: calc(var(--space-scale-base-gap) / 2);
+  position: absolute;
+  inset-block-start: var(--space-scale-base-gap);
+  inset-inline-start: var(--space-scale-base-gap);
+  margin: 0;
+  padding-inline: calc(var(--space-scale-base-gap) / 2);
+  background: var(--color-palette-full-black);
+  color: var(--theme-dark-text-secondary-default);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  @include tools.typography-overline;
+}
+
+.game-of-life__generation {
+  display: inline-flex;
+}
+
+.game-of-life__digit {
+  flex: 0 0 var(--component-game-of-life-counter-digit-width-default);
+  width: var(--component-game-of-life-counter-digit-width-default);
+  text-align: left;
+}
+
+.game-of-life__pause-button {
+  position: absolute;
+  inset-block-end: var(--space-scale-base-gap);
+  inset-inline-end: var(--space-scale-base-gap);
+  width: var(--component-game-of-life-control-size-default);
+  min-height: var(--component-game-of-life-control-size-default);
+  padding: 0;
+  border-radius: 0;
+  background: var(--color-palette-full-black);
+  justify-content: center;
+}
+
+.game-of-life__pause-button[hidden],
+.game-of-life__play-icon,
+.game-of-life[data-paused="true"] .game-of-life__pause-icon {
+  display: none;
+}
+
+.game-of-life[data-paused="true"] .game-of-life__play-icon {
+  display: inline-flex;
+}
+
+// Only this article borrows one pixel from its text column, for 40 whole cells.
+.article-list-item--game-of-life {
+  grid-template-columns:
+    minmax(
+      var(--component-article-teaser-list-media-min-width-default),
+      calc(var(--component-article-teaser-list-media-max-width-default) + var(--component-game-of-life-border-size-default))
+    )
+    minmax(0, 1fr);
+}
+
+.article-teaser__media--game-of-life {
+  max-width: calc(var(--component-article-teaser-list-media-max-width-default) + var(--component-game-of-life-border-size-default));
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .article-list-item--game-of-life {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.article-detail--game-of-life {
+  .article-detail__body > * + * {
+    margin-top: calc(var(--space-scale-base-gap) * 3);
+  }
+
+  .article-detail__body > h2 {
+    margin-top: calc(var(--space-scale-base-gap) * 6);
+  }
+
+  .article-detail__body img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .article-supporting-videos {
+    display: grid;
+    gap: calc(var(--space-scale-base-gap) * 3);
+  }
+
+  .media-oembed-content {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .layout-content:has(.article-detail--game-of-life) {
+    box-sizing: border-box;
+    padding-inline: var(--layout-gutter-mobile-default);
+  }
+}

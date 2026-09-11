@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file
+ * The experiment belongs to one stable Article, across aliases and translations.
+ */
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+const JURENITES_LIFE_ARTICLE_UUID = 'b52ac74b-fd4b-4c2a-9225-84646d785adb';
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_life_theme(): array {
+  return ['jurenites_game_of_life' => ['variables' => []]];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function jurenites_life_node_view(array &$build_output, EntityInterface $node_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($node_entity->bundle() === 'article' && $node_entity->uuid() === JURENITES_LIFE_ARTICLE_UUID && in_array($view_mode, ['full', 'teaser', 'blog_list'], TRUE)) {
+    $build_output['game_of_life'] = [
+      '#theme' => 'jurenites_game_of_life',
+      '#weight' => -100,
+      '#cache' => ['contexts' => ['languages:language_interface']],
+    ];
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ * Keeps the two supporting players' displayed dimensions in component SCSS.
+ */
+function jurenites_life_media_view(array &$build_output, EntityInterface $media_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if (!in_array($media_entity->uuid(), ['147ab9a0-11b8-44ea-9517-52e565c10ced', '9ea56a88-8db5-463c-91af-ec336b2c2ff1'], TRUE)) return;
+  foreach ($build_output['field_media_oembed_video'] ?? [] as $item_key => $render_item) {
+    if (is_int($item_key) && ($render_item['#tag'] ?? '') === 'iframe') {
+      unset($build_output['field_media_oembed_video'][$item_key]['#attributes']['width'], $build_output['field_media_oembed_video'][$item_key]['#attributes']['height']);
+    }
+  }
+}

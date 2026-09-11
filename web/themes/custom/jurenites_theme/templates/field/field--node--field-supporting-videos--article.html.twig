@@ -1,0 +1,6 @@
+{# Keep video spacing scoped even when the base field template omits classes. #}
+<div class="article-supporting-videos">
+  {% for item in items %}
+    <div class="article-supporting-videos__item">{{ item.content }}</div>
+  {% endfor %}
+</div>

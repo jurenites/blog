@@ -1,0 +1,26 @@
+{
+  "project_title": "SMEP — a universe built through discovery",
+  "project_summary": "My personal incremental game project, started in August 2019: exploring particles, chemistry and the emergence of complex matter through play.",
+  "project_intro": "<p>SMEP is my personal incremental game project. I started it in August 2019, with an idea I have kept returning to ever since: let players discover how simple ingredients can become an increasingly complex universe.</p><p>The working name stands for <strong>Standard Model Elementary Particles</strong>. It brings together my interest in science, interface design and the quiet satisfaction of making progress one small step at a time.</p>",
+  "project_tags": ["Game design", "Personal project"],
+  "story_sections": [
+    {
+      "story_html": "<h2>Where the inspiration began</h2><p><a href=\"https://jhollands.co.uk/spaceplan/\">Spaceplan</a> was the first incremental game I played, before I discovered <a href=\"https://orteil.dashnet.org/cookieclicker/\">Cookie Clicker</a>. It was my introduction to a genre where a small action can grow into a much larger system.</p><p>That became a starting point for my own project. With SMEP, I wanted to explore a different subject: particles, the formation of matter, and the possibility of learning something about physics and chemistry by playing with their ideas.</p>"
+    },
+    {
+      "story_html": "<h2>From a first click to a universe</h2><p>The opening I imagine is almost empty: a black screen, a point of light, and a first click that sets things in motion. The interface would reveal itself gradually as the player discovers what they can do.</p><p>At the heart of the concept is a loop of creating, combining and discovering. Players would generate particles, bring ingredients together, unlock new possibilities and eventually automate familiar actions. The broader progression would move from particles towards atoms, elements and more complex structures, with stars forming part of that journey.</p><p>I want the next discovery to matter as much as the next upgrade. A new element should open a question: what can I make with this, and what conditions would I need?</p>"
+    },
+    {
+      "story_html": "<h2>Learning through interaction</h2><p>The design notes explore a central playground of moving particles, alongside cards for inspecting and combining what the player has discovered. Clicking, selecting and connecting would give abstract ideas something visible and tangible.</p><p>The educational aim is to make the basics of particle physics and chemistry approachable through experimentation. The notes include simplified mechanics, open questions and ideas that still need scientific checking. Working out how to keep the game understandable while respecting its subject is part of the design work ahead.</p>"
+    },
+    {
+      "story_html": "<h2>An idea I have kept building on since 2019</h2><p>Since August 2019, I have been putting my thoughts into SMEP: gameplay possibilities, interface sketches, progression ideas and references that help me think through the experience. The document has become a place to collect those thoughts and return to them over time.</p><p>The scope of those notes is deliberately broad. Some ideas describe the opening moments; others imagine much later stages. They are a record of the project's development and possibilities, rather than a promise that every feature will appear in the finished game.</p>"
+    },
+    {
+      "story_html": "<h2>Why now feels like the right time</h2><p>I expect to have more spare time to devote to SMEP, and modern technologies make it easier to turn the ideas I have collected into something I can try, evaluate and improve.</p><p>That makes this feel like a good moment to return to the project with renewed focus. I want to bring those years of thinking into a playable experience, starting with the interactions that make discovery enjoyable and building from there.</p><p>This is the first article about SMEP in my portfolio: an introduction to the project, where it came from, and the direction I want to take it.</p>"
+    },
+    {
+      "story_html": "<h2>Project files</h2><p>The working materials show the ideas behind SMEP and the interface explorations that accompany them.</p><ul><li><a href=\"https://docs.google.com/document/d/1EUQXYyDMzqc4jOmuLILrwc33uNubBlAOJo1P4xmbJjU/edit?tab=t.0\">SMEP game design document — original notes and concepts</a></li><li><a href=\"https://www.figma.com/design/CDKvikFQtlPhZLUKnRu8F5/SMEP?node-id=0-1\">SMEP in Figma — interface design</a></li></ul>"
+    }
+  ]
+}

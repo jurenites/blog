@@ -181,7 +181,7 @@
   flex-direction: column;
   gap: calc(var(--space-scale-base-gap) * 4);
   width: 100%;
-  max-width: var(--layout-content-max-blog-default);
+  max-width: var(--layout-content-max-wide-default);
   margin-inline: auto;
 
   &__item {

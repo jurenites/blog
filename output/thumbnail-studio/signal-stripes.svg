@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
+<title>Jurenites Signal / Layers diagonal gradient bands</title>
+<desc>Generated from src/token/tokens.yaml by build-pattern-assets.py.</desc>
+<defs><linearGradient id="signal-gradient" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0" stop-color="#66FFFF55"/><stop offset="1" stop-color="#FF66FF55"/>
+</linearGradient></defs>
+<g transform="rotate(-22 800 500)" fill="url(#signal-gradient)"><rect x="-350" y="380" width="2300" height="20"/><rect x="-350" y="444" width="2300" height="20"/><rect x="-350" y="508" width="2300" height="20"/><rect x="-350" y="572" width="2300" height="20"/><rect x="-350" y="636" width="2300" height="20"/><rect x="-350" y="700" width="2300" height="20"/><rect x="-350" y="764" width="2300" height="20"/></g>
+</svg>

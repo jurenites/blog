@@ -28,20 +28,20 @@ $hero-photo-right-offset: 80px;
   position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    var(--component-hero-section-clear-color),
-    var(--color-palette-full-black) var(--component-hero-section-image-horizontal-fade-width-default),
-    var(--color-palette-full-black) calc(100% - var(--component-hero-section-image-horizontal-fade-width-default)),
-    var(--component-hero-section-clear-color)
-  );
-  mask-image: linear-gradient(
-    to right,
-    var(--component-hero-section-clear-color),
-    var(--color-palette-full-black) var(--component-hero-section-image-horizontal-fade-width-default),
-    var(--color-palette-full-black) calc(100% - var(--component-hero-section-image-horizontal-fade-width-default)),
-    var(--component-hero-section-clear-color)
-  );
+  // Intersect horizontal and vertical fades so every edge and corner blends
+  // into the page canvas without making small images fully transparent.
+  mask-image:
+    linear-gradient(to right,
+      var(--component-hero-section-clear-color),
+      var(--color-palette-full-black) min(var(--component-hero-section-image-edge-fade-width-default), 25%),
+      var(--color-palette-full-black) calc(100% - min(var(--component-hero-section-image-edge-fade-width-default), 25%)),
+      var(--component-hero-section-clear-color)),
+    linear-gradient(to bottom,
+      var(--component-hero-section-clear-color),
+      var(--color-palette-full-black) min(var(--component-hero-section-image-edge-fade-width-default), 25%),
+      var(--color-palette-full-black) calc(100% - min(var(--component-hero-section-image-edge-fade-width-default), 25%)),
+      var(--component-hero-section-clear-color));
+  mask-composite: intersect;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
 }
@@ -51,17 +51,6 @@ $hero-photo-right-offset: 80px;
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.hero-section__photo-plane::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    var(--component-hero-section-clear-color) 75%,
-    var(--component-hero-section-background-edge-color)
-  );
 }
 
 .hero-section__glow {
@@ -218,6 +207,17 @@ $hero-photo-right-offset: 80px;
   max-width: var(--layout-content-max-wide-default);
   box-sizing: border-box;
   margin-inline: auto;
+}
+
+// The translated About pages inherit the photo's sampled edge color across the
+// complete shell, including the inline initial background on html and body.
+html:has(.jurenites-theme #block-jurenites-theme-homepage-hero),
+.jurenites-theme:has(#block-jurenites-theme-homepage-hero) {
+  --theme-dark-surface-background-page: var(--component-hero-section-background-edge-color);
+}
+
+.jurenites-theme:has(#block-jurenites-theme-homepage-hero) {
+  background: var(--component-hero-section-background-edge-color);
 }
 
 @mixin hero-stacked-layout {

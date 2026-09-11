@@ -25,10 +25,12 @@
 @use "atoms/text-input";
 @use "atoms/select-input";
 @use "atoms/crossfade-dot";
+@use "atoms/pulse-indicator";
 @use "atoms/icon";
 @use "atoms/two-tone-heading";
 
 @use "molecules/project-card";
+@use "molecules/audit-comparison";
 @use "molecules/contact-me-widget";
 @use "molecules/article-teaser";
 @use "molecules/news-list-item";
@@ -58,6 +60,8 @@
 @use "organisms/pixel-glyph-editor";
 @use "organisms/guideline-detail";
 @use "organisms/timeline";
+@use "organisms/skills-profile";
+@use "organisms/game-of-life";
 
 @use "components/front-page-background";
 @use "components/content-layout";

@@ -8,7 +8,8 @@ or an uploaded CV's actual URL; installation does not invent a CV download.
 
 ## Editing and placement
 
-- Go to **Content > Content blocks**, find **Homepage hero**, and choose Edit.
+- Go to **Content > Content blocks**, find **About hero** (or **Обо мне:
+  вводный блок** in Russian), and choose Edit.
   Replace **Background image**, edit **Introductory line**, and expand the slides
   to change their text and button destinations. Set alternative text for an image.
 - Use the slide drag handles to change their order; the first is initially shown.
@@ -17,7 +18,8 @@ or an uploaded CV's actual URL; installation does not invent a CV download.
   photograph. Disable it for replacement photographs with different geometry.
 - Go to **Structure > Block layout > Jurenites theme** to move the block between
   regions, change its weight/order, or configure page visibility. Its initial
-  placement is in Content, before the existing homepage blocks, on `<front>` only.
+  placement is in Content on the English `/about` and Russian `/ru/obo` pages.
+  It is not displayed on either language's homepage.
 - Additional Hero content blocks can be created and placed independently.
 
 ## Behavior and shared implementation
@@ -30,12 +32,20 @@ menu retains its opaque background. **Organisms/Top Nav Menu Site Header →
 Homepage Overlay** demonstrates the shared treatment; its tint, blur and fade
 height are editable under `component.site-header` in `src/token/tokens.yaml`.
 
-The shared header home link pairs the logo with “Alexander Ilivanov” in the
-`headline-3` typography role and `color.palette.full-white`. The name is a text
-span, so branding does not add a heading to the page outline. The same treatment
-appears in the header's Storybook examples, including the LEGO logo variant.
-On tablets, navigation occupies a second row to leave room for the full name.
-The existing enhanced mobile menu replaces the brand with the menu toggle.
+The shared header home link pairs the logo with separate “A” and “I” initials in
+the `headline-3` typography role and `color.palette.full-white`. Hovering the link
+or focusing it with a keyboard expands “A” into “Alexander” and “I” into
+“Ilivanov” one letter at a time. Added letters grow from a smaller size and
+tighter spacing into the final typography. The absolutely positioned name track
+uses a fixed compact layout slot, so expansion does not move the centered main
+navigation. When hover or focus leaves, the complete name remains visible for
+two seconds before collapsing. Its accessible link label always contains the
+full name, and reduced-motion preferences make the state change immediate. The
+name remains a text span, so branding does not add a heading to the page outline.
+The same treatment appears in the header's Storybook examples, including the
+LEGO logo variant. On tablets, navigation occupies a second row to leave room
+for the expanded name. The existing enhanced mobile menu replaces the brand with
+the menu toggle.
 
 The photograph stays still while manual tabs select the message and calls to
 action. Arrow keys, Home and End select/focus tabs. No autoplay or pointer-tracking
@@ -55,10 +65,17 @@ on the Hero links also reveals the light. The stacked layout supports 360px widt
 Reduced motion keeps the light static and disables its entrance transition.
 Without JavaScript every slide remains readable and its links remain usable.
 
-At narrow viewport or block-region widths the image is followed by the text. With no image, a readable
-text-only layout remains. A Hero fills its available block region while respecting
-the site's centered maximum width. Normal styling is entirely in SCSS; image
-markup has no presentational sizing or inline style attributes.
+At narrow viewport or block-region widths the image is followed by the text. A
+100px mask fades all four image edges into the sampled `background-edge-color`,
+capped at 25% of each dimension so small images retain a visible center. The
+English and Russian About-page shells inherit that same color, preventing seams
+around the foreground image. With no image, a readable text-only layout remains.
+A Hero fills its available block region while respecting the site's centered
+maximum width. The About hero placement spans the full site content frame rather
+than the narrower reading column. Other Content-region blocks, including the
+About node, keep their centered reading width. This layout follows the placement
+in both languages and does not alter authored images. Normal styling is entirely
+in SCSS; image markup has no presentational sizing or inline style attributes.
 
 `src/slice/src/scss/organisms/_hero-section.scss` and
 `src/slice/src/js/hero-section.js` are shared by Drupal and **Organisms/Hero
@@ -71,7 +88,7 @@ metadata. Author text is escaped and CTA links use Drupal's Link render element.
 
 Build the theme first so its initial photograph is available, then enable
 `jurenites_hero` or apply `recipes/jurenites_hero`. Installation creates the type,
-fields, three initial slides and a homepage placement. Existing content and
+fields, three initial slides and an About-page placement. Existing content and
 placement are never reset by the initial-content helper. Uploaded images are
 managed Drupal files. The default photo source is
 `src/public/assets/images/hero-night.jpg`, copied to the theme by its build.

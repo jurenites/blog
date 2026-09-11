@@ -44,7 +44,6 @@ const EXPECTED_TYPOGRAPHY_ROLES = new Set([
   "body-2",
   "link",
   "caption",
-  "code",
   "machine-readable",
   "badge",
   "overline",

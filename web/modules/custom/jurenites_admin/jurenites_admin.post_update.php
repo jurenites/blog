@@ -5,6 +5,7 @@
  * Post-update functions for Jurenites Admin.
  */
 
+use Drupal\comment\CommentInterface;
 use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
 use Drupal\field\Entity\FieldConfig;
 
@@ -83,3 +84,81 @@ function jurenites_admin_post_update_shorten_editor_typography_labels(): string 
     ['@count' => $updated_editor_count],
   );
 }
+
+/**
+ * Replaces the retired Code typography role with Machine readable.
+ */
+function jurenites_admin_post_update_replace_code_typography(): string {
+  $updated_editor_count = jurenites_admin_configure_editor_typography();
+  $updated_content_count = 0;
+  $database_connection = \Drupal::database();
+
+  foreach (['node__body', 'node_revision__body'] as $body_table_name) {
+    if (!$database_connection->schema()->tableExists($body_table_name)) {
+      continue;
+    }
+
+    $updated_content_count += $database_connection->update($body_table_name)
+      ->expression(
+        'body_value',
+        'REPLACE(body_value, :obsolete_class, :replacement_class)',
+        [
+          ':obsolete_class' => 'u-typography-code',
+          ':replacement_class' => 'u-typography-machine-readable',
+        ],
+      )
+      ->condition('body_value', '%u-typography-code%', 'LIKE')
+      ->execute();
+  }
+
+  return t(
+    'Replaced Code typography with Machine readable in @editor_count CKEditor text formats and @content_count content rows.',
+    [
+      '@editor_count' => $updated_editor_count,
+      '@content_count' => $updated_content_count,
+    ],
+  );
+}
+
+/**
+ * Assigns the existing Russian Article comment to the Russian thread.
+ */
+function jurenites_admin_post_update_separate_article_comments_by_language(): string {
+  $comment_language_assignments = [
+    '1c47d445-f500-4406-b9ac-12e828b095e2' => 'ru',
+  ];
+  $comment_storage = \Drupal::entityTypeManager()->getStorage('comment');
+  $updated_comment_count = 0;
+
+  foreach ($comment_language_assignments as $comment_uuid => $comment_language_id) {
+    $matching_comments = $comment_storage->loadByProperties(['uuid' => $comment_uuid]);
+    $comment_entity = reset($matching_comments);
+    if (!$comment_entity instanceof CommentInterface
+      || $comment_entity->getCommentedEntity()?->bundle() !== 'article'
+      || $comment_entity->language()->getId() === $comment_language_id) {
+      continue;
+    }
+
+    $comment_entity->set('langcode', $comment_language_id);
+    $comment_entity->save();
+    $updated_comment_count++;
+  }
+
+  return t(
+    'Separated Article comments by language and reassigned @count existing comment.',
+    ['@count' => $updated_comment_count],
+  );
+}
+
+/**
+ * Enables deletion of an editor's own Article comments.
+ */
+function jurenites_admin_post_update_allow_own_article_comment_deletion(): string {
+  $content_editor_role = \Drupal\user\Entity\Role::load('content_editor');
+  if ($content_editor_role !== NULL) {
+    $content_editor_role->grantPermission('delete own article comments')->save();
+  }
+
+  return t('Content editors can delete their own Article comments through the contextual menu.');
+}
+

@@ -1,0 +1,3 @@
+delete own article comments:
+  title: 'Delete own Article comments'
+  description: 'Permanently delete own Article comments and their replies through the confirmation form.'
