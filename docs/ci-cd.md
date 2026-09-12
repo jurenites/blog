@@ -1,18 +1,25 @@
 # CI/CD And Generated Artifacts
 
-The project is still in active shaping, so heavy CI is disabled for now. Keep the
-local pipeline simple and explicit.
+The project combines focused local checks with the GitHub and GitLab jobs
+documented below. The proposed Figma/Storybook/Drupal visual testing layer is
+not a CI gate yet. Keep verification claims tied to the checks actually run.
 
 ## Current Local Pipeline
 
 ```text
 src/token/tokens.yaml
-  -> generated/styles/_tokens.scss
-  -> generated/token/tokens.js
-  -> scripts/figma/design-system-sync.js
-  -> web/themes/custom/jurenites_theme/css/style.min.css
-  -> web/themes/custom/jurenites_theme/js/script.min.js
+  -> generated/styles/_tokens.scss -> shared Storybook and Drupal styling
+  -> generated/token/tokens.js -> Storybook and runtime token consumers
+                             -> explicit Figma variable/style sync
+src/slice/ -> build:theme -> Drupal theme CSS/JS and font assets
 ```
+
+This is the artifact flow, not the product milestone sequence. See
+[Project Workflow](workflow.md) for the agreed process and
+[Visual Testing Plan](visual-testing-plan.md) for the proposed comparison layer.
+That layer should first demonstrate repeatable local cases with real Drupal
+content and matched Figma/Storybook inputs, then add selected CI checks with
+reviewed baselines, screenshots, diffs, and explicit blocked/not-checked states.
 
 ## Useful Commands
 

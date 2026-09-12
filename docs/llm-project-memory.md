@@ -1,7 +1,24 @@
 # LLM Project Memory
 
 This file is a compact current-state note for future AI-assisted work. Treat
-`src/token/tokens.yaml` as the editable source of truth.
+`src/token/tokens.yaml` as the editable source of truth for design tokens.
+
+## Product Workflow
+
+Follow [Project Workflow](workflow.md), aligned with Alexander's twelve-milestone
+[Cookbook](cookbook-product-design-process.md) and the editor-owned local page
+at `/node/22`. Begin with product purpose; move through roles and concepts,
+grayscale exploration, forms and glossary, tokens, Figma, Storybook,
+documentation and backlog, Drupal integration with real data, and verification.
+Feedback can revisit earlier decisions, including after a code-first prototype.
+Use only the relevant steps for small tasks.
+
+[Visual Testing Plan](visual-testing-plan.md) describes proposed iframe review
+and screenshot comparisons across Figma, Storybook, and Drupal with matched
+content, revisions, states, and viewports. The dashboard and pixel-diff runner
+now exist for the first Storybook/Drupal case; Figma baseline comparison and
+automatic CI ingestion are still pending. Existing Storybook health inspection
+is a separate check.
 
 ## Current Token Pipeline
 

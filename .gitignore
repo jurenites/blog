@@ -48,3 +48,7 @@ dist/
 build/
 .playwright-mcp/
 .cache/ms-playwright/
+
+# Local component test reports, screenshots, and dashboard build.
+.cache/component-status/
+generated/status-dashboard/

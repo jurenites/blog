@@ -10,7 +10,7 @@ Both belong to the same process. A polished interface needs a clear purpose behi
 
 This cookbook describes how I move between those levels. I have organized it into twelve milestones, each leaving something concrete that the next decision can build on. The sequence gives me a starting point, while the work itself involves repeated passes. Customer feedback, QA findings, technical constraints, management decisions, my own ideas, and AI-generated implementations can all reveal something that needs another look.
 
-Before the first milestone, I capture the initial idea in an idea file: what problem I believe exists, who experiences it, and what a useful outcome would look like. It can be rough. Its purpose is to give the project a direction that we can question and refine.
+Before the first milestone, I capture the initial idea in the task conversation: what problem I believe exists, who experiences it, and what a useful outcome would look like. It can be rough. Its purpose is to give the project a direction that we can question and refine. I keep durable decisions and deferred ideas in the relevant project documentation.
 
 ## 1. Identify the people, roles, and permissions
 
@@ -152,6 +152,20 @@ Although verification is the final milestone in this description, I define expec
 
 **Milestone:** visible evidence connecting requirements to the behavior of the implementation.
 
+### Proposed testing layer: Figma, Storybook, and Drupal
+
+I am considering a visual testing layer that brings three views together: the matching Figma frame, the isolated Storybook component, and the Drupal theme rendered with real content. A review page would show them in labeled iframes with direct links, making it easier to compare a design decision with both implementations. A first local component-status dashboard now lists Storybook components, records rendering checks, and compares Storybook with Drupal screenshots using real content. It shows source links and individual results. Figma pixel comparison and automatic CI report ingestion are still pending.
+
+For each comparison I would use the same text, media, language, viewport, and component state. The Drupal view would use selected real entities and recorded content revisions; Storybook fixtures and the Figma reference would carry the matching values. A separate review against current live content would help expose long titles, optional fields, and other editorial variations.
+
+The iframe views support interactive review. Automated pixel checks would compare an exported Figma frame with controlled browser screenshots of the equivalent component or page region. I would also compare the Storybook component with its Drupal rendering. Equal capture bounds, loaded fonts and images, a stable browser environment, and reproducible states are necessary; resizing a screenshot to hide a geometry mismatch would defeat the check.
+
+Pixel-perfect layout is the goal, with narrowly documented tolerances only where observed rendering differences justify them. A report should show the reference, actual capture, visual difference, content revision, and build identity, and distinguish passed, failed, not checked, and blocked. Functional and accessibility checks remain part of verification. Feedback from any mismatch returns to the affected design, token, component, data, or theme decision.
+
+Technical references: [Figma file embeds](https://developers.figma.com/docs/embeds/embed-figma-file/), [Figma frame exports](https://developers.figma.com/docs/rest-api/file-endpoints/#get-images-endpoint), and [Playwright visual comparisons](https://playwright.dev/docs/test-snapshots).
+
+The implementation proposal lives in [Visual Testing Plan](visual-testing-plan.md).
+
 ## When an AI agent builds the first version
 
 The route can change when I start by asking an AI agent to build a working prototype. Around the component stage—or even earlier—code may appear before the design library, documentation, and data model are fully developed.
@@ -221,7 +235,7 @@ For an eventual interactive version, selecting a feedback source could highlight
 | Milestones 3–4 | Grayscale form beside an ER diagram | How interface exploration informs the data model |
 | Milestones 6–8 | One token, its Figma component, and its browser result | How a shared visual decision reaches implementation |
 | Milestone 8 | Embedded Storybook example with useful states | How a component behaves under different conditions |
-| Milestone 12 | Feature verification table with evidence links | What a passed check establishes |
+| Milestone 12 | Feature verification table plus proposed Figma, Storybook, and Drupal iframe views and screenshot diffs | What each check establishes for the same content and state |
 | Iteration section | Feedback path through selected milestones | How one finding changes several connected artifacts |
 
 Keep one running example across these additions so readers can follow the same role, record, action, component, and test through the process. Replace the illustrative support-request example with a documented project example when suitable material is available.
@@ -229,3 +243,5 @@ Keep one running example across these additions so readers can follow the same r
 Add captions and useful alternative text with each image. Future iframe previews should have descriptive titles and a direct link to open the example separately; confirm the target publishing environment supports the embed before adding it.
 
 For substantive revisions, leave a short editorial note explaining what changed and why. Keep examples of intended behavior distinct from evidence of behavior verified in an actual build.
+
+Editorial revision · September 11, 2026: aligned the workflow summary with the twelve milestones and added the proposed Figma, Storybook, and Drupal visual testing layer.

@@ -1,0 +1,36 @@
+@use "../tools";
+
+// Native editorial quotes, including CKEditor's content preview. Pull Quote
+// retains its separate molecule treatment.
+blockquote:not(.pull-quote),
+.ck-content blockquote:not(.pull-quote) {
+  position: relative;
+  margin: calc(var(--space-scale-base-gap) * 3) 0;
+  padding: calc(var(--space-scale-base-gap) * 2);
+  padding-inline-start: calc(var(--space-scale-base-gap) * 9);
+  border: 0;
+  border-inline-start: var(--space-scale-base-gap) solid var(--theme-dark-action-primary-default);
+  background: var(--theme-dark-surface-background-elevation-level-1);
+  color: var(--theme-dark-text-primary-default);
+  overflow-wrap: anywhere;
+  @include tools.typography-body;
+
+  &::before {
+    position: absolute;
+    inset-block-start: calc(var(--space-scale-base-gap) * 2);
+    inset-inline-start: calc(var(--space-scale-base-gap) * 2);
+    color: var(--theme-dark-action-primary-default);
+    content: "\201C";
+    @include tools.typography-headline-2;
+    line-height: 1;
+  }
+
+  > p {
+    display: block;
+    margin: 0;
+  }
+
+  > :not(:first-child) {
+    margin-block-start: calc(var(--space-scale-base-gap) * 2);
+  }
+}

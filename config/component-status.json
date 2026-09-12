@@ -1,0 +1,17 @@
+{
+  "components": {
+    "molecules-blog-article-blog-list-item": {
+      "drupal_url": "http://jurenites.local/blog",
+      "drupal_selector": ".article-list-item[data-article-id=\"1\"]",
+      "story_selector": ".article-list-item",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1186-1660",
+      "figma_baselines": {},
+      "viewport_widths": [
+        360,
+        1280
+      ],
+      "viewport_height": 900,
+      "figma_blocked_reason": "Figma frame 1186:1660 is linked. Export was blocked by the Figma MCP Starter-plan call limit; no pixel baseline was captured."
+    }
+  }
+}

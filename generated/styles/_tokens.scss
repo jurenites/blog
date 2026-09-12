@@ -9,6 +9,7 @@
   --system-breakpoint-tablet-max: 1279px;
   --system-breakpoint-desktop-min: 1280px;
   --system-breakpoint-desktop-max: 1920px;
+  --system-breakpoint-site-header-inline-min: 1440px;
   --color-palette-full-black: #000000;
   --color-palette-dark-black: #020618;
   --color-palette-black: #0F172B;
@@ -123,6 +124,8 @@
   --layout-gutter-mobile-default: 16px;
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
+  --component-status-indicator-size-default: 8px;
+  --component-status-preview-height-default: 480px;
   --component-game-of-life-counter-digit-width-default: 5px;
   --component-game-of-life-cell-size-default: 8px;
   --component-game-of-life-live-size-default: 4px;
@@ -285,6 +288,7 @@ $system-breakpoint-tablet-min: 641px;
 $system-breakpoint-tablet-max: 1279px;
 $system-breakpoint-desktop-min: 1280px;
 $system-breakpoint-desktop-max: 1920px;
+$system-breakpoint-site-header-inline-min: 1440px;
 
 $breakpoints: (
   "mobile-min": 360px,
@@ -293,6 +297,7 @@ $breakpoints: (
   "tablet-max": 1279px,
   "desktop-min": 1280px,
   "desktop-max": 1920px,
+  "site-header-inline-min": 1440px,
 );
 
 @mixin breakpoint-up($name) {

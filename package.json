@@ -2,7 +2,7 @@
   "name": "blog-jurenites",
   "private": true,
   "type": "module",
-  "version": "1.59.3",
+  "version": "1.62.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/jurenites/blog.git"
@@ -41,7 +41,13 @@
     "playwright:install": "PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright npx playwright install chromium",
     "storybook:inspect": "npm run build-storybook && PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node scripts/inspect-storybook.mjs",
     "storybook": "npm run build:tokens && npm run build:storybook-info && storybook dev -p 6006 --host 0.0.0.0 --no-open",
-    "build-storybook": "npm run build:tokens && npm run build:storybook-info && storybook build"
+    "build-storybook": "npm run build:tokens && npm run build:storybook-info && storybook build",
+    "status:build": "npm run build-storybook && node scripts/component-status/stamp.mjs && node scripts/component-status/build.mjs",
+    "status:serve": "node scripts/component-status/server.mjs",
+    "status:test": "PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node scripts/component-status/run.mjs",
+    "status:import": "node scripts/component-status/import.mjs",
+    "test:component-status": "node --test tests/component-status.test.mjs",
+    "status:diagnose": "node scripts/component-status/diagnose.mjs"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "8.6.18",
@@ -49,6 +55,9 @@
     "esbuild": "^0.25.0",
     "eslint": "^10.5.0",
     "htmlhint": "^1.9.2",
+    "pixelmatch": "7.2.0",
+    "playwright": "1.63.0",
+    "pngjs": "7.0.0",
     "postcss-scss": "^4.0.9",
     "sass": "^1.100.0",
     "storybook": "8.6.18",

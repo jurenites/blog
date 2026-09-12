@@ -10,17 +10,58 @@ Keep durable decisions and delivered behavior in the relevant existing `/docs`
 page so later tasks can recover context. `AGENTS.md` defines the working rules;
 Storybook and appropriate source, build, and runtime checks verify the result.
 
-## 1. Idea File
+## Product Process
 
-`idea-file.md` is the rough source of truth for product direction, content ideas, feature ideas, and implementation notes. It is intentionally allowed to be messy.
+The [public Cookbook](http://jurenites.local/node/22) and its
+[article draft](cookbook-product-design-process.md) describe the agreed process.
+Start with product purpose, the people affected, and the intended outcome, then
+use these twelve milestones at the level of detail the task needs:
+
+1. Identify people, roles, and permissions.
+2. Collect the nouns and verbs: entities, actions, and relationships.
+3. Explore screens and interactions in grayscale.
+4. Define forms, fields, and the initial data model.
+5. Establish a shared glossary.
+6. Create reusable design tokens.
+7. Develop the Figma design system and its states.
+8. Build and inspect components in Storybook.
+9. Consolidate documentation and connect the supporting artifacts.
+10. Shape the backlog into epics and deliverable work where useful.
+11. Assemble the Drupal implementation with real content and behavior.
+12. Verify the result against explicit expectations and record the evidence.
+
+These are milestones, not mandatory documents or a rigid waterfall. Small
+changes can pass through only the affected steps. Feedback from users, QA,
+development, management, design exploration, or AI-generated code returns to
+the earliest affected decision, then flows through implementation and checks.
+A prototype may start in code; review its assumptions and reconcile the design,
+content model, tokens, and docs before treating them as agreed behavior.
+
+Testing runs throughout this process. The proposed visual testing layer connects
+Figma frames, Storybook components, and the Drupal theme rendered with real
+data. The first local component-status dashboard and Storybook/Drupal capture
+case are implemented; Figma comparison remains blocked pending a matched export.
+See [Visual Testing Plan](visual-testing-plan.md) for commands and boundaries.
+
+## Product Direction and Ideas
+
+Capture the initial idea in the task conversation: the problem, the people it
+affects, and the intended outcome. Keep durable decisions and deferred ideas in
+the relevant existing `/docs` page, with future work clearly distinguished from
+delivered behavior.
 
 Rules:
 
-- Add raw ideas quickly.
-- Do not put final architecture only in chat.
-- Promote stable ideas into docs, tokens, content model, or implementation tasks.
+- Discuss raw ideas in the task conversation.
+- Record final architecture in the relevant documentation.
+- Carry agreed decisions into tokens, the content model, or implementation.
 
-## 2. Tokens
+## Tool Responsibilities
+
+The sections below describe ownership and useful commands; their order does
+not replace the product process above.
+
+### Tokens
 
 `src/token/tokens.yaml` is the editable single source of truth for reusable
 design decisions. Every token uses a concise direct key/value form; `$type`,
@@ -55,7 +96,8 @@ See `docs/design-system.md` for the full guideline.
 
 Token naming rules (see `system.naming` in `src/token/tokens.yaml`):
 
-- Use dash-separated namespaces, not dots.
+- Use dot notation in the YAML source; generated CSS/SCSS names flatten those
+  paths with dashes.
 - Each namespace segment must contain at least two word parts (for example `base-unit`, `marker-size`). Never use a single character or a lone word as a segment (invalid: `a`, `x`, `orange`).
 - Each token name must describe scope, component or role, property, and state when applicable.
 
@@ -69,7 +111,7 @@ Example:
 
 Avoid generic names like `orange`, `small`, `primary`, or `card` until the semantic role is clear.
 
-## 3. Storybook
+### Storybook
 
 Storybook is the place to prove component behavior before Drupal integration. It compiles `src/slice/src/scss/main.scss` directly, so component CSS has a single source of truth shared with the Drupal theme.
 
@@ -105,8 +147,8 @@ Font Preview Paragraph; it is not part of the global theme bundle. The 4×4
 Pixel Glyph Editor remains a deterministic in-memory interaction with no saved
 browser or server state.
 
-Current timeline work lives in `src/stories/timeline/` and uses the same token
-and Storybook conventions while it is still being shaped.
+Timeline examples live in `src/stories/timeline/`. The implemented Drupal
+chronology and its content model are documented in `docs/drupal-content-model.md`.
 
 The Storybook interface and every preview screen display release identity in the
 bottom-right corner: the shared project version, deployed Git commit hash,
@@ -132,46 +174,31 @@ release progression (`1.1.0`, `1.2.0`, and so on), or pass `patch`, `minor`, or
 `docs/version.md`, and the tracked theme `release-info.json`; CI rejects a
 mismatch before building or deploying.
 
-## 4. Figma
+### Figma
 
 Figma is used for layout, visual exploration, and design review.
 
-The file already has Material 3 Design Kit available. The project should reuse the parts that help, but the site should still feel personal and specific.
+Reuse the project’s existing components, variables, and styles. Confirm any
+external library is available in the target file before depending on it.
 
 Token sync goal:
 
-- Code-side token updates can update Figma variables and frames through
+- Code-side token updates can update Figma variables and styles through
   `scripts/figma/design-system-sync.js`.
 - Storybook and Drupal consume generated artifacts derived from
   `src/token/tokens.yaml`.
 - Token names must stay stable, because component implementations depend on
   them.
 
-## 5. Drupal
+### Drupal
 
 Drupal is the content and runtime layer.
 
-Initial content types:
-
-- Article
-- Timeline Event
-- Project
-- Gallery Item
-- External Reference
-
-Initial custom theme:
-
-- `jurenites_theme`
-
-Initial custom modules:
-
-- `jurenites_tokens`
-- `jurenites_font_projects`
-
-Planned custom modules:
-
-- `jurenites_timeline`
-- `jurenites_media_loader`
+The current content types, Paragraphs, and editorial responsibilities live in
+[Drupal Content Model](drupal-content-model.md). The custom theme is
+`jurenites_theme`; project modules provide features including tokens, font
+projects, Timeline, and the Cookbook. Use that documentation and installed
+configuration when planning an integration.
 
 Theme source workflow:
 
@@ -198,9 +225,9 @@ a recipe or interactive-component dependency.
 
 LLM-specific continuity notes live in `docs/llm-project-memory.md`. Keep that file updated when the site structure or implementation decisions change.
 
-## 6. Local Development
+### Local Development
 
-Local development should run in Docker first. The target developer command should eventually be one command, for example:
+Start the local Docker services from the repository root:
 
 ```bash
 docker compose up -d
@@ -211,14 +238,17 @@ The Compose stack uses `jurenites.local` for Drupal and
 `storybook.jurenites.local` for Storybook, routed through one local port-80
 proxy. These names deliberately mirror the future `jurenites.com` domain shape.
 
-## 7. Visual Testing
+### Visual Testing
 
 The planned visual testing workflow lives in `docs/visual-testing-plan.md`.
-Treat it as an implementation plan until the first real scenario is built and
-verified. When visual testing scripts are added later, update that plan into a
-runbook and add the commands to `package.json`.
+The local dashboard lists actual Storybook components and runs the first
+Storybook/Drupal rendering and screenshot case for Article Blog List Item.
+Figma comparisons, pinned content revisions, and automatic CI ingestion remain
+future work. Keep each result tied to its actual build and captured data.
 
-Current browser inspection setup:
+An existing browser inspection script checks Storybook health. It does not
+compare pixels with Figma or Drupal. `playwright` is now a declared development
+dependency. The existing setup instructions are:
 
 ```bash
 npm install --save-dev playwright
@@ -233,28 +263,21 @@ story at the token-defined 360px mobile minimum, 1280px desktop minimum, and
 custom properties. Browser binaries are stored under `.cache/ms-playwright/`
 and ignored by Git.
 
-## 8. Token Contract Check
+### Token Contract Check
 
 `npm run build:tokens` regenerates token artifacts and runs the fast token
 contract check. It scans handwritten SCSS for `var(--...)` references and fails
 when a referenced custom property is not emitted by `src/token/tokens.yaml`.
 
-## 9. Staging
+### Environments and Release
 
-Staging needs two tracks:
+DEV is for implementation and local evidence, STAGE for production-like review,
+and PROD for the reviewed public result. Keep database content, uploaded media,
+secrets, and host configuration owned by each environment. Source, generated
+assets, and release identity must agree before delivery.
 
-- Vercel for Storybook/static design previews.
-- Drupal-capable hosting for full CMS staging when needed.
-
-## 10. Production
-
-Production target is a low-cost hosting server for `jurenites.com`.
-
-Production needs:
-
-- PHP supported by Drupal 11.
-- Database.
-- File storage.
-- Backups.
-- HTTPS.
-- Simple deploy runbook.
+Use [CI/CD](ci-cd.md) for the actual pipelines and
+[Command Cheat Sheet](command-cheat-sheet.md) for environment-specific commands.
+A local result does not establish that another environment was deployed or
+verified. The proposed visual testing layer will begin locally; add CI gating
+only after repeatable scenarios and reviewed baselines exist.

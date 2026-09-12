@@ -18,14 +18,25 @@ const READING_TIME_MINUTES = 20;
 const READING_TIME_LABEL = "min to watch";
 const TOPIC_LIST = "";
 
-function render_article_list_item_story(story_arguments) {
-  return `<div class="article-list">${article_list_item_markup(story_arguments)}</div>`;
+async function load_status_fixture() {
+  // Only the local status harness supplies this optional real-content fixture.
+  const fixture_name = new URLSearchParams(window.location.search).get("status_fixture");
+  if (fixture_name !== "article-list-item") return { article_fixture: {} };
+  const fixture_response = await fetch("/api/fixtures/article-list-item", { cache: "no-store" });
+  if (!fixture_response.ok) throw new Error("The component-status content fixture is unavailable.");
+  return { article_fixture: await fixture_response.json() };
+}
+
+function render_article_list_item_story(story_arguments, story_context) {
+  const article_arguments = { ...story_arguments, ...story_context.loaded.article_fixture };
+  return `<div class="article-list">${article_list_item_markup(article_arguments)}</div>`;
 }
 
 export default {
   title: "Molecules/Blog/Article Blog List Item",
   tags: ["autodocs"],
   render: render_article_list_item_story,
+  loaders: [load_status_fixture],
   parameters: {
     controls: { disable: true },
   },

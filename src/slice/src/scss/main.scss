@@ -15,6 +15,7 @@
 @use "atoms/button";
 @use "atoms/surface";
 @use "atoms/inline-code";
+@use "atoms/blockquote";
 @use "atoms/chip";
 @use "atoms/divider";
 @use "atoms/avatar";
@@ -66,3 +67,5 @@
 @use "components/front-page-background";
 @use "components/content-layout";
 @use "components/privacy-policy";
+
+@use "organisms/component-status";

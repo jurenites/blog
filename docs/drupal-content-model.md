@@ -133,6 +133,14 @@ drag-and-drop mode changes item order only; it does not change dates or resolve
 overlap. A visual month-grid editor would therefore be a separate admin widget,
 not a capability of the installed Paragraphs date-range control.
 
+### Deferred Timeline Ideas
+
+- Explore slider bookmarks for navigating the CV timeline.
+- Explore company or project logos on timeline records.
+
+These are future ideas; the current chronology, duration-button navigation,
+and linked organization headings remain the delivered behavior.
+
 ## Project
 
 Purpose: structured portfolio pages with reusable interactive sections.
@@ -373,6 +381,13 @@ duration values, while replacing the YouTube URL clears the old credit and
 collects the new source. Each save also keeps the Authored on calendar date
 aligned with the stored YouTube publication date. The shared Avatar falls back
 to channel initials when its stored URL is empty or invalid.
+
+### Deferred Editorial Work
+
+Develop UI reviews of games, HUDs, and other interfaces through the existing
+Article model. The translation catalogue already contains a “Reviewing an
+Interfaces” article stub; expand that material before deciding whether a
+dedicated review page is needed. Reuse existing taxonomy tags when applicable.
 
 ## News
 

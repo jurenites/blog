@@ -4,6 +4,12 @@ This is the visual guideline for the jurenites site. It documents the durable
 rules. The machine-readable contract for every value lives in
 `src/token/tokens.yaml`; this page explains intent and usage.
 
+The [product workflow](workflow.md) connects these rules to the Cookbook's
+twelve milestones and feedback loops. The proposed
+[visual testing layer](visual-testing-plan.md) will compare matched Figma,
+Storybook, and Drupal views with real content. Shared tokens and markup are
+inputs to that verification; their reuse alone does not establish pixel parity.
+
 ## Source of truth and flow
 
 ```text
@@ -42,6 +48,17 @@ fractions, grid line numbers, aspect ratios, transforms, and spacing-grid
 multipliers do not become tokens merely because they contain a number. Use the
 generated breakpoint mixins instead of copying breakpoint widths into media
 queries.
+
+### Blockquotes
+
+Native `<blockquote>` elements use the Body typography role, a level-one dark
+surface, an 8px primary-action accent border, and a large opening quotation mark
+in the same accent color. Padding and paragraph spacing follow the 8px grid.
+Paragraphs remain block elements so longer quotations retain their structure.
+The same atom stylesheet is included in the public theme, Storybook, and
+CKEditor preview; no authored class is required. `Atoms/Blockquote` demonstrates
+single and multiple paragraphs. The existing `.pull-quote` molecule keeps its
+own presentation.
 
 ## Atomic design
 
@@ -320,10 +337,11 @@ Select Input atom with a borderless, intrinsic-width header treatment and uses
 Drupal's enabled interface languages and URL negotiation, so it preserves the
 current route and query string. Drupal's route active trail supplies current-page
 styling, so listing query values such as `/portfolio?tag=font` do not deactivate
-the Portfolio menu item. The Home menu item is hidden above the mobile breakpoint;
+the Portfolio menu item. The Home menu item is hidden in the inline desktop header;
 the desktop logo links to the front page. Beside it, separate “A” and “I” initials
 expand into “Alexander Ilivanov” letter by letter on hover or keyboard focus.
-Added letters grow and loosen their spacing as they appear. The animated name is
+Added letters grow and loosen their spacing as they appear. The gap between the
+first and last names expands from 2px to 16px with the reveal. The animated name is
 absolutely positioned inside a fixed compact slot, preserving the centered menu's
 position. Even a brief hover triggers the complete reveal, followed by a two-second
 hold before closing. Continued hover or keyboard focus keeps it open; leaving
@@ -331,16 +349,21 @@ restarts the hold after any remaining reveal finishes. Letter transitions take
 325ms with a 25ms stagger, twice the original animation speed. Reduced motion
 shows and hides the letters immediately while preserving the hold. Drupal and
 Storybook use the same brand interaction behavior.
-Home remains in the mobile menu, identified in Drupal by its front-page route
+Home remains in the compact menu, identified in Drupal by its front-page route
 rather than its translated label.
-Through the token-defined 640px mobile maximum, the
+At the token-defined 640px mobile maximum and below, the
 24px three-line menu icon replaces the logo on the left while the language
 selector remains on the right. The icon stays white in every state. Activating
 it turns it into a cross and opens the one-level Main navigation
 as a vertical, full-viewport header surface without a separate overlay. Menu
 items and the menu-toggle background move one grayscale surface level lighter
 on hover or keyboard focus. Escape,
-selecting a menu link, or returning to tablet width closes it. Authenticated pages hide Gin's secondary toolbar to keep the public header
+selecting a menu link, or widening beyond 640px closes it. From 641px up to the
+header-specific 1440px inline minimum (`system.breakpoint.site-header-inline-min`),
+the brand and language selector occupy the first row with visible navigation on
+the second row. At 1440px and above, the
+header stays in one row with equal side columns centering navigation and leaving
+room for the revealed name in both languages. Authenticated pages hide Gin's secondary toolbar to keep the public header
 visually unambiguous; Gin's primary administration navigation remains available.
 The public element defaults are scoped by the `jurenites-theme` body class so
 they do not become unqualified page-wide rules. Gin's navigation keeps its own

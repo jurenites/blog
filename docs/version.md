@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 1.59.3
+Version: 1.62.1
 Reviewed: 2026-09-11
 
 This checkpoint says the `/docs` folder has been reviewed against the current
@@ -27,6 +27,18 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   component behavior, no documentation bump is required.
 
 ## Current Source Contract
+
+- The agreed workflow follows the Cookbook's twelve flexible milestones, with
+  feedback returning to affected decisions. The proposed visual testing layer
+  connects Figma, Storybook, and Drupal with real content through iframe review
+  and controlled screenshot comparisons. The first local dashboard and
+  Storybook/Drupal case are implemented; Figma comparison and automatic CI
+  ingestion remain pending. See `workflow.md` and `visual-testing-plan.md`.
+
+- Product ideas start in task conversations. Durable decisions and deferred
+  ideas live in the relevant existing docs; the obsolete root idea file has
+  been removed. Cookbook workflow copy and the translation catalogue follow
+  the same convention.
 
 - The desktop Site Header holds separate “A” and “I” initials in a fixed compact
   layout slot. Hover or keyboard focus expands them letter by letter into

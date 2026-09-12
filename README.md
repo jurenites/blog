@@ -15,7 +15,19 @@ back to one understandable source instead of several competing mirrors.
 - Design source: Figma file `blog-jurenites`.
 - Design token source: `src/token/tokens.yaml`.
 - Component proving ground: Storybook.
-- Runtime target: Docker development first, stage preview second, production hosting later.
+- Runtime environments: local Docker DEV, STAGE review, and PROD delivery with
+  separate content, media, and host configuration.
+
+The agreed [workflow](docs/workflow.md) follows the twelve milestones in the
+[Cookbook](docs/cookbook-product-design-process.md): product purpose, roles and
+concepts, grayscale exploration, forms and glossary, tokens, Figma, Storybook,
+documentation and backlog, Drupal with real data, and verification. Feedback
+can return to any affected decision. Small tasks use only the relevant steps.
+
+The first local [component-status dashboard](docs/visual-testing-plan.md) lists
+Storybook components and records rendering and screenshot checks against Drupal.
+Run `npm run status:build`, `npm run status:serve`, and `npm run status:test`.
+Figma pixel comparison and automatic CI ingestion remain future work.
 
 Current Figma file:
 

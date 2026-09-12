@@ -114,6 +114,22 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "system-breakpoint-site-header-inline-min",
+    "path": [
+      "system",
+      "breakpoint",
+      "site-header-inline-min"
+    ],
+    "type": "dimension",
+    "description": "Visible navigation moves to a second row below this width; the compact menu starts at mobile-max.",
+    "source_value": "1440px",
+    "value": "1440px",
+    "css_value": "1440px",
+    "resolved_css_value": "1440px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "color-palette-full-black",
     "path": [
       "color",
@@ -2020,6 +2036,38 @@ export const TOKEN_RECORDS = [
     "value": "32px",
     "css_value": "32px",
     "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-status-indicator-size-default",
+    "path": [
+      "component",
+      "status",
+      "indicator-size-default"
+    ],
+    "type": "dimension",
+    "description": "Static test-status light.",
+    "source_value": "8px",
+    "value": "8px",
+    "css_value": "8px",
+    "resolved_css_value": "8px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-status-preview-height-default",
+    "path": [
+      "component",
+      "status",
+      "preview-height-default"
+    ],
+    "type": "dimension",
+    "description": "Expandable local Storybook preview.",
+    "source_value": "480px",
+    "value": "480px",
+    "css_value": "480px",
+    "resolved_css_value": "480px",
     "is_reference": false,
     "reference_name": null
   },

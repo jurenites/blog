@@ -31,3 +31,17 @@ effect styles. It does not create or change components or canvas pages.
 Manual Figma-to-token pulling is paused while the project is still being shaped.
 When it returns, the pull should write back to `src/token/tokens.yaml` directly
 and then rebuild generated artifacts. It should not recreate JSON token mirrors.
+
+## Relationship to the Product Workflow
+
+The [Cookbook process](workflow.md) develops Figma components and states after
+the initial roles, concepts, wireframes, forms, glossary, and tokens. Code-first
+prototypes can feed discoveries back into those decisions. Syncing tokens is
+one tool operation within that process; it does not establish component or page
+parity by itself.
+
+The proposed [visual testing layer](visual-testing-plan.md) maps exact Figma
+frames to Storybook stories and Drupal regions with matching real content and
+states. Iframes support review; exported, versioned frames supply screenshot
+references. The first dashboard maps Article Blog List Item and compares
+Storybook with Drupal; its Figma export and pixel baseline are still blocked.

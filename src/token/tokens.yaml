@@ -3,7 +3,7 @@
 meta:
   project: blog-jurenites
   status: draft
-  sourceWorkflow: "idea-file -> tokens -> Storybook -> Figma -> Drupal"
+  sourceWorkflow: "product purpose -> roles and concepts -> grayscale exploration -> forms and glossary -> tokens -> Figma -> Storybook -> documentation and backlog -> Drupal with real data -> verification, with feedback to affected decisions"
   sourceOfTruth: "src/token/tokens.yaml is the editable single source of truth. Generated SCSS/CSS outputs and Figma variables are derived from it."
   typographyBasis: "Typography roles are concise CSS font shorthand values reused by components."
   colorRule: "Colors are HEX only. Never use the CSS opacity property; alpha is expressed as 8-digit HEX (for example shadow colors) so composited colors stay predictable."
@@ -18,6 +18,7 @@ system:
     tablet-max: 1279px # Upper bound of the tablet range.
     desktop-min: 1280px # Lower bound of the desktop range and the primary design width.
     desktop-max: 1920px # Maximum tested desktop viewport. Wider screens keep desktop behavior and show additional page background outside centered content.
+    site-header-inline-min: 1440px # Visible navigation moves to a second row below this width; the compact menu starts at mobile-max.
   naming:
     separator: "-" # Flattened token names use dash-separated namespaces.
     pattern: "{layer}-{scope}-{part}-{property}-{state}" # Use the shortest complete name. Each token must be descriptive and multi-part. Never use a lone generic word (invalid: orange, size, card).
@@ -165,6 +166,9 @@ layout:
     tablet-default: 24px
     desktop-default: 32px
 component:
+  status:
+    indicator-size-default: 8px # Static test-status light.
+    preview-height-default: 480px # Expandable local Storybook preview.
   game-of-life:
     counter-digit-width-default: 5px # Fixed advance for every 4pixel Overline digit, including the narrower 1.
     cell-size-default: 8px # Outer cell size; adjacent cells share their 1px border.

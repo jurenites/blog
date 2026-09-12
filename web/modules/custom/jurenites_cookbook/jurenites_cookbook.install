@@ -101,17 +101,24 @@ function jurenites_cookbook_initial_body(): string {
 <p>This is the working manual for this website: how an idea moves through the design system, Storybook, Drupal, review, and release. It describes the real project workflow, including the places where I deliberately keep content flexible instead of turning every sentence into a field.</p>
 
 <h2>The project in one loop</h2>
+<p>Start with product purpose and the task conversation. These twelve milestones are flexible: feedback can return to any affected decision, and small changes need only the relevant steps. Keep durable decisions and deferred ideas in the relevant project documentation. Verify throughout the work, then deliver the reviewed result through DEV, STAGE, and PROD.</p>
 <ol>
-  <li>Capture the rough idea in <code>idea-file.md</code>.</li>
-  <li>Put reusable visual decisions in <code>src/token/tokens.yaml</code>.</li>
-  <li>Prove reusable interface pieces in Storybook.</li>
-  <li>Connect the proven markup and behavior to Drupal.</li>
-  <li>Build, inspect the served page, and run focused checks.</li>
-  <li>Ship the same reviewed source through DEV, STAGE, and PROD without mixing their runtime configuration.</li>
+  <li>Identify the people, roles, and permissions.</li>
+  <li>Collect the nouns and verbs: entities, actions, and relationships.</li>
+  <li>Explore screens and interactions in grayscale.</li>
+  <li>Define forms, fields, and the initial data model.</li>
+  <li>Establish a shared glossary.</li>
+  <li>Create reusable design tokens in <code>src/token/tokens.yaml</code>.</li>
+  <li>Develop the Figma design system and its states.</li>
+  <li>Build and inspect reusable components in Storybook.</li>
+  <li>Consolidate documentation and connect the supporting artifacts.</li>
+  <li>Shape the backlog into epics and deliverable work where useful.</li>
+  <li>Assemble the Drupal implementation with real content and behavior.</li>
+  <li>Verify the result against explicit expectations and record the evidence.</li>
 </ol>
 
 <blockquote>
-  <p><strong>IMAGE PLACEHOLDER — project map.</strong> Add a diagram showing Idea → Tokens → Storybook → Drupal → Verification → Release. Replace this note from the Body editor when the diagram is ready.</p>
+  <p><strong>IMAGE PLACEHOLDER — project map.</strong> Add a diagram showing Purpose → Roles and model → Tokens → Figma → Storybook → Drupal with real data → Verification → Release, with feedback paths to affected decisions. Replace this note from the Body editor when the diagram is ready.</p>
 </blockquote>
 
 <h2>Recipe: turn an idea into a component</h2>
@@ -182,6 +189,13 @@ function jurenites_cookbook_initial_body(): string {
 <blockquote>
   <p><strong>IMAGE PLACEHOLDER — release evidence.</strong> Add a compact screenshot or diagram that distinguishes source commit, generated theme asset, deployed build identity, and the page served by Drupal.</p>
 </blockquote>
+
+<h2>Proposed testing layer: Figma, Storybook, and Drupal</h2>
+<p>I am considering a visual testing layer that brings three views together: the matching Figma frame, the isolated Storybook component, and the Drupal theme rendered with real content. A review page would show them in labeled iframes with direct links, making it easier to compare a design decision with both implementations. A first local component-status dashboard now lists Storybook components, records rendering checks, and compares Storybook with Drupal screenshots using real content. It shows source links and individual results. Figma pixel comparison and automatic CI report ingestion are still pending.</p>
+<p>For each comparison I would use the same text, media, language, viewport, and component state. The Drupal view would use selected real entities and recorded content revisions; Storybook fixtures and the Figma reference would carry the matching values. A separate review against current live content would help expose long titles, optional fields, and other editorial variations.</p>
+<p>The iframe views support interactive review. Automated pixel checks would compare an exported Figma frame with controlled browser screenshots of the equivalent component or page region. I would also compare the Storybook component with its Drupal rendering. Equal capture bounds, loaded fonts and images, a stable browser environment, and reproducible states are necessary; resizing a screenshot to hide a geometry mismatch would defeat the check.</p>
+<p>Pixel-perfect layout is the goal, with narrowly documented tolerances only where observed rendering differences justify them. A report should show the reference, actual capture, visual difference, content revision, and build identity, and distinguish passed, failed, not checked, and blocked. Functional and accessibility checks remain part of verification. Feedback from any mismatch returns to the affected design, token, component, data, or theme decision.</p>
+<p>Technical references: <a href="https://developers.figma.com/docs/embeds/embed-figma-file/">Figma file embeds</a>, <a href="https://developers.figma.com/docs/rest-api/file-endpoints/#get-images-endpoint">Figma frame exports</a>, and <a href="https://playwright.dev/docs/test-snapshots">Playwright visual comparisons</a>.</p>
 
 <h2>Definition of done</h2>
 <p>A change is not finished because a file was edited. It is finished when the editable source is clear, generated artifacts agree with it, Drupal uses the intended content or configuration, the browser shows the expected result, focused checks pass, and the documentation still tells the truth.</p>
