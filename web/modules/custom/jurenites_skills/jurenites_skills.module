@@ -14,8 +14,9 @@ use Drupal\Core\Entity\EntityInterface;
  */
 function jurenites_skills_theme(): array {
   return ['jurenites_skills' => ['variables' => [
-    'section_heading' => '', 'section_description' => '', 'supporting_note' => '',
-    'ratings_reviewed' => FALSE, 'skill_items' => [], 'timeline_url' => '',
+    'supporting_note' => '',
+    'draft_rating_note' => '',
+    'ratings_reviewed' => FALSE, 'skill_items' => [],
   ]]];
 }
 
@@ -23,6 +24,9 @@ function jurenites_skills_theme(): array {
  * Reads only viewable values, including the field access cache metadata.
  */
 function jurenites_skills_read_field(EntityInterface $content_entity, string $field_name, CacheableMetadata $cache_metadata): mixed {
+  if (!$content_entity->hasField($field_name)) {
+    return NULL;
+  }
   $field_items = $content_entity->get($field_name);
   $field_access = $field_items->access('view', NULL, TRUE);
   $cache_metadata->addCacheableDependency($field_access);
@@ -41,9 +45,8 @@ function jurenites_skills_block_content_view(array &$build_output, EntityInterfa
   $skill_build = [
     '#theme' => 'jurenites_skills', '#skill_items' => [],
     '#ratings_reviewed' => (bool) jurenites_skills_read_field($block_entity, 'field_skills_reviewed', $cache_metadata)?->value,
-    '#timeline_url' => \Drupal\Core\Url::fromUserInput('/timeline')->toString(),
   ];
-  foreach (['section_heading' => 'field_skills_heading', 'section_description' => 'field_skills_intro', 'supporting_note' => 'field_skills_note'] as $output_key => $field_name) {
+  foreach (['supporting_note' => 'field_skills_note', 'draft_rating_note' => 'field_skills_draft_note'] as $output_key => $field_name) {
     $skill_build['#' . $output_key] = jurenites_skills_read_field($block_entity, $field_name, $cache_metadata)?->value ?? '';
   }
   $paragraph_items = jurenites_skills_read_field($block_entity, 'field_skills_items', $cache_metadata);

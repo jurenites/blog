@@ -2,7 +2,7 @@ import profile_template from "./skills-profile.template.html?raw";
 import skill_template from "./skill-item.template.html?raw";
 import { escape_html, render_template } from "../../template.js";
 
-export function skills_profile_markup({ section_heading, section_description, supporting_note, ratings_reviewed, skill_items = [], timeline_url = "/timeline" }) {
+export function skills_profile_markup({ skill_items = [] }) {
   const visible_items = skill_items.filter((skill_item) => skill_item.technology_name);
   if (!visible_items.length) return "";
   const skill_content = visible_items.map((skill_item) => {
@@ -21,9 +21,5 @@ export function skills_profile_markup({ section_heading, section_description, su
       score_content,
     });
   }).join("");
-  return render_template(profile_template, {
-    section_heading: escape_html(section_heading), section_description: escape_html(section_description),
-    supporting_note: escape_html(supporting_note), timeline_url: escape_html(timeline_url), skill_content,
-    rating_note: ratings_reviewed ? "Self-assessed confidence / 5" : "Draft confidence / 5 · provisional estimates, pending my review",
-  });
+  return render_template(profile_template, { skill_content });
 }

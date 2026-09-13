@@ -16,7 +16,8 @@
 
     {# Skip-link target: keep id on <main>, never use an <a> without href. #}
     <main id="main-content" role="main" tabindex="-1">
-      {{ page.content|without('system_main') }}
+      {# The introduction owns this page's h1; omit the empty system title. #}
+      {{ page.content|without('system_main', 'jurenites_theme_page_title') }}
     </main>
 
     {% if page.footer %}

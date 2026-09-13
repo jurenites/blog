@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Provides content blocks as contextual, translatable Views areas.
+ */
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function jurenites_editorial_views_data_alter(array &$views_data): void {
+  $views_data['views']['editorial_block'] = [
+    'title' => t('Editable content block'),
+    'help' => t('Display a Content Block with its contextual editing menu.'),
+    'area' => ['id' => 'editorial_block', 'entity_type' => 'block_content'],
+  ];
+}
+
+/**
+ * Supplies the pixel editor instructions from its owning Paragraph.
+ */
+function jurenites_editorial_preprocess_paragraph(array &$paragraph_variables): void {
+  $paragraph_entity = $paragraph_variables['paragraph'];
+  if ($paragraph_entity->bundle() === 'pixel_glyph_editor') {
+    $paragraph_variables['editor_instructions'] = $paragraph_variables['content']['field_editor_instructions'] ?? [];
+  }
+}

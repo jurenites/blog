@@ -1,0 +1,16 @@
+<section class="home-introduction">
+  <div class="home-introduction__heading">
+    {% include '@jurenites_theme/components/two-tone-heading.html.twig' with {
+      heading_level: 'h1',
+      leading_text: leading_text,
+      soft_text: heading_options.soft_text,
+      trailing_text: heading_options.trailing_text,
+      soft_text_placement: heading_options.soft_text_placement,
+      trailing_text_placement: heading_options.trailing_text_placement,
+    } only %}
+  </div>
+  <div class="home-introduction__details">
+    <span class="home-introduction__accent" aria-hidden="true"></span>
+    <div class="home-introduction__description">{{ intro_body }}</div>
+  </div>
+</section>

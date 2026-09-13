@@ -1,6 +1,4 @@
 {
-  "section_heading": "The web is my foundation.",
-  "section_description": "I connect product thinking with hands-on web experience: from Drupal websites and PHP backends to the components that bring a design system to life.",
   "supporting_note": "Also in my toolkit: Docker and Composer. Earlier projects include Laravel, Symfony 2 and WordPress; that experience is part of my foundation, with a refresher needed before new work.",
   "skill_items": [
     {"technology_name": "Drupal", "skill_category": "CMS & content", "skill_description": "Content models, Views, custom modules, theming and site maintenance.", "experience_note": "Drupal 6–11 · Nokia, Novo Ministries, oksenate.gov", "skill_score": 3.4},

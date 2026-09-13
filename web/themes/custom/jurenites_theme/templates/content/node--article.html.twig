@@ -13,7 +13,7 @@
   content.game_of_life ? 'article-detail--game-of-life',
 ] %}
 
-<article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
+<article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id).setAttribute('data-article-table-of-content', '') }}>
   {{ title_prefix }}
   {{ title_suffix }}
 
@@ -87,8 +87,19 @@
     </div>
   {% endif %}
 
+  {% if content.body %}
+    <div class="article-detail__reading-layout">
+      <nav class="article_table-of-content" aria-label="{{ 'Table of contents'|t }}" hidden>
+        <p class="article_table-of-content__title">{{ 'Table of contents'|t }}</p>
+        <ul class="article_table-of-content__list"></ul>
+      </nav>
+      {{ content.body }}
+    </div>
+  {% endif %}
+
   <div{{ content_attributes.addClass('article-detail__content') }}>
     {{ content|without(
+      'body',
       'game_of_life',
       'field_image',
       'field_consumption_time_minutes',

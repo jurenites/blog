@@ -130,6 +130,86 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "system-breakpoint-article-sidebar-min",
+    "path": [
+      "system",
+      "breakpoint",
+      "article-sidebar-min"
+    ],
+    "type": "dimension",
+    "description": "Available article frame: 800px Body + 32px gap + 160px contents sidebar.",
+    "source_value": "992px",
+    "value": "992px",
+    "css_value": "992px",
+    "resolved_css_value": "992px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "system-breakpoint-content-gutter-max",
+    "path": [
+      "system",
+      "breakpoint",
+      "content-gutter-max"
+    ],
+    "type": "dimension",
+    "description": "960px wide content plus 24px of space on each side.",
+    "source_value": "1008px",
+    "value": "1008px",
+    "css_value": "1008px",
+    "resolved_css_value": "1008px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "color-palette-technology-drupal",
+    "path": [
+      "color",
+      "palette",
+      "technology-drupal"
+    ],
+    "type": "color",
+    "description": "technology drupal",
+    "source_value": "#009CDE",
+    "value": "#009CDE",
+    "css_value": "#009CDE",
+    "resolved_css_value": "#009CDE",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "color-palette-technology-laravel",
+    "path": [
+      "color",
+      "palette",
+      "technology-laravel"
+    ],
+    "type": "color",
+    "description": "technology laravel",
+    "source_value": "#FF2D20",
+    "value": "#FF2D20",
+    "css_value": "#FF2D20",
+    "resolved_css_value": "#FF2D20",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "color-palette-technology-react",
+    "path": [
+      "color",
+      "palette",
+      "technology-react"
+    ],
+    "type": "color",
+    "description": "technology react",
+    "source_value": "#61DAFB",
+    "value": "#61DAFB",
+    "css_value": "#61DAFB",
+    "resolved_css_value": "#61DAFB",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "color-palette-full-black",
     "path": [
       "color",
@@ -142,6 +222,22 @@ export const TOKEN_RECORDS = [
     "value": "#000000",
     "css_value": "#000000",
     "resolved_css_value": "#000000",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "color-palette-near-black",
+    "path": [
+      "color",
+      "palette",
+      "near-black"
+    ],
+    "type": "color",
+    "description": "near black",
+    "source_value": "#05070B",
+    "value": "#05070B",
+    "css_value": "#05070B",
+    "resolved_css_value": "#05070B",
     "is_reference": false,
     "reference_name": null
   },
@@ -1912,6 +2008,32 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "motion-easing-underline-reveal-default",
+    "path": [
+      "motion",
+      "easing",
+      "underline-reveal-default"
+    ],
+    "type": "cubicBezier",
+    "description": "Fast entry followed by a gentle settling underline.",
+    "source_value": [
+      0.19,
+      1,
+      0.22,
+      1
+    ],
+    "value": [
+      0.19,
+      1,
+      0.22,
+      1
+    ],
+    "css_value": "cubic-bezier(0.19, 1, 0.22, 1)",
+    "resolved_css_value": "cubic-bezier(0.19, 1, 0.22, 1)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "layout-container-max-tablet-default",
     "path": [
       "layout",
@@ -2040,6 +2162,102 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-call-to-action-background-color",
+    "path": [
+      "component",
+      "call-to-action",
+      "background-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "{color.palette.near-black}",
+    "value": "#05070B",
+    "css_value": "var(--color-palette-near-black)",
+    "resolved_css_value": "#05070B",
+    "is_reference": true,
+    "reference_name": "color-palette-near-black"
+  },
+  {
+    "name": "component-call-to-action-heading-size-min",
+    "path": [
+      "component",
+      "call-to-action",
+      "heading-size-min"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "24px",
+    "value": "24px",
+    "css_value": "24px",
+    "resolved_css_value": "24px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-call-to-action-heading-size-max",
+    "path": [
+      "component",
+      "call-to-action",
+      "heading-size-max"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "96px",
+    "value": "96px",
+    "css_value": "96px",
+    "resolved_css_value": "96px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-call-to-action-heading-letter-spacing",
+    "path": [
+      "component",
+      "call-to-action",
+      "heading-letter-spacing"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "calc(-0.055 * 1em)",
+    "value": "calc(-0.055 * 1em)",
+    "css_value": "calc(-0.055 * 1em)",
+    "resolved_css_value": "calc(-0.055 * 1em)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-call-to-action-heading-line-height",
+    "path": [
+      "component",
+      "call-to-action",
+      "heading-line-height"
+    ],
+    "type": "number",
+    "description": "",
+    "source_value": 1.05,
+    "value": 1.05,
+    "css_value": "1.05",
+    "resolved_css_value": "1.05",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-website-audit-background-color",
+    "path": [
+      "component",
+      "website-audit",
+      "background-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "{color.palette.near-black}",
+    "value": "#05070B",
+    "css_value": "var(--color-palette-near-black)",
+    "resolved_css_value": "#05070B",
+    "is_reference": true,
+    "reference_name": "color-palette-near-black"
+  },
+  {
     "name": "component-status-indicator-size-default",
     "path": [
       "component",
@@ -2152,6 +2370,54 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-game-of-life-example-columns-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "example-columns-default"
+    ],
+    "type": "number",
+    "description": "Standalone canvas defaults; data-user selects the authored dimensions.",
+    "source_value": 5,
+    "value": 5,
+    "css_value": "5",
+    "resolved_css_value": "5",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-example-rows-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "example-rows-default"
+    ],
+    "type": "number",
+    "description": "",
+    "source_value": 5,
+    "value": 5,
+    "css_value": "5",
+    "resolved_css_value": "5",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-example-size-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "example-size-default"
+    ],
+    "type": "number",
+    "description": "Integer zoom scales cell footprints, live squares, and shared borders together.",
+    "source_value": 1,
+    "value": 1,
+    "css_value": "1",
+    "resolved_css_value": "1",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-contact-photo-max-width-default",
     "path": [
       "component",
@@ -2198,6 +2464,22 @@ export const TOKEN_RECORDS = [
     "resolved_css_value": "#000207",
     "is_reference": true,
     "reference_name": "component-hero-section-background-edge-color"
+  },
+  {
+    "name": "component-site-header-link-underline-duration-default",
+    "path": [
+      "component",
+      "site-header",
+      "link-underline-duration-default"
+    ],
+    "type": "duration",
+    "description": "Matches the reference menu's enter and leave timing.",
+    "source_value": "900ms",
+    "value": "900ms",
+    "css_value": "900ms",
+    "resolved_css_value": "900ms",
+    "is_reference": false,
+    "reference_name": null
   },
   {
     "name": "component-site-header-backdrop-color-default",
@@ -2255,11 +2537,27 @@ export const TOKEN_RECORDS = [
       "brand-name-compact-width-default"
     ],
     "type": "dimension",
-    "description": "Reserves only enough inline space for the separate A and I initials.",
+    "description": "Minimum inline space for the separate A and I initials.",
     "source_value": "48px",
     "value": "48px",
     "css_value": "48px",
     "resolved_css_value": "48px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-font-weight-default",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-font-weight-default"
+    ],
+    "type": "number",
+    "description": "Lighter exception for the interactive header identity.",
+    "source_value": 300,
+    "value": 300,
+    "css_value": "300",
+    "resolved_css_value": "300",
     "is_reference": false,
     "reference_name": null
   },
@@ -2383,7 +2681,7 @@ export const TOKEN_RECORDS = [
       "logo-icon-size-default"
     ],
     "type": "dimension",
-    "description": "Prominent specimen size; normal header usage keeps the smaller site-branding token.",
+    "description": "Prominent specimen size for the standalone Logo Icon guideline.",
     "source_value": "96px",
     "value": "96px",
     "css_value": "96px",
@@ -2904,6 +3202,22 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-footer-navigation-yandex-mail-icon-width-default",
+    "path": [
+      "component",
+      "footer-navigation",
+      "yandex-mail-icon-width-default"
+    ],
+    "type": "dimension",
+    "description": "Shared width for both envelope states.",
+    "source_value": "16px",
+    "value": "16px",
+    "css_value": "16px",
+    "resolved_css_value": "16px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-footer-navigation-yandex-mail-icon-height-default",
     "path": [
       "component",
@@ -2911,7 +3225,7 @@ export const TOKEN_RECORDS = [
       "yandex-mail-icon-height-default"
     ],
     "type": "dimension",
-    "description": "Envelope height, matching Gmail's optical size.",
+    "description": "Fixed viewport; artwork stays proportional.",
     "source_value": "12px",
     "value": "12px",
     "css_value": "12px",
@@ -3693,6 +4007,22 @@ export const TOKEN_RECORDS = [
     "value": "320px",
     "css_value": "320px",
     "resolved_css_value": "320px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-article-table-of-content-sidebar-min-width-default",
+    "path": [
+      "component",
+      "article-table-of-content",
+      "sidebar-min-width-default"
+    ],
+    "type": "dimension",
+    "description": "Contents may narrow before the 800px Body column needs to stack.",
+    "source_value": "160px",
+    "value": "160px",
+    "css_value": "160px",
+    "resolved_css_value": "160px",
     "is_reference": false,
     "reference_name": null
   },
@@ -4573,6 +4903,438 @@ export const TOKEN_RECORDS = [
     "value": "40px",
     "css_value": "40px",
     "resolved_css_value": "40px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-surface-page",
+    "path": [
+      "qr-studio",
+      "color",
+      "surface-page"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#141618",
+    "value": "#141618",
+    "css_value": "#141618",
+    "resolved_css_value": "#141618",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-surface-panel",
+    "path": [
+      "qr-studio",
+      "color",
+      "surface-panel"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#1B1D20",
+    "value": "#1B1D20",
+    "css_value": "#1B1D20",
+    "resolved_css_value": "#1B1D20",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-surface-control",
+    "path": [
+      "qr-studio",
+      "color",
+      "surface-control"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#25282B",
+    "value": "#25282B",
+    "css_value": "#25282B",
+    "resolved_css_value": "#25282B",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-surface-hover",
+    "path": [
+      "qr-studio",
+      "color",
+      "surface-hover"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#303438",
+    "value": "#303438",
+    "css_value": "#303438",
+    "resolved_css_value": "#303438",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-border-subtle",
+    "path": [
+      "qr-studio",
+      "color",
+      "border-subtle"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#3D4043",
+    "value": "#3D4043",
+    "css_value": "#3D4043",
+    "resolved_css_value": "#3D4043",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-text-primary",
+    "path": [
+      "qr-studio",
+      "color",
+      "text-primary"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#F3F4F0",
+    "value": "#F3F4F0",
+    "css_value": "#F3F4F0",
+    "resolved_css_value": "#F3F4F0",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-text-muted",
+    "path": [
+      "qr-studio",
+      "color",
+      "text-muted"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#A5ABAE",
+    "value": "#A5ABAE",
+    "css_value": "#A5ABAE",
+    "resolved_css_value": "#A5ABAE",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-accent-primary",
+    "path": [
+      "qr-studio",
+      "color",
+      "accent-primary"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#D3F668",
+    "value": "#D3F668",
+    "css_value": "#D3F668",
+    "resolved_css_value": "#D3F668",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-accent-ink",
+    "path": [
+      "qr-studio",
+      "color",
+      "accent-ink"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#1B2407",
+    "value": "#1B2407",
+    "css_value": "#1B2407",
+    "resolved_css_value": "#1B2407",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-status-good",
+    "path": [
+      "qr-studio",
+      "color",
+      "status-good"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#BAE370",
+    "value": "#BAE370",
+    "css_value": "#BAE370",
+    "resolved_css_value": "#BAE370",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-status-error",
+    "path": [
+      "qr-studio",
+      "color",
+      "status-error"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#FA9784",
+    "value": "#FA9784",
+    "css_value": "#FA9784",
+    "resolved_css_value": "#FA9784",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-status-warn",
+    "path": [
+      "qr-studio",
+      "color",
+      "status-warn"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#EDCA7F",
+    "value": "#EDCA7F",
+    "css_value": "#EDCA7F",
+    "resolved_css_value": "#EDCA7F",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-paper-white",
+    "path": [
+      "qr-studio",
+      "color",
+      "paper-white"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#FFFFFF",
+    "value": "#FFFFFF",
+    "css_value": "#FFFFFF",
+    "resolved_css_value": "#FFFFFF",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-ink-black",
+    "path": [
+      "qr-studio",
+      "color",
+      "ink-black"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#000000",
+    "value": "#000000",
+    "css_value": "#000000",
+    "resolved_css_value": "#000000",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-guide-lock",
+    "path": [
+      "qr-studio",
+      "color",
+      "guide-lock"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#D36930",
+    "value": "#D36930",
+    "css_value": "#D36930",
+    "resolved_css_value": "#D36930",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-lock-match",
+    "path": [
+      "qr-studio",
+      "color",
+      "lock-match"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#17803D",
+    "value": "#17803D",
+    "css_value": "#17803D",
+    "resolved_css_value": "#17803D",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-lock-conflict",
+    "path": [
+      "qr-studio",
+      "color",
+      "lock-conflict"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#DC2626",
+    "value": "#DC2626",
+    "css_value": "#DC2626",
+    "resolved_css_value": "#DC2626",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-guide-structure",
+    "path": [
+      "qr-studio",
+      "color",
+      "guide-structure"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#258BAD",
+    "value": "#258BAD",
+    "css_value": "#258BAD",
+    "resolved_css_value": "#258BAD",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-guide-grid",
+    "path": [
+      "qr-studio",
+      "color",
+      "guide-grid"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#232C341F",
+    "value": "#232C341F",
+    "css_value": "#232C341F",
+    "resolved_css_value": "#232C341F",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-guide-cursor",
+    "path": [
+      "qr-studio",
+      "color",
+      "guide-cursor"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#A542E1",
+    "value": "#A542E1",
+    "css_value": "#A542E1",
+    "resolved_css_value": "#A542E1",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-guide-expected",
+    "path": [
+      "qr-studio",
+      "color",
+      "guide-expected"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#A0A0A0",
+    "value": "#A0A0A0",
+    "css_value": "#A0A0A0",
+    "resolved_css_value": "#A0A0A0",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-primary-hover",
+    "path": [
+      "qr-studio",
+      "color",
+      "primary-hover"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#E2FF91",
+    "value": "#E2FF91",
+    "css_value": "#E2FF91",
+    "resolved_css_value": "#E2FF91",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-shadow-soft",
+    "path": [
+      "qr-studio",
+      "color",
+      "shadow-soft"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#00000026",
+    "value": "#00000026",
+    "css_value": "#00000026",
+    "resolved_css_value": "#00000026",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-text-subdued",
+    "path": [
+      "qr-studio",
+      "color",
+      "text-subdued"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#787E82",
+    "value": "#787E82",
+    "css_value": "#787E82",
+    "resolved_css_value": "#787E82",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-dialog-backdrop",
+    "path": [
+      "qr-studio",
+      "color",
+      "dialog-backdrop"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#000000A6",
+    "value": "#000000A6",
+    "css_value": "#000000A6",
+    "resolved_css_value": "#000000A6",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-shadow-strong",
+    "path": [
+      "qr-studio",
+      "color",
+      "shadow-strong"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#0000004C",
+    "value": "#0000004C",
+    "css_value": "#0000004C",
+    "resolved_css_value": "#0000004C",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-invalid-highlight",
+    "path": [
+      "qr-studio",
+      "color",
+      "invalid-highlight"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#FA978452",
+    "value": "#FA978452",
+    "css_value": "#FA978452",
+    "resolved_css_value": "#FA978452",
     "is_reference": false,
     "reference_name": null
   }

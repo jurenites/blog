@@ -78,6 +78,8 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
   ];
   $how_i_work_menu_items = [];
   $information_menu_items = [];
+  $legal_menu_items = [];
+  $privacy_policy_url = Url::fromUserInput('/privacy-policy')->toString();
   $route_match = \Drupal::routeMatch();
   $parent_breadcrumb = \Drupal::service('breadcrumb')->build($route_match);
   $ancestor_urls = array_map(
@@ -102,7 +104,10 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
       $footer_menu_item['attributes']->setAttribute('aria-current', $is_current_page ? 'page' : 'location');
     }
     $footer_item_title = strtolower(strip_tags((string) ($footer_menu_item['title'] ?? '')));
-    if (in_array($footer_item_title, ['cookbook', 'guidelines'], TRUE)) {
+    if ($footer_item_url === $privacy_policy_url) {
+      $legal_menu_items[] = $footer_menu_item;
+    }
+    elseif (in_array($footer_item_title, ['cookbook', 'guidelines'], TRUE)) {
       if ($footer_item_title === 'guidelines') {
         $footer_menu_item['title'] = t('Guideline');
       }
@@ -114,6 +119,7 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
   }
   $menu_variables['how_i_work_menu_items'] = $how_i_work_menu_items;
   $menu_variables['information_menu_items'] = $information_menu_items;
+  $menu_variables['legal_menu_items'] = $legal_menu_items;
   $menu_variables['how_i_work_links'] = [
     [
       'link_label' => 'GitHub',

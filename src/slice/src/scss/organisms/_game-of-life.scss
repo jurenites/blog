@@ -25,6 +25,30 @@
   cursor: crosshair;
 }
 
+// Standalone examples share the bitmap renderer; all presentation stays in SCSS.
+// Bounds match parse_life_example. Shared borders scale with the live squares.
+.game-of-life__canvas[data-user] {
+  width: calc((var(--component-game-of-life-example-columns-default) * (var(--component-game-of-life-cell-size-default) - var(--component-game-of-life-border-size-default)) + var(--component-game-of-life-border-size-default)) * var(--component-game-of-life-example-size-default));
+  height: calc((var(--component-game-of-life-example-rows-default) * (var(--component-game-of-life-cell-size-default) - var(--component-game-of-life-border-size-default)) + var(--component-game-of-life-border-size-default)) * var(--component-game-of-life-example-size-default));
+  max-width: none;
+
+  @for $grid-count from 3 through 100 {
+    &[data-life-columns="#{$grid-count}"] {
+      --component-game-of-life-example-columns-default: #{$grid-count};
+    }
+
+    &[data-life-rows="#{$grid-count}"] {
+      --component-game-of-life-example-rows-default: #{$grid-count};
+    }
+  }
+
+  @for $zoom-size from 1 through 8 {
+    &[data-life-size="#{$zoom-size}"] {
+      --component-game-of-life-example-size-default: #{$zoom-size};
+    }
+  }
+}
+
 .game-of-life__status {
   display: inline-flex;
   gap: calc(var(--space-scale-base-gap) / 2);
@@ -38,6 +62,49 @@
   font-variant-numeric: tabular-nums;
   pointer-events: none;
   @include tools.typography-overline;
+}
+
+.game-of-life-examples {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  > caption {
+    margin-block-end: calc(var(--space-scale-base-gap) * 2);
+    text-align: left;
+  }
+
+  > thead > tr > th,
+  > tbody > tr > th,
+  > tbody > tr > td {
+    padding: calc(var(--space-scale-base-gap) * 2);
+    border-block-end: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+    vertical-align: top;
+    text-align: left;
+  }
+
+  > tbody > tr > th {
+    width: 1%;
+  }
+
+  > tbody > tr > th > h3 {
+    margin: 0 0 calc(var(--space-scale-base-gap) * 2);
+    @include tools.typography-headline-5;
+  }
+
+  > tbody > tr > td > p {
+    margin: 0;
+  }
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .game-of-life-examples {
+    > thead > tr > th,
+    > tbody > tr > th,
+    > tbody > tr > td {
+      padding: var(--space-scale-base-gap);
+    }
+  }
 }
 
 .game-of-life__generation {

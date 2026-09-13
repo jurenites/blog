@@ -1,0 +1,65 @@
+@use "../tools";
+
+.home-introduction {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--layout-content-max-wide-default);
+  margin-inline: auto;
+  padding: calc(var(--space-scale-base-gap) * 8) var(--layout-gutter-desktop-default);
+}
+
+.home-introduction__heading > .two-tone-heading {
+  @include tools.typography-headline-2;
+
+  line-height: 1.1;
+  text-wrap: initial;
+}
+
+.home-introduction__details {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: calc(var(--space-scale-base-gap) * 4);
+  align-items: start;
+  margin-block-start: calc(var(--space-scale-base-gap) * 6);
+  padding-block-start: calc(var(--space-scale-base-gap) * 3);
+  border-block-start: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
+}
+
+// A small pixel cross echoes the site's pixel typography and experiments.
+.home-introduction__accent {
+  display: block;
+  width: calc(var(--space-scale-base-gap) * 3);
+  aspect-ratio: 1;
+  margin-block-start: var(--space-scale-base-gap);
+  background: var(--color-palette-brand-tertiary);
+  clip-path: polygon(33% 0, 66% 0, 66% 33%, 100% 33%, 100% 66%, 66% 66%, 66% 100%, 33% 100%, 33% 66%, 0 66%, 0 33%, 33% 33%);
+}
+
+.home-introduction__description {
+  min-width: 0;
+  color: var(--theme-dark-text-secondary-default);
+  overflow-wrap: anywhere;
+}
+
+.home-introduction__description p {
+  margin: 0;
+  line-height: 1.65;
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .home-introduction {
+    padding: calc(var(--space-scale-base-gap) * 4) var(--layout-gutter-mobile-default);
+  }
+
+  .home-introduction__heading > .two-tone-heading {
+    @include tools.typography-headline-3;
+
+    line-height: 1.15;
+  }
+
+  .home-introduction__details {
+    grid-template-columns: auto 1fr;
+    gap: calc(var(--space-scale-base-gap) * 2);
+    margin-block-start: calc(var(--space-scale-base-gap) * 4);
+  }
+}

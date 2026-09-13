@@ -10,7 +10,13 @@
   --system-breakpoint-desktop-min: 1280px;
   --system-breakpoint-desktop-max: 1920px;
   --system-breakpoint-site-header-inline-min: 1440px;
+  --system-breakpoint-article-sidebar-min: 992px;
+  --system-breakpoint-content-gutter-max: 1008px;
+  --color-palette-technology-drupal: #009CDE;
+  --color-palette-technology-laravel: #FF2D20;
+  --color-palette-technology-react: #61DAFB;
   --color-palette-full-black: #000000;
+  --color-palette-near-black: #05070B;
   --color-palette-dark-black: #020618;
   --color-palette-black: #0F172B;
   --color-palette-light-black: #1D293D;
@@ -116,6 +122,7 @@
   --motion-easing-accelerate-default: cubic-bezier(0.4, 0, 1, 1);
   --motion-easing-sharp-default: cubic-bezier(0.4, 0, 0.6, 1);
   --motion-easing-pulse-default: cubic-bezier(0.1, 0.5, 0.6, 1);
+  --motion-easing-underline-reveal-default: cubic-bezier(0.19, 1, 0.22, 1);
   --layout-container-max-tablet-default: 640px;
   --layout-container-max-desktop-default: 1440px;
   --layout-content-max-blog-default: 800px;
@@ -124,6 +131,12 @@
   --layout-gutter-mobile-default: 16px;
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
+  --component-call-to-action-background-color: var(--color-palette-near-black);
+  --component-call-to-action-heading-size-min: 24px;
+  --component-call-to-action-heading-size-max: 96px;
+  --component-call-to-action-heading-letter-spacing: calc(-0.055 * 1em);
+  --component-call-to-action-heading-line-height: 1.05;
+  --component-website-audit-background-color: var(--color-palette-near-black);
   --component-status-indicator-size-default: 8px;
   --component-status-preview-height-default: 480px;
   --component-game-of-life-counter-digit-width-default: 5px;
@@ -131,13 +144,18 @@
   --component-game-of-life-live-size-default: 4px;
   --component-game-of-life-border-size-default: 1px;
   --component-game-of-life-control-size-default: 32px;
+  --component-game-of-life-example-columns-default: 5;
+  --component-game-of-life-example-rows-default: 5;
+  --component-game-of-life-example-size-default: 1;
   --component-contact-photo-max-width-default: 1600px;
   --component-contact-photo-edge-fade-width-default: 100px;
   --component-contact-photo-background-color: var(--component-hero-section-background-edge-color);
+  --component-site-header-link-underline-duration-default: 900ms;
   --component-site-header-backdrop-color-default: #00020780;
   --component-site-header-backdrop-blur-default: 12px;
   --component-site-header-backdrop-fade-height-default: 32px;
   --component-site-header-brand-name-compact-width-default: 48px;
+  --component-site-header-brand-name-font-weight-default: 300;
   --component-site-header-brand-name-letter-font-size-start: 32px;
   --component-site-header-brand-name-letter-spacing-start: -2px;
   --component-site-header-brand-name-reveal-duration-default: 325ms;
@@ -178,6 +196,7 @@
   --component-footer-navigation-gmail-gradient-yellow-color: #FEC700;
   --component-footer-navigation-gmail-gradient-light-yellow-color: #FFDB0F;
   --component-footer-navigation-gmail-color-hover: #EA4335;
+  --component-footer-navigation-yandex-mail-icon-width-default: 16px;
   --component-footer-navigation-yandex-mail-icon-height-default: 12px;
   --component-footer-navigation-yandex-mail-color-hover: #FFCC00;
   --component-footer-navigation-yandex-mail-light-yellow-color: #FFDA3E;
@@ -227,6 +246,7 @@
   --component-content-layout-default-width: readable;
   --component-content-layout-sidebar-min-width-default: 240px;
   --component-content-layout-sidebar-max-width-default: 320px;
+  --component-article-table-of-content-sidebar-min-width-default: 160px;
   --component-badge-color-background-neutral-default: var(--color-palette-light-black);
   --component-badge-color-foreground-neutral-default: var(--color-palette-white);
   --component-badge-color-background-gray-default: var(--color-palette-gray);
@@ -280,6 +300,33 @@
   --component-numeric-values-tile-min-height-default: 200px;
   --component-numeric-values-icon-max-width-default: 80px;
   --component-numeric-values-number-font-size-compact: 40px;
+  --qr-studio-color-surface-page: #141618;
+  --qr-studio-color-surface-panel: #1B1D20;
+  --qr-studio-color-surface-control: #25282B;
+  --qr-studio-color-surface-hover: #303438;
+  --qr-studio-color-border-subtle: #3D4043;
+  --qr-studio-color-text-primary: #F3F4F0;
+  --qr-studio-color-text-muted: #A5ABAE;
+  --qr-studio-color-accent-primary: #D3F668;
+  --qr-studio-color-accent-ink: #1B2407;
+  --qr-studio-color-status-good: #BAE370;
+  --qr-studio-color-status-error: #FA9784;
+  --qr-studio-color-status-warn: #EDCA7F;
+  --qr-studio-color-paper-white: #FFFFFF;
+  --qr-studio-color-ink-black: #000000;
+  --qr-studio-color-guide-lock: #D36930;
+  --qr-studio-color-lock-match: #17803D;
+  --qr-studio-color-lock-conflict: #DC2626;
+  --qr-studio-color-guide-structure: #258BAD;
+  --qr-studio-color-guide-grid: #232C341F;
+  --qr-studio-color-guide-cursor: #A542E1;
+  --qr-studio-color-guide-expected: #A0A0A0;
+  --qr-studio-color-primary-hover: #E2FF91;
+  --qr-studio-color-shadow-soft: #00000026;
+  --qr-studio-color-text-subdued: #787E82;
+  --qr-studio-color-dialog-backdrop: #000000A6;
+  --qr-studio-color-shadow-strong: #0000004C;
+  --qr-studio-color-invalid-highlight: #FA978452;
 }
 
 $system-breakpoint-mobile-min: 360px;
@@ -289,6 +336,8 @@ $system-breakpoint-tablet-max: 1279px;
 $system-breakpoint-desktop-min: 1280px;
 $system-breakpoint-desktop-max: 1920px;
 $system-breakpoint-site-header-inline-min: 1440px;
+$system-breakpoint-article-sidebar-min: 992px;
+$system-breakpoint-content-gutter-max: 1008px;
 
 $breakpoints: (
   "mobile-min": 360px,
@@ -298,6 +347,8 @@ $breakpoints: (
   "desktop-min": 1280px,
   "desktop-max": 1920px,
   "site-header-inline-min": 1440px,
+  "article-sidebar-min": 992px,
+  "content-gutter-max": 1008px,
 );
 
 @mixin breakpoint-up($name) {
@@ -454,12 +505,44 @@ $breakpoints: (
   font: var(--typography-overline);
 }
 
+.u-bg-color-palette-technology-drupal {
+  background: var(--color-palette-technology-drupal);
+}
+
+.u-color-color-palette-technology-drupal {
+  color: var(--color-palette-technology-drupal);
+}
+
+.u-bg-color-palette-technology-laravel {
+  background: var(--color-palette-technology-laravel);
+}
+
+.u-color-color-palette-technology-laravel {
+  color: var(--color-palette-technology-laravel);
+}
+
+.u-bg-color-palette-technology-react {
+  background: var(--color-palette-technology-react);
+}
+
+.u-color-color-palette-technology-react {
+  color: var(--color-palette-technology-react);
+}
+
 .u-bg-color-palette-full-black {
   background: var(--color-palette-full-black);
 }
 
 .u-color-color-palette-full-black {
   color: var(--color-palette-full-black);
+}
+
+.u-bg-color-palette-near-black {
+  background: var(--color-palette-near-black);
+}
+
+.u-color-color-palette-near-black {
+  color: var(--color-palette-near-black);
 }
 
 .u-bg-color-palette-dark-black {

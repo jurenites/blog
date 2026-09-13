@@ -1,0 +1,195 @@
+<?php
+
+/**
+ * @file
+ * Moves starter copy into content once, without resetting later editor changes.
+ */
+
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\language\Entity\ContentLanguageSettings;
+use Drupal\views\Entity\View;
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_editorial_install(): void {
+  jurenites_editorial_migrate_content();
+}
+
+/**
+ * Creates the content model and migrates the existing copy exactly once.
+ */
+function jurenites_editorial_migrate_content(): void {
+  if (\Drupal::state()->get('jurenites_editorial.content_migrated', FALSE)) {
+    return;
+  }
+  if (BlockContentType::load('editorial_copy') === NULL) {
+    BlockContentType::create([
+      'id' => 'editorial_copy', 'label' => 'Page copy', 'revision' => TRUE,
+      'description' => 'Editable introductions and empty messages for listing pages.',
+    ])->save();
+  }
+  \Drupal::moduleHandler()->loadInclude('block_content', 'install');
+  block_content_add_body_field('editorial_copy');
+  $body_field = FieldConfig::loadByName('block_content', 'editorial_copy', 'body');
+  $body_field->setTranslatable(TRUE)->save();
+  $form_display = EntityFormDisplay::load('block_content.editorial_copy.default');
+  $form_display
+    ->setComponent('body', ['type' => 'text_textarea_with_summary', 'weight' => 0, 'settings' => ['rows' => 8, 'show_summary' => FALSE]])
+    ->setComponent('status', ['type' => 'boolean_checkbox', 'weight' => 3, 'settings' => ['display_label' => TRUE]])
+    ->save();
+  ContentLanguageSettings::loadByEntityTypeBundle('block_content', 'editorial_copy')
+    ->setLanguageAlterable(TRUE)->setThirdPartySetting('content_translation', 'enabled', TRUE)->save();
+
+  // Existing View copy wins over seed text, including language overrides.
+  foreach (['guidelines', 'frontpage', 'portfolio'] as $view_name) {
+    $view_entity = View::load($view_name);
+    if ($view_entity === NULL) {
+      continue;
+    }
+    $display_records = $view_entity->get('display');
+    foreach ($display_records as $display_name => &$display_record) {
+      foreach (['header', 'footer', 'empty'] as $area_name) {
+        foreach ($display_record['display_options'][$area_name] ?? [] as $area_key => $area_options) {
+          if (!in_array($area_options['plugin_id'] ?? '', ['text', 'text_custom'], TRUE)
+            || !empty($area_options['tokenize'])) {
+            continue;
+          }
+          $content_value = $area_options['content'] ?? '';
+          $body_text = is_array($content_value) ? ($content_value['value'] ?? '') : $content_value;
+          if (trim($body_text) === '') {
+            continue;
+          }
+          $body_format = is_array($content_value) ? $content_value['format'] : 'full_html';
+          $listing_label = ['guidelines' => 'Guidelines', 'frontpage' => 'Blog', 'portfolio' => 'Portfolio'][$view_name];
+          $area_label = ['header' => 'introduction', 'footer' => 'closing text', 'empty' => 'empty message'][$area_name];
+          $display_label = $display_name === 'default' ? '' : ' (' . $display_record['display_title'] . ')';
+          $copy_block = jurenites_editorial_create_copy($listing_label . ' ' . $area_label . $display_label, $body_text, $body_format);
+          $config_path = "display.$display_name.display_options.$area_name.$area_key";
+          foreach (\Drupal::languageManager()->getLanguages() as $language_id => $language_entity) {
+            if ($language_id === $copy_block->language()->getId()) {
+              continue;
+            }
+            $language_override = \Drupal::languageManager()->getLanguageConfigOverride($language_id, 'views.view.' . $view_name);
+            $translated_value = $language_override->get($config_path . '.content');
+            if ($translated_value !== NULL) {
+              $translated_body = is_array($translated_value) ? ($translated_value['value'] ?? '') : $translated_value;
+              $translated_block = $copy_block->hasTranslation($language_id)
+                ? $copy_block->getTranslation($language_id)
+                : $copy_block->addTranslation($language_id, ['info' => $copy_block->label()]);
+              $translated_block->set('body', ['value' => $translated_body, 'format' => $body_format])->save();
+              $language_override->clear($config_path)->save();
+            }
+          }
+          $display_record['display_options'][$area_name][$area_key] = jurenites_editorial_area_options($area_key, $copy_block, (bool) ($area_options['empty'] ?? TRUE));
+        }
+      }
+    }
+    unset($display_record);
+    $view_entity->set('display', $display_records)->save();
+  }
+
+  $videos_view = View::load('frontpage');
+  if ($videos_view !== NULL && isset($videos_view->get('display')['page_3'])) {
+    $display_records = $videos_view->get('display');
+    $video_options = &$display_records['page_3']['display_options'];
+    $intro_block = jurenites_editorial_create_copy('Videos introduction', 'These are videos I’ve enjoyed and think are worth watching to learn something new. Some explore topics I haven’t covered elsewhere on this site.');
+    $video_options['header'] = ($video_options['defaults']['header'] ?? TRUE)
+      ? ($display_records['default']['display_options']['header'] ?? []) : ($video_options['header'] ?? []);
+    $video_options['header']['editorial_introduction'] = jurenites_editorial_area_options('editorial_introduction', $intro_block);
+    if (($video_options['defaults']['empty'] ?? TRUE) || empty($video_options['empty'])) {
+      $empty_block = jurenites_editorial_create_copy('Videos empty message', 'No videos have been added for this interest yet.');
+      $video_options['empty'] = ['editorial_empty' => jurenites_editorial_area_options('editorial_empty', $empty_block)];
+    }
+    $video_options['defaults']['header'] = FALSE;
+    $video_options['defaults']['empty'] = FALSE;
+    unset($video_options);
+    $videos_view->set('display', $display_records)->save();
+  }
+
+  jurenites_editorial_add_text_field('block_content', 'skills_profile', 'field_skills_scale', 'Rating scale explanation', '1.0 Basic awareness · 2.0 Work with guidance · 3.0 Independent routine work · 4.0 Solve complex problems · 5.0 Deep expertise. Decimals express a subjective estimate, not a test result. Project experience and current confidence are different things.', 5);
+  jurenites_editorial_add_text_field('block_content', 'skills_profile', 'field_skills_draft_note', 'Draft ratings note', 'Draft confidence / 5 · provisional estimates, pending my review', 6);
+  jurenites_editorial_add_text_field('paragraph', 'pixel_glyph_editor', 'field_editor_instructions', 'Instructions', 'Click, tap, use Space or Enter, or drag across cells. Reloading starts from a blank grid.', 0);
+  \Drupal::state()->set('jurenites_editorial.content_migrated', TRUE);
+}
+
+/**
+ * Creates one named block; interrupted migrations reuse previously saved copy.
+ */
+function jurenites_editorial_create_copy(string $block_label, string $body_text, string $body_format = 'basic_html'): BlockContent {
+  $block_storage = \Drupal::entityTypeManager()->getStorage('block_content');
+  $matching_blocks = $block_storage->loadByProperties(['type' => 'editorial_copy', 'info' => $block_label]);
+  if ($matching_blocks !== []) {
+    return reset($matching_blocks);
+  }
+  $copy_block = BlockContent::create([
+    'type' => 'editorial_copy', 'info' => $block_label, 'langcode' => 'en',
+    'status' => TRUE, 'reusable' => TRUE,
+    'body' => ['value' => $body_text, 'format' => $body_format],
+  ]);
+  foreach (\Drupal::languageManager()->getLanguages() as $language_id => $language_entity) {
+    if ($language_id !== 'en') {
+      $translated_body = (string) \Drupal::translation()->translate($body_text, [], ['langcode' => $language_id]);
+      if ($translated_body !== $body_text) {
+        $copy_block->addTranslation($language_id, ['info' => $block_label, 'body' => ['value' => $translated_body, 'format' => $body_format]]);
+      }
+    }
+  }
+  $copy_block->save();
+  return $copy_block;
+}
+
+/**
+ * Uses a UUID-based block reference with the normal entity access checks.
+ */
+function jurenites_editorial_area_options(string $area_key, BlockContent $copy_block, bool $show_empty = TRUE): array {
+  return [
+    'id' => $area_key, 'table' => 'views', 'field' => 'editorial_block',
+    'relationship' => 'none', 'group_type' => 'group', 'admin_label' => $copy_block->label(),
+    'plugin_id' => 'editorial_block', 'empty' => $show_empty, 'target' => $copy_block->uuid(),
+    'view_mode' => 'full', 'tokenize' => FALSE, 'bypass_access' => FALSE,
+  ];
+}
+
+/**
+ * Adds an optional translated text field and backfills existing records once.
+ */
+function jurenites_editorial_add_text_field(string $entity_type, string $bundle_name, string $field_name, string $field_label, string $starter_text, int $field_weight): void {
+  $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
+  if ($field_storage === NULL) {
+    $field_storage = FieldStorageConfig::create(['entity_type' => $entity_type, 'field_name' => $field_name, 'type' => 'string_long', 'translatable' => TRUE]);
+    $field_storage->save();
+  }
+  if (FieldConfig::loadByName($entity_type, $bundle_name, $field_name) !== NULL) {
+    return;
+  }
+  FieldConfig::create([
+    'field_storage' => $field_storage, 'bundle' => $bundle_name, 'label' => $field_label,
+    'translatable' => TRUE, 'default_value' => [['value' => $starter_text]],
+  ])->save();
+  EntityFormDisplay::load("$entity_type.$bundle_name.default")
+    ->setComponent($field_name, ['type' => 'string_textarea', 'weight' => $field_weight])->save();
+  $view_display = EntityViewDisplay::load("$entity_type.$bundle_name.default");
+  if ($entity_type === 'paragraph') {
+    $view_display->setComponent($field_name, ['type' => 'basic_string', 'label' => 'hidden', 'weight' => $field_weight])->save();
+  }
+  else {
+    $view_display->removeComponent($field_name)->save();
+  }
+  $entity_storage = \Drupal::entityTypeManager()->getStorage($entity_type);
+  $bundle_key = $entity_storage->getEntityType()->getKey('bundle');
+  foreach ($entity_storage->loadByProperties([$bundle_key => $bundle_name]) as $content_entity) {
+    foreach ($content_entity->getTranslationLanguages() as $language_id => $language_entity) {
+      $translated_entity = $content_entity->getTranslation($language_id);
+      $translated_entity->set($field_name, (string) \Drupal::translation()->translate($starter_text, [], ['langcode' => $language_id]));
+    }
+    // Keep embedded Paragraph revision references valid; only this new field is filled.
+    $content_entity->setNewRevision(FALSE);
+    $content_entity->save();
+  }
+}

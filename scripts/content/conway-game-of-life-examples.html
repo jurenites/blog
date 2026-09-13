@@ -1,0 +1,51 @@
+<p>These live examples show three kinds of behaviour: still lifes, oscillators, and a travelling glider. Each board has 6 rows and 6 columns at 4× zoom. Move your pointer over a board to add living cells and change the pattern; reload the page to restore all examples. Opposite edges connect, so the glider can leave one side and return from the other.</p>
+<table class="game-of-life-examples">
+  <caption>Small patterns in Conway’s Game of Life</caption>
+  <thead>
+    <tr><th scope="col">Pattern</th><th scope="col">What to watch</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">
+        <h3>Block</h3>
+        <canvas class="game-of-life__canvas" data-user='{"width":6,"height":6,"size":4,"alive":["c3","d3","c4","d4"]}' role="img" aria-label="Block: a stable two-by-two square. Draw cells with the pointer; reload to restore.">Live Block example. Enable JavaScript to interact.</canvas>
+      </th>
+      <td><p><strong>Still life · 4 living cells.</strong> A 2×2 square stays unchanged. Every living cell has three living neighbours, and no empty cell has exactly three.</p></td>
+    </tr>
+    <tr>
+      <th scope="row">
+        <h3>Blinker</h3>
+        <canvas class="game-of-life__canvas" data-user='{"width":6,"height":6,"size":4,"alive":["b3","c3","d3"]}' role="img" aria-label="Blinker: a three-cell line alternating between horizontal and vertical. Draw cells with the pointer; reload to restore.">Live Blinker example. Enable JavaScript to interact.</canvas>
+      </th>
+      <td><p><strong>Oscillator · period 2.</strong> A 1×3 horizontal line becomes a 3×1 vertical line, then returns. Only the middle cell survives each change; the two end cells are replaced.</p></td>
+    </tr>
+    <tr>
+      <th scope="row">
+        <h3>Glider</h3>
+        <canvas class="game-of-life__canvas" data-user='{"width":6,"height":6,"size":4,"alive":["b3","c4","d2","d3","d4"]}' role="img" aria-label="Glider: five cells travelling diagonally across a wrapping board. Draw cells with the pointer; reload to restore.">Live Glider example. Enable JavaScript to interact.</canvas>
+      </th>
+      <td><p><strong>Spaceship · 4 phases.</strong> Five living cells change shape and move one cell diagonally every four generations. On this wrapping 6×6 board, the undisturbed glider returns to its starting position after 24 generations.</p></td>
+    </tr>
+    <tr>
+      <th scope="row">
+        <h3>Beehive</h3>
+        <canvas class="game-of-life__canvas" data-user='{"width":6,"height":6,"size":4,"alive":["c2","d2","b3","e3","c4","d4"]}' role="img" aria-label="Beehive: a stable six-cell hollow shape. Draw cells with the pointer; reload to restore.">Live Beehive example. Enable JavaScript to interact.</canvas>
+      </th>
+      <td><p><strong>Still life · 6 living cells.</strong> A hollow shape remains unchanged. Its living cells survive while the empty centre stays empty.</p></td>
+    </tr>
+    <tr>
+      <th scope="row">
+        <h3>Toad</h3>
+        <canvas class="game-of-life__canvas" data-user='{"width":6,"height":6,"size":4,"alive":["c3","d3","e3","b4","c4","d4"]}' role="img" aria-label="Toad: two offset three-cell rows alternating between two shapes. Draw cells with the pointer; reload to restore.">Live Toad example. Enable JavaScript to interact.</canvas>
+      </th>
+      <td><p><strong>Oscillator · period 2.</strong> Two offset rows of three cells open into a wider shape, then close again. The pattern repeats every two generations.</p></td>
+    </tr>
+    <tr>
+      <th scope="row">
+        <h3>Boat</h3>
+        <canvas class="game-of-life__canvas" data-user='{"width":6,"height":6,"size":4,"alive":["b2","c2","b3","d3","c4"]}' role="img" aria-label="Boat: a stable five-cell shape. Draw cells with the pointer; reload to restore.">Live Boat example. Enable JavaScript to interact.</canvas>
+      </th>
+      <td><p><strong>Still life · 5 living cells.</strong> This small asymmetric shape stays unchanged. Like the glider, it has five living cells, but their arrangement produces stillness instead of travel.</p></td>
+    </tr>
+  </tbody>
+</table>

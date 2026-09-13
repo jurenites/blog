@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 1.62.1
-Reviewed: 2026-09-11
+Version: 1.77.0
+Reviewed: 2026-09-12
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -27,6 +27,12 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   component behavior, no documentation bump is required.
 
 ## Current Source Contract
+
+- Listing introductions and empty messages use revisioned Page copy Content
+  Blocks. Skills explanations and pixel instructions belong to content fields;
+  one administrator pencil appears on its hovered content region; menu items turn
+  white only on hover or keyboard focus. See the editing and
+  migration contract in `drupal-content-model.md`.
 
 - The agreed workflow follows the Cookbook's twelve flexible milestones, with
   feedback returning to affected decisions. The proposed visual testing layer

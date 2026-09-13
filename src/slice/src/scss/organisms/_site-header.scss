@@ -38,10 +38,9 @@
   &__brand {
     position: relative;
     z-index: 1;
-    max-width: var(--component-site-header-brand-name-compact-width-default);
     display: inline-flex;
     align-items: center;
-    gap: calc(var(--space-scale-base-gap) * 2);
+    padding: 0 var(--space-scale-base-gap);
     justify-self: start;
     min-width: 0;
     color: var(--color-palette-full-white);
@@ -51,28 +50,29 @@
     &:hover,
     &:focus-visible {
       background-color: var(--theme-dark-surface-background-elevation-level-1);
+      color: var(--color-palette-full-white);
+    }
+
+    &:focus-visible {
+      @include tools.focus-ring;
     }
   }
 
   &__brand-name {
     position: relative;
-    flex: 0 0 var(--component-site-header-brand-name-compact-width-default);
-    inline-size: var(--component-site-header-brand-name-compact-width-default);
-    block-size: 1.2em;
-    padding-right: var(--space-scale-base-gap);
+    flex: 0 0 auto;
+    min-inline-size: var(--component-site-header-brand-name-compact-width-default);
+    inline-size: max-content;
     color: var(--color-palette-full-white);
     @include tools.typography-headline-3;
+    font-weight: var(--component-site-header-brand-name-font-weight-default);
   }
 
   &__brand-name-short {
-    position: absolute;
-    inset-block-start: 50%;
-    inset-inline-start: 0;
+    position: relative;
     display: flex;
     align-items: baseline;
     gap: var(--space-scale-two);
-    pointer-events: none;
-    transform: translateY(-50%);
     white-space: nowrap;
     transition-property: gap;
     transition-duration: var(--component-site-header-brand-name-reveal-duration-default);
@@ -141,17 +141,6 @@
     &__brand:focus-visible &__brand-name-word--last &__brand-name-letter:nth-child(#{$letter-index}) {
       transition-delay: brand-name-transition-delay($letter-index + 7);
     }
-  }
-
-  &__logo {
-    display: block;
-    flex-shrink: 0;
-    width: calc(var(--space-scale-base-gap) * 6);
-    height: calc(var(--space-scale-base-gap) * 6);
-  }
-
-  &__logo--lego {
-    object-fit: contain;
   }
 
   &__navigation {
@@ -234,13 +223,35 @@
     &[aria-current="page"],
     &.is-active {
       color: var(--color-palette-brand-tertiary);
-      text-decoration: underline;
-      text-underline-offset: var(--space-scale-two);
     }
 
     &:focus-visible {
       @include tools.focus-ring;
     }
+  }
+
+  &__brand-name-short,
+  &__link-text {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset-inline: 0;
+      inset-block-end: calc(var(--space-scale-two) * -2);
+      border-block-end: var(--shape-border-width-hairline-default) solid currentColor;
+      pointer-events: none;
+      transform: scaleX(0);
+      transform-origin: right center;
+      transition: transform var(--component-site-header-link-underline-duration-default) var(--motion-easing-underline-reveal-default);
+    }
+  }
+
+  &__brand:hover &__brand-name-short::after,
+  &__brand:focus-visible &__brand-name-short::after,
+  &__link:hover &__link-text::after {
+    transform: scaleX(1);
+    transform-origin: left center;
   }
 
   &__language-select {
@@ -455,7 +466,9 @@ body.has-open-site-menu {
     transition-delay: var(--motion-duration-instant-default);
   }
 
-  .site-header__menu-line {
+  .site-header__brand-name-short::after,
+  .site-header__menu-line,
+  .site-header__link-text::after {
     transition-duration: var(--motion-duration-instant-default);
   }
 }

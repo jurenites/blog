@@ -3,7 +3,7 @@
   <header class="pixel-glyph-editor__header">
     {# <p class="pixel-glyph-editor__eyebrow">{{ 'Interactive grid'|t }}</p> #}
     <h2 id="{{ component_id }}-title">{{ 'Draw a 4×4 glyph'|t }}</h2>
-    <p>{{ 'Click, tap, use Space or Enter, or drag across cells. Reloading starts from a blank grid.'|t }}</p>
+    {{ editor_instructions }}
   </header>
   <div class="pixel-glyph-editor__workspace">
     <div class="pixel-glyph-editor__grid" role="group" aria-label="{{ '4 by 4 pixel drawing grid'|t }}">

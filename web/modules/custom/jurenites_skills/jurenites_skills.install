@@ -67,8 +67,6 @@ function jurenites_skills_setup(): void {
     ParagraphsType::create(['id' => 'technology_skill', 'label' => 'Technology skill'])->save();
   }
   foreach ([
-    'field_skills_heading' => ['Section heading', 'string', 0],
-    'field_skills_intro' => ['Introduction', 'string_long', 1],
     'field_skills_note' => ['Supporting experience', 'string_long', 4],
   ] as $field_name => $field_details) {
     jurenites_skills_add_field('block_content', 'skills_profile', $field_name, [
@@ -126,8 +124,6 @@ function jurenites_skills_setup(): void {
     BlockContent::create([
       'uuid' => $block_uuid, 'type' => 'skills_profile', 'langcode' => 'en',
       'info' => 'About web development skills', 'reusable' => TRUE,
-      'field_skills_heading' => $seed_content['section_heading'],
-      'field_skills_intro' => $seed_content['section_description'],
       'field_skills_note' => $seed_content['supporting_note'],
       'field_skills_reviewed' => FALSE, 'field_skills_items' => $skill_items,
     ])->save();

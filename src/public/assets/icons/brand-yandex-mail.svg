@@ -1,4 +1,5 @@
-<svg width="16" height="11" viewBox="0 0 16 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g display="var(--icon-yandex-mail-default-display, inline)" transform="translate(0 0.5)">
 <g clip-path="url(#clip0_1147_80)">
 <g opacity="0.81">
 <path d="M5.65234 5.17578L0 11.0127V0L5.65234 5.17578Z" fill="white"/>
@@ -12,4 +13,8 @@
 <rect width="16" height="11" fill="white"/>
 </clipPath>
 </defs>
+</g>
+<g display="var(--icon-yandex-mail-color-display, none)" transform="matrix(0.04 0 0 0.04 -2.24 -4.24)">
+<g fill="none" fill-rule="evenodd"><path fill="var(--component-footer-navigation-yandex-mail-light-yellow-color)" d="M56 402.667h400V109.333H56z"/><path fill="var(--component-footer-navigation-yandex-mail-color-hover)" d="M256 182.667l-200 220h400z"/><path d="M456 109.333L276.848 284.116c-11.675 11.4-30.02 11.4-41.696 0L56 109.333h400z" fill="var(--component-footer-navigation-yandex-mail-red-color)"/></g>
+</g>
 </svg>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html{{ html_attributes }} style="background-color: var(--theme-dark-surface-background-page, black);">
+<html{{ html_attributes }}>
   <head>
     <head-placeholder token="{{ placeholder_token }}">
     <title>{{ head_title|safe_join(' | ') }}</title>
     <css-placeholder token="{{ placeholder_token }}">
     <js-placeholder token="{{ placeholder_token }}">
   </head>
-  <body{{ attributes }} style="background-color: var(--theme-dark-surface-background-page, black);">
+  <body{{ attributes }}>
     <a href="#main-content" class="skip-to-content button button--primary">
       {{ 'Skip to main content'|t }}
     </a>

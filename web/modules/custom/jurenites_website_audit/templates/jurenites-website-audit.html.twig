@@ -1,0 +1,12 @@
+<section class="website-audit">
+  <div class="website-audit__report">{{ report_content }}</div>
+  <div class="website-audit__offer">
+    <div class="website-audit__offer-copy">{{ offer_content }}</div>
+    {% if business_days %}
+      <p class="website-audit__turnaround">{{ 'Turnaround time:'|t }}
+        <time class="website-audit__duration" datetime="P{{ business_days }}D">{{ '@count business days'|t({'@count': business_days}) }}</time>
+      </p>
+    {% endif %}
+    {{ order_button }}
+  </div>
+</section>

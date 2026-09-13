@@ -162,3 +162,10 @@ function jurenites_admin_post_update_allow_own_article_comment_deletion(): strin
   return t('Content editors can delete their own Article comments through the contextual menu.');
 }
 
+/**
+ * Moves editorial template copy into CMS-owned records on existing sites.
+ */
+function jurenites_admin_post_update_enable_editorial_content(): string {
+  \Drupal::service('module_installer')->install(['jurenites_editorial']);
+  return t('Created editable page-copy blocks and component instructions.');
+}

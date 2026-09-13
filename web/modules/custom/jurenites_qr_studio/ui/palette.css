@@ -1,0 +1,30 @@
+/* Generated from src/token/tokens.yaml by build-qr-studio-palette.mjs. */
+:root {
+  --qr-studio-color-surface-page: #141618;
+  --qr-studio-color-surface-panel: #1B1D20;
+  --qr-studio-color-surface-control: #25282B;
+  --qr-studio-color-surface-hover: #303438;
+  --qr-studio-color-border-subtle: #3D4043;
+  --qr-studio-color-text-primary: #F3F4F0;
+  --qr-studio-color-text-muted: #A5ABAE;
+  --qr-studio-color-accent-primary: #D3F668;
+  --qr-studio-color-accent-ink: #1B2407;
+  --qr-studio-color-status-good: #BAE370;
+  --qr-studio-color-status-error: #FA9784;
+  --qr-studio-color-status-warn: #EDCA7F;
+  --qr-studio-color-paper-white: #FFFFFF;
+  --qr-studio-color-ink-black: #000000;
+  --qr-studio-color-guide-lock: #D36930;
+  --qr-studio-color-lock-match: #17803D;
+  --qr-studio-color-lock-conflict: #DC2626;
+  --qr-studio-color-guide-structure: #258BAD;
+  --qr-studio-color-guide-grid: #232C341F;
+  --qr-studio-color-guide-cursor: #A542E1;
+  --qr-studio-color-guide-expected: #A0A0A0;
+  --qr-studio-color-primary-hover: #E2FF91;
+  --qr-studio-color-shadow-soft: #00000026;
+  --qr-studio-color-text-subdued: #787E82;
+  --qr-studio-color-dialog-backdrop: #000000A6;
+  --qr-studio-color-shadow-strong: #0000004C;
+  --qr-studio-color-invalid-highlight: #FA978452;
+}

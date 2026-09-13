@@ -1,0 +1,7 @@
+name: Jurenites Technology Stack
+type: module
+description: Categorized technology logos for the About page.
+core_version_requirement: ^11
+package: Jurenites
+dependencies:
+  - drupal:block

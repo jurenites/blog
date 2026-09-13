@@ -1,9 +1,6 @@
 import { site_header_markup } from "./site-header.markup.js";
 import { hero_section_markup } from "../hero-section/hero-section.markup.js";
 
-const BRAND_LOGO_URL = "/assets/brand/jurenites-logo.svg";
-const LEGO_LOGO_URL = "/assets/images/jurenites-lego-logo-square-v2.png";
-const USES_LEGO_LOGO = false;
 const BRAND_NAME = "Alexander Ilivanov — home";
 const BRAND_FULL_NAME = "Alexander Ilivanov";
 const NAVIGATION_LABELS = "Home, About, Portfolio, Blog, Contact";
@@ -25,8 +22,6 @@ export default {
   argTypes: {
     brand_name: { control: "text" },
     brand_full_name: { control: "text" },
-    brand_logo_url: { control: "text" },
-    uses_lego_logo: { control: "boolean" },
     navigation_labels: { control: "text" },
     language_labels: { control: "text" },
     menu_expanded: { control: "boolean" },
@@ -34,8 +29,6 @@ export default {
   args: {
     brand_name: BRAND_NAME,
     brand_full_name: BRAND_FULL_NAME,
-    brand_logo_url: BRAND_LOGO_URL,
-    uses_lego_logo: USES_LEGO_LOGO,
     navigation_labels: NAVIGATION_LABELS,
     language_labels: LANGUAGE_LABELS,
     menu_expanded: MENU_EXPANDED,
@@ -43,13 +36,6 @@ export default {
 };
 
 export const default_story = {};
-
-export const lego_tag = {
-  args: {
-    brand_logo_url: LEGO_LOGO_URL,
-    uses_lego_logo: true,
-  },
-};
 
 export const homepage_overlay = {
   args: {

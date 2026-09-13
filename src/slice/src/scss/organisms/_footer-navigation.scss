@@ -8,6 +8,8 @@
   width: calc(100% - (var(--layout-gutter-desktop-default) * 2));
   max-width: var(--layout-content-max-wide-default);
   margin: 0 auto var(--layout-gutter-desktop-default);
+  padding-top: calc(var(--space-scale-base-gap) * 4);
+  border-top: var(--space-scale-one) solid var(--theme-dark-border-divider-default);
 }
 
 .footer-navigation__columns {
@@ -159,6 +161,29 @@ body.jurenites-theme .footer-navigation .footer-navigation__resource-link--figma
   --icon-figma-fill: initial;
 }
 
+.footer-navigation__bottom-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: calc(var(--space-scale-base-gap) * 2);
+  padding-top: calc(var(--space-scale-base-gap) * 2);
+  border-top: var(--space-scale-one) solid var(--theme-dark-border-divider-default);
+}
+
+.footer-navigation__legal-navigation {
+  margin-inline-start: auto;
+  text-align: right;
+}
+
+.footer-navigation__legal-list {
+  @include tools.unstyled-list;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
 .footer-navigation__rights-message {
   margin: 0;
   color: var(--theme-dark-text-gray);
@@ -233,7 +258,7 @@ body.jurenites-theme .footer-navigation a.footer-navigation__messenger-link[data
   --icon-yandex-mail-default-display: inline;
   --icon-yandex-mail-color-display: none;
 
-  width: calc(var(--component-footer-navigation-yandex-mail-icon-height-default) * 16 / 11);
+  width: var(--component-footer-navigation-yandex-mail-icon-width-default);
   height: var(--component-footer-navigation-yandex-mail-icon-height-default);
 }
 

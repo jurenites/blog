@@ -3,6 +3,7 @@ import { install_icon_sprite } from './icon-sprite.js';
 import { enable_site_header_brand } from './site-header-brand.js';
 import { initialize_game_of_life, detach_game_of_life } from './game-of-life.js';
 import { initialize_video_grids, detach_video_grids } from './video-grid.js';
+import { initialize_article_table_of_content, detach_article_table_of_content } from './article-table-of-content.js';
 import { install_asset_warming } from './asset-warming.js';
 import { install_message_toasts } from './message-toast.js';
 import { initialize_pixel_glyph_editors } from './pixel-glyph-editor.js';
@@ -900,10 +901,31 @@ export function initialize_cookie_policy_notices(cookie_notice_context) {
 }
 
 if (typeof Drupal !== 'undefined') {
+  Drupal.behaviors.jurenites_browser_color = {
+    attach() {
+      if (!document.body.classList.contains('jurenites-theme')) return;
+
+      let theme_color_meta = document.head.querySelector('meta[name="theme-color"]');
+      if (!theme_color_meta) {
+        theme_color_meta = document.createElement('meta');
+        theme_color_meta.name = 'theme-color';
+        document.head.appendChild(theme_color_meta);
+      }
+      theme_color_meta.content = window.getComputedStyle(document.body).backgroundColor;
+    },
+  };
+
   Drupal.behaviors.jurenites_video_grid = {
     attach(listing_context) { initialize_video_grids(listing_context); },
     detach(listing_context, drupal_settings, detach_trigger) {
       if (detach_trigger === 'unload') detach_video_grids(listing_context);
+    },
+  };
+
+  Drupal.behaviors.jurenites_article_table_of_content = {
+    attach(article_context) { initialize_article_table_of_content(article_context); },
+    detach(article_context, page_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_article_table_of_content(article_context);
     },
   };
   install_message_toasts(Drupal);

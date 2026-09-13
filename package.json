@@ -2,7 +2,7 @@
   "name": "blog-jurenites",
   "private": true,
   "type": "module",
-  "version": "1.62.1",
+  "version": "1.77.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/jurenites/blog.git"
@@ -23,7 +23,7 @@
     "lint:scss": "stylelint \"src/**/*.scss\"",
     "lint:templates": "htmlhint \"src/**/*.template.html\"",
     "lint:tokens": "node scripts/check-token-contract.mjs",
-    "build:tokens": "node scripts/build-tokens.mjs && node scripts/check-token-contract.mjs",
+    "build:tokens": "node scripts/build-tokens.mjs && node scripts/check-token-contract.mjs && node scripts/build-technology-logos.mjs && node scripts/build-qr-studio-palette.mjs",
     "tokens:check": "node scripts/check-token-contract.mjs",
     "build:storybook-info": "node scripts/build-storybook-info.mjs",
     "figma:prepare": "npm run build:tokens && npm run figma:plugin:build",
@@ -47,7 +47,9 @@
     "status:test": "PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node scripts/component-status/run.mjs",
     "status:import": "node scripts/component-status/import.mjs",
     "test:component-status": "node --test tests/component-status.test.mjs",
-    "status:diagnose": "node scripts/component-status/diagnose.mjs"
+    "status:diagnose": "node scripts/component-status/diagnose.mjs",
+    "build:qr-studio": "node scripts/build-qr-studio-palette.mjs",
+    "test:qr-studio": "node --test web/modules/custom/jurenites_qr_studio/tests/*.test.mjs"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "8.6.18",

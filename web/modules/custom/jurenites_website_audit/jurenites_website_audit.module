@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Renders the audit offer using CMS fields and the shared primary Button.
+ */
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_website_audit_theme(): array {
+  return ['jurenites_website_audit' => ['variables' => [
+    'report_content' => [], 'offer_content' => [], 'business_days' => NULL, 'order_button' => [],
+  ]]];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function jurenites_website_audit_block_content_view(array &$build_output, EntityInterface $block_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($block_entity->bundle() !== 'website_audit') {
+    return;
+  }
+  $audit_build = ['#theme' => 'jurenites_website_audit'];
+  $cache_metadata = CacheableMetadata::createFromObject($block_entity)
+    ->addCacheContexts(['languages:language_content']);
+  foreach (['body' => 'report_content', 'field_audit_offer' => 'offer_content', 'field_audit_days' => 'business_days', 'field_audit_link' => 'order_button'] as $field_name => $theme_variable) {
+    $field_items = $block_entity->get($field_name);
+    $field_access = $field_items->access('view', NULL, TRUE);
+    $cache_metadata->addCacheableDependency($field_access);
+    if (!$field_access->isAllowed() || $field_items->isEmpty()) {
+      continue;
+    }
+    if ($field_name === 'field_audit_days') {
+      $audit_build['#business_days'] = (int) $field_items->value;
+    }
+    elseif ($field_name === 'field_audit_link') {
+      $audit_build['#order_button'] = [
+        '#type' => 'link', '#title' => $field_items->title,
+        '#url' => $field_items->first()->getUrl(),
+        '#attributes' => ['class' => ['button', 'button--primary', 'website-audit__order-button']],
+      ];
+    }
+    else {
+      $audit_build['#' . $theme_variable] = [
+        '#type' => 'processed_text', '#text' => $field_items->value,
+        '#format' => $field_items->format, '#langcode' => $block_entity->language()->getId(),
+      ];
+    }
+  }
+  $cache_metadata->applyTo($audit_build);
+  $build_output['website_audit'] = $audit_build;
+}

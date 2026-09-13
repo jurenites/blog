@@ -8,3 +8,9 @@ jurenites_admin.comment_delete:
   route_name: entity.comment.delete_form
   group: comment
   weight: 10
+
+jurenites_admin.block_content_delete:
+  title: 'Delete content block'
+  route_name: entity.block_content.delete_form
+  group: block_content
+  weight: 10

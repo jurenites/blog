@@ -210,7 +210,7 @@ $hero-photo-right-offset: 80px;
 }
 
 // The translated About pages inherit the photo's sampled edge color across the
-// complete shell, including the inline initial background on html and body.
+// complete shell, including the root canvas used for native overscroll.
 html:has(.jurenites-theme #block-jurenites-theme-homepage-hero),
 .jurenites-theme:has(#block-jurenites-theme-homepage-hero) {
   --theme-dark-surface-background-page: var(--component-hero-section-background-edge-color);

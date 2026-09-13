@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Theme integration for the About technology stack.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_technology_stack_theme(): array {
+  return ['jurenites_technology_stack' => ['variables' => [
+    'section_heading' => '', 'technology_categories' => [], 'asset_directory' => '',
+  ]]];
+}

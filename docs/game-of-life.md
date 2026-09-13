@@ -69,11 +69,58 @@ behaviour, and SCSS with Drupal and mirrors the module's semantic template.
 Other rule families are discussed and linked in the article; the widget itself
 runs Conway's rules, with the currently hovered cell sustained by visitor input.
 
+## Reusable live examples
+
+Place a standalone canvas in a template or in the Article Body using Basic HTML's
+**Source** button. No wrapper, pause button, or counter is required:
+
+```html
+<canvas class="game-of-life__canvas"
+  data-user='{"width":5,"height":5,"size":2,"alive":["b3","c4","d2","d3","d4"]}'
+  role="img"
+  aria-label="Live glider. Move the pointer to draw cells; reload to restore.">
+  Glider example. Enable JavaScript for the interactive simulation.
+</canvas>
+```
+
+- `width` is the number of columns and `height` the number of rows. Each accepts
+  an integer from 3 through 100; both default to 5. Three is the minimum for eight
+  distinct neighbours on a wrapping board.
+- `size` is integer zoom from 1 through 8, default 1. Size 2 doubles the 8px cell
+  footprint, 4px live square, and 1px shared border to 16px, 8px, and 2px. Because
+  borders are shared, a 5×5 board is 36×36px at size 1 and 72×72px at size 2.
+  The canvas retains the authored dimensions; choose a size that fits its column.
+- `alive` lists living cell addresses. Letters identify columns from left to right,
+  numbers identify rows from top to bottom: `a1` is the upper-left cell. Addresses
+  are case-insensitive; columns after `z` use `aa`, `ab`, and so on. Unlisted cells
+  start dead, and an omitted/empty array starts an empty board.
+- Use one JSON object with commas and double-quoted keys and cell addresses.
+  Malformed JSON, unsupported dimensions/zoom, or out-of-range cells leave that
+  canvas inactive with `data-life-error`, without interrupting other simulations.
+
+Examples reuse the existing B3/S23 engine, wrapping edges, cached grid, 12-generation
+per-second cap, pointer drawing, and stationary-pointer hold. Each canvas owns its
+cells. Interactions are temporary: reloading restores the authored preset. The
+5×5 glider above returns to its initial configuration after 20 generations when
+undisturbed. Offscreen and hidden-tab animation stops; reduced-motion preference
+starts examples stationary while pointer drawing remains available.
+
+**Organisms/Game of Life Example** provides Glider, Blinker, and Block stories
+with editable dimensions, zoom, and living-cell arrays. SCSS attribute selectors
+own all displayed sizing, using the existing cell/border tokens and example
+defaults in `src/token/tokens.yaml`; JavaScript only sets intrinsic bitmap size.
+
+The module's `jurenites_life_update_11001()` update enables this exact canvas class,
+`data-user`, `role="img"`, and `aria-label` in Basic HTML and CKEditor source editing.
+Fresh installations configure the same support. Other editor settings and article
+copy are preserved. The editor is for authoring; the saved page runs the simulation.
+
 ## Reproduce in another environment
 
 1. Build the theme with `npm run build:theme` and deploy the resulting source and
    generated assets through the normal environment workflow.
-2. Enable `jurenites_life` with Drush. This adds the optional supporting-video
+2. Enable `jurenites_life` with Drush (or apply its database update on existing
+   installations). This adds reusable-canvas authoring and the optional supporting-video
    field and displays without replacing other Article configuration.
 3. Run `drush php:script scripts/create-life-article.php` from the repository root.
    It creates the stable article and media once, checks alias/title collisions,
@@ -94,7 +141,14 @@ Run `npm run build:theme` afterwards to copy the image assets into the theme.
 
 `node --test tests/game-of-life.test.mjs` checks still life, a two-phase oscillator,
 four-step glider translation, synchronous updates, wrapping at both edges, exact
-799px/281px grid sizing, and preservation of cells on resize.
+799px/281px grid sizing, preservation of cells on resize, preset parsing, exact zoom,
+and the 20-generation wrapping glider cycle.
+`PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node --test tests/game-of-life-browser.test.mjs`
+checks multiple canvases, rectangular sizing, high-DPI painting, independent pointer
+edits, preset restoration on reattachment, reduced motion, offscreen suspension,
+invalid-input isolation, and the full widget's controls.
+`drush php:script tests/game-of-life-examples.php` checks filtered JSON/canvas markup,
+restricted attributes, source-editing settings, and idempotent configuration.
 `drush php:script tests/game-of-life-article.php` checks the actual node, render
 scope, filtered images, video references, and idempotent content setup.
 Theme/Storybook builds, focused lint, desktop interaction, and mobile/reduced

@@ -1,0 +1,13 @@
+<div class="layout-content">
+  <article class="article-detail" data-article-table-of-content>
+    <h1 class="article-detail__title">{{ article_title }}</h1>
+    <div class="article-detail__reading-layout">
+      <nav class="article_table-of-content" aria-label="{{ contents_label }}" hidden>
+        <p class="article_table-of-content__title">{{ contents_label }}</p>
+        <ul class="article_table-of-content__list"></ul>
+      </nav>
+      <div class="article-detail__body">{{ body_markup }}</div>
+    </div>
+    <div class="article-detail__content"><h2>{{ comments_title }}</h2><p>{{ comment_text }}</p></div>
+  </article>
+</div>

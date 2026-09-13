@@ -1,0 +1,12 @@
+name: 'Jurenites Website Audit'
+type: module
+description: 'Editable website audit offer on the Portfolio listing.'
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:block
+  - drupal:block_content
+  - drupal:field
+  - drupal:text
+  - drupal:link
+  - drupal:content_translation

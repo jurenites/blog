@@ -134,8 +134,8 @@ test("Brand initials expand into separate names without moving navigation", () =
   assert.match(SITE_BRANDING_TEMPLATE_SOURCE, /site-header__brand-name-word--first/);
   assert.match(SITE_BRANDING_TEMPLATE_SOURCE, /site-header__brand-name-word--last/);
   assert.match(SITE_BRANDING_TEMPLATE_SOURCE, /aria-label="\{\{ 'Alexander Ilivanov — home'\|t \}\}"/);
-  assert.match(SITE_HEADER_STYLES_SOURCE, /&__brand-name[\s\S]*?inline-size: var\(--component-site-header-brand-name-compact-width-default\)/);
-  assert.match(SITE_HEADER_STYLES_SOURCE, /&__brand-name-short[\s\S]*?position: absolute/);
+  assert.match(SITE_HEADER_STYLES_SOURCE, /&__brand-name[\s\S]*?min-inline-size: var\(--component-site-header-brand-name-compact-width-default\)/);
+  assert.match(SITE_HEADER_STYLES_SOURCE, /&__brand-name-short[\s\S]*?position: relative/);
   assert.match(SITE_HEADER_STYLES_SOURCE, /&__brand:hover &__brand-name-letter[\s\S]*?max-inline-size: 2ch/);
   assert.match(SITE_HEADER_STYLES_SOURCE, /transition-delay: var\(--component-site-header-brand-name-hold-duration-default\)/);
   assert.match(DESIGN_TOKEN_SOURCE, /brand-name-hold-duration-default: 2000ms/);

@@ -1,8 +1,24 @@
 {
   "palette_registry": {
+    "--color-palette-technology-drupal": {
+      "display_name": "technology drupal",
+      "value": "#009CDE"
+    },
+    "--color-palette-technology-laravel": {
+      "display_name": "technology laravel",
+      "value": "#FF2D20"
+    },
+    "--color-palette-technology-react": {
+      "display_name": "technology react",
+      "value": "#61DAFB"
+    },
     "--color-palette-full-black": {
       "display_name": "full black",
       "value": "#000000"
+    },
+    "--color-palette-near-black": {
+      "display_name": "near black",
+      "value": "#05070B"
     },
     "--color-palette-dark-black": {
       "display_name": "dark black",

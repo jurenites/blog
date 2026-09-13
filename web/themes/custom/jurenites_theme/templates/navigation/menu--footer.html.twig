@@ -106,6 +106,19 @@
         </ul>
       </nav>
     </div>
-    <p class="footer-navigation__rights-message">{{ 'No rights reserved'|t }} {{ 'now'|date('Y') }}</p>
+    <div class="footer-navigation__bottom-row">
+      <p class="footer-navigation__rights-message">{{ 'No rights reserved'|t }} {{ 'now'|date('Y') }}</p>
+      {% if legal_menu_items %}
+        <nav class="footer-navigation__legal-navigation" aria-label="{{ 'Privacy Policy'|t }}">
+          <ul class="footer-navigation__legal-list">
+            {% for legal_menu_item in legal_menu_items %}
+              <li class="footer-navigation__item">
+                <a href="{{ legal_menu_item.url }}"{{ legal_menu_item.attributes.addClass(['footer-navigation__link']) }}>{{ legal_menu_item.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      {% endif %}
+    </div>
   </div>
 {% endif %}

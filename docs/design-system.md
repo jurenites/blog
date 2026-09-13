@@ -49,6 +49,16 @@ multipliers do not become tokens merely because they contain a number. Use the
 generated breakpoint mixins instead of copying breakpoint widths into media
 queries.
 
+### Page canvas and browser color
+
+The HTML and body backgrounds match the main page surface, including the
+homepage, About hero, and Contact photo surfaces. Native overscroll therefore
+receives the same solid color instead of exposing the default page color behind
+a differently colored content wrapper. SCSS owns these backgrounds; the HTML
+template does not add inline presentation. A Drupal behavior copies the resolved
+body background to the `theme-color` hint for supporting browser toolbars. Native
+browser UI still controls how it uses that hint.
+
 ### Blockquotes
 
 Native `<blockquote>` elements use the Body typography role, a level-one dark
@@ -154,7 +164,13 @@ pages, nodes, full Articles, Basic pages, and teasers. It exposes semantic
 `.layout-content` consumes the readable width directly; future Twig templates
 can apply the same `.content-layout` classes without adding another story. The
 Drupal `/blog` listing uses the 800px readable content-width token; `/videos`
-uses the 960px wide token for its responsive grid. Drupal's content region and
+uses the 960px wide token for its responsive grid. At viewport widths of 1008px
+and below (960px + 24px + 24px), the shared page main element supplies 24px of
+inline padding on both sides. At the mobile breakpoint (640px and below), this
+reduces to 16px on both sides. The `system.breakpoint.content-gutter-max` and
+`system.breakpoint.mobile-max` breakpoints use the existing
+`layout.gutter.tablet-default` and `layout.gutter.mobile-default` spacing tokens.
+Drupal's content region and
 full-node content stacks own a
 two-base-gap vertical rhythm between sibling blocks, fields, structured Project
 sections, and Project tags. Individual children do not add compensating layout
@@ -170,6 +186,9 @@ Transitions use normal navigation, and reduced-motion users get an instant swap.
 Article Teaser is a square-corner editorial card with a 16:9 image, bordered
 surface, and a token-backed 150ms shadow transition. It is reserved for the
 homepage three-tile composition and Storybook's `three_tile_grid` example.
+Its thumbnail zooms to 105% over 375ms on hover or keyboard focus and returns
+smoothly on exit. The scoped image transition preserves the progressive loader's
+200ms opacity fade; reduced-motion preferences disable the zoom.
 The homepage's Latest articles and News block H2 headings use the dedicated
 `.homepage-block__heading` class, with `layout.content.max.wide.default` as their
 maximum width and automatic inline margins to align with the block content.
@@ -331,19 +350,32 @@ Static source assets, including local font files used by Storybook, live in
 The Top Nav Menu Site Header adapts the compact floating structure of
 [Shadcnblocks Navbar 33](https://www.shadcnblocks.com/block/navbar33) to the
 project's square-corner dark theme. Drupal's existing Site branding and Main
-navigation blocks become the left logo and centered one-level menu, while a
+navigation blocks become the left interactive name and centered one-level menu, while a
 right-side language picker exposes only `Eng` and `Rus`. It composes the shared
 Select Input atom with a borderless, intrinsic-width header treatment and uses
 Drupal's enabled interface languages and URL negotiation, so it preserves the
 current route and query string. Drupal's route active trail supplies current-page
 styling, so listing query values such as `/portfolio?tag=font` do not deactivate
-the Portfolio menu item. The Home menu item is hidden in the inline desktop header;
-the desktop logo links to the front page. Beside it, separate “A” and “I” initials
+the Portfolio menu item. Header links show a text-width, 1px solid underline only
+on hover: it expands from the left and retracts toward the right on leave,
+matching the [Syndicode Insights menu](https://syndicode.com/blog/how-to-choose-tech-stack/).
+The transition uses the 900ms header underline duration and
+`motion.easing.underline-reveal-default` tokens. Active links keep their yellow
+color without a persistent underline, keyboard focus keeps its outline, and
+reduced motion makes the underline change immediate. Drupal and Storybook share
+the same text wrapper and SCSS treatment.
+The Home menu item is hidden in the inline desktop header;
+the interactive name links to the front page. Separate “A” and “I” initials
 expand into “Alexander Ilivanov” letter by letter on hover or keyboard focus.
 Added letters grow and loosen their spacing as they appear. The gap between the
 first and last names expands from 2px to 16px with the reveal. The animated name is
-absolutely positioned inside a fixed compact slot, preserving the centered menu's
-position. Even a brief hover triggers the complete reveal, followed by a two-second
+sized to its content so the Home link and hover background cover the full reveal.
+Its height follows the natural text line box, keeping the hover background and
+clickable area as tall as the lettering without a fixed 48px limit.
+Equal side columns preserve the centered menu's position. The 48px logo image is
+no longer rendered, including on LEGO-tagged pages; the favicon is retained.
+The name stays white with a component-specific 300 font weight and gains the
+same animated underline as menu links on hover and keyboard focus. Even a brief hover triggers the complete reveal, followed by a two-second
 hold before closing. Continued hover or keyboard focus keeps it open; leaving
 restarts the hold after any remaining reveal finishes. Letter transitions take
 325ms with a 25ms stagger, twice the original animation speed. Reduced motion
@@ -352,7 +384,7 @@ Storybook use the same brand interaction behavior.
 Home remains in the compact menu, identified in Drupal by its front-page route
 rather than its translated label.
 At the token-defined 640px mobile maximum and below, the
-24px three-line menu icon replaces the logo on the left while the language
+24px three-line menu icon replaces the interactive name on the left while the language
 selector remains on the right. The icon stays white in every state. Activating
 it turns it into a cross and opens the one-level Main navigation
 as a vertical, full-viewport header surface without a separate overlay. Menu
@@ -495,7 +527,11 @@ solid underline so it reads as a technical link without relying on color.
 
 Footer Navigation uses four titled columns of vertically stacked list links:
 Social networks, Get in touch, How I work, and Information. The columns stack on
-mobile, with the rights message below. Storybook imports the same social profile
+mobile. Standard gray 1px solid dividers sit above the navigation and its bottom
+row. The bottom row places the rights message on the left and a separate Privacy
+Policy navigation group on the right, wrapping when needed on narrow screens.
+Privacy Policy remains editable in Drupal's Footer menu; preprocessing groups it
+by destination into the bottom row instead of Information. Storybook imports the same social profile
 data as Drupal.
 Social links compose the shared Icon atom with locally stored monochrome
 `social-*.svg` assets. Only the explicitly classed social-network icon is reduced
@@ -526,10 +562,10 @@ Yandex.Mail follows the same behavior, linking to `mailto:jurenites@yandex.ru`
 and revealing `jurenites@yandex.ru` on hover or keyboard focus. Its label uses
 the Yandex.Mail yellow hover token, with the brand-color source recorded in SCSS
 and tokens. The supplied altered white SVG is shown at rest, preserving its
-81% upper-panel opacity and 54% lower-panel fill opacity. Hover and keyboard
+81% side-panel opacity and 50% top-flap opacity. Hover and keyboard
 focus replace it with the official Wikimedia full-color envelope. Both versions
-preserve their geometry and aspect ratios within one fixed icon viewport, with
-a separate 12px height token.
+preserve their geometry and aspect ratios, centered within one fixed 16px-wide
+by 12px-high icon viewport. The width and height have separate tokens.
 
 Footer Navigation composes the Badge atom inside its Fonts link. Drupal supplies
 the gray Badge's numeric label from the current count of accessible published

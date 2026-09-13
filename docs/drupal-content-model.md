@@ -4,6 +4,89 @@ Keep the first content model universal. Do not overfit each project into many cu
 
 Rule: create fields only when Drupal needs to sort, filter, reference, render, or query the value. If the value is mostly storytelling, keep it in `Body`.
 
+## Editable page copy and contextual menus
+
+Public editorial paragraphs belong to Drupal content, including copy around
+Views listings. Twig retains structure, short labels and technical interface
+messages (loading/error announcements, accessible control descriptions and font
+metadata states). Translation strings are not a substitute for editable content.
+
+`jurenites_editorial` provides a **Page copy** Content Block type with a formatted
+Body, Language, Published control, translations and revision history. The initial
+migration creates six blocks: Guidelines introduction and empty message, Videos
+introduction and empty message, Blog empty message, and Portfolio empty message.
+Find these under **Content → Blocks** (`/admin/content/block`). Hover the pencil
+beside a visible introduction to open **Edit**, **Translate**, or **Delete content
+block**. Editing Body updates the listing without a template change or build.
+Unpublish to hide copy reversibly; Delete opens Drupal's normal confirmation.
+Empty-message blocks are always accessible through Content → Blocks even when
+the listing has results and their public pencils are consequently absent.
+
+In **Structure → Views**, the **Editable content block** area embeds one of
+these records in Header, Footer or No results behavior, using its UUID. The
+Guidelines and Videos introductions are headers above the listing rows. Each
+area renders the standard block wrapper and contextual links, checks entity
+access, selects the content translation and carries entity, language and
+permission cache metadata. A missing/deleted block renders no broken placeholder.
+Page copy can also be placed through the native Block layout like other reusable
+Content Blocks. Do not place the same introduction both there and in Views.
+
+Skills profile no longer has Section heading (`field_skills_heading`) or
+Introduction (`field_skills_intro`) fields. The skills module post-update deletes
+the fields and purges their stored values and revisions; fresh installation does
+not recreate them. The fixed “Web development” eyebrow is also removed from the
+Drupal and Storybook templates. Technology cards and rating notes remain.
+
+The Skills profile footer retains supporting experience copy. Its rating-scale
+details and project-history link are removed in Drupal and Storybook; the
+`field_skills_scale` field and its stored values are retained but no longer rendered.
+
+Skills profile owns **Rating scale explanation** and **Draft ratings note** in
+its existing Content Block form. Pixel Glyph Editor Paragraphs own an
+**Instructions** field, edited inside their parent Project's Content sections.
+These fields are translatable; the existing Russian pixel instructions are
+preserved. Nested Hero, Timeline, Skills and other Paragraph records continue to
+be edited, reordered or removed through their owning node or block form.
+
+`jurenites_admin` shows one native pencil for the innermost hovered or
+keyboard-focused content region for accounts with **Access contextual links**
+(including the Administrator role). Ancestor and neighboring pencils stay hidden.
+Hovering the pencil opens the menu; click, touch, keyboard activation and Escape remain native Drupal
+interactions. Drupal checks access separately for each action. No permissions
+are granted to visitors or ordinary authenticated accounts. Menus use transparent items on a dark surface; only the hovered or keyboard-focused
+item becomes white. They can extend beyond Portfolio/Guideline cards.
+
+The September 12 audit covered all 60 custom-theme templates and seven custom
+module templates. Article, News, Guideline, Project, Timeline and Basic Page copy
+is already node/field content; Hero, Interests, Numeric values, Skills, Contact
+photo and Cookie notice are existing block/Paragraph content. The migration
+removes the remaining visible editorial paragraphs in Videos, Skills and the
+pixel editor, and moves literal listing text from Views configuration to content.
+It restores contextual wrappers/suffixes on Article teasers, Project cards and
+details, Guideline tiles, Interests, navigation and branding. Shared Storybook
+stories and markup remain unchanged; new wrapper styling is imported only by the
+Drupal `theme.scss` entrypoint.
+
+Existing sites receive this migration with `drush updatedb` through
+`jurenites_admin_post_update_enable_editorial_content`. A fresh configured site
+can enable `jurenites_editorial` directly. Back up the database before updates.
+Setup preserves existing listing copy and configuration-language overrides,
+creates missing fields and records, and sets a completion marker. It does not
+reset subsequent CMS edits or recreate deliberately deleted content on reruns.
+Starter copy belongs only in installation/migration code. Do not use theme
+fallback paragraphs that make a cleared CMS field reappear.
+
+The local integration check is:
+
+```bash
+docker exec blog_jurenites_web vendor/bin/drush php:script scripts/verify-editorial-content.php
+```
+
+It uses temporary records in a rolled-back transaction to check revisions,
+translations, cache invalidation, anonymous/admin access, deletion and migration
+idempotence. Run it on DEV. Deployment still requires applying database updates
+and rebuilding Drupal cache in each target environment.
+
 ## Basic Page
 
 Purpose: stable site pages such as About and Contact.
@@ -55,6 +138,34 @@ optional and do not replace the separate call-to-action link.
 Basic pages and Articles retain the Numeric Values Paragraph in Content
 sections for existing authored compositions, while the homepage instance is a
 Content Block so its placement is managed through Drupal's block layout.
+
+## Home introduction
+
+The first homepage section is the **Home introduction** reusable Content Block,
+provided by `jurenites_home_intro`. It pairs “Personal Blog” with the soft-gray
+“& Showcase projects” segment and introductory copy about articles, YouTube
+finds, personal thoughts and interface reviews. A quiet divider and decorative
+pixel cross connect it to the site's visual language.
+
+Edit it under **Content → Blocks → Home introduction**, or use its contextual
+pencil. Title 1, the existing compound Two-tone heading field and formatted Body
+are translatable and revisioned. English and Russian starter copy is seeded
+once; subsequent edits, unpublishing, deletion and placement changes survive
+setup reruns. The shared heading renders as the homepage's `h1`. Native Block
+layout places it at weight `-40`, visible only on `<front>` in either language,
+before the existing homepage sections.
+
+Styles live in `_home-introduction.scss`, shared with **Organisms/Home
+Introduction** in Storybook. At mobile widths the heading reduces in size and
+the description sits beside the pixel accent. No animation or new images are
+required. Build the theme, enable `jurenites_home_intro`, then clear Drupal cache
+on each target environment:
+
+```sh
+npm run build:theme
+docker exec blog_jurenites_web vendor/bin/drush en jurenites_home_intro -y
+docker exec blog_jurenites_web vendor/bin/drush cr
+```
 
 ## Hero section
 
@@ -155,6 +266,33 @@ value through the same resolver used by Blog and filters the published Project
 result set. The active Chip stays in the list with selected styling and no close
 icon; activating it again clears the filter.
 
+The Portfolio listing ends with a separate **Website audit** Content Block,
+placed in the Content region after the gallery on `/portfolio`, including tag
+filters. `jurenites_website_audit` seeds the supplied report checklist and free
+new-client offer. Body and Offer are formatted, translatable content; Turnaround
+stores the number of business days (initially 3), and Order button owns its label
+and internal link (initially `/contact`). Edit **Portfolio website audit** under
+Content → Blocks or through its contextual pencil. The block supports revisions,
+translation, unpublishing and deletion; setup never restores removed content or
+resets edits. No new taxonomy terms are created.
+
+The shared `Organisms/Website Audit` Storybook example uses the same SCSS and
+primary Button atom. Desktop shows report details beside the offer; at the shared mobile breakpoint (640px and below)
+these stack. The surface is almost black, without an outer outline or internal
+divider. The semantic `time` element carries a day duration; visible copy
+qualifies this as business days rather than an exact calendar deadline.
+
+Install on each environment after deploying and building the theme:
+
+```bash
+docker exec blog_jurenites_web vendor/bin/drush en jurenites_website_audit -y
+docker exec blog_jurenites_web vendor/bin/drush cr
+```
+
+The commands above target local DEV; use that environment's Drush invocation on
+STAGE/PROD. The install creates only the new block type, fields, content and
+Portfolio placement.
+
 Roundabout and 4pixel share the existing `#Font` term. The Footer menu's Fonts
 link opens that filtered Portfolio view, and its gray Badge queries the current
 number of accessible published Projects carrying the term. The number is not a
@@ -244,7 +382,7 @@ Guideline uses the native Title plus three deliberate values:
   be inserted without relying on creation dates or node IDs.
 
 The Logo Icon specimen renders the same
-`web/themes/custom/jurenites_theme/logo.svg` used by the site header. The Color
+`web/themes/custom/jurenites_theme/logo.svg` brand asset. The Color
 specimen reads the generated token records derived from
 `src/token/tokens.yaml`, then presents foundation, brand, and system palette
 values through their generated CSS utility classes. Editors can revise the
@@ -254,6 +392,23 @@ guidance without forking those visual sources. The initial aliases are
 ## Article
 
 Purpose: personal blog posts, long-form analysis, and saved YouTube references.
+
+Full Article pages generate a **Table of contents** from the rendered Body's
+nonempty H2 and H3 headings when there are at least two. Editors use native
+Heading 2 / Heading 3 in Body; no separate list or contributed module is needed.
+H3 links nest under their preceding H2. The contents sits in a sticky right
+sidebar outside the full 800px Body column, with the current section marked
+while scrolling. The `article_table-of-content` sidebar narrows from 320px to
+160px as needed. When the available content frame is below 992px (including
+space used by Drupal's admin sidebar), it moves above Body instead of squeezing
+the reading column. Native fragment links support keyboard navigation,
+browser history and sharing; existing heading IDs are retained, and missing IDs
+are generated from heading text with collision suffixes (including Cyrillic).
+Changing a heading without an authored ID also changes its generated fragment.
+Comments, supporting fields and other page headings are excluded. Without
+JavaScript or with fewer than two headings, Body keeps its readable single-column
+layout. Smooth scrolling respects reduced-motion preferences. The theme and the
+Article Table of Contents Storybook example share the same behavior and SCSS.
 
 The [Conway's Game of Life Article](game-of-life.md) combines editable long-form
 copy with a node-scoped live experiment, local diagrams, and native Remote video
@@ -351,22 +506,15 @@ videos in `/videos`; their filter URLs are `/blog?tag=lego` and
 `jurenites_blog_post_update_add_lego_tag()` ensure one canonical term without
 assigning it to existing content. Select it in the existing Article Tags field.
 
-The shared site-branding block uses the LEGO photograph whenever the current
-page selects `?tag=lego`, displays the LEGO taxonomy term, or is a canonical
-content page with that tag in `field_tags`. Unfiltered and other-tag pages keep
-the configured logo; there is no persistent browser preference. Branding cache
-metadata varies by route, tag query, and permissions, and invalidates when
-taxonomy terms or the current content change. The existing mobile navigation
-continues to hide the brand when its enhanced menu is active.
+The shared site-branding block renders interactive “AI” initials that reveal
+“Alexander Ilivanov” and link to Home. It uses the same text branding on LEGO
+and other pages, without a header logo image. The favicon is retained, and the
+existing enhanced mobile navigation continues to hide the brand.
 
-The image source is `src/public/assets/images/jurenites-lego-logo-square-v2.png`, copied
-to the theme by `npm run build:theme`. It is an AI-assisted color edit of
-Alexander Ilivanov's physical build, with a near-white baseplate and dark navy
-bricks. Image-edit provenance and the exact prompt are in
-`output/imagegen/lego-logo-edit.txt`. The Site Header `lego_tag` Storybook example
-uses the same asset and SCSS modifier. Both header logos are 48 × 48px,
-with sizing in SCSS. The LEGO image preserves the original square framing
-and uses `object-fit: contain` so the full photograph remains visible.
+The previous LEGO artwork remains available at
+`src/public/assets/images/jurenites-lego-logo-square-v2.png`. It is an AI-assisted
+color edit of Alexander Ilivanov's physical build. Image-edit provenance and the
+exact prompt remain in `output/imagegen/lego-logo-edit.txt`.
 
 Article add and edit forms keep the YouTube video URL visible. The derived
 YouTube video ID, creator name, creator URL, and publication date appear in a
@@ -443,3 +591,7 @@ Start with a small set:
 Add more only when content entry becomes painful without them.
 
 The commercial Timeline calendar starts at August 2010; its 2010 section shows August through December in both Drupal and Storybook.
+
+## Browser applications
+
+[QR Pixel Studio](qr-pixel-studio.md) is provided by `jurenites_qr_studio` at `/qr-studio`. It is a browser-local tool with a dedicated application document and Drupal library attachments, rather than editorial content stored in a node or paragraph.

@@ -14,6 +14,8 @@ use Drupal\field\Entity\FieldStorageConfig;
  * Implements hook_install().
  */
 function jurenites_life_install(): void {
+  jurenites_life_configure_examples();
+  jurenites_life_configure_example_tables();
   if (!FieldStorageConfig::loadByName('node', 'field_supporting_videos')) {
     FieldStorageConfig::create([
       'field_name' => 'field_supporting_videos', 'entity_type' => 'node',
@@ -44,4 +46,18 @@ function jurenites_life_install(): void {
     $list_display = EntityViewDisplay::load('node.article.' . $view_mode);
     if ($list_display) $list_display->removeComponent('field_supporting_videos')->save();
   }
+}
+
+/**
+ * Enable reusable Game of Life canvases in Basic HTML source editing.
+ */
+function jurenites_life_update_11001(): void {
+  jurenites_life_configure_examples();
+}
+
+/**
+ * Enable titled live-example tables in Basic HTML source and table editing.
+ */
+function jurenites_life_update_11002(): void {
+  jurenites_life_configure_example_tables();
 }

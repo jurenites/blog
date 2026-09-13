@@ -1,0 +1,47 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import vm from 'node:vm';
+import {candidate_patterns,domain_choices,has_search_slots,valid_domain_candidate} from '../ui/domain-pattern.js';
+import {TLD_LIST} from '../ui/tld-data.js';
+import '../ui/vendor/qrcodegen.js';
+vm.runInThisContext(await readFile(new URL('../ui/vendor/jsQR.js',import.meta.url),'utf8'));
+
+test('real TLD matching preserves positions, supports lengths and rejects invented endings',()=>{
+ assert.equal(valid_domain_candidate('HTTP://BBO17.P1H'),false);
+ assert.equal(valid_domain_candidate('HTTP://BBO17.TOP'),true);
+ assert.equal(valid_domain_candidate('WWW.BBO17.TOP'),true);
+ assert.equal(valid_domain_candidate('HTTP://BBO17.TOP/FILE.P1H'),true);
+ assert.equal(valid_domain_candidate('HTTP://BAD_NAME.TOP'),false);
+ assert.throws(()=>candidate_patterns('HTTP://?????.P1H'),/No IANA/);
+ assert.ok(domain_choices('HTTP://BBO17.???').matching_tlds.includes('TOP'));
+ assert.ok(domain_choices('HTTP://BBO17.???').matching_tlds.every(ending_text=>ending_text.length===3));
+ assert.ok(domain_choices('HTTP://BBO17.??').matching_tlds.includes('FR'));
+ assert.ok(domain_choices('HTTP://BBO17.????').matching_tlds.includes('INFO'));
+ assert.ok(domain_choices('HTTP://BBO17.T??').matching_tlds.every(ending_text=>ending_text.startsWith('T')));
+ assert.equal(candidate_patterns('HTTP://BBO17.*').length,TLD_LIST.length);
+ assert.equal(has_search_slots('HTTP://BBO17.*'),true);
+ assert.equal(has_search_slots('2*2'),false);
+});
+
+test('actual worker uses real TLDs with digits-only name settings, any-length suffixes, and exclusions',async()=>{
+ const worker_source=(await readFile(new URL('../ui/search-worker.js',import.meta.url),'utf8')).replace(/import\('\.\/(core|solver|domain-pattern)\.js'\)/g,(_,module_name)=>`import(${JSON.stringify(new URL(`../ui/${module_name}.js`,import.meta.url).href)})`);
+ const message_rows=[];
+ globalThis.self={postMessage:message_data=>message_rows.push(message_data)};
+ globalThis.importScripts=()=>{};
+ await import('data:text/javascript,'+encodeURIComponent(worker_source));
+ const search_options={pattern_text:'HTTP://?????.???',version_number:1,error_level:'Q',lock_values:new Array(441).fill(-1),alphabet_name:'digits',time_limit:1,protect_structure:true};
+ await self.onmessage({data:search_options});
+ const first_result=message_rows.find(message_data=>message_data.type==='result');
+ assert.ok(first_result,JSON.stringify(message_rows));
+ assert.match(first_result.payload_text,/^HTTP:\/\/\d{5}\.[A-Z]{3}$/);
+ assert.equal(valid_domain_candidate(first_result.payload_text),true);
+ message_rows.length=0;
+ await self.onmessage({data:{...search_options,pattern_text:'HTTP://BBO17.*',excluded_payloads:[first_result.payload_text]}});
+ const next_result=message_rows.find(message_data=>message_data.type==='result');
+ assert.ok(next_result,JSON.stringify(message_rows));assert.equal(valid_domain_candidate(next_result.payload_text),true);assert.match(next_result.payload_text,/^HTTP:\/\/BBO17\./);
+ message_rows.length=0;
+ await self.onmessage({data:{...search_options,pattern_text:'HTTP://?????.P1H'}});
+ assert.equal(message_rows.some(message_data=>message_data.type==='result'),false);
+ assert.match(message_rows.find(message_data=>message_data.type==='error').message_text,/No IANA/);
+});

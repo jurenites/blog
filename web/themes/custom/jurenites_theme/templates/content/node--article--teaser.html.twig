@@ -6,7 +6,7 @@
 #}
 {% set article_id = node.id %}
 
-<div class="article-teaser">
+<div{{ attributes.addClass('article-teaser') }}>
   {% if content.game_of_life or content.field_image %}
     <div
       class="article-teaser__media{{ content.game_of_life ? ' article-teaser__media--game-of-life' }}"

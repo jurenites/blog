@@ -1,4 +1,6 @@
 <article{{ attributes.addClass('project-card') }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
   {% if content.field_image %}
     <div class="project-card__media">{{ content.field_image }}</div>
   {% endif %}

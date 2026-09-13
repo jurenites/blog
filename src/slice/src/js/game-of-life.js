@@ -1,18 +1,32 @@
-import { evolve_generation, paint_live_line, measure_life_grid, resize_life_board } from './game-of-life-engine.js';
+import { evolve_generation, paint_live_line, measure_life_grid, resize_life_board, parse_life_example } from './game-of-life-engine.js';
 
 const SIMULATION_INSTANCES = new Map();
 const FRAME_INTERVAL = 1000 / 12;
+const SIMULATION_SELECTOR = '[data-game-of-life], canvas.game-of-life__canvas[data-user]';
 
 function create_simulation(simulation_root) {
-  const canvas_element = simulation_root.querySelector('canvas');
+  const is_example = simulation_root.matches('canvas');
+  const canvas_element = is_example ? simulation_root : simulation_root.querySelector('canvas');
+  if (!canvas_element) return null;
+  const example_options = is_example ? parse_life_example(canvas_element.dataset.user) : null;
+  if (is_example && !example_options) {
+    canvas_element.dataset.lifeError = 'Invalid example configuration';
+    return null;
+  }
+  if (example_options) {
+    delete canvas_element.dataset.lifeError;
+    canvas_element.dataset.lifeColumns = String(example_options.column_count);
+    canvas_element.dataset.lifeRows = String(example_options.row_count);
+    canvas_element.dataset.lifeSize = String(example_options.zoom_size);
+  }
   const drawing_context = canvas_element.getContext('2d');
-  if (!drawing_context) return () => {};
+  if (!drawing_context) return null;
   const grid_canvas = document.createElement('canvas');
   const grid_context = grid_canvas.getContext('2d');
   const pause_button = simulation_root.querySelector('[data-life-pause]');
   const status_element = simulation_root.querySelector('[data-life-status]');
-  const status_label = status_element.querySelector('[data-life-label]');
-  const generation_element = status_element.querySelector('[data-life-generation]');
+  const status_label = status_element?.querySelector('[data-life-label]');
+  const generation_element = status_element?.querySelector('[data-life-generation]');
   const motion_preference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const event_controller = new AbortController();
   const listener_options = { signal: event_controller.signal };
@@ -25,7 +39,7 @@ function create_simulation(simulation_root) {
   let previous_pointer = null;
   let pointer_position = null;
   let is_paused = motion_preference.matches;
-  let is_visible = true;
+  let is_visible = false;
   let cell_size = 8;
   let live_size = 4;
   let border_size = 1;
@@ -47,9 +61,9 @@ function create_simulation(simulation_root) {
         live_size, live_size,
       );
     }
-    status_label.textContent = is_paused ? simulation_root.dataset.pausedLabel : simulation_root.dataset.liveLabel;
+    if (status_label) status_label.textContent = is_paused ? simulation_root.dataset.pausedLabel : simulation_root.dataset.liveLabel;
     const generation_text = generation_count.toLocaleString();
-    if (generation_element.textContent !== generation_text) {
+    if (generation_element && generation_element.textContent !== generation_text) {
       generation_element.replaceChildren(...Array.from(generation_text, (digit_text) => {
         const digit_element = document.createElement('span');
         digit_element.className = 'game-of-life__digit';
@@ -59,8 +73,8 @@ function create_simulation(simulation_root) {
     }
     simulation_root.dataset.generation = String(generation_count);
     simulation_root.dataset.paused = String(is_paused);
-    pause_button.setAttribute('aria-label', is_paused ? pause_button.dataset.resumeLabel : pause_button.dataset.pauseLabel);
-    pause_button.setAttribute('aria-pressed', String(is_paused));
+    pause_button?.setAttribute('aria-label', is_paused ? pause_button.dataset.resumeLabel : pause_button.dataset.pauseLabel);
+    pause_button?.setAttribute('aria-pressed', String(is_paused));
   }
 
   function resize_canvas() {
@@ -70,10 +84,15 @@ function create_simulation(simulation_root) {
     cell_size = parseFloat(computed_style.getPropertyValue('--component-game-of-life-cell-size-default'));
     live_size = parseFloat(computed_style.getPropertyValue('--component-game-of-life-live-size-default'));
     border_size = parseFloat(computed_style.getPropertyValue('--component-game-of-life-border-size-default'));
+    const zoom_size = example_options?.zoom_size ?? 1;
+    cell_size *= zoom_size;
+    live_size *= zoom_size;
+    border_size *= zoom_size;
     const next_layout = measure_life_grid(canvas_bounds.width, canvas_bounds.height, cell_size, border_size);
     const first_layout = grid_layout === null;
     if (first_layout) {
-      current_cells = Uint8Array.from({ length: next_layout.column_count * next_layout.row_count }, () => Number(Math.random() < 0.22));
+      current_cells = example_options ? example_options.starting_cells.slice()
+        : Uint8Array.from({ length: next_layout.column_count * next_layout.row_count }, () => Number(Math.random() < 0.22));
     } else if (grid_layout.column_count !== next_layout.column_count || grid_layout.row_count !== next_layout.row_count) {
       current_cells = resize_life_board(current_cells, grid_layout.column_count, grid_layout.row_count, next_layout.column_count, next_layout.row_count);
     }
@@ -81,7 +100,7 @@ function create_simulation(simulation_root) {
     grid_layout = next_layout;
     previous_pointer = null;
     pixel_ratio = window.devicePixelRatio || 1;
-    // Intrinsic bitmap resolution only; CSS owns the 16:9 displayed surface.
+    // Intrinsic bitmap resolution only; SCSS owns displayed dimensions.
     canvas_element.width = Math.round(canvas_bounds.width * pixel_ratio);
     canvas_element.height = Math.round(canvas_bounds.height * pixel_ratio);
     grid_canvas.width = canvas_element.width;
@@ -158,7 +177,7 @@ function create_simulation(simulation_root) {
     previous_pointer = null;
   }
 
-  pause_button.addEventListener('click', () => { is_paused = !is_paused; update_playback(); }, listener_options);
+  pause_button?.addEventListener('click', () => { is_paused = !is_paused; update_playback(); }, listener_options);
   canvas_element.addEventListener('pointerenter', track_pointer, listener_options);
   canvas_element.addEventListener('pointermove', track_pointer, listener_options);
   canvas_element.addEventListener('pointerdown', track_pointer, listener_options);
@@ -187,7 +206,7 @@ function create_simulation(simulation_root) {
     SIMULATION_INSTANCES.delete(simulation_root);
   }
   resize_canvas();
-  pause_button.hidden = false;
+  if (pause_button) pause_button.hidden = false;
   resize_observer.observe(canvas_element);
   visibility_observer.observe(canvas_element);
   update_playback();
@@ -198,10 +217,15 @@ export function initialize_game_of_life(page_context = document) {
   for (const [simulation_root, destroy_simulation] of SIMULATION_INSTANCES) {
     if (!simulation_root.isConnected) destroy_simulation();
   }
-  const simulation_roots = [...page_context.querySelectorAll('[data-game-of-life]')];
-  if (page_context.matches?.('[data-game-of-life]')) simulation_roots.unshift(page_context);
+  const simulation_roots = [...page_context.querySelectorAll(SIMULATION_SELECTOR)];
+  if (page_context.matches?.(SIMULATION_SELECTOR)) simulation_roots.unshift(page_context);
   for (const simulation_root of simulation_roots) {
-    if (!SIMULATION_INSTANCES.has(simulation_root)) SIMULATION_INSTANCES.set(simulation_root, create_simulation(simulation_root));
+    // A canvas inside the full widget belongs to that widget, never two loops.
+    if (simulation_root.matches('canvas') && simulation_root.parentElement?.closest('[data-game-of-life]')) continue;
+    if (!SIMULATION_INSTANCES.has(simulation_root)) {
+      const destroy_simulation = create_simulation(simulation_root);
+      if (destroy_simulation) SIMULATION_INSTANCES.set(simulation_root, destroy_simulation);
+    }
   }
 }
 

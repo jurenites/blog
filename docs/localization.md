@@ -157,3 +157,13 @@ Drupal documents its native PO workflow in
 [Translating site interfaces](https://www.drupal.org/docs/administering-a-drupal-site/multilingual-guide/translating-site-interfaces).
 [Lokalise](https://lokalise.com/) is an optional workflow service, not a required
 dependency of this recipe.
+
+## Editorial copy
+
+Listing introductions and empty messages now use Page copy Content Block
+translations, not interface strings or Views text configuration. Use the block's
+Translate action in Content → Blocks. The editorial migration preserves existing
+Views language overrides and available interface translations when seeding these
+records. Later locale imports do not overwrite the block Body. Skills explanations
+and pixel-editor instructions are translated on their owning block/Paragraph.
+See `drupal-content-model.md` for the migration and contextual editing contract.

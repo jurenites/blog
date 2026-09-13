@@ -2,6 +2,27 @@ export const GRID_COLUMNS = 250;
 export const GRID_ROWS = 200;
 export const GLIDER_CELLS = [[1, 0], [2, 1], [0, 2], [1, 2], [2, 2]];
 
+// Bounds match the attribute selectors in _game-of-life.scss.
+export function parse_life_example(serialized_options = '{}') {
+  let example_options;
+  try { example_options = JSON.parse(serialized_options); } catch { return null; }
+  if (!example_options || Array.isArray(example_options) || typeof example_options !== 'object') return null;
+  const { width: column_count = 5, height: row_count = 5, size: zoom_size = 1, alive: living_cells = [] } = example_options;
+  if (![column_count, row_count].every((grid_count) => Number.isInteger(grid_count) && grid_count >= 3 && grid_count <= 100)
+    || !Number.isInteger(zoom_size) || zoom_size < 1 || zoom_size > 8 || !Array.isArray(living_cells)) return null;
+  const starting_cells = new Uint8Array(column_count * row_count);
+  for (const cell_address of living_cells) {
+    const address_match = typeof cell_address === 'string' && /^([a-z]{1,2})([1-9][0-9]{0,2})$/i.exec(cell_address);
+    if (!address_match) return null;
+    let column_number = 0;
+    for (const column_letter of address_match[1].toLowerCase()) column_number = column_number * 26 + column_letter.charCodeAt(0) - 96;
+    const row_number = Number(address_match[2]);
+    if (column_number > column_count || row_number > row_count) return null;
+    starting_cells[(row_number - 1) * column_count + column_number - 1] = 1;
+  }
+  return { column_count, row_count, zoom_size, starting_cells };
+}
+
 export function measure_life_grid(available_width, available_height, cell_size = 8, border_size = 1) {
   const cell_pitch = cell_size - border_size;
   const column_count = Math.max(1, Math.floor((available_width - border_size) / cell_pitch));

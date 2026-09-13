@@ -1,0 +1,48 @@
+/* Only the innermost hovered/focused content region exposes its pencil. */
+body.jurenites-theme .contextual > .trigger {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.jurenites-theme .contextual.contextual--targeted > .trigger {
+  position: relative !important;
+  margin: 0 !important;
+  clip: auto !important;
+  clip-path: none !important;
+  white-space: nowrap;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Let the native menu extend beyond card bounds without changing guest cards. */
+body.jurenites-theme .guideline-tile.contextual-region,
+body.jurenites-theme .project-card.contextual-region {
+  overflow: visible;
+}
+
+body.jurenites-theme .contextual-region .contextual .contextual-links {
+  background-color: var(--theme-dark-surface-background-elevation-level-1);
+}
+
+body.jurenites-theme .contextual-region .contextual .contextual-links li,
+body.jurenites-theme .contextual-region .contextual .contextual-links li > a {
+  background-color: transparent;
+}
+
+body.jurenites-theme .contextual-region .contextual .contextual-links li > a {
+  color: var(--color-palette-white);
+  font-family: sans-serif;
+  font-size: small;
+  line-height: normal;
+}
+
+body.jurenites-theme .contextual-region .contextual .contextual-links li:hover,
+body.jurenites-theme .contextual-region .contextual .contextual-links li:focus-within {
+  background-color: var(--color-palette-white);
+}
+
+body.jurenites-theme .contextual-region .contextual .contextual-links li:hover > a,
+body.jurenites-theme .contextual-region .contextual .contextual-links li:focus-within > a {
+  color: var(--color-palette-black);
+  background-color: transparent;
+}

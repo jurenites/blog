@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Adds an About-only placement without rewriting page content.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_technology_stack_install(): void {
+  if (!\Drupal\block\Entity\Block::load('jurenites_theme_technology_stack')) {
+    \Drupal\block\Entity\Block::create([
+      'id' => 'jurenites_theme_technology_stack', 'theme' => 'jurenites_theme',
+      'region' => 'content', 'weight' => 4, 'status' => TRUE,
+      'plugin' => 'jurenites_technology_stack',
+      'settings' => [
+        'id' => 'jurenites_technology_stack', 'provider' => 'jurenites_technology_stack',
+        'label' => 'Technology stack', 'label_display' => '0',
+      ],
+      'visibility' => ['request_path' => [
+        'id' => 'request_path', 'negate' => FALSE, 'pages' => "/about\n/obo",
+      ]],
+    ])->save();
+  }
+}

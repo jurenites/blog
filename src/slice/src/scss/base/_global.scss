@@ -1,6 +1,5 @@
 // Global element defaults built entirely from tokens.
-// Background transparency is intentionally avoided here (HEX-only rule); the
-// animated gradient is owned by the front-page-background component canvas.
+// Keep the root canvas opaque so native overscroll samples the page surface.
 
 @use "../tools";
 
@@ -26,7 +25,8 @@ body.jurenites-theme {
   // Badged footer links own their decoration: underline the label only, never
   // the anchor. An ancestor underline cannot be cancelled by the nested Badge.
   // Keep this exclusion in :where() so it adds no priority to other links.
-  a:not(.button):not(.site-header__link):not(.site-header__brand):where(:not(.footer-navigation__link--with-badge)) {
+  /* stylelint-disable-next-line selector-class-pattern -- Preserve the user-requested article_table-of-content public class. */
+  a:not(.button):not(.site-header__link):not(.site-header__brand):where(:not(.footer-navigation__link--with-badge, .technology-stack__link, .article_table-of-content__link)) {
     color: var(--theme-dark-text-primary-default);
     text-decoration: underline;
     text-decoration-thickness: var(--space-scale-one);
@@ -82,11 +82,18 @@ body.jurenites-theme {
   min-height: 100dvh;
   max-width: var(--layout-container-max-desktop-default);
   margin: 0 auto;
-  //padding: var(--layout-gutter-desktop-default);
 
   > main {
     flex: 1 0 auto;
     width: 100%;
+
+    @include tools.breakpoint-down("content-gutter-max") {
+      padding-inline: var(--layout-gutter-tablet-default);
+    }
+
+    @include tools.breakpoint-down("mobile-max") {
+      padding-inline: var(--layout-gutter-mobile-default);
+    }
   }
 }
 

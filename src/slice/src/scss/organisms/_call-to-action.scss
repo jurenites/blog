@@ -1,0 +1,36 @@
+// Organism: Call to Action. Large editorial typography on a quiet dark surface.
+.call-to-action {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--space-scale-base-gap) * 4);
+  margin-block-start: calc(var(--space-scale-base-gap) * 4);
+  padding: calc(var(--space-scale-base-gap) * 8) clamp(calc(var(--space-scale-base-gap) * 3), 6%, calc(var(--space-scale-base-gap) * 8));
+  border-radius: calc(var(--shape-corner-radius-base) * 2);
+  background: var(--component-call-to-action-background-color);
+  text-align: center;
+}
+
+.call-to-action__heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-base-gap);
+  width: 100%;
+  margin: 0;
+  font: var(--typography-headline-1);
+  font-size: clamp(var(--component-call-to-action-heading-size-min), 11cqi, var(--component-call-to-action-heading-size-max));
+  line-height: var(--component-call-to-action-heading-line-height);
+  letter-spacing: var(--component-call-to-action-heading-letter-spacing);
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.call-to-action__prompt {
+  color: var(--theme-dark-text-gray);
+}
+
+.call-to-action__invitation {
+  color: var(--theme-dark-text-primary-default);
+}

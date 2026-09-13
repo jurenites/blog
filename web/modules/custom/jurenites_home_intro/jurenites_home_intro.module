@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Renders the homepage introduction from translatable content fields.
+ */
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_home_intro_theme(): array {
+  return ['jurenites_home_intro' => ['variables' => [
+    'leading_text' => '', 'heading_options' => [], 'intro_body' => [],
+  ]]];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function jurenites_home_intro_block_content_view(array &$build_output, EntityInterface $block_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($block_entity->bundle() !== 'home_intro') {
+    return;
+  }
+  $intro_build = ['#theme' => 'jurenites_home_intro'];
+  $cache_metadata = CacheableMetadata::createFromObject($block_entity)
+    ->addCacheContexts(['languages:language_content']);
+  foreach (['field_intro_heading', 'field_two_tone_heading', 'body'] as $field_name) {
+    $field_items = $block_entity->get($field_name);
+    $field_access = $field_items->access('view', NULL, TRUE);
+    $cache_metadata->addCacheableDependency($field_access);
+    if (!$field_access->isAllowed() || $field_items->isEmpty()) {
+      continue;
+    }
+    if ($field_name === 'body') {
+      $intro_build['#intro_body'] = [
+        '#type' => 'processed_text',
+        '#text' => $field_items->value,
+        '#format' => $field_items->format,
+        '#langcode' => $block_entity->language()->getId(),
+      ];
+    }
+    elseif ($field_name === 'field_two_tone_heading') {
+      $intro_build['#heading_options'] = $field_items->first()->getValue();
+    }
+    else {
+      $intro_build['#leading_text'] = $field_items->value;
+    }
+  }
+  $cache_metadata->applyTo($intro_build);
+  $build_output['home_intro'] = $intro_build;
+}

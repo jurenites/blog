@@ -34,6 +34,7 @@
 @use "molecules/audit-comparison";
 @use "molecules/contact-me-widget";
 @use "molecules/article-teaser";
+@use "molecules/article-table-of-content";
 @use "molecules/news-list-item";
 @use "molecules/pagination";
 @use "molecules/author-identity";
@@ -54,6 +55,7 @@
 @use "organisms/newsletter-signup";
 @use "organisms/numeric-values";
 @use "organisms/hero-section";
+@use "organisms/home-introduction";
 @use "organisms/layered-scene";
 @use "organisms/interest-tags";
 @use "organisms/footer-navigation";
@@ -62,6 +64,9 @@
 @use "organisms/guideline-detail";
 @use "organisms/timeline";
 @use "organisms/skills-profile";
+@use "organisms/technology-stack";
+@use "organisms/website-audit";
+@use "organisms/call-to-action";
 @use "organisms/game-of-life";
 
 @use "components/front-page-background";

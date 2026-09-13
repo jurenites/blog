@@ -1,0 +1,118 @@
+@use "../tools";
+
+$contents-offset: calc(var(--drupal-displace-offset-top, var(--space-scale-zero)) + var(--space-scale-base-gap) * 4);
+
+// Article detail aliases share path-blog with the 800px Blog listing frame.
+.layout-content:has(article.article-detail--with-table-of-content) {
+  container: article-reading-frame / inline-size;
+  max-width: calc(var(--layout-content-max-blog-default) + var(--component-content-layout-sidebar-max-width-default) + var(--space-scale-base-gap) * 4);
+}
+
+.article-detail__reading-layout {
+  min-width: 0;
+}
+
+.article-detail--with-table-of-content {
+  > :not(.article-detail__reading-layout) {
+    width: 100%;
+    max-width: var(--layout-content-max-blog-default);
+  }
+
+  .article-detail__reading-layout {
+    display: grid;
+    grid-template-columns: minmax(0, var(--layout-content-max-blog-default));
+    gap: calc(var(--space-scale-base-gap) * 4);
+  }
+
+  .article-detail__body {
+    min-width: 0;
+  }
+
+  .article-detail__body :is(h2, h3) {
+    scroll-margin-top: $contents-offset;
+  }
+}
+
+/* stylelint-disable-next-line selector-class-pattern -- Preserve the public class name requested by the user. */
+.article_table-of-content {
+  min-width: 0;
+  padding-inline-start: calc(var(--space-scale-base-gap) * 2);
+  border-inline-start: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+
+  &[hidden] {
+    display: none;
+  }
+
+  &__title {
+    margin: 0 0 calc(var(--space-scale-base-gap) * 2);
+    color: var(--theme-dark-text-secondary-default);
+    @include tools.typography-subtitle-2;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-scale-base-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__list--nested {
+    margin-block-start: var(--space-scale-base-gap);
+    padding-inline-start: calc(var(--space-scale-base-gap) * 2);
+  }
+
+  &__link {
+    display: block;
+    padding-block: var(--space-scale-base-gap);
+    color: var(--theme-dark-text-secondary-default);
+    overflow-wrap: anywhere;
+    text-decoration: none;
+    @include tools.typography-body-2;
+
+    &:hover,
+    &[aria-current="location"] {
+      color: var(--color-palette-brand-tertiary);
+      text-decoration: underline;
+      text-underline-offset: var(--space-scale-base-gap);
+    }
+
+    &:focus-visible {
+      outline: var(--shape-border-width-hairline-default) solid currentcolor;
+      outline-offset: var(--space-scale-base-gap);
+    }
+  }
+}
+
+// Use the available frame width, including the space taken by Drupal's toolbar.
+@container article-reading-frame (min-width: #{tools.$system-breakpoint-article-sidebar-min}) {
+  .article-detail--with-table-of-content {
+    .article-detail__reading-layout {
+      grid-template-columns:
+        var(--layout-content-max-blog-default)
+        minmax(var(--component-article-table-of-content-sidebar-min-width-default), 1fr);
+      align-items: start;
+    }
+
+    .article-detail__body {
+      grid-area: 1 / 1;
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern -- Preserve the public class name requested by the user. */
+    .article_table-of-content {
+      position: sticky;
+      top: $contents-offset;
+      grid-area: 1 / 2;
+      max-height: calc(100dvh - $contents-offset - var(--space-scale-base-gap) * 4);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.article-detail--with-table-of-content) {
+    scroll-behavior: smooth;
+  }
+}

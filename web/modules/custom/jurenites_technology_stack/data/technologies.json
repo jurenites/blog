@@ -1,0 +1,139 @@
+[
+  {
+    "category_name": "Code",
+    "technology_groups": [
+      {
+        "group_name": "Foundations & runtime",
+        "technology_items": [
+          {
+            "technology_key": "html5",
+            "technology_name": "HTML5",
+            "official_url": "https://www.w3.org/html/logo/",
+            "logo_file": "html5.svg",
+            "white_logo_file": "html5-white.svg"
+          },
+          {
+            "technology_key": "javascript",
+            "technology_name": "JavaScript",
+            "official_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+            "text_mark": "JS"
+          },
+          {
+            "technology_key": "php",
+            "technology_name": "PHP",
+            "official_url": "https://www.php.net/",
+            "logo_file": "php.svg",
+            "white_logo_file": "php-white.svg"
+          },
+          {
+            "technology_key": "nodejs",
+            "technology_name": "Node.js",
+            "official_url": "https://nodejs.org/",
+            "logo_file": "nodejs.svg",
+            "white_logo_file": "nodejs-white.svg"
+          }
+        ]
+      },
+      {
+        "group_name": "Frameworks",
+        "technology_items": [
+          {
+            "technology_key": "vue",
+            "technology_name": "Vue",
+            "official_url": "https://vuejs.org/",
+            "logo_file": "vue.svg"
+          },
+          {
+            "technology_key": "react",
+            "technology_name": "React",
+            "official_url": "https://react.dev/",
+            "logo_file": "react.svg"
+          },
+          {
+            "technology_key": "laravel",
+            "technology_name": "Laravel",
+            "official_url": "https://laravel.com/",
+            "logo_file": "laravel.svg"
+          }
+        ]
+      },
+      {
+        "group_name": "Platforms & tools",
+        "technology_items": [
+          {
+            "technology_key": "drupal",
+            "technology_name": "Drupal",
+            "official_url": "https://www.drupal.org/",
+            "logo_file": "drupal.svg"
+          },
+          {
+            "technology_key": "docker",
+            "technology_name": "Docker",
+            "official_url": "https://www.docker.com/",
+            "logo_file": "docker.svg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category_name": "Databases",
+    "technology_groups": [
+      {
+        "group_name": "",
+        "technology_items": [
+          {
+            "technology_key": "sql",
+            "technology_name": "SQL",
+            "official_url": "https://en.wikipedia.org/wiki/SQL",
+            "text_mark": "SQL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category_name": "Visuals",
+    "technology_groups": [
+      {
+        "group_name": "",
+        "technology_items": [
+          {
+            "technology_key": "figma",
+            "technology_name": "Figma",
+            "official_url": "https://www.figma.com/",
+            "logo_file": "figma.svg"
+          },
+          {
+            "technology_key": "unity",
+            "technology_name": "Unity",
+            "official_url": "https://unity.com/",
+            "logo_file": "unity.svg",
+            "monochrome_brand": true
+          },
+          {
+            "technology_key": "blender",
+            "technology_name": "Blender",
+            "official_url": "https://www.blender.org/",
+            "logo_file": "blender-socket.svg",
+            "white_logo_file": "blender-white.svg"
+          },
+          {
+            "technology_key": "godot",
+            "technology_name": "Godot",
+            "official_url": "https://godotengine.org/",
+            "logo_file": "godot.svg",
+            "white_logo_file": "godot-white.svg"
+          },
+          {
+            "technology_key": "capcut",
+            "technology_name": "CapCut",
+            "official_url": "https://www.capcut.com/",
+            "logo_file": "capcut.svg",
+            "monochrome_brand": true
+          }
+        ]
+      }
+    ]
+  }
+]

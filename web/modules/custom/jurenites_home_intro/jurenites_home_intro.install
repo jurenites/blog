@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file
+ * Seeds a reusable homepage introduction once, preserving subsequent CMS edits.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\language\Entity\ContentLanguageSettings;
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_home_intro_install(): void {
+  if (\Drupal::state()->get('jurenites_home_intro.initialized')) {
+    return;
+  }
+  if (!BlockContentType::load('home_intro')) {
+    BlockContentType::create([
+      'id' => 'home_intro', 'label' => 'Home introduction', 'revision' => TRUE,
+      'description' => 'Two-tone heading and introductory copy.',
+    ])->save();
+  }
+  $display_settings = ['targetEntityType' => 'block_content', 'bundle' => 'home_intro', 'mode' => 'default', 'status' => TRUE];
+  $form_display = EntityFormDisplay::load('block_content.home_intro.default') ?? EntityFormDisplay::create($display_settings);
+  $view_display = EntityViewDisplay::load('block_content.home_intro.default') ?? EntityViewDisplay::create($display_settings);
+  $field_definitions = [
+    'field_intro_heading' => ['string', 'Title 1 (strong text)', [], 'string_textfield'],
+    'field_two_tone_heading' => ['jurenites_two_tone_heading', 'Two-tone heading', [], 'jurenites_two_tone_heading'],
+    'body' => ['text_with_summary', 'Introduction', [], 'text_textarea_with_summary'],
+  ];
+  $field_weight = 0;
+  foreach ($field_definitions as $field_name => [$field_type, $field_label, $field_settings, $widget_type]) {
+    if (!FieldStorageConfig::loadByName('block_content', $field_name)) {
+      FieldStorageConfig::create([
+        'entity_type' => 'block_content', 'field_name' => $field_name,
+        'type' => $field_type, 'cardinality' => 1,
+      ])->save();
+    }
+    if (!FieldConfig::loadByName('block_content', 'home_intro', $field_name)) {
+      FieldConfig::create([
+        'entity_type' => 'block_content', 'bundle' => 'home_intro',
+        'field_name' => $field_name, 'label' => $field_label, 'required' => TRUE,
+        'translatable' => TRUE, 'settings' => $field_settings,
+      ])->save();
+    }
+    $form_display->setComponent($field_name, ['type' => $widget_type, 'weight' => $field_weight++]);
+    $view_display->removeComponent($field_name);
+  }
+  $form_display->setComponent('info', ['type' => 'string_textfield', 'weight' => -5]);
+  $form_display->setComponent('status', ['type' => 'boolean_checkbox', 'weight' => 5])->save();
+  $view_display->save();
+  ContentLanguageSettings::loadByEntityTypeBundle('block_content', 'home_intro')
+    ->setLanguageAlterable(TRUE)->setThirdPartySetting('content_translation', 'enabled', TRUE)->save();
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+
+  $intro_uuid = 'e578f374-6849-41a1-82d6-c6639ba95383';
+  if (!\Drupal::entityTypeManager()->getStorage('block_content')->loadByProperties(['uuid' => $intro_uuid])) {
+    $intro_block = BlockContent::create([
+      'uuid' => $intro_uuid, 'type' => 'home_intro', 'langcode' => 'en',
+      'info' => 'Home introduction', 'reusable' => TRUE, 'status' => TRUE,
+      'field_intro_heading' => 'Personal Blog',
+      'field_two_tone_heading' => ['soft_text' => '& Showcase projects', 'soft_text_placement' => 'new-line', 'trailing_text_placement' => 'inline'],
+      'body' => ['value' => '<p>Articles, videos I’ve liked on YouTube, and my own thoughts on various topics. A place to share my projects and take a closer look at the interfaces of others.</p>', 'format' => 'basic_html'],
+    ]);
+    if (\Drupal::languageManager()->getLanguage('ru')) {
+      $intro_block->addTranslation('ru', [
+        'info' => 'Введение на главной',
+        'field_intro_heading' => 'Личный блог',
+        'field_two_tone_heading' => ['soft_text' => 'и мои проекты', 'soft_text_placement' => 'new-line', 'trailing_text_placement' => 'inline'],
+        'body' => ['value' => '<p>Статьи, понравившиеся видео с YouTube и мои мысли на разные темы. Здесь я делюсь своими проектами и разбираю интерфейсы других.</p>', 'format' => 'basic_html'],
+      ]);
+    }
+    $intro_block->save();
+  }
+  if (!Block::load('jurenites_theme_home_intro')) {
+    $plugin_identifier = 'block_content:' . $intro_uuid;
+    Block::create([
+      'id' => 'jurenites_theme_home_intro', 'theme' => 'jurenites_theme',
+      'region' => 'content', 'weight' => -40, 'status' => TRUE, 'plugin' => $plugin_identifier,
+      'settings' => ['id' => $plugin_identifier, 'label' => 'Home introduction', 'label_display' => '0', 'provider' => 'block_content', 'view_mode' => 'full'],
+      'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => '<front>']],
+    ])->save();
+  }
+  \Drupal::state()->set('jurenites_home_intro.initialized', TRUE);
+}

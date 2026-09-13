@@ -1,6 +1,57 @@
 import { test } from 'node:test';
 import { strict as assert_checks } from 'node:assert';
-import { evolve_generation, plant_glider, measure_life_grid, resize_life_board, paint_live_line } from '../src/slice/src/js/game-of-life-engine.js';
+import { readFile } from 'node:fs/promises';
+import { evolve_generation, plant_glider, measure_life_grid, resize_life_board, paint_live_line, parse_life_example } from '../src/slice/src/js/game-of-life-engine.js';
+
+test('the six authored table examples match their advertised cycles on 6 by 6 boards', async () => {
+  const example_markup = await readFile(new URL('../scripts/content/conway-game-of-life-examples.html', import.meta.url), 'utf8');
+  const expected_periods = { Block: 1, Blinker: 2, Glider: 24, Beehive: 1, Toad: 2, Boat: 1 };
+  const pattern_matches = [...example_markup.matchAll(/<h3>(.*?)<\/h3>\s*<canvas[^>]*data-user='([^']+)'/g)];
+  assert_checks.equal(pattern_matches.length, 6);
+  for (const pattern_match of pattern_matches) {
+    const example_options = parse_life_example(pattern_match[2]);
+    assert_checks.equal(example_options.column_count, 6);
+    assert_checks.equal(example_options.row_count, 6);
+    assert_checks.equal(example_options.zoom_size, 4);
+    let current_cells = example_options.starting_cells.slice();
+    let cycle_count = 0;
+    do {
+      current_cells = evolve_generation(current_cells, new Uint8Array(36), 6, 6);
+      cycle_count += 1;
+    } while (!current_cells.every((cell_value, cell_index) => cell_value === example_options.starting_cells[cell_index]) && cycle_count <= 24);
+    assert_checks.equal(cycle_count, expected_periods[pattern_match[1]], pattern_match[1]);
+  }
+});
+
+test('authored glider wraps around a 5 by 5 world and returns after 20 steps', () => {
+  const example_options = parse_life_example(JSON.stringify({ width: 5, height: 5, size: 2, alive: ['b3', 'c4', 'd2', 'd3', 'd4'] }));
+  let board_cells = example_options.starting_cells.slice();
+  assert_checks.deepEqual(board_cells, create_board([[1, 2], [2, 3], [3, 1], [3, 2], [3, 3]], 5));
+  for (let generation_index = 0; generation_index < 20; generation_index += 1) board_cells = next_board(board_cells, 5);
+  assert_checks.deepEqual(board_cells, example_options.starting_cells);
+  const zoomed_grid = measure_life_grid(72, 72, 16, 2);
+  assert_checks.equal(zoomed_grid.column_count, 5);
+  assert_checks.equal(zoomed_grid.row_count, 5);
+  assert_checks.equal(zoomed_grid.cell_pitch, 14);
+});
+
+test('presets support rectangular boards, uppercase and multi-letter columns without sharing state', () => {
+  const example_json = JSON.stringify({ width: 30, height: 4, alive: ['A1', 'ad4', 'ad4'] });
+  const first_example = parse_life_example(example_json);
+  assert_checks.equal(first_example.starting_cells.length, 120);
+  assert_checks.equal(first_example.starting_cells[0], 1);
+  assert_checks.equal(first_example.starting_cells[119], 1);
+  assert_checks.equal(first_example.starting_cells.reduce((cell_total, cell_value) => cell_total + cell_value, 0), 2);
+  first_example.starting_cells.fill(0);
+  assert_checks.equal(parse_life_example(example_json).starting_cells[0], 1);
+  assert_checks.equal(parse_life_example('{}').starting_cells.some(Boolean), false);
+});
+
+test('invalid or excessive example input is rejected without crashing other canvases', () => {
+  for (const example_input of ['{', 'null', '[]', '4', '{"width":2}', '{"width":101}', '{"height":0}', '{"height":3.5}', '{"size":0}', '{"size":9}', '{"size":"2"}', '{"alive":"a1"}', '{"alive":[null]}', '{"alive":["a0"]}', '{"alive":["f1"]}', '{"alive":["a6"]}']) {
+    assert_checks.equal(parse_life_example(example_input), null, example_input);
+  }
+});
 
 test('fast pointer movement fills every cell between samples, in either direction', () => {
   const forward_cells = create_board([]);

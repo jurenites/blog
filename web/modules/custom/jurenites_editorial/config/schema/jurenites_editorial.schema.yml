@@ -1,0 +1,3 @@
+views.area.editorial_block:
+  type: views.area.entity
+  label: 'Editable content block'

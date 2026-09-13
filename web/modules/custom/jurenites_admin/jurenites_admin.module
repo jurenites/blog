@@ -466,6 +466,12 @@ function jurenites_admin_system_info_alter(array &$extension_info, Extension $ex
  */
 function jurenites_admin_page_attachments(array &$page_attachments): void {
   $active_theme_name = \Drupal::theme()->getActiveTheme()->getName();
+  $page_attachments['#cache']['contexts'][] = 'user.permissions';
+  $page_attachments['#cache']['contexts'][] = 'theme';
+  if ($active_theme_name === 'jurenites_theme'
+    && \Drupal::currentUser()->hasPermission('access contextual links')) {
+    $page_attachments['#attached']['library'][] = 'jurenites_admin/contextual-editing';
+  }
   $uses_gin_admin_theme = $active_theme_name === 'gin';
   $has_toolbar_access = \Drupal::currentUser()->hasPermission('access toolbar')
     || \Drupal::currentUser()->hasPermission('access navigation');

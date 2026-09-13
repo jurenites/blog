@@ -1,5 +1,86 @@
 # About Me Page
 
+## Project invitation
+
+About ends with an editable **Call to action** content block: “GOT A PROJECT?”
+and “LET'S DISCUSS IT!” above the shared primary **CONTACT** button, linked to
+`/contact`. Oversized uppercase type scales to the block width, with tight
+tracking, a muted prompt and a bright invitation on an almost-black surface
+without an outline. The Website Audit block shares that surface treatment.
+
+Edit **About project invitation** under Content → Blocks or through its
+contextual pencil. Both heading lines and the button label/link are translatable,
+revisionable fields. Installation seeds the content only once and preserves
+later edits, unpublishing and deletion. The placement is restricted to `/about`
+and `/obo`, after the other About blocks. **Organisms / Call to Action** in
+Storybook uses the same SCSS and Button atom.
+
+Enable with `docker exec blog_jurenites_web vendor/bin/drush en jurenites_call_to_action -y`,
+build the theme and clear Drupal cache. STAGE/PROD require the equivalent explicit
+enablement after deployment.
+
+## Technology stack
+
+The About page has a separate logo grid after the numeric values and before the
+skills profile. The owner's supplied list defines three core knowledge areas:
+
+- **Code**: HTML5, JavaScript, PHP and Node.js under Foundations & runtime;
+  Vue, React and Laravel under **Frameworks**; Drupal and Docker under Platforms
+  & tools.
+- **Databases**: SQL.
+- **Visuals**: Figma, Unity, Blender, Godot and CapCut.
+
+1С-Битрикс, PWA and Битрикс24 are excluded. This is a technology inventory, not a
+new competency assessment; the existing skills profile and its provisional
+ratings remain independent. The reference site could not be retrieved, so the
+technology names supplied by the owner are the authoritative list.
+
+Logos are white at rest. Hover and keyboard focus reveal their original brand
+colors; Unity and CapCut reveal their official black artwork on a white backing.
+JavaScript and SQL have text marks because neither language has a single official
+logo. Cards link to the technology's website or language documentation. The grid
+works without JavaScript and removes transitions for reduced motion.
+
+Enable locally with
+`docker exec blog_jurenites_web ./vendor/bin/drush en jurenites_technology_stack -y`,
+build the theme, then clear Drupal cache. Installation adds one block restricted
+to `/about` and `/obo`; it does not rewrite the About node or skills content.
+**Structure → Block layout → Technology stack → Configure** (also accessible
+from the block's contextual pencil) controls the heading and visible technologies.
+The shared categorized catalogue is
+`web/modules/custom/jurenites_technology_stack/data/technologies.json`.
+**Organisms / Technology Stack** in Storybook renders that same catalogue.
+Production needs the same explicit module-enablement and theme-build steps.
+
+### Logo sources
+
+Official artwork was downloaded on 12 September 2026. Brand ownership remains
+with the respective projects. These are third-party SVG assets, not hand-drawn
+substitutes. Public image files are copied into the theme by the normal build.
+
+| Technology | Official source |
+| --- | --- |
+| Drupal | `web/core/misc/logo/drupal-logo.svg`; [brand colors](https://www.drupal.org/about/media-kit/logos) |
+| HTML5 | [W3C logo downloads](https://www.w3.org/html/logo/) — color and white SVGs |
+| PHP | [PHP logos](https://www.php.net/download-logos.php) — color and white SVGs |
+| Node.js | [Node.js branding](https://nodejs.org/en/about/branding) — green and white JS marks |
+| Vue | [Official SVG](https://vuejs.org/logo.svg) |
+| React | [Official website](https://react.dev/) — inline React mark |
+| Laravel | [Official website](https://laravel.com/) — inline Laravel wordmark |
+| Docker | [Media resources](https://www.docker.com/company/newsroom/media-resources/) — ocean-blue mark |
+| Figma | [Official website](https://www.figma.com/) — inline header mark |
+| Unity | [Brand page](https://unity.com/legal/branding-trademarks) — linked official SVG |
+| Blender | [Logo kit](https://www.blender.org/about/logo/) |
+| Godot | [Press kit](https://godotengine.org/press/) — color and white icons; Andrea Calabró, CC BY 4.0 |
+| CapCut | [Official website](https://www.capcut.com/) — inline header wordmark |
+
+Drupal, Laravel and React use upstream geometry in `src/brand/technology-stack/`
+with brand colors drawn from `src/token/tokens.yaml`. `npm run build:tokens`
+also generates these three public SVG files through
+`scripts/build-technology-logos.mjs`. Other downloaded SVGs preserve upstream
+color values. Logo sizing, white presentation and hover behavior are scoped to
+`src/slice/src/scss/organisms/_technology-stack.scss`.
+
 ## Web development skills
 
 The About page includes a reusable **Skills profile** content block, placed after
@@ -60,11 +141,12 @@ production content migration. For production, review ratings before enabling.
 
 The source seed is `web/modules/custom/jurenites_skills/data/skills.json`; after
 installation, the Drupal entities are authoritative. Storybook's
-**Organisms / Skills Profile** uses the same starter data and covers provisional,
-reviewed, unrated, boundary and mobile cases. Component presentation lives in
+**Organisms / Skills Profile** uses the same starter data and renders only the
+technology grid, with provisional, unrated, boundary and mobile cases. Its sole
+control is `skill_items`; header/footer copy and the reviewed-state toggle are
+no longer part of the Storybook renderer. Component presentation lives in
 `src/slice/src/scss/organisms/_skills-profile.scss`; it has no inline sizing,
-star icons, progress bars or JavaScript requirement. The level explanation is a
-native keyboard-operable details element. Authored fields support translations;
+star icons, progress bars or JavaScript requirement. Authored fields support translations;
 the initial copy is English.
 
 ## Point-cloud bust

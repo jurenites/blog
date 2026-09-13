@@ -1,0 +1,10 @@
+block.settings.jurenites_technology_stack:
+  type: block_settings
+  label: Technology stack settings
+  mapping:
+    technology_selection:
+      type: sequence
+      label: Visible technologies
+      nullable: true
+      sequence:
+        type: string

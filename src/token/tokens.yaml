@@ -19,13 +19,19 @@ system:
     desktop-min: 1280px # Lower bound of the desktop range and the primary design width.
     desktop-max: 1920px # Maximum tested desktop viewport. Wider screens keep desktop behavior and show additional page background outside centered content.
     site-header-inline-min: 1440px # Visible navigation moves to a second row below this width; the compact menu starts at mobile-max.
+    article-sidebar-min: 992px # Available article frame: 800px Body + 32px gap + 160px contents sidebar.
+    content-gutter-max: 1008px # 960px wide content plus 24px of space on each side.
   naming:
     separator: "-" # Flattened token names use dash-separated namespaces.
     pattern: "{layer}-{scope}-{part}-{property}-{state}" # Use the shortest complete name. Each token must be descriptive and multi-part. Never use a lone generic word (invalid: orange, size, card).
     examples: "component-input-text-color-validation-error-default, theme-dark-surface-background-page, theme-dark-action-primary-default"
 color:
   palette:
+    technology-drupal: "#009CDE" # Drupal brand portal.
+    technology-laravel: "#FF2D20" # Laravel's official wordmark color.
+    technology-react: "#61DAFB" # React logo color for dark backgrounds.
     full-black: "#000000"
+    near-black: "#05070B" # Quiet, almost-black backgrounds for promotional blocks.
     dark-black: "#020618"
     black: "#0F172B"
     light-black: "#1D293D"
@@ -153,6 +159,7 @@ motion:
     accelerate-default: [0.4, 0, 1, 1]
     sharp-default: [0.4, 0, 0.6, 1]
     pulse-default: [0.1, 0.5, 0.6, 1] # Expanding radius accelerates gently before fading away.
+    underline-reveal-default: [0.19, 1, 0.22, 1] # Fast entry followed by a gentle settling underline.
 layout:
   container-max:
     tablet-default: 640px
@@ -166,6 +173,14 @@ layout:
     tablet-default: 24px
     desktop-default: 32px
 component:
+  call-to-action:
+    background-color: color.palette.near-black
+    heading-size-min: 24px
+    heading-size-max: 96px
+    heading-letter-spacing: calc(-0.055 * 1em)
+    heading-line-height: 1.05
+  website-audit:
+    background-color: color.palette.near-black
   status:
     indicator-size-default: 8px # Static test-status light.
     preview-height-default: 480px # Expandable local Storybook preview.
@@ -175,15 +190,20 @@ component:
     live-size-default: 4px # Centered living square inside each cell.
     border-size-default: 1px
     control-size-default: 32px # Compact, icon-only pause/play control.
+    example-columns-default: 5 # Standalone canvas defaults; data-user selects the authored dimensions.
+    example-rows-default: 5
+    example-size-default: 1 # Integer zoom scales cell footprints, live squares, and shared borders together.
   contact-photo:
     max-width-default: 1600px # Independent of the readable Contact form width.
     edge-fade-width-default: 100px # Fade every edge; capped proportionally on small images.
     background-color: component.hero-section.background-edge-color
   site-header:
+    link-underline-duration-default: 900ms # Matches the reference menu's enter and leave timing.
     backdrop-color-default: "#00020780" # Half-opacity homepage tint matching the photograph edge.
     backdrop-blur-default: 12px # Soften image details beneath navigation.
     backdrop-fade-height-default: 32px # Feather below the 64px menu without affecting layout.
-    brand-name-compact-width-default: 48px # Reserves only enough inline space for the separate A and I initials.
+    brand-name-compact-width-default: 48px # Minimum inline space for the separate A and I initials.
+    brand-name-font-weight-default: 300 # Lighter exception for the interactive header identity.
     brand-name-letter-font-size-start: 32px # Added letters grow into the 40px headline role.
     brand-name-letter-spacing-start: -2px # Added letters begin slightly compressed before reaching normal spacing.
     brand-name-reveal-duration-default: 325ms # Each letter reveals and closes at twice the original speed.
@@ -192,7 +212,7 @@ component:
   guideline:
     tile-min-width-default: 280px # Overview tiles remain readable before the responsive grid adds another column.
     preview-height-default: 240px # Shared media field for Logo Icon, Color, and future guideline previews.
-    logo-icon-size-default: 96px # Prominent specimen size; normal header usage keeps the smaller site-branding token.
+    logo-icon-size-default: 96px # Prominent specimen size for the standalone Logo Icon guideline.
     specimen-height-default: 320px # Allows the source icon and its clear space to remain visible on both comparison surfaces.
     swatch-min-width-default: 200px # Keeps token names readable without forcing a fixed column count.
     swatch-height-default: 120px # Color sample height used by both Drupal and the matching Storybook story.
@@ -231,7 +251,8 @@ component:
     gmail-gradient-yellow-color: "#FEC700"
     gmail-gradient-light-yellow-color: "#FFDB0F"
     gmail-color-hover: "#EA4335" # Google brand red.
-    yandex-mail-icon-height-default: 12px # Envelope height, matching Gmail's optical size.
+    yandex-mail-icon-width-default: 16px # Shared width for both envelope states.
+    yandex-mail-icon-height-default: 12px # Fixed viewport; artwork stays proportional.
     yandex-mail-color-hover: "#FFCC00" # https://www.brandcolorcode.com/yandex-mail
     yandex-mail-light-yellow-color: "#FFDA3E"
     yandex-mail-red-color: "#FF3333"
@@ -296,6 +317,8 @@ component:
     default-width: readable
     sidebar-min-width-default: 240px
     sidebar-max-width-default: 320px
+  article-table-of-content:
+    sidebar-min-width-default: 160px # Contents may narrow before the 800px Body column needs to stack.
   badge:
     color:
       background-neutral-default: color.palette.light-black
@@ -369,3 +392,34 @@ component:
     tile-min-height-default: 200px
     icon-max-width-default: 80px # Preserve smaller intrinsic SVG dimensions while preventing oversized uploads.
     number-font-size-compact: 40px # Keeps grouped thousands and their affixes inside the minimum-width tile.
+
+# Dedicated browser-local QR editor palette.
+qr-studio:
+  color:
+    surface-page: "#141618"
+    surface-panel: "#1B1D20"
+    surface-control: "#25282B"
+    surface-hover: "#303438"
+    border-subtle: "#3D4043"
+    text-primary: "#F3F4F0"
+    text-muted: "#A5ABAE"
+    accent-primary: "#D3F668"
+    accent-ink: "#1B2407"
+    status-good: "#BAE370"
+    status-error: "#FA9784"
+    status-warn: "#EDCA7F"
+    paper-white: "#FFFFFF"
+    ink-black: "#000000"
+    guide-lock: "#D36930"
+    lock-match: "#17803D"
+    lock-conflict: "#DC2626"
+    guide-structure: "#258BAD"
+    guide-grid: "#232C341F"
+    guide-cursor: "#A542E1"
+    guide-expected: "#A0A0A0"
+    primary-hover: "#E2FF91"
+    shadow-soft: "#00000026"
+    text-subdued: "#787E82"
+    dialog-backdrop: "#000000A6"
+    shadow-strong: "#0000004C"
+    invalid-highlight: "#FA978452"
