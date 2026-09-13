@@ -576,6 +576,23 @@ function jurenites_theme_add_youtube_metadata(array &$node_variables): void {
     (string) $node_variables['youtube_author_name'],
   );
 
+  $node_variables['youtube_coauthor_name'] = $node_entity->hasField('field_youtube_coauthor_name')
+    ? trim((string) $node_entity->get('field_youtube_coauthor_name')->value) : '';
+  $node_variables['youtube_coauthor_url'] = $node_entity->hasField('field_youtube_coauthor_url')
+    ? trim((string) $node_entity->get('field_youtube_coauthor_url')->uri) : '';
+  $node_variables['youtube_coauthor_initials'] = jurenites_theme_name_initials($node_variables['youtube_coauthor_name']);
+  $coauthor_avatar_url = $node_entity->hasField('field_youtube_coauthor_avatar')
+    ? trim((string) $node_entity->get('field_youtube_coauthor_avatar')->value) : '';
+  if (parse_url($coauthor_avatar_url, PHP_URL_SCHEME) === 'https'
+    && in_array(strtolower((string) parse_url($coauthor_avatar_url, PHP_URL_HOST)), ['yt3.googleusercontent.com', 'yt3.ggpht.com'], TRUE)) {
+    $node_variables['youtube_coauthor_avatar'] = [
+      '#theme' => 'image',
+      '#uri' => $coauthor_avatar_url,
+      '#alt' => '',
+      '#attributes' => ['loading' => 'lazy'],
+    ];
+  }
+
   $youtube_published_date = $node_entity->hasField('field_youtube_published_date')
     ? trim((string) $node_entity->get('field_youtube_published_date')->value)
     : '';
@@ -609,8 +626,6 @@ function jurenites_theme_add_youtube_metadata(array &$node_variables): void {
       '#alt' => '',
       '#attributes' => [
         'loading' => 'lazy',
-        'width' => 16,
-        'height' => 16,
       ],
     ];
   }

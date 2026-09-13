@@ -12,6 +12,9 @@ config:
     - field.storage.node.field_youtube_channel_avatar
     - field.storage.node.field_youtube_creator_name
     - field.storage.node.field_youtube_creator_url
+    - field.storage.node.field_youtube_coauthor_name
+    - field.storage.node.field_youtube_coauthor_url
+    - field.storage.node.field_youtube_coauthor_avatar
     - field.storage.node.field_youtube_published_date
   actions:
     field.field.node.article.field_image:
@@ -79,6 +82,27 @@ config:
               summary_rows: 3
               placeholder: ''
               show_summary: false
+            third_party_settings: {  }
+        - name: field_youtube_coauthor_name
+          options:
+            type: string_textfield
+            weight: 9
+            region: content
+            settings: {  }
+            third_party_settings: {  }
+        - name: field_youtube_coauthor_url
+          options:
+            type: link_default
+            weight: 10
+            region: content
+            settings: {  }
+            third_party_settings: {  }
+        - name: field_youtube_coauthor_avatar
+          options:
+            type: string_textfield
+            weight: 11
+            region: content
+            settings: {  }
             third_party_settings: {  }
     core.entity_view_display.node.article.default:
       setComponent:

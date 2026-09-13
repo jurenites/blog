@@ -19,7 +19,7 @@ export function domain_choices(pattern_text){
  if(!host_info)return null;
  const ending_pattern=host_info.ending_text.toUpperCase();
  const matching_tlds=TLD_LIST.filter(ending_text=>ending_pattern==='*'||ending_text.length===ending_pattern.length&&[...ending_pattern].every((character_text,char_index)=>character_text==='?'||character_text===ending_text[char_index]));
- return {...host_info,matching_tlds,pattern_rows:matching_tlds.map(ending_text=>pattern_text.slice(0,host_info.ending_start)+ending_text+pattern_text.slice(host_info.ending_end))};
+ return {...host_info,matching_tlds,pattern_rows:matching_tlds.map(ending_text=>pattern_text.slice(0,host_info.ending_start)+(ending_pattern==='*'?ending_text:[...host_info.ending_text].map((character_text,char_index)=>character_text==='?'?ending_text[char_index]:character_text).join(''))+pattern_text.slice(host_info.ending_end))};
 }
 export function valid_domain_candidate(payload_text){
  const host_info=domain_parts(payload_text);

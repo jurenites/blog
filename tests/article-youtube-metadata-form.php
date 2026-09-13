@@ -39,16 +39,18 @@ foreach ($editor_accounts as $account_kind => $user_account) {
       if ($document_query->query($details_path)->length !== 1 || $document_query->query($details_path . '[@open]')->length !== 0) {
         throw new RuntimeException("$account_kind $form_kind: metadata section must start collapsed.");
       }
-      foreach (['field_youtube_creator_name[0][value]', 'field_youtube_creator_url[0][uri]', 'field_youtube_published_date[0][value][date]'] as $input_name) {
+      foreach (['field_youtube_creator_name[0][value]', 'field_youtube_creator_url[0][uri]', 'field_youtube_published_date[0][value][date]', 'field_youtube_coauthor_name[0][value]', 'field_youtube_coauthor_url[0][uri]'] as $input_name) {
         if ($document_query->query($details_path . '//input[@name="' . $input_name . '"]')->length !== 1) {
           throw new RuntimeException("$account_kind $form_kind: missing grouped field $input_name.");
         }
       }
-      $avatar_input = '//input[@name="field_youtube_channel_avatar[0][value]"]';
-      $expected_avatar_count = $account_kind === 'administrator' ? 1 : 0;
-      if ($document_query->query($details_path . $avatar_input)->length !== $expected_avatar_count
-        || $document_query->query($avatar_input)->length !== $expected_avatar_count) {
-        throw new RuntimeException("$account_kind $form_kind: channel avatar must be grouped and administrator-only.");
+      foreach (['field_youtube_channel_avatar', 'field_youtube_coauthor_avatar'] as $avatar_field_name) {
+        $avatar_input = '//input[@name="' . $avatar_field_name . '[0][value]"]';
+        $expected_avatar_count = $account_kind === 'administrator' ? 1 : 0;
+        if ($document_query->query($details_path . $avatar_input)->length !== $expected_avatar_count
+          || $document_query->query($avatar_input)->length !== $expected_avatar_count) {
+          throw new RuntimeException("$account_kind $form_kind: channel avatar must be grouped and administrator-only.");
+        }
       }
       $video_input = '//input[@name="field_youtube_video[0][input]"]';
       if ($document_query->query($video_input)->length !== 1 || $document_query->query($details_path . $video_input)->length !== 0) {

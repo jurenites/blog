@@ -288,6 +288,10 @@
     gap: calc(var(--space-scale-base-gap) * 2);
   }
 
+  &__item > .article-list-item > .article-list-item__body > .article-list-item__content {
+    display: none;
+  }
+
   &__status {
     min-height: calc(var(--space-scale-base-gap) * 3);
     margin-block: calc(var(--space-scale-base-gap) * 3);

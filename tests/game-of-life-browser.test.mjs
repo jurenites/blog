@@ -22,7 +22,7 @@ test('standalone canvases retain presets, zoom, interaction, lifecycle and full-
     await browser_page.addScriptTag({ content: bundle_result.outputFiles[0].text });
     await browser_page.evaluate(() => {
       document.body.classList.add('jurenites-theme');
-      const first_markup = life_runtime.life_example_markup({ living_cells: ['b3', 'c4', 'd2', 'd3', 'd4'] });
+      const first_markup = life_runtime.life_example_markup({ column_count: 5, row_count: 5, zoom_size: 2, living_cells: ['b3', 'c4', 'd2', 'd3', 'd4'] });
       const second_markup = life_runtime.life_example_markup({ column_count: 8, row_count: 4, zoom_size: 3, living_cells: ['a1', 'h4'] });
       document.querySelector('main').innerHTML = first_markup + second_markup + life_runtime.game_of_life_markup();
       life_runtime.initialize_game_of_life(document);

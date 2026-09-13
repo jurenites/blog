@@ -485,8 +485,9 @@ The public Views queries keep these presentations separate. `/blog` lists
 published Articles whose YouTube field is empty; `/videos` lists published
 Articles whose YouTube field is populated. Both pages retain tag filtering.
 Videos uses a wide grid with three columns on desktop, two on tablets, and one
-on phones. Each tile keeps its thumbnail above the title, description, and
-creator details, reusing the Article Blog List Item markup. The grid preserves
+on phones. Each tile keeps its thumbnail above the title and creator details,
+reusing the Article Blog List Item markup. The excerpt is hidden within the
+Videos grid; Blog list excerpts remain visible. The grid preserves
 the existing Views ordering (newest first). As the visitor approaches the end,
 the theme fetches the native next-page URL and appends its cards, retaining tag
 filters and reattaching thumbnail, avatar, and tooltip behaviors. Only one page
@@ -524,11 +525,58 @@ remain unchanged. The channel avatar URL is also inside this collapsed section
 and remains administrator-only.
 The grouping runs for both the default Article form and the separate
 `node_article_edit_form` used by `/node/{node}/edit`.
-Automatic source collection fills empty creator, date, and
-duration values, while replacing the YouTube URL clears the old credit and
+Automatic source collection fills empty creator, date, duration, and channel
+avatar values. Each save with a YouTube URL and an empty avatar retries the
+avatar lookup, even when the other metadata is already populated. The existing
+video-page request reads the video owner's avatar from YouTube's initial page
+data and stores only HTTPS URLs on `yt3.googleusercontent.com` or `yt3.ggpht.com`
+that fit the field. An existing avatar URL is preserved. Missing data or a failed
+lookup leaves the field empty for the next save and does not prevent saving the
+Article; rendering never performs this lookup.
+Replacing the YouTube URL clears the old creator, date, and duration credit and
 collects the new source. Each save also keeps the Authored on calendar date
 aligned with the stored YouTube publication date. The shared Avatar falls back
 to channel initials when its stored URL is empty or invalid.
+
+Run `docker exec blog_jurenites_web ./vendor/bin/drush php:script
+tests/article-youtube-avatar-save.php` to check avatar collection and retry
+behavior with controlled HTTP responses and temporary Article saves.
+
+YouTube collaboration videos can credit a second channel through optional
+`field_youtube_coauthor_name`, `field_youtube_coauthor_url`, and
+`field_youtube_coauthor_avatar` fields. They appear in the same collapsed metadata
+section; both avatar URL fields remain administrator-only. The deployable
+`jurenites_blog_post_update_youtube_coauthor_fields()` update adds these fields
+without changing existing Article content, and the YouTube recipe includes them
+for new installs.
+
+On save, the video owner's embedded collaborator dialog supplies channel names,
+channel IDs, and avatar URLs. The parser recognizes the `videoOwnerRenderer`
+dialog structure documented in the
+[public collaborator parser reference](https://github.com/Ivorisnoob/Koda/blob/main/app/src/main/java/com/ivor/ivormusic/data/YouTubeRepository.kt).
+It searches only the current video's credit area, ignores recommendations, and
+deduplicates channel IDs. The stored primary name or URL selects the primary
+channel when possible; the first different channel becomes the optional second
+credit. This presentation supports two channels. Missing fields are filled;
+editorial corrections remain intact. Changing the video ID clears the previous
+second-channel credit before collecting the new source.
+
+Successful channel lookup results are cached for 24 hours per source URL, so a
+confirmed single-channel video does not trigger another page request on every
+save. Missing primary avatars and incomplete known second-channel credits still
+retry on save. Unavailable or unrecognized page data does not mark discovery as
+complete. Automatic collaboration extraction is covered by representative
+fixtures; a live two-channel video response still needs verification.
+
+The shared Author Identity and Author Byline render both video cards and Article
+details as `First channel & Second channel`, with separate links and a gray
+ampersand. Two small 16px Avatars occupy a 24px square: the first is at the top
+left, and the second is 8px down and right, in front. Other Avatar sizes preserve
+the same half-diameter offsets. Each image retains its own initials fallback.
+Single-channel credits keep their existing presentation. The `youtube_collaboration`
+Author Byline story exposes the second-channel controls; run
+`PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node --test tests/author-coauthors.test.mjs`
+to check desktop/mobile geometry and wrapping.
 
 ### Deferred Editorial Work
 

@@ -32,7 +32,7 @@ foreach ($page_xpath->query('//script[@src] | //link[@rel="stylesheet"]') as $as
     throw new RuntimeException('Studio entry point is not an ES module.');
   }
 }
-foreach (['search-worker.js', 'core.js', 'solver.js', 'character-map.js', 'editor-tools.js', 'imports.js', 'matches.js', 'logo.json', 'domain-pattern.js', 'tld-data.js'] as $asset_name) {
+foreach (['search-worker.js', 'core.js', 'solver.js', 'character-map.js', 'editor-tools.js', 'imports.js', 'matches.js', 'logo.json', 'domain-pattern.js', 'tld-data.js', 'pixel-text.js', '4pixel-data.js'] as $asset_name) {
   $asset_paths[] = $module_prefix . $asset_name;
 }
 foreach ($asset_paths as $asset_path) {

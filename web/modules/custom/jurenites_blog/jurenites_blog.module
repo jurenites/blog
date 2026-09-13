@@ -65,6 +65,9 @@ function jurenites_blog_form_node_article_form_alter(
     'field_youtube_creator_url',
     'field_youtube_published_date',
     'field_youtube_channel_avatar',
+    'field_youtube_coauthor_name',
+    'field_youtube_coauthor_url',
+    'field_youtube_coauthor_avatar',
   ];
   foreach ($managed_field_names as $managed_field_name) {
     if (isset($form[$managed_field_name])) {
@@ -83,6 +86,10 @@ function jurenites_blog_form_node_article_form_alter(
   if (isset($form['field_youtube_channel_avatar'])
     && !\Drupal::currentUser()->hasPermission('administer nodes')) {
     $form['field_youtube_channel_avatar']['#access'] = FALSE;
+  }
+  if (isset($form['field_youtube_coauthor_avatar'])
+    && !\Drupal::currentUser()->hasPermission('administer nodes')) {
+    $form['field_youtube_coauthor_avatar']['#access'] = FALSE;
   }
 }
 
@@ -178,6 +185,14 @@ function jurenites_blog_node_presave(NodeInterface $content_node): void {
     }
   }
 
+  if ($original_identifier !== '' && $original_identifier !== $video_identifier) {
+    foreach (['field_youtube_coauthor_name', 'field_youtube_coauthor_url', 'field_youtube_coauthor_avatar'] as $credit_field_name) {
+      if ($article_node->hasField($credit_field_name)) {
+        $article_node->set($credit_field_name, NULL);
+      }
+    }
+  }
+
   jurenites_blog_set_youtube_credit($article_node, $video_url);
   jurenites_blog_sync_authored_date($article_node);
 
@@ -230,7 +245,7 @@ function jurenites_blog_sync_authored_date(NodeInterface $article_node): void {
 }
 
 /**
- * Populates empty editable creator and source-publication fields.
+ * Populates empty creator, channel avatar, and source-publication fields.
  */
 function jurenites_blog_set_youtube_credit(
   NodeInterface $article_node,
@@ -244,6 +259,8 @@ function jurenites_blog_set_youtube_credit(
     && $article_node->get('field_youtube_published_date')->isEmpty();
   $consumption_time_missing = $article_node->hasField('field_consumption_time_minutes')
     && $article_node->get('field_consumption_time_minutes')->isEmpty();
+  $channel_avatar_missing = $article_node->hasField('field_youtube_channel_avatar')
+    && trim((string) $article_node->get('field_youtube_channel_avatar')->value) === '';
 
   if ($creator_name_missing || $creator_url_missing) {
     try {
@@ -269,7 +286,20 @@ function jurenites_blog_set_youtube_credit(
     }
   }
 
-  if (!$published_date_missing && !$consumption_time_missing) {
+  $channel_cache_id = 'jurenites_blog:youtube_channels:' . hash('sha256', $video_url);
+  $cached_channels = \Drupal::cache('data')->get($channel_cache_id);
+  if ($cached_channels !== FALSE) {
+    jurenites_blog_set_youtube_channel_credits($article_node, $cached_channels->data, FALSE);
+  }
+  $coauthor_name = $article_node->hasField('field_youtube_coauthor_name')
+    ? trim((string) $article_node->get('field_youtube_coauthor_name')->value) : '';
+  $coauthor_discovery_needed = $article_node->hasField('field_youtube_coauthor_name')
+    && $coauthor_name === '' && $cached_channels === FALSE;
+  $coauthor_credit_missing = $coauthor_name !== ''
+    && ($article_node->get('field_youtube_coauthor_avatar')->isEmpty()
+      || $article_node->get('field_youtube_coauthor_url')->isEmpty());
+  if (!$published_date_missing && !$consumption_time_missing && !$channel_avatar_missing
+    && !$coauthor_discovery_needed && !$coauthor_credit_missing) {
     return;
   }
 
@@ -287,6 +317,19 @@ function jurenites_blog_set_youtube_credit(
       ],
     );
     $video_page = (string) $video_page_response->getBody();
+    $channel_credits = jurenites_blog_youtube_channel_credits($video_page);
+    if ($channel_credits !== []) {
+      \Drupal::cache('data')->set($channel_cache_id, $channel_credits, \Drupal::time()->getRequestTime() + 86400);
+      jurenites_blog_set_youtube_channel_credits($article_node, $channel_credits);
+    }
+    if ($channel_avatar_missing) {
+      if ($article_node->get('field_youtube_channel_avatar')->isEmpty()) {
+        \Drupal::logger('jurenites_blog')->warning(
+          'The YouTube page has no channel avatar for Article @article_id.',
+          ['@article_id' => $article_node->id() ?? 'new'],
+        );
+      }
+    }
     if ($published_date_missing) {
       $date_found = preg_match('/"publishDate":"([^"]+)"/', $video_page, $date_matches);
       if ($date_found === 1) {
@@ -323,6 +366,170 @@ function jurenites_blog_set_youtube_credit(
       ],
     );
   }
+}
+
+/**
+ * Fills missing channel fields without replacing editorial corrections.
+ */
+function jurenites_blog_set_youtube_channel_credits(NodeInterface $article_node, array $channel_credits, bool $include_primary_credit = TRUE): void {
+  if ($channel_credits === []) {
+    return;
+  }
+  $primary_channel_index = 0;
+  $primary_channel_name = trim((string) $article_node->get('field_youtube_creator_name')->value);
+  $primary_channel_url = trim((string) $article_node->get('field_youtube_creator_url')->uri);
+  foreach ($channel_credits as $channel_index => $channel_credit) {
+    if (($primary_channel_url !== '' && $channel_credit['channel_url'] === $primary_channel_url)
+      || ($primary_channel_name !== '' && $channel_credit['channel_name'] === $primary_channel_name)) {
+      $primary_channel_index = $channel_index;
+      break;
+    }
+  }
+  $primary_credit = $channel_credits[$primary_channel_index];
+  if ($include_primary_credit && $article_node->hasField('field_youtube_channel_avatar')
+    && trim((string) $article_node->get('field_youtube_channel_avatar')->value) === ''
+    && $primary_credit['avatar_url'] !== '') {
+    $article_node->set('field_youtube_channel_avatar', $primary_credit['avatar_url']);
+  }
+  if ($include_primary_credit) {
+    foreach (['field_youtube_creator_name' => 'channel_name', 'field_youtube_creator_url' => 'channel_url'] as $field_name => $credit_property) {
+      if ($article_node->get($field_name)->isEmpty() && $primary_credit[$credit_property] !== '') {
+        $article_node->set($field_name, $credit_property === 'channel_url'
+          ? ['uri' => $primary_credit[$credit_property]] : $primary_credit[$credit_property]);
+      }
+    }
+  }
+  if (!$article_node->hasField('field_youtube_coauthor_name')) {
+    return;
+  }
+  $stored_coauthor_name = trim((string) $article_node->get('field_youtube_coauthor_name')->value);
+  $stored_coauthor_url = trim((string) $article_node->get('field_youtube_coauthor_url')->uri);
+  foreach ($channel_credits as $channel_index => $channel_credit) {
+    if ($channel_index === $primary_channel_index
+      || (($stored_coauthor_url !== '' || $stored_coauthor_name !== '')
+        && $stored_coauthor_url !== $channel_credit['channel_url']
+        && $stored_coauthor_name !== $channel_credit['channel_name'])) {
+      continue;
+    }
+    foreach ([
+      'field_youtube_coauthor_name' => 'channel_name',
+      'field_youtube_coauthor_url' => 'channel_url',
+      'field_youtube_coauthor_avatar' => 'avatar_url',
+    ] as $field_name => $credit_property) {
+      if ($article_node->get($field_name)->isEmpty() && $channel_credit[$credit_property] !== '') {
+        $article_node->set($field_name, $credit_property === 'channel_url'
+          ? ['uri' => $channel_credit[$credit_property]] : $channel_credit[$credit_property]);
+      }
+    }
+    break;
+  }
+}
+
+/**
+ * Extracts credited channels, excluding comments and recommendations.
+ */
+function jurenites_blog_youtube_channel_credits(string $video_page): array {
+  if (trim($video_page) === '') {
+    return [];
+  }
+  $page_document = new \DOMDocument();
+  @$page_document->loadHTML($video_page, LIBXML_NONET);
+  foreach ($page_document->getElementsByTagName('script') as $script_element) {
+    $script_content = $script_element->textContent;
+    if (preg_match(
+      '/(?:\bytInitialData|window\["ytInitialData"\])\s*=\s*(\{)/',
+      $script_content,
+      $initial_data_matches,
+      PREG_OFFSET_CAPTURE,
+    ) !== 1) {
+      continue;
+    }
+    $initial_data = json_decode(rtrim(
+      substr($script_content, $initial_data_matches[1][1]),
+      " \t\n\r\0\x0B;",
+    ), TRUE);
+    // Limit lookup to the current video, outside the recommendations sidebar.
+    $pending_sections = $initial_data['contents']['twoColumnWatchNextResults']['results']['results']['contents'] ?? [];
+    while ($pending_sections !== []) {
+      $current_section = array_pop($pending_sections);
+      if (!is_array($current_section)) {
+        continue;
+      }
+      if (isset($current_section['videoOwnerRenderer'])) {
+        return jurenites_blog_youtube_owner_credits($current_section['videoOwnerRenderer']);
+      }
+      foreach ($current_section as $nested_section) {
+        if (is_array($nested_section)) {
+          $pending_sections[] = $nested_section;
+        }
+      }
+    }
+  }
+  return [];
+}
+
+/**
+ * Reads only the current owner's embedded collaborator list or single credit.
+ */
+function jurenites_blog_youtube_owner_credits(array $owner_data): array {
+  $collaborator_items = $owner_data['navigationEndpoint']['showDialogCommand']['panelLoadingStrategy']['inlineContent']['dialogViewModel']['customContent']['listViewModel']['listItems'] ?? [];
+  $channel_credits = [];
+  foreach ($collaborator_items as $collaborator_item) {
+    $channel_item = $collaborator_item['listItemViewModel'] ?? [];
+    $channel_name = trim((string) ($channel_item['title']['content'] ?? ''));
+    $channel_identifier = $channel_item['title']['commandRuns'][0]['onTap']['innertubeCommand']['browseEndpoint']['browseId']
+      ?? $channel_item['rendererContext']['commandContext']['onTap']['innertubeCommand']['browseEndpoint']['browseId'] ?? '';
+    if ($channel_name === '' || !is_string($channel_identifier)
+      || preg_match('/^UC[A-Za-z0-9_-]{22}$/', $channel_identifier) !== 1) {
+      continue;
+    }
+    $channel_credits[$channel_identifier] = [
+      'channel_name' => $channel_name,
+      'channel_url' => 'https://www.youtube.com/channel/' . $channel_identifier,
+      'avatar_url' => jurenites_blog_youtube_avatar_from_images($channel_item['leadingAccessory']['avatarViewModel']['image']['sources'] ?? []),
+    ];
+  }
+  if ($channel_credits !== []) {
+    return array_values($channel_credits);
+  }
+  $avatar_url = jurenites_blog_youtube_avatar_from_images($owner_data['thumbnail']['thumbnails'] ?? []);
+  $channel_name = $owner_data['title']['runs'][0]['text'] ?? $owner_data['title']['simpleText'] ?? '';
+  if ($channel_name === '' && $avatar_url === '') {
+    return [];
+  }
+  return [[
+    'channel_name' => $channel_name,
+    'channel_url' => '',
+    'avatar_url' => $avatar_url,
+  ]];
+}
+
+/**
+ * Returns a supported channel image that fits the stored avatar URL field.
+ */
+function jurenites_blog_youtube_avatar_from_images(array $channel_images): string {
+  foreach ($channel_images as $channel_image) {
+    $avatar_url = $channel_image['url'] ?? '';
+    if (!is_string($avatar_url) || strlen($avatar_url) > 255
+      || filter_var($avatar_url, FILTER_VALIDATE_URL) === FALSE) {
+      continue;
+    }
+    $avatar_parts = parse_url($avatar_url);
+    if (($avatar_parts['scheme'] ?? '') === 'https'
+      && !isset($avatar_parts['user']) && !isset($avatar_parts['pass'])
+      && !isset($avatar_parts['port'])
+      && in_array(strtolower($avatar_parts['host'] ?? ''), ['yt3.googleusercontent.com', 'yt3.ggpht.com'], TRUE)) {
+      return $avatar_url;
+    }
+  }
+  return '';
+}
+
+/**
+ * Returns the first credited channel avatar for existing callers.
+ */
+function jurenites_blog_youtube_channel_avatar_url(string $video_page): string {
+  return jurenites_blog_youtube_channel_credits($video_page)[0]['avatar_url'] ?? '';
 }
 
 /**

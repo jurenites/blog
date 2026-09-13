@@ -1,3 +1,4 @@
+import {validate_text_layer} from './pixel-text.js?font=4pixel-5';
 const QR_CODE = globalThis.qrcodegen.QrCode;
 const QR_SEGMENT = globalThis.qrcodegen.QrSegment;
 const ORIGINAL_DRAW = QR_CODE.prototype.drawCodewords;
@@ -107,5 +108,5 @@ export function validate_project(project_data) {
   if(!Number.isInteger(project_data.version_number)||project_data.version_number<1||project_data.version_number>10||!ECC_LEVELS[project_data.error_level]) throw new Error('Invalid QR configuration.');
   if(!Array.isArray(project_data.lock_values)||project_data.lock_values.length!==grid_size*grid_size||project_data.lock_values.some(cell_value=>![-1,0,1].includes(cell_value))) throw new Error('Invalid lock grid.');
   if(project_data.quarter_turns!==undefined&&![0,1,2,3].includes(project_data.quarter_turns))throw new Error('Invalid QR rotation.');
-  return project_data;
+  return {...project_data,text_layer:validate_text_layer(project_data.text_layer,grid_size)};
 }

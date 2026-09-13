@@ -23,6 +23,14 @@ test('saved matches deduplicate by address, keep independent artwork, and surviv
   assert.equal(match_rows[0].lock_values[0],-1);
   assert.equal(append_match(match_rows,{...first_match,mask_index:1}).length,1);
   assert.deepEqual(excluded_addresses(validate_matches(JSON.parse(JSON.stringify(match_rows)))),['HTTPS://FUHRF.CC']);
+  assert.equal(match_rows[0].is_active,true);
+  match_rows[0].is_active=false;
+  const restored_matches=validate_matches(JSON.parse(JSON.stringify(match_rows)));
+  assert.equal(restored_matches[0].is_active,false);
+  assert.deepEqual(excluded_addresses(restored_matches),['HTTPS://FUHRF.CC']);
+  assert.equal(append_match(restored_matches,first_match)[0].is_active,false);
+  restored_matches[0].is_active=true;
+  assert.equal(validate_matches(restored_matches)[0].is_active,true);
   assert.throws(()=>validate_matches([{...first_match,lock_values:[1]}]),/invalid lock grid/);
 });
 test('next constraint search skips the previous address across every mask',async()=>{

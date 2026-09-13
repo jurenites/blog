@@ -17,6 +17,39 @@ use Drupal\node\Entity\NodeType;
 use Drupal\views\Entity\View;
 
 /**
+ * Adds optional credit fields for a second YouTube channel.
+ */
+function jurenites_blog_post_update_youtube_coauthor_fields(): TranslatableMarkup {
+  $recipe_directory = DRUPAL_ROOT . '/../recipes/jurenites_article_youtube/config/';
+  $form_display = \Drupal::entityTypeManager()->getStorage('entity_form_display')->load('node.article.default');
+  $widget_weight = 9;
+  foreach ([
+    'field_youtube_coauthor_name' => 'string_textfield',
+    'field_youtube_coauthor_url' => 'link_default',
+    'field_youtube_coauthor_avatar' => 'string_textfield',
+  ] as $field_name => $widget_type) {
+    if (FieldStorageConfig::loadByName('node', $field_name) === NULL) {
+      $storage_definition = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($recipe_directory . 'field.storage.node.' . $field_name . '.yml'));
+      FieldStorageConfig::create($storage_definition)->save();
+    }
+    if (FieldConfig::loadByName('node', 'article', $field_name) === NULL) {
+      $field_definition = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($recipe_directory . 'field.field.node.article.' . $field_name . '.yml'));
+      FieldConfig::create($field_definition)->save();
+    }
+    if ($form_display !== NULL && !$form_display->getComponent($field_name)) {
+      $form_display->setComponent($field_name, ['type' => $widget_type, 'weight' => $widget_weight, 'region' => 'content']);
+    }
+    $widget_weight++;
+    foreach (\Drupal::entityTypeManager()->getStorage('entity_view_display')->loadByProperties(['targetEntityType' => 'node', 'bundle' => 'article']) as $view_display) {
+      $view_display->removeComponent($field_name)->save();
+    }
+  }
+  $form_display?->save();
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+  return t('Added optional second-channel YouTube credit fields.');
+}
+
+/**
  * Adds the shared LEGO tag for builds and videos.
  */
 function jurenites_blog_post_update_add_lego_tag(): TranslatableMarkup {

@@ -16,7 +16,7 @@ node across alias changes and does not appear on unrelated Articles. It is a nod
 there is no separately placed site-wide block.
 
 Edit the Article Body through Drupal using an administrative account with
-Basic HTML access. The `alexander` account supplies the public attribution;
+Basic HTML or Full HTML access. The `alexander` account supplies the public attribution;
 its existing restricted content-editor permissions are unchanged. The optional,
 repeatable **Supporting videos** field uses native Remote video Media and Media
 Library. Keep the main YouTube field empty: it controls whether an Article is
@@ -76,7 +76,7 @@ Place a standalone canvas in a template or in the Article Body using Basic HTML'
 
 ```html
 <canvas class="game-of-life__canvas"
-  data-user='{"width":5,"height":5,"size":2,"alive":["b3","c4","d2","d3","d4"]}'
+  data-user='{"width":6,"height":6,"size":4,"alive":["b3","c4","d2","d3","d4"]}'
   role="img"
   aria-label="Live glider. Move the pointer to draw cells; reload to restore.">
   Glider example. Enable JavaScript for the interactive simulation.
@@ -89,6 +89,8 @@ Place a standalone canvas in a template or in the Article Body using Basic HTML'
 - `size` is integer zoom from 1 through 8, default 1. Size 2 doubles the 8px cell
   footprint, 4px live square, and 1px shared border to 16px, 8px, and 2px. Because
   borders are shared, a 5×5 board is 36×36px at size 1 and 72×72px at size 2.
+  The article's 6×6 examples at size 4 are 172×172px, with 32px cell footprints,
+  16px living squares, and 4px shared borders.
   The canvas retains the authored dimensions; choose a size that fits its column.
 - `alive` lists living cell addresses. Letters identify columns from left to right,
   numbers identify rows from top to bottom: `a1` is the upper-left cell. Addresses
@@ -101,11 +103,11 @@ Place a standalone canvas in a template or in the Article Body using Basic HTML'
 Examples reuse the existing B3/S23 engine, wrapping edges, cached grid, 12-generation
 per-second cap, pointer drawing, and stationary-pointer hold. Each canvas owns its
 cells. Interactions are temporary: reloading restores the authored preset. The
-5×5 glider above returns to its initial configuration after 20 generations when
+6×6 glider above returns to its initial configuration after 24 generations when
 undisturbed. Offscreen and hidden-tab animation stops; reduced-motion preference
 starts examples stationary while pointer drawing remains available.
 
-**Organisms/Game of Life Example** provides Glider, Blinker, and Block stories
+**Organisms/Game of Life Example** provides Glider, Blinker, Block, Beehive, Toad, and Boat stories
 with editable dimensions, zoom, and living-cell arrays. SCSS attribute selectors
 own all displayed sizing, using the existing cell/border tokens and example
 defaults in `src/token/tokens.yaml`; JavaScript only sets intrinsic bitmap size.
@@ -114,6 +116,29 @@ The module's `jurenites_life_update_11001()` update enables this exact canvas cl
 `data-user`, `role="img"`, and `aria-label` in Basic HTML and CKEditor source editing.
 Fresh installations configure the same support. Other editor settings and article
 copy are preserved. The editor is for authoring; the saved page runs the simulation.
+
+### Article pattern table
+
+`scripts/content/conway-game-of-life-examples.html` is the paste-ready Body fragment:
+a short interaction explanation and a semantic table with a title, canvas, and
+description for Block, Blinker, Glider, Beehive, Toad, and Boat. All six boards use
+6×6 cells at 4× zoom. The table replaces the old `patterns.png` illustration and
+its caption, together with the earlier standalone glider in the same paragraph.
+Scoped SCSS keeps it readable at desktop and mobile widths without inline sizing.
+Pattern terminology follows [Paul Callahan's introduction](https://www.math.com/students/wonders/life/life.html);
+the engine tests verify every authored preset's cycle on the finite wrapping board.
+
+The current local body uses Full HTML, which already supports native tables.
+`jurenites_life_update_11002()` also enables native table editing in Basic HTML,
+preserving the `game-of-life-examples` table class and row/column header scope.
+The reusable fragment works in either format.
+
+For the same content replacement in another environment, preview
+`drush php:script scripts/replace-life-pattern-image.php`, then run it with
+`LIFE_APPLY=1`. The script checks the expected image/introduction/caption, preserves
+the other body text and fields, and saves a new revision for rollback. It does
+nothing when the table is already present. This content replacement is separate
+from database updates, so future deployments do not overwrite editorial changes.
 
 ## Reproduce in another environment
 
@@ -143,10 +168,13 @@ Run `npm run build:theme` afterwards to copy the image assets into the theme.
 four-step glider translation, synchronous updates, wrapping at both edges, exact
 799px/281px grid sizing, preservation of cells on resize, preset parsing, exact zoom,
 and the 20-generation wrapping glider cycle.
+The six table fixtures are also checked against their advertised periods,
+including the 24-generation cycle of the 6×6 glider.
 `PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node --test tests/game-of-life-browser.test.mjs`
 checks multiple canvases, rectangular sizing, high-DPI painting, independent pointer
 edits, preset restoration on reattachment, reduced motion, offscreen suspension,
-invalid-input isolation, and the full widget's controls.
+invalid-input isolation, the full widget's controls, and all six 172px canvases
+without horizontal overflow at desktop and 360px mobile widths.
 `drush php:script tests/game-of-life-examples.php` checks filtered JSON/canvas markup,
 restricted attributes, source-editing settings, and idempotent configuration.
 `drush php:script tests/game-of-life-article.php` checks the actual node, render

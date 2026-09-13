@@ -5,7 +5,10 @@ const ROW_COUNT = 6;
 const ZOOM_SIZE = 4;
 const GLIDER_CELLS = ['b3', 'c4', 'd2', 'd3', 'd4'];
 const BLINKER_CELLS = ['b3', 'c3', 'd3'];
-const BLOCK_CELLS = ['b2', 'c2', 'b3', 'c3'];
+const BLOCK_CELLS = ['c3', 'd3', 'c4', 'd4'];
+const BEEHIVE_CELLS = ['c2', 'd2', 'b3', 'e3', 'c4', 'd4'];
+const TOAD_CELLS = ['c3', 'd3', 'e3', 'b4', 'c4', 'd4'];
+const BOAT_CELLS = ['b2', 'c2', 'b3', 'd3', 'c4'];
 const EXAMPLE_DESCRIPTION = 'Game of Life example. Move the pointer to draw live cells. Reload to restore the pattern.';
 
 export default {
@@ -24,3 +27,6 @@ export default {
 export const glider_example = {};
 export const blinker_example = { args: { living_cells: BLINKER_CELLS } };
 export const block_example = { args: { living_cells: BLOCK_CELLS } };
+export const beehive_example = { args: { living_cells: BEEHIVE_CELLS } };
+export const toad_example = { args: { living_cells: TOAD_CELLS } };
+export const boat_example = { args: { living_cells: BOAT_CELLS } };

@@ -9,6 +9,8 @@ vm.runInThisContext(await readFile(new URL('../ui/vendor/jsQR.js',import.meta.ur
 
 test('real TLD matching preserves positions, supports lengths and rejects invented endings',()=>{
  assert.equal(valid_domain_candidate('HTTP://BBO17.P1H'),false);
+ assert.equal(valid_domain_candidate('HTTP://XFY60.4AG'),false);
+ assert.equal(valid_domain_candidate('HTTP://XFY60.AG'),true);
  assert.equal(valid_domain_candidate('HTTP://BBO17.TOP'),true);
  assert.equal(valid_domain_candidate('WWW.BBO17.TOP'),true);
  assert.equal(valid_domain_candidate('HTTP://BBO17.TOP/FILE.P1H'),true);
@@ -22,10 +24,12 @@ test('real TLD matching preserves positions, supports lengths and rejects invent
  assert.equal(candidate_patterns('HTTP://BBO17.*').length,TLD_LIST.length);
  assert.equal(has_search_slots('HTTP://BBO17.*'),true);
  assert.equal(has_search_slots('2*2'),false);
+ assert.deepEqual(candidate_patterns('http://?.cc'),['http://?.cc']);
+ assert.ok(candidate_patterns('http://?.t??').includes('http://?.tOP'));
 });
 
 test('actual worker uses real TLDs with digits-only name settings, any-length suffixes, and exclusions',async()=>{
- const worker_source=(await readFile(new URL('../ui/search-worker.js',import.meta.url),'utf8')).replace(/import\('\.\/(core|solver|domain-pattern)\.js'\)/g,(_,module_name)=>`import(${JSON.stringify(new URL(`../ui/${module_name}.js`,import.meta.url).href)})`);
+ const worker_source=(await readFile(new URL('../ui/search-worker.js',import.meta.url),'utf8')).replace(/import\('\.\/(core|solver|domain-pattern|tld-data)\.js'\)/g,(_,module_name)=>`import(${JSON.stringify(new URL(`../ui/${module_name}.js`,import.meta.url).href)})`);
  const message_rows=[];
  globalThis.self={postMessage:message_data=>message_rows.push(message_data)};
  globalThis.importScripts=()=>{};
@@ -40,6 +44,10 @@ test('actual worker uses real TLDs with digits-only name settings, any-length su
  await self.onmessage({data:{...search_options,pattern_text:'HTTP://BBO17.*',excluded_payloads:[first_result.payload_text]}});
  const next_result=message_rows.find(message_data=>message_data.type==='result');
  assert.ok(next_result,JSON.stringify(message_rows));assert.equal(valid_domain_candidate(next_result.payload_text),true);assert.match(next_result.payload_text,/^HTTP:\/\/BBO17\./);
+ message_rows.length=0;
+ await self.onmessage({data:{...search_options,pattern_text:'http://?.cc'}});
+ const lowercase_result=message_rows.find(message_data=>message_data.type==='result');
+ assert.ok(lowercase_result,JSON.stringify(message_rows));assert.match(lowercase_result.payload_text,/^http:\/\/\d\.cc$/);
  message_rows.length=0;
  await self.onmessage({data:{...search_options,pattern_text:'HTTP://?????.P1H'}});
  assert.equal(message_rows.some(message_data=>message_data.type==='result'),false);
