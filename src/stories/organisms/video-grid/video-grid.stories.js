@@ -13,8 +13,12 @@ const LAZY_PAGE_COUNT = 3;
 const LOADING_DELAY = 800;
 const SIMULATE_FAILURE = false;
 const VIDEO_ITEMS = [
-  { teaser_title: "Learning through software design", published_date: "2026-09-02" },
-  { teaser_title: "A fresh perspective on interfaces", published_date: "2026-07-18" },
+  { teaser_title: "Learning through software design", published_date: "2026-09-02", title_tag_items: [
+    { tag_name: "#Programming", tag_url: "/videos?tag=programming" },
+  ] },
+  { teaser_title: "A fresh perspective on interfaces", published_date: "2026-07-18", title_tag_items: [
+    { tag_name: "#UI/UX Design", tag_url: "/videos?tag=ui-ux-design" },
+  ] },
   { teaser_title: "What notification design forgot", published_date: "2026-06-28" },
   { teaser_title: "The details behind art direction", published_date: "2026-06-15" },
   { teaser_title: "Designing beyond the happy path", published_date: "2026-04-23" },
@@ -58,7 +62,7 @@ function render_lazy_video_grid(story_arguments) {
 }
 
 export default {
-  title: "Organisms/Blog/Video Grid",
+  title: "Organisms/Video/Video Grid",
   tags: ["autodocs"],
   render: render_video_grid_story,
   parameters: { layout: "fullscreen" },

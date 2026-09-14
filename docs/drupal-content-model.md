@@ -266,6 +266,24 @@ value through the same resolver used by Blog and filters the published Project
 result set. The active Chip stays in the list with selected styling and no close
 icon; activating it again clears the filter.
 
+Project add/edit forms also have optional **Supporting videos**, using the same
+Remote video Media Library workflow as Article. Choose **Add media**, add a
+**Remote video** by pasting its YouTube URL (or select an existing video), then
+save the Project. Multiple videos can be reordered or removed. They appear
+below the project narrative, sections and comparison images, before Tags;
+Portfolio cards keep their existing image and summary. The field is translatable
+and shares Article's `field_supporting_videos` storage. Project embeds use the
+`project_video` Media view mode with responsive sizing in component SCSS. Each
+video reuses the shared Video loader: animated noise and a progress bar fade
+away when the iframe loads. The iframe stays in normal flow so logged-in Media
+editing wrappers preserve its height; reduced motion uses the shared static
+noise and instant reveal behavior.
+Deploy with `drush updatedb -y` and `drush cr`; the
+`jurenites_font_projects_post_update_project_supporting_videos()` update adds
+only the new field/display settings and preserves existing Project controls.
+Verify on DEV with `drush php:script tests/project-supporting-videos.php`; its
+temporary Project is rolled back after form, save and render checks.
+
 The Portfolio listing ends with a separate **Website audit** Content Block,
 placed in the Content region after the gallery on `/portfolio`, including tag
 filters. `jurenites_website_audit` seeds the supplied report checklist and free
@@ -398,6 +416,13 @@ YouTube or creator-metadata fields. Supporting films within an Article remain
 optional and do not change its type. Both types retain Body, Content sections,
 images, shared Tags, content time, translations, revisions and comments.
 
+Article add/edit forms show the optional Body **Summary** with the existing
+**Basic HTML** CKEditor toolbar. `jurenites_admin` keeps it visible even when
+empty and converts the submitted formatted widget back to Drupal's native
+summary string. The summary still shares the Body's stored text format; no
+field or content migration is needed. An empty summary retains Drupal's trimmed
+Body fallback. Video and other content forms keep their existing widgets.
+Deploy the module change and rebuild Drupal cache to activate it.
 
 Purpose: personal blog posts, long-form analysis, and saved YouTube references.
 
@@ -421,7 +446,14 @@ Article Table of Contents Storybook example share the same behavior and SCSS.
 The [Conway's Game of Life Article](game-of-life.md) combines editable long-form
 copy with a node-scoped live experiment, local diagrams, and native Remote video
 Media in the optional Supporting videos field. Those supporting films do not
-change the Article's Blog/Video listing classification.
+change the Article's Blog/Video listing classification. Supporting videos on all
+Article and Video detail pages share the primary Video player's Media Loader:
+a full-width 16:9 embed, animated TV-noise background and progress bar until the
+iframe loads, followed by the existing reveal transition. Reduced motion keeps
+the noise static and removes the transition. Remote-video iframe dimensions
+come from theme SCSS rather than HTML width/height attributes. Keep supporting
+iframes in normal flow so Drupal's logged-in contextual editing wrappers retain
+their height after the loading noise is removed.
 
 Shared fields and Video-specific source metadata:
 
@@ -482,8 +514,9 @@ The two content types reuse the established editorial components:
   owner normally for editing, revisions, and accountability. On the detail page,
   the iframe replaces the static Image and the video-credit Author Byline sits
   below the iframe and video title. Both the Videos preview and detail credit
-  show
-  the stored duration as `N min to watch`. The stored source date is presented
+  show the stored duration as `N min to watch`. In the `/videos` grid, each
+  record's existing Tags appear inline immediately after its title, wrapping
+  when needed and linking to the corresponding Videos tag filter. The stored source date is presented
   as elapsed calendar time, such as `4 months and 9 days`, and refreshes as time
   passes instead of remaining an absolute date.
 

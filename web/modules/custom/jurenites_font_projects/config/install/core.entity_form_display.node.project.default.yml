@@ -6,10 +6,12 @@ dependencies:
     - field.field.node.project.field_content_sections
     - field.field.node.project.field_image
     - field.field.node.project.field_tags
+    - field.field.node.project.field_supporting_videos
     - image.style.thumbnail
     - node.type.project
   module:
     - image
+    - media_library
     - paragraphs
     - path
     - tagify
@@ -76,6 +78,14 @@ content:
       features:
         collapse_edit_all: collapse_edit_all
         duplicate: duplicate
+    third_party_settings: {  }
+  field_supporting_videos:
+    type: media_library_widget
+    weight: 20
+    region: content
+    settings:
+      media_types:
+        - remote_video
     third_party_settings: {  }
   langcode:
     type: language_select

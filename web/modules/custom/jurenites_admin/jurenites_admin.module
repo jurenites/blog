@@ -26,6 +26,39 @@ use Drupal\user\Entity\Role;
 use Drupal\user\RoleInterface;
 
 /**
+ * Implements hook_field_widget_single_element_form_alter().
+ */
+function jurenites_admin_field_widget_single_element_form_alter(array &$widget_element, FormStateInterface $form_state, array $widget_context): void {
+  $field_items = $widget_context['items'];
+  $article_entity = $field_items->getEntity();
+  if (!$article_entity instanceof NodeInterface
+    || $article_entity->bundle() !== 'article'
+    || $field_items->getName() !== 'body'
+    || ($widget_element['summary']['#type'] ?? NULL) !== 'textarea') {
+    return;
+  }
+
+  $summary_element = &$widget_element['summary'];
+  $summary_element['#type'] = 'text_format';
+  $summary_element['#format'] = 'basic_html';
+  $summary_element['#allowed_formats'] = ['basic_html'];
+  $summary_element['#element_validate'][] = 'jurenites_admin_validate_article_summary';
+  // Keep the rich editor visible, including when a new Article has no summary.
+  $summary_element['#attributes']['class'] = ['text-summary'];
+  $summary_element['#description'] = t('Format the summary with Basic HTML. Leave blank to use trimmed Body text. The saved summary shares the Body text format.');
+}
+
+/**
+ * Keeps the native scalar summary value when the formatted widget is submitted.
+ */
+function jurenites_admin_validate_article_summary(array &$summary_element, FormStateInterface $form_state, array &$complete_form): void {
+  $summary_values = $form_state->getValue($summary_element['#parents']);
+  if (is_array($summary_values)) {
+    $form_state->setValueForElement($summary_element, $summary_values['value'] ?? '');
+  }
+}
+
+/**
  * Returns the public typography role labels from the design system.
  */
 function jurenites_admin_editor_typography_roles(): array {

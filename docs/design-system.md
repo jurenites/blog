@@ -110,7 +110,9 @@ Roundabout), and printable keyboard symbols in that order. A shared chevron
 Button exposes every remaining mapping in a collapsed additional-glyphs region.
 The accessible button name retains identification details, and the
 dialog renders the selected outline, points, metrics, Unicode mappings, and path
-data. Its 280px SVG viewport anchors the baseline after six 40px rows: four
+data. Opening uses a short opacity fade at the final dialog size and position;
+the glyph stays a live SVG without a tile-to-dialog snapshot zoom. Reduced-motion
+preferences disable the fade. Its 280px SVG viewport anchors the baseline after six 40px rows: four
 font-body rows plus two overshoot rows for tall marks, followed by one 40px
 descender row below the baseline. The renderer performs one OpenType-to-SVG
 Y-axis conversion so the upright outline, guides, and point markers stay in the
@@ -203,7 +205,13 @@ post as a homepage card. Drupal gives this presentation its own `blog_list`
 view mode, keeping its markup and render cache independent from the homepage
 `teaser` cards.
 
-`Organisms/Blog/Video Grid` composes those list items into three, two, or one
+Storybook groups the video preview under
+`Molecules/Video/Article Blog List Item`. Shared editorial components, including
+Author Identity, Author Byline, and Breadcrumbs, remain under `Molecules/Blog`.
+This navigation grouping keeps the shared Blog components together while giving
+video-specific examples their own Video folder.
+
+`Organisms/Video/Video Grid` composes those list items into three, two, or one
 columns. Its Lazy Loading story runs the same scroll behavior as Drupal with
 three simulated pages; Pagination Fallback and Loading Failure show the native
 pager recovery. A polite status region announces loading, completion, and errors
@@ -324,7 +332,9 @@ headers separately; local behavior does not prove production cache policy.
 The Breadcrumbs molecule and Drupal share the same class contract. Nested pages
 show a trail when Drupal resolves an accessible parent beyond Home, for example
 `Guidelines / Logo Icon`. First-level pages have no breadcrumb trail. The final
-item is the current page title with `aria-current="page"`. Footer links highlight
+item is the current page title with `aria-current="page"`. Portfolio Project
+detail pages show `Portfolio / Project title` at both their `/node/{node}` address
+and their public alias, provided the Portfolio listing is accessible. Footer links highlight
 the current page and ancestors resolved by Drupal's breadcrumb or menu active
 trail: `aria-current="page"` identifies the destination itself, while `location`
 identifies its parent section. Route and path cache contexts keep these states
@@ -586,7 +596,9 @@ override. Badge uses both flex alignment axes to center its label within its
 minimum width and height.
 
 Author Byline keeps its name and metadata in one wrapping inline row in both
-Storybook and Drupal. Date Time Value owns the three semantic variants used by
+Storybook and Drupal. The author identity is followed directly by timing metadata,
+with no separator after the name. A middle dot separates the date and duration
+when both are present. Date Time Value owns the three semantic variants used by
 article metadata: absolute dates, elapsed time, and durations. Elapsed YouTube
 reference dates use calendar years, months, and days; shorter values fall back
 to hours and minutes. The duration variant owns the split number, unit, and

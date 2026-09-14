@@ -145,7 +145,7 @@ export const parameters = {
   },
   options: {
     storySort: {
-      order: ["Foundations", "Atoms", "Molecules", "Organisms", "Components"],
+      order: ["Foundations", "Atoms", "Molecules", ["Blog", "Video", "*"], "Organisms", "Components"],
     },
   },
 };

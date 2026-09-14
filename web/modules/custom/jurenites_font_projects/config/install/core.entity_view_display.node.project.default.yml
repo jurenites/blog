@@ -6,6 +6,8 @@ dependencies:
     - field.field.node.project.field_content_sections
     - field.field.node.project.field_image
     - field.field.node.project.field_tags
+    - field.field.node.project.field_supporting_videos
+    - core.entity_view_mode.media.project_video
     - image.style.wide
     - node.type.project
   module:
@@ -52,6 +54,15 @@ content:
       link: true
     third_party_settings: {  }
     weight: 20
+    region: content
+  field_supporting_videos:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: project_video
+      link: false
+    third_party_settings: {  }
+    weight: 19
     region: content
   links:
     settings: {  }

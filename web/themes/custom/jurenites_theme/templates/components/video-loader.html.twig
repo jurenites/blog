@@ -1,0 +1,18 @@
+<figure class="media-loader youtube-video-loader" data-jurenites-youtube-video-loader aria-busy="true">
+  <div
+    class="media-loader__noise youtube-video-loader__noise"
+    data-jurenites-media-loader-noise
+    aria-hidden="true"
+  ></div>
+  <div class="youtube-video-loader__embed">
+    {{ video_content }}
+  </div>
+  <figcaption class="media-loader__status">
+    <progress
+      class="media-loader__progress"
+      max="100"
+      value="0"
+      aria-label="{{ 'Loading external video'|t }}"
+    ></progress>
+  </figcaption>
+</figure>

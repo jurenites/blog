@@ -63,7 +63,6 @@ export function author_byline_markup({
     published_date_content,
     duration_content,
     timing_class_name: has_timing_content ? "" : " author-byline__timing--empty",
-    identity_separator_class_name: has_timing_content ? "" : " author-byline__identity-separator--hidden",
     separator_class_name: has_timing_separator ? "" : " author-byline__separator--hidden",
     topic_content: topic_items
       ? `

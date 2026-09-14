@@ -979,6 +979,23 @@ function jurenites_theme_preprocess_breadcrumb(array &$breadcrumb_variables): vo
     return;
   }
 
+  // Project hierarchy must also work at /node/{node}, without a path alias.
+  if ($route_name === 'entity.node.canonical'
+    && $node_entity instanceof NodeInterface
+    && $node_entity->bundle() === 'project') {
+    $portfolio_url = Url::fromRoute('view.portfolio.page_1');
+    $portfolio_access = $portfolio_url->access(NULL, TRUE);
+    $breadcrumb_cache->addCacheableDependency($portfolio_access)
+      ->applyTo($breadcrumb_variables['breadcrumb_navigation_cache']);
+    if ($portfolio_access->isAllowed()) {
+      $breadcrumb_variables['breadcrumb'] = [
+        ['text' => t('Portfolio'), 'url' => $portfolio_url->toString()],
+        ['text' => $node_entity->label()],
+      ];
+      return;
+    }
+  }
+
   $node_entity = $route_match->getParameter('node');
   if ($node_entity instanceof \Drupal\node\NodeInterface
     && in_array($node_entity->bundle(), ['article', 'video'], TRUE)) {
@@ -1073,12 +1090,20 @@ function jurenites_theme_theme_suggestions_field_alter(array &$suggestions, arra
 }
 
 /**
- * Turns content tags into Chip links to their filtered bundle listing.
+ * Prepares shared field presentation and content-tag links.
  */
 function jurenites_theme_preprocess_field(array &$field_variables): void {
   $field_element = $field_variables['element'];
   $field_name = $field_element['#field_name'] ?? '';
   $entity_bundle = $field_element['#bundle'] ?? '';
+
+  if ($field_name === 'field_media_oembed_video' && $entity_bundle === 'remote_video') {
+    foreach ($field_variables['items'] as &$video_item_variables) {
+      // The theme's responsive player styles own the iframe dimensions.
+      unset($video_item_variables['content']['#attributes']['width'], $video_item_variables['content']['#attributes']['height']);
+    }
+    return;
+  }
 
   if ($field_name === 'field_image' && $entity_bundle === 'project') {
     foreach ($field_variables['items'] as &$image_item_variables) {

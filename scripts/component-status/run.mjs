@@ -7,7 +7,7 @@ import { create_status_server, PROJECT_ROOT, REPORT_DIRECTORY } from './server.m
 import { component_catalogue, source_fingerprint, validate_report } from './report.mjs';
 import { compare_images } from './images.mjs';
 
-const requested_component = process.argv[2] ?? 'molecules-blog-article-blog-list-item';
+const requested_component = process.argv[2] ?? 'molecules-video-article-blog-list-item';
 const case_config = JSON.parse(await readFile(resolve(PROJECT_ROOT, 'config/component-status.json'), 'utf8')).components[requested_component];
 const story_index = JSON.parse(await readFile(resolve(PROJECT_ROOT, 'storybook-static/index.json'), 'utf8'));
 const component_record = component_catalogue(story_index).find((component_item) => component_item.component_id === requested_component);

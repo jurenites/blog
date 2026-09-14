@@ -43,24 +43,9 @@
 
   {% if node.bundle == 'video' and node.field_youtube_video is not empty %}
     <div class="article-detail__youtube-video">
-      <figure class="media-loader youtube-video-loader" data-jurenites-youtube-video-loader aria-busy="true">
-        <div
-          class="media-loader__noise youtube-video-loader__noise"
-          data-jurenites-media-loader-noise
-          aria-hidden="true"
-        ></div>
-        <div class="youtube-video-loader__embed">
-          {{ content.field_youtube_video }}
-        </div>
-        <figcaption class="media-loader__status">
-          <progress
-            class="media-loader__progress"
-            max="100"
-            value="0"
-            aria-label="{{ 'Loading external video'|t }}"
-          ></progress>
-        </figcaption>
-      </figure>
+      {% include '@jurenites_theme/components/video-loader.html.twig' with {
+        video_content: content.field_youtube_video,
+      } only %}
       {% if youtube_video_title or youtube_author_name %}
         <div class="youtube-video-details">
           {% if youtube_video_title %}

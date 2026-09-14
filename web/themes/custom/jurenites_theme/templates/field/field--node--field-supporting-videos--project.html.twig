@@ -1,7 +1,6 @@
-{# Share responsive loading behavior with the main Video player. #}
-<div class="article-supporting-videos">
+<div class="project-detail__videos">
   {% for video_item in items %}
-    <div class="article-supporting-videos__item">
+    <div class="project-detail__video-item">
       {% include '@jurenites_theme/components/video-loader.html.twig' with {
         video_content: video_item.content,
       } only %}

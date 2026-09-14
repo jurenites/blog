@@ -62,6 +62,19 @@
   height: auto;
 }
 
+.project-detail__videos {
+  display: grid;
+  gap: calc(var(--space-scale-base-gap) * 3);
+}
+
+.project-detail__video-player {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
 .path-videos .layout-content {
   max-width: var(--layout-content-max-wide-default);
 }

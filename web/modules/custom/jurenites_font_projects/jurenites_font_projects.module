@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Url;
 use Drupal\jurenites_blog\TagSlugResolver;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
@@ -23,6 +25,21 @@ const JURENITES_FONT_PROJECTS_FONT_TAG_LABEL = '#Font';
 const JURENITES_FONT_PROJECTS_FONT_TAG_SLUG = 'font';
 const JURENITES_FONT_PROJECTS_FOOTER_LABEL = 'Fonts';
 const JURENITES_FONT_PROJECTS_FOOTER_URI = 'internal:/portfolio?tag=font';
+
+/**
+ * Implements hook_ENTITY_TYPE_view() for responsive Project video players.
+ */
+function jurenites_font_projects_media_view(array &$build_output, EntityInterface $media_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($media_entity->bundle() !== 'remote_video' || $view_mode !== 'project_video') {
+    return;
+  }
+  foreach ($build_output['field_media_oembed_video'] ?? [] as $item_key => $render_item) {
+    if (is_int($item_key) && ($render_item['#tag'] ?? '') === 'iframe') {
+      unset($build_output['field_media_oembed_video'][$item_key]['#attributes']['width'], $build_output['field_media_oembed_video'][$item_key]['#attributes']['height']);
+      $build_output['field_media_oembed_video'][$item_key]['#attributes']['class'][] = 'project-detail__video-player';
+    }
+  }
+}
 
 /**
  * Adds the dynamic font-Project count to the Fonts footer menu item.

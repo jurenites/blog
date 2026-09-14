@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.project_video
+label: 'Project video'
+description: 'Responsive supporting video on a Project detail page.'
+targetEntityType: media
+cache: true

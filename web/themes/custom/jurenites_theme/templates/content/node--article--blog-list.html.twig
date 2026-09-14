@@ -26,6 +26,9 @@
   {% endif %}
 
   <div class="article-list-item__body">
+    {% if node.bundle == 'video' %}
+      <div class="article-list-item__heading">
+    {% endif %}
     {{ title_prefix }}
     {% if label %}
       <h2{{ title_attributes.addClass('article-list-item__title').setAttribute('data-jurenites-article-title-transition', 'article-title-' ~ article_id) }}>
@@ -33,9 +36,14 @@
       </h2>
     {% endif %}
     {{ title_suffix }}
+    {% if node.bundle == 'video' %}
+        {{ content.field_tags }}
+      </div>
+    {% endif %}
 
+    {% set list_body_content = node.bundle == 'video' ? content|without('field_tags') : content %}
     <div{{ content_attributes.addClass('article-list-item__content') }}>
-      {{ content|without(
+      {{ list_body_content|without(
         'game_of_life',
         'field_image',
         'field_consumption_time_minutes',

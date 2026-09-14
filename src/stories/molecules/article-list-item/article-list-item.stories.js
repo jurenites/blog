@@ -33,7 +33,7 @@ function render_article_list_item_story(story_arguments, story_context) {
 }
 
 export default {
-  title: "Molecules/Blog/Article Blog List Item",
+  title: "Molecules/Video/Article Blog List Item",
   tags: ["autodocs"],
   render: render_article_list_item_story,
   loaders: [load_status_fixture],

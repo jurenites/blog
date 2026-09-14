@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_supporting_videos
+    - media.type.remote_video
+    - node.type.project
+id: node.project.field_supporting_videos
+field_name: field_supporting_videos
+entity_type: node
+bundle: project
+label: 'Supporting videos'
+description: 'Optional videos below the project. Add a Remote video and paste its YouTube URL, or select an existing video.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      remote_video: remote_video
+field_type: entity_reference

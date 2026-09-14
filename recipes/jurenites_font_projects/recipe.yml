@@ -11,6 +11,10 @@ config:
   import:
     jurenites_font_projects:
       - node.type.project
+      - field.storage.node.field_supporting_videos
+      - field.field.node.project.field_supporting_videos
+      - core.entity_view_mode.media.project_video
+      - core.entity_view_display.media.remote_video.project_video
       - paragraphs.paragraphs_type.project_story
       - paragraphs.paragraphs_type.font_preview
       - paragraphs.paragraphs_type.pixel_glyph_editor

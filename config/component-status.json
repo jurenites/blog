@@ -1,6 +1,6 @@
 {
   "components": {
-    "molecules-blog-article-blog-list-item": {
+    "molecules-video-article-blog-list-item": {
       "drupal_url": "http://jurenites.local/blog",
       "drupal_selector": ".article-list-item[data-article-id=\"1\"]",
       "story_selector": ".article-list-item",
