@@ -52,7 +52,7 @@
 
     {% if display_submitted %}
       <footer class="article-list-item__meta">
-        {% if node.field_youtube_video is not empty and youtube_author_name %}
+        {% if node.bundle == 'video' and node.field_youtube_video is not empty and youtube_author_name %}
           {% include '@jurenites_theme/components/author-byline.html.twig' with {
             byline_label: 'Video creator'|t,
             author_avatar_image: youtube_author_avatar,

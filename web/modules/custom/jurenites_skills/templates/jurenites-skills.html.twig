@@ -1,8 +1,5 @@
 {% if skill_items %}
   <section class="skills-profile" aria-label="{{ 'Web development skills'|t }}">
-    <header class="skills-profile__header">
-      <p class="skills-profile__rating-note">{{ ratings_reviewed ? 'Self-assessed confidence / 5'|t : draft_rating_note }}</p>
-    </header>
     <ul class="skills-profile__grid">
       {% for skill_item in skill_items %}
         <li class="skills-profile__item">
@@ -12,7 +9,7 @@
               <h3 class="skills-profile__technology">{{ skill_item.technology_name }}</h3>
             </div>
             {% if skill_item.skill_score is not null %}
-              <p class="skills-profile__score" aria-label="{{ '@technology: @score out of 5'|t({'@technology': skill_item.technology_name, '@score': skill_item.skill_score}) }}">{{ skill_item.skill_score }}<span class="skills-profile__score-total" aria-hidden="true"> / 5</span></p>
+              <p class="skills-profile__score" aria-label="{{ '@technology: @score out of 5'|t({'@technology': skill_item.technology_name, '@score': skill_item.skill_score}) }}">{{ skill_item.skill_score|trim }}<span class="skills-profile__score-total" aria-hidden="true"> / 5</span></p>
             {% else %}
               <p class="skills-profile__unrated">{{ 'Not assessed'|t }}</p>
             {% endif %}
@@ -22,8 +19,5 @@
         </li>
       {% endfor %}
     </ul>
-    <footer class="skills-profile__footer">
-      <p class="skills-profile__supporting-note">{{ supporting_note }}</p>
-    </footer>
   </section>
 {% endif %}

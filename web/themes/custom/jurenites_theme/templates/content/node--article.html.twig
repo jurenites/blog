@@ -19,7 +19,7 @@
 
   {{ content.game_of_life }}
 
-  {% if display_submitted and node.field_youtube_video is empty %}
+  {% if display_submitted and node.bundle != 'video' %}
     {% include '@jurenites_theme/components/author-byline.html.twig' with {
       author_avatar_image: author_picture,
       author_avatar_initials: author_initials,
@@ -32,7 +32,7 @@
     } only %}
   {% endif %}
 
-  {% if node.field_youtube_video is empty and node.field_image is not empty %}
+  {% if node.bundle != 'video' and node.field_image is not empty %}
     <div
       class="article-detail__media"
       data-jurenites-article-image-transition="article-image-{{ article_id }}"
@@ -41,7 +41,7 @@
     </div>
   {% endif %}
 
-  {% if node.field_youtube_video is not empty %}
+  {% if node.bundle == 'video' and node.field_youtube_video is not empty %}
     <div class="article-detail__youtube-video">
       <figure class="media-loader youtube-video-loader" data-jurenites-youtube-video-loader aria-busy="true">
         <div

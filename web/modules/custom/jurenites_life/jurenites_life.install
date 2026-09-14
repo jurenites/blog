@@ -27,7 +27,7 @@ function jurenites_life_install(): void {
     FieldConfig::create([
       'field_name' => 'field_supporting_videos', 'entity_type' => 'node', 'bundle' => 'article',
       'label' => 'Supporting videos', 'translatable' => TRUE,
-      'description' => 'Optional films below the article. Keep the main YouTube field empty for personal Blog posts.',
+      'description' => 'Optional films below the article. These do not change its Article content type.',
       'settings' => ['handler' => 'default:media', 'handler_settings' => ['target_bundles' => ['remote_video' => 'remote_video']]],
     ])->save();
   }

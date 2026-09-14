@@ -150,7 +150,9 @@ for (const scan_directory of SCAN_DIRECTORIES) {
     }
 
     const source_content = await readFile(source_path, "utf8");
-    const hex_matches = [...source_content.matchAll(HEX_PATTERN)];
+    // Owner-approved component artwork constants are outside the design palette.
+    const hex_matches = relative_path === "src/brand/technology-stack/brand-colors.js"
+      ? [] : [...source_content.matchAll(HEX_PATTERN)];
     for (const hex_match of hex_matches) {
       contract_errors.push(`${relative_path}: hardcoded color ${hex_match[0]}`);
     }

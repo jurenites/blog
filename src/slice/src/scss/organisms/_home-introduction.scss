@@ -5,7 +5,7 @@
   width: 100%;
   max-width: var(--layout-content-max-wide-default);
   margin-inline: auto;
-  padding: calc(var(--space-scale-base-gap) * 8) var(--layout-gutter-desktop-default);
+  //padding: calc(var(--space-scale-base-gap) * 8) var(--layout-gutter-desktop-default);
 }
 
 .home-introduction__heading > .two-tone-heading {
@@ -16,23 +16,10 @@
 }
 
 .home-introduction__details {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  gap: calc(var(--space-scale-base-gap) * 4);
-  align-items: start;
+  text-align: left;
   margin-block-start: calc(var(--space-scale-base-gap) * 6);
   padding-block-start: calc(var(--space-scale-base-gap) * 3);
   border-block-start: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
-}
-
-// A small pixel cross echoes the site's pixel typography and experiments.
-.home-introduction__accent {
-  display: block;
-  width: calc(var(--space-scale-base-gap) * 3);
-  aspect-ratio: 1;
-  margin-block-start: var(--space-scale-base-gap);
-  background: var(--color-palette-brand-tertiary);
-  clip-path: polygon(33% 0, 66% 0, 66% 33%, 100% 33%, 100% 66%, 66% 66%, 66% 100%, 33% 100%, 33% 66%, 0 66%, 0 33%, 33% 33%);
 }
 
 .home-introduction__description {
@@ -58,8 +45,6 @@
   }
 
   .home-introduction__details {
-    grid-template-columns: auto 1fr;
-    gap: calc(var(--space-scale-base-gap) * 2);
     margin-block-start: calc(var(--space-scale-base-gap) * 4);
   }
 }

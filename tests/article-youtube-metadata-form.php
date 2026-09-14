@@ -8,14 +8,14 @@
 use Drupal\node\Entity\Node;
 use Drupal\user\Entity\User;
 
-$article_ids = \Drupal::entityQuery('node')->condition('type', 'article')->exists('field_youtube_video.video_id')->accessCheck(FALSE)->range(0, 1)->execute();
+$article_ids = \Drupal::entityQuery('node')->condition('type', 'video')->exists('field_youtube_video.video_id')->accessCheck(FALSE)->range(0, 1)->execute();
 $existing_article = $article_ids ? Node::load(reset($article_ids)) : NULL;
 if (!$existing_article) {
-  throw new RuntimeException('No YouTube Article available for verification.');
+  throw new RuntimeException('No YouTube Video available for verification.');
 }
 $editor_accounts = [];
 foreach (User::loadMultiple() as $user_account) {
-  if (!$user_account->isActive() || !($user_account->hasPermission('edit any article content') || $user_account->hasPermission('edit own article content') || $user_account->hasPermission('bypass node access'))) {
+  if (!$user_account->isActive() || !($user_account->hasPermission('edit any video content') || $user_account->hasPermission('edit own video content') || $user_account->hasPermission('bypass node access'))) {
     continue;
   }
   $account_kind = $user_account->hasPermission('administer nodes') ? 'administrator' : 'editor';
@@ -27,7 +27,7 @@ if (count($editor_accounts) !== 2) {
 foreach ($editor_accounts as $account_kind => $user_account) {
   \Drupal::service('account_switcher')->switchTo($user_account);
   try {
-    foreach (['edit' => $existing_article, 'add' => Node::create(['type' => 'article'])] as $form_kind => $article_node) {
+    foreach (['edit' => $existing_article, 'add' => Node::create(['type' => 'video'])] as $form_kind => $article_node) {
       // Use the real edit route operation: the default form has a different ID.
       $edit_operation = explode('.', \Drupal::service('router.route_provider')->getRouteByName('entity.node.edit_form')->getDefault('_entity_form'))[1];
       $article_form = \Drupal::service('entity.form_builder')->getForm($article_node, $form_kind === 'edit' ? $edit_operation : 'default');

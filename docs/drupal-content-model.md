@@ -144,8 +144,8 @@ Content Block so its placement is managed through Drupal's block layout.
 The first homepage section is the **Home introduction** reusable Content Block,
 provided by `jurenites_home_intro`. It pairs “Personal Blog” with the soft-gray
 “& Showcase projects” segment and introductory copy about articles, YouTube
-finds, personal thoughts and interface reviews. A quiet divider and decorative
-pixel cross connect it to the site's visual language.
+finds, personal thoughts and interface reviews. A quiet divider separates the
+heading from the full-width, left-aligned introductory copy.
 
 Edit it under **Content → Blocks → Home introduction**, or use its contextual
 pencil. Title 1, the existing compound Two-tone heading field and formatted Body
@@ -156,9 +156,9 @@ layout places it at weight `-40`, visible only on `<front>` in either language,
 before the existing homepage sections.
 
 Styles live in `_home-introduction.scss`, shared with **Organisms/Home
-Introduction** in Storybook. At mobile widths the heading reduces in size and
-the description sits beside the pixel accent. No animation or new images are
-required. Build the theme, enable `jurenites_home_intro`, then clear Drupal cache
+Introduction** in Storybook. At mobile widths the heading reduces in size while
+the description remains left-aligned. Build the theme, enable
+`jurenites_home_intro`, then clear Drupal cache
 on each target environment:
 
 ```sh
@@ -389,7 +389,15 @@ values through their generated CSS utility classes. Editors can revise the
 guidance without forking those visual sources. The initial aliases are
 `/guidelines/logo-icon` and `/guidelines/color`.
 
-## Article
+## Article and Video
+
+**Article** (`article`) owns written posts at `/blog`. **Video** (`video`) owns
+YouTube recommendations at `/videos`. Choose **Content → Add content → Article**
+or **Video**; a Video requires its primary YouTube URL. Articles have no primary
+YouTube or creator-metadata fields. Supporting films within an Article remain
+optional and do not change its type. Both types retain Body, Content sections,
+images, shared Tags, content time, translations, revisions and comments.
+
 
 Purpose: personal blog posts, long-form analysis, and saved YouTube references.
 
@@ -415,62 +423,60 @@ copy with a node-scoped live experiment, local diagrams, and native Remote video
 Media in the optional Supporting videos field. Those supporting films do not
 change the Article's Blog/Video listing classification.
 
-Suggested fields:
+Shared fields and Video-specific source metadata:
 
 - Title
 - Slug
 - Teaser
-- YouTube video: one direct YouTube URL. The YouTube Field module extracts the
+- YouTube video (Video only): one required direct YouTube URL. The YouTube Field module extracts the
   video ID and renders a responsive player with YouTube's video thumbnail. The
-  Article stores the creator name, creator link, original source date, and an
+  Video stores the creator name, creator link, original source date, and an
   optional channel-avatar URL as editable credit metadata. Empty credit fields
-  are filled from the linked YouTube source when the Article is saved; changing
-  the video URL refreshes them for the new source. The Article Authored on
+  are filled from the linked YouTube source when the Video is saved; changing
+  the video URL refreshes them for the new source. The Video Authored on
   calendar date follows the YouTube publication date while retaining its
   existing time of day; any time component in the source timestamp is ignored.
-  When an Article with a YouTube video has no Hero image, Drupal downloads YouTube's
+  When an Video has no Hero image, Drupal downloads YouTube's
   1280×720 thumbnail into that Image field on save and uses the oEmbed image as
   a lower-resolution fallback. Editors can then replace or manipulate it like
   any other Article image; an existing Image is never overwritten
-  automatically. On the full Article, an animated no-signal layer occupies the
+  automatically. On the full Video, an animated no-signal layer occupies the
   responsive player figure until its iframe loads; the layer inherits the
   formatter's rendered size and aspect ratio. The Videos list presents this
-  media when the Article also
-  has a YouTube video, and serves responsive 325px, 650px, or source-width WebP
+  media for Video nodes, and serves responsive 325px, 650px, or source-width WebP
   candidates with the progressive blurry-placeholder treatment. The candidate
   sizing follows the editorial list's 641px switch between horizontal and
   stacked
   layouts.
 - Body
 - Content time (minutes): one editable whole-minute value. Personal Articles
-  default to 5 minutes. YouTube reference Articles replace the default with the
+  default to 5 minutes. Videos replace the default with the
   source video duration when the URL changes, truncating seconds and retaining
   total minutes for videos longer than one hour.
 - Hero image
-- Tags: an unlimited Tagify input that suggests existing Tags terms and creates
-  new terms from editor-entered text.
+- Tags: the shared Tagify input. Reuse existing Tags terms for content work.
 - Topics
 - Related projects
 - Publish state
 - Promoted to front page: disabled by default for new Articles. Editors can
   still enable it explicitly, and existing Articles retain their current value.
-- Comments: native comments are attached to the shared Article node but record
+- Comments: native comments are attached to each Article or Video node but record
   the content language used when they are posted. English and Russian Article
   translations render separate language-matched discussions.
   The comment pencil menu offers **Edit comment** and **Delete**. Content editors
   can delete their own Article comments through the `delete own article comments`
-  permission; comment administrators retain Drupal's broader access. Delete opens
+  or `delete own video comments` permission, respectively; comment administrators retain Drupal's broader access. Delete opens
   the native confirmation form and permanently removes the comment and its
   replies, then returns to the Article. Anonymous visitors and other comment
   authors do not gain deletion access.
 
-Article has two editorial presentations without requiring another content type:
+The two content types reuse the established editorial components:
 
-- A personal Article has no YouTube URL. Its Author Byline presents the Drupal
+- An Article presents written content. Its Author Byline presents the Drupal
   owner, Article publication date, the stored `N min to read` value, and Tags. When
   an editor attaches an Image, that image appears in both the Blog list preview
   and the full Article detail view.
-- A YouTube reference Article has a YouTube URL. The public list and detail page
+- A Video has a required YouTube URL. The public list and detail page
   credit the stored video creator and original YouTube publication date instead
   of presenting the Drupal owner as the writer. Drupal still retains the node
   owner normally for editing, revisions, and accountability. On the detail page,
@@ -482,8 +488,8 @@ Article has two editorial presentations without requiring another content type:
   passes instead of remaining an absolute date.
 
 The public Views queries keep these presentations separate. `/blog` lists
-published Articles whose YouTube field is empty; `/videos` lists published
-Articles whose YouTube field is populated. Both pages retain tag filtering.
+published Article nodes; `/videos` lists published Video nodes. The homepage
+Latest articles block also selects Article nodes only. Both pages retain tag filtering.
 Videos uses a wide grid with three columns on desktop, two on tablets, and one
 on phones. Each tile keeps its thumbnail above the title and creator details,
 reusing the Article Blog List Item markup. The excerpt is hidden within the
@@ -498,8 +504,8 @@ The fallback advances with each appended page so its Next link continues from
 the last loaded batch. Direct paginated URLs still work. An introductory note
 explains that these are personally recommended videos for learning, including
 topics not covered elsewhere on the site. Blog keeps its editorial list layout.
-Article Back and Tag links
-return to the listing appropriate to the Article kind.
+Back links, Tag links and the active navigation item use the node type to
+select its owning listing.
 
 The shared Tags term `#lego` is available for personal builds in `/blog` and
 videos in `/videos`; their filter URLs are `/blog?tag=lego` and
@@ -517,14 +523,14 @@ The previous LEGO artwork remains available at
 color edit of Alexander Ilivanov's physical build. Image-edit provenance and the
 exact prompt remain in `output/imagegen/lego-logo-edit.txt`.
 
-Article add and edit forms keep the YouTube video URL visible. The derived
+Video add and edit forms keep the YouTube video URL visible. The derived
 YouTube video ID, creator name, creator URL, and publication date appear in a
-native **YouTube metadata** section that starts collapsed. Article editors can
+native **YouTube metadata** section that starts collapsed. Video editors can
 expand it to inspect the ID or edit the credit fields. Field submission paths
 remain unchanged. The channel avatar URL is also inside this collapsed section
 and remains administrator-only.
-The grouping runs for both the default Article form and the separate
-`node_article_edit_form` used by `/node/{node}/edit`.
+The grouping runs for both the default Video form and the separate
+`node_video_edit_form` used by `/node/{node}/edit`.
 Automatic source collection fills empty creator, date, duration, and channel
 avatar values. Each save with a YouTube URL and an empty avatar retries the
 avatar lookup, even when the other metadata is already populated. The existing
@@ -532,7 +538,7 @@ video-page request reads the video owner's avatar from YouTube's initial page
 data and stores only HTTPS URLs on `yt3.googleusercontent.com` or `yt3.ggpht.com`
 that fit the field. An existing avatar URL is preserved. Missing data or a failed
 lookup leaves the field empty for the next save and does not prevent saving the
-Article; rendering never performs this lookup.
+Video; rendering never performs this lookup.
 Replacing the YouTube URL clears the old creator, date, and duration credit and
 collects the new source. Each save also keeps the Authored on calendar date
 aligned with the stored YouTube publication date. The shared Avatar falls back
@@ -540,15 +546,15 @@ to channel initials when its stored URL is empty or invalid.
 
 Run `docker exec blog_jurenites_web ./vendor/bin/drush php:script
 tests/article-youtube-avatar-save.php` to check avatar collection and retry
-behavior with controlled HTTP responses and temporary Article saves.
+behavior with controlled HTTP responses and temporary Video saves.
 
 YouTube collaboration videos can credit a second channel through optional
 `field_youtube_coauthor_name`, `field_youtube_coauthor_url`, and
 `field_youtube_coauthor_avatar` fields. They appear in the same collapsed metadata
 section; both avatar URL fields remain administrator-only. The deployable
 `jurenites_blog_post_update_youtube_coauthor_fields()` update adds these fields
-without changing existing Article content, and the YouTube recipe includes them
-for new installs.
+to the original Article setup. The Video split carries all these fields and
+stored credits across to Video.
 
 On save, the video owner's embedded collaborator dialog supplies channel names,
 channel IDs, and avatar URLs. The parser recognizes the `videoOwnerRenderer`
@@ -568,7 +574,7 @@ retry on save. Unavailable or unrecognized page data does not mark discovery as
 complete. Automatic collaboration extraction is covered by representative
 fixtures; a live two-channel video response still needs verification.
 
-The shared Author Identity and Author Byline render both video cards and Article
+The shared Author Identity and Author Byline render both video cards and Video
 details as `First channel & Second channel`, with separate links and a gray
 ampersand. Two small 16px Avatars occupy a 24px square: the first is at the top
 left, and the second is 8px down and right, in front. Other Avatar sizes preserve
@@ -584,6 +590,51 @@ Develop UI reviews of games, HUDs, and other interfaces through the existing
 Article model. The translation catalogue already contains a “Reviewing an
 Interfaces” article stub; expand that material before deciding whether a
 dedicated review page is needed. Reuse existing taxonomy tags when applicable.
+
+### Article/Video migration and deployment
+
+`jurenites_blog_post_update_youtube_video_content_type()` creates Video by copying
+the configured Article fields, form/view displays, base-field defaults and
+translation settings. It moves nodes with a primary YouTube URL in any current
+translation, updating only bundle columns in node and field tables, including
+all revision rows. Node IDs, UUIDs, titles, authors, dates, aliases, comments,
+images, tag references and Paragraph revision references remain unchanged.
+No node saves or YouTube downloads run during migration. Existing detail URLs
+remain valid. Migrated nodes with aliases have automatic alias generation
+disabled so later edits preserve their URLs; editors can explicitly re-enable
+it in URL alias settings. New Video aliases use `/videos/[node:title]`.
+
+The migration grants each role only the Video equivalents of its existing
+Article content/revision/translation and own-comment permissions. It removes
+unused primary YouTube fields from Article. If a target environment contains
+historical-only YouTube values on a remaining Article, those fields are retained
+but hidden to preserve revision data. A completion marker makes reruns a no-op.
+An independently existing Video type stops the migration for inspection.
+
+Back up each target database, deploy the PHP and Twig files, then run
+`drush updatedb -y` and `drush cr`. For a fresh site assembled from the existing
+Article recipes and listing setup, finish with
+`drush php:script scripts/split-video-content-type.php` and `drush cr`;
+the historical Article YouTube recipe is a prerequisite, not a recipe to reapply
+after splitting. Reverting this content migration requires restoring its database
+backup with the corresponding previous code.
+
+DEV verification: before migration run the following snapshot command, apply the
+update, then run the check without `VIDEO_SPLIT_PHASE`:
+
+```sh
+docker exec -e VIDEO_SPLIT_PHASE=before blog_jurenites_web vendor/bin/drush php:script tests/video-content-type.php
+docker exec blog_jurenites_web vendor/bin/drush php:script tests/video-content-type.php
+docker exec blog_jurenites_web vendor/bin/drush php:script tests/article-youtube-metadata-form.php
+docker exec blog_jurenites_web vendor/bin/drush php:script tests/article-youtube-avatar-save.php
+```
+
+The snapshot compares stored content across node, revision, alias, comment, file
+usage, taxonomy index and Paragraph identity tables, allowing only the expected
+bundle changes. Additional checks cover required URL validation, listing
+membership, editorial rights, migration idempotence, Video add/edit forms and
+controlled metadata-save requests. Video Twig templates include the existing
+Article templates so the shared component markup and styles remain aligned.
 
 ## News
 

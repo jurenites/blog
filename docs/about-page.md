@@ -75,7 +75,9 @@ substitutes. Public image files are copied into the theme by the normal build.
 | CapCut | [Official website](https://www.capcut.com/) — inline header wordmark |
 
 Drupal, Laravel and React use upstream geometry in `src/brand/technology-stack/`
-with brand colors drawn from `src/token/tokens.yaml`. `npm run build:tokens`
+with fixed component colors in `src/brand/technology-stack/brand-colors.js`.
+These artwork constants are excluded from the token file and shared palette.
+`npm run build:tokens`
 also generates these three public SVG files through
 `scripts/build-technology-logos.mjs`. Other downloaded SVGs preserve upstream
 color values. Logo sizing, white presentation and hover behavior are scoped to
@@ -88,15 +90,18 @@ the introduction and numeric values. It uses repeatable **Technology skill**
 Paragraphs: technology, category, explanation, CV evidence and an optional decimal
 confidence rating from 0.0 to 5.0. Edit and reorder these under Content → Blocks →
 About web development skills. Blank ratings display “Not assessed”; zero is a
-valid rating. Normal Drupal revisions, field access and cache invalidation apply.
+valid rating. Whole-number ratings display without a decimal suffix (5.0 → 5),
+while fractional ratings retain one decimal place (3.4). Normal Drupal revisions,
+field access and cache invalidation apply.
 
 The starter copy was checked against the live
 [Alexander Ilivanov CV](https://docs.google.com/document/d/1Aec-DgzHUGDfqpIy0LocrFvPZeIqcHZ1SBIWClsj2ZY/edit)
 on 10 September 2026. The CV establishes experience, not current competence.
 **All initial scores are assistant-proposed draft estimates for owner review.**
-The public card explicitly labels them provisional until the owner checks
-“I have personally reviewed these ratings”. Do not remove that qualification
-or present the scores as measured results without doing the assessment.
+The authored block retains the “I have personally reviewed these ratings” field.
+The public card renders only the technology grid; its rating-note header and
+supporting-note footer are omitted. The scores remain self-assessment estimates,
+not measured results.
 
 Drupal, frontend styling, PHP, JavaScript/jQuery, Angular, Storybook, MySQL and Git
 make up the card. Angular is scoped to design-system integration, and MySQL to

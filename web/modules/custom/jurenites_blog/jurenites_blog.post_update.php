@@ -897,3 +897,14 @@ function jurenites_blog_post_update_restore_page_title_block(): TranslatableMark
 
   return t('Restored the Jurenites page-title block on normal routes.');
 }
+
+/**
+ * Creates Video and preserves existing YouTube nodes, revisions and URLs.
+ *
+ * Runs alphabetically after the earlier youtube_* Article field updates.
+ */
+function jurenites_blog_post_update_youtube_video_content_type(): TranslatableMarkup {
+  require_once __DIR__ . '/includes/video-content-type.inc';
+  $migrated_count = jurenites_blog_split_video_content_type();
+  return t('Created the Video content type and migrated @count YouTube entries. Blog and Videos now filter by content type.', ['@count' => $migrated_count]);
+}

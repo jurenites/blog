@@ -26,7 +26,7 @@ $assert_check = static function (bool $check_passed, string $check_message) use 
   $check_count++;
 };
 
-foreach ([['value' => NULL, 'expected' => NULL], ['value' => '0.0', 'expected' => '0.0'], ['value' => '3.4', 'expected' => '3.4'], ['value' => '5.0', 'expected' => '5.0']] as $score_case) {
+foreach ([['value' => NULL, 'expected' => NULL], ['value' => '0.0', 'expected' => '0'], ['value' => '3.4', 'expected' => '3.4'], ['value' => '5.0', 'expected' => '5']] as $score_case) {
   $test_skill = clone $source_skill;
   $test_skill->set('field_skill_score', $score_case['value']);
   $test_skill->set('field_skill_name', '<script>unsafe</script>');
@@ -38,7 +38,7 @@ foreach ([['value' => NULL, 'expected' => NULL], ['value' => '0.0', 'expected' =
   $assert_check($build_output['skills_profile']['#skill_items'][0]['skill_score'] === $score_case['expected'], 'Missing and zero scores must remain distinct and decimals must be preserved.');
   $rendered_html = (string) \Drupal::service('renderer')->renderRoot($build_output);
   $assert_check(str_contains($rendered_html, '&lt;script&gt;unsafe&lt;/script&gt;'), 'Technology names must be escaped.');
-  $assert_check(str_contains($rendered_html, 'provisional estimates'), 'Draft scores must retain the qualification.');
+  $assert_check(!str_contains($rendered_html, '<header') && !str_contains($rendered_html, '<footer'), 'The skills profile must render only the technology grid without a header or footer.');
   $assert_check($score_case['value'] !== NULL || str_contains($rendered_html, 'Not assessed'), 'Missing scores need a visible unassessed state.');
 }
 foreach (['-0.1', '5.1'] as $invalid_score) {

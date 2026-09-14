@@ -48,14 +48,14 @@ function jurenites_blog_taxonomy_term_presave(TermInterface $tag_term): void {
 /**
  * Groups automatically managed YouTube metadata in a collapsed section.
  */
-function jurenites_blog_form_node_article_form_alter(
+function jurenites_blog_form_node_video_form_alter(
   array &$form,
   FormStateInterface $form_state,
 ): void {
   $form['youtube_metadata'] = [
     '#type' => 'details',
     '#title' => t('YouTube metadata'),
-    '#description' => t('These fields are filled automatically from YouTube when the Article is saved.'),
+    '#description' => t('These fields are filled automatically from YouTube when the Video is saved.'),
     '#open' => FALSE,
     '#weight' => ($form['field_youtube_video']['#weight'] ?? 2) + 0.5,
   ];
@@ -94,13 +94,13 @@ function jurenites_blog_form_node_article_form_alter(
 }
 
 /**
- * Applies the Article metadata section to the node edit route as well.
+ * Applies the Video metadata section to the node edit route as well.
  */
-function jurenites_blog_form_node_article_edit_form_alter(
+function jurenites_blog_form_node_video_edit_form_alter(
   array &$form,
   FormStateInterface $form_state,
 ): void {
-  jurenites_blog_form_node_article_form_alter($form, $form_state);
+  jurenites_blog_form_node_video_form_alter($form, $form_state);
 }
 
 /**
@@ -143,7 +143,7 @@ function jurenites_blog_node_presave(NodeInterface $content_node): void {
     return;
   }
 
-  if ($content_node->bundle() !== 'article') {
+  if (!in_array($content_node->bundle(), ['article', 'video'], TRUE)) {
     return;
   }
 
@@ -153,7 +153,9 @@ function jurenites_blog_node_presave(NodeInterface $content_node): void {
   $original_identifier = $original_node?->hasField('field_youtube_video')
     ? trim((string) $original_node->get('field_youtube_video')->video_id)
     : '';
-  $has_youtube_video = $article_node->hasField('field_youtube_video')
+  $has_youtube_video = ($article_node->bundle() === 'video'
+      || !\Drupal::state()->get('jurenites_blog.video_content_type_split'))
+    && $article_node->hasField('field_youtube_video')
     && !$article_node->get('field_youtube_video')->isEmpty();
 
   if (!$has_youtube_video) {
@@ -277,7 +279,7 @@ function jurenites_blog_set_youtube_credit(
     }
     catch (\Throwable $creator_exception) {
       \Drupal::logger('jurenites_blog')->warning(
-        'Unable to save the YouTube creator credit for Article @article_id: @message',
+        'Unable to save the YouTube creator credit for content @article_id: @message',
         [
           '@article_id' => $article_node->id() ?? 'new',
           '@message' => $creator_exception->getMessage(),
@@ -325,7 +327,7 @@ function jurenites_blog_set_youtube_credit(
     if ($channel_avatar_missing) {
       if ($article_node->get('field_youtube_channel_avatar')->isEmpty()) {
         \Drupal::logger('jurenites_blog')->warning(
-          'The YouTube page has no channel avatar for Article @article_id.',
+          'The YouTube page has no channel avatar for content @article_id.',
           ['@article_id' => $article_node->id() ?? 'new'],
         );
       }
@@ -338,7 +340,7 @@ function jurenites_blog_set_youtube_credit(
       }
       else {
         \Drupal::logger('jurenites_blog')->warning(
-          'The YouTube page has no publication timestamp for Article @article_id.',
+          'The YouTube page has no publication timestamp for content @article_id.',
           ['@article_id' => $article_node->id() ?? 'new'],
         );
       }
@@ -351,7 +353,7 @@ function jurenites_blog_set_youtube_credit(
       }
       else {
         \Drupal::logger('jurenites_blog')->warning(
-          'The YouTube page has no video duration for Article @article_id.',
+          'The YouTube page has no video duration for content @article_id.',
           ['@article_id' => $article_node->id() ?? 'new'],
         );
       }
@@ -359,7 +361,7 @@ function jurenites_blog_set_youtube_credit(
   }
   catch (\Throwable $metadata_exception) {
     \Drupal::logger('jurenites_blog')->warning(
-      'Unable to save YouTube page metadata for Article @article_id: @message',
+      'Unable to save YouTube page metadata for content @article_id: @message',
       [
         '@article_id' => $article_node->id() ?? 'new',
         '@message' => $metadata_exception->getMessage(),

@@ -268,7 +268,7 @@ function jurenites_theme_preprocess_node(array &$node_variables): void {
     return;
   }
 
-  if ($node_entity->bundle() !== 'article') {
+  if (!in_array($node_entity->bundle(), ['article', 'video'], TRUE)) {
     return;
   }
 
@@ -294,9 +294,12 @@ function jurenites_theme_preprocess_node(array &$node_variables): void {
     $node_variables['author_initials'] = jurenites_theme_name_initials($owner_name);
   }
 
-  jurenites_theme_add_youtube_metadata($node_variables);
+  if ($node_entity->bundle() === 'video') {
+    jurenites_theme_add_youtube_metadata($node_variables);
+  }
 
-  $has_youtube_video = $node_entity->hasField('field_youtube_video')
+  $has_youtube_video = $node_entity->bundle() === 'video'
+    && $node_entity->hasField('field_youtube_video')
     && !$node_entity->get('field_youtube_video')->isEmpty();
   $consumption_minutes = $node_entity->hasField('field_consumption_time_minutes')
     ? (int) $node_entity->get('field_consumption_time_minutes')->value
@@ -463,7 +466,7 @@ function jurenites_theme_preprocess_comment(array &$comment_variables): void {
   $comment_entity = $comment_variables['comment'];
   $commented_entity = $comment_variables['commented_entity'];
   if ($commented_entity->getEntityTypeId() !== 'node'
-    || $commented_entity->bundle() !== 'article') {
+    || !in_array($commented_entity->bundle(), ['article', 'video'], TRUE)) {
     return;
   }
 
@@ -978,9 +981,8 @@ function jurenites_theme_preprocess_breadcrumb(array &$breadcrumb_variables): vo
 
   $node_entity = $route_match->getParameter('node');
   if ($node_entity instanceof \Drupal\node\NodeInterface
-    && $node_entity->bundle() === 'article') {
-    $listing_path = $node_entity->hasField('field_youtube_video')
-      && !$node_entity->get('field_youtube_video')->isEmpty()
+    && in_array($node_entity->bundle(), ['article', 'video'], TRUE)) {
+    $listing_path = $node_entity->bundle() === 'video'
         ? '/videos'
         : '/blog';
     $breadcrumb_variables['article_back_url'] = Url::fromUserInput($listing_path);
@@ -1044,7 +1046,7 @@ function jurenites_theme_preprocess_page_title(array &$page_title_variables): vo
   }
 
   if (!$node_entity instanceof \Drupal\node\NodeInterface
-    || $node_entity->bundle() !== 'article') {
+    || !in_array($node_entity->bundle(), ['article', 'video'], TRUE)) {
     return;
   }
 
@@ -1062,7 +1064,7 @@ function jurenites_theme_theme_suggestions_field_alter(array &$suggestions, arra
   $field_element = $variables['element'];
   if (($field_element['#entity_type'] ?? '') !== 'node'
     || ($field_element['#field_name'] ?? '') !== 'body'
-    || ($field_element['#bundle'] ?? '') !== 'article'
+    || !in_array($field_element['#bundle'] ?? '', ['article', 'video'], TRUE)
     || ($field_element['#view_mode'] ?? '') !== 'full') {
     return;
   }
@@ -1086,7 +1088,7 @@ function jurenites_theme_preprocess_field(array &$field_variables): void {
   }
 
   $is_content_tags = $field_name === 'field_tags'
-    && in_array($entity_bundle, ['article', 'project'], TRUE);
+    && in_array($entity_bundle, ['article', 'video', 'project'], TRUE);
   $is_interest_tags = $field_name === 'field_interest_tags'
     && $entity_bundle === 'interests';
   if (!$is_content_tags && !$is_interest_tags) {
@@ -1102,8 +1104,7 @@ function jurenites_theme_preprocess_field(array &$field_variables): void {
     $listing_path = '/portfolio';
   }
   else {
-    $listing_path = $content_entity->hasField('field_youtube_video')
-      && !$content_entity->get('field_youtube_video')->isEmpty()
+    $listing_path = $content_entity->bundle() === 'video'
         ? '/videos'
         : '/blog';
   }

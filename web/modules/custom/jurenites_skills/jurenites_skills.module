@@ -66,7 +66,7 @@ function jurenites_skills_block_content_view(array &$build_output, EntityInterfa
     }
     $score_value = jurenites_skills_read_field($skill_entity, 'field_skill_score', $cache_metadata)?->value;
     $skill_data['skill_score'] = is_numeric($score_value) && (float) $score_value >= 0 && (float) $score_value <= 5
-      ? number_format((float) $score_value, 1, '.', '') : NULL;
+      ? rtrim(rtrim(number_format((float) $score_value, 1, '.', ''), '0'), '.') : NULL;
     $skill_build['#skill_items'][] = $skill_data;
   }
   $cache_metadata->applyTo($skill_build);

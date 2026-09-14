@@ -1,3 +1,7 @@
 delete own article comments:
   title: 'Delete own Article comments'
   description: 'Permanently delete own Article comments and their replies through the confirmation form.'
+
+delete own video comments:
+  title: 'Delete own Video comments'
+  description: 'Permanently delete own Video comments and their replies through the confirmation form.'

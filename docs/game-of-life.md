@@ -19,8 +19,8 @@ Edit the Article Body through Drupal using an administrative account with
 Basic HTML or Full HTML access. The `alexander` account supplies the public attribution;
 its existing restricted content-editor permissions are unchanged. The optional,
 repeatable **Supporting videos** field uses native Remote video Media and Media
-Library. Keep the main YouTube field empty: it controls whether an Article is
-listed under Blog or Videos. Supporting videos render below the Body.
+Library. Supporting videos do not change the Article content type. It remains
+listed under Blog. Supporting videos render below the Body.
 
 The creator explicitly linked the Lenia film on the Lenia project site. The
 other film is Conway's Numberphile interview. Both have visible creator credits

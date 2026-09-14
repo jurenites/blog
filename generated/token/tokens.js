@@ -162,54 +162,6 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "color-palette-technology-drupal",
-    "path": [
-      "color",
-      "palette",
-      "technology-drupal"
-    ],
-    "type": "color",
-    "description": "technology drupal",
-    "source_value": "#009CDE",
-    "value": "#009CDE",
-    "css_value": "#009CDE",
-    "resolved_css_value": "#009CDE",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "color-palette-technology-laravel",
-    "path": [
-      "color",
-      "palette",
-      "technology-laravel"
-    ],
-    "type": "color",
-    "description": "technology laravel",
-    "source_value": "#FF2D20",
-    "value": "#FF2D20",
-    "css_value": "#FF2D20",
-    "resolved_css_value": "#FF2D20",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "color-palette-technology-react",
-    "path": [
-      "color",
-      "palette",
-      "technology-react"
-    ],
-    "type": "color",
-    "description": "technology react",
-    "source_value": "#61DAFB",
-    "value": "#61DAFB",
-    "css_value": "#61DAFB",
-    "resolved_css_value": "#61DAFB",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
     "name": "color-palette-full-black",
     "path": [
       "color",
@@ -222,22 +174,6 @@ export const TOKEN_RECORDS = [
     "value": "#000000",
     "css_value": "#000000",
     "resolved_css_value": "#000000",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "color-palette-near-black",
-    "path": [
-      "color",
-      "palette",
-      "near-black"
-    ],
-    "type": "color",
-    "description": "near black",
-    "source_value": "#05070B",
-    "value": "#05070B",
-    "css_value": "#05070B",
-    "resolved_css_value": "#05070B",
     "is_reference": false,
     "reference_name": null
   },
@@ -2170,12 +2106,12 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "{color.palette.near-black}",
-    "value": "#05070B",
-    "css_value": "var(--color-palette-near-black)",
-    "resolved_css_value": "#05070B",
+    "source_value": "{color.palette.dark-black}",
+    "value": "#020618",
+    "css_value": "var(--color-palette-dark-black)",
+    "resolved_css_value": "#020618",
     "is_reference": true,
-    "reference_name": "color-palette-near-black"
+    "reference_name": "color-palette-dark-black"
   },
   {
     "name": "component-call-to-action-heading-size-min",
@@ -2250,12 +2186,12 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "{color.palette.near-black}",
-    "value": "#05070B",
-    "css_value": "var(--color-palette-near-black)",
-    "resolved_css_value": "#05070B",
+    "source_value": "{color.palette.dark-black}",
+    "value": "#020618",
+    "css_value": "var(--color-palette-dark-black)",
+    "resolved_css_value": "#020618",
     "is_reference": true,
-    "reference_name": "color-palette-near-black"
+    "reference_name": "color-palette-dark-black"
   },
   {
     "name": "component-status-indicator-size-default",

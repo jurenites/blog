@@ -70,6 +70,10 @@ that other instances retain the shared atom's default presentation.
 
 ## Token Editing
 
+The user defines the exact token inventory. Reuse existing tokens; do not add
+tokens on your own. Never add palette colors or typography tokens unless the
+user explicitly requests those additions.
+
 The editable design-token source is `src/token/tokens.yaml`. Keep it readable with
 comments and namespace spacing. For Cursor or VS Code, this repo includes
 workspace settings that make YAML keys, values, comments, and indentation easier
@@ -82,6 +86,10 @@ stories, Figma sync scripts, SCSS, or JS. Editable color values belong in
 `src/token/tokens.yaml`; code should read generated token values or CSS
 variables from that source. Generated artifacts may contain resolved color
 values only because they are derived from the token source.
+
+Exception: Technology Stack logo colors are fixed component artwork constants
+in `src/brand/technology-stack/brand-colors.js`. Keep them out of the token file
+and shared palette; do not expose them as design-token variables.
 
 ## Documentation Versioning
 

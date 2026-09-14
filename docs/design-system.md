@@ -28,7 +28,8 @@ src/token/tokens.yaml            <-- editable single source of truth
 Never hand-edit generated files. Edit `src/token/tokens.yaml`, then run
 `npm run build:tokens` (or `npm run build:theme`, which runs tokens first).
 The token build also runs `scripts/check-token-contract.mjs`, which rejects
-hardcoded colors outside the YAML source, CSS opacity declarations, hardcoded
+hardcoded colors outside the YAML source (except the Technology Stack's fixed
+logo artwork constants), CSS opacity declarations, hardcoded
 pixel dimensions in shared theme SCSS, and missing SCSS token variables. The
 same contract is part of `npm run lint` and rejects HEX letters that are not
 uppercase in `src/token/tokens.yaml`.
@@ -50,6 +51,9 @@ generated breakpoint mixins instead of copying breakpoint widths into media
 queries.
 
 ### Page canvas and browser color
+
+The Call to Action and Website Audit promotional backgrounds both reference
+the existing `color.palette.dark-black` token.
 
 The HTML and body backgrounds match the main page surface, including the
 homepage, About hero, and Contact photo surfaces. Native overscroll therefore

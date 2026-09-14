@@ -11,7 +11,7 @@ use Drupal\Core\Session\UserSession;
 use Drupal\node\Entity\Node;
 use Drupal\user\Entity\User;
 
-$article_entity = Node::create(['type' => 'article', 'title' => 'Comment access fixture']);
+$article_entity = Node::create(['type' => getenv('COMMENT_NODE_TYPE') ?: 'article', 'title' => 'Comment access fixture']);
 $comment_entity = Comment::create([
   'comment_type' => 'comment',
   'entity_type' => 'node',

@@ -125,7 +125,7 @@ try {
   $fixture_file = File::create(['uri' => 'public://youtube-avatar-save-fixture.png', 'status' => 1]);
   $fixture_file->save();
   $article_node = Node::create([
-    'type' => 'article',
+    'type' => 'video',
     'title' => 'YouTube avatar save fixture',
     'status' => 0,
     'field_youtube_video' => ['input' => 'https://www.youtube.com/watch?v=abcdefghijk', 'video_id' => 'abcdefghijk'],
@@ -135,7 +135,8 @@ try {
   $article_node->save();
   $node_storage->resetCache([$article_node->id()]);
   $article_node = Node::load($article_node->id());
-  youtube_avatar_expect($article_node->get('field_youtube_channel_avatar')->value === $expected_avatar, 'A new Article must persist its avatar.');
+  youtube_avatar_expect($article_node->get('field_youtube_channel_avatar')->value === $expected_avatar, 'A new Video must persist its avatar.');
+  youtube_avatar_expect(str_starts_with($article_node->toUrl()->toString(), '/videos/'), 'New Videos must receive a /videos/ detail alias.');
   youtube_avatar_expect(count($request_history) === 1, 'Avatar, date, and duration must share one page request.');
   youtube_avatar_expect($article_node->get('field_youtube_published_date')->value === '2026-09-01', 'Publication date collection must remain intact.');
   youtube_avatar_expect((int) $article_node->get('field_consumption_time_minutes')->value === 3, 'Duration collection must remain intact.');

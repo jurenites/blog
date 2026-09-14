@@ -1,12 +1,10 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { TOKEN_RECORDS } from '../generated/token/tokens.js';
+import { TECHNOLOGY_BRAND_COLORS } from '../src/brand/technology-stack/brand-colors.js';
 
-// Official SVG geometry is kept in source templates; editable brand colors are tokens.
-for (const technology_key of ['drupal', 'laravel', 'react']) {
-  const brand_record = TOKEN_RECORDS.find((token_record) => token_record.name === `color-palette-technology-${technology_key}`);
-  if (!brand_record) throw new Error(`Missing brand color for ${technology_key}`);
+// Official SVG geometry and fixed brand colors belong to the component artwork.
+for (const [technology_key, brand_color] of Object.entries(TECHNOLOGY_BRAND_COLORS)) {
   const source_path = new URL(`../src/brand/technology-stack/${technology_key}.svg.template`, import.meta.url);
   const output_path = new URL(`../src/public/assets/images/technology-stack/${technology_key}.svg`, import.meta.url);
   const source_text = await readFile(source_path, 'utf8');
-  await writeFile(output_path, source_text.replaceAll('{{brand_color}}', brand_record.resolved_css_value));
+  await writeFile(output_path, source_text.replaceAll('{{brand_color}}', brand_color));
 }

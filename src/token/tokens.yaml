@@ -27,11 +27,7 @@ system:
     examples: "component-input-text-color-validation-error-default, theme-dark-surface-background-page, theme-dark-action-primary-default"
 color:
   palette:
-    technology-drupal: "#009CDE" # Drupal brand portal.
-    technology-laravel: "#FF2D20" # Laravel's official wordmark color.
-    technology-react: "#61DAFB" # React logo color for dark backgrounds.
     full-black: "#000000"
-    near-black: "#05070B" # Quiet, almost-black backgrounds for promotional blocks.
     dark-black: "#020618"
     black: "#0F172B"
     light-black: "#1D293D"
@@ -174,13 +170,13 @@ layout:
     desktop-default: 32px
 component:
   call-to-action:
-    background-color: color.palette.near-black
+    background-color: color.palette.dark-black
     heading-size-min: 24px
     heading-size-max: 96px
     heading-letter-spacing: calc(-0.055 * 1em)
     heading-line-height: 1.05
   website-audit:
-    background-color: color.palette.near-black
+    background-color: color.palette.dark-black
   status:
     indicator-size-default: 8px # Static test-status light.
     preview-height-default: 480px # Expandable local Storybook preview.

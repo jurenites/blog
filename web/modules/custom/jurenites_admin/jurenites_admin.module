@@ -158,7 +158,7 @@ function jurenites_admin_entity_presave(EntityInterface $saved_entity): void {
     }
 
     $is_article_comment = $saved_entity->getEntityTypeId() === 'node'
-      && $saved_entity->bundle() === 'article'
+      && in_array($saved_entity->bundle(), ['article', 'video'], TRUE)
       && $field_name === 'comment';
     $saved_entity->get($field_name)->status = $is_article_comment
       ? CommentingStatus::Open->value
@@ -178,7 +178,7 @@ function jurenites_admin_entity_prepare_view(string $entity_type_id, array $enti
   $article_entity_ids = [];
   foreach ($entities as $entity_key => $article_entity) {
     if (!$article_entity instanceof NodeInterface
-      || $article_entity->bundle() !== 'article') {
+      || !in_array($article_entity->bundle(), ['article', 'video'], TRUE)) {
       continue;
     }
 
@@ -234,7 +234,7 @@ function jurenites_admin_query_comment_filter_alter(AlterableInterface $comment_
   $commented_entity = $comment_query->getMetaData('entity');
   $comment_field_name = $comment_query->getMetaData('field_name');
   if (!$commented_entity instanceof NodeInterface
-    || $commented_entity->bundle() !== 'article'
+    || !in_array($commented_entity->bundle(), ['article', 'video'], TRUE)
     || $comment_field_name !== 'comment') {
     return;
   }
@@ -324,10 +324,10 @@ function jurenites_admin_comment_access(CommentInterface $comment_entity, string
   $commented_entity = $comment_entity->getCommentedEntity();
   $delete_access = AccessResult::allowedIf(
     $user_account->isAuthenticated()
-    && $user_account->hasPermission('delete own article comments')
+    && $user_account->hasPermission($commented_entity?->bundle() === 'video' ? 'delete own video comments' : 'delete own article comments')
     && (string) $user_account->id() === (string) $comment_entity->getOwnerId()
     && $commented_entity instanceof NodeInterface
-    && $commented_entity->bundle() === 'article'
+    && in_array($commented_entity->bundle(), ['article', 'video'], TRUE)
     && $comment_entity->getFieldName() === 'comment'
   )->cachePerPermissions()->cachePerUser()->addCacheableDependency($comment_entity);
 
@@ -349,7 +349,7 @@ function jurenites_admin_form_comment_form_alter(array &$comment_form, FormState
 
   $commented_entity = $comment_entity->getCommentedEntity();
   if ($commented_entity?->getEntityTypeId() !== 'node'
-    || $commented_entity->bundle() !== 'article') {
+    || !in_array($commented_entity->bundle(), ['article', 'video'], TRUE)) {
     return;
   }
 
@@ -370,7 +370,7 @@ function jurenites_admin_form_comment_form_alter(array &$comment_form, FormState
     $comment_form['comment_language_id'] = [
       '#type' => 'select',
       '#title' => t('Comment language'),
-      '#description' => t('The comment appears only with this Article translation.'),
+      '#description' => t('The comment appears only with this content translation.'),
       '#options' => $comment_language_options,
       '#default_value' => $comment_entity->language()->getId(),
       '#weight' => -1,
@@ -417,7 +417,7 @@ function jurenites_admin_build_article_comment_language(
   $commented_entity = $comment_entity->getCommentedEntity();
   $comment_language_id = (string) $form_state->getValue('comment_language_id');
   if ($commented_entity instanceof NodeInterface
-    && $commented_entity->bundle() === 'article'
+    && in_array($commented_entity->bundle(), ['article', 'video'], TRUE)
     && $commented_entity->hasTranslation($comment_language_id)) {
     $comment_entity->set('langcode', $comment_language_id);
   }
@@ -433,7 +433,7 @@ function jurenites_admin_set_article_comment_language(CommentInterface $comment_
 
   $commented_entity = $comment_entity->getCommentedEntity();
   if (!$commented_entity instanceof NodeInterface
-    || $commented_entity->bundle() !== 'article'
+    || !in_array($commented_entity->bundle(), ['article', 'video'], TRUE)
     || !$commented_entity->hasTranslation($content_language_id)) {
     return;
   }
