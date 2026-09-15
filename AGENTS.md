@@ -69,13 +69,6 @@ to the base grid, with a grid-aligned fallback. Animated text must keep its
 container height stable throughout the transition. Inline glyph bounds and
 transformed artwork are distinct from the line boxes that determine layout.
 
-## Letter Spacing
-
-Keep loaded text at `letter-spacing: normal`. Do not introduce custom tracking
-or override font kerning without an explicit request. Heading typing may
-temporarily add 2% (`0.02em`) spacing, then animate that addition back to zero
-after typing stops, restoring normal text spacing.
-
 ## Corner Shape
 
 Use square corners for UI elements, including slider pagination markers. Avatar

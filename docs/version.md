@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 1.106.1
+Version: 1.106.2
 Reviewed: 2026-09-12
 
 This checkpoint says the `/docs` folder has been reviewed against the current
@@ -27,6 +27,11 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   component behavior, no documentation bump is required.
 
 ## Current Source Contract
+
+- Production HTTPS uses ISPmanager-managed Let's Encrypt for the apex and
+  `www` domains. The real checkout is under `/www/jurenites.com`, only `/web`
+  is public, and the former `/apps/blog_jurenites` path remains a compatibility
+  symlink. See the deployment and renewal notes in `command-cheat-sheet.md`.
 
 - Listing introductions and empty messages use revisioned Page copy Content
   Blocks. Skills explanations and pixel instructions belong to content fields;
