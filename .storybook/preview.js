@@ -1,4 +1,5 @@
 import { install_icon_sprite } from '../src/slice/src/js/icon-sprite.js';
+import { initialize_heading_typing } from '../src/slice/src/js/heading-typing.js';
 // Storybook consumes the same compiled design system as the Drupal theme:
 // src/slice/src/scss/main.scss is the single CSS source of truth.
 import "../src/slice/src/scss/main.scss";
@@ -16,6 +17,7 @@ import {
 import { initialize_font_previews } from "../src/slice/src/js/font-preview.js";
 import { initialize_hero_sections } from "../src/slice/src/js/hero-section.js";
 import { initialize_layered_scenes } from "../src/slice/src/js/layered-scene.js";
+import { initialize_game_of_life } from "../src/slice/src/js/game-of-life.js";
 
 void install_icon_sprite();
 
@@ -144,7 +146,7 @@ export const parameters = {
   },
   options: {
     storySort: {
-      order: ["Foundations", "Atoms", "Molecules", "Organisms", "Components"],
+      order: ["Foundations", "Atoms", "Molecules", ["Blog", "Video", "*"], "Organisms", "Components"],
     },
   },
 };
@@ -159,11 +161,13 @@ export const decorators = [
       initialize_font_previews(document);
       initialize_hero_sections(document);
       initialize_layered_scenes(document);
+      initialize_game_of_life(document);
       initialize_numeric_value_counters(document);
       initialize_pixel_glyph_editors(document);
       initialize_site_headers(document);
       initialize_timeline_organization_rails(document);
       initialize_tooltips(document);
+      initialize_heading_typing(document);
       if (story_context.parameters.preview_watermark?.disabled) {
         remove_preview_watermark();
       } else {

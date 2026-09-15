@@ -1,0 +1,140 @@
+<?php
+
+/**
+ * @file
+ * Configures the existing Drupal media library for inline uploads.
+ */
+
+use Drupal\ckeditor5\HTMLRestrictions;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\Core\Entity\Entity\EntityViewMode;
+use Drupal\editor\Entity\Editor;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\filter\Entity\FilterFormat;
+use Drupal\media\Entity\MediaType;
+use Drupal\user\Entity\Role;
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_inline_media_install(): void {
+  jurenites_inline_media_configure();
+}
+
+/**
+ * Adds upload types and editor configuration without rewriting any content.
+ */
+function jurenites_inline_media_configure(): void {
+  if (EntityViewMode::load('media.inline_media') === NULL) {
+    EntityViewMode::create([
+      'id' => 'media.inline_media',
+      'label' => 'Inline media',
+      'targetEntityType' => 'media',
+    ])->save();
+  }
+
+  foreach ([
+    'animated_gif' => ['Animated GIF', 'image', 'gif', '5 MB'],
+    'video' => ['Video', 'video_file', 'mp4 webm', '20 MB'],
+  ] as $bundle_name => [$media_label, $source_plugin, $file_extensions, $upload_limit]) {
+    $media_type = MediaType::load($bundle_name);
+    $new_media_type = $media_type === NULL;
+    if ($new_media_type) {
+      $media_type = MediaType::create([
+        'id' => $bundle_name,
+        'label' => $media_label,
+        'description' => $bundle_name === 'animated_gif'
+          ? 'An animated GIF up to 5 MB, displayed without resizing the file.'
+          : 'An MP4 or WebM video up to 20 MB. Use H.264 MP4 for broad playback support.',
+        'source' => $source_plugin,
+        'new_revision' => TRUE,
+        'field_map' => ['name' => 'name'],
+      ]);
+      $media_type->save();
+      $source_field = $media_type->getSource()->createSourceField($media_type);
+      $source_field->getFieldStorageDefinition()->save();
+      $source_field->save();
+      $media_type->set('source_configuration', ['source_field' => $source_field->getName()])->save();
+    }
+    else {
+      $source_field = FieldConfig::loadByName('media', $bundle_name, $media_type->getSource()->getSourceFieldDefinition($media_type)->getName());
+    }
+    $source_field->setSetting('file_extensions', $file_extensions)
+      ->setSetting('max_filesize', $upload_limit)
+      ->setSetting('file_directory', 'inline-media/[date:custom:Y]-[date:custom:m]');
+    if ($bundle_name === 'animated_gif') {
+      // GD resampling discards animation; retain the uploaded file unchanged.
+      $source_field->setSetting('max_resolution', '')->setSetting('min_resolution', '');
+    }
+    $source_field->save();
+    $field_name = $source_field->getName();
+
+    foreach (['default', 'media_library'] as $form_mode) {
+      $form_display = EntityFormDisplay::load("media.$bundle_name.$form_mode")
+        ?? EntityFormDisplay::create(['targetEntityType' => 'media', 'bundle' => $bundle_name, 'mode' => $form_mode, 'status' => TRUE]);
+      $form_display->setComponent($field_name, [
+        'type' => $bundle_name === 'animated_gif' ? 'image_image' : 'file_generic',
+        'weight' => 0,
+      ])->save();
+    }
+
+    foreach ($new_media_type ? ['default', 'inline_media'] : ['inline_media'] as $view_mode) {
+      $view_display = EntityViewDisplay::load("media.$bundle_name.$view_mode")
+        ?? EntityViewDisplay::create(['targetEntityType' => 'media', 'bundle' => $bundle_name, 'mode' => $view_mode, 'status' => TRUE]);
+      foreach (['name', 'thumbnail', 'created', 'uid', 'langcode'] as $hidden_field) {
+        $view_display->removeComponent($hidden_field);
+      }
+      $view_display->setComponent($field_name, [
+        'type' => $bundle_name === 'animated_gif' ? 'image' : 'file_video',
+        'label' => 'hidden',
+        'settings' => $bundle_name === 'animated_gif'
+          ? ['image_style' => '', 'image_link' => '', 'image_loading' => ['attribute' => 'lazy']]
+          : ['controls' => TRUE, 'autoplay' => FALSE, 'loop' => FALSE, 'muted' => FALSE, 'playsinline' => TRUE],
+      ])->save();
+    }
+  }
+
+  foreach (['basic_html', 'full_html'] as $format_name) {
+    $text_editor = Editor::load($format_name);
+    $text_format = FilterFormat::load($format_name);
+    if ($text_editor === NULL || $text_format === NULL || $text_editor->getEditor() !== 'ckeditor5') {
+      continue;
+    }
+    $text_format->setFilterConfig('media_embed', [
+      'id' => 'media_embed', 'provider' => 'media', 'status' => TRUE, 'weight' => 100,
+      'settings' => [
+        'default_view_mode' => 'inline_media',
+        'allowed_view_modes' => [],
+        'allowed_media_types' => ['animated_gif' => 'animated_gif', 'video' => 'video'],
+      ],
+    ]);
+    if ($text_format->filters('filter_html')->status) {
+      $html_filter = $text_format->filters('filter_html')->getConfiguration();
+      $html_filter['settings']['allowed_html'] = HTMLRestrictions::fromString($html_filter['settings']['allowed_html'])
+        ->merge(HTMLRestrictions::fromString('<drupal-media data-entity-type data-entity-uuid data-view-mode data-align data-caption alt>'))
+        ->toFilterHtmlAllowedTagsString();
+      $text_format->setFilterConfig('filter_html', $html_filter);
+    }
+    $text_format->save();
+    $editor_settings = $text_editor->getSettings();
+    $editor_settings['plugins']['media_media'] = ['allow_view_mode_override' => FALSE];
+    if (!in_array('drupalMedia', $editor_settings['toolbar']['items'], TRUE)) {
+      $image_position = array_search('drupalInsertImage', $editor_settings['toolbar']['items'], TRUE);
+      array_splice($editor_settings['toolbar']['items'], $image_position === FALSE ? count($editor_settings['toolbar']['items']) : $image_position + 1, 0, ['drupalMedia']);
+    }
+    $text_editor->setSettings($editor_settings);
+    // The existing image button remains available, including for small GIFs.
+    $image_settings = $text_editor->getImageUploadSettings();
+    $image_settings['max_size'] = '5 MB';
+    $text_editor->setImageUploadSettings($image_settings)->save();
+  }
+
+  $editor_role = Role::load('content_editor');
+  if ($editor_role !== NULL) {
+    foreach (['use text format basic_html', 'access media overview', 'view media', 'create animated_gif media', 'create video media', 'edit own animated_gif media', 'edit own video media'] as $permission_name) {
+      $editor_role->grantPermission($permission_name);
+    }
+    $editor_role->save();
+  }
+}

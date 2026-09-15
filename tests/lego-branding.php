@@ -84,9 +84,10 @@ foreach ($http_cases as [$page_path, $expected_lego]) {
   ]);
   $page_html = (string) $page_response->getBody();
   if ($page_response->getStatusCode() !== 200
-    || str_contains($page_html, 'site-header__logo--lego') !== $expected_lego) {
+    || str_contains($page_html, 'site-header__logo')
+    || !str_contains($page_html, 'site-header__brand-name-initial')) {
     throw new \RuntimeException('Unexpected HTTP branding for ' . $page_path);
   }
-  print $page_path . ': ' . ($expected_lego ? 'LEGO' : 'standard') . PHP_EOL;
+  print $page_path . ': ' . 'interactive name' . PHP_EOL;
 }
 print 'Passed: idempotent term, 8 route cases, 11 anonymous HTTP/cache cases.' . PHP_EOL;

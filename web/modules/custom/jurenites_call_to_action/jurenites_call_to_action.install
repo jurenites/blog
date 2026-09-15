@@ -1,0 +1,124 @@
+<?php
+
+/**
+ * @file
+ * Seeds a reusable home-page invitation once, preserving subsequent CMS edits.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\language\Entity\ContentLanguageSettings;
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_call_to_action_install(): void {
+  if (\Drupal::state()->get('jurenites_call_to_action.initialized')) {
+    return;
+  }
+  if (!BlockContentType::load('call_to_action')) {
+    BlockContentType::create([
+      'id' => 'call_to_action', 'label' => 'Call to action', 'revision' => TRUE,
+      'description' => 'Two large heading lines and a contact button.',
+    ])->save();
+  }
+  $display_settings = ['targetEntityType' => 'block_content', 'bundle' => 'call_to_action', 'mode' => 'default', 'status' => TRUE];
+  $form_display = EntityFormDisplay::load('block_content.call_to_action.default') ?? EntityFormDisplay::create($display_settings);
+  $view_display = EntityViewDisplay::load('block_content.call_to_action.default') ?? EntityViewDisplay::create($display_settings);
+  $field_definitions = [
+    'field_action_prompt' => ['string', 'Prompt heading', [], 'string_textfield'],
+    'field_action_invitation' => ['string', 'Invitation heading', [], 'string_textfield'],
+    'field_action_link' => ['link', 'Contact button', ['link_type' => 1, 'title' => 2], 'link_default'],
+  ];
+  $field_weight = 0;
+  foreach ($field_definitions as $field_name => [$field_type, $field_label, $field_settings, $widget_type]) {
+    if (!FieldStorageConfig::loadByName('block_content', $field_name)) {
+      FieldStorageConfig::create([
+        'entity_type' => 'block_content', 'field_name' => $field_name,
+        'type' => $field_type, 'cardinality' => 1,
+      ])->save();
+    }
+    if (!FieldConfig::loadByName('block_content', 'call_to_action', $field_name)) {
+      FieldConfig::create([
+        'entity_type' => 'block_content', 'bundle' => 'call_to_action',
+        'field_name' => $field_name, 'label' => $field_label, 'required' => TRUE,
+        'translatable' => TRUE, 'settings' => $field_settings,
+      ])->save();
+    }
+    $form_display->setComponent($field_name, ['type' => $widget_type, 'weight' => $field_weight++]);
+    $view_display->removeComponent($field_name);
+  }
+  $form_display->setComponent('info', ['type' => 'string_textfield', 'weight' => -5]);
+  $form_display->setComponent('status', ['type' => 'boolean_checkbox', 'weight' => 5])->save();
+  $view_display->save();
+  ContentLanguageSettings::loadByEntityTypeBundle('block_content', 'call_to_action')
+    ->setLanguageAlterable(TRUE)->setThirdPartySetting('content_translation', 'enabled', TRUE)->save();
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+
+  $action_uuid = 'a7c498cf-9d24-4ae2-a585-f09eaa0f47e6';
+  if (!\Drupal::entityTypeManager()->getStorage('block_content')->loadByProperties(['uuid' => $action_uuid])) {
+    $action_block = BlockContent::create([
+      'uuid' => $action_uuid, 'type' => 'call_to_action', 'langcode' => 'en',
+      'info' => 'About project invitation', 'reusable' => TRUE, 'status' => TRUE,
+      'field_action_prompt' => 'GOT A PROJECT?',
+      'field_action_invitation' => "LET'S DISCUSS IT!",
+      'field_action_link' => ['uri' => 'internal:/contact', 'title' => 'CONTACT'],
+    ]);
+    jurenites_call_to_action_add_russian_translation($action_block);
+    $action_block->save();
+  }
+  if (!Block::load('jurenites_theme_call_to_action')) {
+    $plugin_identifier = 'block_content:' . $action_uuid;
+    Block::create([
+      'id' => 'jurenites_theme_call_to_action', 'theme' => 'jurenites_theme',
+      'region' => 'content', 'weight' => 100, 'status' => TRUE, 'plugin' => $plugin_identifier,
+      'settings' => ['id' => $plugin_identifier, 'label' => 'About project invitation', 'label_display' => '0', 'provider' => 'block_content', 'view_mode' => 'full'],
+      'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => '<front>']],
+    ])->save();
+  }
+  \Drupal::state()->set('jurenites_call_to_action.initialized', TRUE);
+}
+
+/**
+ * Adds the initial Russian copy without replacing an existing translation.
+ */
+function jurenites_call_to_action_add_russian_translation(BlockContent $action_block): bool {
+  if (!\Drupal::languageManager()->getLanguage('ru') || $action_block->hasTranslation('ru')) {
+    return FALSE;
+  }
+  $contact_link = $action_block->get('field_action_link')->first()->getValue();
+  $contact_link['title'] = 'СВЯЗАТЬСЯ';
+  $action_block->addTranslation('ru', [
+    'info' => $action_block->label(),
+    'field_action_prompt' => 'ЕСТЬ ПРОЕКТ?',
+    'field_action_invitation' => 'ДАВАЙТЕ ОБСУДИМ!',
+    'field_action_link' => $contact_link,
+    'content_translation_source' => 'en',
+  ]);
+  return TRUE;
+}
+
+/**
+ * Places the invitation on both home-page languages and adds missing Russian copy.
+ */
+function jurenites_call_to_action_update_11001(): void {
+  $action_uuid = 'a7c498cf-9d24-4ae2-a585-f09eaa0f47e6';
+  $action_placement = Block::load('jurenites_theme_call_to_action');
+  if ($action_placement && $action_placement->getPluginId() === 'block_content:' . $action_uuid) {
+    $action_placement->setVisibilityConfig('request_path', [
+      'id' => 'request_path', 'negate' => FALSE, 'pages' => '<front>',
+    ])->save();
+  }
+  $action_blocks = \Drupal::entityTypeManager()->getStorage('block_content')->loadByProperties(['uuid' => $action_uuid]);
+  $action_block = reset($action_blocks);
+  if ($action_block && jurenites_call_to_action_add_russian_translation($action_block)) {
+    $action_block->setNewRevision(TRUE);
+    $action_block->setRevisionLogMessage('Add Russian project invitation.');
+    $action_block->save();
+  }
+}

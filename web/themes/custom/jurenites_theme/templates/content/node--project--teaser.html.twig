@@ -1,6 +1,8 @@
 <article{{ attributes.addClass('project-card') }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
   {% if content.field_image %}
-    <div class="project-card__media">{{ content.field_image }}</div>
+    <div class="project-card__media" data-jurenites-article-image-transition="project-image-{{ node.id }}">{{ content.field_image }}</div>
   {% endif %}
   <div class="project-card__body">
     <a class="project-card__title text-link" href="{{ url }}">{{ label }}</a>

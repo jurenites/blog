@@ -132,12 +132,15 @@
 
 .font-preview__table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .font-preview__table th,
 .font-preview__table td {
   padding: var(--space-scale-base-gap);
+  // Include the divider inside the 8px lower inset without split table borders.
+  padding-block-end: calc(var(--space-scale-base-gap) - var(--shape-border-width-hairline-default));
   border-block-end: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
   text-align: start;
   vertical-align: top;
@@ -161,6 +164,21 @@
   color: var(--theme-dark-text-primary-default);
 }
 
+.font-preview__dialog[open],
+.font-preview__dialog[open]::backdrop {
+  animation: font-preview-dialog-appear var(--motion-duration-short-default) var(--motion-easing-standard-default);
+}
+
+@keyframes font-preview-dialog-appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .font-preview__dialog::backdrop {
   background: var(--color-palette-full-black);
 }
@@ -182,21 +200,6 @@
   min-height: calc(var(--shape-basic-tile) * 7);
   margin-block: calc(var(--space-scale-base-gap) * 2);
   background: var(--color-palette-dark-black);
-}
-
-[data-font-preview-glyph-transition-source],
-[data-font-preview-glyph-transition-active] {
-  view-transition-name: font-preview-selected-glyph;
-}
-
-::view-transition-group(font-preview-selected-glyph) {
-  animation-duration: var(--motion-duration-extra-long);
-  animation-timing-function: var(--motion-easing-decelerate-default);
-}
-
-::view-transition-old(font-preview-selected-glyph),
-::view-transition-new(font-preview-selected-glyph) {
-  mix-blend-mode: normal;
 }
 
 .font-preview__glyph-svg {
@@ -293,7 +296,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-group(font-preview-selected-glyph) {
-    animation-duration: var(--motion-duration-instant-default);
+  .font-preview__dialog[open],
+  .font-preview__dialog[open]::backdrop {
+    animation: none;
   }
 }

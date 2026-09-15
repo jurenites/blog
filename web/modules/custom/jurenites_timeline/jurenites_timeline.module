@@ -162,6 +162,7 @@ function jurenites_timeline_build_item(ParagraphInterface $timeline_paragraph): 
   }
 
   return [
+    'anchor_key' => 'timeline-project-' . $timeline_paragraph->uuid(),
     'item_name' => (string) $timeline_paragraph->getUntranslated()->get('field_timeline_name')->value,
     'item_kind' => 'project',
     'organization_name' => (string) $timeline_paragraph->getUntranslated()->get('field_timeline_organization')->value,
@@ -278,6 +279,7 @@ function jurenites_timeline_build_year_groups(
         $show_details = $fragment_year === $timeline_period['start_year'];
         $visible_month_count = $fragment_year === $current_year ? $current_month : 12;
         $year_fragments[$fragment_year][] = [
+          'detail_id' => $timeline_item['anchor_key'] . '-' . $timeline_period['start_iso'],
           'project_key' => 'project-' . $item_index,
           'period_key' => 'project-' . $item_index . '-period-' . $period_index,
           'start_month' => $timeline_period['start_month'],

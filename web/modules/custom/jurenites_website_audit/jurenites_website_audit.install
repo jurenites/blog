@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * @file
+ * Seeds the editable Portfolio offer once, preserving subsequent CMS edits.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\language\Entity\ContentLanguageSettings;
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_website_audit_install(): void {
+  if (\Drupal::state()->get('jurenites_website_audit.initialized')) {
+    return;
+  }
+  if (!BlockContentType::load('website_audit')) {
+    BlockContentType::create([
+      'id' => 'website_audit', 'label' => 'Website audit', 'revision' => TRUE,
+      'description' => 'Portfolio audit report details, free offer and contact action.',
+    ])->save();
+  }
+  \Drupal::moduleHandler()->loadInclude('block_content', 'install');
+  block_content_add_body_field('website_audit');
+  FieldConfig::loadByName('block_content', 'website_audit', 'body')->setTranslatable(TRUE)->save();
+  $field_definitions = [
+    'field_audit_offer' => ['text_long', 'Offer', [], 'text_textarea'],
+    'field_audit_days' => ['integer', 'Turnaround (business days)', ['min' => 1], 'number'],
+    'field_audit_link' => ['link', 'Order button', ['link_type' => 1, 'title' => 2], 'link_default'],
+  ];
+  $form_display = EntityFormDisplay::load('block_content.website_audit.default');
+  $view_display = EntityViewDisplay::load('block_content.website_audit.default');
+  $form_display->setComponent('body', ['type' => 'text_textarea_with_summary', 'weight' => 0]);
+  $field_weight = 1;
+  foreach ($field_definitions as $field_name => [$field_type, $field_label, $field_settings, $widget_type]) {
+    if (!FieldStorageConfig::loadByName('block_content', $field_name)) {
+      FieldStorageConfig::create([
+        'entity_type' => 'block_content', 'field_name' => $field_name,
+        'type' => $field_type, 'cardinality' => 1,
+      ])->save();
+    }
+    if (!FieldConfig::loadByName('block_content', 'website_audit', $field_name)) {
+      FieldConfig::create([
+        'entity_type' => 'block_content', 'bundle' => 'website_audit',
+        'field_name' => $field_name, 'label' => $field_label,
+        'translatable' => TRUE, 'settings' => $field_settings,
+      ])->save();
+    }
+    $form_display->setComponent($field_name, ['type' => $widget_type, 'weight' => $field_weight++]);
+    $view_display->removeComponent($field_name);
+  }
+  $form_display->setComponent('status', ['type' => 'boolean_checkbox', 'weight' => 5])->save();
+  $view_display->removeComponent('body')->save();
+  ContentLanguageSettings::loadByEntityTypeBundle('block_content', 'website_audit')
+    ->setLanguageAlterable(TRUE)->setThirdPartySetting('content_translation', 'enabled', TRUE)->save();
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+
+  $audit_uuid = '16c7d209-0bb1-4c6c-9da7-6845a39bfb74';
+  if (!\Drupal::entityTypeManager()->getStorage('block_content')->loadByProperties(['uuid' => $audit_uuid])) {
+    BlockContent::create([
+      'uuid' => $audit_uuid, 'type' => 'website_audit', 'langcode' => 'en',
+      'info' => 'Portfolio website audit', 'reusable' => TRUE, 'status' => TRUE,
+      'body' => ['format' => 'basic_html', 'value' => '<h2>Website audit.</h2><p>We will analyze all technical and UX weaknesses of your current site and prepare a clear report with an action plan.</p><h3>What the report includes:</h3><ul><li>Analysis of load speed and performance</li><li>Check of responsiveness and mobile version</li><li>SEO audit: meta tags, structure, indexing</li><li>Usability and user experience analysis</li><li>Assessment of code quality and architecture</li><li>Recommendations for improving conversion rates</li></ul>'],
+      'field_audit_offer' => ['format' => 'basic_html', 'value' => '<h3>Free</h3><p>A website audit is completely free for all new clients.</p>'],
+      'field_audit_days' => 3,
+      'field_audit_link' => ['uri' => 'internal:/contact', 'title' => 'Order'],
+    ])->save();
+  }
+  if (!Block::load('jurenites_theme_website_audit')) {
+    $plugin_identifier = 'block_content:' . $audit_uuid;
+    Block::create([
+      'id' => 'jurenites_theme_website_audit', 'theme' => 'jurenites_theme',
+      'region' => 'content', 'weight' => 90, 'status' => TRUE, 'plugin' => $plugin_identifier,
+      'settings' => ['id' => $plugin_identifier, 'label' => 'Portfolio website audit', 'label_display' => '0', 'provider' => 'block_content', 'view_mode' => 'full'],
+      'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => '/portfolio']],
+    ])->save();
+  }
+  \Drupal::state()->set('jurenites_website_audit.initialized', TRUE);
+}

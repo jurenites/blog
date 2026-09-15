@@ -1,0 +1,56 @@
+// Pulse Indicator atom. A solid marker stays centered while a translucent
+// radius expands and disappears behind it.
+
+.pulse-indicator {
+  display: grid;
+  place-items: center;
+  width: var(--component-pulse-indicator-container-size-default);
+  height: var(--component-pulse-indicator-container-size-default);
+}
+
+.pulse-indicator__radius,
+.pulse-indicator__dot {
+  grid-area: 1 / 1;
+  width: var(--component-pulse-indicator-marker-size-default);
+  height: var(--component-pulse-indicator-marker-size-default);
+  border-radius: 50%;
+}
+
+.pulse-indicator__radius {
+  background-color: var(--component-pulse-indicator-radius-color-end);
+  animation: pulse-indicator-radius
+    var(--component-pulse-indicator-animation-duration-default)
+    var(--motion-easing-pulse-default)
+    infinite;
+}
+
+.pulse-indicator__dot {
+  background-color: var(--component-pulse-indicator-dot-color-default);
+}
+
+.pulse-indicator.is-animation-paused .pulse-indicator__radius {
+  animation-play-state: paused;
+}
+
+@keyframes pulse-indicator-radius {
+  0% {
+    background-color: var(--component-pulse-indicator-radius-color-start);
+    transform: scale(1);
+  }
+
+  66% {
+    background-color: var(--component-pulse-indicator-radius-color-end);
+    transform: scale(var(--component-pulse-indicator-radius-scale-expanded));
+  }
+
+  100% {
+    background-color: var(--component-pulse-indicator-radius-color-end);
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-indicator__radius {
+    animation: none;
+  }
+}

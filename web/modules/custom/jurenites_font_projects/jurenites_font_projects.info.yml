@@ -6,6 +6,8 @@ core_version_requirement: ^11
 dependencies:
   - drupal:image
   - drupal:node
+  - drupal:media
+  - drupal:media_library
   - drupal:path
   - drupal:responsive_image
   - drupal:taxonomy

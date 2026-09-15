@@ -496,3 +496,13 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
   }
 
 }
+
+// Native fragment navigation also works before JavaScript enhances the layout.
+.timeline__year-detail[id] {
+  scroll-margin-block-start: calc(var(--space-scale-base-gap) * 12);
+}
+
+.timeline__year-detail:target {
+  outline: var(--shape-border-width-hairline-default) solid var(--theme-dark-action-primary-default);
+  outline-offset: var(--space-scale-base-gap);
+}

@@ -1,0 +1,158 @@
+@use "../tools";
+
+$company-viewport-width: calc(100cqw - var(--drupal-displace-offset-left, var(--space-scale-zero)) - var(--drupal-displace-offset-right, var(--space-scale-zero)));
+
+// Measure the usable viewport without including the browser's vertical scrollbar.
+body:has(.company-slider) {
+  container-type: inline-size;
+}
+
+.company-slider {
+  min-width: 0;
+  width: 100cqw;
+  margin-inline: calc(50% - 50cqw);
+  margin-block: calc(var(--space-scale-base-gap) * 8);
+  overflow: visible;
+  color: var(--theme-dark-text-primary-default);
+}
+
+// Mobile's overlay toolbar can retain a stale displacement after a resize.
+.toolbar-horizontal .company-slider {
+  width: $company-viewport-width;
+  margin-inline: calc((100% - $company-viewport-width) / 2);
+}
+
+.company-slider__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--space-scale-base-gap) * 3);
+  width: 100%;
+  max-width: var(--layout-content-max-blog-default);
+  margin-inline: auto;
+  margin-block-end: calc(var(--space-scale-base-gap) * 4);
+}
+
+.company-slider__heading {
+  margin: 0;
+  @include tools.typography-headline-3;
+}
+
+.company-slider__controls { display: none; }
+
+.company-slider__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc(var(--space-scale-base-gap) * 36);
+  gap: calc(var(--space-scale-base-gap) * 3);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--space-scale-base-gap);
+  @include tools.unstyled-list;
+  padding: 0 calc(var(--space-scale-base-gap) * 4);
+}
+
+.company-slider__track--animating { scroll-snap-type: none; }
+
+.company-slider__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding-block: calc(var(--space-scale-base-gap) * 3);
+  border-block-start: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  scroll-snap-align: start;
+}
+
+.company-slider__company-link {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-scale-base-gap) * 3);
+  max-width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.company-slider__artwork {
+  display: flex;
+  align-items: center;
+  height: calc(var(--space-scale-base-gap) * 7);
+}
+
+.company-slider__logo {
+  display: block;
+  width: auto;
+  height: calc(var(--space-scale-base-gap) * 4);
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left center;
+  filter: brightness(0) invert(1);
+}
+
+// The supplied OysterLabs artwork has an opaque white background. The SVG
+// filter derives alpha from blue minus red, then paints the retained mark white.
+.company-slider__logo--oysterlabs {
+  filter: url("/themes/custom/jurenites_theme/assets/images/companies/company-logo-filters.svg#white-logo");
+}
+
+.company-slider__name {
+  text-decoration: none;
+  text-decoration-thickness: var(--space-scale-one);
+  @include tools.typography-link;
+}
+
+.company-slider__company-link:is(:hover, :focus-visible) {
+  color: var(--theme-dark-text-primary-default);
+
+  .company-slider__name { text-decoration-line: underline; }
+}
+
+.company-slider__relationship {
+  margin-block: var(--space-scale-base-gap) calc(var(--space-scale-base-gap) * 3);
+  color: var(--theme-dark-text-gray);
+  @include tools.typography-body-2;
+}
+
+.company-slider__projects {
+  margin-block-start: auto;
+  padding-block: var(--space-scale-base-gap);
+  text-decoration: underline;
+  text-decoration-thickness: var(--space-scale-one);
+  @include tools.typography-link;
+}
+
+.company-slider__company-link:focus-visible,
+.company-slider__projects:focus-visible,
+.company-slider__track:focus-visible,
+.company-slider__control:focus-visible {
+  @include tools.focus-ring;
+}
+
+@include tools.breakpoint-down("content-gutter-max") {
+  .company-slider__header {
+    width: calc(100% - var(--layout-gutter-tablet-default) * 2);
+  }
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .company-slider__header {
+    align-items: flex-start;
+    width: calc(100% - var(--layout-gutter-mobile-default) * 2);
+  }
+  .company-slider__heading { @include tools.typography-headline-4; }
+  .company-slider__track { grid-auto-columns: min(85%, calc(var(--space-scale-base-gap) * 36)); }
+}
+
+.company-slider__logo--funnel-design-group {
+  height: calc(var(--space-scale-base-gap) * 5);
+}
+
+.company-slider__logo--thrive {
+  height: calc(var(--space-scale-base-gap) * 4);
+  filter: none;
+}
+
+.company-slider__logo--volcanoideas {
+  height: calc(var(--space-scale-base-gap) * 6.75);
+}

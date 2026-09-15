@@ -1,4 +1,4 @@
-<nav class="site-header__navigation" id="site-header-primary-navigation" aria-label="{{ configuration.label }}"{{ attributes|without('class', 'id', 'role', 'aria-label', 'aria-labelledby') }}>
+<nav{{ attributes.addClass('site-header__navigation').setAttribute('id', 'site-header-primary-navigation').setAttribute('aria-label', configuration.label) }}>
   {{ title_prefix }}
   {{ content }}
   {{ title_suffix }}

@@ -1,0 +1,46 @@
+@use "../tools";
+
+.home-introduction {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--layout-content-max-wide-default);
+  margin-inline: auto;
+  //padding: calc(var(--space-scale-base-gap) * 8) var(--layout-gutter-desktop-default);
+}
+
+.home-introduction__heading > .two-tone-heading {
+  @include tools.typography-headline-2;
+
+  text-wrap: initial;
+}
+
+.home-introduction__details {
+  text-align: left;
+  margin-block-start: calc(var(--space-scale-base-gap) * 6);
+  padding-block-start: calc(var(--space-scale-base-gap) * 3);
+  border-block-start: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
+}
+
+.home-introduction__description {
+  min-width: 0;
+  color: var(--theme-dark-text-secondary-default);
+  overflow-wrap: anywhere;
+}
+
+.home-introduction__description p {
+  margin: 0;
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .home-introduction {
+    padding: calc(var(--space-scale-base-gap) * 4) var(--layout-gutter-mobile-default);
+  }
+
+  .home-introduction__heading > .two-tone-heading {
+    @include tools.typography-headline-3;
+  }
+
+  .home-introduction__details {
+    margin-block-start: calc(var(--space-scale-base-gap) * 4);
+  }
+}

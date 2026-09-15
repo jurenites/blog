@@ -114,6 +114,54 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "system-breakpoint-site-header-inline-min",
+    "path": [
+      "system",
+      "breakpoint",
+      "site-header-inline-min"
+    ],
+    "type": "dimension",
+    "description": "Visible navigation moves to a second row below this width; the compact menu starts at mobile-max.",
+    "source_value": "1440px",
+    "value": "1440px",
+    "css_value": "1440px",
+    "resolved_css_value": "1440px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "system-breakpoint-article-sidebar-min",
+    "path": [
+      "system",
+      "breakpoint",
+      "article-sidebar-min"
+    ],
+    "type": "dimension",
+    "description": "Centered 800px Body + two equal side tracks, each with a 32px gap and 160px minimum width.",
+    "source_value": "1184px",
+    "value": "1184px",
+    "css_value": "1184px",
+    "resolved_css_value": "1184px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "system-breakpoint-content-gutter-max",
+    "path": [
+      "system",
+      "breakpoint",
+      "content-gutter-max"
+    ],
+    "type": "dimension",
+    "description": "960px wide content plus 24px of space on each side.",
+    "source_value": "1008px",
+    "value": "1008px",
+    "css_value": "1008px",
+    "resolved_css_value": "1008px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "color-palette-full-black",
     "path": [
       "color",
@@ -1061,30 +1109,6 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "typography-font-family-code",
-    "path": [
-      "typography",
-      "font-family",
-      "code"
-    ],
-    "type": "fontFamily",
-    "description": "Bold code text in Storybook.",
-    "source_value": [
-      "Courier New",
-      "Courier",
-      "monospace"
-    ],
-    "value": [
-      "Courier New",
-      "Courier",
-      "monospace"
-    ],
-    "css_value": "\"Courier New\", \"Courier\", monospace",
-    "resolved_css_value": "\"Courier New\", \"Courier\", monospace",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
     "name": "typography-font-family-number",
     "path": [
       "typography",
@@ -1092,19 +1116,17 @@ export const TOKEN_RECORDS = [
       "number"
     ],
     "type": "fontFamily",
-    "description": "Humanist numeric family with a slashed zero.",
+    "description": "Humanist monospace family for machine-readable text and numbers.",
     "source_value": [
       "Ubuntu Sans Mono",
-      "Courier New",
       "monospace"
     ],
     "value": [
       "Ubuntu Sans Mono",
-      "Courier New",
       "monospace"
     ],
-    "css_value": "\"Ubuntu Sans Mono\", \"Courier New\", monospace",
-    "resolved_css_value": "\"Ubuntu Sans Mono\", \"Courier New\", monospace",
+    "css_value": "\"Ubuntu Sans Mono\", monospace",
+    "resolved_css_value": "\"Ubuntu Sans Mono\", monospace",
     "is_reference": false,
     "reference_name": null
   },
@@ -1162,10 +1184,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "<h1>",
-    "source_value": "600 96px var(--typography-font-family-sans)",
-    "value": "600 96px var(--typography-font-family-sans)",
-    "css_value": "600 96px var(--typography-font-family-sans)",
-    "resolved_css_value": "600 96px var(--typography-font-family-sans)",
+    "source_value": "100 96px/112px var(--typography-font-family-sans)",
+    "value": "100 96px/112px var(--typography-font-family-sans)",
+    "css_value": "100 96px/112px var(--typography-font-family-sans)",
+    "resolved_css_value": "100 96px/112px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1177,10 +1199,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "<h2>",
-    "source_value": "600 64px var(--typography-font-family-sans)",
-    "value": "600 64px var(--typography-font-family-sans)",
-    "css_value": "600 64px var(--typography-font-family-sans)",
-    "resolved_css_value": "600 64px var(--typography-font-family-sans)",
+    "source_value": "100 64px/80px var(--typography-font-family-sans)",
+    "value": "100 64px/80px var(--typography-font-family-sans)",
+    "css_value": "100 64px/80px var(--typography-font-family-sans)",
+    "resolved_css_value": "100 64px/80px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1192,10 +1214,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "<h3>",
-    "source_value": "600 40px var(--typography-font-family-sans)",
-    "value": "600 40px var(--typography-font-family-sans)",
-    "css_value": "600 40px var(--typography-font-family-sans)",
-    "resolved_css_value": "600 40px var(--typography-font-family-sans)",
+    "source_value": "100 40px/48px var(--typography-font-family-sans)",
+    "value": "100 40px/48px var(--typography-font-family-sans)",
+    "css_value": "100 40px/48px var(--typography-font-family-sans)",
+    "resolved_css_value": "100 40px/48px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1207,10 +1229,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "<h4>",
-    "source_value": "600 32px var(--typography-font-family-sans)",
-    "value": "600 32px var(--typography-font-family-sans)",
-    "css_value": "600 32px var(--typography-font-family-sans)",
-    "resolved_css_value": "600 32px var(--typography-font-family-sans)",
+    "source_value": "100 32px/40px var(--typography-font-family-sans)",
+    "value": "100 32px/40px var(--typography-font-family-sans)",
+    "css_value": "100 32px/40px var(--typography-font-family-sans)",
+    "resolved_css_value": "100 32px/40px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1222,10 +1244,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "<h5>",
-    "source_value": "24px var(--typography-font-family-sans)",
-    "value": "24px var(--typography-font-family-sans)",
-    "css_value": "24px var(--typography-font-family-sans)",
-    "resolved_css_value": "24px var(--typography-font-family-sans)",
+    "source_value": "24px/32px var(--typography-font-family-sans)",
+    "value": "24px/32px var(--typography-font-family-sans)",
+    "css_value": "24px/32px var(--typography-font-family-sans)",
+    "resolved_css_value": "24px/32px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1237,10 +1259,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "<h6>; Open Sans Light below 24px.",
-    "source_value": "20px var(--typography-font-family-sans)",
-    "value": "20px var(--typography-font-family-sans)",
-    "css_value": "20px var(--typography-font-family-sans)",
-    "resolved_css_value": "20px var(--typography-font-family-sans)",
+    "source_value": "20px/24px var(--typography-font-family-sans)",
+    "value": "20px/24px var(--typography-font-family-sans)",
+    "css_value": "20px/24px var(--typography-font-family-sans)",
+    "resolved_css_value": "20px/24px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1252,10 +1274,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "16px var(--typography-font-family-sans)",
-    "value": "16px var(--typography-font-family-sans)",
-    "css_value": "16px var(--typography-font-family-sans)",
-    "resolved_css_value": "16px var(--typography-font-family-sans)",
+    "source_value": "16px/24px var(--typography-font-family-sans)",
+    "value": "16px/24px var(--typography-font-family-sans)",
+    "css_value": "16px/24px var(--typography-font-family-sans)",
+    "resolved_css_value": "16px/24px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1267,10 +1289,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "14px var(--typography-font-family-sans)",
-    "value": "14px var(--typography-font-family-sans)",
-    "css_value": "14px var(--typography-font-family-sans)",
-    "resolved_css_value": "14px var(--typography-font-family-sans)",
+    "source_value": "14px/16px var(--typography-font-family-sans)",
+    "value": "14px/16px var(--typography-font-family-sans)",
+    "css_value": "14px/16px var(--typography-font-family-sans)",
+    "resolved_css_value": "14px/16px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1282,10 +1304,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "14px var(--typography-font-family-sans)",
-    "value": "14px var(--typography-font-family-sans)",
-    "css_value": "14px var(--typography-font-family-sans)",
-    "resolved_css_value": "14px var(--typography-font-family-sans)",
+    "source_value": "14px/16px var(--typography-font-family-sans)",
+    "value": "14px/16px var(--typography-font-family-sans)",
+    "css_value": "14px/16px var(--typography-font-family-sans)",
+    "resolved_css_value": "14px/16px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1312,10 +1334,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "Compact supporting copy in cards and dense UI; full article body remains on body.",
-    "source_value": "14px var(--typography-font-family-sans)",
-    "value": "14px var(--typography-font-family-sans)",
-    "css_value": "14px var(--typography-font-family-sans)",
-    "resolved_css_value": "14px var(--typography-font-family-sans)",
+    "source_value": "14px/16px var(--typography-font-family-sans)",
+    "value": "14px/16px var(--typography-font-family-sans)",
+    "css_value": "14px/16px var(--typography-font-family-sans)",
+    "resolved_css_value": "14px/16px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1327,10 +1349,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "Components add the required underline separately.",
-    "source_value": "300 16px var(--typography-font-family-sans)",
-    "value": "300 16px var(--typography-font-family-sans)",
-    "css_value": "300 16px var(--typography-font-family-sans)",
-    "resolved_css_value": "300 16px var(--typography-font-family-sans)",
+    "source_value": "300 16px/24px var(--typography-font-family-sans)",
+    "value": "300 16px/24px var(--typography-font-family-sans)",
+    "css_value": "300 16px/24px var(--typography-font-family-sans)",
+    "resolved_css_value": "300 16px/24px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1342,40 +1364,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "",
-    "source_value": "14px var(--typography-font-family-sans)",
-    "value": "14px var(--typography-font-family-sans)",
-    "css_value": "14px var(--typography-font-family-sans)",
-    "resolved_css_value": "14px var(--typography-font-family-sans)",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "typography-code",
-    "path": [
-      "typography",
-      "code"
-    ],
-    "type": "string",
-    "description": "Storybook code and technical metadata.",
-    "source_value": "600 14px var(--typography-font-family-code)",
-    "value": "600 14px var(--typography-font-family-code)",
-    "css_value": "600 14px var(--typography-font-family-code)",
-    "resolved_css_value": "600 14px var(--typography-font-family-code)",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "typography-machine-readable",
-    "path": [
-      "typography",
-      "machine-readable"
-    ],
-    "type": "string",
-    "description": "Compact system values and identifiers in the Ubuntu Sans Mono family.",
-    "source_value": "14px var(--typography-font-family-number)",
-    "value": "14px var(--typography-font-family-number)",
-    "css_value": "14px var(--typography-font-family-number)",
-    "resolved_css_value": "14px var(--typography-font-family-number)",
+    "source_value": "14px/16px var(--typography-font-family-sans)",
+    "value": "14px/16px var(--typography-font-family-sans)",
+    "css_value": "14px/16px var(--typography-font-family-sans)",
+    "resolved_css_value": "14px/16px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1386,26 +1378,11 @@ export const TOKEN_RECORDS = [
       "badge"
     ],
     "type": "string",
-    "description": "Compact labels that need more emphasis than the 300-weight link role.",
-    "source_value": "500 14px var(--typography-font-family-sans)",
-    "value": "500 14px var(--typography-font-family-sans)",
-    "css_value": "500 14px var(--typography-font-family-sans)",
-    "resolved_css_value": "500 14px var(--typography-font-family-sans)",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "typography-overline",
-    "path": [
-      "typography",
-      "overline"
-    ],
-    "type": "string",
-    "description": "Demonstrations and compact technical details such as the version watermark.",
-    "source_value": "5px var(--typography-font-family-4pixel)",
-    "value": "5px var(--typography-font-family-4pixel)",
-    "css_value": "5px var(--typography-font-family-4pixel)",
-    "resolved_css_value": "5px var(--typography-font-family-4pixel)",
+    "description": "",
+    "source_value": "500 12px/16px var(--typography-font-family-sans)",
+    "value": "500 12px/16px var(--typography-font-family-sans)",
+    "css_value": "500 12px/16px var(--typography-font-family-sans)",
+    "resolved_css_value": "500 12px/16px var(--typography-font-family-sans)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1417,10 +1394,40 @@ export const TOKEN_RECORDS = [
     ],
     "type": "string",
     "description": "Large statistics and other prominent numeric values.",
-    "source_value": "64px var(--typography-font-family-number)",
-    "value": "64px var(--typography-font-family-number)",
-    "css_value": "64px var(--typography-font-family-number)",
-    "resolved_css_value": "64px var(--typography-font-family-number)",
+    "source_value": "64px/80px var(--typography-font-family-number)",
+    "value": "64px/80px var(--typography-font-family-number)",
+    "css_value": "64px/80px var(--typography-font-family-number)",
+    "resolved_css_value": "64px/80px var(--typography-font-family-number)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "typography-machine-readable",
+    "path": [
+      "typography",
+      "machine-readable"
+    ],
+    "type": "string",
+    "description": "Compact system values and identifiers in the Ubuntu Sans Mono family.",
+    "source_value": "14px/16px var(--typography-font-family-number)",
+    "value": "14px/16px var(--typography-font-family-number)",
+    "css_value": "14px/16px var(--typography-font-family-number)",
+    "resolved_css_value": "14px/16px var(--typography-font-family-number)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "typography-overline",
+    "path": [
+      "typography",
+      "overline"
+    ],
+    "type": "string",
+    "description": "Demonstrations and compact technical details such as the version watermark.",
+    "source_value": "5px/8px var(--typography-font-family-4pixel)",
+    "value": "5px/8px var(--typography-font-family-4pixel)",
+    "css_value": "5px/8px var(--typography-font-family-4pixel)",
+    "resolved_css_value": "5px/8px var(--typography-font-family-4pixel)",
     "is_reference": false,
     "reference_name": null
   },
@@ -1911,6 +1918,58 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "motion-easing-pulse-default",
+    "path": [
+      "motion",
+      "easing",
+      "pulse-default"
+    ],
+    "type": "cubicBezier",
+    "description": "Expanding radius accelerates gently before fading away.",
+    "source_value": [
+      0.1,
+      0.5,
+      0.6,
+      1
+    ],
+    "value": [
+      0.1,
+      0.5,
+      0.6,
+      1
+    ],
+    "css_value": "cubic-bezier(0.1, 0.5, 0.6, 1)",
+    "resolved_css_value": "cubic-bezier(0.1, 0.5, 0.6, 1)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "motion-easing-underline-reveal-default",
+    "path": [
+      "motion",
+      "easing",
+      "underline-reveal-default"
+    ],
+    "type": "cubicBezier",
+    "description": "Fast entry followed by a gentle settling underline.",
+    "source_value": [
+      0.19,
+      1,
+      0.22,
+      1
+    ],
+    "value": [
+      0.19,
+      1,
+      0.22,
+      1
+    ],
+    "css_value": "cubic-bezier(0.19, 1, 0.22, 1)",
+    "resolved_css_value": "cubic-bezier(0.19, 1, 0.22, 1)",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "layout-container-max-tablet-default",
     "path": [
       "layout",
@@ -2039,6 +2098,262 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-call-to-action-background-color",
+    "path": [
+      "component",
+      "call-to-action",
+      "background-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "{color.palette.dark-black}",
+    "value": "#020618",
+    "css_value": "var(--color-palette-dark-black)",
+    "resolved_css_value": "#020618",
+    "is_reference": true,
+    "reference_name": "color-palette-dark-black"
+  },
+  {
+    "name": "component-call-to-action-heading-size-min",
+    "path": [
+      "component",
+      "call-to-action",
+      "heading-size-min"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "24px",
+    "value": "24px",
+    "css_value": "24px",
+    "resolved_css_value": "24px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-call-to-action-heading-size-max",
+    "path": [
+      "component",
+      "call-to-action",
+      "heading-size-max"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "96px",
+    "value": "96px",
+    "css_value": "96px",
+    "resolved_css_value": "96px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-call-to-action-heading-letter-spacing",
+    "path": [
+      "component",
+      "call-to-action",
+      "heading-letter-spacing"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "normal",
+    "value": "normal",
+    "css_value": "normal",
+    "resolved_css_value": "normal",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-call-to-action-heading-line-height",
+    "path": [
+      "component",
+      "call-to-action",
+      "heading-line-height"
+    ],
+    "type": "number",
+    "description": "",
+    "source_value": 1.05,
+    "value": 1.05,
+    "css_value": "1.05",
+    "resolved_css_value": "1.05",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-website-audit-background-color",
+    "path": [
+      "component",
+      "website-audit",
+      "background-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "{color.palette.dark-black}",
+    "value": "#020618",
+    "css_value": "var(--color-palette-dark-black)",
+    "resolved_css_value": "#020618",
+    "is_reference": true,
+    "reference_name": "color-palette-dark-black"
+  },
+  {
+    "name": "component-status-indicator-size-default",
+    "path": [
+      "component",
+      "status",
+      "indicator-size-default"
+    ],
+    "type": "dimension",
+    "description": "Static test-status light.",
+    "source_value": "8px",
+    "value": "8px",
+    "css_value": "8px",
+    "resolved_css_value": "8px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-status-preview-height-default",
+    "path": [
+      "component",
+      "status",
+      "preview-height-default"
+    ],
+    "type": "dimension",
+    "description": "Expandable local Storybook preview.",
+    "source_value": "480px",
+    "value": "480px",
+    "css_value": "480px",
+    "resolved_css_value": "480px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-counter-digit-width-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "counter-digit-width-default"
+    ],
+    "type": "dimension",
+    "description": "Fixed advance for every 4pixel Overline digit, including the narrower 1.",
+    "source_value": "5px",
+    "value": "5px",
+    "css_value": "5px",
+    "resolved_css_value": "5px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-cell-size-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "cell-size-default"
+    ],
+    "type": "dimension",
+    "description": "Outer cell size; adjacent cells share their one pixel border.",
+    "source_value": "8px",
+    "value": "8px",
+    "css_value": "8px",
+    "resolved_css_value": "8px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-live-size-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "live-size-default"
+    ],
+    "type": "dimension",
+    "description": "Centered living square inside each cell.",
+    "source_value": "4px",
+    "value": "4px",
+    "css_value": "4px",
+    "resolved_css_value": "4px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-border-size-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "border-size-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "1px",
+    "value": "1px",
+    "css_value": "1px",
+    "resolved_css_value": "1px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-control-size-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "control-size-default"
+    ],
+    "type": "dimension",
+    "description": "Compact, icon-only pause/play control.",
+    "source_value": "32px",
+    "value": "32px",
+    "css_value": "32px",
+    "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-example-columns-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "example-columns-default"
+    ],
+    "type": "number",
+    "description": "Standalone canvas defaults; data-user selects the authored dimensions.",
+    "source_value": 5,
+    "value": 5,
+    "css_value": "5",
+    "resolved_css_value": "5",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-example-rows-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "example-rows-default"
+    ],
+    "type": "number",
+    "description": "",
+    "source_value": 5,
+    "value": 5,
+    "css_value": "5",
+    "resolved_css_value": "5",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-game-of-life-example-size-default",
+    "path": [
+      "component",
+      "game-of-life",
+      "example-size-default"
+    ],
+    "type": "number",
+    "description": "Integer zoom scales cell footprints, live squares, and shared borders together.",
+    "source_value": 1,
+    "value": 1,
+    "css_value": "1",
+    "resolved_css_value": "1",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-contact-photo-max-width-default",
     "path": [
       "component",
@@ -2087,6 +2402,22 @@ export const TOKEN_RECORDS = [
     "reference_name": "component-hero-section-background-edge-color"
   },
   {
+    "name": "component-site-header-link-underline-duration-default",
+    "path": [
+      "component",
+      "site-header",
+      "link-underline-duration-default"
+    ],
+    "type": "duration",
+    "description": "Matches the reference menu's enter and leave timing.",
+    "source_value": "900ms",
+    "value": "900ms",
+    "css_value": "900ms",
+    "resolved_css_value": "900ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-site-header-backdrop-color-default",
     "path": [
       "component",
@@ -2126,11 +2457,123 @@ export const TOKEN_RECORDS = [
       "backdrop-fade-height-default"
     ],
     "type": "dimension",
-    "description": "Feather below the 64px menu without affecting layout.",
+    "description": "Feather below the menu without affecting layout.",
     "source_value": "32px",
     "value": "32px",
     "css_value": "32px",
     "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-compact-width-default",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-compact-width-default"
+    ],
+    "type": "dimension",
+    "description": "Minimum inline space for the separate A and I initials.",
+    "source_value": "48px",
+    "value": "48px",
+    "css_value": "48px",
+    "resolved_css_value": "48px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-font-weight-default",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-font-weight-default"
+    ],
+    "type": "number",
+    "description": "Lighter exception for the interactive header identity.",
+    "source_value": 300,
+    "value": 300,
+    "css_value": "300",
+    "resolved_css_value": "300",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-letter-font-size-start",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-letter-font-size-start"
+    ],
+    "type": "dimension",
+    "description": "Added letters grow into the headline role.",
+    "source_value": "32px",
+    "value": "32px",
+    "css_value": "32px",
+    "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-letter-spacing-start",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-letter-spacing-start"
+    ],
+    "type": "dimension",
+    "description": "Added letters begin slightly compressed before reaching normal spacing.",
+    "source_value": "-2px",
+    "value": "-2px",
+    "css_value": "-2px",
+    "resolved_css_value": "-2px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-reveal-duration-default",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-reveal-duration-default"
+    ],
+    "type": "duration",
+    "description": "Each letter reveals and closes at twice the original speed.",
+    "source_value": "325ms",
+    "value": "325ms",
+    "css_value": "325ms",
+    "resolved_css_value": "325ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-reveal-stagger-default",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-reveal-stagger-default"
+    ],
+    "type": "duration",
+    "description": "Consecutive letters expand at twice the original speed.",
+    "source_value": "25ms",
+    "value": "25ms",
+    "css_value": "25ms",
+    "resolved_css_value": "25ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-site-header-brand-name-hold-duration-default",
+    "path": [
+      "component",
+      "site-header",
+      "brand-name-hold-duration-default"
+    ],
+    "type": "duration",
+    "description": "Hold after the full reveal completes and hover or focus leaves.",
+    "source_value": "2000ms",
+    "value": "2000ms",
+    "css_value": "2000ms",
+    "resolved_css_value": "2000ms",
     "is_reference": false,
     "reference_name": null
   },
@@ -2174,7 +2617,7 @@ export const TOKEN_RECORDS = [
       "logo-icon-size-default"
     ],
     "type": "dimension",
-    "description": "Prominent specimen size; normal header usage keeps the smaller site-branding token.",
+    "description": "Prominent specimen size for the standalone Logo Icon guideline.",
     "source_value": "96px",
     "value": "96px",
     "css_value": "96px",
@@ -2263,6 +2706,86 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-skills-profile-padding-compact-default",
+    "path": [
+      "component",
+      "skills-profile",
+      "padding-compact-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "24px",
+    "value": "24px",
+    "css_value": "24px",
+    "resolved_css_value": "24px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-skills-profile-padding-header-default",
+    "path": [
+      "component",
+      "skills-profile",
+      "padding-header-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "48px",
+    "value": "48px",
+    "css_value": "48px",
+    "resolved_css_value": "48px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-skills-profile-padding-item-default",
+    "path": [
+      "component",
+      "skills-profile",
+      "padding-item-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "40px",
+    "value": "40px",
+    "css_value": "40px",
+    "resolved_css_value": "40px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-skills-profile-score-size-compact-default",
+    "path": [
+      "component",
+      "skills-profile",
+      "score-size-compact-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "32px",
+    "value": "32px",
+    "css_value": "32px",
+    "resolved_css_value": "32px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-skills-profile-score-size-default",
+    "path": [
+      "component",
+      "skills-profile",
+      "score-size-default"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "44px",
+    "value": "44px",
+    "css_value": "44px",
+    "resolved_css_value": "44px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-hero-section-background-edge-color",
     "path": [
       "component",
@@ -2270,7 +2793,7 @@ export const TOKEN_RECORDS = [
       "background-edge-color"
     ],
     "type": "string",
-    "description": "Sampled from the outer edge of the homepage Hero image for a continuous canvas.",
+    "description": "Sampled from the outer edge of the Hero image for a continuous canvas.",
     "source_value": "#000207",
     "value": "#000207",
     "css_value": "#000207",
@@ -2359,18 +2882,18 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "component-hero-section-image-horizontal-fade-width-default",
+    "name": "component-hero-section-image-edge-fade-width-default",
     "path": [
       "component",
       "hero-section",
-      "image-horizontal-fade-width-default"
+      "image-edge-fade-width-default"
     ],
     "type": "dimension",
-    "description": "Blend each side of the Hero image into the homepage canvas.",
-    "source_value": "96px",
-    "value": "96px",
-    "css_value": "96px",
-    "resolved_css_value": "96px",
+    "description": "Blend every image edge into its matching page canvas; capped on small images.",
+    "source_value": "100px",
+    "value": "100px",
+    "css_value": "100px",
+    "resolved_css_value": "100px",
     "is_reference": false,
     "reference_name": null
   },
@@ -2611,6 +3134,86 @@ export const TOKEN_RECORDS = [
     "value": "#EA4335",
     "css_value": "#EA4335",
     "resolved_css_value": "#EA4335",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-yandex-mail-icon-width-default",
+    "path": [
+      "component",
+      "footer-navigation",
+      "yandex-mail-icon-width-default"
+    ],
+    "type": "dimension",
+    "description": "Shared width for both envelope states.",
+    "source_value": "16px",
+    "value": "16px",
+    "css_value": "16px",
+    "resolved_css_value": "16px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-yandex-mail-icon-height-default",
+    "path": [
+      "component",
+      "footer-navigation",
+      "yandex-mail-icon-height-default"
+    ],
+    "type": "dimension",
+    "description": "Fixed viewport; artwork stays proportional.",
+    "source_value": "12px",
+    "value": "12px",
+    "css_value": "12px",
+    "resolved_css_value": "12px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-yandex-mail-color-hover",
+    "path": [
+      "component",
+      "footer-navigation",
+      "yandex-mail-color-hover"
+    ],
+    "type": "string",
+    "description": "https://www.brandcolorcode.com/yandex-mail",
+    "source_value": "#FFCC00",
+    "value": "#FFCC00",
+    "css_value": "#FFCC00",
+    "resolved_css_value": "#FFCC00",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-yandex-mail-light-yellow-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "yandex-mail-light-yellow-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FFDA3E",
+    "value": "#FFDA3E",
+    "css_value": "#FFDA3E",
+    "resolved_css_value": "#FFDA3E",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-footer-navigation-yandex-mail-red-color",
+    "path": [
+      "component",
+      "footer-navigation",
+      "yandex-mail-red-color"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "#FF3333",
+    "value": "#FF3333",
+    "css_value": "#FF3333",
+    "resolved_css_value": "#FF3333",
     "is_reference": false,
     "reference_name": null
   },
@@ -3344,6 +3947,22 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "component-article-table-of-content-sidebar-min-width-default",
+    "path": [
+      "component",
+      "article-table-of-content",
+      "sidebar-min-width-default"
+    ],
+    "type": "dimension",
+    "description": "Contents may narrow before the Body column needs to stack.",
+    "source_value": "160px",
+    "value": "160px",
+    "css_value": "160px",
+    "resolved_css_value": "160px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "component-badge-color-background-neutral-default",
     "path": [
       "component",
@@ -3911,7 +4530,7 @@ export const TOKEN_RECORDS = [
       "marker-size-default"
     ],
     "type": "dimension",
-    "description": "Exact 8px square event marker and duration-bar width.",
+    "description": "Exact square event marker and duration-bar width.",
     "source_value": "{space.scale.base-gap}",
     "value": "8px",
     "css_value": "var(--space-scale-base-gap)",
@@ -3991,7 +4610,7 @@ export const TOKEN_RECORDS = [
       "progress-height-default"
     ],
     "type": "dimension",
-    "description": "Intentional exception to the 8px grid because this is a loading indicator line, not layout spacing.",
+    "description": "Intentional exception to the x8 grid because this is a loading indicator line, not layout spacing.",
     "source_value": "1px",
     "value": "1px",
     "css_value": "1px",
@@ -4028,6 +4647,118 @@ export const TOKEN_RECORDS = [
     "value": "4px",
     "css_value": "4px",
     "resolved_css_value": "4px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-pulse-indicator-container-size-default",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "container-size-default"
+    ],
+    "type": "dimension",
+    "description": "Compact field around the dot; the animated radius may extend beyond it.",
+    "source_value": "24px",
+    "value": "24px",
+    "css_value": "24px",
+    "resolved_css_value": "24px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-pulse-indicator-marker-size-default",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "marker-size-default"
+    ],
+    "type": "dimension",
+    "description": "Shared resting diameter for the central dot and animated radius.",
+    "source_value": "8px",
+    "value": "8px",
+    "css_value": "8px",
+    "resolved_css_value": "8px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-pulse-indicator-radius-scale-expanded",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "radius-scale-expanded"
+    ],
+    "type": "number",
+    "description": "Expands the radius to a diameter.",
+    "source_value": 4,
+    "value": 4,
+    "css_value": "4",
+    "resolved_css_value": "4",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-pulse-indicator-animation-duration-default",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "animation-duration-default"
+    ],
+    "type": "duration",
+    "description": "Calm repeating pulse adapted from the visual reference.",
+    "source_value": "3000ms",
+    "value": "3000ms",
+    "css_value": "3000ms",
+    "resolved_css_value": "3000ms",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-pulse-indicator-dot-color-default",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "dot-color-default"
+    ],
+    "type": "string",
+    "description": "",
+    "source_value": "{color.palette.full-white}",
+    "value": "#FFFFFF",
+    "css_value": "var(--color-palette-full-white)",
+    "resolved_css_value": "#FFFFFF",
+    "is_reference": true,
+    "reference_name": "color-palette-full-white"
+  },
+  {
+    "name": "component-pulse-indicator-radius-color-start",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "radius-color-start"
+    ],
+    "type": "string",
+    "description": "quater white at the start of each pulse.",
+    "source_value": "#FFFFFF40",
+    "value": "#FFFFFF40",
+    "css_value": "#FFFFFF40",
+    "resolved_css_value": "#FFFFFF40",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "component-pulse-indicator-radius-color-end",
+    "path": [
+      "component",
+      "pulse-indicator",
+      "radius-color-end"
+    ],
+    "type": "string",
+    "description": "Fully transparent at maximum diameter and during reset.",
+    "source_value": "#FFFFFF00",
+    "value": "#FFFFFF00",
+    "css_value": "#FFFFFF00",
+    "resolved_css_value": "#FFFFFF00",
     "is_reference": false,
     "reference_name": null
   },
@@ -4108,6 +4839,438 @@ export const TOKEN_RECORDS = [
     "value": "40px",
     "css_value": "40px",
     "resolved_css_value": "40px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-surface-page",
+    "path": [
+      "qr-studio",
+      "color",
+      "surface-page"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#141618",
+    "value": "#141618",
+    "css_value": "#141618",
+    "resolved_css_value": "#141618",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-surface-panel",
+    "path": [
+      "qr-studio",
+      "color",
+      "surface-panel"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#1B1D20",
+    "value": "#1B1D20",
+    "css_value": "#1B1D20",
+    "resolved_css_value": "#1B1D20",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-surface-control",
+    "path": [
+      "qr-studio",
+      "color",
+      "surface-control"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#25282B",
+    "value": "#25282B",
+    "css_value": "#25282B",
+    "resolved_css_value": "#25282B",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-surface-hover",
+    "path": [
+      "qr-studio",
+      "color",
+      "surface-hover"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#303438",
+    "value": "#303438",
+    "css_value": "#303438",
+    "resolved_css_value": "#303438",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-border-subtle",
+    "path": [
+      "qr-studio",
+      "color",
+      "border-subtle"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#3D4043",
+    "value": "#3D4043",
+    "css_value": "#3D4043",
+    "resolved_css_value": "#3D4043",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-text-primary",
+    "path": [
+      "qr-studio",
+      "color",
+      "text-primary"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#F3F4F0",
+    "value": "#F3F4F0",
+    "css_value": "#F3F4F0",
+    "resolved_css_value": "#F3F4F0",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-text-muted",
+    "path": [
+      "qr-studio",
+      "color",
+      "text-muted"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#A5ABAE",
+    "value": "#A5ABAE",
+    "css_value": "#A5ABAE",
+    "resolved_css_value": "#A5ABAE",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-accent-primary",
+    "path": [
+      "qr-studio",
+      "color",
+      "accent-primary"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#D3F668",
+    "value": "#D3F668",
+    "css_value": "#D3F668",
+    "resolved_css_value": "#D3F668",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-accent-ink",
+    "path": [
+      "qr-studio",
+      "color",
+      "accent-ink"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#1B2407",
+    "value": "#1B2407",
+    "css_value": "#1B2407",
+    "resolved_css_value": "#1B2407",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-status-good",
+    "path": [
+      "qr-studio",
+      "color",
+      "status-good"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#BAE370",
+    "value": "#BAE370",
+    "css_value": "#BAE370",
+    "resolved_css_value": "#BAE370",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-status-error",
+    "path": [
+      "qr-studio",
+      "color",
+      "status-error"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#FA9784",
+    "value": "#FA9784",
+    "css_value": "#FA9784",
+    "resolved_css_value": "#FA9784",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-status-warn",
+    "path": [
+      "qr-studio",
+      "color",
+      "status-warn"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#EDCA7F",
+    "value": "#EDCA7F",
+    "css_value": "#EDCA7F",
+    "resolved_css_value": "#EDCA7F",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-paper-white",
+    "path": [
+      "qr-studio",
+      "color",
+      "paper-white"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#FFFFFF",
+    "value": "#FFFFFF",
+    "css_value": "#FFFFFF",
+    "resolved_css_value": "#FFFFFF",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-ink-black",
+    "path": [
+      "qr-studio",
+      "color",
+      "ink-black"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#000000",
+    "value": "#000000",
+    "css_value": "#000000",
+    "resolved_css_value": "#000000",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-guide-lock",
+    "path": [
+      "qr-studio",
+      "color",
+      "guide-lock"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#D36930",
+    "value": "#D36930",
+    "css_value": "#D36930",
+    "resolved_css_value": "#D36930",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-lock-match",
+    "path": [
+      "qr-studio",
+      "color",
+      "lock-match"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#17803D",
+    "value": "#17803D",
+    "css_value": "#17803D",
+    "resolved_css_value": "#17803D",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-lock-conflict",
+    "path": [
+      "qr-studio",
+      "color",
+      "lock-conflict"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#DC2626",
+    "value": "#DC2626",
+    "css_value": "#DC2626",
+    "resolved_css_value": "#DC2626",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-guide-structure",
+    "path": [
+      "qr-studio",
+      "color",
+      "guide-structure"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#258BAD",
+    "value": "#258BAD",
+    "css_value": "#258BAD",
+    "resolved_css_value": "#258BAD",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-guide-grid",
+    "path": [
+      "qr-studio",
+      "color",
+      "guide-grid"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#232C341F",
+    "value": "#232C341F",
+    "css_value": "#232C341F",
+    "resolved_css_value": "#232C341F",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-guide-cursor",
+    "path": [
+      "qr-studio",
+      "color",
+      "guide-cursor"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#A542E1",
+    "value": "#A542E1",
+    "css_value": "#A542E1",
+    "resolved_css_value": "#A542E1",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-guide-expected",
+    "path": [
+      "qr-studio",
+      "color",
+      "guide-expected"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#A0A0A0",
+    "value": "#A0A0A0",
+    "css_value": "#A0A0A0",
+    "resolved_css_value": "#A0A0A0",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-primary-hover",
+    "path": [
+      "qr-studio",
+      "color",
+      "primary-hover"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#E2FF91",
+    "value": "#E2FF91",
+    "css_value": "#E2FF91",
+    "resolved_css_value": "#E2FF91",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-shadow-soft",
+    "path": [
+      "qr-studio",
+      "color",
+      "shadow-soft"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#00000026",
+    "value": "#00000026",
+    "css_value": "#00000026",
+    "resolved_css_value": "#00000026",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-text-subdued",
+    "path": [
+      "qr-studio",
+      "color",
+      "text-subdued"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#787E82",
+    "value": "#787E82",
+    "css_value": "#787E82",
+    "resolved_css_value": "#787E82",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-dialog-backdrop",
+    "path": [
+      "qr-studio",
+      "color",
+      "dialog-backdrop"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#000000A6",
+    "value": "#000000A6",
+    "css_value": "#000000A6",
+    "resolved_css_value": "#000000A6",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-shadow-strong",
+    "path": [
+      "qr-studio",
+      "color",
+      "shadow-strong"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#0000004C",
+    "value": "#0000004C",
+    "css_value": "#0000004C",
+    "resolved_css_value": "#0000004C",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "qr-studio-color-invalid-highlight",
+    "path": [
+      "qr-studio",
+      "color",
+      "invalid-highlight"
+    ],
+    "type": "color",
+    "description": "",
+    "source_value": "#FA978452",
+    "value": "#FA978452",
+    "css_value": "#FA978452",
+    "resolved_css_value": "#FA978452",
     "is_reference": false,
     "reference_name": null
   }

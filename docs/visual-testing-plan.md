@@ -1,391 +1,254 @@
-# Visual Testing Pipeline Plan
+# Visual Testing Layer Plan
 
-This document captures the planned direction for automated visual testing in
-`blog_jurenites`. It is part of the documentation pipeline, but it is still a
-plan: the real command set and real scenarios will be implemented and verified
-later.
+Status: the first local component-status dashboard and Storybook/Drupal capture
+runner are implemented. Figma pixel baselines, full three-pane review, and
+automatic CI report ingestion remain future work.
+This layer supports milestone 12 of the [Cookbook](cookbook-product-design-process.md)
+and checks throughout the [project workflow](workflow.md).
 
 ## Purpose
 
-The project needs a repeatable way to compare the design source against the actual frontend implementation.
+Compare the intended design, the isolated component, and the Drupal theme with
+real data. A reviewer should be able to inspect all three representations of
+the same case and see exactly what an automated result checked.
 
-There are two target comparison lanes:
+| Comparison | What it checks |
+| --- | --- |
+| Figma frame ↔ Storybook component | Component appearance and designed states |
+| Figma page or section frame ↔ Drupal page or section | Composition with actual content and theme rendering |
+| Storybook component ↔ the same component in Drupal | Integration preserves the shared component contract |
 
-1. Figma page frames vs rendered Drupal/dev pages.
-2. Figma component frames vs rendered Storybook components.
+A page frame must be compared with an equivalent page capture, and a component
+with the corresponding clipped component region. Different text, media, states,
+or bounds make a case unmatched; they must not produce a passing pixel result.
 
-The expected result is a local command that outputs a clear pass/fail report, with screenshots and visual diffs for failed cases.
+## Iframe Review Surface
 
-## Main Goals
+The proposed review page has three labeled panes: **Figma**, **Storybook**, and
+**Drupal with real data**. Each pane has a descriptive iframe title and a direct
+link to the source. Select a case, viewport, content language, and component
+state to load the matching references. Keep the case's CSS viewport size fixed;
+three narrow panes must not accidentally turn a desktop case into mobile
+layouts. Allow scrolling or opening a pane separately for large frames.
 
-- Capture Figma frames as baseline images.
-- Capture live website pages from the local DEV environment.
-- Capture isolated components from Storybook.
-- Compare baseline screenshots against implementation screenshots.
-- Detect layout overlap and Z-index fights at many viewport widths.
-- Produce a readable report as either:
-  - simple terminal output,
-  - JSON report,
-  - simple HTML report.
-- Keep Percy optional, not required for the first local version.
+Use a Figma file embed targeting the mapped node. Figma documents `embed-host`
+and `node-id` for this purpose in [Embed a Figma file](https://developers.figma.com/docs/embeds/embed-figma-file/).
+Load isolated Storybook `iframe.html?id=…&viewMode=story` URLs, and the mapped
+Drupal route or section. Frame sizing belongs in SCSS and tokens, following the
+project DOM styling rules.
 
-## Suggested Tool Stack
+Confirm embedding works in the intended review environment before claiming it
+is available. Figma access, Drupal frame restrictions, origin boundaries, and
+browser mixed-content rules may prevent a pane from loading. A blocked pane
+must show a direct link and its blocked status. Do not relax production frame
+policy just to make a local review page work. Keep any needed embedding changes
+scoped to the review environment.
 
-### Required for Local MVP
+The iframe surface is for interactive review. Its surrounding viewer controls,
+zoom, and authentication screens are excluded from pixel baselines. A parent
+page must not depend on direct DOM access across origins or promise synchronized
+interaction across the three systems. Automated captures open implementation
+URLs directly and reproduce the case's state independently.
 
-- Playwright — browser automation and screenshots.
-- Figma API — export Figma frames as PNG baselines.
-- pixelmatch — local PNG pixel-diff comparison.
-- pngjs or sharp — PNG reading/writing and image preparation.
-- Node.js `.mjs` scripts — simple local automation.
+## Pixel Comparison Contract
 
-### Optional Later
+Export the mapped Figma node as a PNG baseline, recording its file version,
+node ID, export scale, and image hash. The [Figma image endpoint](https://developers.figma.com/docs/rest-api/file-endpoints/#get-images-endpoint)
+provides node renders; persist the artifact and its identity rather than relying
+on a live embed or a temporary image URL as the baseline.
 
-- Percy — cloud visual review and CI regression dashboard.
-- GitHub Actions — run selected visual tests on pull requests.
-- Storybook test runner — deeper integration with Storybook stories.
+Capture Storybook and Drupal with the same browser version, operating system,
+CSS viewport, device scale, color scheme, locale, and state. Wait for fonts,
+images, and the component's ready condition. Fix the test clock where dates or
+relative times affect the chosen region. Settle transitions for appearance
+captures; test motion and interaction separately.
 
-## Proposed Directory Shape
+Compare equal-sized images without stretching or automatic resizing. A size
+mismatch is a failed geometry check. Crop only to the agreed component or
+section bounds, including intentional shadows. Record the bounds in the case.
 
-```text
-scripts/
-  visual/
-    figma-export.mjs
-    capture-pages.mjs
-    capture-storybook.mjs
-    inspect-overlaps.mjs
-    compare.mjs
-    report.mjs
+Pixel-perfect layout is the goal. Start with exact comparison for deterministic
+regions, then document narrowly justified per-case tolerances for rasterization
+noise. Do not introduce a universal percentage that silently accepts layout
+errors. [Playwright's visual comparison documentation](https://playwright.dev/docs/test-snapshots)
+explains why browser and platform differences affect screenshots; Figma exports
+and browser text rendering also require review of the observed differences.
 
-visual.config.json
+Keep two distinct kinds of baseline: the Figma reference checks design parity;
+an approved browser screenshot checks regressions within a fixed environment.
+A browser regression pass alone does not prove Figma parity. Do not replace
+baselines automatically after a mismatch; review whether the design or code
+should change and retain the decision with the new reference.
 
-baselines/
-  figma/
-    pages/
-    components/
+## Real Data and Repeatability
 
-captures/
-  web/
-  storybook/
+Use selected actual Drupal content on DEV, including its real text, media,
+Paragraph structure, language, and formatter output. Record entity UUIDs,
+revision IDs, and media identities for each case. Use a stable DEV content
+snapshot or pinned test revisions so an unrelated edit cannot move the baseline.
+Do not make the test depend on mutable production content.
 
-reports/
-  visual/
-    index.html
-    report.json
-    diffs/
+Derive Storybook fixture values from that selected content and put the same text
+and media into the Figma reference. Maintain the existing Storybook convention:
+visible demo constants near the top of the story, passed through its args, with
+shared markup helpers for nested components. The application still renders its
+real Drupal entities; the comparison fixture supplies the matching design and
+Storybook inputs.
+
+Keep an additional exploratory review against current live DEV data to find
+long titles, optional fields, missing media, translated copy, and dense content.
+Label it as live review when its inputs differ from the repeatable case.
+
+Mask only an explicitly documented, unavoidable dynamic region outside the
+behavior being tested. Do not mask real content, failed images, typography, or
+layout to obtain a green result. Test loading and error states as separate cases.
+
+## Case Mapping and Evidence
+
+A future case definition needs:
+
+- A meaningful case name and the expectation being checked.
+- Figma file, node, version, and exported baseline identity.
+- Storybook story ID and exact args or fixture identity.
+- Drupal route, semantic component selector, content UUIDs/revisions, and language.
+- Viewport width and height, device scale, theme, user role, and state setup.
+- Capture bounds, readiness conditions, and any documented masks or tolerances.
+- Source commit, generated build identity, browser environment, and capture time.
+
+Start at the existing 360px, 1280px, and 1920px inspection widths where matching
+Figma references exist. Add discovered regression widths and relevant token
+breakpoints. A design without a matching breakpoint reference is **not checked**
+for Figma parity at that width, even when browser layout checks pass there.
+
+The proposed report includes the three source links, baseline and actual
+screenshots, an overlay or difference image, mismatch counts, and the full case
+identity. Report **passed**, **failed**, **not checked**, or **blocked**, with the
+reason. Missing references, unavailable content, denied Figma access, or an
+unavailable environment can never become a passing comparison.
+
+Visual evidence accompanies functional and accessibility checks. Screenshots
+cannot establish keyboard behavior, permission enforcement, successful content
+saving, or correct links. Existing browser-error, blank-render, overflow, and
+token checks remain useful and separate. Add focused coverage for actual overlap
+bugs; intentional nesting is not a failure just because rectangles intersect.
+
+## Implemented Local Component Status
+
+Start with:
+
+```bash
+npm run playwright:install  # first setup only
+npm run status:build        # rebuild Storybook, stamp source identity, build dashboard
+npm run status:serve        # http://127.0.0.1:7779
+npm run status:test         # first case: Article Blog List Item
+npm run status:diagnose     # populate local report/image, docs, and version checks
 ```
 
-## Proposed Commands
+The dashboard discovers components from the built Storybook `index.json`, groups
+story variants, and excludes documentation-only entries. Its searchable list
+uses green for complete passing coverage, red for a current failed check, and
+orange for incomplete, blocked, or stale results. Every name opens check details,
+source links, timestamps, source identity, and captured evidence. Color is always
+accompanied by text. Results refresh every 30 seconds while the page is open.
 
-```json
-{
-  "scripts": {
-    "visual:figma": "node scripts/visual/figma-export.mjs",
-    "visual:web": "node scripts/visual/capture-pages.mjs",
-    "visual:storybook": "node scripts/visual/capture-storybook.mjs",
-    "visual:overlap": "node scripts/visual/inspect-overlaps.mjs",
-    "visual:compare": "node scripts/visual/compare.mjs",
-    "visual:report": "node scripts/visual/report.mjs",
-    "visual:test": "npm run visual:figma && npm run visual:web && npm run visual:storybook && npm run visual:overlap && npm run visual:compare && npm run visual:report"
-  }
-}
+The first case is **Article Blog List Item**, configured in
+`config/component-status.json`. At 360px and 1280px it selects the Blog list item
+for **Reviewing an Interfaces**, node 1 (`/node/1`), using its explicit
+`data-article-id="1"` selector on `/blog`. It captures its rendered text and media values and supplies
+those values to the existing Storybook story through an optional test loader.
+It checks both rendered components, then compares their PNG captures without
+resizing. Different dimensions fail before pixel comparison. Equal dimensions
+use an exact pixel comparison and produce a difference image. The report records
+viewport, browser, locale, article ID/URL, and a content hash; each run saves its
+fixture. This first case is a live DEV snapshot, not a pinned Drupal revision.
+
+The selected article stays fixed when the Blog ordering changes; another article
+cannot silently become the test fixture. The full `/node/1` page uses a different
+view mode, so the component capture continues to use its list-item rendering on
+`/blog`. Current dimensions and comparison results are recorded with each run.
+
+The supplied Figma reference is
+[Article Blog List Item, node 1186:1660](https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1186-1660).
+Its export was blocked by the connector's Starter-plan call quota. The dashboard
+provides the reference link and an optional live Figma embed, but the Figma check
+remains blocked without an exported, content-matched baseline. Figma pixel
+comparison is not implemented by the first runner. A live embed is not proof of
+parity. Drupal sends `X-Frame-Options: SAMEORIGIN`, so the separate-origin local
+dashboard provides Drupal captures and a direct link instead of weakening that
+policy to embed it.
+
+The local server binds only to `127.0.0.1`; it is an independent development tool,
+not a public Drupal route or a deployment. Generated dashboard files live in
+`generated/status-dashboard/`, with local reports, fixtures, and screenshots in
+`.cache/component-status/`; both are ignored by Git. The grid also has a shared
+Storybook example at `Organisms/Component Status`, whose states are labeled as
+demonstration data and do not become real reports.
+
+Each component currently requires Storybook rendering, Drupal rendering,
+Storybook/Drupal comparison, and Figma parity before its overall light is green.
+Unmapped components remain not checked. A source-fingerprint change or a report
+older than 24 hours makes its evidence stale and its light orange. A Storybook
+build stamp prevents the runner from certifying an old bundle against new
+source. The browser captures use the same environment and real input values;
+this does not yet provide pinned content revisions or full accessibility testing.
+
+`status:test` exits 0 only for complete passes, 1 for a failed check, and 2 for
+blocked checks. A nonzero result is expected while the first mismatch and Figma
+baseline gap remain. The report is saved for the dashboard in each case.
+
+## CI/CD and Troubleshooting Reports
+
+The page has a separate CI/CD & diagnostics section. `status:diagnose` runs the
+local report/image tests, docs check, and version check and saves their actual
+outputs there. This is local evidence, not a remote CI status. Import a completed
+external report with:
+
+```bash
+npm run status:import -- /absolute/path/to/report.json
 ```
 
-## Configuration Concept
-
-Create `visual.config.json` as the routing map between Figma and implementation.
-
-Example shape:
-
-```json
-{
-  "viewports": [1920, 1680, 1440, 1366, 1280, 1024, 768, 414, 390, 375, 360],
-  "pages": [
-    {
-      "name": "login",
-      "implementationUrl": "http://127.0.0.1:8081/user/login",
-      "figmaFrameId": "<figma-frame-id>"
-    }
-  ],
-  "components": [
-    {
-      "name": "button-primary",
-      "storybookUrl": "http://127.0.0.1:6006/iframe.html?id=<story-id>",
-      "figmaFrameId": "<figma-frame-id>"
-    }
-  ],
-  "thresholds": {
-    "maxDiffRatio": 0.01,
-    "maxDiffPixels": 500
-  }
-}
-```
-
-## Viewport Strategy
-
-Avoid testing every single width from `1920` to `360` on every run. The full range would produce `1561` widths if both endpoints are included.
-
-Recommended strategy:
-
-1. Start with core widths:
-   - `1920`
-   - `360`
-2. Run pixel diff and overlap detection on those widths.
-3. If a range is unstable, subdivide that interval.
-4. Save discovered failure widths as regression widths.
-5. Keep a full `1920` → `360` scan as a manual/deep diagnostic mode, not a default PR check.
-
-## Figma Baseline Export
-
-`figma-export.mjs` should:
-
-1. Read `visual.config.json`.
-2. Use `FIGMA_TOKEN` from `.env` or shell environment.
-3. Export each configured `figmaFrameId` as PNG.
-4. Save files under:
-
-```text
-baselines/figma/pages/<name>/<width>.png
-baselines/figma/components/<name>/<width>.png
-```
-
-Important limitation: Figma prototype responsiveness is not identical to browser responsiveness. For reliable visual diff, prefer explicit Figma frames per breakpoint or carefully managed Auto Layout frames.
-
-## Website Capture
-
-`capture-pages.mjs` should:
-
-1. Launch Playwright Chromium.
-2. Iterate through `pages` from `visual.config.json`.
-3. Set viewport width and a deterministic height.
-4. Open `implementationUrl`.
-5. Disable animations/transitions before screenshot.
-6. Capture screenshot to:
-
-```text
-captures/web/<name>/<width>.png
-```
-
-Recommended CSS injection before screenshot:
-
-```css
-*, *::before, *::after {
-  animation: none !important;
-  transition: none !important;
-  caret-color: transparent !important;
-}
-```
-
-## Storybook Capture
-
-`capture-storybook.mjs` should:
-
-1. Open each Storybook `iframe.html` URL.
-2. Set viewport width.
-3. Wait for Storybook story render to settle.
-4. Capture screenshot to:
-
-```text
-captures/storybook/<name>/<width>.png
-```
-
-Component screenshots should ideally use fixed padding/background rules so the diff is stable.
-
-## Pixel Diff
-
-`compare.mjs` should:
-
-1. Pair each Figma baseline with its implementation screenshot.
-2. Normalize image size if needed.
-3. Compare with `pixelmatch`.
-4. Save diff images to:
-
-```text
-reports/visual/diffs/<target>/<name>/<width>.png
-```
-
-5. Write result data into:
-
-```text
-reports/visual/report.json
-```
-
-Suggested result fields:
-
-```json
-{
-  "status": "fail",
-  "type": "page",
-  "name": "login",
-  "width": 390,
-  "diffPixels": 5210,
-  "diffRatio": 0.0491,
-  "baselinePath": "baselines/figma/pages/login/390.png",
-  "capturePath": "captures/web/login/390.png",
-  "diffPath": "reports/visual/diffs/page/login/390.png"
-}
-```
-
-## Overlap and Z-index Fight Detection
-
-`inspect-overlaps.mjs` should run against the implementation pages, not the Figma baselines.
-
-The detector should combine two approaches:
-
-### 1. Bounding Box Intersections
-
-Collect visible DOM elements:
-
-- non-zero width and height,
-- `display !== none`,
-- `visibility !== hidden`,
-- not ignored by allow-list rules.
-
-Compare `getBoundingClientRect()` between candidate elements and report unexpected intersections.
-
-### 2. Stack Sampling
-
-Use browser hit testing:
-
-```js
-document.elementsFromPoint(x, y)
-```
-
-Sample points across:
-
-- viewport grid,
-- center of known components,
-- overlap rectangle centers,
-- important page regions.
-
-If an interactive or content element is covered by an unrelated element, flag it.
-
-Suggested result fields:
-
-```json
-{
-  "type": "overlap",
-  "status": "fail",
-  "page": "login",
-  "width": 390,
-  "coveredSelector": "[data-testid='login-submit']",
-  "coveringSelector": ".site-header",
-  "overlapRect": { "x": 20, "y": 600, "width": 240, "height": 48 },
-  "coveredZIndex": "auto",
-  "coveringZIndex": "10"
-}
-```
-
-## Selector Strategy
-
-Prefer stable selectors in this order:
-
-1. `data-testid`
-2. `data-qa`
-3. semantic role/name where practical
-4. class names from the naming convention
-5. generated CSS path only as a last resort
-
-The visual test pipeline should encourage adding stable test selectors to important UI elements.
-
-## Report Shape
-
-The first report can be a simple HTML file.
-
-Each row should show:
-
-- status: PASS / FAIL
-- type: page / component / overlap
-- name
-- viewport width
-- diff percentage
-- diff pixels
-- overlap count
-- links to baseline, capture, and diff image
-
-Example table:
-
-```text
-Status | Type      | Name           | Width | Diff % | Diff Pixels | Overlaps | Diff
-PASS   | Page      | login          | 1440  | 0.23%  | 212         | 0        | open
-FAIL   | Page      | login          | 390   | 4.91%  | 5210        | 3        | open
-PASS   | Component | button-primary | 390   | 0.10%  | 42          | 0        | open
-```
-
-## CI/CD Direction
-
-### Local First
-
-The first version should run locally because:
-
-- Figma token setup is easier.
-- Local Drupal and Storybook environments are still evolving.
-- Visual diff output needs manual tuning before it becomes a CI gate.
-
-### GitHub Actions Later
-
-Once stable, add a workflow like:
-
-```text
-.github/workflows/visual-tests.yml
-```
-
-Target behavior:
-
-1. Install dependencies.
-2. Start Drupal local environment.
-3. Start Storybook.
-4. Export Figma baselines or restore cached baselines.
-5. Capture implementation screenshots.
-6. Run pixel diff.
-7. Run overlap detector.
-8. Upload `reports/visual` as workflow artifact.
-9. Fail the workflow only when thresholds are exceeded.
-
-### Percy Later
-
-Percy can be added after the local pipeline is stable.
-
-Possible role for Percy:
-
-- store approved screenshots,
-- review visual changes in pull requests,
-- provide a nicer diff UI,
-- reduce custom report work.
-
-However, Percy should not replace the local Figma-vs-implementation mapping logic.
-
-## Acceptance Criteria for MVP
-
-The first useful version is complete when:
-
-1. `npm run visual:test` exists.
-2. At least one Drupal page can be compared against one Figma frame.
-3. At least one Storybook component can be compared against one Figma component frame.
-4. A local HTML report is generated.
-5. Failed tests show baseline, actual screenshot, and diff image.
-6. Overlap detector reports at least basic unexpected intersections.
-7. The implementation does not require Percy.
-
-## Implementation Notes for Codex
-
-Codex should implement this incrementally:
-
-1. Inspect existing project scripts and Storybook setup.
-2. Add required dependencies only after checking current `package.json`.
-3. Add `visual.config.example.json` before requiring real Figma IDs.
-4. Avoid committing real `FIGMA_TOKEN` or private `.env` values.
-5. Use local URLs already documented in `README.md`:
-   - Drupal: `http://127.0.0.1:8081/`
-   - Storybook: `http://127.0.0.1:6006/`
-6. Keep generated screenshots and reports ignored by Git unless there is a specific reason to commit them.
-7. Start with deterministic smoke targets, then expand.
-
-## Open Questions
-
-- Which exact Figma frames should be used for the first page baseline?
-- Which exact Storybook stories should be used for the first component baseline?
-- What viewport height should be standardized for page screenshots?
-- Should full-page screenshots or viewport screenshots be used for each test type?
-- What mismatch threshold is acceptable for early development?
-- Should dynamic Drupal content be mocked, seeded, or normalized before capture?
+Reports use schema version 1 with `source_name`, `checked_at`,
+`source_fingerprint`, optional `source_commit`/`source_dirty`/`run_id`, a
+`components` array, and optional `pipeline_checks`. Each component record has a
+`component_id` from the dashboard API and a `checks` array. Each check contains
+`check_key`, `check_label`, `status`, and `message`, with optional JSON `details`
+and `artifacts`. Valid states are `passed`, `failed`, `blocked`, and `not_checked`.
+Required component check keys are `storybook`, `drupal`, `integration`, and `figma`.
+
+Use a distinct source name for each producer; an import replaces that producer's
+previous report and preserves its original time and fingerprint. When two
+producers report the same component check, the newer result wins. Pipeline checks
+retain their producer identity. Local runner reports are owned by the runner.
+
+A CI producer must record the fingerprint of its actual checkout using the
+exported `source_fingerprint` function in `scripts/component-status/report.mjs`.
+Do not copy a current local fingerprint onto an old result to make it look fresh.
+This interface can show external results; no GitHub/GitLab workflow is connected
+automatically yet. Imported reports must retain all results the producer wants
+to display. Artifact entries use `artifact_label` and an `artifact_path` beneath
+`artifacts/`; copy associated files into `.cache/component-status/artifacts/`
+separately. The importer does not fetch external assets or execute commands.
+
+The report reader rejects invalid states, duplicate check keys, and unsafe
+artifact paths. Invalid reports are reported visibly and excluded. The server
+is read-only: viewing the page never launches tests or changes CI settings.
+
+## Remaining Work
+
+- Export and match the specified Figma reference to actual content and states.
+- Pin Drupal content revisions and media identities for repeatable baselines.
+- Resolve the component differences revealed by the first captures.
+- Expand mappings beyond Article Blog List Item and add approved browser baselines.
+- Connect real CI producers after their report format and retention are agreed.
+- Add focused functional and accessibility coverage alongside visual checks.
+
+Existing `npm run storybook:inspect` remains the broader Storybook health check;
+it does not yet write component-status reports. `playwright`, `pngjs`, and
+`pixelmatch` are now declared development dependencies. Tests for report
+aggregation, stale evidence, input validation, and exact PNG comparison run with
+`npm run test:component-status`.
+
+Chromatic provides an existing [Storybook visual-testing and CI workflow](https://www.chromatic.com/docs/visual/).
+It is an option for hosted screenshot review. The local dashboard adds the
+project's component catalogue, Drupal evidence, Figma mapping, and diagnostics
+view without requiring a hosted service account.

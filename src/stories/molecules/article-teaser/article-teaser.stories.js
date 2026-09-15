@@ -1,7 +1,9 @@
 // Molecule: Article Teaser. Square editorial card with a three-tile composition.
 import { article_teaser_markup } from "./article-teaser.markup.js";
 import { token_value } from "../../foundations/token-values.js";
+import { escape_html } from "../../template.js";
 
+const BLOCK_HEADING = "Latest articles";
 const TAG_NAME = "#Writing";
 const TAG_URL = "/blog?tag=writing";
 const TEASER_TITLE = "Rewinding an Interface Through Time";
@@ -57,7 +59,7 @@ function render_article_story(story_arguments) {
   return `<div class="storybook-stack storybook-stack--wide">${article_teaser_markup(story_arguments)}</div>`;
 }
 
-function render_article_grid_story() {
+function render_article_grid_story(story_arguments) {
   const article_tiles = ARTICLE_GRID_ITEMS.map((article_item) => article_teaser_markup({
     ...article_item,
     article_url: ARTICLE_URL,
@@ -67,7 +69,10 @@ function render_article_grid_story() {
     date_display_variant: DATE_DISPLAY_VARIANT,
   })).join("");
 
-  return `<div class="article-teaser-grid">${article_tiles}</div>`;
+  return `<section>
+    <h2 class="homepage-block__heading">${escape_html(story_arguments.block_heading)}</h2>
+    <div class="article-teaser-grid">${article_tiles}</div>
+  </section>`;
 }
 
 export default {
@@ -118,6 +123,9 @@ export default {
 export const default_story = {};
 
 export const three_tile_grid = {
+  args: {
+    block_heading: BLOCK_HEADING,
+  },
   render: render_article_grid_story,
   parameters: {
     controls: { disable: true },

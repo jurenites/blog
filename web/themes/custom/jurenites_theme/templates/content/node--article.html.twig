@@ -10,13 +10,16 @@
   'node--type-' ~ node.bundle|clean_class,
   'node--view-mode-' ~ view_mode|clean_class,
   not node.isPublished() ? 'node--unpublished',
+  content.game_of_life ? 'article-detail--game-of-life',
 ] %}
 
-<article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
+<article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id).setAttribute('data-article-table-of-content', '') }}>
   {{ title_prefix }}
   {{ title_suffix }}
 
-  {% if display_submitted and node.field_youtube_video is empty %}
+  {{ content.game_of_life }}
+
+  {% if display_submitted and node.bundle != 'video' %}
     {% include '@jurenites_theme/components/author-byline.html.twig' with {
       author_avatar_image: author_picture,
       author_avatar_initials: author_initials,
@@ -29,7 +32,7 @@
     } only %}
   {% endif %}
 
-  {% if node.field_youtube_video is empty and node.field_image is not empty %}
+  {% if node.bundle != 'video' and node.field_image is not empty %}
     <div
       class="article-detail__media"
       data-jurenites-article-image-transition="article-image-{{ article_id }}"
@@ -38,26 +41,12 @@
     </div>
   {% endif %}
 
-  {% if node.field_youtube_video is not empty %}
+  {% if node.bundle == 'video' and node.field_youtube_video is not empty %}
     <div class="article-detail__youtube-video">
-      <figure class="media-loader youtube-video-loader" data-jurenites-youtube-video-loader aria-busy="true">
-        <div
-          class="media-loader__noise youtube-video-loader__noise"
-          data-jurenites-media-loader-noise
-          aria-hidden="true"
-        ></div>
-        <div class="youtube-video-loader__embed">
-          {{ content.field_youtube_video }}
-        </div>
-        <figcaption class="media-loader__status">
-          <progress
-            class="media-loader__progress"
-            max="100"
-            value="0"
-            aria-label="{{ 'Loading external video'|t }}"
-          ></progress>
-        </figcaption>
-      </figure>
+      {% include '@jurenites_theme/components/video-loader.html.twig' with {
+        video_content: content.field_youtube_video,
+        image_transition_name: 'article-image-' ~ article_id,
+      } only %}
       {% if youtube_video_title or youtube_author_name %}
         <div class="youtube-video-details">
           {% if youtube_video_title %}
@@ -71,6 +60,10 @@
               avatar_size: 'small',
               author_name_text: youtube_author_name,
               author_url: youtube_author_url,
+              coauthor_name_text: youtube_coauthor_name,
+              coauthor_url: youtube_coauthor_url,
+              coauthor_avatar_image: youtube_coauthor_avatar,
+              coauthor_avatar_initials: youtube_coauthor_initials,
               published_date_iso: youtube_published_date_iso,
               published_date_markup: youtube_published_date_text,
               date_value_kind: 'elapsed-time',
@@ -84,13 +77,28 @@
     </div>
   {% endif %}
 
+  {% if content.body %}
+    <div class="article-detail__reading-layout">
+      <nav class="article_table-of-content" aria-label="{{ 'Table of contents'|t }}" hidden>
+        <p class="article_table-of-content__title">{{ 'Table of contents'|t }}</p>
+        <ul class="article_table-of-content__list"></ul>
+      </nav>
+      {{ content.body }}
+    </div>
+  {% endif %}
+
   <div{{ content_attributes.addClass('article-detail__content') }}>
     {{ content|without(
+      'body',
+      'game_of_life',
       'field_image',
       'field_consumption_time_minutes',
       'field_tags',
       'field_youtube_channel_avatar',
       'field_youtube_creator_name',
+        'field_youtube_coauthor_name',
+        'field_youtube_coauthor_url',
+        'field_youtube_coauthor_avatar',
       'field_youtube_creator_url',
       'field_youtube_published_date',
       'field_youtube_video',

@@ -19,6 +19,10 @@ export function author_byline_markup({
   reading_time_minutes,
   reading_time_label,
   topic_list,
+  coauthor_name = "",
+  coauthor_url = "",
+  coauthor_avatar_initials = "",
+  coauthor_avatar_image_url = "",
 }) {
   const topic_items = String(topic_list ?? "")
     .split(",")
@@ -51,11 +55,14 @@ export function author_byline_markup({
       avatar_initials,
       avatar_size,
       avatar_image_url,
+      coauthor_name,
+      coauthor_url,
+      coauthor_avatar_initials,
+      coauthor_avatar_image_url,
     }),
     published_date_content,
     duration_content,
     timing_class_name: has_timing_content ? "" : " author-byline__timing--empty",
-    identity_separator_class_name: has_timing_content ? "" : " author-byline__identity-separator--hidden",
     separator_class_name: has_timing_separator ? "" : " author-byline__separator--hidden",
     topic_content: topic_items
       ? `

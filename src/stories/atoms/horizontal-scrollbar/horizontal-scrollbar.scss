@@ -1,0 +1,18 @@
+@use "../../../slice/src/scss/tools";
+
+.horizontal-scrollbar-demo {
+  display: flex;
+  gap: calc(var(--space-scale-base-gap) * 3);
+  max-width: calc(var(--space-scale-base-gap) * 60);
+  padding: var(--space-scale-base-gap) var(--space-scale-base-gap) calc(var(--space-scale-base-gap) * 3);
+
+  &:focus-visible { @include tools.focus-ring; }
+}
+
+.horizontal-scrollbar-demo__item {
+  flex: 0 0 calc(var(--space-scale-base-gap) * 24);
+  padding: calc(var(--space-scale-base-gap) * 3);
+  background: var(--theme-dark-surface-background-elevation-level-1);
+  color: var(--theme-dark-text-primary-default);
+  @include tools.typography-body;
+}

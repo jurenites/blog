@@ -69,9 +69,17 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
       'link_url' => 'mailto:jurenites@gmail.com',
       'icon_name' => 'brand-gmail',
     ],
+    [
+      'link_label' => 'Yandex.Mail',
+      'hover_label' => 'jurenites@yandex.ru',
+      'link_url' => 'mailto:jurenites@yandex.ru',
+      'icon_name' => 'brand-yandex-mail',
+    ],
   ];
   $how_i_work_menu_items = [];
   $information_menu_items = [];
+  $legal_menu_items = [];
+  $privacy_policy_url = Url::fromUserInput('/privacy-policy')->toString();
   $route_match = \Drupal::routeMatch();
   $parent_breadcrumb = \Drupal::service('breadcrumb')->build($route_match);
   $ancestor_urls = array_map(
@@ -79,8 +87,9 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
     $parent_breadcrumb->getLinks(),
   );
   $current_page_url = Url::fromRoute('<current>')->toString();
+  $current_query_args = \Drupal::request()->query->all();
   $navigation_cache = CacheableMetadata::createFromObject($parent_breadcrumb)
-    ->addCacheContexts(['route', 'url.path']);
+    ->addCacheContexts(['route', 'url.path', 'url.query_args']);
   $menu_variables['footer_navigation_cache'] = [];
   $navigation_cache->applyTo($menu_variables['footer_navigation_cache']);
   foreach ($menu_variables['items'] as $footer_menu_item) {
@@ -88,6 +97,12 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
     // Query-specific links such as Fonts retain their own exact-link behavior.
     $is_section_link = !$footer_menu_item['url']->getOption('query');
     $is_current_page = $is_section_link && $footer_item_url === $current_page_url;
+    if (!$is_section_link) {
+      $footer_base_url = clone $footer_menu_item['url'];
+      $footer_base_url->setOption('query', []);
+      $is_current_page = $footer_base_url->toString() === $current_page_url
+        && $footer_menu_item['url']->getOption('query') == $current_query_args;
+    }
     $is_parent_page = $is_section_link
       && $footer_item_url !== Url::fromRoute('<front>')->toString()
       && (in_array($footer_item_url, $ancestor_urls, TRUE) || $footer_menu_item['in_active_trail']);
@@ -96,7 +111,10 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
       $footer_menu_item['attributes']->setAttribute('aria-current', $is_current_page ? 'page' : 'location');
     }
     $footer_item_title = strtolower(strip_tags((string) ($footer_menu_item['title'] ?? '')));
-    if (in_array($footer_item_title, ['cookbook', 'guidelines'], TRUE)) {
+    if ($footer_item_url === $privacy_policy_url) {
+      $legal_menu_items[] = $footer_menu_item;
+    }
+    elseif (in_array($footer_item_title, ['cookbook', 'guidelines'], TRUE)) {
       if ($footer_item_title === 'guidelines') {
         $footer_menu_item['title'] = t('Guideline');
       }
@@ -108,6 +126,7 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
   }
   $menu_variables['how_i_work_menu_items'] = $how_i_work_menu_items;
   $menu_variables['information_menu_items'] = $information_menu_items;
+  $menu_variables['legal_menu_items'] = $legal_menu_items;
   $menu_variables['how_i_work_links'] = [
     [
       'link_label' => 'GitHub',
@@ -188,9 +207,16 @@ function jurenites_theme_preprocess_page(array &$page_variables): void {
 }
 
 /**
- * Uses the physical LEGO wordmark for a selected LEGO tag or tagged content.
+ * Styles homepage block headings and selects the contextual LEGO wordmark.
  */
 function jurenites_theme_preprocess_block(array &$block_variables): void {
+  if (in_array($block_variables['elements']['#id'] ?? '', [
+    'jurenites_theme_latest_articles',
+    'jurenites_theme_news',
+  ], TRUE)) {
+    $block_variables['title_attributes']['class'][] = 'homepage-block__heading';
+  }
+
   if (($block_variables['base_plugin_id'] ?? '') !== 'system_branding_block'
     || empty($block_variables['site_logo'])) {
     return;
@@ -249,7 +275,7 @@ function jurenites_theme_preprocess_node(array &$node_variables): void {
     return;
   }
 
-  if ($node_entity->bundle() !== 'article') {
+  if (!in_array($node_entity->bundle(), ['article', 'video'], TRUE)) {
     return;
   }
 
@@ -275,9 +301,12 @@ function jurenites_theme_preprocess_node(array &$node_variables): void {
     $node_variables['author_initials'] = jurenites_theme_name_initials($owner_name);
   }
 
-  jurenites_theme_add_youtube_metadata($node_variables);
+  if ($node_entity->bundle() === 'video') {
+    jurenites_theme_add_youtube_metadata($node_variables);
+  }
 
-  $has_youtube_video = $node_entity->hasField('field_youtube_video')
+  $has_youtube_video = $node_entity->bundle() === 'video'
+    && $node_entity->hasField('field_youtube_video')
     && !$node_entity->get('field_youtube_video')->isEmpty();
   $consumption_minutes = $node_entity->hasField('field_consumption_time_minutes')
     ? (int) $node_entity->get('field_consumption_time_minutes')->value
@@ -444,7 +473,7 @@ function jurenites_theme_preprocess_comment(array &$comment_variables): void {
   $comment_entity = $comment_variables['comment'];
   $commented_entity = $comment_variables['commented_entity'];
   if ($commented_entity->getEntityTypeId() !== 'node'
-    || $commented_entity->bundle() !== 'article') {
+    || !in_array($commented_entity->bundle(), ['article', 'video'], TRUE)) {
     return;
   }
 
@@ -491,9 +520,18 @@ function jurenites_theme_preprocess_comment(array &$comment_variables): void {
   $comment_variables['comment_created_date_markup'] = (string) t('@elapsed_time ago', [
     '@elapsed_time' => $formatted_time_difference->getString(),
   ]);
-  $comment_variables['comment_permalink_url'] = isset($comment_entity->in_preview)
-    ? ''
-    : $comment_entity->permalink()->toString();
+  $comment_variables['comment_permalink_url'] = '';
+  if (!isset($comment_entity->in_preview)) {
+    $comment_language_id = $comment_entity->language()->getId();
+    $commented_entity_translation = $commented_entity->hasTranslation($comment_language_id)
+      ? $commented_entity->getTranslation($comment_language_id)
+      : $commented_entity;
+    $comment_permalink = $commented_entity_translation->toUrl();
+    $comment_permalink->setOption('fragment', 'comment-' . $comment_entity->id());
+    $comment_variables['comment_permalink_url'] = $comment_permalink->toString();
+    CacheableMetadata::createFromObject($commented_entity_translation)
+      ->applyTo($comment_variables['elements']);
+  }
 
   CacheableMetadata::createFromObject($formatted_time_difference)
     ->applyTo($comment_variables['elements']);
@@ -548,6 +586,23 @@ function jurenites_theme_add_youtube_metadata(array &$node_variables): void {
     (string) $node_variables['youtube_author_name'],
   );
 
+  $node_variables['youtube_coauthor_name'] = $node_entity->hasField('field_youtube_coauthor_name')
+    ? trim((string) $node_entity->get('field_youtube_coauthor_name')->value) : '';
+  $node_variables['youtube_coauthor_url'] = $node_entity->hasField('field_youtube_coauthor_url')
+    ? trim((string) $node_entity->get('field_youtube_coauthor_url')->uri) : '';
+  $node_variables['youtube_coauthor_initials'] = jurenites_theme_name_initials($node_variables['youtube_coauthor_name']);
+  $coauthor_avatar_url = $node_entity->hasField('field_youtube_coauthor_avatar')
+    ? trim((string) $node_entity->get('field_youtube_coauthor_avatar')->value) : '';
+  if (parse_url($coauthor_avatar_url, PHP_URL_SCHEME) === 'https'
+    && in_array(strtolower((string) parse_url($coauthor_avatar_url, PHP_URL_HOST)), ['yt3.googleusercontent.com', 'yt3.ggpht.com'], TRUE)) {
+    $node_variables['youtube_coauthor_avatar'] = [
+      '#theme' => 'image',
+      '#uri' => $coauthor_avatar_url,
+      '#alt' => '',
+      '#attributes' => ['loading' => 'lazy'],
+    ];
+  }
+
   $youtube_published_date = $node_entity->hasField('field_youtube_published_date')
     ? trim((string) $node_entity->get('field_youtube_published_date')->value)
     : '';
@@ -581,8 +636,6 @@ function jurenites_theme_add_youtube_metadata(array &$node_variables): void {
       '#alt' => '',
       '#attributes' => [
         'loading' => 'lazy',
-        'width' => 16,
-        'height' => 16,
       ],
     ];
   }
@@ -827,6 +880,24 @@ function jurenites_theme_git_commit_hash(string $project_directory): string {
 }
 
 /**
+ * Returns the first route segment without the configured language prefix.
+ */
+function jurenites_theme_language_neutral_root_path(
+  string $request_path,
+  string $language_prefix,
+): string {
+  $normalized_path = trim($request_path, '/');
+  $normalized_prefix = trim($language_prefix, '/');
+  if ($normalized_prefix !== ''
+    && ($normalized_path === $normalized_prefix
+      || str_starts_with($normalized_path, $normalized_prefix . '/'))) {
+    $normalized_path = ltrim(substr($normalized_path, strlen($normalized_prefix)), '/');
+  }
+
+  return explode('/', $normalized_path, 2)[0] ?? '';
+}
+
+/**
  * Adds tracked release identity and read-only Git identity to global HTML.
  */
 function jurenites_theme_preprocess_html(array &$html_variables): void {
@@ -836,9 +907,17 @@ function jurenites_theme_preprocess_html(array &$html_variables): void {
     unset($html_variables['page_top']['navigation']);
   }
 
-  $current_path = trim(\Drupal::request()->getPathInfo(), '/');
-  if (in_array($current_path, ['blog', 'videos'], TRUE)) {
-    $html_variables['attributes']['class'][] = 'path-' . $current_path;
+  $url_language_id = \Drupal::languageManager()
+    ->getCurrentLanguage(LanguageInterface::TYPE_URL)
+    ->getId();
+  $language_prefixes = \Drupal::config('language.negotiation')->get('url.prefixes') ?? [];
+  $language_prefix = (string) ($language_prefixes[$url_language_id] ?? '');
+  $root_page_path = jurenites_theme_language_neutral_root_path(
+    \Drupal::request()->getPathInfo(),
+    $language_prefix,
+  );
+  if ($root_page_path !== '') {
+    $html_variables['attributes']['class'][] = 'path-' . Html::getClass($root_page_path);
   }
 
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
@@ -907,11 +986,27 @@ function jurenites_theme_preprocess_breadcrumb(array &$breadcrumb_variables): vo
     return;
   }
 
+  // Project hierarchy must also work at /node/{node}, without a path alias.
+  if ($route_name === 'entity.node.canonical'
+    && $node_entity instanceof NodeInterface
+    && $node_entity->bundle() === 'project') {
+    $portfolio_url = Url::fromRoute('view.portfolio.page_1');
+    $portfolio_access = $portfolio_url->access(NULL, TRUE);
+    $breadcrumb_cache->addCacheableDependency($portfolio_access)
+      ->applyTo($breadcrumb_variables['breadcrumb_navigation_cache']);
+    if ($portfolio_access->isAllowed()) {
+      $breadcrumb_variables['breadcrumb'] = [
+        ['text' => t('Portfolio'), 'url' => $portfolio_url->toString()],
+        ['text' => $node_entity->label()],
+      ];
+      return;
+    }
+  }
+
   $node_entity = $route_match->getParameter('node');
   if ($node_entity instanceof \Drupal\node\NodeInterface
-    && $node_entity->bundle() === 'article') {
-    $listing_path = $node_entity->hasField('field_youtube_video')
-      && !$node_entity->get('field_youtube_video')->isEmpty()
+    && in_array($node_entity->bundle(), ['article', 'video'], TRUE)) {
+    $listing_path = $node_entity->bundle() === 'video'
         ? '/videos'
         : '/blog';
     $breadcrumb_variables['article_back_url'] = Url::fromUserInput($listing_path);
@@ -975,7 +1070,7 @@ function jurenites_theme_preprocess_page_title(array &$page_title_variables): vo
   }
 
   if (!$node_entity instanceof \Drupal\node\NodeInterface
-    || $node_entity->bundle() !== 'article') {
+    || !in_array($node_entity->bundle(), ['article', 'video'], TRUE)) {
     return;
   }
 
@@ -993,7 +1088,7 @@ function jurenites_theme_theme_suggestions_field_alter(array &$suggestions, arra
   $field_element = $variables['element'];
   if (($field_element['#entity_type'] ?? '') !== 'node'
     || ($field_element['#field_name'] ?? '') !== 'body'
-    || ($field_element['#bundle'] ?? '') !== 'article'
+    || !in_array($field_element['#bundle'] ?? '', ['article', 'video'], TRUE)
     || ($field_element['#view_mode'] ?? '') !== 'full') {
     return;
   }
@@ -1002,15 +1097,30 @@ function jurenites_theme_theme_suggestions_field_alter(array &$suggestions, arra
 }
 
 /**
- * Turns content tags into Chip links to their filtered bundle listing.
+ * Prepares shared field presentation and content-tag links.
  */
 function jurenites_theme_preprocess_field(array &$field_variables): void {
   $field_element = $field_variables['element'];
   $field_name = $field_element['#field_name'] ?? '';
   $entity_bundle = $field_element['#bundle'] ?? '';
 
+  if ($field_name === 'field_media_oembed_video' && $entity_bundle === 'remote_video') {
+    foreach ($field_variables['items'] as &$video_item_variables) {
+      // The theme's responsive player styles own the iframe dimensions.
+      unset($video_item_variables['content']['#attributes']['width'], $video_item_variables['content']['#attributes']['height']);
+    }
+    return;
+  }
+
+  if ($field_name === 'field_image' && $entity_bundle === 'project') {
+    foreach ($field_variables['items'] as &$image_item_variables) {
+      $image_item_variables['content']['#attributes']['class'][] = 'project-detail__image';
+    }
+    return;
+  }
+
   $is_content_tags = $field_name === 'field_tags'
-    && in_array($entity_bundle, ['article', 'project'], TRUE);
+    && in_array($entity_bundle, ['article', 'video', 'project'], TRUE);
   $is_interest_tags = $field_name === 'field_interest_tags'
     && $entity_bundle === 'interests';
   if (!$is_content_tags && !$is_interest_tags) {
@@ -1026,8 +1136,7 @@ function jurenites_theme_preprocess_field(array &$field_variables): void {
     $listing_path = '/portfolio';
   }
   else {
-    $listing_path = $content_entity->hasField('field_youtube_video')
-      && !$content_entity->get('field_youtube_video')->isEmpty()
+    $listing_path = $content_entity->bundle() === 'video'
         ? '/videos'
         : '/blog';
   }

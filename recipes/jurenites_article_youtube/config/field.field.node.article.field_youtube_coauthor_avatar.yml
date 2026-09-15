@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_youtube_coauthor_avatar
+    - node.type.article
+id: node.article.field_youtube_coauthor_avatar
+field_name: field_youtube_coauthor_avatar
+entity_type: node
+bundle: article
+label: 'YouTube second channel avatar URL'
+description: 'Optional credit for the second channel collaborating on this video.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

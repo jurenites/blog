@@ -1,0 +1,115 @@
+[
+  {
+    "route_path": "/about",
+    "collapsed_state": {
+      ".site-header": {
+        "top": 0,
+        "height": 112,
+        "line_height": "24px"
+      },
+      ".site-header__brand-name": {
+        "top": 8,
+        "height": 48,
+        "line_height": "48px"
+      },
+      "main": {
+        "top": 112,
+        "height": 3444.1875,
+        "line_height": "24px"
+      }
+    },
+    "expanded_state": {
+      ".site-header": {
+        "top": 0,
+        "height": 112,
+        "line_height": "24px"
+      },
+      ".site-header__brand-name": {
+        "top": 8,
+        "height": 48,
+        "line_height": "48px"
+      },
+      "main": {
+        "top": 112,
+        "height": 3444.1875,
+        "line_height": "24px"
+      }
+    },
+    "text_metrics": [
+      {
+        "class_name": "skills-profile__score",
+        "line_height": "56px",
+        "height": 56
+      },
+      {
+        "class_name": "skills-profile__score",
+        "line_height": "56px",
+        "height": 56
+      },
+      {
+        "class_name": "skills-profile__score",
+        "line_height": "56px",
+        "height": 56
+      },
+      {
+        "class_name": "skills-profile__score",
+        "line_height": "56px",
+        "height": 56
+      },
+      {
+        "class_name": "skills-profile__score",
+        "line_height": "56px",
+        "height": 56
+      }
+    ]
+  },
+  {
+    "route_path": "/",
+    "collapsed_state": {
+      ".site-header": {
+        "top": 0,
+        "height": 112,
+        "line_height": "24px"
+      },
+      ".site-header__brand-name": {
+        "top": 8,
+        "height": 48,
+        "line_height": "48px"
+      },
+      "main": {
+        "top": 48,
+        "height": 1370,
+        "line_height": "24px"
+      }
+    },
+    "expanded_state": {
+      ".site-header": {
+        "top": 0,
+        "height": 112,
+        "line_height": "24px"
+      },
+      ".site-header__brand-name": {
+        "top": 8,
+        "height": 48,
+        "line_height": "48px"
+      },
+      "main": {
+        "top": 48,
+        "height": 1370,
+        "line_height": "24px"
+      }
+    },
+    "text_metrics": [
+      {
+        "class_name": "two-tone-heading",
+        "line_height": "80px",
+        "height": 160
+      },
+      {
+        "class_name": "",
+        "line_height": "24px",
+        "height": 96
+      }
+    ]
+  }
+]

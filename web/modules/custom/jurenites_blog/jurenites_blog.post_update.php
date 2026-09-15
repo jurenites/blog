@@ -17,6 +17,59 @@ use Drupal\node\Entity\NodeType;
 use Drupal\views\Entity\View;
 
 /**
+ * Loads twelve Videos per page, including the initial grid and later batches.
+ */
+function jurenites_blog_post_update_videos_page_size(): TranslatableMarkup {
+  $frontpage_view = View::load('frontpage');
+  if ($frontpage_view === NULL || !$frontpage_view->getDisplay('page_3')) {
+    return t('The Videos display was not available; its page size was unchanged.');
+  }
+
+  $view_executable = $frontpage_view->getExecutable();
+  $view_executable->setDisplay('page_3');
+  $pager_options = $view_executable->display_handler->getOption('pager');
+  $pager_options['options']['items_per_page'] = 12;
+  $view_executable->display_handler->setOverride('pager', FALSE);
+  $view_executable->display_handler->setOption('pager', $pager_options);
+  $frontpage_view->save();
+
+  return t('Set the Videos page size to twelve items.');
+}
+
+/**
+ * Adds optional credit fields for a second YouTube channel.
+ */
+function jurenites_blog_post_update_youtube_coauthor_fields(): TranslatableMarkup {
+  $recipe_directory = DRUPAL_ROOT . '/../recipes/jurenites_article_youtube/config/';
+  $form_display = \Drupal::entityTypeManager()->getStorage('entity_form_display')->load('node.article.default');
+  $widget_weight = 9;
+  foreach ([
+    'field_youtube_coauthor_name' => 'string_textfield',
+    'field_youtube_coauthor_url' => 'link_default',
+    'field_youtube_coauthor_avatar' => 'string_textfield',
+  ] as $field_name => $widget_type) {
+    if (FieldStorageConfig::loadByName('node', $field_name) === NULL) {
+      $storage_definition = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($recipe_directory . 'field.storage.node.' . $field_name . '.yml'));
+      FieldStorageConfig::create($storage_definition)->save();
+    }
+    if (FieldConfig::loadByName('node', 'article', $field_name) === NULL) {
+      $field_definition = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($recipe_directory . 'field.field.node.article.' . $field_name . '.yml'));
+      FieldConfig::create($field_definition)->save();
+    }
+    if ($form_display !== NULL && !$form_display->getComponent($field_name)) {
+      $form_display->setComponent($field_name, ['type' => $widget_type, 'weight' => $widget_weight, 'region' => 'content']);
+    }
+    $widget_weight++;
+    foreach (\Drupal::entityTypeManager()->getStorage('entity_view_display')->loadByProperties(['targetEntityType' => 'node', 'bundle' => 'article']) as $view_display) {
+      $view_display->removeComponent($field_name)->save();
+    }
+  }
+  $form_display?->save();
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+  return t('Added optional second-channel YouTube credit fields.');
+}
+
+/**
  * Adds the shared LEGO tag for builds and videos.
  */
 function jurenites_blog_post_update_add_lego_tag(): TranslatableMarkup {
@@ -863,4 +916,15 @@ function jurenites_blog_post_update_restore_page_title_block(): TranslatableMark
   }
 
   return t('Restored the Jurenites page-title block on normal routes.');
+}
+
+/**
+ * Creates Video and preserves existing YouTube nodes, revisions and URLs.
+ *
+ * Runs alphabetically after the earlier youtube_* Article field updates.
+ */
+function jurenites_blog_post_update_youtube_video_content_type(): TranslatableMarkup {
+  require_once __DIR__ . '/includes/video-content-type.inc';
+  $migrated_count = jurenites_blog_split_video_content_type();
+  return t('Created the Video content type and migrated @count YouTube entries. Blog and Videos now filter by content type.', ['@count' => $migrated_count]);
 }

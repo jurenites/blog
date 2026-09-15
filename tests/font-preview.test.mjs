@@ -110,29 +110,6 @@ test("glyph detail uses one baseline-anchored seven-row coordinate system", () =
   );
 });
 
-test("glyph dialogs grow from their selected tile with reduced-motion support", () => {
-  const behavior_source = readFileSync(FONT_PREVIEW_BEHAVIOR_PATH, "utf8");
-  const styles_source = readFileSync(FONT_PREVIEW_STYLES_PATH, "utf8");
-
-  FONT_PREVIEW_TEMPLATE_PATHS.forEach((template_path) => {
-    const template_source = readFileSync(template_path, "utf8");
-    assert.match(template_source, /data-font-preview-glyph-transition-target/);
-  });
-
-  assert.match(behavior_source, /owner_document\.startViewTransition/);
-  assert.match(behavior_source, /data-font-preview-glyph-transition-source/);
-  assert.match(behavior_source, /data-font-preview-glyph-transition-active/);
-  assert.match(behavior_source, /prefers-reduced-motion: reduce/);
-  assert.match(
-    styles_source,
-    /::view-transition-group\(font-preview-selected-glyph\)[\s\S]*animation-duration:\s*var\(--motion-duration-extra-long\)/,
-  );
-  assert.match(
-    styles_source,
-    /@media \(prefers-reduced-motion: reduce\)[\s\S]*::view-transition-group\(font-preview-selected-glyph\)[\s\S]*animation-duration:\s*var\(--motion-duration-instant-default\)/,
-  );
-});
-
 for (const [font_asset_path, font_identifier, expected_group_names] of [
   [FONT_ASSET_PATHS[0], "roundabout", [
     "numeric",

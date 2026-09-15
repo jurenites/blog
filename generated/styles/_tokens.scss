@@ -9,6 +9,9 @@
   --system-breakpoint-tablet-max: 1279px;
   --system-breakpoint-desktop-min: 1280px;
   --system-breakpoint-desktop-max: 1920px;
+  --system-breakpoint-site-header-inline-min: 1440px;
+  --system-breakpoint-article-sidebar-min: 1184px;
+  --system-breakpoint-content-gutter-max: 1008px;
   --color-palette-full-black: #000000;
   --color-palette-dark-black: #020618;
   --color-palette-black: #0F172B;
@@ -66,28 +69,26 @@
   --theme-dark-system-warning: var(--color-palette-system-warning);
   --theme-dark-system-warning-strong: var(--color-palette-system-warning-strong);
   --typography-font-family-sans: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
-  --typography-font-family-code: "Courier New", "Courier", monospace;
-  --typography-font-family-number: "Ubuntu Sans Mono", "Courier New", monospace;
+  --typography-font-family-number: "Ubuntu Sans Mono", monospace;
   --typography-font-family-roundabout: "Roundabout", "Open Sans", sans-serif;
   --typography-font-family-4pixel: "4pixel", monospace;
-  --typography-headline-1: 600 96px var(--typography-font-family-sans);
-  --typography-headline-2: 600 64px var(--typography-font-family-sans);
-  --typography-headline-3: 600 40px var(--typography-font-family-sans);
-  --typography-headline-4: 600 32px var(--typography-font-family-sans);
-  --typography-headline-5: 24px var(--typography-font-family-sans);
-  --typography-headline-6: 20px var(--typography-font-family-sans);
-  --typography-subtitle-1: 16px var(--typography-font-family-sans);
-  --typography-subtitle-2: 14px var(--typography-font-family-sans);
-  --typography-eyebrow: 14px var(--typography-font-family-sans);
+  --typography-headline-1: 100 96px/112px var(--typography-font-family-sans);
+  --typography-headline-2: 100 64px/80px var(--typography-font-family-sans);
+  --typography-headline-3: 100 40px/48px var(--typography-font-family-sans);
+  --typography-headline-4: 100 32px/40px var(--typography-font-family-sans);
+  --typography-headline-5: 24px/32px var(--typography-font-family-sans);
+  --typography-headline-6: 20px/24px var(--typography-font-family-sans);
+  --typography-subtitle-1: 16px/24px var(--typography-font-family-sans);
+  --typography-subtitle-2: 14px/16px var(--typography-font-family-sans);
+  --typography-eyebrow: 14px/16px var(--typography-font-family-sans);
   --typography-body: 300 16px/24px var(--typography-font-family-sans);
-  --typography-body-2: 14px var(--typography-font-family-sans);
-  --typography-link: 300 16px var(--typography-font-family-sans);
-  --typography-caption: 14px var(--typography-font-family-sans);
-  --typography-code: 600 14px var(--typography-font-family-code);
-  --typography-machine-readable: 14px var(--typography-font-family-number);
-  --typography-badge: 500 14px var(--typography-font-family-sans);
-  --typography-overline: 5px var(--typography-font-family-4pixel);
-  --typography-numeric-display: 64px var(--typography-font-family-number);
+  --typography-body-2: 14px/16px var(--typography-font-family-sans);
+  --typography-link: 300 16px/24px var(--typography-font-family-sans);
+  --typography-caption: 14px/16px var(--typography-font-family-sans);
+  --typography-badge: 500 12px/16px var(--typography-font-family-sans);
+  --typography-numeric-display: 64px/80px var(--typography-font-family-number);
+  --typography-machine-readable: 14px/16px var(--typography-font-family-number);
+  --typography-overline: 5px/8px var(--typography-font-family-4pixel);
   --space-scale-zero: 0px;
   --space-scale-one: 1px;
   --space-scale-two: 2px;
@@ -116,6 +117,8 @@
   --motion-easing-decelerate-default: cubic-bezier(0, 0, 0.2, 1);
   --motion-easing-accelerate-default: cubic-bezier(0.4, 0, 1, 1);
   --motion-easing-sharp-default: cubic-bezier(0.4, 0, 0.6, 1);
+  --motion-easing-pulse-default: cubic-bezier(0.1, 0.5, 0.6, 1);
+  --motion-easing-underline-reveal-default: cubic-bezier(0.19, 1, 0.22, 1);
   --layout-container-max-tablet-default: 640px;
   --layout-container-max-desktop-default: 1440px;
   --layout-content-max-blog-default: 800px;
@@ -124,12 +127,36 @@
   --layout-gutter-mobile-default: 16px;
   --layout-gutter-tablet-default: 24px;
   --layout-gutter-desktop-default: 32px;
+  --component-call-to-action-background-color: var(--color-palette-dark-black);
+  --component-call-to-action-heading-size-min: 24px;
+  --component-call-to-action-heading-size-max: 96px;
+  --component-call-to-action-heading-letter-spacing: normal;
+  --component-call-to-action-heading-line-height: 1.05;
+  --component-website-audit-background-color: var(--color-palette-dark-black);
+  --component-status-indicator-size-default: 8px;
+  --component-status-preview-height-default: 480px;
+  --component-game-of-life-counter-digit-width-default: 5px;
+  --component-game-of-life-cell-size-default: 8px;
+  --component-game-of-life-live-size-default: 4px;
+  --component-game-of-life-border-size-default: 1px;
+  --component-game-of-life-control-size-default: 32px;
+  --component-game-of-life-example-columns-default: 5;
+  --component-game-of-life-example-rows-default: 5;
+  --component-game-of-life-example-size-default: 1;
   --component-contact-photo-max-width-default: 1600px;
   --component-contact-photo-edge-fade-width-default: 100px;
   --component-contact-photo-background-color: var(--component-hero-section-background-edge-color);
+  --component-site-header-link-underline-duration-default: 900ms;
   --component-site-header-backdrop-color-default: #00020780;
   --component-site-header-backdrop-blur-default: 12px;
   --component-site-header-backdrop-fade-height-default: 32px;
+  --component-site-header-brand-name-compact-width-default: 48px;
+  --component-site-header-brand-name-font-weight-default: 300;
+  --component-site-header-brand-name-letter-font-size-start: 32px;
+  --component-site-header-brand-name-letter-spacing-start: -2px;
+  --component-site-header-brand-name-reveal-duration-default: 325ms;
+  --component-site-header-brand-name-reveal-stagger-default: 25ms;
+  --component-site-header-brand-name-hold-duration-default: 2000ms;
   --component-guideline-tile-min-width-default: 280px;
   --component-guideline-preview-height-default: 240px;
   --component-guideline-logo-icon-size-default: 96px;
@@ -138,13 +165,18 @@
   --component-guideline-swatch-height-default: 120px;
   --component-layered-scene-arrival-duration-default: 1100ms;
   --component-layered-scene-arrival-delay-default: 450ms;
+  --component-skills-profile-padding-compact-default: 24px;
+  --component-skills-profile-padding-header-default: 48px;
+  --component-skills-profile-padding-item-default: 40px;
+  --component-skills-profile-score-size-compact-default: 32px;
+  --component-skills-profile-score-size-default: 44px;
   --component-hero-section-background-edge-color: #000207;
   --component-hero-section-clear-color: #00000000;
   --component-hero-section-ray-fill-color: #68CBE812;
   --component-hero-section-ray-highlight-color: #8DDBF222;
   --component-hero-section-ray-softness-default: 12px;
   --component-hero-section-ray-color-duration-default: 2800ms;
-  --component-hero-section-image-horizontal-fade-width-default: 96px;
+  --component-hero-section-image-edge-fade-width-default: 100px;
   --component-footer-navigation-social-icon-size-default: 16px;
   --component-footer-navigation-gmail-icon-height-default: 12px;
   --component-footer-navigation-gmail-gradient-red-color: #FC413D;
@@ -160,6 +192,11 @@
   --component-footer-navigation-gmail-gradient-yellow-color: #FEC700;
   --component-footer-navigation-gmail-gradient-light-yellow-color: #FFDB0F;
   --component-footer-navigation-gmail-color-hover: #EA4335;
+  --component-footer-navigation-yandex-mail-icon-width-default: 16px;
+  --component-footer-navigation-yandex-mail-icon-height-default: 12px;
+  --component-footer-navigation-yandex-mail-color-hover: #FFCC00;
+  --component-footer-navigation-yandex-mail-light-yellow-color: #FFDA3E;
+  --component-footer-navigation-yandex-mail-red-color: #FF3333;
   --component-footer-navigation-figma-icon-height-default: 18px;
   --component-footer-navigation-linkedin-color-hover: #2867B2;
   --component-footer-navigation-facebook-color-hover: #1877F2;
@@ -205,6 +242,7 @@
   --component-content-layout-default-width: readable;
   --component-content-layout-sidebar-min-width-default: 240px;
   --component-content-layout-sidebar-max-width-default: 320px;
+  --component-article-table-of-content-sidebar-min-width-default: 160px;
   --component-badge-color-background-neutral-default: var(--color-palette-light-black);
   --component-badge-color-foreground-neutral-default: var(--color-palette-white);
   --component-badge-color-background-gray-default: var(--color-palette-gray);
@@ -246,11 +284,45 @@
   --component-media-loader-progress-height-default: 1px;
   --component-progressive-image-skeleton-cycle-default: 1600ms;
   --component-crossfade-dot-marker-size-default: 4px;
+  --component-pulse-indicator-container-size-default: 24px;
+  --component-pulse-indicator-marker-size-default: 8px;
+  --component-pulse-indicator-radius-scale-expanded: 4;
+  --component-pulse-indicator-animation-duration-default: 3000ms;
+  --component-pulse-indicator-dot-color-default: var(--color-palette-full-white);
+  --component-pulse-indicator-radius-color-start: #FFFFFF40;
+  --component-pulse-indicator-radius-color-end: #FFFFFF00;
   --component-newsletter-signup-form-min-width-default: 280px;
   --component-numeric-values-tile-min-width-default: 240px;
   --component-numeric-values-tile-min-height-default: 200px;
   --component-numeric-values-icon-max-width-default: 80px;
   --component-numeric-values-number-font-size-compact: 40px;
+  --qr-studio-color-surface-page: #141618;
+  --qr-studio-color-surface-panel: #1B1D20;
+  --qr-studio-color-surface-control: #25282B;
+  --qr-studio-color-surface-hover: #303438;
+  --qr-studio-color-border-subtle: #3D4043;
+  --qr-studio-color-text-primary: #F3F4F0;
+  --qr-studio-color-text-muted: #A5ABAE;
+  --qr-studio-color-accent-primary: #D3F668;
+  --qr-studio-color-accent-ink: #1B2407;
+  --qr-studio-color-status-good: #BAE370;
+  --qr-studio-color-status-error: #FA9784;
+  --qr-studio-color-status-warn: #EDCA7F;
+  --qr-studio-color-paper-white: #FFFFFF;
+  --qr-studio-color-ink-black: #000000;
+  --qr-studio-color-guide-lock: #D36930;
+  --qr-studio-color-lock-match: #17803D;
+  --qr-studio-color-lock-conflict: #DC2626;
+  --qr-studio-color-guide-structure: #258BAD;
+  --qr-studio-color-guide-grid: #232C341F;
+  --qr-studio-color-guide-cursor: #A542E1;
+  --qr-studio-color-guide-expected: #A0A0A0;
+  --qr-studio-color-primary-hover: #E2FF91;
+  --qr-studio-color-shadow-soft: #00000026;
+  --qr-studio-color-text-subdued: #787E82;
+  --qr-studio-color-dialog-backdrop: #000000A6;
+  --qr-studio-color-shadow-strong: #0000004C;
+  --qr-studio-color-invalid-highlight: #FA978452;
 }
 
 $system-breakpoint-mobile-min: 360px;
@@ -259,6 +331,9 @@ $system-breakpoint-tablet-min: 641px;
 $system-breakpoint-tablet-max: 1279px;
 $system-breakpoint-desktop-min: 1280px;
 $system-breakpoint-desktop-max: 1920px;
+$system-breakpoint-site-header-inline-min: 1440px;
+$system-breakpoint-article-sidebar-min: 1184px;
+$system-breakpoint-content-gutter-max: 1008px;
 
 $breakpoints: (
   "mobile-min": 360px,
@@ -267,6 +342,9 @@ $breakpoints: (
   "tablet-max": 1279px,
   "desktop-min": 1280px,
   "desktop-max": 1920px,
+  "site-header-inline-min": 1440px,
+  "article-sidebar-min": 1184px,
+  "content-gutter-max": 1008px,
 );
 
 @mixin breakpoint-up($name) {
@@ -339,24 +417,20 @@ $breakpoints: (
   font: var(--typography-caption);
 }
 
-@mixin typography-code {
-  font: var(--typography-code);
+@mixin typography-badge {
+  font: var(--typography-badge);
+}
+
+@mixin typography-numeric-display {
+  font: var(--typography-numeric-display);
 }
 
 @mixin typography-machine-readable {
   font: var(--typography-machine-readable);
 }
 
-@mixin typography-badge {
-  font: var(--typography-badge);
-}
-
 @mixin typography-overline {
   font: var(--typography-overline);
-}
-
-@mixin typography-numeric-display {
-  font: var(--typography-numeric-display);
 }
 
 .u-typography-headline-1 {
@@ -411,24 +485,20 @@ $breakpoints: (
   font: var(--typography-caption);
 }
 
-.u-typography-code {
-  font: var(--typography-code);
+.u-typography-badge {
+  font: var(--typography-badge);
+}
+
+.u-typography-numeric-display {
+  font: var(--typography-numeric-display);
 }
 
 .u-typography-machine-readable {
   font: var(--typography-machine-readable);
 }
 
-.u-typography-badge {
-  font: var(--typography-badge);
-}
-
 .u-typography-overline {
   font: var(--typography-overline);
-}
-
-.u-typography-numeric-display {
-  font: var(--typography-numeric-display);
 }
 
 .u-bg-color-palette-full-black {

@@ -1,10 +1,20 @@
 {# Shared author identity: Avatar and author name remain one visual unit. #}
-<div class="author-identity">
+<div class="author-identity{% if coauthor_name_text %} author-identity--coauthors author-identity--avatar-{{ avatar_size|default('medium') }}{% endif %}">
+  {% if coauthor_name_text %}<div class="author-identity__avatars"><div class="author-identity__avatar-primary">{% endif %}
   {% include '@jurenites_theme/components/avatar.html.twig' with {
     avatar_image: author_avatar_image,
     avatar_initials: author_avatar_initials,
     avatar_size: avatar_size|default('medium'),
   } only %}
+  {% if coauthor_name_text %}
+    </div><div class="author-identity__avatar-secondary">
+      {% include '@jurenites_theme/components/avatar.html.twig' with {
+        avatar_image: coauthor_avatar_image,
+        avatar_initials: coauthor_avatar_initials,
+        avatar_size: avatar_size|default('medium'),
+      } only %}
+    </div></div>
+  {% endif %}
   <span class="author-identity__text">
     {% if author_prefix_text %}
       <span class="author-identity__prefix">{{ author_prefix_text }}</span>
@@ -22,5 +32,15 @@
         {{ author_name_text }}
       {% endif %}
     </span>
+    {% if coauthor_name_text %}
+      <span class="author-identity__coauthor-separator">&amp;</span>
+      <span class="author-identity__name author-identity__name--secondary">
+        {% if coauthor_url %}
+          <a href="{{ coauthor_url }}" rel="external noopener">{{ coauthor_name_text }}</a>
+        {% else %}
+          {{ coauthor_name_text }}
+        {% endif %}
+      </span>
+    {% endif %}
   </span>
 </div>

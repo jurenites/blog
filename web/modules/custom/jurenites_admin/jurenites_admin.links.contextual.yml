@@ -1,0 +1,16 @@
+jurenites_admin.comment_edit:
+  title: 'Edit comment'
+  route_name: entity.comment.edit_form
+  group: comment
+
+jurenites_admin.comment_delete:
+  title: 'Delete'
+  route_name: entity.comment.delete_form
+  group: comment
+  weight: 10
+
+jurenites_admin.block_content_delete:
+  title: 'Delete content block'
+  route_name: entity.block_content.delete_form
+  group: block_content
+  weight: 10

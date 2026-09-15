@@ -14,6 +14,10 @@ const DATE_DISPLAY_VARIANT = "date-day";
 const READING_TIME_MINUTES = 6;
 const READING_TIME_LABEL = "min to read";
 const TOPIC_LIST = "#Design systems, #Drupal";
+const COAUTHOR_NAME = "";
+const COAUTHOR_URL = "";
+const COAUTHOR_AVATAR_INITIALS = "";
+const COAUTHOR_AVATAR_IMAGE_URL = "";
 
 const VIDEO_AUTHOR_NAME = "Jake The Alright";
 const VIDEO_AUTHOR_URL = "https://www.youtube.com/@jakethealright";
@@ -25,6 +29,12 @@ const VIDEO_DATE_VALUE_KIND = "elapsed-time";
 const VIDEO_DATE_DISPLAY_VARIANT = "date-day";
 const VIDEO_READING_TIME_MINUTES = 20;
 const VIDEO_READING_TIME_LABEL = "min to watch";
+const COLLABORATION_AUTHOR_NAME = "First Channel";
+const COLLABORATION_AUTHOR_URL = "https://www.youtube.com/@first-channel";
+const COLLABORATION_AVATAR_INITIALS = "FC";
+const COLLABORATION_COAUTHOR_NAME = "Second Channel";
+const COLLABORATION_COAUTHOR_URL = "https://www.youtube.com/@second-channel";
+const COLLABORATION_COAUTHOR_INITIALS = "SC";
 
 function render_story(story_args) {
   return author_byline_markup(story_args);
@@ -38,6 +48,10 @@ export default {
     byline_label: { control: "text" },
     author_name: { control: "text" },
     author_url: { control: "text" },
+    coauthor_name: { control: "text" },
+    coauthor_url: { control: "text" },
+    coauthor_avatar_initials: { control: "text" },
+    coauthor_avatar_image_url: { control: "text" },
     author_prefix_text: { control: "text" },
     avatar_initials: { control: "text" },
     avatar_image_url: { control: "text" },
@@ -68,6 +82,10 @@ export default {
     byline_label: BYLINE_LABEL,
     author_name: AUTHOR_NAME,
     author_url: AUTHOR_URL,
+    coauthor_name: COAUTHOR_NAME,
+    coauthor_url: COAUTHOR_URL,
+    coauthor_avatar_initials: COAUTHOR_AVATAR_INITIALS,
+    coauthor_avatar_image_url: COAUTHOR_AVATAR_IMAGE_URL,
     author_prefix_text: AUTHOR_PREFIX_TEXT,
     avatar_initials: AVATAR_INITIALS,
     avatar_image_url: AVATAR_IMAGE_URL,
@@ -105,5 +123,17 @@ export const youtube_reference = {
     reading_time_minutes: VIDEO_READING_TIME_MINUTES,
     reading_time_label: VIDEO_READING_TIME_LABEL,
     topic_list: "",
+  },
+};
+
+export const youtube_collaboration = {
+  args: {
+    ...youtube_reference.args,
+    author_name: COLLABORATION_AUTHOR_NAME,
+    author_url: COLLABORATION_AUTHOR_URL,
+    avatar_initials: COLLABORATION_AVATAR_INITIALS,
+    coauthor_name: COLLABORATION_COAUTHOR_NAME,
+    coauthor_url: COLLABORATION_COAUTHOR_URL,
+    coauthor_avatar_initials: COLLABORATION_COAUTHOR_INITIALS,
   },
 };

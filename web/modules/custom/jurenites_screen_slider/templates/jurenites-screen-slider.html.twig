@@ -1,0 +1,39 @@
+{% if screen_images %}
+<section class="screen-slider" data-screen-slider role="region" aria-roledescription="carousel" aria-label="{{ 'Interface screens'|t }}">
+  <div class="screen-slider__viewport" data-slider-viewport tabindex="0" aria-label="{{ 'Screens. Use left and right arrow keys to navigate.'|t }}">
+    <div class="screen-slider__track" data-slider-track>
+      {% for screen_image in screen_images %}
+        <div class="screen-slider__screen" role="group" aria-roledescription="slide" aria-label="{{ loop.index }} / {{ screen_images|length }}">
+          <img class="screen-slider__image" src="{{ screen_image.image_url }}" alt="{{ screen_image.image_alt }}" loading="lazy" decoding="async" draggable="false">
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="screen-slider__pagination" data-slider-pagination aria-label="{{ 'Screen pagination'|t }}">
+    {% for screen_image in screen_images %}
+      <button class="crossfade-dot screen-slider__dot{% if loop.first %} is-active{% endif %}" type="button" data-slider-dot="{{ loop.index0 }}" aria-label="{{ 'Show screen @number of @total'|t({'@number': loop.index, '@total': screen_images|length}) }}" aria-pressed="{{ loop.first ? 'true' : 'false' }}"></button>
+    {% endfor %}
+  </div>
+  <div class="screen-slider__controls">
+    <button class="screen-slider__control" type="button" data-slider-previous aria-label="{{ 'Previous screen'|t }}">
+      {% include '@jurenites_theme/components/icon.html.twig' with {
+        icon_name: 'arrow-left', icon_class: 'screen-slider__control-icon screen-slider__control-icon--previous'
+      } only %}
+    </button>
+    <span data-slider-count>1 / {{ screen_images|length }}</span>
+    <button class="screen-slider__control" type="button" data-slider-next aria-label="{{ 'Next screen'|t }}">
+      {% include '@jurenites_theme/components/icon.html.twig' with {
+        icon_name: 'arrow-left', icon_class: 'screen-slider__control-icon screen-slider__control-icon--next'
+      } only %}
+    </button>
+    <button class="screen-slider__control screen-slider__control--toggle" type="button" data-slider-toggle data-pause-label="{{ 'Pause'|t }}" data-play-label="{{ 'Play'|t }}" aria-label="{{ 'Pause'|t }}" aria-pressed="false">
+      {% include '@jurenites_theme/components/icon.html.twig' with {
+        icon_name: 'pause-rect', icon_class: 'screen-slider__pause-icon'
+      } only %}
+      {% include '@jurenites_theme/components/icon.html.twig' with {
+        icon_name: 'play-triangle', icon_class: 'screen-slider__play-icon'
+      } only %}
+    </button>
+  </div>
+</section>
+{% endif %}

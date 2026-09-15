@@ -7,6 +7,7 @@
 {% set article_id = node.id %}
 {% set article_classes = [
   'article-list-item',
+  content.game_of_life ? 'article-list-item--game-of-life',
   'node--type-' ~ node.bundle|clean_class,
   'node--view-mode-' ~ view_mode|clean_class,
   not node.isPublished() ? 'node--unpublished',
@@ -15,30 +16,42 @@
 ] %}
 
 <article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
-  {% if node.field_image is not empty %}
+  {% if content.game_of_life or node.field_image is not empty %}
     <div
       class="article-list-item__media"
       data-jurenites-article-image-transition="article-image-{{ article_id }}"
     >
-      {{ content.field_image }}
+      {{ content.game_of_life ? content.game_of_life : content.field_image }}
     </div>
   {% endif %}
 
   <div class="article-list-item__body">
+    {% if node.bundle == 'video' %}
+      <div class="article-list-item__heading">
+    {% endif %}
     {{ title_prefix }}
     {% if label %}
-      <h2{{ title_attributes.addClass('article-list-item__title').setAttribute('data-jurenites-article-title-transition', 'article-title-' ~ article_id) }}>
+      <h5{{ title_attributes.addClass('article-list-item__title').setAttribute('data-jurenites-article-title-transition', 'article-title-' ~ article_id) }}>
         <a class="article-list-item__title-link" href="{{ url }}" rel="bookmark">{{ label }}</a>
-      </h2>
+      </h5>
     {% endif %}
     {{ title_suffix }}
+    {% if node.bundle == 'video' %}
+        {{ content.field_tags }}
+      </div>
+    {% endif %}
 
+    {% set list_body_content = node.bundle == 'video' ? content|without('field_tags') : content %}
     <div{{ content_attributes.addClass('article-list-item__content') }}>
-      {{ content|without(
+      {{ list_body_content|without(
+        'game_of_life',
         'field_image',
         'field_consumption_time_minutes',
         'field_youtube_channel_avatar',
         'field_youtube_creator_name',
+        'field_youtube_coauthor_name',
+        'field_youtube_coauthor_url',
+        'field_youtube_coauthor_avatar',
         'field_youtube_creator_url',
         'field_youtube_published_date',
         'field_youtube_video',
@@ -47,7 +60,7 @@
 
     {% if display_submitted %}
       <footer class="article-list-item__meta">
-        {% if node.field_youtube_video is not empty and youtube_author_name %}
+        {% if node.bundle == 'video' and node.field_youtube_video is not empty and youtube_author_name %}
           {% include '@jurenites_theme/components/author-byline.html.twig' with {
             byline_label: 'Video creator'|t,
             author_avatar_image: youtube_author_avatar,
@@ -55,6 +68,10 @@
             avatar_size: 'small',
             author_name_text: youtube_author_name,
             author_url: youtube_author_url,
+            coauthor_name_text: youtube_coauthor_name,
+            coauthor_url: youtube_coauthor_url,
+            coauthor_avatar_image: youtube_coauthor_avatar,
+            coauthor_avatar_initials: youtube_coauthor_initials,
             published_date_iso: youtube_published_date_iso,
             published_date_markup: youtube_published_date_text,
             date_value_kind: 'elapsed-time',

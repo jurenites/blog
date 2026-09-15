@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Installs the Hero authoring model and an initial, movable homepage block.
+ * Installs the Hero authoring model and an initial, movable About-page block.
  */
 
 use Drupal\block\Entity\Block;
@@ -24,7 +24,7 @@ const JURENITES_HERO_BLOCK_UUID = 'a55a4f53-9411-46a9-9742-0d1ddbc4a8c9';
  */
 function jurenites_hero_install(): void {
   jurenites_hero_configure_fields();
-  jurenites_hero_create_homepage_block();
+  jurenites_hero_create_about_block();
   jurenites_hero_layered_scene_setup();
 }
 
@@ -144,7 +144,7 @@ function jurenites_hero_configure_fields(): void {
 /**
  * Seeds content only when absent; never resets edits, ordering or placement.
  */
-function jurenites_hero_create_homepage_block(): void {
+function jurenites_hero_create_about_block(): void {
   $block_storage = \Drupal::entityTypeManager()->getStorage('block_content');
   $existing_blocks = $block_storage->loadByProperties(['uuid' => JURENITES_HERO_BLOCK_UUID]);
   if (!$existing_blocks) {
@@ -165,7 +165,7 @@ function jurenites_hero_create_homepage_block(): void {
     }
     $hero_block = BlockContent::create([
       'uuid' => JURENITES_HERO_BLOCK_UUID, 'type' => 'hero', 'langcode' => 'en',
-      'info' => 'Homepage hero', 'reusable' => TRUE,
+      'info' => 'About hero', 'reusable' => TRUE,
       'field_hero_eyebrow' => 'Design. Build. Collaborate.',
       'field_hero_glow' => TRUE, 'field_hero_slides' => $hero_slides,
     ]);
@@ -190,10 +190,14 @@ function jurenites_hero_create_homepage_block(): void {
       'region' => 'content', 'weight' => -30, 'status' => TRUE,
       'plugin' => $plugin_identifier,
       'settings' => [
-        'id' => $plugin_identifier, 'label' => 'Homepage hero', 'label_display' => '0',
+        'id' => $plugin_identifier, 'label' => 'About hero', 'label_display' => '0',
         'provider' => 'block_content', 'view_mode' => 'full',
       ],
-      'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => '<front>']],
+      'visibility' => ['request_path' => [
+        'id' => 'request_path',
+        'negate' => FALSE,
+        'pages' => "/about\n/obo",
+      ]],
     ])->save();
   }
 }

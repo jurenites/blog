@@ -12,6 +12,10 @@
   padding-top: calc(var(--space-scale-base-gap) * 12);
 }
 
+.privacy-policy__note{
+  color: var(--theme-dark-text-gray);
+}
+
 .privacy-policy__eyebrow {
   margin: 0;
   color: var(--theme-dark-text-gray);

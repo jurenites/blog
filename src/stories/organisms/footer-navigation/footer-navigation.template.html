@@ -21,9 +21,6 @@
       <h2 class="footer-navigation__heading">{{information_heading}}</h2>
       <ul class="footer-navigation__list">
         <li class="footer-navigation__item">
-          <a class="footer-navigation__link" href="{{privacy_policy_url}}">{{privacy_policy_label}}</a>
-        </li>
-        <li class="footer-navigation__item">
           <a class="footer-navigation__link footer-navigation__link--with-badge" href="{{fonts_url}}">
             <span class="footer-navigation__link-label">{{fonts_label}}</span>
             {{fonts_badge_markup}}
@@ -35,5 +32,14 @@
       </ul>
     </nav>
   </div>
-  <p class="footer-navigation__rights-message">{{rights_message}} {{current_year}}</p>
+  <div class="footer-navigation__bottom-row">
+    <p class="footer-navigation__rights-message">{{rights_message}} {{current_year}}</p>
+    <nav class="footer-navigation__legal-navigation" aria-label="{{privacy_policy_label}}">
+      <ul class="footer-navigation__legal-list">
+        <li class="footer-navigation__item">
+          <a class="footer-navigation__link" href="{{privacy_policy_url}}">{{privacy_policy_label}}</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </div>

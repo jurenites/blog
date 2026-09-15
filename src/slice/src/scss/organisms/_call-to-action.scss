@@ -1,0 +1,46 @@
+// Organism: Call to Action. Large editorial typography on a quiet dark surface.
+.call-to-action {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(var(--space-scale-base-gap) * 4);
+  width: 100%;
+  max-width: var(--layout-content-max-wide-default);
+  margin-inline: auto;
+  margin-block-start: calc(var(--space-scale-base-gap) * 4);
+  padding: calc(var(--space-scale-base-gap) * 8) clamp(calc(var(--space-scale-base-gap) * 3), 6%, calc(var(--space-scale-base-gap) * 8));
+  border-radius: var(--shape-corner-radius-none);
+  background: var(--component-call-to-action-background-color);
+  // Extend only the painted surface, without widening content or scroll bounds.
+  box-shadow: 0 0 0 100vmax var(--component-call-to-action-background-color);
+  clip-path: inset(0 -100vmax);
+  text-align: left;
+}
+
+.call-to-action__heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-scale-base-gap);
+  width: 100%;
+  margin: 0;
+  font: var(--typography-headline-1);
+  font-size: clamp(var(--component-call-to-action-heading-size-min), 11cqi, var(--component-call-to-action-heading-size-max));
+  letter-spacing: var(--component-call-to-action-heading-letter-spacing);
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+
+  // Keep the role's 112px fallback; fluid text uses whole grid-unit line boxes.
+  @supports (line-height: round(up, 1em, 1em)) {
+    line-height: round(up, calc(1em * var(--component-call-to-action-heading-line-height)), var(--space-scale-base-gap));
+  }
+}
+
+.call-to-action__prompt {
+  color: var(--theme-dark-text-gray);
+}
+
+.call-to-action__invitation {
+  color: var(--theme-dark-text-primary-default);
+}

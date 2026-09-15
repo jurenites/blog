@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file
+ * Renders editable invitation fields using the shared Call to Action organism.
+ */
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_call_to_action_theme(): array {
+  return ['jurenites_call_to_action' => ['variables' => [
+    'prompt_heading' => '', 'invitation_heading' => '', 'contact_button' => [],
+  ]]];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function jurenites_call_to_action_block_content_view(array &$build_output, EntityInterface $block_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($block_entity->bundle() !== 'call_to_action') {
+    return;
+  }
+  $action_build = ['#theme' => 'jurenites_call_to_action'];
+  $cache_metadata = CacheableMetadata::createFromObject($block_entity)
+    ->addCacheContexts(['languages:language_content']);
+  foreach (['field_action_prompt' => 'prompt_heading', 'field_action_invitation' => 'invitation_heading', 'field_action_link' => 'contact_button'] as $field_name => $theme_variable) {
+    $field_items = $block_entity->get($field_name);
+    $field_access = $field_items->access('view', NULL, TRUE);
+    $cache_metadata->addCacheableDependency($field_access);
+    if (!$field_access->isAllowed() || $field_items->isEmpty()) {
+      continue;
+    }
+    if ($field_name === 'field_action_link') {
+      $action_build['#contact_button'] = [
+        '#type' => 'link', '#title' => $field_items->title,
+        '#url' => $field_items->first()->getUrl(),
+        '#attributes' => ['class' => ['button', 'button--primary', 'call-to-action__contact-button']],
+      ];
+    }
+    else {
+      $action_build['#' . $theme_variable] = $field_items->value;
+    }
+  }
+  $cache_metadata->applyTo($action_build);
+  $build_output['call_to_action'] = $action_build;
+}

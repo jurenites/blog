@@ -8,7 +8,43 @@ declare(strict_types=1);
  */
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\views\Entity\View;
+
+/**
+ * Adds optional supporting video media to Project without replacing displays.
+ */
+function jurenites_font_projects_post_update_project_supporting_videos(): TranslatableMarkup {
+  $config_directory = \Drupal::service('extension.list.module')->getPath('jurenites_font_projects') . '/config/install/';
+  $entity_manager = \Drupal::entityTypeManager();
+  $new_configurations = [
+    'field.storage.node.field_supporting_videos' => 'field_storage_config',
+    'field.field.node.project.field_supporting_videos' => 'field_config',
+    'core.entity_view_mode.media.project_video' => 'entity_view_mode',
+    'core.entity_view_display.media.remote_video.project_video' => 'entity_view_display',
+  ];
+  foreach ($new_configurations as $config_name => $entity_type) {
+    $config_values = Yaml::decode(file_get_contents($config_directory . $config_name . '.yml'));
+    $config_storage = $entity_manager->getStorage($entity_type);
+    if (!$config_storage->load($config_values['id'])) {
+      $config_storage->create($config_values)->save();
+    }
+  }
+
+  foreach (['entity_form_display', 'entity_view_display'] as $display_type) {
+    $project_display = $entity_manager->getStorage($display_type)->load('node.project.default');
+    $display_values = Yaml::decode(file_get_contents($config_directory . 'core.' . $display_type . '.node.project.default.yml'));
+    if ($project_display && !$project_display->getComponent('field_supporting_videos')) {
+      $project_display->setComponent('field_supporting_videos', $display_values['content']['field_supporting_videos'])->save();
+    }
+  }
+  $teaser_display = $entity_manager->getStorage('entity_view_display')->load('node.project.teaser');
+  if ($teaser_display) {
+    $teaser_display->removeComponent('field_supporting_videos')->save();
+  }
+
+  return t('Added optional Supporting videos to Project forms and detail pages.');
+}
 
 /**
  * Adds the readable single-tag GET filter to the existing Portfolio View.

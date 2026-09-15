@@ -4,10 +4,12 @@
 
 .footer-navigation {
   display: grid;
-  gap: calc(var(--space-scale-base-gap) * 4);
+  gap: calc(var(--space-scale-base-gap) * 3);
   width: calc(100% - (var(--layout-gutter-desktop-default) * 2));
   max-width: var(--layout-content-max-wide-default);
   margin: 0 auto var(--layout-gutter-desktop-default);
+  padding-top: calc(var(--space-scale-base-gap) * 3);
+  border-top: var(--space-scale-one) solid var(--theme-dark-border-divider-default);
 }
 
 .footer-navigation__columns {
@@ -55,6 +57,7 @@ body.jurenites-theme .footer-navigation a.footer-navigation__link--with-badge {
   text-decoration: none;
   @include tools.motion-transition(color);
 
+  &.is-active,
   &:hover,
   &:focus-visible {
     color: var(--color-palette-brand-tertiary);
@@ -159,6 +162,29 @@ body.jurenites-theme .footer-navigation .footer-navigation__resource-link--figma
   --icon-figma-fill: initial;
 }
 
+.footer-navigation__bottom-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: calc(var(--space-scale-base-gap) * 2);
+  padding-top: calc(var(--space-scale-base-gap) * 2);
+  border-top: var(--space-scale-one) solid var(--theme-dark-border-divider-default);
+}
+
+.footer-navigation__legal-navigation {
+  margin-inline-start: auto;
+  text-align: right;
+}
+
+.footer-navigation__legal-list {
+  @include tools.unstyled-list;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
 .footer-navigation__rights-message {
   margin: 0;
   color: var(--theme-dark-text-gray);
@@ -179,7 +205,7 @@ body.jurenites-theme .footer-navigation .footer-navigation__social-link {
   .footer-navigation__social-label-text--hover {
     display: inline-flex;
     align-items: center;
-    gap: calc(var(--space-scale-base-gap) * 0.5);
+    gap: var(--space-scale-two);
     visibility: hidden;
   }
 
@@ -225,6 +251,27 @@ body.jurenites-theme .footer-navigation a.footer-navigation__messenger-link[data
 
     > .footer-navigation__social-network-icon {
       --icon-gmail-fill: initial;
+    }
+  }
+}
+
+.footer-navigation__messenger-link[data-social-icon="messenger-brand-yandex-mail"] > .footer-navigation__social-network-icon {
+  --icon-yandex-mail-default-display: inline;
+  --icon-yandex-mail-color-display: none;
+
+  width: var(--component-footer-navigation-yandex-mail-icon-width-default);
+  height: var(--component-footer-navigation-yandex-mail-icon-height-default);
+}
+
+// https://www.brandcolorcode.com/yandex-mail
+body.jurenites-theme .footer-navigation a.footer-navigation__messenger-link[data-social-icon="messenger-brand-yandex-mail"] {
+  &:hover,
+  &:focus-visible {
+    color: var(--component-footer-navigation-yandex-mail-color-hover);
+
+    > .footer-navigation__social-network-icon {
+      --icon-yandex-mail-default-display: none;
+      --icon-yandex-mail-color-display: inline;
     }
   }
 }

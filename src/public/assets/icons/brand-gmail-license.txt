@@ -1,5 +1,0 @@
-Gmail 2026 logo: Google.
-Source: https://commons.wikimedia.org/wiki/File:Gmail_icon_(2026).svg
-Listed as public domain (PD-textlogo); Gmail remains a Google trademark.
-Adaptation: editor metadata and intrinsic dimensions removed; original geometry
-and gradients retained, with colors supplied by design tokens.

@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Theme definition for the dedicated QR Studio document.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_qr_studio_theme($existing_hooks, $theme_type, $active_theme, $module_path): array {
+  return [
+    'jurenites_qr_studio_document' => [
+      'variables' => [
+        'placeholder_token' => NULL,
+        'studio_url' => NULL,
+        'website_url' => NULL,
+        'favicon_url' => NULL,
+      ],
+      'template' => 'qr-studio-document',
+    ],
+  ];
+}

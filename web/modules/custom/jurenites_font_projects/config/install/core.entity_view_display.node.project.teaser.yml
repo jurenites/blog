@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.project.field_content_sections
     - field.field.node.project.field_image
     - field.field.node.project.field_tags
+    - field.field.node.project.field_supporting_videos
     - responsive_image.styles.project_thumbnail
     - node.type.project
   module:
@@ -54,5 +55,6 @@ content:
     weight: 3
     region: content
 hidden:
+  field_supporting_videos: true
   field_content_sections: true
   langcode: true

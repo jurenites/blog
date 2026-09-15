@@ -1,0 +1,7 @@
+jurenites_qr_studio.workspace:
+  path: '/qr-studio'
+  defaults:
+    _controller: '\Drupal\jurenites_qr_studio\Controller\QrStudioController::workspacePage'
+    _title: 'QR Pixel Studio'
+  requirements:
+    _permission: 'access content'

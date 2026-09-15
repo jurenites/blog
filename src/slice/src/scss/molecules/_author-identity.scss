@@ -33,3 +33,54 @@
 .author-identity__name a {
   color: inherit;
 }
+
+.author-identity__avatars {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: calc(var(--space-scale-base-gap) * 4.5);
+  height: calc(var(--space-scale-base-gap) * 4.5);
+}
+
+.author-identity--avatar-small .author-identity__avatars {
+  width: calc(var(--space-scale-base-gap) * 3);
+  height: calc(var(--space-scale-base-gap) * 3);
+}
+
+.author-identity--avatar-large .author-identity__avatars {
+  width: calc(var(--space-scale-base-gap) * 6);
+  height: calc(var(--space-scale-base-gap) * 6);
+}
+
+.author-identity--avatar-big .author-identity__avatars {
+  width: calc(var(--shape-basic-tile) * 1.5);
+  height: calc(var(--shape-basic-tile) * 1.5);
+}
+
+.author-identity__avatar-primary,
+.author-identity__avatar-secondary {
+  position: absolute;
+  display: flex;
+}
+
+.author-identity__avatar-primary {
+  top: 0;
+  left: 0;
+}
+
+.author-identity__avatar-secondary {
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.author-identity--coauthors .author-identity__text {
+  flex-wrap: wrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.author-identity__coauthor-separator {
+  color: var(--theme-dark-text-gray);
+  @include tools.typography-subtitle-2;
+}

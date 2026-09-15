@@ -1,18 +1,25 @@
 # CI/CD And Generated Artifacts
 
-The project is still in active shaping, so heavy CI is disabled for now. Keep the
-local pipeline simple and explicit.
+The project combines focused local checks with the GitHub and GitLab jobs
+documented below. The proposed Figma/Storybook/Drupal visual testing layer is
+not a CI gate yet. Keep verification claims tied to the checks actually run.
 
 ## Current Local Pipeline
 
 ```text
 src/token/tokens.yaml
-  -> generated/styles/_tokens.scss
-  -> generated/token/tokens.js
-  -> scripts/figma/design-system-sync.js
-  -> web/themes/custom/jurenites_theme/css/style.min.css
-  -> web/themes/custom/jurenites_theme/js/script.min.js
+  -> generated/styles/_tokens.scss -> shared Storybook and Drupal styling
+  -> generated/token/tokens.js -> Storybook and runtime token consumers
+                             -> explicit Figma variable/style sync
+src/slice/ -> build:theme -> Drupal theme CSS/JS and font assets
 ```
+
+This is the artifact flow, not the product milestone sequence. See
+[Project Workflow](workflow.md) for the agreed process and
+[Visual Testing Plan](visual-testing-plan.md) for the proposed comparison layer.
+That layer should first demonstrate repeatable local cases with real Drupal
+content and matched Figma/Storybook inputs, then add selected CI checks with
+reviewed baselines, screenshots, diffs, and explicit blocked/not-checked states.
 
 ## Useful Commands
 
@@ -66,7 +73,7 @@ The editable fonts and their licenses live in `src/public/assets/fonts/`.
 alongside the compiled theme CSS so a Git-based PROD update includes every font
 referenced by that CSS without requiring a build on the server. Previously this
 directory was ignored, allowing the CSS to arrive while font requests returned
-404 and Ubuntu Sans Mono fell back to Courier New.
+404 and Ubuntu Sans Mono fell through to a fallback monospace font.
 
 For an existing PROD checkout missing these files, use the font repair procedure
 in `docs/command-cheat-sheet.md`.

@@ -1,0 +1,14 @@
+name: Jurenites Editorial
+type: module
+description: Editable listing copy and content-owned component instructions.
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:block_content
+  - drupal:content_translation
+  - drupal:contextual
+  - drupal:text
+  - drupal:views
+  - jurenites_guidelines:jurenites_guidelines
+  - jurenites_skills:jurenites_skills
+  - jurenites_font_projects:jurenites_font_projects

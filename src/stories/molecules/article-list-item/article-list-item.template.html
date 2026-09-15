@@ -5,9 +5,12 @@
     </a>
   </div>
   <div class="article-list-item__body">
-    <h2 class="article-list-item__title">
-      <a class="article-list-item__title-link" href="{{article_url}}">{{teaser_title}}</a>
-    </h2>
+    <div class="article-list-item__heading">
+      <h5 class="article-list-item__title">
+        <a class="article-list-item__title-link" href="{{article_url}}">{{teaser_title}}</a>
+      </h5>
+      {{title_tags_content}}
+    </div>
     <div class="article-list-item__content">{{teaser_excerpt}}</div>
     <div class="article-list-item__meta">
       {{author_byline_content}}

@@ -1,0 +1,14 @@
+workspace:
+  version: 1.11.1
+  header: true
+  css:
+    component:
+      ui/palette.css: { preprocess: false }
+      ui/styles.css: { preprocess: false }
+  js:
+    ui/vendor/qrcodegen.js: { preprocess: false }
+    ui/vendor/jsQR.js: { preprocess: false }
+    ui/app.js:
+      preprocess: false
+      attributes:
+        type: module

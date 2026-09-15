@@ -1,0 +1,75 @@
+<?php
+
+/**
+ * @file
+ * Renders editable company collaborations with field access and cache metadata.
+ */
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_companies_theme(): array {
+  return ['jurenites_companies' => ['variables' => [
+    'section_heading' => '', 'company_items' => [], 'asset_directory' => '',
+  ]]];
+}
+
+/**
+ * Reads an allowed field and retains its access cache metadata.
+ */
+function jurenites_companies_read_field(EntityInterface $content_entity, string $field_name, CacheableMetadata $cache_metadata): mixed {
+  $field_items = $content_entity->get($field_name);
+  $field_access = $field_items->access('view', NULL, TRUE);
+  $cache_metadata->addCacheableDependency($field_access);
+  return $field_access->isAllowed() ? $field_items : NULL;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function jurenites_companies_block_content_view(array &$build_output, EntityInterface $block_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($block_entity->bundle() !== 'company_slider') {
+    return;
+  }
+  $cache_metadata = CacheableMetadata::createFromObject($block_entity)
+    ->addCacheContexts(['languages:language_content', 'languages:language_interface', 'languages:language_url']);
+  $company_build = [
+    '#theme' => 'jurenites_companies', '#company_items' => [],
+    '#section_heading' => jurenites_companies_read_field($block_entity, 'field_companies_heading', $cache_metadata)?->value ?? '',
+    '#asset_directory' => base_path() . 'themes/custom/jurenites_theme/assets/images/companies/',
+  ];
+  $company_catalogue = json_decode(file_get_contents(__DIR__ . '/data/companies.json'), TRUE, 512, JSON_THROW_ON_ERROR);
+  $companies_by_logo = array_column($company_catalogue, NULL, 'logo_file');
+  $company_fields = jurenites_companies_read_field($block_entity, 'field_companies_items', $cache_metadata);
+  foreach ($company_fields?->referencedEntities() ?? [] as $company_entity) {
+    $company_entity = \Drupal::service('entity.repository')->getTranslationFromContext($company_entity);
+    $company_access = $company_entity->access('view', NULL, TRUE);
+    $cache_metadata->addCacheableDependency($company_entity)->addCacheableDependency($company_access);
+    if (!$company_access->isAllowed()) {
+      continue;
+    }
+    $company_data = [];
+    foreach (['company_name' => 'field_company_name', 'logo_file' => 'field_company_logo', 'relationship_text' => 'field_company_relationship'] as $output_key => $field_name) {
+      $company_data[$output_key] = jurenites_companies_read_field($company_entity, $field_name, $cache_metadata)?->value ?? '';
+    }
+    foreach (['website_url' => 'field_company_website', 'projects_url' => 'field_company_projects'] as $output_key => $field_name) {
+      $link_fields = jurenites_companies_read_field($company_entity, $field_name, $cache_metadata);
+      $company_data[$output_key] = $link_fields?->isEmpty() === FALSE ? $link_fields->first()->getUrl()->toString() : '';
+    }
+    $catalogue_entry = $companies_by_logo[$company_data['logo_file']] ?? [];
+    // Keep saved logo selections stable when replacing the underlying artwork.
+    $company_data['logo_file'] = $catalogue_entry['logo_asset_file'] ?? $company_data['logo_file'];
+    $company_data['company_key'] = $catalogue_entry['company_key'] ?? $company_entity->uuid();
+    $company_data['company_link_id'] = \Drupal\Component\Utility\Html::getUniqueId('company-' . $company_data['company_key']);
+    $company_data['logo_version'] = $catalogue_entry['logo_version'] ?? '';
+    if ($company_data['company_name'] !== '') {
+      $company_build['#company_items'][] = $company_data;
+    }
+  }
+  $cache_metadata->applyTo($company_build);
+  $build_output['company_slider'] = $company_build;
+}

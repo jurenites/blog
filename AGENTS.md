@@ -59,6 +59,22 @@ Runtime code may add temporary sizing only after the page has loaded when it is
 strictly required for skeleton-loading behavior. Do not use that exception for
 the component's normal layout or final rendered appearance.
 
+## Vertical Rhythm
+
+Text line boxes must resolve to even whole CSS pixels at the default text scale;
+use the existing 8px grid for component line heights, padding, and gaps. Atom
+heights may use even sub-grid values when needed inside a larger component.
+Preserve grid-aligned typography-role line heights. Round fluid line heights up
+to the base grid, with a grid-aligned fallback. Animated text must keep its
+container height stable throughout the transition. Inline glyph bounds and
+transformed artwork are distinct from the line boxes that determine layout.
+
+## Corner Shape
+
+Use square corners for UI elements, including slider pagination markers. Avatar
+is the circular exception. Do not introduce other rounded corners unless the
+user explicitly requests them.
+
 ## Selector Scope
 
 Target the exact semantic element or component role being styled. When a
@@ -69,6 +85,10 @@ can accidentally style sibling or nested instances of the shared atom. Verify
 that other instances retain the shared atom's default presentation.
 
 ## Token Editing
+
+The user defines the exact token inventory. Reuse existing tokens; do not add
+tokens on your own. Never add palette colors or typography tokens unless the
+user explicitly requests those additions.
 
 The editable design-token source is `src/token/tokens.yaml`. Keep it readable with
 comments and namespace spacing. For Cursor or VS Code, this repo includes
@@ -82,6 +102,10 @@ stories, Figma sync scripts, SCSS, or JS. Editable color values belong in
 `src/token/tokens.yaml`; code should read generated token values or CSS
 variables from that source. Generated artifacts may contain resolved color
 values only because they are derived from the token source.
+
+Exception: Technology Stack logo colors are fixed component artwork constants
+in `src/brand/technology-stack/brand-colors.js`. Keep them out of the token file
+and shared palette; do not expose them as design-token variables.
 
 ## Documentation Versioning
 

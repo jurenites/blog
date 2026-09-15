@@ -90,6 +90,18 @@ are presentation values. Views filter by the current content language to avoid
 duplicate English/Russian rows. Translation cache metadata must include the
 language context and referenced content dependencies.
 
+URL language prefixes do not change a page's layout identity. The theme removes
+Drupal's configured prefix before adding the root `path-*` body class, so routes
+such as `/videos` and `/ru/videos` both receive `path-videos` and the same
+route-scoped CSS. Do not create language-specific layout selectors.
+
+Article translations share one node ID, but their discussions do not. A new
+comment records the content language of the Article page where it was posted,
+and each Article translation renders only comments with that language. To show
+the same thought in both languages, publish two comments rather than translating
+one comment entity. Existing comments with an incorrect language can be moved
+once: use the comment's contextual edit pencil and change **Comment language**.
+
 Company names, product names, handles, font identifiers, code and URLs retain
 their original spelling. Font specimen pangrams and embedded font metadata are
 specimens/source data; their surrounding controls are translated. Linked videos
@@ -122,12 +134,13 @@ the current guarded catalogue import remains an explicit editorial step.
 
 ```bash
 docker exec blog_jurenites_web ./vendor/bin/drush php:script scripts/translations/verify.php
+docker exec blog_jurenites_web ./vendor/bin/drush php:script tests/translated-route-layout.php
 node --test tests/portfolio-tag-filtering.test.mjs tests/font-preview.test.mjs
 node scripts/translations/export.mjs
 npm run docs:check
 ```
 
-Check English and Russian pages, the homepage slides, Contact placeholders,
+Check English and Russian pages, the About-page Hero, Contact placeholders,
 portfolio filters, project paragraphs, timeline descriptions and browser-loaded
 font labels. The verification script checks saved field pairs and anonymous
 HTTP responses. It does not submit Contact messages.
@@ -144,3 +157,13 @@ Drupal documents its native PO workflow in
 [Translating site interfaces](https://www.drupal.org/docs/administering-a-drupal-site/multilingual-guide/translating-site-interfaces).
 [Lokalise](https://lokalise.com/) is an optional workflow service, not a required
 dependency of this recipe.
+
+## Editorial copy
+
+Listing introductions and empty messages now use Page copy Content Block
+translations, not interface strings or Views text configuration. Use the block's
+Translate action in Content → Blocks. The editorial migration preserves existing
+Views language overrides and available interface translations when seeding these
+records. Later locale imports do not overwrite the block Body. Skills explanations
+and pixel-editor instructions are translated on their owning block/Paragraph.
+See `drupal-content-model.md` for the migration and contextual editing contract.

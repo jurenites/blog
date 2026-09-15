@@ -1,6 +1,19 @@
+// The native overscroll canvas must match the homepage even when its hero
+// block is not present. Keep both shell elements on the same inherited token.
+html:has(.jurenites-theme .jurenites-front-page),
+.jurenites-theme:has(.jurenites-front-page) {
+  --theme-dark-surface-background-page: var(--component-hero-section-background-edge-color);
+}
+
 .jurenites-front-page {
   min-height: 100vh;
   background: var(--component-hero-section-background-edge-color);
+}
+
+.homepage-block__heading {
+  width: 100%;
+  max-width: var(--layout-content-max-wide-default);
+  margin-inline: auto;
 }
 
 .background-preview {

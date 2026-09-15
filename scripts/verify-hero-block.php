@@ -19,11 +19,15 @@ if (!$hero_block) {
 $content_snapshot = serialize($hero_block->toArray());
 $hero_placement = Block::load('jurenites_theme_homepage_hero');
 $placement_snapshot = serialize($hero_placement->toArray());
-jurenites_hero_create_homepage_block();
+jurenites_hero_create_about_block();
 $block_storage->resetCache([$hero_block->id()]);
 if ($content_snapshot !== serialize($block_storage->load($hero_block->id())->toArray())
   || $placement_snapshot !== serialize(Block::load($hero_placement->id())->toArray())) {
   throw new RuntimeException('Re-running setup changed authored content or placement.');
+}
+$visibility_pages = $hero_placement->getVisibility()['request_path']['pages'] ?? '';
+if ($visibility_pages !== "/about\n/obo") {
+  throw new RuntimeException('Hero placement is not limited to both About pages.');
 }
 $form_display = EntityFormDisplay::load('block_content.hero.default');
 foreach (['field_hero_image', 'field_hero_eyebrow', 'field_hero_glow', 'field_hero_slides'] as $field_name) {
@@ -56,6 +60,7 @@ print json_encode([
   'slide_count' => count($hero_block->get('field_hero_slides')),
   'image_attached' => !$hero_block->get('field_hero_image')->isEmpty(),
   'placement' => $hero_placement->id(),
+  'visibility_pages' => explode("\n", $visibility_pages),
   'region' => $hero_placement->getRegion(),
   'weight' => $hero_placement->getWeight(),
   'idempotence_widgets_rendering_escaping' => 'passed',

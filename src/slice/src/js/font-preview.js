@@ -268,43 +268,6 @@ function show_glyph_dialog(glyph_dialog) {
   }
 }
 
-function open_glyph_dialog(font_preview, glyph_button) {
-  const owner_document = font_preview.ownerDocument;
-  const glyph_dialog = font_preview.querySelector("[data-font-preview-dialog]");
-  const glyph_visual = font_preview.querySelector("[data-font-preview-glyph-transition-target]");
-  const reduced_motion_requested = owner_document.defaultView
-    ?.matchMedia("(prefers-reduced-motion: reduce)").matches ?? false;
-  const shared_transition_available = typeof owner_document.startViewTransition === "function"
-    && typeof glyph_dialog.showModal === "function"
-    && glyph_visual
-    && !reduced_motion_requested;
-
-  if (!shared_transition_available) {
-    show_glyph_dialog(glyph_dialog);
-    return;
-  }
-
-  const clear_transition_markers = () => {
-    glyph_button.removeAttribute("data-font-preview-glyph-transition-source");
-    glyph_visual.removeAttribute("data-font-preview-glyph-transition-active");
-  };
-
-  glyph_button.setAttribute("data-font-preview-glyph-transition-source", "");
-
-  try {
-    const glyph_view_transition = owner_document.startViewTransition(() => {
-      glyph_button.removeAttribute("data-font-preview-glyph-transition-source");
-      glyph_visual.setAttribute("data-font-preview-glyph-transition-active", "");
-      glyph_dialog.showModal();
-    });
-    glyph_view_transition.finished.then(clear_transition_markers, clear_transition_markers);
-  }
-  catch (_transition_error) {
-    clear_transition_markers();
-    show_glyph_dialog(glyph_dialog);
-  }
-}
-
 function create_glyph_tile(font_preview, font_record, glyph_mapping) {
   const owner_document = font_preview.ownerDocument;
   const glyph_button = owner_document.createElement("button");
@@ -330,7 +293,7 @@ function create_glyph_tile(font_preview, font_record, glyph_mapping) {
   glyph_button.addEventListener("click", () => {
     font_preview.jurenites_font_preview_opener = glyph_button;
     populate_glyph_dialog(font_preview, font_record, glyph_mapping);
-    open_glyph_dialog(font_preview, glyph_button);
+    show_glyph_dialog(font_preview.querySelector("[data-font-preview-dialog]"));
   });
   return glyph_button;
 }

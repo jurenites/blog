@@ -9,7 +9,7 @@
   min-width: var(--component-text-input-minimum-width-default);
   max-width: var(--component-text-input-width-full);
   height: calc(var(--space-scale-base-gap) * 5);
-  padding: 0 calc(var(--space-scale-base-gap) * 0.5);
+  padding: 0 var(--space-scale-base-gap);
   border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
   border-radius: var(--shape-corner-radius-base);
   background: var(--color-palette-light-black);
@@ -57,7 +57,7 @@
   align-items: center;
   width: 100%;
   height: calc(var(--space-scale-base-gap) * 5);
-  padding: 0 0 0 calc(var(--space-scale-base-gap) * 0.5);
+  padding: 0 0 0 var(--space-scale-base-gap);
   border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
   border-radius: var(--shape-corner-radius-base);
   background: var(--color-palette-light-black);
@@ -130,7 +130,7 @@
 .select-input__menu {
   position: absolute;
   inset-block-start: calc(100% + var(--space-scale-two));
-  inset-inline: calc(var(--space-scale-base-gap) * -0.5);
+  inset-inline: 0;
   z-index: 10;
   margin: 0;
   padding: calc(var(--space-scale-base-gap) * 0.5) 0;

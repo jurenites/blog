@@ -1,0 +1,38 @@
+<?php
+
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\paragraphs\Entity\ParagraphsType;
+
+/** Implements hook_install(). */
+function jurenites_screen_slider_install(): void {
+  if (!ParagraphsType::load('screen_slider')) {
+    ParagraphsType::create(['id' => 'screen_slider', 'label' => 'Screen slider'])->save();
+  }
+  if (!FieldStorageConfig::loadByName('paragraph', 'field_screen_images')) {
+    FieldStorageConfig::create([
+      'entity_type' => 'paragraph', 'field_name' => 'field_screen_images',
+      'type' => 'image', 'cardinality' => -1,
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('paragraph', 'screen_slider', 'field_screen_images')) {
+    FieldConfig::create([
+      'entity_type' => 'paragraph', 'bundle' => 'screen_slider',
+      'field_name' => 'field_screen_images', 'label' => 'Screens',
+      'description' => 'Screens display at 375 × 667 px, in natural filename order (1, 2, …, 40).',
+      'translatable' => TRUE, 'required' => TRUE,
+      'settings' => ['file_directory' => 'projects/screens', 'file_extensions' => 'png jpg jpeg webp', 'alt_field' => TRUE, 'alt_field_required' => TRUE],
+    ])->save();
+  }
+  $display_settings = ['targetEntityType' => 'paragraph', 'bundle' => 'screen_slider', 'mode' => 'default', 'status' => TRUE];
+  EntityFormDisplay::create($display_settings)
+    ->setComponent('field_screen_images', ['type' => 'image_image', 'weight' => 0])->save();
+  EntityViewDisplay::create($display_settings)->removeComponent('field_screen_images')->save();
+  $sections_field = FieldConfig::loadByName('node', 'project', 'field_content_sections');
+  $handler_settings = $sections_field->getSetting('handler_settings');
+  $handler_settings['target_bundles']['screen_slider'] = 'screen_slider';
+  $handler_settings['target_bundles_drag_drop']['screen_slider'] = ['weight' => 10, 'enabled' => TRUE];
+  $sections_field->setSetting('handler_settings', $handler_settings)->save();
+}

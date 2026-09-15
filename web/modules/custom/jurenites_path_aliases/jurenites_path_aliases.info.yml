@@ -1,8 +1,9 @@
 name: 'Jurenites path aliases'
 type: module
-description: 'Provides automatic, title-based URL aliases for public node detail pages.'
+description: 'Provides automatic URL aliases and redirects public pages to their clean URLs.'
 package: Jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:node
   - pathauto:pathauto
+  - redirect:redirect

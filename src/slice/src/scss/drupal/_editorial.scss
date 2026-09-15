@@ -1,0 +1,29 @@
+// Drupal-only wrappers for CMS content and contextual editing.
+@use "../tools";
+
+.site-header__branding {
+  display: inline-flex;
+  justify-self: start;
+  min-width: 0;
+}
+
+@media (width < tools.$system-breakpoint-site-header-inline-min) {
+  .site-header__branding {
+    grid-area: brand;
+  }
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .site-header--enhanced .site-header__branding {
+    display: none;
+  }
+}
+
+.editorial-copy {
+  max-width: var(--layout-content-max-blog-default);
+  margin-block-end: calc(var(--space-scale-base-gap) * 3);
+}
+
+.editorial-copy p:last-child {
+  margin-block-end: 0;
+}

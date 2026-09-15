@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 1.48.5
-Reviewed: 2026-09-08
+Version: 1.106.2
+Reviewed: 2026-09-12
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -28,6 +28,33 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 
 ## Current Source Contract
 
+- Production HTTPS uses ISPmanager-managed Let's Encrypt for the apex and
+  `www` domains. The real checkout is under `/www/jurenites.com`, only `/web`
+  is public, and the former `/apps/blog_jurenites` path remains a compatibility
+  symlink. See the deployment and renewal notes in `command-cheat-sheet.md`.
+
+- Listing introductions and empty messages use revisioned Page copy Content
+  Blocks. Skills explanations and pixel instructions belong to content fields;
+  one administrator pencil appears on its hovered content region; menu items turn
+  white only on hover or keyboard focus. See the editing and
+  migration contract in `drupal-content-model.md`.
+
+- The agreed workflow follows the Cookbook's twelve flexible milestones, with
+  feedback returning to affected decisions. The proposed visual testing layer
+  connects Figma, Storybook, and Drupal with real content through iframe review
+  and controlled screenshot comparisons. The first local dashboard and
+  Storybook/Drupal case are implemented; Figma comparison and automatic CI
+  ingestion remain pending. See `workflow.md` and `visual-testing-plan.md`.
+
+- Product ideas start in task conversations. Durable decisions and deferred
+  ideas live in the relevant existing docs; the obsolete root idea file has
+  been removed. Cookbook workflow copy and the translation catalogue follow
+  the same convention.
+
+- The desktop Site Header holds separate “A” and “I” initials in a fixed compact
+  layout slot. Hover or keyboard focus expands them letter by letter into
+  “Alexander Ilivanov” without moving the centered navigation; the full name
+  remains visible for two seconds after the interaction ends.
 - `/contact` ends with an editable complete desk photograph in cool grayscale.
   The Contact photograph block shares responsive styling with Storybook and
   remains independent of the disabled layered scene. See `contact-photo.md`.
@@ -78,8 +105,8 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - Typography uses seventeen one-line CSS `font` shorthand role tokens. Open Sans owns
   website headings, body copy, and the Storybook UI; most roles below 24px use
   the attached Light face at weight 300, while Badge is semibold at 14px for
-  compact emphasis. Bold Courier New owns Storybook code
-  text; Ubuntu Sans Mono owns prominent numbers and Date Value date/time text;
+  compact emphasis. Ubuntu Sans Mono owns machine-readable Storybook code and
+  technical metadata, prominent numbers, and Date Value date/time text;
   Roundabout is demonstration-only; and 4pixel is limited to demonstrations and
   compact technical details such as the bottom-right version watermark. Anchors
   inherit the typography of their surrounding content; `.text-link` is the
@@ -356,6 +383,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 - The two-image paginator's 4px Crossfade Dot is a shared Storybook/Drupal atom.
   Its inactive and active states remain dark gray and white, while hover adds a
   1px solid-white outline around the visible circle.
+- Pulse Indicator is a decorative Storybook atom with a fixed 8px white dot and
+  an 8px translucent radius that expands to 32px over three seconds while fading
+  away. Its paused example supports inspection, and reduced-motion preferences
+  suppress the repeating radius animation.
 - Tooltip renders as a document-level, viewport-fixed overlay so it never changes
   its trigger's dimensions or document flow. It uses a token gap, automatic
   bottom/top/right/left collision handling, a manual position override, and an
@@ -450,6 +481,9 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   hidden. The
   Author controls stay hidden while adding comments, but Drupal administrators
   can use them while editing an existing comment to correct its account owner.
+  New comments inherit the viewed Article translation's content language, and
+  each translation renders only its matching comments even though both
+  translations share one Article node ID.
 - Gin hides Drupal's Shortcuts toolbar, Bookmarks menu, and page-title action.
   The Shortcut module and its stored sets remain installed and unchanged.
 - Storybook uses its repository-owned 16px SVG logo at

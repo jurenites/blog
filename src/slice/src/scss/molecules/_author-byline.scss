@@ -22,7 +22,6 @@
 }
 
 .author-byline__timing--empty,
-.author-byline__identity-separator--hidden,
 .author-byline__separator--hidden {
   display: none;
 }
@@ -35,10 +34,6 @@
 
 .author-byline--stacked .author-byline__timing {
   padding-left: calc(var(--space-scale-base-gap) * 4);
-}
-
-.author-byline--stacked .author-byline__identity-separator {
-  display: none;
 }
 
 .author-byline--stacked.author-byline--avatar-small .author-byline__timing {

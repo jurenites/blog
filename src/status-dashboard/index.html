@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Component status · Jurenites</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body class="status-dashboard">
+  <main class="status-dashboard__main">
+    <header class="status-dashboard__header">
+      <a class="status-dashboard__brand" href="/">Jurenites <span>/ Development</span></a>
+      <button class="status-dashboard__refresh" type="button" id="refresh-results">Refresh results</button>
+    </header>
+    <section class="status-dashboard__intro" aria-labelledby="page-heading">
+      <p class="status-dashboard__eyebrow">Design system health</p>
+      <h1 id="page-heading">Component status</h1>
+      <p>From design to the page. Review what passed, what failed, and what still needs a check.</p>
+      <p class="status-dashboard__summary" id="status-summary" role="status">Loading component catalogue…</p>
+      <p class="status-dashboard__updated" id="updated-time"></p>
+    </section>
+    <div class="status-dashboard__legend" aria-label="Status legend">
+      <span><i class="component-status__light component-status__light--passed" aria-hidden="true"></i>Passed</span>
+      <span><i class="component-status__light component-status__light--attention" aria-hidden="true"></i>Incomplete, blocked, or stale</span>
+      <span><i class="component-status__light component-status__light--failed" aria-hidden="true"></i>Failed</span>
+    </div>
+    <section aria-label="Component catalogue">
+      <div class="status-dashboard__filters">
+        <label>Find a component<input id="component-search" type="search" placeholder="Search components" autocomplete="off"></label>
+        <label>Show<select id="status-filter"><option value="all">All statuses</option><option value="passed">Passed</option><option value="attention">Needs attention / not checked</option><option value="failed">Failed</option></select></label>
+      </div>
+      <p id="report-errors" role="alert" hidden></p>
+      <div id="component-catalogue"></div>
+      <p id="empty-results" hidden>No components match these filters.</p>
+    </section>
+    <section class="status-dashboard__details" id="component-details" aria-labelledby="detail-heading" hidden tabindex="-1"></section>
+    <section class="status-dashboard__pipeline" aria-labelledby="pipeline-heading">
+      <h2 id="pipeline-heading">CI/CD & diagnostics</h2>
+      <div id="pipeline-results"><p>No pipeline reports have been imported.</p></div>
+    </section>
+    <footer class="status-dashboard__footer">Local reports · A green light applies only to the checks listed in its details. Source changes and results older than 24 hours need a new run.</footer>
+  </main>
+</body>
+</html>

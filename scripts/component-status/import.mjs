@@ -1,0 +1,14 @@
+import { mkdir, readFile, writeFile, rename } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { REPORT_DIRECTORY } from './server.mjs';
+import { validate_report } from './report.mjs';
+const import_path = process.argv[2];
+if (!import_path) throw new Error('Usage: npm run status:import -- /path/to/report.json');
+const report_data = validate_report(JSON.parse(await readFile(resolve(import_path), 'utf8')));
+const source_name = report_data.source_name.replace(/[^a-zA-Z0-9_-]/g, '-');
+if (source_name === 'local' || source_name.startsWith('local-')) throw new Error('Use a distinct CI or diagnostics source name; local results are runner-owned.');
+await mkdir(REPORT_DIRECTORY, { recursive: true });
+const report_path = resolve(REPORT_DIRECTORY, `report-${source_name}.json`);
+await writeFile(`${report_path}.tmp`, JSON.stringify(report_data, null, 2));
+await rename(`${report_path}.tmp`, report_path);
+console.log(`Imported ${report_data.source_name}; results retain their original timestamp and source fingerprint.`);

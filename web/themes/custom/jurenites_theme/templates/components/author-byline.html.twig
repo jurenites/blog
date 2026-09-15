@@ -14,9 +14,12 @@
     author_name_markup: author_name_markup,
     author_name_text: author_name_text,
     author_url: author_url,
+    coauthor_name_text: coauthor_name_text,
+    coauthor_url: coauthor_url,
+    coauthor_avatar_image: coauthor_avatar_image,
+    coauthor_avatar_initials: coauthor_avatar_initials,
   } only %}
   {% if published_date_markup or (reading_time_minutes and reading_time_label) %}
-    <span class="author-byline__identity-separator" aria-hidden="true">&middot;</span>
     <div class="author-byline__timing">
       {% if published_date_markup %}
         <span class="author-byline__published">

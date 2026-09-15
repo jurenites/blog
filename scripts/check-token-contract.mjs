@@ -2,6 +2,7 @@ import { readdir, readFile } from "node:fs/promises";
 import { extname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { TOKEN_VALUES } from "../generated/token/tokens.js";
+import { find_disallowed_opacity } from "./style-opacity-contract.mjs";
 import { loadTokenTree } from "./build-tokens.mjs";
 
 const ROOT_DIRECTORY = resolve(fileURLToPath(new URL("..", import.meta.url)));
@@ -44,7 +45,6 @@ const EXPECTED_TYPOGRAPHY_ROLES = new Set([
   "body-2",
   "link",
   "caption",
-  "code",
   "machine-readable",
   "badge",
   "overline",
@@ -77,6 +77,8 @@ const external_css_variables = new Set([
   "--gin-font-size-s",
   // Drupal core supplies the current toolbar displacement at runtime.
   "--drupal-displace-offset-top",
+  "--drupal-displace-offset-left",
+  "--drupal-displace-offset-right",
 ]);
 const contract_errors = [];
 const token_source_content = await readFile(TOKEN_SOURCE_PATH, "utf8");
@@ -84,6 +86,7 @@ const token_source_content = await readFile(TOKEN_SOURCE_PATH, "utf8");
 const token_tree = await loadTokenTree(TOKEN_SOURCE_PATH);
 const typography_roles = Object.entries(token_tree.typography || {})
   .filter(([role_name]) => role_name !== "font-family");
+const grid_unit_size = Number.parseFloat(token_tree.space.scale["base-gap"].$value);
 
 for (const expected_role of EXPECTED_TYPOGRAPHY_ROLES) {
   if (!typography_roles.some(([role_name]) => role_name === expected_role)) {
@@ -97,6 +100,11 @@ for (const [role_name, role_token] of typography_roles) {
   if (typeof role_token?.$value !== "string") {
     contract_errors.push(`src/token/tokens.yaml: typography role ${role_name} must be one CSS font shorthand string`);
     continue;
+  }
+  const typography_metrics = role_token.$value.match(/(?:^|\s)(\d+(?:\.\d+)?)px\/(\d+(?:\.\d+)?)px\s/);
+  if (!typography_metrics || Number(typography_metrics[2]) < Number(typography_metrics[1])
+    || Number(typography_metrics[2]) % grid_unit_size !== 0) {
+    contract_errors.push(`src/token/tokens.yaml: typography role ${role_name} requires an explicit px line height at least its font size and divisible by the ${grid_unit_size}px base grid`);
   }
   if (role_token.$value.includes("roundabout")) {
     contract_errors.push(`src/token/tokens.yaml: Roundabout is demonstration-only and cannot own typography role ${role_name}`);
@@ -151,12 +159,19 @@ for (const scan_directory of SCAN_DIRECTORIES) {
     }
 
     const source_content = await readFile(source_path, "utf8");
-    const hex_matches = [...source_content.matchAll(HEX_PATTERN)];
+    // Owner-approved component artwork constants are outside the design palette.
+    const hex_matches = relative_path === "src/brand/technology-stack/brand-colors.js"
+      ? [] : [...source_content.matchAll(HEX_PATTERN)];
     for (const hex_match of hex_matches) {
       contract_errors.push(`${relative_path}: hardcoded color ${hex_match[0]}`);
     }
 
-    if (STYLE_EXTENSIONS.has(extname(source_path)) && CSS_OPACITY_PATTERN.test(source_content)) {
+    if ([".scss", ".css"].includes(extname(source_path))) {
+      for (const line_number of find_disallowed_opacity(source_content)) {
+        contract_errors.push(`${relative_path}:${line_number}: CSS opacity must be represented by a token color; only 0/1 visibility keyframes are allowed`);
+      }
+    }
+    else if (STYLE_EXTENSIONS.has(extname(source_path)) && CSS_OPACITY_PATTERN.test(source_content)) {
       contract_errors.push(`${relative_path}: CSS opacity must be represented by a token color`);
     }
     CSS_OPACITY_PATTERN.lastIndex = 0;
@@ -175,6 +190,10 @@ for (const scan_directory of SCAN_DIRECTORIES) {
     if (extname(source_path) === ".scss") {
       if (relative_path.startsWith(SHARED_THEME_SCSS_PREFIX)) {
         const uncommented_source = source_without_style_comments(source_content)
+          // Screen exports have user-specified 375 x 667 artwork geometry.
+          .replace(relative_path === "src/slice/src/scss/organisms/_screen-slider.scss"
+            ? /^\$screen-(?:width: 375|height: 667)px;/gm : /$^/g,
+          (source_match) => " ".repeat(source_match.length))
           // Two author-adjusted photograph coordinates, explicitly kept local.
           .replace(relative_path === "src/slice/src/scss/organisms/_hero-section.scss"
             ? /^\$hero-photo-(?:top|right)-offset:\s*\d+(?:\.\d+)?px;/gm : /$^/g,

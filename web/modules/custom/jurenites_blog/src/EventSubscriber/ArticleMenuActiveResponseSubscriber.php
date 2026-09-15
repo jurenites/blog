@@ -34,7 +34,7 @@ final class ArticleMenuActiveResponseSubscriber implements EventSubscriberInterf
 
     $node_entity = $this->currentRouteMatch->getParameter('node');
     if (!$node_entity instanceof NodeInterface
-      || $node_entity->bundle() !== 'article') {
+      || !in_array($node_entity->bundle(), ['article', 'video'], TRUE)) {
       return;
     }
 
@@ -43,8 +43,7 @@ final class ArticleMenuActiveResponseSubscriber implements EventSubscriberInterf
       return;
     }
 
-    $active_system_path = $node_entity->hasField('field_youtube_video')
-      && !$node_entity->get('field_youtube_video')->isEmpty()
+    $active_system_path = $node_entity->bundle() === 'video'
         ? 'videos'
         : 'blog';
     $html_response->setContent(static::setArticleMenuActiveClass(

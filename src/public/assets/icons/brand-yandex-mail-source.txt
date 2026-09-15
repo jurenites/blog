@@ -1,0 +1,5 @@
+Color artwork: https://upload.wikimedia.org/wikipedia/commons/5/55/Yandex_Mail_icon.svg
+Downloaded 2026-09-12. Original path geometry preserved; colors reference design tokens.
+Default artwork: user-edited white envelope, preserving 0.81 side-panel and 0.5 top-flap opacity.
+Both states are centered in a 16 x 12 viewport using uniform transforms.
+Official envelope: 16 x 11.73336; white envelope: 16 x 11.

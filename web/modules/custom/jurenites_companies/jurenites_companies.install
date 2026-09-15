@@ -1,0 +1,171 @@
+<?php
+
+/**
+ * @file
+ * Creates a revisionable company slider without modifying existing page content.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\language\Entity\ContentLanguageSettings;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\paragraphs\Entity\ParagraphsType;
+
+/**
+ * Creates missing fields and editor widgets using the existing block convention.
+ */
+function jurenites_companies_add_field(string $entity_type, string $bundle_name, string $field_name, array $field_options, array $widget_options): void {
+  $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
+  if ($field_storage === NULL) {
+    $field_storage = FieldStorageConfig::create([
+      'field_name' => $field_name, 'entity_type' => $entity_type,
+      'type' => $field_options['type'], 'cardinality' => $field_options['cardinality'] ?? 1,
+      'settings' => $field_options['storage_settings'] ?? [], 'translatable' => TRUE,
+    ]);
+    $field_storage->save();
+  }
+  if (FieldConfig::loadByName($entity_type, $bundle_name, $field_name) === NULL) {
+    FieldConfig::create([
+      'field_storage' => $field_storage, 'bundle' => $bundle_name,
+      'label' => $field_options['label'], 'description' => $field_options['description'] ?? '',
+      'required' => $field_options['required'] ?? FALSE,
+      'settings' => $field_options['settings'] ?? [], 'translatable' => TRUE,
+    ])->save();
+  }
+  $display_id = "$entity_type.$bundle_name.default";
+  $form_display = EntityFormDisplay::load($display_id) ?? EntityFormDisplay::create([
+    'targetEntityType' => $entity_type, 'bundle' => $bundle_name, 'mode' => 'default', 'status' => TRUE,
+  ]);
+  if ($form_display->getComponent($field_name) === NULL) {
+    $form_display->setComponent($field_name, $widget_options + ['region' => 'content'])->save();
+  }
+  $view_display = EntityViewDisplay::load($display_id) ?? EntityViewDisplay::create([
+    'targetEntityType' => $entity_type, 'bundle' => $bundle_name, 'mode' => 'default', 'status' => TRUE,
+  ]);
+  $view_display->removeComponent($field_name)->save();
+}
+
+
+/**
+ * Implements hook_install(). Seeds once so editorial changes survive.
+ */
+function jurenites_companies_install(): void {
+  if (\Drupal::state()->get('jurenites_companies.initialized')) {
+    return;
+  }
+  if (!BlockContentType::load('company_slider')) {
+    BlockContentType::create(['id' => 'company_slider', 'label' => 'Company slider', 'revision' => TRUE])->save();
+  }
+  if (!ParagraphsType::load('company_collaboration')) {
+    ParagraphsType::create(['id' => 'company_collaboration', 'label' => 'Company collaboration'])->save();
+  }
+  $company_catalogue = json_decode(file_get_contents(__DIR__ . '/data/companies.json'), TRUE, 512, JSON_THROW_ON_ERROR);
+  $logo_options = array_column($company_catalogue, 'company_name', 'logo_file');
+  jurenites_companies_add_field('block_content', 'company_slider', 'field_companies_heading', [
+    'type' => 'string', 'label' => 'Section heading', 'required' => TRUE,
+  ], ['type' => 'string_textfield', 'weight' => 0]);
+  jurenites_companies_add_field('block_content', 'company_slider', 'field_companies_items', [
+    'type' => 'entity_reference_revisions', 'label' => 'Companies', 'cardinality' => -1,
+    'storage_settings' => ['target_type' => 'paragraph'],
+    'settings' => ['handler' => 'default:paragraph', 'handler_settings' => [
+      'target_bundles' => ['company_collaboration' => 'company_collaboration'],
+      'target_bundles_drag_drop' => ['company_collaboration' => ['weight' => 0, 'enabled' => TRUE]],
+    ]],
+  ], ['type' => 'paragraphs', 'weight' => 1, 'settings' => [
+    'title' => 'Company', 'title_plural' => 'Companies', 'edit_mode' => 'closed',
+    'closed_mode' => 'summary', 'autocollapse' => 'none', 'add_mode' => 'button',
+    'form_display_mode' => 'default', 'default_paragraph_type' => 'company_collaboration',
+  ]]);
+  // Translate paragraph fields while sharing the ordered company references.
+  FieldConfig::loadByName('block_content', 'company_slider', 'field_companies_items')->setTranslatable(FALSE)->save();
+  foreach (['field_company_name' => 'Company name', 'field_company_relationship' => 'Relationship'] as $field_name => $field_label) {
+    jurenites_companies_add_field('paragraph', 'company_collaboration', $field_name, [
+      'type' => 'string', 'label' => $field_label, 'required' => TRUE,
+    ], ['type' => 'string_textfield', 'weight' => $field_name === 'field_company_name' ? 0 : 2]);
+  }
+  jurenites_companies_add_field('paragraph', 'company_collaboration', 'field_company_logo', [
+    'type' => 'list_string', 'label' => 'Official logo', 'required' => TRUE,
+    'storage_settings' => ['allowed_values' => $logo_options],
+  ], ['type' => 'options_select', 'weight' => 1]);
+  foreach (['field_company_website' => 'Company website', 'field_company_projects' => 'See the projects'] as $field_name => $field_label) {
+    jurenites_companies_add_field('paragraph', 'company_collaboration', $field_name, [
+      'type' => 'link', 'label' => $field_label, 'required' => TRUE,
+      'settings' => ['link_type' => $field_name === 'field_company_website' ? 16 : 1, 'title' => 0],
+    ], ['type' => 'link_default', 'weight' => $field_name === 'field_company_website' ? 3 : 4]);
+  }
+  foreach (['block_content' => 'company_slider', 'paragraph' => 'company_collaboration'] as $entity_type => $bundle_name) {
+    ContentLanguageSettings::loadByEntityTypeBundle($entity_type, $bundle_name)
+      ->setLanguageAlterable(TRUE)->setThirdPartySetting('content_translation', 'enabled', TRUE)->save();
+  }
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+  $company_uuid = '1fe32d75-ad16-4b41-bc9d-b75085794a2e';
+  if (!\Drupal::entityTypeManager()->getStorage('block_content')->loadByProperties(['uuid' => $company_uuid])) {
+    $company_paragraphs = [];
+    foreach ($company_catalogue as $company_data) {
+      $project_uri = 'internal:/timeline';
+      if ($company_data['target_project'] !== '') {
+        $timeline_nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['uuid' => 'e615b87a-c6ab-429f-b417-09ca51e57204']);
+        foreach ($timeline_nodes as $timeline_node) {
+          foreach ($timeline_node->get('field_timeline_items')->referencedEntities() as $timeline_item) {
+            if ($timeline_item->getUntranslated()->get('field_timeline_name')->value === $company_data['target_project']) {
+              $project_uri .= '#timeline-project-' . $timeline_item->uuid() . '-' . $timeline_item->get('field_timeline_periods')->value;
+              break 2;
+            }
+          }
+        }
+        if ($project_uri === 'internal:/timeline') {
+          throw new \RuntimeException('Missing requested timeline project: ' . $company_data['target_project']);
+        }
+      }
+      $company_paragraph = Paragraph::create([
+        'type' => 'company_collaboration', 'langcode' => 'en',
+        'field_company_name' => $company_data['company_name'],
+        'field_company_logo' => $company_data['logo_file'],
+        'field_company_relationship' => $company_data['relationship_text'],
+        'field_company_website' => ['uri' => $company_data['website_url']],
+        'field_company_projects' => ['uri' => $project_uri],
+      ]);
+      if (\Drupal::languageManager()->getLanguage('ru')) {
+        $company_paragraph->addTranslation('ru', [
+          'field_company_name' => $company_data['company_name'],
+          'field_company_logo' => $company_data['logo_file'],
+          'field_company_relationship' => match ($company_data['relationship_text']) {
+            'Indirect collaboration' => 'Косвенное сотрудничество',
+            'Direct collaboration · Ongoing' => 'Прямое сотрудничество · Продолжается',
+            default => 'Прямое сотрудничество',
+          },
+          'field_company_website' => ['uri' => $company_data['website_url']],
+          'field_company_projects' => ['uri' => $project_uri],
+        ]);
+      }
+      $company_paragraphs[] = $company_paragraph;
+    }
+    $company_block = BlockContent::create([
+      'uuid' => $company_uuid, 'type' => 'company_slider', 'langcode' => 'en',
+      'info' => 'Companies I have worked with', 'reusable' => TRUE, 'status' => TRUE,
+      'field_companies_heading' => 'Companies I have worked with', 'field_companies_items' => $company_paragraphs,
+    ]);
+    if (\Drupal::languageManager()->getLanguage('ru')) {
+      $company_block->addTranslation('ru', [
+        'info' => 'Компании, с которыми я работал',
+        'field_companies_heading' => 'Компании, с которыми я работал', 'field_companies_items' => $company_paragraphs,
+      ]);
+    }
+    $company_block->save();
+  }
+  if (!Block::load('jurenites_theme_companies')) {
+    $plugin_identifier = 'block_content:' . $company_uuid;
+    Block::create([
+      'id' => 'jurenites_theme_companies', 'theme' => 'jurenites_theme', 'region' => 'content',
+      'weight' => 90, 'status' => TRUE, 'plugin' => $plugin_identifier,
+      'settings' => ['id' => $plugin_identifier, 'label' => 'Companies I have worked with', 'label_display' => '0', 'provider' => 'block_content', 'view_mode' => 'full'],
+      'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => "/about\n/obo"]],
+    ])->save();
+  }
+  \Drupal::state()->set('jurenites_companies.initialized', TRUE);
+}

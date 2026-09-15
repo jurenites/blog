@@ -1,0 +1,17 @@
+{
+  "article_title": "Conway’s Game of Life: simple rules, a universe of possibilities",
+  "article_summary": "A tribute to John Horton Conway, with a live field of tiny squares and circles, a guide to the rules, and personal reflections on emergence—from cellular automata to the physical world.",
+  "article_tags": ["#Mathematics", "#Programming", "#Science"],
+  "supporting_videos": [
+    {
+      "media_uuid": "147ab9a0-11b8-44ea-9517-52e565c10ced",
+      "video_title": "Inventing Game of Life (John Conway) — Numberphile",
+      "video_url": "https://www.youtube.com/watch?v=R9Plq-D1gEk"
+    },
+    {
+      "media_uuid": "9ea56a88-8db5-463c-91af-ec336b2c2ff1",
+      "video_title": "Lenia: Mathematical Life Forms — Bert Wang-Chak Chan",
+      "video_url": "https://www.youtube.com/watch?v=iE46jKYcI4Y"
+    }
+  ]
+}

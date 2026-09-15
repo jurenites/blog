@@ -1,0 +1,111 @@
+<?php
+
+/**
+ * @file
+ * Seeds a reusable FAQ once, preserving subsequent CMS edits.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\language\Entity\ContentLanguageSettings;
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_faq_install(): void {
+  if (\Drupal::state()->get('jurenites_faq.initialized')) {
+    return;
+  }
+  if (!BlockContentType::load('faq')) {
+    BlockContentType::create([
+      'id' => 'faq', 'label' => 'FAQ', 'revision' => TRUE,
+      'description' => 'Expandable questions and formatted answers.',
+    ])->save();
+  }
+  $display_settings = ['targetEntityType' => 'block_content', 'bundle' => 'faq', 'mode' => 'default', 'status' => TRUE];
+  $form_display = EntityFormDisplay::load('block_content.faq.default') ?? EntityFormDisplay::create($display_settings);
+  $view_display = EntityViewDisplay::load('block_content.faq.default') ?? EntityViewDisplay::create($display_settings);
+  $field_definitions = [
+    'field_faq_heading' => ['string', 'Heading, first line', [], 'string_textfield'],
+    'field_faq_subheading' => ['string', 'Heading, second line', [], 'string_textfield'],
+    'field_faq_items' => ['text_with_summary', 'Questions and answers', ['display_summary' => TRUE, 'required_summary' => TRUE], 'text_textarea_with_summary'],
+  ];
+  $field_weight = 0;
+  foreach ($field_definitions as $field_name => [$field_type, $field_label, $field_settings, $widget_type]) {
+    if (!FieldStorageConfig::loadByName('block_content', $field_name)) {
+      FieldStorageConfig::create([
+        'entity_type' => 'block_content', 'field_name' => $field_name,
+        'type' => $field_type, 'cardinality' => $field_name === 'field_faq_items' ? -1 : 1,
+      ])->save();
+    }
+    if (!FieldConfig::loadByName('block_content', 'faq', $field_name)) {
+      FieldConfig::create([
+        'entity_type' => 'block_content', 'bundle' => 'faq',
+        'field_name' => $field_name, 'label' => $field_label, 'required' => TRUE,
+        'translatable' => TRUE, 'settings' => $field_settings,
+      ])->save();
+    }
+    $form_display->setComponent($field_name, ['type' => $widget_type, 'weight' => $field_weight++, 'settings' => ['show_summary' => TRUE, 'summary_rows' => 2, 'rows' => 5]]);
+    $view_display->removeComponent($field_name);
+  }
+  $form_display->setComponent('info', ['type' => 'string_textfield', 'weight' => -5]);
+  $form_display->setComponent('status', ['type' => 'boolean_checkbox', 'weight' => 5])->save();
+  $view_display->save();
+  ContentLanguageSettings::loadByEntityTypeBundle('block_content', 'faq')
+    ->setLanguageAlterable(TRUE)->setThirdPartySetting('content_translation', 'enabled', TRUE)->save();
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+
+  $faq_uuid = '56aca0c0-83bf-48b3-9e60-e224c9b56778';
+  if (!\Drupal::entityTypeManager()->getStorage('block_content')->loadByProperties(['uuid' => $faq_uuid])) {
+    $faq_block = BlockContent::create([
+      'uuid' => $faq_uuid, 'type' => 'faq', 'langcode' => 'en',
+      'info' => 'FAQ', 'reusable' => TRUE, 'status' => TRUE,
+      'field_faq_heading' => 'Questions?',
+      'field_faq_subheading' => 'Here are answers.',
+      'field_faq_items' => [
+        ['summary' => 'How do you run projects?', 'value' => '<p>I begin by getting to know your goals, then turn them into a design plan with weekly milestones. Regular progress notes, async check-ins, and timely replies keep you involved without having to manage every detail. Explore my <a href="/cookbook">Cookbook</a> for a closer look at the process.</p>', 'format' => 'basic_html'],
+        ['summary' => 'Can we hop on calls?', 'value' => '<p>Absolutely. We begin with a strategy call to agree on the direction. From there, most updates happen asynchronously so we can stay focused. Whenever a conversation would help us move forward, we can arrange a call.</p>', 'format' => 'basic_html'],
+      ],
+    ]);
+    if (\Drupal::languageManager()->getLanguage('ru')) {
+      $faq_block->addTranslation('ru', [
+        'info' => 'FAQ',
+        'field_faq_heading' => 'Есть вопросы?',
+        'field_faq_subheading' => 'Вот ответы.',
+        'field_faq_items' => [
+          ['summary' => 'Как вы ведёте проекты?', 'value' => '<p>Сначала я разбираюсь в ваших целях, затем составляю план дизайна с еженедельными этапами. Регулярные сообщения о прогрессе, асинхронные обсуждения и своевременные ответы помогают вам следить за работой без постоянного контроля. Подробнее о процессе — в моём <a href="/cookbook">Cookbook</a>.</p>', 'format' => 'basic_html'],
+          ['summary' => 'Можно ли созваниваться?', 'value' => '<p>Конечно. Начинаем со стратегического звонка, чтобы договориться о направлении работы. Дальше большинство вопросов обсуждаем асинхронно, сохраняя время для сосредоточенной работы. Если разговор поможет быстрее продвинуться, договоримся о звонке.</p>', 'format' => 'basic_html'],
+        ],
+      ]);
+    }
+    $faq_block->save();
+  }
+  if (!Block::load('jurenites_theme_faq')) {
+    $plugin_identifier = 'block_content:' . $faq_uuid;
+    Block::create([
+      'id' => 'jurenites_theme_faq', 'theme' => 'jurenites_theme',
+      'region' => 'content', 'weight' => 110, 'status' => TRUE, 'plugin' => $plugin_identifier,
+      'settings' => ['id' => $plugin_identifier, 'label' => 'FAQ', 'label_display' => '0', 'provider' => 'block_content', 'view_mode' => 'full'],
+      'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => "/about\n/obo"]],
+    ])->save();
+  }
+  \Drupal::state()->set('jurenites_faq.initialized', TRUE);
+}
+
+/**
+ * Moves the existing FAQ to the bottom of About without changing its content.
+ */
+function jurenites_faq_update_11001(): void {
+  $faq_placement = Block::load('jurenites_theme_faq');
+  if ($faq_placement) {
+    $faq_placement->setRegion('content')->setWeight(110);
+    $faq_placement->setVisibilityConfig('request_path', [
+      'id' => 'request_path', 'negate' => FALSE, 'pages' => "/about\n/obo",
+    ])->save();
+  }
+}

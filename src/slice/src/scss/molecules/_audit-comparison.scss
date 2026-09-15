@@ -1,0 +1,33 @@
+// Molecule: Audit comparison. Editorial graphic with an explicit source caption.
+@use "../tools";
+
+.audit-comparison {
+  margin: calc(var(--space-scale-base-gap) * 3) 0;
+}
+
+.audit-comparison__image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.audit-comparison__caption {
+  margin-top: var(--space-scale-base-gap);
+  color: var(--theme-dark-text-secondary-default);
+  @include tools.typography-caption;
+}
+
+// Long-form case studies need paragraph rhythm inside each authored section.
+.project-detail:has(.audit-comparison) {
+  .project-story > div > * + *,
+  .project-detail__introduction > div > p + p {
+    margin-top: calc(var(--space-scale-base-gap) * 2);
+  }
+}
+
+@include tools.breakpoint-down("mobile-max") {
+  .layout-content:has(.audit-comparison) {
+    box-sizing: border-box;
+    padding-inline: var(--layout-gutter-mobile-default);
+  }
+}

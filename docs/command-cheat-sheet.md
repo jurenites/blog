@@ -53,9 +53,50 @@ npm run version:bump
 
 ## PROD Environment
 
-The ISPmanager production checkout is
-`/var/www/u3614358/data/apps/blog_jurenites`. Do not copy DEV database
+The real ISPmanager production checkout is
+`/var/www/u3614358/data/www/jurenites.com`, with the website public directory
+set to `/web` in ISPmanager. The previous path
+`/var/www/u3614358/data/apps/blog_jurenites` is a compatibility symlink to this
+checkout, so the commands below remain valid. Do not copy DEV database
 credentials, container names, `.env`, or `settings.php` to PROD.
+
+### HTTPS and certificate renewal
+
+On 2026-09-15, production was switched to the ISPmanager-managed Let's Encrypt
+certificate `jurenites.com_le1`, covering `jurenites.com` and
+`www.jurenites.com`. Its initial expiry is 2026-12-14. Both HTTPS homepages were
+verified with certificate validation enabled, and HTTP redirects to HTTPS.
+
+Keep the site root as a real directory and expose only `/web`. The previous
+site-root symlink pointed outside `/www` to the application's `web` directory;
+ISPmanager rejected website saves and certificate activation with
+`file/notchild`. Replacing that layout cleared the error and allowed built-in
+HTTP validation and issuance to complete. The original symlink and temporary
+maintenance directory are retained in the private server directory
+`/var/www/u3614358/data/.ssl-layout-backup-20260915`. This is a layout rollback
+record, not a database or full-site backup. Restore the panel's public-directory
+setting before restoring the original layout.
+
+ISPmanager's built-in Let's Encrypt workflow manages renewal; a future renewal
+has not yet been observed. Keep both DNS names pointing to this host and keep
+the HTTP ACME challenge route reachable. Check **SSL certificates →
+jurenites.com_le1 → Log** and panel notifications for renewal failures. See the
+[ISPmanager renewal documentation](https://www.ispmanager.com/docs/ispmanager/let-s-encrypt-certificates).
+
+The earlier manually imported certificate `jurenites.com_custom_1` covers only
+the apex and is not active. Its local Certbot files are not the files used by
+the live certificate. The abandoned manual expansion was cancelled; the two
+temporary `_acme-challenge` TXT records are no longer needed by the current
+HTTP validation workflow. Storybook remains a separate website and certificate.
+
+To verify public HTTPS and HTTP redirects without bypassing validation:
+
+```bash
+curl -I https://jurenites.com/
+curl -I https://www.jurenites.com/
+curl -I http://jurenites.com/
+curl -I http://www.jurenites.com/
+```
 
 ### Confirm the production environment
 
@@ -91,7 +132,7 @@ record is also available at
 
 ### Restore missing production fonts
 
-If Ubuntu Sans Mono falls back to Courier New and its font URL returns 404,
+If Ubuntu Sans Mono falls back to a generic monospace font and its font URL returns 404,
 restore the theme font copies from the existing checkout. This needs no Node
 build or database update:
 
@@ -281,9 +322,16 @@ exact PROD `main` commit on macOS, upload the result, and let Nginx serve it.
 ### Step 1: Build the exact `main` commit on macOS
 
 This isolated build does not switch branches or modify the current working
-tree. Run it from the local project directory:
+tree. Run this entire step in the **local macOS Terminal**, never in the
+ISPmanager shell. The first check deliberately stops a Linux shell before any
+paths or build variables are created:
 
 ```bash
+test "$(uname -s)" = "Darwin" || {
+  echo "ABORTED: run Storybook Step 1 in the local macOS Terminal, not on PROD."
+  exit 1
+}
+
 cd /Users/alexanderilivanov/Projects/blog_jurenites
 
 git fetch https://github.com/jurenites/blog.git main

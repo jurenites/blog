@@ -1,6 +1,12 @@
+import { initialize_company_sliders, detach_company_sliders } from './company-slider.js';
+import { initialize_screen_sliders, detach_screen_sliders } from './screen-slider.js';
+import { initialize_heading_typing, detach_heading_typing } from './heading-typing.js';
 import { CLOSE_ICON_SVG, CHEVRON_ICON_SVG } from '../../../../generated/icons/control-icons.js';
 import { install_icon_sprite } from './icon-sprite.js';
+import { enable_site_header_brand } from './site-header-brand.js';
+import { initialize_game_of_life, detach_game_of_life } from './game-of-life.js';
 import { initialize_video_grids, detach_video_grids } from './video-grid.js';
+import { initialize_article_table_of_content, detach_article_table_of_content } from './article-table-of-content.js';
 import { install_asset_warming } from './asset-warming.js';
 import { install_message_toasts } from './message-toast.js';
 import { initialize_pixel_glyph_editors } from './pixel-glyph-editor.js';
@@ -310,7 +316,7 @@ export function enable_site_header_menu(site_header) {
   const mobile_max_width = root_styles
     .getPropertyValue('--system-breakpoint-mobile-max')
     .trim();
-  const mobile_media_query = header_window.matchMedia(`(max-width: ${mobile_max_width})`);
+  const compact_menu_query = header_window.matchMedia(`(max-width: ${mobile_max_width})`);
   const open_menu_label = menu_toggle.dataset.openLabel;
   const close_menu_label = menu_toggle.dataset.closeLabel;
 
@@ -323,7 +329,7 @@ export function enable_site_header_menu(site_header) {
     );
     header_document.body.classList.toggle(
       'has-open-site-menu',
-      menu_is_open && mobile_media_query.matches,
+      menu_is_open && compact_menu_query.matches,
     );
 
     if (return_toggle_focus) {
@@ -347,7 +353,7 @@ export function enable_site_header_menu(site_header) {
     }
   });
 
-  mobile_media_query.addEventListener('change', (media_event) => {
+  compact_menu_query.addEventListener('change', (media_event) => {
     if (!media_event.matches) {
       set_menu_state(false);
     }
@@ -358,6 +364,9 @@ export function enable_site_header_menu(site_header) {
 }
 
 export function initialize_site_headers(header_context) {
+  header_context
+    .querySelectorAll('.site-header__brand')
+    .forEach((brand_link) => enable_site_header_brand(brand_link));
   header_context
     .querySelectorAll('.site-header')
     .forEach((site_header) => enable_site_header_menu(site_header));
@@ -895,10 +904,37 @@ export function initialize_cookie_policy_notices(cookie_notice_context) {
 }
 
 if (typeof Drupal !== 'undefined') {
+  Drupal.behaviors.jurenites_heading_typing = {
+    attach(page_context) { initialize_heading_typing(page_context); },
+    detach(page_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_heading_typing(page_context);
+    },
+  };
+  Drupal.behaviors.jurenites_browser_color = {
+    attach() {
+      if (!document.body.classList.contains('jurenites-theme')) return;
+
+      let theme_color_meta = document.head.querySelector('meta[name="theme-color"]');
+      if (!theme_color_meta) {
+        theme_color_meta = document.createElement('meta');
+        theme_color_meta.name = 'theme-color';
+        document.head.appendChild(theme_color_meta);
+      }
+      theme_color_meta.content = window.getComputedStyle(document.body).backgroundColor;
+    },
+  };
+
   Drupal.behaviors.jurenites_video_grid = {
     attach(listing_context) { initialize_video_grids(listing_context); },
     detach(listing_context, drupal_settings, detach_trigger) {
       if (detach_trigger === 'unload') detach_video_grids(listing_context);
+    },
+  };
+
+  Drupal.behaviors.jurenites_article_table_of_content = {
+    attach(article_context) { initialize_article_table_of_content(article_context); },
+    detach(article_context, page_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_article_table_of_content(article_context);
     },
   };
   install_message_toasts(Drupal);
@@ -909,6 +945,18 @@ if (typeof Drupal !== 'undefined') {
     },
     detach(timeline_context, drupal_settings, detach_trigger) {
       if (detach_trigger === 'unload') detach_timeline_organization_rails(timeline_context);
+    },
+  };
+  Drupal.behaviors.jurenites_company_slider = {
+    attach(page_context) { initialize_company_sliders(page_context); },
+    detach(page_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_company_sliders(page_context);
+    },
+  };
+  Drupal.behaviors.jurenites_screen_slider = {
+    attach(page_context) { initialize_screen_sliders(page_context); },
+    detach(page_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_screen_sliders(page_context);
     },
   };
   Drupal.behaviors.jurenites_layered_scene = {
@@ -1000,6 +1048,13 @@ if (typeof Drupal !== 'undefined') {
   Drupal.behaviors.jurenites_numeric_value_counters = {
     attach(counter_context) {
       initialize_numeric_value_counters(counter_context);
+    },
+  };
+
+  Drupal.behaviors.jurenites_game_of_life = {
+    attach(page_context) { initialize_game_of_life(page_context); },
+    detach(page_context, page_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_game_of_life(page_context);
     },
   };
 }

@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Configures clean public URLs on new sites.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_path_aliases_install(): void {
+  jurenites_path_aliases_configure_redirects();
+}
+
+/**
+ * Applies the site's public URL redirect settings.
+ */
+function jurenites_path_aliases_configure_redirects(): void {
+  \Drupal::configFactory()->getEditable('redirect.settings')
+    ->set('route_normalizer_enabled', TRUE)
+    ->set('default_status_code', 301)
+    ->set('auto_redirect', TRUE)
+    ->set('passthrough_querystring', TRUE)
+    ->set('ignore_admin_path', TRUE)
+    ->save();
+}
