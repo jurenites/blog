@@ -2,17 +2,25 @@
 
 ## Project invitation
 
-About ends with an editable **Call to action** content block: “GOT A PROJECT?”
+The project invitation now appears on the home page as an editable **Call to action** content block: “GOT A PROJECT?”
 and “LET'S DISCUSS IT!” above the shared primary **CONTACT** button, linked to
 `/contact`. Oversized uppercase type scales to the block width, with tight
 tracking, a muted prompt and a bright invitation on an almost-black surface
-without an outline. The Website Audit block shares that surface treatment.
+without an outline. The background extends to both viewport edges while the
+section is centered at a maximum width of 960px using the existing wide-content
+token; it shrinks to fit narrower screens. The heading and Contact button align
+left. The heading uses an `h1` in Drupal and Storybook, retaining its oversized
+typography and joining the shared typing animation when it enters the viewport.
+The Website Audit block shares the almost-black surface color.
 
 Edit **About project invitation** under Content → Blocks or through its
 contextual pencil. Both heading lines and the button label/link are translatable,
 revisionable fields. Installation seeds the content only once and preserves
-later edits, unpublishing and deletion. The placement is restricted to `/about`
-and `/obo`, after the other About blocks. **Organisms / Call to Action** in
+later edits, unpublishing and deletion. The placement uses `<front>` at content
+weight `100`, covering both `/` and `/ru`. Russian copy is “ЕСТЬ ПРОЕКТ?”,
+“ДАВАЙТЕ ОБСУДИМ!” and “СВЯЗАТЬСЯ”. Update `11001` moves the existing placement
+and adds the missing translation in a new revision, preserving English content
+and any existing Russian translation. **Organisms / Call to Action** in
 Storybook uses the same SCSS and Button atom.
 
 Enable with `docker exec blog_jurenites_web vendor/bin/drush en jurenites_call_to_action -y`,
@@ -27,7 +35,7 @@ skills profile. The owner's supplied list defines three core knowledge areas:
 - **Code**: HTML5, JavaScript, PHP and Node.js under Foundations & runtime;
   Vue, React and Laravel under **Frameworks**; Drupal and Docker under Platforms
   & tools.
-- **Databases**: SQL.
+- **Databases**: MySQL.
 - **Visuals**: Figma, Unity, Blender, Godot and CapCut.
 
 1С-Битрикс, PWA and Битрикс24 are excluded. This is a technology inventory, not a
@@ -35,10 +43,18 @@ new competency assessment; the existing skills profile and its provisional
 ratings remain independent. The reference site could not be retrieved, so the
 technology names supplied by the owner are the authoritative list.
 
+Each logo fits a 16 × 16 px box beside the technology name, with an 8 px gap.
+The JavaScript text mark fits the same compact artwork box.
+Group headings use the existing `theme.dark.text.gray` token.
+Links use a 32 px minimum height and 8 px padding on every side. The shared
+Body 2 role has a 16 px line box, so a single-line item is exactly 32 px high;
+wrapping can grow the item without clipping its text.
 Logos are white at rest. Hover and keyboard focus reveal their original brand
 colors; Unity and CapCut reveal their official black artwork on a white backing.
-JavaScript and SQL have text marks because neither language has a single official
-logo. Cards link to the technology's website or language documentation. The grid
+JavaScript has a text mark because the language has no single official
+logo. MySQL uses its dolphin wordmark. Each logo and name share one link to the
+official project website; HTML and JavaScript link to their WHATWG and Ecma
+standards pages. The grid
 works without JavaScript and removes transitions for reduced motion.
 
 Enable locally with
@@ -49,6 +65,8 @@ to `/about` and `/obo`; it does not rewrite the About node or skills content.
 from the block's contextual pencil) controls the heading and visible technologies.
 The shared categorized catalogue is
 `web/modules/custom/jurenites_technology_stack/data/technologies.json`.
+MySQL retains the catalogue key `sql` so existing block visibility selections
+continue to apply after replacing the SQL entry.
 **Organisms / Technology Stack** in Storybook renders that same catalogue.
 Production needs the same explicit module-enablement and theme-build steps.
 
@@ -62,17 +80,18 @@ substitutes. Public image files are copied into the theme by the normal build.
 | --- | --- |
 | Drupal | `web/core/misc/logo/drupal-logo.svg`; [brand colors](https://www.drupal.org/about/media-kit/logos) |
 | HTML5 | [W3C logo downloads](https://www.w3.org/html/logo/) — color and white SVGs |
-| PHP | [PHP logos](https://www.php.net/download-logos.php) — color and white SVGs |
+| PHP | [Wikimedia SVG](https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg) — shared official artwork for both states; Colin Viebrock, CC BY-SA 3.0 |
+| MySQL | [Official SVG](https://labs.mysql.com/common/logos/mysql-logo.svg) — dolphin wordmark, downloaded 14 September 2026 |
 | Node.js | [Node.js branding](https://nodejs.org/en/about/branding) — green and white JS marks |
 | Vue | [Official SVG](https://vuejs.org/logo.svg) |
 | React | [Official website](https://react.dev/) — inline React mark |
-| Laravel | [Official website](https://laravel.com/) — inline Laravel wordmark |
+| Laravel | [Wikimedia SVG](https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg) — Laravel symbol |
 | Docker | [Media resources](https://www.docker.com/company/newsroom/media-resources/) — ocean-blue mark |
 | Figma | [Official website](https://www.figma.com/) — inline header mark |
-| Unity | [Brand page](https://unity.com/legal/branding-trademarks) — linked official SVG |
-| Blender | [Logo kit](https://www.blender.org/about/logo/) |
+| Unity | [Brand page](https://unity.com/legal/branding-trademarks) — symbol extracted from the existing official SVG |
+| Blender | [Logo kit](https://www.blender.org/about/logo/) — symbol extracted from the existing logo-kit SVG |
 | Godot | [Press kit](https://godotengine.org/press/) — color and white icons; Andrea Calabró, CC BY 4.0 |
-| CapCut | [Official website](https://www.capcut.com/) — inline header wordmark |
+| CapCut | [Official website](https://www.capcut.com/) — symbol extracted from the existing header SVG |
 
 Drupal, Laravel and React use upstream geometry in `src/brand/technology-stack/`
 with fixed component colors in `src/brand/technology-stack/brand-colors.js`.
@@ -82,6 +101,21 @@ also generates these three public SVG files through
 `scripts/build-technology-logos.mjs`. Other downloaded SVGs preserve upstream
 color values. Logo sizing, white presentation and hover behavior are scoped to
 `src/slice/src/scss/organisms/_technology-stack.scss`.
+Technology names are underlined when their link is hovered or keyboard-focused.
+
+Laravel and PHP were refreshed from the linked SVGs on 14 September 2026.
+Laravel uses `laravel-symbol.svg` in both states to avoid reusing cached copies
+of the former wordmark. Rebuild Storybook as well as the theme after artwork changes.
+The logo build also derives `php-white.svg` from the official `php.svg`, with
+the three black letter shapes masked through the oval to become fully
+transparent. The existing white filter supplies the inactive presentation;
+hover and keyboard focus display the unchanged full-color PHP artwork.
+
+Unity, Blender and CapCut use symbol-only SVG files with bounds fitted to the
+artwork, extracted on 15 September 2026. Their names remain separate text labels.
+Blender's inactive symbol omits the white eye backing so the white filter keeps
+the eye and surrounding ring distinct; its color state retains the original
+white, blue and orange artwork. Both states share identical bounds and proportions.
 
 ## Web development skills
 
@@ -93,6 +127,7 @@ About web development skills. Blank ratings display “Not assessed”; zero is 
 valid rating. Whole-number ratings display without a decimal suffix (5.0 → 5),
 while fractional ratings retain one decimal place (3.4). Normal Drupal revisions,
 field access and cache invalidation apply.
+Skill category labels use `theme.dark.text.gray`, matching Technology Stack group headings.
 
 The starter copy was checked against the live
 [Alexander Ilivanov CV](https://docs.google.com/document/d/1Aec-DgzHUGDfqpIy0LocrFvPZeIqcHZ1SBIWClsj2ZY/edit)
@@ -207,3 +242,90 @@ camera.
 Raw RGB-D captures and high-density facial point clouds remain private local
 source material. Publish only the reduced artistic derivative required by the
 website.
+
+## Companies I have worked with
+
+The About page includes a horizontal **Company slider** before the FAQ (content
+weight `90`, restricted to `/about` and `/obo`). It lists Life.Church and Funnel
+Design Group as **Indirect collaboration**, and Thrive.io, OysterLabs.com and
+VolcanoIdeas.ae as **Direct collaboration**. Thrive also says **Ongoing**.
+These relationship descriptions come from the site owner.
+
+Edit **Companies I have worked with** under Content → Blocks. The heading and
+repeatable Company collaboration Paragraphs support revisions and translations.
+Each company has an editable name, official-logo selection, relationship,
+website URL and project URL. Company ordering is shared between languages;
+paragraph fields can be translated independently. Initial setup seeds once and
+preserves subsequent editorial changes.
+
+Logos keep their original proportions and are sized in shared SCSS: 32px high
+by default, 40px for Funnel Design Group and 54px for Thrive and VolcanoIdeas. A shared 56px artwork
+row keeps company names aligned. Each website link has a readable ID:
+`company-life-church`, `company-funnel-design-group`, `company-thrive`,
+`company-oysterlabs` and `company-volcanoideas`. Repeated Drupal instances receive
+unique suffixes; scoped logo modifier classes handle per-company sizing.
+Company names use Link typography (16px, weight 300, 24px line height), stay
+white, and show a thin underline only when the company link is hovered or
+keyboard-focused, matching the Technology Stack name interaction.
+The arrow controls are hidden. While visible, the row pauses for three seconds,
+then advances to the next card boundary with a 700ms eased transition. It stops
+at the last scroll position and steps backwards to the first, repeating in both
+directions without cloned cards or a wraparound jump. Hover, keyboard focus,
+touch interaction and a hidden browser tab pause autoplay. Reduced-motion users
+get manual scrolling only. Keyboard arrows and Home/End remain available.
+
+The slider spans the usable viewport, beyond the reading column, with visible
+section overflow and a heading aligned to the content frame. The track scrolls
+at the screen edges; browser scrollbars and the admin navigation displacement
+are excluded from its width to avoid horizontal overflow of the whole page.
+The native horizontal scrollbar remains visible and draggable, with an 8px-high
+square thumb and track in browsers supporting scrollbar pseudo-elements.
+Other browsers retain the thin native scrollbar fallback. Its shared
+`.horizontal-scrollbar` atom is demonstrated independently in **Atoms /
+Horizontal Scrollbar** for reuse. **Organisms / Company Slider** previews the
+same automatic movement, catalogue and styles as Drupal.
+
+“See the projects” uses the shared Link typography role (16px, weight 300,
+24px line height) with a thin 1px underline. Each link targets `/timeline`,
+with these project anchors:
+
+| Company | Timeline destination |
+| --- | --- |
+| Life.Church | Life Church Blackbriar |
+| Funnel Design Group | Oklahoma Children's Theatre |
+| Thrive.io | `/timeline`, no anchor |
+| OysterLabs.com | Oysterlabs Games Server |
+| VolcanoIdeas.ae | Global-ny.com |
+
+Timeline detail `<li>` IDs use the Paragraph UUID and period start date, e.g.
+`timeline-project-<uuid>-2014-09-01`. Names and list order can change without
+breaking these links. Changing a period's start date requires updating its
+company link. Deep links focus the target after the timeline rearranges its
+columns and fonts finish loading; native fragment navigation works without JS.
+The existing timeline content is not migrated or rewritten.
+
+Logo source assets: [Life.Church](https://www.life.church/static/img/logo.svg),
+[Funnel Design Group](https://funneldesigngroup.com/images/funnel-logo.svg),
+[OysterLabs](https://images.squarespace-cdn.com/content/v1/53e510f9e4b0c5db265c0333/1421876802902-5HZVAYJZF670MNNVIRZB/OysterLabsLogo-Blue-nobackground.png?format=1500w),
+and VolcanoIdeas (the owner's `volcano-ideas.svg`, supplied 15 September 2026,
+replacing the [previous vertical mark](https://volcanoideas.ae/img/logo-v.svg)).
+Its content hash is appended to the asset URL so browsers fetch the new artwork.
+The OysterLabs CDN
+returns WebP despite the PNG URL; its local extension reflects the actual file.
+A CSS-linked SVG color-matrix filter removes its white backing and paints the
+blue lettering white. The source raster remains unchanged.
+
+Enable locally with
+`docker exec blog_jurenites_web vendor/bin/drush en jurenites_companies -y`, then
+build the theme and clear Drupal cache. STAGE/PROD need explicit enablement after
+deployment. Run `drush php:script /opt/drupal/tests/company-slider.php` inside the
+local container for translations, field validation, exact link destinations,
+unique IDs and seed-preservation checks.
+
+Thrive uses the owner's horizontal `thrive-io-logo.svg`, supplied on 15 September
+2026, at 54px high with its original transparent background and white artwork.
+The catalogue's `logo_asset_file` replaces the former JPG in Drupal and Storybook
+while retaining the stored logo selection key for existing content and revisions.
+Imported Russian
+interface labels live in `jurenites_companies/translations/jurenites_companies.ru.po`;
+import with `drush locale:import ru <path> --type=customized --override=not-customized`.

@@ -371,14 +371,17 @@ $storybook-color-block-size-compact: 40px;
 .contrast-table {
   width: max-content;
   min-width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .contrast-table th,
 .contrast-table td {
   //min-width: 144px;
-  padding: var(--space-scale-two);
-  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  padding: calc(var(--space-scale-base-gap) * 0.5);
+  border: 0;
+  // Draw dividers inside the cell so its line box and insets stay on the grid.
+  box-shadow: inset calc(var(--shape-border-width-hairline-default) * -1) calc(var(--shape-border-width-hairline-default) * -1) 0 var(--theme-dark-border-divider-default);
   text-align: left;
   vertical-align: top;
 }
@@ -416,9 +419,9 @@ $storybook-color-block-size-compact: 40px;
 }
 
 .contrast-table th .color-block__chip {
-  width: 24px;
-  height: 24px;
-  margin: 8px;
+  width: var(--shape-icon-viewport);
+  height: var(--shape-icon-viewport);
+  margin: var(--space-scale-base-gap);
   border: 0;
 }
 

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Seeds a reusable About invitation once, preserving subsequent CMS edits.
+ * Seeds a reusable home-page invitation once, preserving subsequent CMS edits.
  */
 
 use Drupal\block\Entity\Block;
@@ -62,13 +62,15 @@ function jurenites_call_to_action_install(): void {
 
   $action_uuid = 'a7c498cf-9d24-4ae2-a585-f09eaa0f47e6';
   if (!\Drupal::entityTypeManager()->getStorage('block_content')->loadByProperties(['uuid' => $action_uuid])) {
-    BlockContent::create([
+    $action_block = BlockContent::create([
       'uuid' => $action_uuid, 'type' => 'call_to_action', 'langcode' => 'en',
       'info' => 'About project invitation', 'reusable' => TRUE, 'status' => TRUE,
       'field_action_prompt' => 'GOT A PROJECT?',
       'field_action_invitation' => "LET'S DISCUSS IT!",
       'field_action_link' => ['uri' => 'internal:/contact', 'title' => 'CONTACT'],
-    ])->save();
+    ]);
+    jurenites_call_to_action_add_russian_translation($action_block);
+    $action_block->save();
   }
   if (!Block::load('jurenites_theme_call_to_action')) {
     $plugin_identifier = 'block_content:' . $action_uuid;
@@ -76,8 +78,47 @@ function jurenites_call_to_action_install(): void {
       'id' => 'jurenites_theme_call_to_action', 'theme' => 'jurenites_theme',
       'region' => 'content', 'weight' => 100, 'status' => TRUE, 'plugin' => $plugin_identifier,
       'settings' => ['id' => $plugin_identifier, 'label' => 'About project invitation', 'label_display' => '0', 'provider' => 'block_content', 'view_mode' => 'full'],
-      'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => "/about\n/obo"]],
+      'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => '<front>']],
     ])->save();
   }
   \Drupal::state()->set('jurenites_call_to_action.initialized', TRUE);
+}
+
+/**
+ * Adds the initial Russian copy without replacing an existing translation.
+ */
+function jurenites_call_to_action_add_russian_translation(BlockContent $action_block): bool {
+  if (!\Drupal::languageManager()->getLanguage('ru') || $action_block->hasTranslation('ru')) {
+    return FALSE;
+  }
+  $contact_link = $action_block->get('field_action_link')->first()->getValue();
+  $contact_link['title'] = 'СВЯЗАТЬСЯ';
+  $action_block->addTranslation('ru', [
+    'info' => $action_block->label(),
+    'field_action_prompt' => 'ЕСТЬ ПРОЕКТ?',
+    'field_action_invitation' => 'ДАВАЙТЕ ОБСУДИМ!',
+    'field_action_link' => $contact_link,
+    'content_translation_source' => 'en',
+  ]);
+  return TRUE;
+}
+
+/**
+ * Places the invitation on both home-page languages and adds missing Russian copy.
+ */
+function jurenites_call_to_action_update_11001(): void {
+  $action_uuid = 'a7c498cf-9d24-4ae2-a585-f09eaa0f47e6';
+  $action_placement = Block::load('jurenites_theme_call_to_action');
+  if ($action_placement && $action_placement->getPluginId() === 'block_content:' . $action_uuid) {
+    $action_placement->setVisibilityConfig('request_path', [
+      'id' => 'request_path', 'negate' => FALSE, 'pages' => '<front>',
+    ])->save();
+  }
+  $action_blocks = \Drupal::entityTypeManager()->getStorage('block_content')->loadByProperties(['uuid' => $action_uuid]);
+  $action_block = reset($action_blocks);
+  if ($action_block && jurenites_call_to_action_add_russian_translation($action_block)) {
+    $action_block->setNewRevision(TRUE);
+    $action_block->setRevisionLogMessage('Add Russian project invitation.');
+    $action_block->save();
+  }
 }

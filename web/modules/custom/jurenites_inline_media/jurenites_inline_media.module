@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * @file
+ * Keeps inline media presentation in the shared theme stylesheets.
+ */
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function jurenites_inline_media_media_view(array &$build_output, EntityInterface $media_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if (!in_array($media_entity->bundle(), ['animated_gif', 'video'], TRUE)
+    || !in_array($view_mode, ['default', 'inline_media'], TRUE)) {
+    return;
+  }
+  $field_name = $media_entity->getSource()->getConfiguration()['source_field'];
+  foreach ($build_output[$field_name] ?? [] as $item_key => $render_item) {
+    if (!is_int($item_key)) {
+      continue;
+    }
+    if ($media_entity->bundle() === 'animated_gif') {
+      $build_output[$field_name][$item_key]['#attributes']['class'][] = 'inline-media__image';
+    }
+    else {
+      $video_attributes = $build_output[$field_name][$item_key]['#attributes'];
+      $video_attributes->removeAttribute('width')->removeAttribute('height');
+      $video_attributes->addClass('inline-media__video')->setAttribute('preload', 'metadata');
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_image().
+ */
+function jurenites_inline_media_preprocess_image(array &$image_variables): void {
+  if (in_array('inline-media__image', $image_variables['attributes']['class'] ?? [], TRUE)) {
+    unset($image_variables['attributes']['width'], $image_variables['attributes']['height']);
+  }
+}

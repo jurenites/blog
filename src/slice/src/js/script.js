@@ -1,3 +1,6 @@
+import { initialize_company_sliders, detach_company_sliders } from './company-slider.js';
+import { initialize_screen_sliders, detach_screen_sliders } from './screen-slider.js';
+import { initialize_heading_typing, detach_heading_typing } from './heading-typing.js';
 import { CLOSE_ICON_SVG, CHEVRON_ICON_SVG } from '../../../../generated/icons/control-icons.js';
 import { install_icon_sprite } from './icon-sprite.js';
 import { enable_site_header_brand } from './site-header-brand.js';
@@ -901,6 +904,12 @@ export function initialize_cookie_policy_notices(cookie_notice_context) {
 }
 
 if (typeof Drupal !== 'undefined') {
+  Drupal.behaviors.jurenites_heading_typing = {
+    attach(page_context) { initialize_heading_typing(page_context); },
+    detach(page_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_heading_typing(page_context);
+    },
+  };
   Drupal.behaviors.jurenites_browser_color = {
     attach() {
       if (!document.body.classList.contains('jurenites-theme')) return;
@@ -936,6 +945,18 @@ if (typeof Drupal !== 'undefined') {
     },
     detach(timeline_context, drupal_settings, detach_trigger) {
       if (detach_trigger === 'unload') detach_timeline_organization_rails(timeline_context);
+    },
+  };
+  Drupal.behaviors.jurenites_company_slider = {
+    attach(page_context) { initialize_company_sliders(page_context); },
+    detach(page_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_company_sliders(page_context);
+    },
+  };
+  Drupal.behaviors.jurenites_screen_slider = {
+    attach(page_context) { initialize_screen_sliders(page_context); },
+    detach(page_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_screen_sliders(page_context);
     },
   };
   Drupal.behaviors.jurenites_layered_scene = {

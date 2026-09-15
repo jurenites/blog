@@ -219,6 +219,7 @@ function timeline_year_groups(timeline_items, timeline_current_date) {
         const visible_month_count = fragment_year === current_year ? current_month : 12;
         const grouped_fragments = year_fragments.get(fragment_year) ?? [];
         grouped_fragments.push({
+          detail_id: (timeline_item.anchor_key || 'timeline-project-' + timeline_item.item_name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')) + '-' + timeline_period.start_date,
           project_key: 'project-' + item_index,
           period_key: 'project-' + item_index + '-period-' + period_index,
           start_month: start_date.getUTCMonth() + 1,
@@ -313,7 +314,7 @@ export function timeline_markup({
       timeline_months_markup: timeline_months_markup(year_group.year_label, year_group.visible_month_count),
       timeline_items_markup: year_group.timeline_fragments.map(timeline_item_markup).join(""),
       timeline_details_markup: year_group.timeline_details
-        .map((timeline_fragment) => '<li class="timeline__year-detail timeline__year-detail--project" tabindex="0" data-project-key="'
+        .map((timeline_fragment) => '<li id="' + escape_html(timeline_fragment.detail_id) + '" class="timeline__year-detail timeline__year-detail--project" tabindex="0" data-project-key="'
           + escape_html(timeline_fragment.project_key) + '" data-period-key="'
           + escape_html(timeline_fragment.period_key) + '" data-start-month="'
           + escape_html(timeline_fragment.start_month) + '">'

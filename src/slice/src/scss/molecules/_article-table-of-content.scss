@@ -5,7 +5,7 @@ $contents-offset: calc(var(--drupal-displace-offset-top, var(--space-scale-zero)
 // Article detail aliases share path-blog with the 800px Blog listing frame.
 .layout-content:has(article.article-detail--with-table-of-content) {
   container: article-reading-frame / inline-size;
-  max-width: calc(var(--layout-content-max-blog-default) + var(--component-content-layout-sidebar-max-width-default) + var(--space-scale-base-gap) * 4);
+  max-width: calc(var(--layout-content-max-blog-default) + (var(--component-content-layout-sidebar-max-width-default) + var(--space-scale-base-gap) * 4) * 2);
 }
 
 .article-detail__reading-layout {
@@ -16,11 +16,13 @@ $contents-offset: calc(var(--drupal-displace-offset-top, var(--space-scale-zero)
   > :not(.article-detail__reading-layout) {
     width: 100%;
     max-width: var(--layout-content-max-blog-default);
+    margin-inline: auto;
   }
 
   .article-detail__reading-layout {
     display: grid;
     grid-template-columns: minmax(0, var(--layout-content-max-blog-default));
+    justify-content: center;
     gap: calc(var(--space-scale-base-gap) * 4);
   }
 
@@ -45,7 +47,7 @@ $contents-offset: calc(var(--drupal-displace-offset-top, var(--space-scale-zero)
 
   &__title {
     margin: 0 0 calc(var(--space-scale-base-gap) * 2);
-    color: var(--theme-dark-text-secondary-default);
+    color: var(--theme-dark-text-gray);
     @include tools.typography-subtitle-2;
   }
 
@@ -90,20 +92,21 @@ $contents-offset: calc(var(--drupal-displace-offset-top, var(--space-scale-zero)
   .article-detail--with-table-of-content {
     .article-detail__reading-layout {
       grid-template-columns:
+        minmax(var(--component-article-table-of-content-sidebar-min-width-default), 1fr)
         var(--layout-content-max-blog-default)
         minmax(var(--component-article-table-of-content-sidebar-min-width-default), 1fr);
       align-items: start;
     }
 
     .article-detail__body {
-      grid-area: 1 / 1;
+      grid-area: 1 / 2;
     }
 
     /* stylelint-disable-next-line selector-class-pattern -- Preserve the public class name requested by the user. */
     .article_table-of-content {
       position: sticky;
       top: $contents-offset;
-      grid-area: 1 / 2;
+      grid-area: 1 / 3;
       max-height: calc(100dvh - $contents-offset - var(--space-scale-base-gap) * 4);
       overflow-y: auto;
       overscroll-behavior: contain;

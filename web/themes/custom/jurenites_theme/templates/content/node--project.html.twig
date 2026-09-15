@@ -2,7 +2,7 @@
   {{ title_prefix }}
   {{ title_suffix }}
   {% if content.field_image %}
-    <div class="project-detail__media">{{ content.field_image }}</div>
+    <div class="project-detail__media" data-jurenites-article-image-transition="project-image-{{ node.id }}">{{ content.field_image }}</div>
   {% endif %}
   {% if not body_after_sections %}
     <div class="project-detail__introduction">{{ content.body }}</div>

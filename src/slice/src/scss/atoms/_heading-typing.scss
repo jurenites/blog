@@ -1,0 +1,27 @@
+// Paint character motion over the unchanged, accessible heading line boxes.
+.heading-typing {
+  position: relative;
+}
+
+.heading-typing__source {
+  color: transparent;
+  text-shadow: none;
+}
+
+.heading-typing__character {
+  position: absolute;
+  inset: 0 auto auto 0;
+  pointer-events: none;
+  user-select: none;
+  white-space: pre;
+}
+
+@media (prefers-reduced-motion: reduce), print {
+  .heading-typing__source {
+    color: inherit;
+  }
+
+  .heading-typing__character {
+    display: none;
+  }
+}

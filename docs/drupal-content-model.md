@@ -31,6 +31,15 @@ permission cache metadata. A missing/deleted block renders no broken placeholder
 Page copy can also be placed through the native Block layout like other reusable
 Content Blocks. Do not place the same introduction both there and in Views.
 
+Content → Blocks → Edit changes the reusable content and its translations.
+Placement parameters (region, weight, title display and page visibility) belong
+to **Structure → Block layout → Configure** for the placed instance. Use
+`<front>` in **Visibility → Pages → Show for the listed pages** for the home page
+in both languages; `/home` is just a literal path. Use the content block's
+**Translate** tab to add or edit Russian copy, including translated button text.
+The project invitation placement is `jurenites_theme_call_to_action`; its
+content retains the administrative name **About project invitation**.
+
 Skills profile no longer has Section heading (`field_skills_heading`) or
 Introduction (`field_skills_intro`) fields. The skills module post-update deletes
 the fields and purges their stored values and revisions; fresh installation does
@@ -86,6 +95,37 @@ It uses temporary records in a rolled-back transaction to check revisions,
 translations, cache invalidation, anonymous/admin access, deletion and migration
 idempotence. Run it on DEV. Deployment still requires applying database updates
 and rebuilding Drupal cache in each target environment.
+
+## Clean URLs and redirects
+
+`jurenites_path_aliases` uses Pathauto to generate aliases and Redirect to enforce
+them with permanent **301** redirects. For example, `/node/4` redirects to
+`/about`, and `/ru/node/4` redirects to `/ru/obo`. Already-clean URLs render
+directly. Query strings are preserved; administrative routes and non-GET/HEAD
+requests are excluded. Redirect also records redirects when an existing alias
+changes, keeping the previous public URL usable.
+
+Configure this under **Configuration → Search and metadata → URL redirects →
+Settings** (`/admin/config/search/redirect/settings`). **Enforce clean and
+canonical URLs** and **Automatically create redirects when URL aliases are
+changed** are enabled. **Ignore redirections on admin paths** is enabled.
+Existing aliases and content are preserved; enabling this does not reconstruct
+aliases deleted before Redirect was installed.
+
+Fresh installations receive the configuration from the path-alias module's
+install hook. On existing environments, deploy the Composer files and custom
+module changes, run `composer install`, then `drush updatedb` and `drush cr`.
+The `jurenites_path_aliases_post_update_enable_clean_url_redirects` update enables
+Redirect and applies these settings. Local enablement does not deploy to PROD.
+
+Verify the local HTTP behavior with:
+
+```bash
+docker exec blog_jurenites_web vendor/bin/drush php:script tests/clean-url-redirects.php
+```
+
+This checks English/Russian redirects, GET/HEAD requests, query preservation,
+already-clean pages, homepages, login, edit access and POST behavior.
 
 ## Basic Page
 
@@ -256,6 +296,10 @@ and linked organization headings remain the delivered behavior.
 
 Purpose: structured portfolio pages with reusable interactive sections.
 
+The Portfolio gallery displays two Project cards per row, dropping to one on
+mobile. Each card keeps its 16:9 thumbnail with the title and tag chips inline
+beneath it; metadata wraps when the available width requires it.
+
 The current `project` bundle owns Title, Body, Image, Tags, and reorderable
 Content sections. `/portfolio` lists published Projects, while canonical aliases
 such as `/portfolio/roundabout` remain editorial content rather than code-side
@@ -371,6 +415,28 @@ font-project recipe to create the article from `scripts/content/smep.json`.
 Reruns preserve the existing node and its editorial changes. Initial creation
 and verification are local; production publishing is a separate operation.
 
+SMEP includes an editable **Screen slider** Paragraph from `jurenites_screen_slider`.
+Enable the module, then run `drush php:script scripts/add-smep-screen-slider.php`
+to insert the 42 bundled exports before the existing story sections. The script
+creates a node revision and preserves existing sections; reruns preserve the gallery.
+Editors can add or replace images in the Screens image field. Display order uses
+natural filename sorting. The six 376px exports are cropped into the requested
+375 × 667px source frame, displayed at half size: 187.5 × 333.5px. Source
+files remain unchanged. The gallery extends to both browser edges, while article text and pagination
+retain the centered 960px content frame. Screens clip only at the browser edges;
+loop duplicates adapt to the viewport width, including after resizing.
+It moves continuously at eight seconds per screen and loops across the end.
+Dragging, arrow keys, Previous/Next and Pause/Play provide manual control.
+Previous/Next reuse the shared `arrow-left` SVG icon at 0° and 180° respectively.
+The playback toggle reuses Game of Life’s `pause-rect` and `play-triangle` icons,
+with its accessible label and visible icon following the paused state. Motion
+pauses on hover, focus, hidden tabs and offscreen; reduced motion starts paused.
+More than ten screens use a nine-marker moving window of Crossfade Dot atoms,
+with the editor-adjusted rectangular markers tapering into smaller square edge
+markers and a numeric page counter. All pagination markers have square corners.
+The initial marker animation uses 200ms size transitions, pending further visual
+direction. Storybook `Organisms/Screen Slider` shares the behavior and stylesheet.
+
 The `jurenites_font_projects` recipe creates the initial Roundabout and 4pixel
 nodes and their ordered Paragraph trees with stable UUIDs. Reapplying the
 recipe creates only missing UUIDs; it does not replace an editor's existing
@@ -431,8 +497,13 @@ nonempty H2 and H3 headings when there are at least two. Editors use native
 Heading 2 / Heading 3 in Body; no separate list or contributed module is needed.
 H3 links nest under their preceding H2. The contents sits in a sticky right
 sidebar outside the full 800px Body column, with the current section marked
-while scrolling. The `article_table-of-content` sidebar narrows from 320px to
-160px as needed. When the available content frame is below 992px (including
+while scrolling. Equal left and right grid tracks keep Body centered in the page;
+the right track contains the contents in normal flow, without overlapping Body.
+The title, media and supporting content align with the centered Body column.
+Article navigation breadcrumbs also keep the centered Body width, including
+when they render in a separate Drupal block outside the Article element.
+The `article_table-of-content` sidebar narrows from 320px to
+160px as needed. When the available content frame is below 1184px (including
 space used by Drupal's admin sidebar), it moves above Body instead of squeezing
 the reading column. Native fragment links support keyboard navigation,
 browser history and sharing; existing heading IDs are retained, and missing IDs
@@ -454,6 +525,36 @@ the noise static and removes the transition. Remote-video iframe dimensions
 come from theme SCSS rather than HTML width/height attributes. Keep supporting
 iframes in normal flow so Drupal's logged-in contextual editing wrappers retain
 their height after the loading noise is removed.
+
+### Small media inside rich text
+
+Basic HTML and Full HTML expose **Insert Media** next to the image-upload
+button. Choose **Animated GIF** (GIF, up to 5 MB) or **Video** (MP4/WebM, up to
+20 MB), add a file, complete its media details, and insert the selected item
+at the cursor. Use H.264 MP4 for broad browser playback support. Uploads are
+reusable Media records; their presence does not change an Article into a Video.
+
+`jurenites_inline_media` configures the core Media Library, the `animated_gif`
+and local `video` Media types, and the `inline_media` view mode. GIFs render
+the original file without an image style or upload-time dimension limit, so
+GD does not discard their animation. Videos use native playback controls,
+inline playback, metadata preloading, and no autoplay. The shared
+`atoms/_inline-media.scss` styles both the public theme and CKEditor preview;
+normal dimensions come from CSS, with no width/height/style HTML attributes.
+
+The existing direct image-upload button now has a 5 MB limit for all inline
+images, including GIFs. Hero images and the existing Image Media type keep
+their separate upload settings. Content editors can use Basic HTML, open the
+media library, create these two media types and edit their own uploads.
+Anonymous visitors can view published embeds but cannot upload media.
+
+For existing installations, apply
+`jurenites_admin_post_update_enable_inline_media` through `drush updatedb`,
+then rebuild caches. No existing article body or uploaded file is rewritten.
+Verify limits, access, editor configuration and public rendering with
+`drush php:script tests/inline-media.php`. PHP and web-server request limits
+must accommodate the 20 MB video limit; local PHP allows 200 MB uploads and
+210 MB requests. Production limits must be checked during deployment.
 
 Shared fields and Video-specific source metadata:
 
@@ -523,7 +624,8 @@ The two content types reuse the established editorial components:
 The public Views queries keep these presentations separate. `/blog` lists
 published Article nodes; `/videos` lists published Video nodes. The homepage
 Latest articles block also selects Article nodes only. Both pages retain tag filtering.
-Videos uses a wide grid with three columns on desktop, two on tablets, and one
+Videos loads 12 items initially and in each subsequent page batch. It uses a wide
+grid with three columns on desktop, two on tablets, and one
 on phones. Each tile keeps its thumbnail above the title and creator details,
 reusing the Article Blog List Item markup. The excerpt is hidden within the
 Videos grid; Blog list excerpts remain visible. The grid preserves
@@ -727,3 +829,38 @@ The commercial Timeline calendar starts at August 2010; its 2010 section shows A
 ## Browser applications
 
 [QR Pixel Studio](qr-pixel-studio.md) is provided by `jurenites_qr_studio` at `/qr-studio`. It is a browser-local tool with a dedicated application document and Drupal library attachments, rather than editorial content stored in a node or paragraph.
+
+## FAQ
+
+`jurenites_faq` provides a reusable, revisionable, translatable **FAQ** block,
+placed at the bottom of About (`/about` and `/obo`, content region, weight `110`).
+The initial two-line heading is “Questions?” / “Here are answers.” The first
+answer links to the existing `/cookbook` page. English and Russian copy is seeded
+once; subsequent editor changes survive setup reruns.
+
+Edit the block in Content → Blocks. The two heading fields are plain text.
+**Questions and answers** is an unlimited `text_with_summary` field: its native
+summary is labelled **Question**, and its formatted value is labelled **Answer**.
+Editors can add and reorder pairs together. Do not type numbering into content:
+rendering generates `Q.N?` and `A.N!` from the current order. Answers use Drupal's
+text filtering and can include links.
+
+FAQ items meet at a 1px solid divider using `theme.dark.border.divider-default`,
+with no grid gap. When both neighboring items are expanded, their shared divider
+uses `theme.dark.surface.background-page` to stay distinct from the open panels.
+Closing either item restores the standard divider color.
+
+The first answer starts open. Each native `details`/`summary` disclosure works
+independently with pointer or keyboard, including without JavaScript. Styling
+uses existing tokens and the shared Two-tone Heading; the matching example is
+**Organisms/FAQ** in Storybook. The rounded open panels and plus/minus controls
+follow the FAQ interaction at https://zipzap.design/ in the site's dark theme.
+
+Enable on each environment with
+`drush en jurenites_faq -y`, then `drush cr`. Existing installs apply the About
+placement with `jurenites_faq_update_11001` through `drush updatedb`. Local enablement does not deploy
+the module or content to STAGE/PROD.
+
+Verify the local content/editor contract with
+`drush php:script tests/faq-block.php`. Storybook desktop/mobile review covers
+native keyboard expansion and collapse; reduced-motion disables transitions.

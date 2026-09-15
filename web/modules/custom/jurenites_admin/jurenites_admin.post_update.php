@@ -10,6 +10,14 @@ use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
 use Drupal\field\Entity\FieldConfig;
 
 /**
+ * Enables small GIF and video uploads in the rich text media library.
+ */
+function jurenites_admin_post_update_enable_inline_media(): string {
+  \Drupal::service('module_installer')->install(['jurenites_inline_media']);
+  return t('Enabled inline GIF uploads up to 5 MB and MP4/WebM uploads up to 20 MB.');
+}
+
+/**
  * Closes every comment field and makes closed the default for new content.
  */
 function jurenites_admin_post_update_disable_all_comments(): string {

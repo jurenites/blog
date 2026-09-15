@@ -8,14 +8,14 @@
           {
             "technology_key": "html5",
             "technology_name": "HTML5",
-            "official_url": "https://www.w3.org/html/logo/",
+            "official_url": "https://html.spec.whatwg.org/",
             "logo_file": "html5.svg",
             "white_logo_file": "html5-white.svg"
           },
           {
             "technology_key": "javascript",
             "technology_name": "JavaScript",
-            "official_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+            "official_url": "https://ecma-international.org/publications-and-standards/standards/ecma-262/",
             "text_mark": "JS"
           },
           {
@@ -53,7 +53,7 @@
             "technology_key": "laravel",
             "technology_name": "Laravel",
             "official_url": "https://laravel.com/",
-            "logo_file": "laravel.svg"
+            "logo_file": "laravel-symbol.svg"
           }
         ]
       },
@@ -84,9 +84,9 @@
         "technology_items": [
           {
             "technology_key": "sql",
-            "technology_name": "SQL",
-            "official_url": "https://en.wikipedia.org/wiki/SQL",
-            "text_mark": "SQL"
+            "technology_name": "MySQL",
+            "official_url": "https://www.mysql.com/",
+            "logo_file": "mysql.svg"
           }
         ]
       }
@@ -108,15 +108,15 @@
             "technology_key": "unity",
             "technology_name": "Unity",
             "official_url": "https://unity.com/",
-            "logo_file": "unity.svg",
+            "logo_file": "unity-symbol.svg",
             "monochrome_brand": true
           },
           {
             "technology_key": "blender",
             "technology_name": "Blender",
             "official_url": "https://www.blender.org/",
-            "logo_file": "blender-socket.svg",
-            "white_logo_file": "blender-white.svg"
+            "logo_file": "blender-symbol.svg",
+            "white_logo_file": "blender-symbol-white.svg"
           },
           {
             "technology_key": "godot",
@@ -129,7 +129,7 @@
             "technology_key": "capcut",
             "technology_name": "CapCut",
             "official_url": "https://www.capcut.com/",
-            "logo_file": "capcut.svg",
+            "logo_file": "capcut-symbol.svg",
             "monochrome_brand": true
           }
         ]

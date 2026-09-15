@@ -1,0 +1,31 @@
+// Reusable native scrollbar treatment; the consuming component owns its layout.
+.horizontal-scrollbar {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--theme-dark-border-divider-default) transparent;
+
+  // Native thin scrollbars retain platform rounding. Use explicit parts where
+  // supported, and reset the standard properties so they do not override them.
+  @supports selector(::-webkit-scrollbar) {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+
+    &::-webkit-scrollbar {
+      height: var(--space-scale-base-gap);
+      border-radius: 0;
+    }
+
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-corner {
+      border-radius: 0;
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 0;
+      background: var(--theme-dark-border-divider-default);
+    }
+
+    &::-webkit-scrollbar-button { display: none; }
+  }
+}

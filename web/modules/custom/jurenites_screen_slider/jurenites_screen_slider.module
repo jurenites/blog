@@ -1,0 +1,39 @@
+<?php
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/** Implements hook_theme(). */
+function jurenites_screen_slider_theme(): array {
+  return ['jurenites_screen_slider' => ['variables' => ['screen_images' => []]]];
+}
+
+/** Implements hook_ENTITY_TYPE_view(). */
+function jurenites_screen_slider_paragraph_view(array &$build_output, EntityInterface $paragraph_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($paragraph_entity->bundle() !== 'screen_slider') {
+    return;
+  }
+  $image_items = $paragraph_entity->get('field_screen_images');
+  $field_access = $image_items->access('view', NULL, TRUE);
+  $cache_metadata = CacheableMetadata::createFromObject($paragraph_entity)->addCacheableDependency($field_access);
+  $screen_images = [];
+  if ($field_access->isAllowed()) {
+    foreach ($image_items as $image_item) {
+      $file_entity = $image_item->entity;
+      if (!$file_entity) {
+        continue;
+      }
+      $cache_metadata->addCacheableDependency($file_entity);
+      $screen_images[] = [
+        'image_url' => \Drupal::service('file_url_generator')->generateString($file_entity->getFileUri()),
+        'image_alt' => $image_item->alt,
+        'file_name' => $file_entity->getFilename(),
+      ];
+    }
+  }
+  usort($screen_images, static fn(array $first_image, array $second_image): int => strnatcasecmp($first_image['file_name'], $second_image['file_name']));
+  $slider_build = ['#theme' => 'jurenites_screen_slider', '#screen_images' => $screen_images];
+  $cache_metadata->applyTo($slider_build);
+  $build_output['screen_slider'] = $slider_build;
+}

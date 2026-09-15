@@ -1,0 +1,44 @@
+[
+  {
+    "company_key": "life-church",
+    "company_name": "Life.Church",
+    "website_url": "https://www.life.church/",
+    "logo_file": "life-church.svg",
+    "relationship_text": "Indirect collaboration",
+    "target_project": "Life Church Blackbriar"
+  },
+  {
+    "company_key": "funnel-design-group",
+    "company_name": "Funnel Design Group",
+    "website_url": "https://funneldesigngroup.com/",
+    "logo_file": "funnel-design-group.svg",
+    "relationship_text": "Indirect collaboration",
+    "target_project": "Oklahoma Children's Theatre"
+  },
+  {
+    "company_key": "thrive",
+    "company_name": "Thrive.io",
+    "website_url": "https://thrive.io/",
+    "logo_file": "thrive.jpg",
+    "logo_asset_file": "thrive-io-logo.svg",
+    "relationship_text": "Direct collaboration · Ongoing",
+    "target_project": ""
+  },
+  {
+    "company_key": "oysterlabs",
+    "company_name": "OysterLabs.com",
+    "website_url": "https://www.oysterlabs.com/",
+    "logo_file": "oysterlabs.webp",
+    "relationship_text": "Direct collaboration",
+    "target_project": "Oysterlabs Games Server"
+  },
+  {
+    "company_key": "volcanoideas",
+    "company_name": "VolcanoIdeas.ae",
+    "website_url": "https://volcanoideas.ae/",
+    "logo_file": "volcanoideas.svg",
+    "relationship_text": "Direct collaboration",
+    "target_project": "Global-ny.com",
+    "logo_version": "90bf587b9c14"
+  }
+]

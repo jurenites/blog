@@ -1,4 +1,5 @@
 import { install_icon_sprite } from '../src/slice/src/js/icon-sprite.js';
+import { initialize_heading_typing } from '../src/slice/src/js/heading-typing.js';
 // Storybook consumes the same compiled design system as the Drupal theme:
 // src/slice/src/scss/main.scss is the single CSS source of truth.
 import "../src/slice/src/scss/main.scss";
@@ -166,6 +167,7 @@ export const decorators = [
       initialize_site_headers(document);
       initialize_timeline_organization_rails(document);
       initialize_tooltips(document);
+      initialize_heading_typing(document);
       if (story_context.parameters.preview_watermark?.disabled) {
         remove_preview_watermark();
       } else {

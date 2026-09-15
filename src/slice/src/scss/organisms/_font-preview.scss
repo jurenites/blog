@@ -132,12 +132,15 @@
 
 .font-preview__table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .font-preview__table th,
 .font-preview__table td {
   padding: var(--space-scale-base-gap);
+  // Include the divider inside the 8px lower inset without split table borders.
+  padding-block-end: calc(var(--space-scale-base-gap) - var(--shape-border-width-hairline-default));
   border-block-end: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
   text-align: start;
   vertical-align: top;

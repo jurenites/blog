@@ -129,15 +129,33 @@ export function initialize_timeline_layout(timeline_element) {
       }, event_options);
     }
   });
+  // The enhanced layout moves detail cards. Resolve deep links after that move
+  // and again once fonts settle so the requested project remains in view.
+  const reveal_linked_project = () => {
+    const fragment_value = timeline_window.location.hash.slice(1);
+    if (!fragment_value) return;
+    let fragment_id;
+    try { fragment_id = decodeURIComponent(fragment_value); } catch { return; }
+    const target_card = timeline_document.getElementById(fragment_id);
+    if (!target_card || !timeline_element.contains(target_card) || !target_card.matches('.timeline__year-detail')) return;
+    target_card.focus({ preventScroll: true });
+    target_card.scrollIntoView({ block: 'start', behavior: 'instant' });
+    schedule_synchronization();
+  };
+  timeline_window.addEventListener('hashchange', reveal_linked_project, event_options);
   timeline_window.addEventListener('scroll', schedule_synchronization, { ...event_options, passive: true });
   timeline_window.addEventListener('resize', measure_calendar, event_options);
   const resize_observer = new timeline_window.ResizeObserver(measure_calendar);
   resize_observer.observe(details_column);
   resize_observer.observe(rail_window);
   timeline_document.fonts?.ready.then(() => {
-    if (!listener_controller.signal.aborted) measure_calendar();
+    if (!listener_controller.signal.aborted) {
+      measure_calendar();
+      reveal_linked_project();
+    }
   });
   measure_calendar();
+  reveal_linked_project();
   timeline_element.jurenites_timeline_layout_destroy = () => {
     listener_controller.abort();
     resize_observer.disconnect();

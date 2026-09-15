@@ -78,7 +78,8 @@ The builder infers token types and normalizes the source into internal DTCG reco
 
 Run `npm run build:tokens` after editing `src/token/tokens.yaml`. `npm run build:theme` runs tokens first automatically.
 Token generation immediately runs `npm run tokens:check`, so copied HEX values,
-lowercase HEX letters in the token source, CSS opacity declarations, and
+lowercase HEX letters in the token source, static CSS opacity declarations
+(only `0`/`1` visibility keyframes are allowed), and
 undefined SCSS token references fail the build. Verbose token metadata fields
 and redundant `key: key` self-mappings also fail; use YAML comments for
 explanations and keep Storybook option arrays with their stories. `npm run lint`
@@ -153,6 +154,11 @@ chronology and its content model are documented in `docs/drupal-content-model.md
 The Storybook interface and every preview screen display release identity in the
 bottom-right corner: the shared project version, deployed Git commit hash,
 collaboration credit, and release time in GMT.
+
+The shared Version Watermark has an opaque dark page-token background and 4px
+inner padding on every edge in Drupal, Storybook previews, and its component
+story. The background stays constant while scrolling; the current token's RGB
+channels are all below the requested maximum of 153 per channel.
 
 The tracked `web/themes/custom/jurenites_theme/release-info.json` is the shared
 release record. Drupal reads that file and resolves the current checkout hash

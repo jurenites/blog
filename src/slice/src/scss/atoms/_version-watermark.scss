@@ -9,6 +9,8 @@
   right: var(--space-scale-base-gap);
   bottom: var(--space-scale-base-gap);
   z-index: var(--component-watermark-layer-default);
+  padding: calc(var(--space-scale-base-gap) / 2);
+  background: var(--theme-dark-surface-background-page);
   color: var(--component-watermark-color-credit-default);
   user-select: none;
   white-space: nowrap;

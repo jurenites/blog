@@ -1,0 +1,29 @@
+{% if company_items %}
+  <section class="company-slider" data-company-slider aria-label="{{ section_heading }}" aria-roledescription="{{ 'carousel'|t }}">
+    <div class="company-slider__header">
+      <h2 class="company-slider__heading">{{ section_heading }}</h2>
+      <div class="company-slider__controls" data-company-controls hidden>
+        <button class="company-slider__control" type="button" data-company-previous aria-label="{{ 'Previous companies'|t }}">
+          {% include '@jurenites_theme/components/icon.html.twig' with {icon_name: 'arrow-left', icon_class: 'company-slider__control-icon'} only %}
+        </button>
+        <button class="company-slider__control" type="button" data-company-next aria-label="{{ 'Next companies'|t }}">
+          {% include '@jurenites_theme/components/icon.html.twig' with {icon_name: 'arrow-left', icon_class: 'company-slider__control-icon company-slider__control-icon--next'} only %}
+        </button>
+      </div>
+    </div>
+    <ul class="company-slider__track horizontal-scrollbar" data-company-track tabindex="0" aria-label="{{ 'Companies. Use left and right arrow keys to scroll.'|t }}">
+      {% for company_data in company_items %}
+        <li class="company-slider__item">
+          <a id="{{ company_data.company_link_id }}" class="company-slider__company-link" href="{{ company_data.website_url }}" aria-label="{{ company_data.company_name }}">
+            <span class="company-slider__artwork">
+              <img class="company-slider__logo company-slider__logo--{{ company_data.company_key }}" src="{{ asset_directory }}{{ company_data.logo_file }}{{ company_data.logo_version ? "?v=" ~ company_data.logo_version : "" }}" alt="" loading="lazy" decoding="async">
+            </span>
+            <span class="company-slider__name">{{ company_data.company_name }}</span>
+          </a>
+          <p class="company-slider__relationship">{{ company_data.relationship_text }}</p>
+          <a class="company-slider__projects" href="{{ company_data.projects_url }}" aria-label="{{ 'See the projects: @company'|t({'@company': company_data.company_name}) }}">{{ 'See the projects'|t }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}

@@ -1,0 +1,22 @@
+msgid ""
+msgstr ""
+"Language: ru\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "See the projects"
+msgstr "Смотреть проекты"
+
+msgid "See the projects: @company"
+msgstr "Смотреть проекты: @company"
+
+msgid "Previous companies"
+msgstr "Предыдущие компании"
+
+msgid "Next companies"
+msgstr "Следующие компании"
+
+msgid "Companies. Use left and right arrow keys to scroll."
+msgstr "Компании. Используйте стрелки влево и вправо для прокрутки."
+
+msgid "carousel"
+msgstr "карусель"

@@ -45,6 +45,7 @@
     <div class="article-detail__youtube-video">
       {% include '@jurenites_theme/components/video-loader.html.twig' with {
         video_content: content.field_youtube_video,
+        image_transition_name: 'article-image-' ~ article_id,
       } only %}
       {% if youtube_video_title or youtube_author_name %}
         <div class="youtube-video-details">

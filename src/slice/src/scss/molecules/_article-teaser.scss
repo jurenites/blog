@@ -485,7 +485,7 @@
   @include tools.typography-caption;
 }
 
-.portfolio-filter .chip[aria-current="true"] {
+.portfolio-filter__chip[aria-current="true"] {
   background: var(--theme-dark-surface-background-elevation-level-2);
   color: var(--color-palette-brand-tertiary);
 }

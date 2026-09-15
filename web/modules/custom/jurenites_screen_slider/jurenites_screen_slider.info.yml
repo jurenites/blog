@@ -1,0 +1,9 @@
+name: Jurenites Screen Slider
+type: module
+description: 'Editable, continuously scrolling mobile screen galleries.'
+core_version_requirement: ^11
+package: Jurenites
+dependencies:
+  - drupal:image
+  - paragraphs:paragraphs
+  - jurenites_font_projects:jurenites_font_projects

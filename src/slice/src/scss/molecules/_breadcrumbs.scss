@@ -11,6 +11,13 @@
   @include tools.typography-caption;
 }
 
+// Article contents can widen the outer frame; navigation follows the Body column.
+.layout-content:has(article.article-detail) .breadcrumbs {
+  width: 100%;
+  max-width: var(--layout-content-max-blog-default);
+  margin-inline: auto;
+}
+
 .breadcrumbs__back-link {
   display: inline-flex;
   align-items: center;

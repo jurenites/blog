@@ -1,0 +1,14 @@
+name: Jurenites Companies
+type: module
+description: Editable company collaborations with a horizontal logo slider.
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:block
+  - drupal:block_content
+  - drupal:content_translation
+  - drupal:link
+  - drupal:options
+  - paragraphs:paragraphs
+  - entity_reference_revisions:entity_reference_revisions
+  - jurenites_timeline:jurenites_timeline

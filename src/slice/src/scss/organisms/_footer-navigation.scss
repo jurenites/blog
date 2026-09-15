@@ -4,11 +4,11 @@
 
 .footer-navigation {
   display: grid;
-  gap: calc(var(--space-scale-base-gap) * 4);
+  gap: calc(var(--space-scale-base-gap) * 3);
   width: calc(100% - (var(--layout-gutter-desktop-default) * 2));
   max-width: var(--layout-content-max-wide-default);
   margin: 0 auto var(--layout-gutter-desktop-default);
-  padding-top: calc(var(--space-scale-base-gap) * 4);
+  padding-top: calc(var(--space-scale-base-gap) * 3);
   border-top: var(--space-scale-one) solid var(--theme-dark-border-divider-default);
 }
 
@@ -57,6 +57,7 @@ body.jurenites-theme .footer-navigation a.footer-navigation__link--with-badge {
   text-decoration: none;
   @include tools.motion-transition(color);
 
+  &.is-active,
   &:hover,
   &:focus-visible {
     color: var(--color-palette-brand-tertiary);

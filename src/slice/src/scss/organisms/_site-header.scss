@@ -71,7 +71,9 @@
   &__brand-name-short {
     position: relative;
     display: flex;
-    align-items: baseline;
+    // Animated font sizes have different baselines, even with the same line box.
+    // Center the boxes so the reveal never enlarges the header's grid row.
+    align-items: center;
     gap: var(--space-scale-two);
     white-space: nowrap;
     transition-property: gap;
@@ -94,7 +96,7 @@
   &__brand-name-word,
   &__brand-name-remainder {
     display: inline-flex;
-    align-items: baseline;
+    align-items: center;
   }
 
   &__brand-name-initial {

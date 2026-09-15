@@ -11,7 +11,6 @@
 .home-introduction__heading > .two-tone-heading {
   @include tools.typography-headline-2;
 
-  line-height: 1.1;
   text-wrap: initial;
 }
 
@@ -30,7 +29,6 @@
 
 .home-introduction__description p {
   margin: 0;
-  line-height: 1.65;
 }
 
 @include tools.breakpoint-down("mobile-max") {
@@ -40,8 +38,6 @@
 
   .home-introduction__heading > .two-tone-heading {
     @include tools.typography-headline-3;
-
-    line-height: 1.15;
   }
 
   .home-introduction__details {

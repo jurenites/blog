@@ -59,6 +59,29 @@ Runtime code may add temporary sizing only after the page has loaded when it is
 strictly required for skeleton-loading behavior. Do not use that exception for
 the component's normal layout or final rendered appearance.
 
+## Vertical Rhythm
+
+Text line boxes must resolve to even whole CSS pixels at the default text scale;
+use the existing 8px grid for component line heights, padding, and gaps. Atom
+heights may use even sub-grid values when needed inside a larger component.
+Preserve grid-aligned typography-role line heights. Round fluid line heights up
+to the base grid, with a grid-aligned fallback. Animated text must keep its
+container height stable throughout the transition. Inline glyph bounds and
+transformed artwork are distinct from the line boxes that determine layout.
+
+## Letter Spacing
+
+Keep loaded text at `letter-spacing: normal`. Do not introduce custom tracking
+or override font kerning without an explicit request. Heading typing may
+temporarily add 2% (`0.02em`) spacing, then animate that addition back to zero
+after typing stops, restoring normal text spacing.
+
+## Corner Shape
+
+Use square corners for UI elements, including slider pagination markers. Avatar
+is the circular exception. Do not introduce other rounded corners unless the
+user explicitly requests them.
+
 ## Selector Scope
 
 Target the exact semantic element or component role being styled. When a

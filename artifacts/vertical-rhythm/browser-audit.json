@@ -1,0 +1,3109 @@
+{
+  "audit_results": [
+    {
+      "story_id": "foundations-colors-abstraction-levels--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-abstraction-levels--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-abstraction-levels--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-abstraction-levels--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-abstraction-levels--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-color-contrast--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-color-contrast--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-color-contrast--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-color-contrast--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-palette--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-palette--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-color-contrast--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-palette--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-palette--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-colors-palette--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-fonts-fonts--font-family-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-fonts-fonts--font-family-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-fonts-fonts--font-family-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-fonts-fonts--font-family-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-fonts-fonts--font-family-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-spacing-and-elevation--scale-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-spacing-and-elevation--scale-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-spacing-and-elevation--scale-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-spacing-and-elevation--scale-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-spacing-and-elevation--scale-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-fonts-typography--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-fonts-typography--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-avatar--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-fonts-typography--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-fonts-typography--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "foundations-fonts-typography--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-avatar--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-avatar--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-avatar--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-avatar--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-avatar--uploaded-state",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-avatar--uploaded-state",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-avatar--uploaded-state",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-avatar--uploaded-state",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-avatar--uploaded-state",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-badge--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-badge--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-badge--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-badge--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-badge--numeric-badge",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-badge--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-badge--numeric-badge",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-badge--numeric-badge",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-badge--numeric-badge",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-badge--numeric-badge",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-blockquote--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-blockquote--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-blockquote--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-blockquote--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-blockquote--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-button--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-button--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-button--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-button--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-button--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-chip--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-chip--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-chip--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-chip--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-chip--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-crossfade-dot--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-crossfade-dot--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-crossfade-dot--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-crossfade-dot--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-crossfade-dot--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--absolute-date",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--absolute-date",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--absolute-date",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--absolute-date",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--absolute-date",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--elapsed-time",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--elapsed-time",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--elapsed-time",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--elapsed-time",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--elapsed-time",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--reading-duration",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--reading-duration",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--reading-duration",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--reading-duration",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--reading-duration",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--video-duration",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--video-duration",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--video-duration",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--video-duration",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-date-time-value--video-duration",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-divider--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-divider--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-divider--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-divider--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-divider--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-icon--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-icon--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-icon--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-icon--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-icon--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-inline-code--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-inline-code--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-inline-code--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-inline-code--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-inline-code--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-inline-code--raised-surface",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-inline-code--raised-surface",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-inline-code--raised-surface",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-inline-code--raised-surface",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-inline-code--raised-surface",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-pulse-indicator--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-pulse-indicator--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-pulse-indicator--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-pulse-indicator--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-pulse-indicator--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-pulse-indicator--paused-state",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-pulse-indicator--paused-state",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-pulse-indicator--paused-state",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-pulse-indicator--paused-state",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-pulse-indicator--paused-state",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-surface--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-surface--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-surface--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-surface--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-surface--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-tooltip--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-tooltip--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-tooltip--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-tooltip--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-tooltip--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-two-tone-heading--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-two-tone-heading--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-two-tone-heading--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-two-tone-heading--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-two-tone-heading--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-version-watermark--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-version-watermark--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-version-watermark--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-version-watermark--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-article-teaser--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-article-teaser--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "atoms-version-watermark--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-article-teaser--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-article-teaser--three-tile-grid",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-article-teaser--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-article-teaser--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-article-teaser--three-tile-grid",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-article-teaser--three-tile-grid",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-article-teaser--three-tile-grid",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-article-teaser--three-tile-grid",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--stacked-teaser",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--stacked-teaser",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--stacked-teaser",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--stacked-teaser",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--stacked-teaser",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--youtube-reference",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--youtube-reference",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--youtube-reference",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--youtube-reference",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--youtube-reference",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--youtube-collaboration",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--youtube-collaboration",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--youtube-collaboration",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--youtube-collaboration",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-identity--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-identity--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-byline--youtube-collaboration",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-identity--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-identity--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-author-identity--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-breadcrumbs--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-breadcrumbs--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-breadcrumbs--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-breadcrumbs--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-breadcrumbs--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-breadcrumbs--guideline-detail",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-breadcrumbs--guideline-detail",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-breadcrumbs--guideline-detail",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-breadcrumbs--guideline-detail",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-breadcrumbs--guideline-detail",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-comment-message--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-comment-message--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-comment-message--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-comment-message--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-comment-message--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-news-list-item--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-news-list-item--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-news-list-item--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-news-list-item--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-blog-news-list-item--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-video-article-blog-list-item--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-video-article-blog-list-item--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-video-article-blog-list-item--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-video-article-blog-list-item--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-video-article-blog-list-item--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-input-fields-select-input--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-input-fields-select-input--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-input-fields-select-input--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-input-fields-select-input--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-audit-comparison--oksenate-results",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-input-fields-select-input--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-audit-comparison--oksenate-results",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-audit-comparison--oksenate-results",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-audit-comparison--oksenate-results",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-audit-comparison--oksenate-results",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-contact-me-widget--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-contact-me-widget--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-contact-me-widget--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-contact-me-widget--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-contact-me-widget--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-contact-photo--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-contact-photo--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-contact-photo--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-contact-photo--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-contact-photo--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-cookie-policy-notice--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-cookie-policy-notice--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-cookie-policy-notice--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-cookie-policy-notice--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--logo-icon",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-cookie-policy-notice--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--logo-icon",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--logo-icon",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--logo-icon",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--logo-icon",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--color-guideline",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--color-guideline",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--color-guideline",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--color-guideline",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--color-guideline",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--overview-grid",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--overview-grid",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--overview-grid",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--overview-grid",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-guidelines-guideline-tile--overview-grid",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-input-fields-input-text--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-input-fields-input-text--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-input-fields-input-text--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-input-fields-input-text--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-input-fields-input-text--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-media-loader--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-media-loader--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-media-loader--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-media-loader--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-media-loader--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-media-loader--external-video-noise",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-media-loader--external-video-noise",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-media-loader--external-video-noise",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-media-loader--external-video-noise",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--status-message",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-media-loader--external-video-noise",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--status-message",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--status-message",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--status-message",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--status-message",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--warning-message",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--warning-message",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--warning-message",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--warning-message",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--warning-message",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--error-message",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--error-message",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--error-message",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--error-message",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-pagination--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-message-toast--error-message",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-pagination--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-pagination--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-pagination--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-pagination--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-project-card--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-project-card--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-project-card--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-project-card--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-project-card--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-project-card--four-item-gallery",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-project-card--four-item-gallery",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-project-card--four-item-gallery",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-project-card--four-item-gallery",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-project-card--four-item-gallery",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-pull-quote--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-pull-quote--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-pull-quote--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-pull-quote--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-pull-quote--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-search-form--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-search-form--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-search-form--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-search-form--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "molecules-search-form--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--repeated-and-cyrillic-headings",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--repeated-and-cyrillic-headings",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--repeated-and-cyrillic-headings",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--repeated-and-cyrillic-headings",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--repeated-and-cyrillic-headings",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--single-heading",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--single-heading",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--single-heading",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--single-heading",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--single-heading",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--without-headings",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--without-headings",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--without-headings",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--without-headings",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-article-table-of-contents--without-headings",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-call-to-action--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-call-to-action--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-call-to-action--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-call-to-action--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-call-to-action--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-component-status--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-component-status--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-component-status--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-component-status--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-component-status--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-faq--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-faq--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-faq--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-faq--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-faq--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-faq--all-closed",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-faq--all-closed",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-faq--all-closed",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-faq--all-closed",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-faq--all-closed",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-font-preview-4pixel--interactive-preview",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-font-preview-4pixel--interactive-preview",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-font-preview-4pixel--interactive-preview",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-font-preview-4pixel--interactive-preview",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-font-preview-roundabout--interactive-preview",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-font-preview-4pixel--interactive-preview",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-font-preview-roundabout--interactive-preview",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-font-preview-roundabout--interactive-preview",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-font-preview-roundabout--interactive-preview",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-font-preview-roundabout--interactive-preview",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--guideline-parent-active",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--guideline-parent-active",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--guideline-parent-active",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--guideline-parent-active",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--guideline-parent-active",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--guideline-page-active",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--guideline-page-active",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--guideline-page-active",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--guideline-page-active",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-footer-navigation--guideline-page-active",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--glider-example",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--glider-example",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--glider-example",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--glider-example",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--glider-example",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--blinker-example",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--blinker-example",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--blinker-example",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--blinker-example",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--blinker-example",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--block-example",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--block-example",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--block-example",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--block-example",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--block-example",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--beehive-example",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--beehive-example",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--beehive-example",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--beehive-example",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--beehive-example",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--toad-example",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--toad-example",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--toad-example",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--toad-example",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--toad-example",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--boat-example",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--boat-example",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--boat-example",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--boat-example",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life-example--boat-example",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life--thumbnail-preview",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life--thumbnail-preview",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life--thumbnail-preview",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life--thumbnail-preview",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-game-of-life--thumbnail-preview",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-guidelines-guideline-detail--logo-icon",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-guidelines-guideline-detail--logo-icon",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-guidelines-guideline-detail--logo-icon",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-guidelines-guideline-detail--logo-icon",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-guidelines-guideline-detail--logo-icon",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-guidelines-guideline-detail--color-guideline",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-guidelines-guideline-detail--color-guideline",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-guidelines-guideline-detail--color-guideline",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-guidelines-guideline-detail--color-guideline",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-guidelines-guideline-detail--color-guideline",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--single-slide",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--single-slide",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--single-slide",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--single-slide",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--single-slide",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--without-image",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--without-image",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--without-image",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--without-image",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--without-image",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--without-glow",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--without-glow",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--without-glow",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--without-glow",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-hero-section--without-glow",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-home-introduction--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-home-introduction--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-home-introduction--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-home-introduction--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-home-introduction--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-interest-tags--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-interest-tags--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-interest-tags--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-interest-tags--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-interest-tags--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--portfolio-entrance",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--portfolio-entrance",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--portfolio-entrance",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--portfolio-entrance",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--portfolio-entrance",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--contact-invitation",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--contact-invitation",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--contact-invitation",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--contact-invitation",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--contact-invitation",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--about-the-process",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--about-the-process",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--about-the-process",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--about-the-process",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--about-the-process",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--static-scene",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--static-scene",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--static-scene",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--static-scene",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--background-only",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--static-scene",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--background-only",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--background-only",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--without-image",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--without-image",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--background-only",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--background-only",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--without-image",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-newsletter-signup--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--without-image",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-layered-scene--without-image",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-newsletter-signup--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-newsletter-signup--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-newsletter-signup--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-newsletter-signup--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--large-value-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--large-value-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--large-value-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--large-value-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--large-value-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--tracked-caption-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--tracked-caption-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--tracked-caption-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--tracked-caption-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-numeric-values--tracked-caption-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-pixel-glyph-editor--blank-grid",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-pixel-glyph-editor--blank-grid",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-pixel-glyph-editor--blank-grid",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-pixel-glyph-editor--blank-grid",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-pixel-glyph-editor--blank-grid",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-screen-slider--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-screen-slider--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-screen-slider--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-screen-slider--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-screen-slider--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--homepage-overlay",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--homepage-overlay",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--homepage-overlay",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--homepage-overlay",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--mobile-menu-open",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--mobile-menu-open",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--homepage-overlay",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--mobile-menu-open",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--mobile-menu-open",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-top-nav-menu-site-header--mobile-menu-open",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--provisional-ratings",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--provisional-ratings",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--provisional-ratings",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--provisional-ratings",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--provisional-ratings",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--not-assessed",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--not-assessed",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--not-assessed",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--not-assessed",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--not-assessed",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--rating-boundaries",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--rating-boundaries",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--rating-boundaries",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--rating-boundaries",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--mobile-profile",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--rating-boundaries",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--mobile-profile",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--mobile-profile",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--mobile-profile",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-skills-profile--mobile-profile",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-technology-stack--default-stack",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-technology-stack--default-stack",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-technology-stack--default-stack",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-technology-stack--default-stack",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-technology-stack--default-stack",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-technology-stack--mobile-stack",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-technology-stack--mobile-stack",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-technology-stack--mobile-stack",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-technology-stack--mobile-stack",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-technology-stack--mobile-stack",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-timeline--commercial-projects-timeline",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-timeline--commercial-projects-timeline",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-timeline--commercial-projects-timeline",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-timeline--commercial-projects-timeline",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-timeline--commercial-projects-timeline",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--lazy-loading",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--lazy-loading",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--lazy-loading",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--lazy-loading",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--pagination-fallback",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--lazy-loading",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--pagination-fallback",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--pagination-fallback",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--pagination-fallback",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--pagination-fallback",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--loading-failure",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--loading-failure",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--loading-failure",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--loading-failure",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-video-video-grid--loading-failure",
+      "viewport_width": 1920,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-website-audit--default-story",
+      "viewport_width": 360,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-website-audit--default-story",
+      "viewport_width": 1280,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-website-audit--default-story",
+      "viewport_width": 768,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-website-audit--default-story",
+      "viewport_width": 1440,
+      "text_issues": []
+    },
+    {
+      "story_id": "organisms-website-audit--default-story",
+      "viewport_width": 1920,
+      "text_issues": []
+    }
+  ],
+  "header_results": [
+    {
+      "viewport_width": 768,
+      "interaction_name": "hover",
+      "sample_count": 196,
+      "geometry": {
+        ".site-header": {
+          "top": 32,
+          "height": 112
+        },
+        ".site-header__brand-name": {
+          "top": 40,
+          "height": 48
+        },
+        "#following-content-marker": {
+          "top": 144,
+          "height": 24
+        }
+      }
+    },
+    {
+      "viewport_width": 768,
+      "interaction_name": "focus",
+      "sample_count": 195,
+      "geometry": {
+        ".site-header": {
+          "top": 32,
+          "height": 112
+        },
+        ".site-header__brand-name": {
+          "top": 40,
+          "height": 48
+        },
+        "#following-content-marker": {
+          "top": 144,
+          "height": 24
+        }
+      }
+    },
+    {
+      "viewport_width": 768,
+      "interaction_name": "reduced-motion",
+      "sample_count": 197,
+      "geometry": {
+        ".site-header": {
+          "top": 32,
+          "height": 112
+        },
+        ".site-header__brand-name": {
+          "top": 40,
+          "height": 48
+        },
+        "#following-content-marker": {
+          "top": 144,
+          "height": 24
+        }
+      }
+    },
+    {
+      "viewport_width": 1280,
+      "interaction_name": "hover",
+      "sample_count": 198,
+      "geometry": {
+        ".site-header": {
+          "top": 32,
+          "height": 112
+        },
+        ".site-header__brand-name": {
+          "top": 40,
+          "height": 48
+        },
+        "#following-content-marker": {
+          "top": 144,
+          "height": 24
+        }
+      }
+    },
+    {
+      "viewport_width": 1280,
+      "interaction_name": "focus",
+      "sample_count": 194,
+      "geometry": {
+        ".site-header": {
+          "top": 32,
+          "height": 112
+        },
+        ".site-header__brand-name": {
+          "top": 40,
+          "height": 48
+        },
+        "#following-content-marker": {
+          "top": 144,
+          "height": 24
+        }
+      }
+    },
+    {
+      "viewport_width": 1280,
+      "interaction_name": "reduced-motion",
+      "sample_count": 197,
+      "geometry": {
+        ".site-header": {
+          "top": 32,
+          "height": 112
+        },
+        ".site-header__brand-name": {
+          "top": 40,
+          "height": 48
+        },
+        "#following-content-marker": {
+          "top": 144,
+          "height": 24
+        }
+      }
+    },
+    {
+      "viewport_width": 1440,
+      "interaction_name": "hover",
+      "sample_count": 197,
+      "geometry": {
+        ".site-header": {
+          "top": 32,
+          "height": 64
+        },
+        ".site-header__brand-name": {
+          "top": 40,
+          "height": 48
+        },
+        "#following-content-marker": {
+          "top": 96,
+          "height": 24
+        }
+      }
+    },
+    {
+      "viewport_width": 1440,
+      "interaction_name": "focus",
+      "sample_count": 193,
+      "geometry": {
+        ".site-header": {
+          "top": 32,
+          "height": 64
+        },
+        ".site-header__brand-name": {
+          "top": 40,
+          "height": 48
+        },
+        "#following-content-marker": {
+          "top": 96,
+          "height": 24
+        }
+      }
+    },
+    {
+      "viewport_width": 1440,
+      "interaction_name": "reduced-motion",
+      "sample_count": 197,
+      "geometry": {
+        ".site-header": {
+          "top": 32,
+          "height": 64
+        },
+        ".site-header__brand-name": {
+          "top": 40,
+          "height": 48
+        },
+        "#following-content-marker": {
+          "top": 96,
+          "height": 24
+        }
+      }
+    },
+    {
+      "viewport_width": 1920,
+      "interaction_name": "hover",
+      "sample_count": 197,
+      "geometry": {
+        ".site-header": {
+          "top": 32,
+          "height": 64
+        },
+        ".site-header__brand-name": {
+          "top": 40,
+          "height": 48
+        },
+        "#following-content-marker": {
+          "top": 96,
+          "height": 24
+        }
+      }
+    },
+    {
+      "viewport_width": 1920,
+      "interaction_name": "focus",
+      "sample_count": 193,
+      "geometry": {
+        ".site-header": {
+          "top": 32,
+          "height": 64
+        },
+        ".site-header__brand-name": {
+          "top": 40,
+          "height": 48
+        },
+        "#following-content-marker": {
+          "top": 96,
+          "height": 24
+        }
+      }
+    },
+    {
+      "viewport_width": 1920,
+      "interaction_name": "reduced-motion",
+      "sample_count": 197,
+      "geometry": {
+        ".site-header": {
+          "top": 32,
+          "height": 64
+        },
+        ".site-header__brand-name": {
+          "top": 40,
+          "height": 48
+        },
+        "#following-content-marker": {
+          "top": 96,
+          "height": 24
+        }
+      }
+    }
+  ]
+}

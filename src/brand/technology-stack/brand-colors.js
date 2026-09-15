@@ -5,3 +5,5 @@ export const TECHNOLOGY_BRAND_COLORS = {
   laravel: '#FF2D20',
   react: '#61DAFB',
 };
+
+export const PHP_LETTER_COLOR = '#000000';

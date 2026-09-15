@@ -1,0 +1,23 @@
+<section class="faq">
+  <div class="faq__heading">
+    {% include '@jurenites_theme/components/two-tone-heading.html.twig' with {
+      heading_level: 'h2', leading_text: heading_text,
+      soft_text: subheading_text, soft_text_placement: 'new-line',
+    } only %}
+  </div>
+  <div class="faq__items">
+    {% for faq_item in faq_items %}
+      <details class="faq__item"{% if loop.first %} open{% endif %}>
+        <summary class="faq__question">
+          <span class="faq__question-number">Q.{{ loop.index }}?</span>
+          <span class="faq__question-text">{{ faq_item.question_text }}</span>
+          <span class="faq__toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq__answer">
+          <span class="faq__answer-number">A.{{ loop.index }}!</span>
+          <div class="faq__answer-body">{{ faq_item.answer_body }}</div>
+        </div>
+      </details>
+    {% endfor %}
+  </div>
+</section>

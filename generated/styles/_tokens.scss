@@ -10,7 +10,7 @@
   --system-breakpoint-desktop-min: 1280px;
   --system-breakpoint-desktop-max: 1920px;
   --system-breakpoint-site-header-inline-min: 1440px;
-  --system-breakpoint-article-sidebar-min: 992px;
+  --system-breakpoint-article-sidebar-min: 1184px;
   --system-breakpoint-content-gutter-max: 1008px;
   --color-palette-full-black: #000000;
   --color-palette-dark-black: #020618;
@@ -72,23 +72,23 @@
   --typography-font-family-number: "Ubuntu Sans Mono", monospace;
   --typography-font-family-roundabout: "Roundabout", "Open Sans", sans-serif;
   --typography-font-family-4pixel: "4pixel", monospace;
-  --typography-headline-1: 600 96px var(--typography-font-family-sans);
-  --typography-headline-2: 600 64px var(--typography-font-family-sans);
-  --typography-headline-3: 600 40px var(--typography-font-family-sans);
-  --typography-headline-4: 600 32px var(--typography-font-family-sans);
-  --typography-headline-5: 24px var(--typography-font-family-sans);
-  --typography-headline-6: 20px var(--typography-font-family-sans);
-  --typography-subtitle-1: 16px var(--typography-font-family-sans);
-  --typography-subtitle-2: 14px var(--typography-font-family-sans);
-  --typography-eyebrow: 14px var(--typography-font-family-sans);
+  --typography-headline-1: 100 96px/112px var(--typography-font-family-sans);
+  --typography-headline-2: 100 64px/80px var(--typography-font-family-sans);
+  --typography-headline-3: 100 40px/48px var(--typography-font-family-sans);
+  --typography-headline-4: 100 32px/40px var(--typography-font-family-sans);
+  --typography-headline-5: 24px/32px var(--typography-font-family-sans);
+  --typography-headline-6: 20px/24px var(--typography-font-family-sans);
+  --typography-subtitle-1: 16px/24px var(--typography-font-family-sans);
+  --typography-subtitle-2: 14px/16px var(--typography-font-family-sans);
+  --typography-eyebrow: 14px/16px var(--typography-font-family-sans);
   --typography-body: 300 16px/24px var(--typography-font-family-sans);
-  --typography-body-2: 14px var(--typography-font-family-sans);
-  --typography-link: 300 16px var(--typography-font-family-sans);
-  --typography-caption: 14px var(--typography-font-family-sans);
-  --typography-badge: 500 12px var(--typography-font-family-sans);
-  --typography-numeric-display: 64px var(--typography-font-family-number);
-  --typography-machine-readable: 14px var(--typography-font-family-number);
-  --typography-overline: 5px var(--typography-font-family-4pixel);
+  --typography-body-2: 14px/16px var(--typography-font-family-sans);
+  --typography-link: 300 16px/24px var(--typography-font-family-sans);
+  --typography-caption: 14px/16px var(--typography-font-family-sans);
+  --typography-badge: 500 12px/16px var(--typography-font-family-sans);
+  --typography-numeric-display: 64px/80px var(--typography-font-family-number);
+  --typography-machine-readable: 14px/16px var(--typography-font-family-number);
+  --typography-overline: 5px/8px var(--typography-font-family-4pixel);
   --space-scale-zero: 0px;
   --space-scale-one: 1px;
   --space-scale-two: 2px;
@@ -130,7 +130,7 @@
   --component-call-to-action-background-color: var(--color-palette-dark-black);
   --component-call-to-action-heading-size-min: 24px;
   --component-call-to-action-heading-size-max: 96px;
-  --component-call-to-action-heading-letter-spacing: calc(-0.055 * 1em);
+  --component-call-to-action-heading-letter-spacing: normal;
   --component-call-to-action-heading-line-height: 1.05;
   --component-website-audit-background-color: var(--color-palette-dark-black);
   --component-status-indicator-size-default: 8px;
@@ -332,7 +332,7 @@ $system-breakpoint-tablet-max: 1279px;
 $system-breakpoint-desktop-min: 1280px;
 $system-breakpoint-desktop-max: 1920px;
 $system-breakpoint-site-header-inline-min: 1440px;
-$system-breakpoint-article-sidebar-min: 992px;
+$system-breakpoint-article-sidebar-min: 1184px;
 $system-breakpoint-content-gutter-max: 1008px;
 
 $breakpoints: (
@@ -343,7 +343,7 @@ $breakpoints: (
   "desktop-min": 1280px,
   "desktop-max": 1920px,
   "site-header-inline-min": 1440px,
-  "article-sidebar-min": 992px,
+  "article-sidebar-min": 1184px,
   "content-gutter-max": 1008px,
 );
 

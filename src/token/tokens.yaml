@@ -19,7 +19,7 @@ system:
     desktop-min: 1280px # Lower bound of the desktop range and the primary design width.
     desktop-max: 1920px # Maximum tested desktop viewport. Wider screens keep desktop behavior and show additional page background outside centered content.
     site-header-inline-min: 1440px # Visible navigation moves to a second row below this width; the compact menu starts at mobile-max.
-    article-sidebar-min: 992px # Available article frame: 800px Body + 32px gap + 160px contents sidebar.
+    article-sidebar-min: 1184px # Centered 800px Body + two equal side tracks, each with a 32px gap and 160px minimum width.
     content-gutter-max: 1008px # 960px wide content plus 24px of space on each side.
   naming:
     separator: "-" # Flattened token names use dash-separated namespaces.
@@ -96,25 +96,26 @@ typography:
     number: ["Ubuntu Sans Mono", monospace] # Humanist monospace family for machine-readable text and numbers.
     roundabout: [Roundabout, "Open Sans", sans-serif] # Demonstration-only custom font; never use for website headings or UI.
     4pixel: [4pixel, monospace] # Demonstration and compact technical-detail font.
-  headline-1: '600 96px var(--typography-font-family-sans)' # <h1>
-  headline-2: '600 64px var(--typography-font-family-sans)' # <h2>
-  headline-3: '600 40px var(--typography-font-family-sans)' # <h3>
-  headline-4: '600 32px var(--typography-font-family-sans)' # <h4>
-  headline-5: '24px var(--typography-font-family-sans)' # <h5>
-  headline-6: '20px var(--typography-font-family-sans)' # <h6>; Open Sans Light below 24px.
-  subtitle-1: '16px var(--typography-font-family-sans)'
-  subtitle-2: '14px var(--typography-font-family-sans)'
-  eyebrow: '14px var(--typography-font-family-sans)'
+  # Explicit line boxes follow the 8px grid; never rely on the font's normal line height.
+  headline-1: '100 96px/112px var(--typography-font-family-sans)' # <h1>
+  headline-2: '100 64px/80px var(--typography-font-family-sans)' # <h2>
+  headline-3: '100 40px/48px var(--typography-font-family-sans)' # <h3>
+  headline-4: '100 32px/40px var(--typography-font-family-sans)' # <h4>
+  headline-5: '24px/32px var(--typography-font-family-sans)' # <h5>
+  headline-6: '20px/24px var(--typography-font-family-sans)' # <h6>; Open Sans Light below 24px.
+  subtitle-1: '16px/24px var(--typography-font-family-sans)'
+  subtitle-2: '14px/16px var(--typography-font-family-sans)'
+  eyebrow: '14px/16px var(--typography-font-family-sans)'
   body: '300 16px/24px var(--typography-font-family-sans)'
-  body-2: '14px var(--typography-font-family-sans)' # Compact supporting copy in cards and dense UI; full article body remains on body.
-  link: '300 16px var(--typography-font-family-sans)' # Components add the required underline separately.
-  caption: '14px var(--typography-font-family-sans)'
-  badge: '500 12px var(--typography-font-family-sans)'
+  body-2: '14px/16px var(--typography-font-family-sans)' # Compact supporting copy in cards and dense UI; full article body remains on body.
+  link: '300 16px/24px var(--typography-font-family-sans)' # Components add the required underline separately.
+  caption: '14px/16px var(--typography-font-family-sans)'
+  badge: '500 12px/16px var(--typography-font-family-sans)'
 
-  numeric-display: '64px var(--typography-font-family-number)' # Large statistics and other prominent numeric values.
-  machine-readable: '14px var(--typography-font-family-number)' # Compact system values and identifiers in the Ubuntu Sans Mono family.
+  numeric-display: '64px/80px var(--typography-font-family-number)' # Large statistics and other prominent numeric values.
+  machine-readable: '14px/16px var(--typography-font-family-number)' # Compact system values and identifiers in the Ubuntu Sans Mono family.
 
-  overline: '5px var(--typography-font-family-4pixel)' # Demonstrations and compact technical details such as the version watermark.
+  overline: '5px/8px var(--typography-font-family-4pixel)' # Demonstrations and compact technical details such as the version watermark.
 space:
   scale:
     zero: 0px
@@ -173,7 +174,7 @@ component:
     background-color: color.palette.dark-black
     heading-size-min: 24px
     heading-size-max: 96px
-    heading-letter-spacing: calc(-0.055 * 1em)
+    heading-letter-spacing: normal
     heading-line-height: 1.05
   website-audit:
     background-color: color.palette.dark-black
@@ -182,7 +183,7 @@ component:
     preview-height-default: 480px # Expandable local Storybook preview.
   game-of-life:
     counter-digit-width-default: 5px # Fixed advance for every 4pixel Overline digit, including the narrower 1.
-    cell-size-default: 8px # Outer cell size; adjacent cells share their 1px border.
+    cell-size-default: 8px # Outer cell size; adjacent cells share their one pixel border.
     live-size-default: 4px # Centered living square inside each cell.
     border-size-default: 1px
     control-size-default: 32px # Compact, icon-only pause/play control.
@@ -197,10 +198,10 @@ component:
     link-underline-duration-default: 900ms # Matches the reference menu's enter and leave timing.
     backdrop-color-default: "#00020780" # Half-opacity homepage tint matching the photograph edge.
     backdrop-blur-default: 12px # Soften image details beneath navigation.
-    backdrop-fade-height-default: 32px # Feather below the 64px menu without affecting layout.
+    backdrop-fade-height-default: 32px # Feather below the menu without affecting layout.
     brand-name-compact-width-default: 48px # Minimum inline space for the separate A and I initials.
     brand-name-font-weight-default: 300 # Lighter exception for the interactive header identity.
-    brand-name-letter-font-size-start: 32px # Added letters grow into the 40px headline role.
+    brand-name-letter-font-size-start: 32px # Added letters grow into the headline role.
     brand-name-letter-spacing-start: -2px # Added letters begin slightly compressed before reaching normal spacing.
     brand-name-reveal-duration-default: 325ms # Each letter reveals and closes at twice the original speed.
     brand-name-reveal-stagger-default: 25ms # Consecutive letters expand at twice the original speed.
@@ -314,7 +315,7 @@ component:
     sidebar-min-width-default: 240px
     sidebar-max-width-default: 320px
   article-table-of-content:
-    sidebar-min-width-default: 160px # Contents may narrow before the 800px Body column needs to stack.
+    sidebar-min-width-default: 160px # Contents may narrow before the Body column needs to stack.
   badge:
     color:
       background-neutral-default: color.palette.light-black
@@ -362,13 +363,13 @@ component:
         minute: 2-digit
   timeline:
     marker-color-active: color.palette.full-white # Matching project segments glow on hover and focus.
-    marker-size-default: space.scale.base-gap # Exact 8px square event marker and duration-bar width.
+    marker-size-default: space.scale.base-gap # Exact square event marker and duration-bar width.
     marker-size-active: 40px
     line-width-default: shape.border-width.hairline-default # Quiet continuous chronology rail.
     month-height-default: 32px # Every calendar year is twelve identical month tracks.
     sticky-layer-default: 20 # Keeps the active year above timeline records while its section is in view.
   media-loader:
-    progress-height-default: 1px # Intentional exception to the 8px grid because this is a loading indicator line, not layout spacing.
+    progress-height-default: 1px # Intentional exception to the x8 grid because this is a loading indicator line, not layout spacing.
   progressive-image:
     skeleton-cycle-default: 1600ms # Slow enough to read as loading state rather than decorative motion.
   crossfade-dot:
@@ -376,10 +377,10 @@ component:
   pulse-indicator:
     container-size-default: 24px # Compact field around the dot; the animated radius may extend beyond it.
     marker-size-default: 8px # Shared resting diameter for the central dot and animated radius.
-    radius-scale-expanded: 4 # Expands the 8px radius to a 32px diameter.
+    radius-scale-expanded: 4 # Expands the radius to a diameter.
     animation-duration-default: 3000ms # Calm repeating pulse adapted from the visual reference.
     dot-color-default: color.palette.full-white
-    radius-color-start: "#FFFFFF40" # 25% white at the start of each pulse.
+    radius-color-start: "#FFFFFF40" # quater white at the start of each pulse.
     radius-color-end: "#FFFFFF00" # Fully transparent at maximum diameter and during reset.
   newsletter-signup:
     form-min-width-default: 280px

@@ -87,8 +87,9 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
     $parent_breadcrumb->getLinks(),
   );
   $current_page_url = Url::fromRoute('<current>')->toString();
+  $current_query_args = \Drupal::request()->query->all();
   $navigation_cache = CacheableMetadata::createFromObject($parent_breadcrumb)
-    ->addCacheContexts(['route', 'url.path']);
+    ->addCacheContexts(['route', 'url.path', 'url.query_args']);
   $menu_variables['footer_navigation_cache'] = [];
   $navigation_cache->applyTo($menu_variables['footer_navigation_cache']);
   foreach ($menu_variables['items'] as $footer_menu_item) {
@@ -96,6 +97,12 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
     // Query-specific links such as Fonts retain their own exact-link behavior.
     $is_section_link = !$footer_menu_item['url']->getOption('query');
     $is_current_page = $is_section_link && $footer_item_url === $current_page_url;
+    if (!$is_section_link) {
+      $footer_base_url = clone $footer_menu_item['url'];
+      $footer_base_url->setOption('query', []);
+      $is_current_page = $footer_base_url->toString() === $current_page_url
+        && $footer_menu_item['url']->getOption('query') == $current_query_args;
+    }
     $is_parent_page = $is_section_link
       && $footer_item_url !== Url::fromRoute('<front>')->toString()
       && (in_array($footer_item_url, $ancestor_urls, TRUE) || $footer_menu_item['in_active_trail']);

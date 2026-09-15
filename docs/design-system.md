@@ -29,7 +29,8 @@ Never hand-edit generated files. Edit `src/token/tokens.yaml`, then run
 `npm run build:tokens` (or `npm run build:theme`, which runs tokens first).
 The token build also runs `scripts/check-token-contract.mjs`, which rejects
 hardcoded colors outside the YAML source (except the Technology Stack's fixed
-logo artwork constants), CSS opacity declarations, hardcoded
+logo artwork constants), static CSS opacity declarations
+(only `0`/`1` visibility keyframes are allowed), hardcoded
 pixel dimensions in shared theme SCSS, and missing SCSS token variables. The
 same contract is part of `npm run lint` and rejects HEX letters that are not
 uppercase in `src/token/tokens.yaml`.
@@ -183,10 +184,15 @@ sections, and Project tags. Individual children do not add compensating layout
 padding, so nested components remain responsible only for their internal
 spacing.
 
-Article teasers and full Article nodes share unique, node-derived View Transition
-names for their titles and lead images. Same-origin navigation therefore morphs
-the teaser title and medium image into the full page title and wide image in
-supporting browsers. Drupal still owns the complete document request, rendering,
+Article, Video, and Portfolio Project listings and detail pages share unique,
+node-derived View Transition names for their lead media. Same-origin navigation
+morphs each thumbnail into its detail media in supporting browsers. Video
+thumbnails transition into the primary player frame, excluding the creator
+metadata below it. Project images use their own node-derived identifiers with
+the shared transition styles. Detail page headings remain absent; the restored
+animation is limited to thumbnails. The existing Article title markers can pair
+with a page-title block if an editor places one later.
+Drupal still owns the complete document request, rendering,
 cache metadata, access checks, and history; browsers without cross-document View
 Transitions use normal navigation, and reduced-motion users get an instant swap.
 Article Teaser is a square-corner editorial card with a 16:9 image, bordered
@@ -258,7 +264,8 @@ label, lowercases it, replaces
 non-alphanumeric runs with one hyphen, and resolves that readable value to
 Drupal's internal term ID. Blog and Videos display the selected tag with a clear
 action. Portfolio instead keeps all tags used by accessible published Projects
-visible as Chip choices, marks the active Chip without a close icon, and clears
+visible as Chip choices, marks the active Chip with yellow text using
+`--color-palette-brand-tertiary` and no close icon, and clears
 it when that selected Chip is activated again. Every listing keeps filtering
 usable through normal navigation, reload, history, and copied URLs without a
 visible exposed form or custom AJAX. Tags must have unique labels after slug
@@ -479,8 +486,8 @@ role and own non-font treatment such as underlines or uppercase text.
 
 Native heading levels `h3` through `h6` map directly to the matching
 `headline-3` through `headline-6` typography roles. The existing `h1` and `h2`
-mappings remain in place until corresponding `headline-1` and `headline-2`
-roles are defined.
+mappings remain `headline-4` and `headline-5`; larger roles are selected by
+components where needed.
 
 Article Teaser titles are semantic `<h3>` elements styled with `subtitle-1`
 (16px semibold). Teaser excerpts and native teaser body paragraphs use `body-2`
@@ -502,6 +509,25 @@ translatable in one field table instead of using four separate fields or an
 opaque JSON value. The Basic page title remains a semantic `h1`; Storybook's
 `heading_level` is a render-context control and is not editorial content.
 
+Page content headings (`h1` only, including Two-tone Heading at that level)
+type once when at least 10% of the heading enters the browser viewport,
+then settle from up to `0.02em` (2%) extra character spacing to zero extra spacing
+over the existing 375ms motion duration. Loaded headings, including Call to
+Action, use `letter-spacing: normal`. Tracking is limited by the
+space available on each line so narrow headings do not overflow. The animation
+paints decorative characters over the complete accessible text, preserving the
+original line boxes, links, colors, and explicit line breaks. Original markup is
+restored on completion, leaving the viewport, resize, keyboard focus, or Drupal unload. Reduced motion,
+printing, and unsupported browsers show the complete heading immediately.
+Offscreen headings wait for scrolling to reveal them; no character animation is
+prepared or run before that point. Re-entering the viewport does not replay the
+effect. Headings `h2`–`h6`, navigation, footer, editor/dialog headings,
+hidden labels, and Numeric Values counters retain their existing behavior.
+`data-heading-typing="off"` opts a heading or containing region out. Drupal and
+Storybook use the same initializer and stylesheet. The initializer requires the
+blog's `jurenites-theme` body class and explicitly excludes QR Studio's
+`.studio-layout`; the standalone QR Studio keeps its own styling and behavior.
+
 Numeric Values is a responsive Home-page-ready tile section. Each semantic `h2`
 number uses the 64px `numeric-display` role backed by Ubuntu Sans Mono, while
 its Text uses `subtitle-1`. The reusable Drupal Content Block accepts one to
@@ -513,19 +539,65 @@ durations. Numeric Value items expose Number, Text, Icon, and an optional Start
 year used to calculate elapsed years automatically.
 
 The source stays deliberately short, for example
-`headline-4: '600 32px var(--typography-font-family-sans)'`. The builder emits
+`headline-4: '600 32px/40px var(--typography-font-family-sans)'`. The builder emits
 `--typography-headline-4` plus a mixin that applies it through the `font`
-property. Line height and letter spacing use browser defaults unless a future
-role has a concrete reason to override them.
+property. Every role includes an explicit line height divisible by the 8px base
+grid and at least as large as its font size; `npm run tokens:check` enforces this.
+Letter spacing retains the browser default.
+
+| Typography roles | Font size / line height |
+| --- | --- |
+| Headline 1 | 96 / 112 px |
+| Headline 2, Numeric display | 64 / 80 px |
+| Headline 3 | 40 / 48 px |
+| Headline 4 | 32 / 40 px |
+| Headline 5 | 24 / 32 px |
+| Headline 6 | 20 / 24 px |
+| Subtitle 1, Body, Link | 16 / 24 px |
+| Subtitle 2, Eyebrow, Body 2, Caption, Machine-readable | 14 / 16 px |
+| Badge | 12 / 16 px |
+| Overline | 5 / 8 px |
+
+Components derive height from these line boxes plus token-backed padding and
+gaps, using minimum heights rather than clipping wrapped text. A single-line
+Technology Stack link is 16 px of content plus 8 px padding on each side: 32 px.
+Component overrides must also produce even whole CSS-pixel line boxes, preferably
+multiples of 8. Home Introduction inherits the shared heading and body line heights.
+Call to Action and Skills Profile keep fluid font sizes but round their line heights
+up to the next 8px step, with grid-aligned fallbacks. Fixed-size optical exceptions
+remain grid-aligned (Numeric Values: 64/40px, quote mark: 64px, Select value: 16px,
+Font Preview glyphs: 24/16px). Borders, margins, mixed text roles and wrapping also
+contribute to final geometry. Atom heights may use even sub-grid values.
+
+The header brand centers its nested line boxes instead of baseline-aligning
+different animated font sizes. Its brand box remains 48px throughout reveal and
+collapse, keeping the header row and following content stationary. Keyboard focus,
+hover, stagger timing, and reduced-motion behavior share this geometry.
+Font Preview tables use separate borders with zero spacing and include the
+1px divider in the lower inset, so single-line cells are 32px rather than 32.5px.
+The Storybook contrast table draws dividers inside cells; its header row is 48px
+instead of 45px. Visually hidden accessibility labels keep their 1px clipping boxes.
+
+After `npm run build-storybook`, run
+`PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/vertical-rhythm.browser.mjs`
+to audit every component story at 360, 768, 1280, 1440, and 1920px. The audit
+checks visible text line heights and untransformed non-inline text-box heights,
+plus complete header interaction cycles. It excludes inline glyph rectangles,
+transformed artwork, and media fallback text from box-height checks; these do
+not measure text layout. Results are saved in
+`artifacts/vertical-rhythm/browser-audit.json`.
+
+This controls text line boxes, not glyph bounds. Fluid grid columns and text
+advances may retain fractional widths; fixed grid-unit tracks would trade away
+equal fluid filling and require leftover space to be distributed separately.
 
 Handwritten CSS and SCSS must not declare numeric `font-size` values or numeric
 `font` shorthands. Use a generated typography role mixin or a semantic size
 token; the token-contract lint rejects raw `px`, `rem`, and `em` typography.
 
-Open Sans is the only website heading/body family. Most typography roles below
-24px use the attached Open Sans Light face at weight 300; the compact `badge`
-role uses semibold 14px for stronger component labels. Roles at 24px and above
-retain their existing weights. Roundabout is demonstration-only and appears on
+Open Sans is the only website heading/body family. Body and Link use weight
+300, Headline 1–4 use 600, and the compact 12px Badge uses 500. Other sans-serif
+roles retain normal weight. Roundabout is demonstration-only and appears on
 the Fonts foundation page and its Project's Font Preview. 4pixel is reserved
 for its demonstration, Project preview, and compact technical details: the 5px
 `overline` role is used by the version watermark and similarly technical
@@ -588,7 +660,9 @@ composed markup as controls rather than duplicating Badge HTML.
 Numeric badges use `badge--numeric`: the Numeric Display role's Ubuntu Sans Mono
 family, with tabular digits and a slashed zero, while retaining the compact Badge
 size. The Fonts count enables this style in both Drupal and Storybook.
-The Fonts label and its underline turn yellow on hover and keyboard focus;
+The Fonts label and its underline use `--color-palette-brand-tertiary` on hover,
+keyboard focus, and while `/portfolio?tag=font` is active. Drupal matches the
+query-specific footer destination and varies the menu cache by query arguments;
 the nested Badge keeps its own colors. The anchor itself has no text
 decoration, so the Badge number never receives an underline. Global link defaults
 explicitly exclude badged footer links; do not replace this with a specificity

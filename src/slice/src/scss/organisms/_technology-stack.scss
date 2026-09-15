@@ -31,24 +31,25 @@
 
 .technology-stack__group-heading {
   margin-block: 0 calc(var(--space-scale-base-gap) * 2);
-  color: var(--theme-dark-text-secondary-default);
+  color: var(--theme-dark-text-gray);
   @include tools.typography-eyebrow;
 }
 
 .technology-stack__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--space-scale-base-gap) * 14)), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--space-scale-base-gap) * 16)), 1fr));
   gap: var(--space-scale-base-gap);
   @include tools.unstyled-list;
 }
 
 .technology-stack__link {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   gap: var(--space-scale-base-gap);
   height: 100%;
-  padding: calc(var(--space-scale-base-gap) * 2);
+  min-height: calc(var(--space-scale-base-gap) * 4);
+  padding: calc(var(--space-scale-base-gap) * 1);
   color: var(--theme-dark-text-primary-default);
   text-decoration: none;
   //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
@@ -58,18 +59,17 @@
 .technology-stack__artwork {
   display: grid;
   place-items: center;
-  width: 100%;
-  max-width: calc(var(--space-scale-base-gap) * 16);
-  height: calc(var(--space-scale-base-gap) * 9);
-  padding: var(--space-scale-base-gap);
+  flex: 0 0 calc(var(--space-scale-base-gap) * 2);
+  width: calc(var(--space-scale-base-gap) * 2);
+  height: calc(var(--space-scale-base-gap) * 2);
   transition: background-color var(--motion-duration-short-default);
 }
 
 .technology-stack__logo {
   grid-area: 1 / 1;
   display: block;
-  width: 100%;
-  height: calc(var(--space-scale-base-gap) * 7);
+  width: calc(var(--space-scale-base-gap) * 2);
+  height: calc(var(--space-scale-base-gap) * 2);
   object-fit: contain;
 }
 
@@ -82,13 +82,14 @@
 }
 
 .technology-stack__text-mark {
+  @include tools.typography-badge;
+
   color: var(--color-palette-full-white);
   font-family: var(--typography-font-family-number);
-  @include tools.typography-headline-4;
 }
 
 .technology-stack__name {
-  text-align: center;
+  text-align: start;
   @include tools.typography-body-2;
 }
 
@@ -96,6 +97,7 @@
   color: var(--theme-dark-text-primary-default);
   border-color: var(--theme-dark-action-primary-default);
 
+  .technology-stack__name { text-decoration: underline; }
   .technology-stack__logo--white { visibility: hidden; }
   .technology-stack__logo--color { visibility: visible; }
   .technology-stack__text-mark { color: var(--theme-dark-action-primary-default); }

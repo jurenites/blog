@@ -1,0 +1,11 @@
+<details class="faq__item"{{ open_attribute }}>
+  <summary class="faq__question">
+    <span class="faq__question-number">Q.{{ item_number }}?</span>
+    <span class="faq__question-text">{{ question_text }}</span>
+    <span class="faq__toggle" aria-hidden="true"></span>
+  </summary>
+  <div class="faq__answer">
+    <span class="faq__answer-number">A.{{ item_number }}!</span>
+    <div class="faq__answer-body"><p>{{ answer_text }}{{ answer_link_markup }}</p></div>
+  </div>
+</details>

@@ -31,9 +31,9 @@
     {% endif %}
     {{ title_prefix }}
     {% if label %}
-      <h2{{ title_attributes.addClass('article-list-item__title').setAttribute('data-jurenites-article-title-transition', 'article-title-' ~ article_id) }}>
+      <h5{{ title_attributes.addClass('article-list-item__title').setAttribute('data-jurenites-article-title-transition', 'article-title-' ~ article_id) }}>
         <a class="article-list-item__title-link" href="{{ url }}" rel="bookmark">{{ label }}</a>
-      </h2>
+      </h5>
     {% endif %}
     {{ title_suffix }}
     {% if node.bundle == 'video' %}

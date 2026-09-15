@@ -17,6 +17,26 @@ use Drupal\node\Entity\NodeType;
 use Drupal\views\Entity\View;
 
 /**
+ * Loads twelve Videos per page, including the initial grid and later batches.
+ */
+function jurenites_blog_post_update_videos_page_size(): TranslatableMarkup {
+  $frontpage_view = View::load('frontpage');
+  if ($frontpage_view === NULL || !$frontpage_view->getDisplay('page_3')) {
+    return t('The Videos display was not available; its page size was unchanged.');
+  }
+
+  $view_executable = $frontpage_view->getExecutable();
+  $view_executable->setDisplay('page_3');
+  $pager_options = $view_executable->display_handler->getOption('pager');
+  $pager_options['options']['items_per_page'] = 12;
+  $view_executable->display_handler->setOverride('pager', FALSE);
+  $view_executable->display_handler->setOption('pager', $pager_options);
+  $frontpage_view->save();
+
+  return t('Set the Videos page size to twelve items.');
+}
+
+/**
  * Adds optional credit fields for a second YouTube channel.
  */
 function jurenites_blog_post_update_youtube_coauthor_fields(): TranslatableMarkup {

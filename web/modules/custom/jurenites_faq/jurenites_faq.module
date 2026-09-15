@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * @file
+ * Renders editable FAQ pairs and labels their native text widget.
+ */
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_faq_theme(): array {
+  return ['jurenites_faq' => ['variables' => [
+    'heading_text' => '', 'subheading_text' => '', 'faq_items' => [],
+  ]]];
+}
+
+/**
+ * Implements hook_field_widget_single_element_form_alter().
+ */
+function jurenites_faq_field_widget_single_element_form_alter(array &$form_element, FormStateInterface $form_state, array $widget_context): void {
+  if ($widget_context['items']->getFieldDefinition()->getName() !== 'field_faq_items') {
+    return;
+  }
+  $form_element['summary']['#title'] = t('Question');
+  $form_element['summary']['#description'] = t('Enter the question without its Q.N? prefix; numbering is automatic.');
+  $form_element['#title'] = t('Answer');
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function jurenites_faq_block_content_view(array &$build_output, EntityInterface $block_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($block_entity->bundle() !== 'faq') {
+    return;
+  }
+  $faq_build = ['#theme' => 'jurenites_faq', '#faq_items' => []];
+  $cache_metadata = CacheableMetadata::createFromObject($block_entity)
+    ->addCacheContexts(['languages:language_content']);
+  foreach (['field_faq_heading', 'field_faq_subheading', 'field_faq_items'] as $field_name) {
+    $field_items = $block_entity->get($field_name);
+    $field_access = $field_items->access('view', NULL, TRUE);
+    $cache_metadata->addCacheableDependency($field_access);
+    if (!$field_access->isAllowed() || $field_items->isEmpty()) {
+      continue;
+    }
+    if ($field_name === 'field_faq_items') {
+      foreach ($field_items as $faq_item) {
+        $faq_build['#faq_items'][] = [
+          'question_text' => $faq_item->summary,
+          'answer_body' => [
+            '#type' => 'processed_text', '#text' => $faq_item->value,
+            '#format' => $faq_item->format,
+            '#langcode' => $block_entity->language()->getId(),
+          ],
+        ];
+      }
+    }
+    else {
+      $faq_build[$field_name === 'field_faq_heading' ? '#heading_text' : '#subheading_text'] = $field_items->value;
+    }
+  }
+  $cache_metadata->applyTo($faq_build);
+  $build_output['faq_content'] = $faq_build;
+}

@@ -6,6 +6,7 @@ const config = {
   stories: ["../src/**/*.stories.@(js|mdx)"],
   staticDirs: [
     "../src/public",
+    { from: "../src/public/assets/images/companies", to: "/themes/custom/jurenites_theme/assets/images/companies" },
     { from: "../src/styles", to: "/styles" },
     { from: "../generated/storybook", to: "/" },
   ],
