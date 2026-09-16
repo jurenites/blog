@@ -35,7 +35,13 @@
     data-loading-text="{{ 'Loading more videos…'|t }}"
     data-loaded-text="{{ 'More videos loaded.'|t }}"
     data-complete-text="{{ 'All videos loaded.'|t }}"
-    data-error-text="{{ 'Could not load more videos. Use the pagination below to continue.'|t }}"></p>
+    data-error-text="{{ 'Could not load more videos. Use the pagination below to continue.'|t }}">
+    {% include '@jurenites_theme/components/icon.html.twig' with {
+      icon_name: 'loading-spinner',
+      icon_class: 'video-grid__loading-icon',
+    } only %}
+    <span data-video-status-text></span>
+  </p>
   <div data-video-pager>{{ pager }}</div>
 
   {{ attachment_after }}

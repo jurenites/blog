@@ -1,10 +1,12 @@
 # Visual Testing Layer Plan
 
 Status: the first local component-status dashboard and Storybook/Drupal capture
-runner are implemented. Figma pixel baselines, full three-pane review, and
-automatic CI report ingestion remain future work.
-This layer supports milestone 12 of the [Cookbook](cookbook-product-design-process.md)
-and checks throughout the [project workflow](workflow.md).
+runner are implemented. Figma pixel baselines, full three-pane review, manual
+overlays, Windows VM tests, and automatic CI report ingestion remain TODOs.
+This layer defines milestone 12, **Testing**, of the
+[Cookbook](cookbook-product-design-process.md), supplies evidence for milestone
+13, final verification, and supports checks throughout the
+[project workflow](workflow.md).
 
 ## Purpose
 
@@ -49,6 +51,44 @@ zoom, and authentication screens are excluded from pixel baselines. A parent
 page must not depend on direct DOM access across origins or promise synchronized
 interaction across the three systems. Automated captures open implementation
 URLs directly and reproduce the case's state independently.
+
+### TODO: Manual Comparison Mode
+
+Extend the existing local dashboard with a case-level review surface:
+
+- Select expected design, Storybook, or actual website as either comparison
+  layer. Keep a third pane available for context and source links.
+- Where embedding is permitted, stack the matching Storybook and Drupal iframes
+  at the same viewport and scroll position. Offer layer toggling for inspection;
+  cross-origin interaction still requires independent setup in each frame.
+- For precise review, overlay the exported design and captured implementation
+  images at their recorded bounds. Offer a wipe slider, blink toggle, and a
+  highlighted pixel-difference view at 1:1 zoom. Any reviewer zoom must affect
+  both layers equally and leave the underlying comparison unchanged.
+- Keep comparison controls in the review tool. Use image/canvas composition for
+  adjustable blending without weakening the site's static-opacity contract or
+  adding presentation attributes to production components.
+- Record the reviewer's outcome and notes against the capture identity. A
+  manual acceptance must remain distinguishable from an automated pixel pass.
+
+Current Drupal frame restrictions make screenshot overlays the initial route
+for its comparison layer. Figma's viewer chrome must never become part of the
+expected image. A blocked iframe can fall back to saved images and direct links.
+
+### TODO: Automatic Comparison Mode
+
+Reuse the installed [pixelmatch](https://github.com/mapbox/pixelmatch) library
+with `pngjs` for image decoding and Playwright for browser captures. The existing
+`scripts/component-status/images.mjs` already produces a difference image for
+equal-sized Storybook/Drupal PNGs, using `threshold: 0` and `includeAA: true`.
+Extend that path to the three comparison pairs above and approved browser
+regression baselines; a second image comparison library is not needed initially.
+
+For every pair, save expected, actual, and difference images, image dimensions,
+different-pixel count and ratio, comparator settings, and capture metadata.
+Geometry mismatches fail before comparison. Missing references remain blocked
+or not checked. Keep automatic results and manual review decisions visible
+together, and require explicit review before changing a baseline.
 
 ## Pixel Comparison Contract
 
@@ -235,12 +275,73 @@ is read-only: viewing the page never launches tests or changes CI settings.
 
 ## Remaining Work
 
-- Export and match the specified Figma reference to actual content and states.
-- Pin Drupal content revisions and media identities for repeatable baselines.
-- Resolve the component differences revealed by the first captures.
-- Expand mappings beyond Article Blog List Item and add approved browser baselines.
-- Connect real CI producers after their report format and retention are agreed.
-- Add focused functional and accessibility coverage alongside visual checks.
+- [ ] Export and match the specified Figma reference to actual content and states.
+- [ ] Pin Drupal content revisions and media identities for repeatable baselines.
+- [ ] Resolve the component differences revealed by the first captures.
+- [ ] Add manual iframe/image overlays, wipe, blink, and difference controls.
+- [ ] Extend automatic comparison to all three pairs and approved browser baselines.
+- [ ] Expand mappings beyond Article Blog List Item.
+- [ ] Run the mapped cases in native Windows browsers on a virtual machine.
+- [ ] Connect CI producers, artifact retention, and review before delivery gating.
+- [ ] Add focused functional and accessibility coverage alongside visual checks.
+- [ ] Publish the new Testing milestone to the editor-owned Cookbook page and
+  its translation in a reviewed content revision; the docs update does not do so.
+
+## TODO: Windows Virtual Machine and Pipeline Integration
+
+Use a GitHub Actions `windows-2022` runner for the first automated Windows job.
+[GitHub-hosted Windows runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
+are virtual machines; this checks browser rendering on Windows itself. If later
+findings need Windows 11 desktop-specific behavior, reproduce them in a Windows
+11 VM and record that result separately from Windows Server CI coverage.
+
+Use Playwright with Chromium first, then add installed Edge through its browser
+channel. Record the OS image, browser version, fonts, viewport, device scale,
+locale, timezone, and rendering settings. Keep Windows browser baselines separate
+from macOS/Linux baselines; compare Storybook and Drupal within the same Windows
+environment. User-agent emulation or a Linux container does not establish
+Windows rendering coverage. See [Playwright CI](https://playwright.dev/docs/ci).
+
+Planned pipeline sequence:
+
+1. Build Storybook and Drupal assets from the candidate commit. The current
+   Storybook workflow skips its build on pull requests; enable candidate PR
+   builds as part of this integration, without publishing them to production.
+2. Provision an isolated Drupal review environment with those exact assets and
+   a versioned snapshot of selected real content/media. Make it reachable from
+   the Windows runner and verify its release/content identity before captures.
+   A separate Linux job's localhost is not reachable from a Windows job; use
+   the review environment's URL or an authorized runner on the same network.
+3. Download the same Storybook artifact onto Windows and serve it locally.
+   Parameterize runner URLs instead of relying on `jurenites.local`. Convert
+   POSIX-style environment assignments in npm test commands to portable Node
+   setup or workflow `env` entries, then install and launch Windows browsers.
+4. Run matched cases at 360px, 1280px, and 1920px where references exist, with
+   selected actual Drupal content mirrored in Storybook and the design export.
+   Capture every required pair and report any unavailable case explicitly.
+5. Upload reports, fixtures, expected/actual/difference images, and browser
+   diagnostics even on failures. Retain them for a proposed 30-day review window.
+   Import them using the existing report contract with the actual checkout
+   fingerprint and environment identity; confirm cross-platform fingerprints
+   agree for identical source files.
+6. Begin with a manually dispatched evidence-producing job. After repeatable
+   runs and approved baselines, run on pull requests and require the selected
+   visual checks before deployment. Failed, blocked, or missing required checks
+   prevent that gate from passing; baselines are never auto-approved.
+
+Before combining platform reports, extend report aggregation to preserve the
+OS/browser dimension: its current newest-result-wins rule for each component
+check would otherwise let a newer Linux pass hide a Windows failure. Distinct
+producer names alone do not solve that. Overall coverage must require every
+selected environment, while showing each environment's evidence separately.
+
+Acceptance for this TODO: a Windows VM run captures both Storybook and the real
+Drupal rendering, checks a matched design reference, publishes inspectable
+artifacts, and detects an intentional visual change without updating the
+baseline. A reviewer can inspect overlays and record a decision. Until that
+evidence exists, Windows and full three-way visual coverage remain not checked.
+
+## Existing Tools and Optional Services
 
 Existing `npm run storybook:inspect` remains the broader Storybook health check;
 it does not yet write component-status reports. `playwright`, `pngjs`, and

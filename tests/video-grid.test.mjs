@@ -11,7 +11,7 @@ function listing_markup(page_number, page_count = 3) {
   return `<div data-video-listing>
     <div class="video-grid"><div class="video-grid__item">Video ${page_number}</div></div>
     <p data-video-status hidden role="status" data-loading-text="Loading"
-      data-loaded-text="Loaded" data-complete-text="Complete" data-error-text="Use pagination"></p>
+      data-loaded-text="Loaded" data-complete-text="Complete" data-error-text="Use pagination"><span class="video-grid__loading-icon" aria-hidden="true"></span><span data-video-status-text></span></p>
     <div data-video-pager><nav class="pagination">Page ${page_number}
       ${page_number < page_count ? `<a rel="next" href="?tag=music&page=${page_number}">Next</a>` : ''}
     </nav></div>
@@ -44,6 +44,7 @@ test('Videos progressive loading in a browser', async (test_context) => {
       const grid_module = await import('/video-grid.js');
       window.grid_module = grid_module;
       window.attached_cards = 0;
+      window.fetch_attempts = 0;
       window.Drupal = { attachBehaviors() { window.attached_cards += 1; } };
       // Drive intersections explicitly to verify repeated callbacks during a request.
       window.IntersectionObserver = class {
@@ -54,6 +55,25 @@ test('Videos progressive loading in a browser', async (test_context) => {
       };
       const fetch_options = selected_failure ? {
         async fetch_page(request_url, request_options) {
+          window.fetch_attempts += 1;
+          if (selected_failure === 'slow') {
+            await new Promise((resolve_delay, reject_delay) => {
+              const delay_handle = window.setTimeout(resolve_delay, 16000);
+              request_options.signal.addEventListener('abort', () => {
+                window.clearTimeout(delay_handle);
+                reject_delay(new Error('Timed out'));
+              });
+            });
+            return window.fetch(request_url, request_options);
+          }
+          if (['transient', 'body-timeout'].includes(selected_failure) && window.fetch_attempts > 1) {
+            return window.fetch(request_url, request_options);
+          }
+          if (selected_failure === 'body-timeout') {
+            return { ok: true, text: () => new Promise((_resolve_body, reject_body) => {
+              request_options.signal.addEventListener('abort', () => reject_body(new Error('Body timed out')));
+            }) };
+          }
           if (selected_failure === 'malformed') return { ok: true, text: async () => '<html>Wrong page</html>' };
           if (selected_failure === 'timeout') {
             return new Promise((_resolve_request, reject_request) => {
@@ -66,7 +86,7 @@ test('Videos progressive loading in a browser', async (test_context) => {
           throw new Error('Offline');
         },
       } : {};
-      if (selected_failure === 'timeout') {
+      if (['timeout', 'body-timeout'].includes(selected_failure)) {
         const native_timeout = window.setTimeout.bind(window);
         window.setTimeout = (timeout_callback) => native_timeout(timeout_callback, 10);
       }
@@ -93,6 +113,26 @@ test('Videos progressive loading in a browser', async (test_context) => {
     await browser_page.close();
   });
 
+  for (const recovery_mode of ['slow', 'transient', 'body-timeout']) {
+    await test_context.test(`${recovery_mode} loads the batch without duplicates or a pagination error`, async () => {
+      const browser_page = await browser_instance.newPage();
+      await initialize_fixture(browser_page, recovery_mode);
+      await browser_page.evaluate(() => { window.trigger_loading(); window.trigger_loading(); });
+      if (recovery_mode === 'slow') {
+        assert.equal(await browser_page.locator('[data-video-status]').getAttribute('class'), 'video-grid__status--loading');
+        assert.equal(await browser_page.locator('[data-video-status-text]').textContent(), 'Loading');
+        assert.equal(await browser_page.locator('.video-grid__loading-icon').count(), 1);
+      }
+      await browser_page.waitForFunction(() => document.querySelector('[data-video-status]').textContent === 'Loaded');
+      assert.equal(await browser_page.locator('[data-video-status]').evaluate((status_element) => status_element.classList.contains('video-grid__status--loading')), false);
+      assert.equal(await browser_page.locator('.video-grid__loading-icon').count(), 1);
+      assert.deepEqual(await browser_page.locator('.video-grid__item').allTextContents(), ['Video 1', 'Video 2']);
+      assert.equal(await browser_page.evaluate(() => window.fetch_attempts), recovery_mode === 'slow' ? 1 : 2);
+      assert.equal(await browser_page.locator('[data-video-pager]').isVisible(), false);
+      await browser_page.close();
+    });
+  }
+
   for (const failure_mode of ['offline', 'malformed', 'after-success', 'timeout']) {
     await test_context.test(`${failure_mode} restores a working pager without losing loaded cards`, async () => {
       const browser_page = await browser_instance.newPage();
@@ -104,6 +144,8 @@ test('Videos progressive loading in a browser', async (test_context) => {
       }
       await browser_page.waitForFunction(() => document.querySelector('[data-video-status]').textContent === 'Use pagination');
       assert.equal(await browser_page.locator('[data-video-pager]').isVisible(), true);
+      assert.equal(await browser_page.evaluate(() => window.fetch_attempts),
+        failure_mode === 'malformed' ? 1 : failure_mode === 'after-success' ? 3 : 2);
       assert.equal(await browser_page.locator('.video-grid__item').count(), failure_mode === 'after-success' ? 2 : 1);
       await browser_page.locator('a[rel="next"]').click();
       assert.equal(new URL(browser_page.url()).searchParams.get('page'), failure_mode === 'after-success' ? '2' : '1');

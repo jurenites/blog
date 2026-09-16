@@ -538,7 +538,7 @@ function jurenites_theme_preprocess_comment(array &$comment_variables): void {
 }
 
 /**
- * Adds stored creator credit and cached oEmbed presentation metadata.
+ * Adds stored creator credit without external requests during page rendering.
  */
 function jurenites_theme_add_youtube_metadata(array &$node_variables): void {
   $node_entity = $node_variables['node'];
@@ -547,7 +547,6 @@ function jurenites_theme_add_youtube_metadata(array &$node_variables): void {
     return;
   }
 
-  $video_url = (string) $node_entity->get('field_youtube_video')->input;
   $stored_creator_name = $node_entity->hasField('field_youtube_creator_name')
     ? trim((string) $node_entity->get('field_youtube_creator_name')->value)
     : '';
@@ -558,29 +557,7 @@ function jurenites_theme_add_youtube_metadata(array &$node_variables): void {
   $node_variables['youtube_author_name'] = $stored_creator_name;
   $node_variables['youtube_author_url'] = $stored_creator_url;
 
-  try {
-    $resource_url = \Drupal::service('media.oembed.url_resolver')->getResourceUrl($video_url);
-    $video_resource = \Drupal::service('media.oembed.resource_fetcher')->fetchResource($resource_url);
-    $node_variables['youtube_video_title'] = $video_resource->getTitle();
-    if ($node_variables['youtube_author_name'] === '') {
-      $node_variables['youtube_author_name'] = $video_resource->getAuthorName();
-    }
-    if ($node_variables['youtube_author_url'] === '') {
-      $node_variables['youtube_author_url'] = $video_resource->getAuthorUrl()?->toString() ?? '';
-    }
-
-    CacheableMetadata::createFromObject($video_resource)
-      ->applyTo($node_variables['elements']);
-  }
-  catch (\Drupal\media\OEmbed\ResourceException $resource_exception) {
-    \Drupal::logger('jurenites_theme')->warning(
-      'Unable to load YouTube metadata for Article @article_id: @message',
-      [
-        '@article_id' => $node_entity->id(),
-        '@message' => $resource_exception->getMessage(),
-      ],
-    );
-  }
+  $node_variables['youtube_video_title'] = $node_entity->label();
 
   $node_variables['youtube_author_initials'] = jurenites_theme_name_initials(
     (string) $node_variables['youtube_author_name'],

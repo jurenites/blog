@@ -12,10 +12,11 @@ Storybook and appropriate source, build, and runtime checks verify the result.
 
 ## Product Process
 
-The [public Cookbook](http://jurenites.local/node/22) and its
-[article draft](cookbook-product-design-process.md) describe the agreed process.
+The [Cookbook article draft](cookbook-product-design-process.md) describes the
+agreed process. Its [public page](http://jurenites.local/node/22) is editor-owned;
+repository documentation changes do not publish a new Drupal content revision.
 Start with product purpose, the people affected, and the intended outcome, then
-use these twelve milestones at the level of detail the task needs:
+use these thirteen milestones at the level of detail the task needs:
 
 1. Identify people, roles, and permissions.
 2. Collect the nouns and verbs: entities, actions, and relationships.
@@ -28,7 +29,9 @@ use these twelve milestones at the level of detail the task needs:
 9. Consolidate documentation and connect the supporting artifacts.
 10. Shape the backlog into epics and deliverable work where useful.
 11. Assemble the Drupal implementation with real content and behavior.
-12. Verify the result against explicit expectations and record the evidence.
+12. **Testing:** compare the expected design, Storybook implementation, and actual
+    website with real content; run manual, automated, and Windows browser checks.
+13. Verify the results against explicit expectations and record the evidence.
 
 These are milestones, not mandatory documents or a rigid waterfall. Small
 changes can pass through only the affected steps. Feedback from users, QA,
@@ -37,11 +40,15 @@ the earliest affected decision, then flows through implementation and checks.
 A prototype may start in code; review its assumptions and reconcile the design,
 content model, tokens, and docs before treating them as agreed behavior.
 
-Testing runs throughout this process. The proposed visual testing layer connects
-Figma frames, Storybook components, and the Drupal theme rendered with real
+Testing runs throughout this process, with a dedicated Testing milestone after
+Drupal assembly and before final verification. The proposed visual testing layer
+connects Figma frames, Storybook components, and the Drupal theme rendered with real
 data. The first local component-status dashboard and Storybook/Drupal capture
 case are implemented; Figma comparison remains blocked pending a matched export.
-See [Visual Testing Plan](visual-testing-plan.md) for commands and boundaries.
+Manual iframe/image overlays, automated three-way comparison, and a Windows
+virtual-machine CI job are explicit TODOs. See
+[Visual Testing Plan](visual-testing-plan.md) for scope, acceptance criteria,
+commands, and current limitations.
 
 ## Product Direction and Ideas
 

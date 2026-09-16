@@ -5,6 +5,7 @@ import video_grid_template from "./video-grid.template.html?raw";
 import video_grid_item_template from "./video-grid-item.template.html?raw";
 import { pagination_markup } from "../../molecules/pagination/pagination.markup.js";
 import { initialize_video_grids } from "../../../slice/src/js/video-grid.js";
+import { icon_markup } from "../../atoms/icon/icon.markup.js";
 
 const INTRODUCTION_TEXT = "These are videos I’ve enjoyed and think are worth watching to learn something new. Some explore topics I haven’t covered elsewhere on this site.";
 const PAGE_COUNT = 1;
@@ -28,6 +29,7 @@ const VIDEO_ITEMS = [
 function render_video_grid_story(story_arguments) {
   return render_template(video_grid_template, {
     introduction_text: escape_html(story_arguments.introduction_text),
+    loading_icon_markup: icon_markup({ icon_name: 'loading-spinner', class_name: 'video-grid__loading-icon' }),
     pagination_markup: story_arguments.page_count > 1 ? pagination_markup(story_arguments) : "",
     video_items_markup: story_arguments.video_items.map((video_item) =>
       render_template(video_grid_item_template, {

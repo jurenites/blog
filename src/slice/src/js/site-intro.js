@@ -56,8 +56,9 @@ function start_site_intro() {
   branding_element.addEventListener('animationend', (animation_event) => {
     if (animation_event.animationName === 'site-intro-arrive') finish_site_intro();
   });
-  const duration_value = getComputedStyle(branding_element).animationDuration;
-  const duration_milliseconds = parseFloat(duration_value) * 1000;
+  const duration_value = getComputedStyle(branding_element).animationDuration.trim();
+  const duration_milliseconds = parseFloat(duration_value)
+    * (duration_value.endsWith('ms') ? 1 : 1000);
   // Also release the canvas if CSS animations are interrupted or unavailable.
   window.clearTimeout(completion_timeout);
   completion_timeout = window.setTimeout(finish_site_intro, (duration_milliseconds || 2000) + 150);

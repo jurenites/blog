@@ -7,6 +7,11 @@ html {
   background: var(--theme-dark-surface-background-page);
 }
 
+::selection {
+  color: var(--color-palette-full-white);
+  background-color: color-mix(in srgb, var(--color-palette-brand-tertiary) 25%, transparent);
+}
+
 body.jurenites-theme {
   min-height: 100dvh;
   margin: 0;

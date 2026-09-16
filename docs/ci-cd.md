@@ -21,6 +21,23 @@ That layer should first demonstrate repeatable local cases with real Drupal
 content and matched Figma/Storybook inputs, then add selected CI checks with
 reviewed baselines, screenshots, diffs, and explicit blocked/not-checked states.
 
+### TODO: Testing Milestone in CI
+
+Add the dedicated Testing step between implementation and final verification.
+Extend the existing local Playwright/`pixelmatch` runner to compare the expected
+design, Storybook, and Drupal with matching real content. Provide manual image
+overlays and automatic differences in its review artifacts.
+
+The planned Windows job uses a native Windows browser on a GitHub-hosted VM,
+the candidate Storybook artifact, and a reachable Drupal review environment
+with the same commit and pinned content. It needs portable commands, separate
+Windows baselines, and report aggregation that preserves each OS/browser result.
+Start with manual dispatch, then require repeatable checks before deployment;
+retain screenshots and differences even when a job fails. Full scope and
+acceptance criteria are in
+[Windows Virtual Machine and Pipeline Integration](visual-testing-plan.md#todo-windows-virtual-machine-and-pipeline-integration).
+No Windows job or new visual deployment gate is configured by this TODO.
+
 ## Useful Commands
 
 | Action | Command |

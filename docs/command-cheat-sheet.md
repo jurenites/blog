@@ -221,7 +221,7 @@ The final status must report `Database: Connected` and `Drupal bootstrap: Succes
 cd /var/www/u3614358/data/apps/blog_jurenites
 
 RESTORE_TIMESTAMP="$(date +%Y-%m-%d-%H%M%S)"
-PUBLIC_FILES_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/blog_jurenites-public-files-dev-2026-09-05.tar.gz"
+PUBLIC_FILES_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/blog_jurenites-public-files-dev-2026-09-16-185153.tar.gz"
 FILES_BACKUP_DIRECTORY="/var/www/u3614358/data/backups/files-before-dev-restore-${RESTORE_TIMESTAMP}"
 FILES_STAGING_DIRECTORY="/var/www/u3614358/data/apps/files-restore-${RESTORE_TIMESTAMP}"
 
@@ -359,7 +359,7 @@ test -f /var/www/u3614358/data/apps/blog_jurenites/storybook-static/index.html \
 
 The real ISPmanager production checkout is `/var/www/u3614358/data/www/jurenites.com` with the website public directory set in ISPmanager.  
 The symlink path `/var/www/u3614358/data/apps/blog_jurenites` to this checkout, so the commands below remain valid.   
-  
+
 1. go to folder
 
 ```bash
@@ -396,13 +396,13 @@ cat web/themes/custom/jurenites_theme/release-info.json
 
 The visible watermark combines those two read-only sources. The tracked release record is also available at `/themes/custom/jurenites_theme/release-info.json`.
 
-2. Run production database updates, then clear cache
+1. Run production database updates, then clear cache
 
 ```bash
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com updatedb --yes
 ```
 
-3. then Clear the production Drupal cache
+1. then Clear the production Drupal cache
 
 ```bash
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
