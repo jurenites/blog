@@ -6,7 +6,7 @@ const COMPONENT_ROWS = [
   { component_id: 'example-avatar', component_name: 'Avatar', overall_status: 'attention', checks: [] },
 ];
 export default {
-  title: 'Organisms/Component Status',
+  title: 'Organisms/Testing Component status dashboard',
   tags: ['autodocs'],
   render: component_status_markup,
   args: { component_rows: COMPONENT_ROWS },

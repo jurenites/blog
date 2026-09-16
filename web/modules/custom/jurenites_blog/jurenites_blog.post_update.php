@@ -928,3 +928,30 @@ function jurenites_blog_post_update_youtube_video_content_type(): TranslatableMa
   $migrated_count = jurenites_blog_split_video_content_type();
   return t('Created the Video content type and migrated @count YouTube entries. Blog and Videos now filter by content type.', ['@count' => $migrated_count]);
 }
+
+/**
+ * Lists each original Video once, with optional translated commentary.
+ */
+function jurenites_blog_post_update_youtube_video_language_fallback(): TranslatableMarkup {
+  $frontpage_view = View::load('frontpage');
+  if (!$frontpage_view) {
+    return t('The Frontpage view was not present.');
+  }
+  $display_settings = $frontpage_view->get('display');
+  if (!isset($display_settings['page_3'])) {
+    return t('The Videos display was not present.');
+  }
+  $display_options = &$display_settings['page_3']['display_options'];
+  unset($display_options['filters']['langcode']);
+  $display_options['filters']['default_langcode'] = [
+    'id' => 'default_langcode', 'table' => 'node_field_data',
+    'field' => 'default_langcode', 'entity_type' => 'node',
+    'entity_field' => 'default_langcode', 'plugin_id' => 'boolean',
+    'operator' => '=', 'value' => '1', 'group' => 1,
+    'exposed' => FALSE,
+  ];
+  $display_options['rendering_language'] = '***LANGUAGE_language_content***';
+  unset($display_options);
+  $frontpage_view->set('display', $display_settings)->save();
+  return t('Videos now appear once in both languages, whether or not they have translated commentary.');
+}

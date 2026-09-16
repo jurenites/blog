@@ -3,7 +3,7 @@ import { pixel_glyph_editor_markup } from "./pixel-glyph-editor.markup.js";
 const COMPONENT_ID = "four-pixel-glyph-editor";
 
 export default {
-  title: "Organisms/Pixel Glyph Editor",
+  title: "Organisms/Font Preview/Pixel Glyph Editor",
   parameters: { layout: "padded" },
 };
 

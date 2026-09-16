@@ -12,7 +12,7 @@ const BOAT_CELLS = ['b2', 'c2', 'b3', 'd3', 'c4'];
 const EXAMPLE_DESCRIPTION = 'Game of Life example. Move the pointer to draw live cells. Reload to restore the pattern.';
 
 export default {
-  title: 'Organisms/Game of Life Example',
+  title: 'Organisms/Game of Life/Game of Life small Example',
   tags: ['autodocs'],
   render: life_example_markup,
   args: { column_count: COLUMN_COUNT, row_count: ROW_COUNT, zoom_size: ZOOM_SIZE, living_cells: GLIDER_CELLS, example_description: EXAMPLE_DESCRIPTION },

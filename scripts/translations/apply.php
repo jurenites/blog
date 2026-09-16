@@ -31,6 +31,16 @@ if ($import_scope === 'timeline') {
   $timeline_strings = ['Timeline', 'Commercial work', 'records', 'Project durations', 'Project links', 'Proof @number', 'Featured', 'Special place in my heart', '@hours h'];
   $interface_rows = array_values(array_filter($interface_rows, static fn (array $interface_row): bool => $interface_row['context'] === '' && in_array($interface_row['en'], $timeline_strings, TRUE)));
 }
+// Limit an editorial batch to explicit UUIDs without replaying older catalogue rows.
+$selected_uuids = array_values(array_filter(array_map('trim', explode(',', getenv('JURENITES_TRANSLATIONS_UUIDS') ?: ''))));
+if ($selected_uuids) {
+  $content_rows = array_values(array_filter($content_rows, static fn (array $content_row): bool => in_array($content_row['uuid'], $selected_uuids, TRUE)));
+  $missing_uuids = array_diff($selected_uuids, array_column($content_rows, 'uuid'));
+  if ($missing_uuids) {
+    throw new \RuntimeException('UUIDs absent from the selected catalogue scope: ' . implode(', ', $missing_uuids));
+  }
+  $interface_rows = [];
+}
 $entity_groups = [];
 foreach ($content_rows as $content_row) {
   $entity_key = $content_row['entity_type'] . ':' . $content_row['uuid'];
@@ -121,7 +131,7 @@ try {
       }
     }
     if ($entity_changed) {
-      // Paragraph references retain their existing revision IDs.
+      // Node revisions may advance paragraph revisions; shared identities stay intact.
       if ($content_entity->getEntityTypeId() === 'node') {
         $translated_entity->setNewRevision(TRUE);
         $translated_entity->setRevisionLogMessage('Add reviewed Russian translation from the Git catalogue.');

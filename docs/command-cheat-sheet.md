@@ -1,25 +1,61 @@
-# Command Cheat Sheet
+## Command Cheat Sheet
 
-Keep DEV and PROD commands separate. Docker service names such as `db` resolve
-inside the DEV Docker network, so run Drush inside the web container rather
-than directly on macOS.
+Keep DEV .env and PROD .env commands separate.  
+at DEV there is a Docker service names such as `db` resolve inside the DEV Docker network, so run Drush inside the web container rather than directly on local machine (macOS).
 
-## DEV Environment
+# DEV Environment
 
-### Clear Drupal cache from any directory
+### Step 1: StepRun commands from the project folder
+
+```bash
+cd /Users/alexanderilivanov/Projects/blog_jurenites
+```
+
+### Step 2: Clear Drupal cache (from any directory)
 
 ```bash
 docker exec blog_jurenites_web ./vendor/bin/drush cr
 ```
 
-### Run database updates, then clear cache
+### Step 3: Build project assets
+
+```bash
+npm run build:theme
+```
+
+(optional)
+
+```bash
+npm run build:tokens
+npm run build-storybook
+npm run build:info
+npm run build:info:check
+npm run version:check
+```
+
+increments the minor version by default. Use  when the release type must be explicit.
+
+```bash
+npm run version:bump
+
+npm run version:bump -- patch
+npm run version:bump -- minor
+npm run version:bump -- major
+```
+
+
+
+#### Run database updates, then clear cache
 
 ```bash
 docker exec blog_jurenites_web ./vendor/bin/drush updatedb --yes
-docker exec blog_jurenites_web ./vendor/bin/drush cr
 ```
 
-### Apply project Drupal recipes
+
+
+#### Apply project Drupal recipes
+
+// maybe change it to a SH script?
 
 ```bash
 docker exec blog_jurenites_web ./vendor/bin/drush recipe /opt/drupal/recipes/jurenites_media
@@ -32,156 +68,58 @@ docker exec blog_jurenites_web ./vendor/bin/drush recipe /opt/drupal/recipes/jur
 
 
 
-### Build project assets
+# DEV to PROD Content Restore (Manual)
 
-Run these commands from the project folder:
+Development Mode - Use this direction only when intentionally replaces all from: DEV ->  to: PROD content.  
+Inactive Mode - The normal long-term content-sync direction is form: PROD -> to: DEV.   
+
+- The Database SQLdump contains content; importing it replaces every DB records.   
+- public Files are transferred separately in a .tar archive.
+
+
+
+### Step 0: at the DEV .env push changes to a codebase repo (terminal)
+
+0.1 go to projcet folder
 
 ```bash
 cd /Users/alexanderilivanov/Projects/blog_jurenites
-npm run build:tokens
-npm run build:theme
-npm run build-storybook
-npm run build:info
-npm run build:info:check
-npm run version:check
-npm run version:bump
 ```
 
-`npm run version:bump` increments the minor version by default. Use
-`npm run version:bump -- patch`, `npm run version:bump -- minor`, or
-`npm run version:bump -- major` when the release type must be explicit.
-
-## PROD Environment
-
-The real ISPmanager production checkout is
-`/var/www/u3614358/data/www/jurenites.com`, with the website public directory
-set to `/web` in ISPmanager. The previous path
-`/var/www/u3614358/data/apps/blog_jurenites` is a compatibility symlink to this
-checkout, so the commands below remain valid. Do not copy DEV database
-credentials, container names, `.env`, or `settings.php` to PROD.
-
-### HTTPS and certificate renewal
-
-On 2026-09-15, production was switched to the ISPmanager-managed Let's Encrypt
-certificate `jurenites.com_le1`, covering `jurenites.com` and
-`www.jurenites.com`. Its initial expiry is 2026-12-14. Both HTTPS homepages were
-verified with certificate validation enabled, and HTTP redirects to HTTPS.
-
-Keep the site root as a real directory and expose only `/web`. The previous
-site-root symlink pointed outside `/www` to the application's `web` directory;
-ISPmanager rejected website saves and certificate activation with
-`file/notchild`. Replacing that layout cleared the error and allowed built-in
-HTTP validation and issuance to complete. The original symlink and temporary
-maintenance directory are retained in the private server directory
-`/var/www/u3614358/data/.ssl-layout-backup-20260915`. This is a layout rollback
-record, not a database or full-site backup. Restore the panel's public-directory
-setting before restoring the original layout.
-
-ISPmanager's built-in Let's Encrypt workflow manages renewal; a future renewal
-has not yet been observed. Keep both DNS names pointing to this host and keep
-the HTTP ACME challenge route reachable. Check **SSL certificates →
-jurenites.com_le1 → Log** and panel notifications for renewal failures. See the
-[ISPmanager renewal documentation](https://www.ispmanager.com/docs/ispmanager/let-s-encrypt-certificates).
-
-The earlier manually imported certificate `jurenites.com_custom_1` covers only
-the apex and is not active. Its local Certbot files are not the files used by
-the live certificate. The abandoned manual expansion was cancelled; the two
-temporary `_acme-challenge` TXT records are no longer needed by the current
-HTTP validation workflow. Storybook remains a separate website and certificate.
-
-To verify public HTTPS and HTTP redirects without bypassing validation:
+0.2 check if anything new added
 
 ```bash
-curl -I https://jurenites.com/
-curl -I https://www.jurenites.com/
-curl -I http://jurenites.com/
-curl -I http://www.jurenites.com/
+git status
 ```
 
-### Confirm the production environment
+0.3 IF yes than add to repo
 
 ```bash
-cd /var/www/u3614358/data/apps/blog_jurenites
-pwd
-/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com status
+git add .
 ```
 
-Check the reported site URI, database, and Drupal root before continuing.
-
-### Verify the production identity
-
-PROD does not build or write identity metadata. The tracked release record
-arrives with the source, and Drupal reads the checked-out commit from `.git`:
+0.4 ask AI the quick diff text for commit_message
+0.5 copy/paste the {commit_message}
 
 ```bash
-git rev-parse --short=7 HEAD
-cat web/themes/custom/jurenites_theme/release-info.json
+git commit -am'{commit_message}'
 ```
 
-The visible watermark combines those two read-only sources. The tracked release
-record is also available at
-`/themes/custom/jurenites_theme/release-info.json`.
-
-### Clear the production Drupal cache
+0.6 send the code to a needed branch
 
 ```bash
-/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
+git push origin develop
 ```
 
+0.7 go at [https://github.com/jurenites/blog/pulls](https://github.com/jurenites/blog/pulls) 
+0.8 create new Pull Request from a given branch `develop` to a `main`,
+0.9 assign on yourselfm check the text, check the CI/CD pipeline errors.
+0.10 merge the created PR with branch `main`. 
+voila!
 
+### Step 1: at the DEV .env make 2 archive files (terminal)
 
-### Restore missing production fonts
-
-If Ubuntu Sans Mono falls back to a generic monospace font and its font URL returns 404,
-restore the theme font copies from the existing checkout. This needs no Node
-build or database update:
-
-```bash
-cd /var/www/u3614358/data/apps/blog_jurenites
-mkdir -p web/themes/custom/jurenites_theme/assets/fonts && \
-  cp src/public/assets/fonts/* web/themes/custom/jurenites_theme/assets/fonts/ && \
-  chmod 755 web/themes/custom/jurenites_theme/assets/fonts && \
-  chmod 644 web/themes/custom/jurenites_theme/assets/fonts/* && \
-  /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
-```
-
-Verify `/themes/custom/jurenites_theme/assets/fonts/ubuntu-sans-mono-regular.ttf`
-and `/themes/custom/jurenites_theme/assets/fonts/opensans-regular.woff` return
-HTTP 200, then reload the page. Theme font copies and licenses are now included
-with compiled CSS in Git deployments; include the entire font directory in the
-commit when updating font sources.
-
-### Run production database updates, then clear cache
-
-Take a current database backup before database updates.
-
-```bash
-/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com updatedb --yes
-/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
-```
-
-
-
-### Run production cron manually
-
-```bash
-/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cron
-```
-
-Use the hosting scheduler for recurring production cron runs.
-
-## Manual DEV to PROD Content Restore
-
-Use this direction only when DEV intentionally replaces all PROD content. The
-normal long-term content-sync direction is PROD to DEV. The SQL dump contains
-content, users, passwords, configuration, and module state; importing it replaces
-those PROD records. Public files are transferred separately because they are not
-inside the SQL dump.
-
-### Step 1: Create the DEV upload files
-
-Run from the project root on macOS. The timestamp creates a new folder on every
-run, so an older export is not overwritten.
+1.1 Run from the project root on local machie macOS. The timestamp creates a new folder on every run, so an older export is not overwritten.
 
 ```bash
 cd /Users/alexanderilivanov/Projects/blog_jurenites
@@ -221,7 +159,7 @@ COPYFILE_DISABLE=1 tar \
   -C web/sites/default files
 ```
 
-Verify both archives before uploading them:
+(optional) Verify both archives before uploading them:
 
 ```bash
 gzip -t "$SQL_ARCHIVE_PATH"
@@ -233,35 +171,39 @@ shasum -a 256 "$SQL_ARCHIVE_PATH" "$PUBLIC_FILES_ARCHIVE_PATH"
 open "$EXPORT_DIRECTORY_PATH"
 ```
 
-The collation/database search must print nothing. The archive listing must start
-with `files/` and include `files/.htaccess`.
+The collation/database search must print nothing. The archive listing must start with `files/` and include `files/.htaccess`.
 
-### Step 2: Upload and restore the DEV database
+### Step 2: Upload the DEV .env /files via ispmanager (browser)
 
-First update the PROD code from `main` so its schema and recipes correspond to
-the database being restored. Then create a private upload directory:
+2.1 go at [https://server290.hosting.reg.ru:1500](https://server290.hosting.reg.ru:1500)  
+2.2 Authorise uing Login; Password (at **Notes** app)  
+2.3 enter Verification Code (with **Authentificator** app)  
+2.4 go at File manager. `/var/www/u3614358/data/backups/incoming/`  
+note: never upload them below either public website directory.  
+2.5 uplaod frol local computer files archive with files folder example: `/Users/alexanderilivanov/Downloads/blog_jurenites-export-2026-09-15-211343/blog_jurenites-public-files-dev-2026-09-15-211343.tar.gz`  
+60+ MB
+
+### Step 3: Upload the DEV .env DB via ispmanager -> **phpMyAdmin** (browser)
+
+3.1 go at [https://server290.hosting.reg.ru:1500/ispmgr#/form?clickstat=yes&func=links_myadmin&tab_id=1&tab_standalone=true](https://server290.hosting.reg.ru:1500/ispmgr#/form?clickstat=yes&func=links_myadmin&tab_id=1&tab_standalone=true)  
+3.2 Authorise uing Login; Password (at Notes app)  
+3.3 at **phpMyAdmin** at left side select the database name,  
+3.4 click [import] button  
+3.5 choose the file `/Users/alexanderilivanov/Downloads/blog_jurenites-export-2026-09-15-211343/blog_jurenites-dev-mysql8-2026-09-15-211343.sql.gz`  
+3.4 click [import] submit button. Export a current compressed SQL backup and download it before changing tables.
+
+### Step 4: update the PROD code (browser)
+
+4.1 go at [https://server290.hosting.reg.ru:1500](https://server290.hosting.reg.ru:1500)  
+4.2 open Shell-client browser version  
+4.3 First update code from `main` so its schema and recipes correspond to the database being restored.
 
 ```bash
 cd /var/www/u3614358/data/apps/blog_jurenites
 git pull --ff-only origin main
-mkdir -p /var/www/u3614358/data/backups/incoming
-chmod 700 /var/www/u3614358/data/backups/incoming
 ```
 
-Upload both archives with ISPmanager File Manager or FTP to
-`/var/www/u3614358/data/backups/incoming/`; never upload them below either public
-website directory.
-
-In phpMyAdmin:
-
-1. Select the PROD database `u3614358_default`.
-2. Export a current compressed SQL backup and download it before changing tables.
-3. In **Structure**, select every table and choose **Drop**. Confirm only after
-  the backup is safely downloaded.
-4. In **Import**, select the DEV `*.sql.gz` file and start the import.
-5. Continue only after phpMyAdmin reports that the import completed successfully.
-
-Finish the database restore from the PROD project directory:
+4.4 Finish the database restore from the PROD project directory:
 
 ```bash
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com updatedb --yes
@@ -271,10 +213,9 @@ Finish the database restore from the PROD project directory:
 
 The final status must report `Database: Connected` and `Drupal bootstrap: Successful`.
 
-### Step 3: Replace PROD public files from the archive
+### Step 5: Replace PROD public files from the archive (browser)
 
-Set the archive filename to the file that was uploaded. This procedure extracts
-into a staging directory first and keeps the previous PROD files as a rollback.
+5.1 Set the archive filename to the file that was uploaded. This procedure extracts into a staging directory first and keeps the previous PROD files as a rollback.
 
 ```bash
 cd /var/www/u3614358/data/apps/blog_jurenites
@@ -302,29 +243,17 @@ else
 fi
 ```
 
-Open several image, avatar, and thumbnail URLs on PROD before removing the
-rollback directory. Drupal will regenerate excluded CSS, JS, and image-style
-derivatives when they are requested.
+(Optional) 5.2 verify, by Opening several image, avatar, and thumbnail URLs on PROD before removing the rollback directory. Drupal will regenerate excluded CSS, JS, and image-style derivatives when they are requested.
 
-## Deploy Storybook to PROD
+# Deploy Storybook from DEV to PROD (manual)
 
-Production Storybook is a static browser application, not a permanent Node
-development server. The generated site remains interactive and includes the
-Storybook manager, stories, controls, documentation, JavaScript, CSS, fonts,
-and other assets. Serve `storybook-static/`; do not point the subdomain at the
-`.storybook/` configuration directory.
+Production Storybook is a static browser application, not a permanent Node development server. The generated site remains interactive and includes the Storybook manager, stories, controls, documentation, JavaScript, CSS, fonts, and other assets. Serve `storybook-static/`; do not point the subdomain at the`.storybook/` configuration directory.
 
-The ISPmanager host cannot build this project reliably: its 256 MB memory limit
-caused WebAssembly allocation failures even with restricted Node heaps, and its
-Ruby/Psych version cannot parse the token source used by the build. Build the
-exact PROD `main` commit on macOS, upload the result, and let Nginx serve it.
+The ISPmanager host cannot build this project reliably: its 256 MB memory limit caused WebAssembly allocation failures even with restricted Node heaps, and its Ruby/Psych version cannot parse the token source used by the build. Build the exact PROD `main` commit on macOS, upload the result, and let Nginx serve it.
 
 ### Step 1: Build the exact `main` commit on macOS
 
-This isolated build does not switch branches or modify the current working
-tree. Run this entire step in the **local macOS Terminal**, never in the
-ISPmanager shell. The first check deliberately stops a Linux shell before any
-paths or build variables are created:
+1.1 This isolated build does not switch branches or modify the current working tree. Run this entire step in the **local macOS Terminal**, never in the ISPmanager shell. The first check deliberately stops a Linux shell before any paths or build variables are created:
 
 ```bash
 test "$(uname -s)" = "Darwin" || {
@@ -360,7 +289,7 @@ COPYFILE_DISABLE=1 tar -czf "$STORYBOOK_ARCHIVE_PATH" \
   -C "$STORYBOOK_SOURCE_DIRECTORY" storybook-static
 ```
 
-Verify the artifact before uploading it:
+1.2 Verify the artifact before uploading it:
 
 ```bash
 gzip -t "$STORYBOOK_ARCHIVE_PATH"
@@ -371,27 +300,20 @@ shasum -a 256 "$STORYBOOK_ARCHIVE_PATH"
 open -R "$STORYBOOK_ARCHIVE_PATH"
 ```
 
-The archive check must find both `storybook-static/index.html` and the expected
-seven-character commit hash. The archive is only a transfer package; after it
-is extracted, the subdomain serves the complete interactive Storybook build.
+The archive check must find both `storybook-static/index.html` and the expected seven-character commit hash. The archive is only a transfer package; after it is extracted, the subdomain serves the complete interactive Storybook build.
 
 ### Step 2: Upload and install the Storybook build
 
-Upload the verified `blog_jurenites-storybook-*.tar.gz` file with ISPmanager
-File Manager or FTP to this private directory:
+2.1 Upload the verified `blog_jurenites-storybook-*.tar.gz`  file with ISPmanager File Manager or FTP to this private directory: `/var/www/u3614358/data/backups/incoming/` wait until uplaoding 10MB+
 
-```text
-/var/www/u3614358/data/backups/incoming/
-```
-
-On PROD, set `STORYBOOK_ARCHIVE_PATH` to the actual uploaded filename. Extract
-to staging and keep the previous build as a timestamped rollback:
+2.2 open Shell-client  
+On PROD, set `STORYBOOK_ARCHIVE_PATH` to the actual uploaded filename. Extract to staging and keep the previous build as a timestamped rollback:
 
 ```bash
 cd /var/www/u3614358/data/apps/blog_jurenites
 
 STORYBOOK_DEPLOY_TIMESTAMP="$(date +%Y-%m-%d-%H%M%S)"
-STORYBOOK_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/blog_jurenites-storybook-COMMIT-DATE.tar.gz"
+STORYBOOK_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/blog_jurenites-storybook-f9504ad-2026-09-15.tar.gz"
 STORYBOOK_STAGING_DIRECTORY="/var/www/u3614358/data/apps/storybook-restore-${STORYBOOK_DEPLOY_TIMESTAMP}"
 STORYBOOK_LIVE_DIRECTORY="/var/www/u3614358/data/apps/blog_jurenites/storybook-static"
 STORYBOOK_BACKUP_DIRECTORY="/var/www/u3614358/data/backups/storybook-before-${STORYBOOK_DEPLOY_TIMESTAMP}"
@@ -423,8 +345,8 @@ else
 fi
 ```
 
-Do not continue until the command prints `STORYBOOK BUILD INSTALLED` and this
-check prints `BUILD READY`:
+`STORYBOOK BUILD INSTALLED` Do not continue until the expected output  
+(optional) test this check prints `BUILD READY`:
 
 ```bash
 test -f /var/www/u3614358/data/apps/blog_jurenites/storybook-static/index.html \
@@ -433,50 +355,56 @@ test -f /var/www/u3614358/data/apps/blog_jurenites/storybook-static/index.html \
 
 
 
-### Step 3: Point the ISPmanager subdomain at the build
+# PROD Environment
 
-In ISPmanager, keep the existing website named `storybook.jurenites.com`.
-Storybook does not need PHP. Its index page is `index.html`. On this hosting
-plan, the website directory is fixed at
-`/var/www/u3614358/data/www/storybook.jurenites.com`, so replace the placeholder
-directory with a symlink while retaining a rollback copy:
-
-```bash
-STORYBOOK_DEPLOY_TIMESTAMP="$(date +%Y-%m-%d-%H%M%S)"
-STORYBOOK_LIVE_DIRECTORY="/var/www/u3614358/data/apps/blog_jurenites/storybook-static"
-STORYBOOK_WEB_DIRECTORY="/var/www/u3614358/data/www/storybook.jurenites.com"
-STORYBOOK_PLACEHOLDER_BACKUP="${STORYBOOK_WEB_DIRECTORY}.pre-symlink-${STORYBOOK_DEPLOY_TIMESTAMP}"
-
-if test ! -f "$STORYBOOK_LIVE_DIRECTORY/index.html"; then
-  echo "ABORTED: Storybook build is missing."
-elif test -L "$STORYBOOK_WEB_DIRECTORY"; then
-  readlink -f "$STORYBOOK_WEB_DIRECTORY"
-elif test -d "$STORYBOOK_WEB_DIRECTORY"; then
-  mv "$STORYBOOK_WEB_DIRECTORY" "$STORYBOOK_PLACEHOLDER_BACKUP" && \
-  ln -s "$STORYBOOK_LIVE_DIRECTORY" "$STORYBOOK_WEB_DIRECTORY" && \
-  echo "STORYBOOK SUBDOMAIN LINKED"
-else
-  echo "ABORTED: ISPmanager website directory was not found."
-fi
-```
-
-For later releases, keep the subdomain symlink and repeat only Steps 1 and 2;
-the symlink continues to target the replaced `storybook-static` directory.
-
-### Step 4: Verify the public subdomain and TLS
-
-Verify the filesystem path and public response:
+The real ISPmanager production checkout is `/var/www/u3614358/data/www/jurenites.com` with the website public directory set in ISPmanager.  
+The symlink path `/var/www/u3614358/data/apps/blog_jurenites` to this checkout, so the commands below remain valid.   
+  
+1. go to folder
 
 ```bash
-readlink -f /var/www/u3614358/data/www/storybook.jurenites.com
-namei -l /var/www/u3614358/data/www/storybook.jurenites.com/index.html
-curl -I http://storybook.jurenites.com/
-curl -I https://storybook.jurenites.com/
+cd /var/www/u3614358/data/apps/blog_jurenites
 ```
 
-Both public requests must return `200`, and the resolved path must end in
-`/apps/blog_jurenites/storybook-static`. If HTTP returns ISPmanager's large
-placeholder page, the website directory is not linked to the build. If HTTP
-works but HTTPS presents a self-signed certificate, issue or select a trusted
-certificate for `storybook.jurenites.com` in ISPmanager before enabling an
-HTTP-to-HTTPS redirect.
+note: Do not copy DEV .env database credentials, container names, .env, or settings.php 
+
+(optional) To verify public HTTPS and HTTP redirects without bypassing validation:
+
+```bash
+curl -I https://jurenites.com/
+curl -I https://www.jurenites.com/
+curl -I http://jurenites.com/
+curl -I http://www.jurenites.com/
+```
+
+(optional) Confirm the production environment
+
+```bash
+/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com status
+```
+
+Check the reported site URI, database, and Drupal root before continuing.
+
+(optional) Verify the production identity
+
+PROD does not build or write identity metadata. The tracked release record arrives with the source, and Drupal reads the  (optional) checked-out commit from `.git`:
+
+```bash
+git rev-parse --short=7 HEAD
+cat web/themes/custom/jurenites_theme/release-info.json
+```
+
+The visible watermark combines those two read-only sources. The tracked release record is also available at `/themes/custom/jurenites_theme/release-info.json`.
+
+2. Run production database updates, then clear cache
+
+```bash
+/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com updatedb --yes
+```
+
+3. then Clear the production Drupal cache
+
+```bash
+/opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
+```
+

@@ -5,7 +5,7 @@ const PLAY_LABEL = 'Play simulation';
 const PREVIEW_SIZE = 'detail';
 
 export default {
-  title: 'Organisms/Game of Life',
+  title: 'Organisms/Game of Life/Game of Life big',
   tags: ['autodocs'],
   render: game_of_life_markup,
   args: { pause_label: PAUSE_LABEL, play_label: PLAY_LABEL, preview_size: PREVIEW_SIZE },

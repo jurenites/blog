@@ -32,7 +32,8 @@ function jurenites_progressive_images_entity_insert(EntityInterface $inserted_en
  */
 function jurenites_progressive_images_preprocess_image(array &$image_variables): void {
   $image_classes = $image_variables['attributes']['class'] ?? [];
-  if (!in_array('img-blurry-placeholder', $image_classes, TRUE)) {
+  if (!in_array('img-blurry-placeholder', $image_classes, TRUE)
+    && empty($image_variables['attributes']['use-blurry-placeholder'])) {
     return;
   }
 

@@ -6,6 +6,8 @@ The maintained application source is `web/modules/custom/jurenites_qr_studio/ui/
 
 ## Behavior
 
+- Fresh workspaces start with `HTTPS://?????.??` in Encoded Text, ready to search five name characters and a two-letter domain ending. The initial QR is a temporary preview, not a saved match. Existing saved projects retain their stored input.
+
 - Dropdown chevrons have a 12px right inset and reserved text padding, including the compact QR size selector.
 - One Encoded Text input updates fixed text immediately. Resizing/changing correction retries a differing draft, and reopening an outdated preview rebuilds it from the stored input when it fits, keeping hover mappings aligned with the workspace. Lowercase is accepted in complete text and search patterns, with exact fixed case preserved (including domain endings). Lowercase patterns use byte encoding and bounded random search; uppercase patterns retain the alphanumeric constraint solver. The caption explains that capitals use less QR space. `?` marks search positions; temporary preview values remain distinct from found matches.
 - The toolbar labels are Draw (invert the touched pixel) and Lock (toggle its lock). The canvas title is hidden; the QR size selector remains visible.
@@ -35,6 +37,8 @@ Editable colors are under `qr-studio.color` in `src/token/tokens.yaml`. Run `npm
 `ui/tld-data.js` bundles IANA's delegated TLD list from https://data.iana.org/TLD/tlds-alpha-by-domain.txt. The initial snapshot is version 2026091300 with 1,438 entries, including ASCII forms of internationalized endings. Refresh explicitly with `node scripts/update-qr-studio-tlds.mjs`, then update the library version and rebuild Drupal caches when deploying changed assets. Both the worker and the result handler validate domain endings before accepting a match. Results also identify their TLD snapshot version; older workers and results that change fixed pattern positions are rejected before the QR or saved list changes. Searches use the bundled snapshot offline and do not send entered names to IANA. Delegation does not establish registration eligibility, public sale availability, or whether a particular name is unregistered. Restricted, brand, and infrastructure TLDs remain in the official list.
 
 ## Enable and verify
+
+Deploy `ui/vendor/qrcodegen.js`, `ui/vendor/jsQR.js`, and `ui/vendor/jsQR-LICENSE.txt` with the module code. These bundled browser libraries have explicit exceptions to the repository's `vendor/` ignore rule; they are not installed by Composer or included in the public-files archive. Missing libraries return HTTP 404, followed by browser MIME errors and an undefined `qrcodegen.QrCode` error. Verify both library URLs after deployment.
 
 Enable the module separately in each target environment:
 
