@@ -564,6 +564,27 @@ come from theme SCSS rather than HTML width/height attributes. Keep supporting
 iframes in normal flow so Drupal's logged-in contextual editing wrappers retain
 their height after the loading noise is removed.
 
+YouTube Remote video Media render directly from their saved URL using
+`https://www.youtube.com/embed/VIDEO_ID`. The Blog module extends the existing
+`oembed` formatter and Media source definitions: the player and the provider-name
+template suggestion require no external request. Other providers retain core
+oEmbed behavior. Watch, short-link, Shorts, live, and embed URLs are supported;
+valid `t`/`start` timestamps become the player's `start` parameter. Iframes keep
+their stored Media title, lazy loading, fullscreen support, and CSS dimensions.
+The Video theme also uses only the saved node title and creator credits during
+rendering, including teasers and `/videos`; missing credits do not trigger a
+remote lookup. These direct URLs follow the
+[YouTube iframe format](https://developers.google.com/youtube/player_parameters).
+
+Deploy these PHP changes and rebuild Drupal caches (`drush cr`); no content or
+display-configuration migration is needed. This removes the production server's
+YouTube dependency for page rendering, but playback still requires YouTube access
+from the visitor's browser. Metadata collection on Video save and native Remote
+video creation/validation still require provider connectivity. The DEV check
+`drush php:script tests/youtube-direct-render.php` renders the affected Article
+and Video views with outbound HTTP and YouTube oEmbed calls disabled, and checks
+that other providers retain their renderer.
+
 ### Small media inside rich text
 
 Basic HTML and Full HTML expose **Insert Media** next to the image-upload
@@ -600,8 +621,15 @@ Shared fields and Video-specific source metadata:
 - Slug
 - Teaser
 - YouTube video (Video only): one required direct YouTube URL. The YouTube Field module extracts the
-  video ID and renders a responsive player with YouTube's video thumbnail. The
-  Video stores the creator name, creator link, original source date, and an
+  video ID and renders a responsive player with YouTube's video thumbnail.
+  The URL must identify a video that is not already used by another Video node,
+  including unpublished content and other languages. Add/edit validation shows
+  an error on the YouTube input for duplicates, including equivalent watch,
+  shortened, Shorts, and embed links. Editing or translating the same node is
+  allowed. The `jurenites_blog` field constraint compares case-sensitive video
+  IDs; it activates after a cache rebuild and does not modify existing content.
+  Regression check: `drush php:script tests/video-youtube-uniqueness.php`.
+  The Video stores the creator name, creator link, original source date, and an
   optional channel-avatar URL as editable credit metadata. Empty credit fields
   are filled from the linked YouTube source when the Video is saved; changing
   the video URL refreshes them for the new source. The Video Authored on
@@ -672,7 +700,9 @@ the theme fetches the native next-page URL and appends its cards, retaining tag
 filters and reattaching thumbnail, avatar, and tooltip behaviors. Only one page
 loads at a time; the final page stops loading and announces completion. Native
 pagination remains the server-rendered fallback when JavaScript or intersection
-observation is unavailable, or when a request fails or times out after 15 seconds.
+observation is unavailable, or when loading fails. Each page request allows 30
+seconds for the complete response and retries an interrupted connection or
+timeout once before restoring pagination. Invalid responses fall back immediately.
 The fallback advances with each appended page so its Next link continues from
 the last loaded batch. Direct paginated URLs still work. An introductory note
 explains that these are personally recommended videos for learning, including

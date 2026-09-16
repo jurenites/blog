@@ -5,7 +5,7 @@ rules. The machine-readable contract for every value lives in
 `src/token/tokens.yaml`; this page explains intent and usage.
 
 The [product workflow](workflow.md) connects these rules to the Cookbook's
-twelve milestones and feedback loops. The proposed
+thirteen milestones and feedback loops. The proposed
 [visual testing layer](visual-testing-plan.md) will compare matched Figma,
 Storybook, and Drupal views with real content. Shared tokens and markup are
 inputs to that verification; their reuse alone does not establish pixel parity.
@@ -52,6 +52,10 @@ generated breakpoint mixins instead of copying breakpoint widths into media
 queries.
 
 ### Page canvas and browser color
+
+Native text selection uses the existing `color.palette.brand-tertiary` corporate
+yellow at 10% opacity, mixed with transparent in the shared Drupal and Storybook
+global stylesheet.
 
 The Call to Action and Website Audit promotional backgrounds both reference
 the existing `color.palette.dark-black` token.
@@ -227,7 +231,12 @@ three simulated pages; Pagination Fallback and Loading Failure show the native
 pager recovery. A polite status region announces loading, completion, and errors
 without moving keyboard focus. The shared pagination renderer provides the
 same `rel="next"` link contract as Drupal.
-The completion message uses the shared gray text token.
+The loading and completion messages use the shared gray text token. While a
+request is pending, the loading message includes the shared `loading-spinner`
+Icon atom: a 24px viewport with a 16px outer diameter, a 1px inward ring, and a
+90-degree gap. Its filled `currentColor` path uses integer cardinal boundaries
+(outer 4/20, inner 5/19). CSS rotates it once per second; reduced motion keeps
+it static. Success, completion, and error states hide the spinner.
 Run `npm run test:video-grid` with the optional Playwright browser setup used by
 `storybook:inspect`. `PLAYWRIGHT_MODULE_PATH` can select a bundled Playwright
 module, and `PLAYWRIGHT_CHROME_CHANNEL=chrome` can use installed Chrome.
@@ -429,7 +438,9 @@ The intro waits for window load and fonts, with a four-second readiness limit so
 slow third-party resources cannot hold the canvas indefinitely. CSS owns the
 two-second animation using the existing brand hold-duration token. JavaScript
 releases input suppression on completion, on back/forward cache restoration, or
-through a bounded recovery timer. Ordinary hover/focus branding resumes afterward.
+through a bounded recovery timer. The timer accepts animation durations in seconds
+or milliseconds and adds a 150ms completion allowance, with a two-second default
+when the duration is unavailable or zero. Ordinary hover/focus branding resumes afterward.
 While branding is fixed for the intro, a CSS pseudo-element reserves its original
 grid cell and 48px line box. Navigation and the language picker retain their final
 positions throughout the canvas fade; the enhanced mobile menu needs no spacer.

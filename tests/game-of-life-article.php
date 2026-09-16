@@ -20,7 +20,7 @@ verify_life_condition(count($matching_nodes) === 1, 'Exactly one tribute Article
 $article_node = reset($matching_nodes);
 verify_life_condition($article_node->isPublished() && $article_node->bundle() === 'article', 'Published Article expected in DEV.');
 verify_life_condition($article_node->getOwner()->getAccountName() === 'alexander', 'Alexander must own the Article.');
-verify_life_condition($article_node->get('field_youtube_video')->isEmpty(), 'Personal Article must keep its primary YouTube field empty.');
+verify_life_condition(!$article_node->hasField('field_youtube_video') || $article_node->get('field_youtube_video')->isEmpty(), 'Personal Article must have no primary YouTube video.');
 verify_life_condition(count($article_node->get('field_supporting_videos')) === 2, 'Two supporting films expected.');
 
 $account_switcher = \Drupal::service('account_switcher');

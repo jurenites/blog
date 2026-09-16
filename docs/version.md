@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 1.110.1
-Reviewed: 2026-09-12
+Version: 1.113.1
+Reviewed: 2026-09-16
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -39,12 +39,15 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   white only on hover or keyboard focus. See the editing and
   migration contract in `drupal-content-model.md`.
 
-- The agreed workflow follows the Cookbook's twelve flexible milestones, with
-  feedback returning to affected decisions. The proposed visual testing layer
+- The agreed workflow follows the Cookbook's thirteen flexible milestones, with
+  Testing at step 12, final verification at step 13, and feedback returning to
+  affected decisions. The proposed visual testing layer
   connects Figma, Storybook, and Drupal with real content through iframe review
   and controlled screenshot comparisons. The first local dashboard and
   Storybook/Drupal case are implemented; Figma comparison and automatic CI
-  ingestion remain pending. See `workflow.md` and `visual-testing-plan.md`.
+  ingestion remain pending, alongside manual overlay controls and Windows VM
+  pipeline coverage. The editor-owned Cookbook page still needs an editorial
+  revision. See `workflow.md` and `visual-testing-plan.md`.
 
 - Product ideas start in task conversations. Durable decisions and deferred
   ideas live in the relevant existing docs; the obsolete root idea file has

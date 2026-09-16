@@ -12,6 +12,36 @@ use Drupal\node\NodeInterface;
 use Drupal\taxonomy\TermInterface;
 
 /**
+ * Adds primary YouTube uniqueness validation to Video nodes.
+ */
+function jurenites_blog_entity_bundle_field_info_alter(array &$field_definitions, \Drupal\Core\Entity\EntityTypeInterface $entity_type, $bundle_name): void {
+  if ($entity_type->id() === 'node' && $bundle_name === 'video'
+    && isset($field_definitions['field_youtube_video'])) {
+    $field_definitions['field_youtube_video']->addConstraint('UniqueYoutubeVideo');
+  }
+}
+
+/**
+ * Uses direct YouTube players in existing oEmbed displays without a migration.
+ */
+function jurenites_blog_field_formatter_info_alter(array &$formatter_definitions): void {
+  if (isset($formatter_definitions['oembed'])) {
+    $formatter_definitions['oembed']['class'] = \Drupal\jurenites_blog\Plugin\Field\FieldFormatter\DirectYoutubeOEmbedFormatter::class;
+  }
+}
+
+/**
+ * Avoids fetching YouTube metadata just to select a Media template.
+ */
+function jurenites_blog_media_source_info_alter(array &$source_definitions): void {
+  foreach ($source_definitions as &$source_definition) {
+    if (($source_definition['class'] ?? '') === \Drupal\media\Plugin\media\Source\OEmbed::class) {
+      $source_definition['class'] = \Drupal\jurenites_blog\Plugin\media\Source\LocalYoutubeOEmbed::class;
+    }
+  }
+}
+
+/**
  * Varies the shared branding before Drupal looks up the rendered block cache.
  */
 function jurenites_blog_block_build_system_branding_block_alter(array &$block_build): void {
@@ -754,6 +784,8 @@ function jurenites_blog_youtube_identifier(string $video_url): string {
     'youtube.com',
     'www.youtube.com',
     'm.youtube.com',
+    'youtube-nocookie.com',
+    'www.youtube-nocookie.com',
   ], TRUE)) {
     return '';
   }
@@ -762,7 +794,7 @@ function jurenites_blog_youtube_identifier(string $video_url): string {
   if (isset($query_parameters['v']) && is_string($query_parameters['v'])) {
     return trim($query_parameters['v']);
   }
-  if (preg_match('#^(?:shorts|embed)/([^/]+)#', $video_path, $path_matches) === 1) {
+  if (preg_match('#^(?:shorts|embed|live)/([^/]+)#', $video_path, $path_matches) === 1) {
     return trim($path_matches[1]);
   }
 

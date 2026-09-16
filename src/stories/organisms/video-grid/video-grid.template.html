@@ -5,6 +5,9 @@
     data-loading-text="Loading more videos…"
     data-loaded-text="More videos loaded."
     data-complete-text="All videos loaded."
-    data-error-text="Could not load more videos. Use the pagination below to continue."></p>
+    data-error-text="Could not load more videos. Use the pagination below to continue.">
+    {{loading_icon_markup}}
+    <span data-video-status-text></span>
+  </p>
   <div data-video-pager>{{pagination_markup}}</div>
 </section>
