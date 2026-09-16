@@ -378,18 +378,6 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
   @include tools.typography-subtitle-1;
 }
 
-.timeline__item-details-link {
-  color: var(--theme-dark-action-primary-default);
-  text-decoration: underline;
-  text-decoration-thickness: var(--shape-border-width-hairline-default);
-  text-underline-offset: calc(var(--space-scale-base-gap) * 0.5);
-
-  &:hover,
-  &:focus-visible {
-    color: var(--theme-dark-action-primary-hover);
-  }
-}
-
 .timeline__emphasis {
   display: inline-flex;
   align-items: center;
@@ -432,6 +420,8 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
   }
 }
 
+.timeline__website-links,
+.timeline__store-links,
 .timeline__proof-links {
   display: flex;
   flex-wrap: wrap;
@@ -444,6 +434,50 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
   a {
     color: var(--theme-dark-action-primary-default);
     text-decoration: underline;
+  }
+}
+
+// Website destinations use the Link role and the existing CMYK cyan palette.
+.timeline__website-links > li {
+  display: flex;
+}
+
+.timeline__website-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-scale-zero);
+  vertical-align: middle;
+  height: calc(var(--space-scale-base-gap) * 3);
+  max-height: calc(var(--space-scale-base-gap) * 3);
+  white-space: nowrap;
+  @include tools.typography-link;
+
+  &:is(:hover, :focus-visible) .timeline__website-external-mark {
+    visibility: visible;
+  }
+}
+
+.timeline__website-external-mark {
+  visibility: hidden;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.timeline__website-external-mark > .icon__svg {
+  transform: translateY(var(--space-scale-one));
+}
+
+body.jurenites-theme .timeline .timeline__website-links a.timeline__website-link {
+  color: var(--color-palette-brand-primary);
+
+  &:is(:hover, :focus-visible) {
+    color: color-mix(in srgb, var(--color-palette-brand-primary) 70%, var(--color-palette-full-black));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.jurenites-theme .timeline .timeline__website-links a.timeline__website-link {
+    transition-duration: var(--motion-duration-instant-default);
   }
 }
 

@@ -7,9 +7,65 @@ declare(strict_types=1);
  * Installation hooks for Jurenites font projects.
  */
 
+use Drupal\block\Entity\Block;
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+
 /**
  * Implements hook_install().
  */
 function jurenites_font_projects_install(): void {
   jurenites_font_projects_ensure_portfolio_navigation();
+  jurenites_font_projects_seed_timeline_cross_link();
+}
+
+/**
+ * Seeds the editable Portfolio cross-link once, preserving later CMS changes.
+ */
+function jurenites_font_projects_seed_timeline_cross_link(): void {
+  if (\Drupal::state()->get('jurenites_font_projects.timeline_cross_link_initialized')) {
+    return;
+  }
+  if (!BlockContentType::load('basic')) {
+    BlockContentType::create(['id' => 'basic', 'label' => 'Basic block', 'revision' => TRUE])->save();
+    \Drupal::moduleHandler()->loadInclude('block_content', 'install');
+    block_content_add_body_field('basic');
+  }
+
+  $block_uuid = '0c0e6da2-b76a-4e32-a157-9a32d1bd6595';
+  $block_storage = \Drupal::entityTypeManager()->getStorage('block_content');
+  if (!$block_storage->loadByProperties(['uuid' => $block_uuid])) {
+    $cross_link_block = BlockContent::create([
+      'uuid' => $block_uuid, 'type' => 'basic', 'langcode' => 'en',
+      'info' => 'Portfolio Timeline cross-link', 'reusable' => TRUE, 'status' => TRUE,
+      'body' => [
+        'format' => 'basic_html',
+        'value' => '<p>Want to see more ? checkout the <a href="/timeline">Timeline</a></p>',
+      ],
+    ]);
+    if (\Drupal::languageManager()->getLanguage('ru')) {
+      $cross_link_block->addTranslation('ru', [
+        'info' => 'Портфолио: ссылка на хронологию',
+        'body' => [
+          'format' => 'basic_html',
+          'value' => '<p>Хотите увидеть больше? Посмотрите <a href="/ru/timeline">хронологию</a></p>',
+        ],
+        'content_translation_source' => 'en',
+      ]);
+    }
+    $cross_link_block->save();
+  }
+  if (!Block::load('jurenites_theme_portfolio_timeline')) {
+    $plugin_identifier = 'block_content:' . $block_uuid;
+    Block::create([
+      'id' => 'jurenites_theme_portfolio_timeline', 'theme' => 'jurenites_theme',
+      'region' => 'content', 'weight' => 10, 'status' => TRUE, 'plugin' => $plugin_identifier,
+      'settings' => [
+        'id' => $plugin_identifier, 'label' => 'Portfolio Timeline cross-link',
+        'label_display' => '0', 'provider' => 'block_content', 'view_mode' => 'full',
+      ],
+      'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => '/portfolio']],
+    ])->save();
+  }
+  \Drupal::state()->set('jurenites_font_projects.timeline_cross_link_initialized', TRUE);
 }

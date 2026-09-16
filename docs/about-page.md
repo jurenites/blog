@@ -299,7 +299,8 @@ with these project anchors:
 | OysterLabs.com | Oysterlabs Games Server |
 | VolcanoIdeas.ae | Global-ny.com |
 
-Timeline detail `<li>` IDs use the Paragraph UUID and period start date, e.g.
+Each project has one Timeline detail `<li>` ID using the Paragraph UUID and
+first authored period start date, e.g.
 `timeline-project-<uuid>-2014-09-01`. Names and list order can change without
 breaking these links. Changing a period's start date requires updating its
 company link. Deep links focus the target after the timeline rearranges its
@@ -331,3 +332,49 @@ while retaining the stored logo selection key for existing content and revisions
 Imported Russian
 interface labels live in `jurenites_companies/translations/jurenites_companies.ru.po`;
 import with `drush locale:import ru <path> --type=customized --override=not-customized`.
+
+## Career metrics and professional roles
+
+The About page separates the two general statistics (projects and years of
+experience) from three role tiles. The **Professional roles** content block sits
+immediately after `jurenites_theme_numeric_values`, before Technology Stack.
+Both blocks appear on `/about` and `/obo`. The three existing hour totals and
+their tracking captions/links are retained. Clicking anywhere on a role tile
+selects its story below, except tracking links, which keep their own navigation.
+The role labels remain keyboard-accessible tabs with a focus outline around the
+whole tile and a short slide motion. There are no separate slider controls.
+The panels share the tallest panel's height to avoid movement while switching.
+On narrow screens the role tiles scroll horizontally. Reduced motion disables
+slide animation; without JavaScript all stories remain readable.
+
+Edit **About professional roles** under Content → Blocks. Each repeatable tile
+uses the existing Numeric value Paragraph plus a **Role heading** and formatted
+**Role story**. The initial story paragraphs are explicit placeholders while the
+owner reviews the final copy. Headings, stories and numeric fields support
+translations and revisions; ordering is shared between languages. Existing
+metric numbers, descriptions, artwork, captions and links are preserved.
+
+Enable `jurenites_expanding_text` and `jurenites_roles`, rebuild theme assets,
+and clear cache. Back up the database before first enablement. Installation
+identifies the original three role paragraphs by UUID, duplicates them into the
+new role block, and saves a new revision of the metrics block with the two
+remaining statistics. The original paragraphs remain attached to the old block
+revision. A database transaction groups the content writes; a state marker and
+stable block UUID prevent repeat setup from overwriting edits or recreating
+removed content. On a site without these original role UUIDs, the new role tiles
+use an em dash for hours rather than inventing figures. Deployment requires
+explicit module enablement on that environment.
+
+Storybook: **Organisms / Role Slider**, including a nested-explanation example.
+Validation: `tests/role-slider.php` covers translations, schema/filter config and
+repeat setup; `tests/role-slider.browser.mjs` covers desktop/mobile layout,
+keyboard selection, reduced motion and actual editor authoring. An existing
+Basic HTML Source Editing warning about the Game of Life table class is reported
+separately by the integration check.
+
+Numeric caption links use the shared Link typography (16px, weight 300, 24px line
+height). External web caption links open in a new tab with `noopener noreferrer`.
+The shared footer external-link icon is reserved after the caption label and
+revealed on hover or keyboard focus, without shifting the text. Its visibility
+is scoped to the caption's own icon; other numeric links and footer icons retain
+their existing behavior.

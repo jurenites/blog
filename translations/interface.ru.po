@@ -495,3 +495,12 @@ msgstr "Ссылки на проект"
 
 msgid "Proof @number"
 msgstr "Материал @number"
+
+msgid "Product websites"
+msgstr "Сайты продуктов"
+
+msgid "App stores"
+msgstr "Магазины приложений"
+
+msgid "Sources"
+msgstr "Источники"

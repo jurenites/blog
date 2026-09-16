@@ -4,7 +4,7 @@
 
 .date-time-value {
   display: inline-block;
-  color: var(--theme-dark-text-secondary-default);
+  color: var(--theme-dark-text-gray);
   @include tools.typography-caption;
   font-family: var(--typography-font-family-number);
   font-variant-numeric: tabular-nums;
@@ -23,5 +23,5 @@
 
 .date-time-value__number,
 .date-time-value__unit {
-  color: var(--theme-dark-text-secondary-default);
+  color: var(--theme-dark-text-gray);
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html{{ html_attributes }}>
+<html{{ html_attributes.setAttribute('data-site-intro', 'fallback') }}>
   <head>
     <head-placeholder token="{{ placeholder_token }}">
     <title>{{ head_title|safe_join(' | ') }}</title>

@@ -1,0 +1,14 @@
+jurenites_expanding_text_term:
+  ckeditor5:
+    plugins:
+      - expandingText.ExpandingText
+  drupal:
+    label: Expandable term
+    library: jurenites_expanding_text/editor
+    toolbar_items:
+      expandableTerm:
+        label: Expandable term
+      removeExpandableTerm:
+        label: Remove expansion
+    elements:
+      - <span class="expandable-term expandable-term__label expandable-term__explanation">

@@ -11,6 +11,8 @@ dependencies:
     - field.field.paragraph.timeline_item.field_timeline_periods
     - field.field.paragraph.timeline_item.field_timeline_proof_links
     - field.field.paragraph.timeline_item.field_timeline_summary
+    - field.field.paragraph.timeline_item.field_timeline_website_links
+    - field.field.paragraph.timeline_item.field_timeline_store_links
     - paragraphs.paragraphs_type.timeline_item
   module:
     - datetime_range
@@ -74,11 +76,27 @@ content:
     third_party_settings: {  }
   field_timeline_proof_links:
     type: link_default
-    weight: 8
+    weight: 10
     region: content
     settings:
       placeholder_url: 'https://example.com/project-or-dropbox-proof'
       placeholder_title: 'Proof label'
+    third_party_settings: {  }
+  field_timeline_website_links:
+    type: link_default
+    weight: 8
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_timeline_store_links:
+    type: link_default
+    weight: 9
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
 hidden:
   created: true

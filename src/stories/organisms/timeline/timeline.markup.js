@@ -77,13 +77,22 @@ function organization_transition_markup(organization_heading) {
     + escape_html(organization_heading.url ?? "") + '" aria-hidden="true"></span>';
 }
 
-function proof_links_markup(proof_links) {
-  if (!proof_links?.length) {
+function project_links_markup(project_links, group_class, group_label, domain_label = false) {
+  if (!project_links?.length) {
     return "";
   }
-  return '<ul class="timeline__proof-links" aria-label="Proof links">'
-    + proof_links.map((proof_link) => '<li><a href="'
-      + escape_html(proof_link.url) + '">' + escape_html(proof_link.label) + "</a></li>").join("")
+  return '<ul class="timeline__' + group_class + '" aria-label="' + group_label + '">'
+    + project_links.map((project_link) => {
+      const link_label = domain_label ? new URL(project_link.url).hostname : project_link.label;
+      const link_class = domain_label ? ' class="timeline__website-link"' : "";
+      const external_icon = domain_label ? icon_markup({
+        icon_name: "external-link",
+        class_name: "timeline__website-external-mark",
+      }) : "";
+      const label_markup = domain_label ? "<span>" + escape_html(link_label) + "</span>" : escape_html(link_label);
+      return '<li><a' + link_class + ' href="' + escape_html(project_link.url) + '">'
+        + label_markup + external_icon + "</a></li>";
+    }).join("")
     + "</ul>";
 }
 
@@ -92,28 +101,28 @@ function item_content_markup(timeline_fragment) {
     return "";
   }
   const timeline_item = timeline_fragment.timeline_item;
-  const timeline_period = timeline_fragment.timeline_period;
   const summary_markup = timeline_fragment.period_index === 0 && timeline_item.item_summary
     ? '<div class="timeline__summary"><p>' + escape_html(timeline_item.item_summary) + "</p></div>"
     : "";
   const project_proof_links = timeline_fragment.period_index === 0
-    ? timeline_item.proof_links?.slice(1) ?? []
+    ? timeline_item.proof_links ?? []
     : [];
-  const primary_project_url = timeline_item.proof_links?.[0]?.url ?? "";
-  const item_title_markup = primary_project_url
-    ? '<a class="timeline__item-details-link" href="' + escape_html(primary_project_url) + '">'
-      + escape_html(timeline_item.item_name) + "</a>"
-    : escape_html(timeline_item.item_name);
+  const item_title_markup = escape_html(timeline_item.item_name);
+  const destination_markup = timeline_fragment.period_index === 0
+    ? project_links_markup(timeline_item.website_links, "website-links", "Product websites", true)
+      + project_links_markup(timeline_item.store_links, "store-links", "App stores")
+    : "";
 
   return '<article class="timeline__item-content">'
     + '<header class="timeline__item-header"><h3 class="timeline__item-title">'
     + item_title_markup + "</h3>"
     + emphasis_markup(timeline_item.emphasis_kind) + "</header>"
     + '<div class="timeline__metadata">'
-    + period_markup(timeline_period)
+    + timeline_item.periods.map(period_markup).join("")
     + "</div>"
     + summary_markup
-    + proof_links_markup(project_proof_links)
+    + destination_markup
+    + project_links_markup(project_proof_links, "proof-links", "Sources")
     + "</article>";
 }
 
@@ -228,7 +237,7 @@ function timeline_year_groups(timeline_items, timeline_current_date) {
           timeline_item,
           timeline_period,
           period_index,
-          show_details: fragment_year === start_year,
+          show_details: period_index === 0 && fragment_year === start_year,
           lane_number: lane_assignment.lane_number,
           is_overflow_overlap: lane_assignment.is_overflow_overlap,
           ending_month,

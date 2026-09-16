@@ -17,6 +17,7 @@
 @use "atoms/surface";
 @use "atoms/inline-code";
 @use "atoms/blockquote";
+@use "atoms/expandable-term";
 @use "atoms/inline-media";
 @use "atoms/chip";
 @use "atoms/divider";
@@ -56,6 +57,7 @@
 @use "organisms/site-header";
 @use "organisms/newsletter-signup";
 @use "organisms/numeric-values";
+@use "organisms/role-slider";
 @use "organisms/hero-section";
 @use "organisms/home-introduction";
 @use "organisms/faq";

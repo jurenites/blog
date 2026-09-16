@@ -229,8 +229,8 @@ Each `timeline_item` record contains:
   order and Paragraph order breaks ties
 - Optional hours worked and organization, plus the organization's official URL
 - Optional short description copied or adapted from the CV
-- Repeatable proof links for live work, case studies, archived pages, or public
-  Dropbox PDFs
+- Separate repeatable Product websites, App stores and Sources link fields;
+  sources include case studies, archived pages, design files and public Dropbox PDFs
 - Emphasis: standard, Featured with the official `star-outline.svg`, or Special
   place in my heart with the official `heart-outline.svg`
 
@@ -262,22 +262,44 @@ repeated for every project. The rendered sequence ends at 2010.
 
 The starter node contains the 72 commercial projects transcribed from the
 current CV and no personal milestones. Every commercial project also
-includes its CV description. The 81 URLs explicitly embedded in the CV are
-stored as clickable proof links, including live project pages, Figma and Moqups
-work, App Store listings, and historical Dropbox PDFs; projects without a
+includes its CV description. The 81 URLs explicitly embedded in the CV and two supplied Scatch store links are
+stored in separate website, store and source fields, including live project pages,
+Figma and Moqups work, App Store listings, and historical Dropbox PDFs; projects without a
 documented URL do not receive a guessed link. Each year keeps its compact 32px
 month scale in a narrow left rail with up to four parallel duration tracks. The
 corresponding project descriptions and links form a wider, left-aligned column
 on the right; dense text groups grow so those entries stack instead of overlapping.
 Hover or keyboard focus on a card or duration segment highlights every segment
 of that project in full white with a small glow, and gives its cards a lighter
-background. Duration buttons also jump to their corresponding period's card.
+background. Each project has one description card, placed at the first authored
+period's start, with every time frame listed together. Additional periods retain
+their calendar bars without repeating the project heading or description.
+Every duration button focuses that project's single card.
 Without JavaScript the complete grouped chronology remains readable.
-When a project has a CV-documented URL, its title links directly to the first
-stored destination; the remaining proof links stay visible below its summary.
+Project titles are plain text. Product websites display their actual hostname
+without a protocol or path while retaining the full destination URL. Website
+links use the Link typography role and the existing brand-primary cyan token;
+hover and keyboard focus darken that cyan by mixing in 30% palette full-black.
+The shared external-link icon appears on hover or keyboard focus, with its space
+reserved to prevent layout shifts. The link row stays at 24px with no gap
+between text and icon; the SVG has a 1px downward optical adjustment that does
+not change the row height. These styles apply only to product websites.
+App stores
+appear as separate named links (Google Play, App Store, or another authored store).
+Evidence stays in a separate link row with an accessible Sources label and no
+visible heading; a wireframe, PDF, third-party profile or reference article never
+becomes a product website by its position.
+These links do not claim a current reachability check. Existing sites run
+`jurenites_timeline_post_update_separate_product_links` through `drush updatedb`.
+It moves only reviewed, exact product URLs from Sources, adds the supplied Scatch
+store links, and preserves descriptions, translations, unrelated source links
+and old revisions. Re-running does not duplicate links or create content revisions.
 Later edits happen through the single Timeline node form; adding another item
 creates a Paragraph revision, not a node ID. Timeline is linked from the bottom
 of the footer Information menu, not from the primary navigation.
+
+Gin Paragraphs subforms use zero bottom margin on `.form-item`, supplied by
+`jurenites_admin/css/gin-branding.css` so contributed theme files stay intact.
 
 The current Paragraph editor exposes repeatable Start and End date inputs. Its
 drag-and-drop mode changes item order only; it does not change dates or resolve
@@ -310,6 +332,16 @@ value through the same resolver used by Blog and filters the published Project
 result set. The active Chip stays in the list with selected styling and no close
 icon; activating it again clears the filter.
 
+Immediately after the Portfolio View, a separate Basic block says “Want to see
+more ? checkout the Timeline”, with **Timeline** linking to `/timeline`. The
+**Portfolio Timeline cross-link** block is editable under Content → Blocks and
+includes Russian copy linking to `/ru/timeline`. Its Content-region placement
+uses weight 10 and `/portfolio` visibility, including filtered listings, before
+the Website audit placement. Existing sites receive it through
+`jurenites_font_projects_post_update_portfolio_timeline_cross_link` with
+`drush updatedb` and `drush cr`; new installations seed it automatically. Setup
+runs once, preserving later editorial changes, unpublishing and deletion.
+
 Project add/edit forms also have optional **Supporting videos**, using the same
 Remote video Media Library workflow as Article. Choose **Add media**, add a
 **Remote video** by pasting its YouTube URL (or select an existing video), then
@@ -337,6 +369,12 @@ and internal link (initially `/contact`). Edit **Portfolio website audit** under
 Content → Blocks or through its contextual pencil. The block supports revisions,
 translation, unpublishing and deletion; setup never restores removed content or
 resets edits. No new taxonomy terms are created.
+
+Update `jurenites_website_audit_update_11001()` restores the missing placement
+of the existing audit block at Content weight 90, after the Portfolio timeline
+at weight 10. Apply with `drush updatedb -y` and `drush cr`. It preserves the
+saved content, translations, revisions and publication status, and skips sites
+where the content block itself was deleted.
 
 The shared `Organisms/Website Audit` Storybook example uses the same SCSS and
 primary Button atom. Desktop shows report details beside the offer; at the shared mobile breakpoint (640px and below)
@@ -864,3 +902,34 @@ the module or content to STAGE/PROD.
 Verify the local content/editor contract with
 `drush php:script tests/faq-block.php`. Storybook desktop/mobile review covers
 native keyboard expansion and collapse; reduced-motion disables transitions.
+
+## Expandable words and phrases
+
+`jurenites_expanding_text` adds **Expandable term** beside **Link** in the Basic
+HTML and Full HTML CKEditor toolbars. Select plain text within one paragraph and
+press the button. The editor shows the short term followed by an arrow and an
+editable explanation; type the complete replacement phrase so the surrounding
+sentence still reads naturally. The short term can also be edited directly.
+Select a word inside that explanation and use the same button to nest another
+expansion. There is no configured nesting-depth limit. This also works in quotes.
+Selections spanning blocks or containing links/objects are intentionally disabled.
+
+Use **Remove expansion** while the term or its explanation is selected to restore
+the short term as ordinary text; this button may be in the toolbar's overflow
+menu. Standard Undo restores the complete expansion, including nested content.
+Authors use the normal visual editor; Source Editing is not required.
+
+The saved format is nested spans with the classes `expandable-term`,
+`expandable-term__label`, and `expandable-term__explanation`. No scripts, inline
+styles, arbitrary attributes or buttons are permitted by the new Basic HTML
+allowlist. Frontend enhancement creates real buttons at runtime. Clicking or
+pressing Enter/Space replaces the term inline with its explanation; a small
+return arrow collapses it. Escape collapses the innermost focused explanation.
+Focus returns to its term after collapse. Each expansion can contain further
+terms and formatted inline text. Paragraphs reflow naturally; nothing opens a
+new page or popup, and the term is colored without an underline. Without
+JavaScript the complete explanation is readable. Shared token styling is also
+loaded in CKEditor. Storybook: **Atoms / Expandable Term**.
+
+The initial local implementation includes placeholder role stories only; the
+owner's longer About and Home copy remains under review.

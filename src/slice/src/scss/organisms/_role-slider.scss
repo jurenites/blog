@@ -1,0 +1,119 @@
+@use "../tools";
+
+.role-slider {
+  margin-block: calc(var(--space-scale-base-gap) * 3) calc(var(--space-scale-base-gap) * 6);
+  min-width: 0;
+}
+
+.role-slider__tiles {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.role-slider__tile {
+  min-width: 0;
+  border-block-end: calc(var(--shape-border-width-hairline-default) * 2) solid var(--theme-dark-border-divider-default);
+  cursor: pointer;
+
+  &.is-active {
+    border-block-end-color: var(--theme-dark-action-primary-default);
+  }
+
+  &:has(.role-slider__tab:focus-visible) {
+    outline: var(--shape-border-width-hairline-default) solid var(--theme-dark-action-primary-default);
+    outline-offset: calc(var(--shape-border-width-hairline-default) * -1);
+  }
+}
+
+.role-slider__tile:hover .role-slider__tab {
+  color: var(--theme-dark-action-primary-default);
+}
+
+.role-slider__number {
+  font-size: var(--component-numeric-values-number-font-size-compact);
+}
+
+.role-slider__tab {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--theme-dark-text-secondary-default);
+  text-align: start;
+  cursor: pointer;
+
+  &[aria-selected="true"],
+  &:hover {
+    color: var(--theme-dark-action-primary-default);
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.role-slider__prefix {
+  display: block;
+  color: var(--theme-dark-text-gray);
+}
+
+.role-slider__panels {
+  margin-block-start: calc(var(--space-scale-base-gap) * 3);
+}
+
+.role-slider[data-role-ready] .role-slider__panels {
+  display: grid;
+  overflow: clip;
+}
+
+.role-slider__panel {
+  min-width: 0;
+  padding: calc(var(--space-scale-base-gap) * 3);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+}
+
+.role-slider[data-role-ready] .role-slider__panel {
+  grid-area: 1 / 1;
+  visibility: hidden;
+  pointer-events: none;
+
+  &.is-active {
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+.role-slider__heading {
+  margin: 0 0 calc(var(--space-scale-base-gap) * 2);
+  @include tools.typography-headline-4;
+}
+
+.role-slider__story {
+  @include tools.typography-body;
+  overflow-wrap: anywhere;
+
+  > :last-child {
+    margin-block-end: 0;
+  }
+}
+
+@media (width <= tools.$system-breakpoint-mobile-max) {
+  .role-slider__tiles {
+    grid-template-columns: repeat(3, minmax(calc(var(--space-scale-base-gap) * 30), 1fr));
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+  }
+
+  .role-slider__tile {
+    scroll-snap-align: start;
+  }
+}
+
+@media print {
+  .role-slider[data-role-ready] .role-slider__panels {
+    display: block;
+  }
+
+  .role-slider[data-role-ready] .role-slider__panel {
+    visibility: visible;
+  }
+}

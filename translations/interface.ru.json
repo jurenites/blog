@@ -815,5 +815,20 @@
     "en": "Proof @number",
     "ru": "Материал @number",
     "context": ""
+  },
+  {
+    "en": "Product websites",
+    "ru": "Сайты продуктов",
+    "context": ""
+  },
+  {
+    "en": "App stores",
+    "ru": "Магазины приложений",
+    "context": ""
+  },
+  {
+    "en": "Sources",
+    "ru": "Источники",
+    "context": ""
   }
 ]

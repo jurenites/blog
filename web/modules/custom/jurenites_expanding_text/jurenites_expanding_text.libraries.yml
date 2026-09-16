@@ -1,0 +1,5 @@
+editor:
+  js:
+    js/expanding-text.js: {}
+  dependencies:
+    - core/ckeditor5

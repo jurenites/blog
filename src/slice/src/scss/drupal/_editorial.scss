@@ -1,6 +1,14 @@
 // Drupal-only wrappers for CMS content and contextual editing.
 @use "../tools";
 
+.path-contact #block-jurenites-theme-content {
+  padding-top: calc(var(--space-scale-base-gap) * 5);
+}
+
+.path-contact #block-jurenites-theme-breadcrumbs {
+  display: none;
+}
+
 .site-header__branding {
   display: inline-flex;
   justify-self: start;

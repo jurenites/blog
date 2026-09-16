@@ -38,7 +38,7 @@ test("Starter timeline contains only the complete CV commercial-project list", a
 
   assert.equal(item_count, 72);
   assert.equal(description_count, 72);
-  assert.equal(proof_link_count, 81);
+  assert.equal(proof_link_count, 83);
   assert.doesNotMatch(timeline_data, /'kind' => 'event'/);
   assert.match(timeline_data, /'name' => 'Mullikin Law'.*'emphasis' => 'heart'/);
   assert.match(timeline_data, /'name' => 'Accountia'.*'emphasis' => 'featured'/);
@@ -70,7 +70,7 @@ test("Timeline rendering provides calendar years, exact duration lanes, and offi
   assert.match(timeline_template, /timeline__organization-transition/);
   assert.match(timeline_template, /timeline__proof-links/);
   assert.match(timeline_template, /timeline__year-details/);
-  assert.match(timeline_template, /href="\{\{ timeline_item\.primary_project_url \}\}"/);
+  assert.doesNotMatch(timeline_template, /primary_project_url|timeline__item-details-link/);
   assert.doesNotMatch(timeline_template, /timeline-project-vincofy/);
   assert.match(timeline_template, /timeline__year-group--month-count-/);
   assert.match(timeline_template, /heart-outline/);
@@ -97,7 +97,7 @@ test("Timeline rendering provides calendar years, exact duration lanes, and offi
   assert.match(star_icon, /viewBox="0 0 24 24"/);
   assert.match(timeline_module, /JURENITES_TIMELINE_FIRST_YEAR = 2010/);
   assert.match(timeline_module, /'month_span' => \$fragment_end_month - \$fragment_start_month \+ 1/);
-  assert.match(timeline_module, /array_slice\(\$timeline_item\['proof_links'\], 1\)/);
+  assert.doesNotMatch(timeline_module, /array_slice\(\$timeline_item\['proof_links'\]/);
   assert.match(timeline_story, /Organisms\/Timeline/);
   assert.match(timeline_story, /TIMELINE_CURRENT_DATE = "2026-09-07"/);
 });

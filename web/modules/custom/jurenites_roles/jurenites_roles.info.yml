@@ -1,0 +1,12 @@
+name: Jurenites Professional Roles
+type: module
+description: Editable role stories below the separate project and experience metrics.
+core_version_requirement: ^11
+package: Jurenites
+dependencies:
+  - jurenites_numeric_values:jurenites_numeric_values
+  - jurenites_expanding_text:jurenites_expanding_text
+  - drupal:content_translation
+  - drupal:block_content
+  - drupal:text
+  - paragraphs:paragraphs

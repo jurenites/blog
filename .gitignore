@@ -58,3 +58,6 @@ build/
 # Local component test reports, screenshots, and dashboard build.
 .cache/component-status/
 generated/status-dashboard/
+
+# Local database snapshots must never enter source control.
+/backups/

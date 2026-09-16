@@ -766,7 +766,10 @@ function jurenites_theme_preprocess_paragraph(array &$paragraph_variables): void
   if ($paragraph_entity->hasField('field_numeric_caption_link')
     && !$paragraph_entity->get('field_numeric_caption_link')->isEmpty()) {
     $caption_link_item = $paragraph_entity->get('field_numeric_caption_link')->first();
-    $paragraph_variables['numeric_caption_link_url'] = $caption_link_item->getUrl()->toString();
+    $caption_link_url = $caption_link_item->getUrl();
+    $paragraph_variables['numeric_caption_link_url'] = $caption_link_url->toString();
+    $paragraph_variables['numeric_caption_link_external'] = $caption_link_url->isExternal()
+      && (bool) preg_match('@^(https?:)?//@i', $paragraph_variables['numeric_caption_link_url']);
     $paragraph_variables['numeric_caption_link_label'] = trim((string) $caption_link_item->title)
       ?: $paragraph_variables['numeric_caption_link_url'];
   }
