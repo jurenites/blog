@@ -1,4 +1,4 @@
-import {encode_text,map_codewords,ECC_LEVELS} from './core.js';
+import {encode_text,ECC_LEVELS} from './core.js';
 const ALPHA_TEXT='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:';
 const QR_CODE=globalThis.qrcodegen.QrCode;
 function parity_bit(bit_value){let parity_value=0;while(bit_value){bit_value&=bit_value-1n;parity_value^=1;}return parity_value;}
@@ -11,7 +11,7 @@ export function solve_equations(equation_rows,variable_count){
   return {assigned_bits:substitute_bits(0n,true),free_basis};
 }
 function* choose_groups(source_rows,choose_count,start_index=0,selected_rows=[]){if(choose_count===0){yield selected_rows;return;}for(let row_index=start_index;row_index<=source_rows.length-choose_count;row_index++)yield* choose_groups(source_rows,choose_count-1,row_index+1,[...selected_rows,source_rows[row_index]]);}
-function yield_task(){return new Promise(resolve_task=>setTimeout(resolve_task,0));}
+function yield_task(){return new Promise(resolve_task=>{setTimeout(resolve_task,0);});}
 export async function search_linear(search_options,on_candidate,on_progress,stop_time){
   if(search_options.version_number!==1)return false;
   const {pattern_text,error_level,lock_values,alphabet_name,protect_structure}=search_options;

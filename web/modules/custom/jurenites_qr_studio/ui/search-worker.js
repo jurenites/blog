@@ -51,7 +51,7 @@ self.onmessage=async({data:search_options})=>{
         for(let mask_index=0;mask_index<8;mask_index++)if(check_candidate(payload_text,mask_index))return;
         if(performance.now()>=stop_time)break;
       }
-      report_progress(0,'trying more addresses and masks');await new Promise(resolve_task=>setTimeout(resolve_task,0));
+      report_progress(0,'trying more addresses and masks');await new Promise(resolve_task=>{setTimeout(resolve_task,0);});
     }
     self.postMessage({type:'done',message_text:`No new decoded match found in ${time_limit} seconds. ${excluded_payloads.size} saved addresses were excluded. This is a bounded search, not proof of impossibility. Try more free characters, fewer locks, or a larger grid.`});
   }catch(error_info){self.postMessage({type:'error',message_text:error_info.message});}

@@ -14,7 +14,7 @@ export function encode_text(payload_text, version_number=1, error_level='Q', mas
   const segment_rows = alpha_only ? [QR_SEGMENT.makeAlphanumeric(payload_text)] : QR_SEGMENT.makeSegments(payload_text);
   let qr_code;
   try { qr_code = QR_CODE.encodeSegments(segment_rows, ECC_LEVELS[error_level], version_number, version_number, mask_index, false); }
-  catch (error_info) { throw new Error(`This text does not fit ${17+4*version_number}×${17+4*version_number} at level ${error_level}. Shorten it, lower correction, or choose a larger grid.`); }
+  catch { throw new Error(`This text does not fit ${17+4*version_number}×${17+4*version_number} at level ${error_level}. Shorten it, lower correction, or choose a larger grid.`); }
   qr_code.text_segment=segment_rows[0];qr_code.encoded_text=payload_text;qr_code.alpha_only=alpha_only;
   return qr_code;
 }

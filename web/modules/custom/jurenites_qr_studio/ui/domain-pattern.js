@@ -5,7 +5,7 @@ export function domain_parts(pattern_text){
  const scheme_match=pattern_text.match(/^HTTPS?:\/\//i);
  const host_start=scheme_match?scheme_match[0].length:0;
  const remaining_text=pattern_text.slice(host_start);
- const host_text=remaining_text.split(/[\/#:]/,1)[0];
+ const host_text=remaining_text.split(/[/#:]/,1)[0];
  if(!scheme_match&&!/^WWW\./i.test(host_text)&&(!host_text.includes('.')||/\s/.test(pattern_text)))return null;
  const dot_index=host_text.lastIndexOf('.');
  if(dot_index<1)return null;
