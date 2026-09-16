@@ -84,3 +84,26 @@ function jurenites_website_audit_install(): void {
   }
   \Drupal::state()->set('jurenites_website_audit.initialized', TRUE);
 }
+
+/**
+ * Restores the existing audit offer at the end of the Portfolio listing.
+ */
+function jurenites_website_audit_update_11001(): void {
+  $audit_uuid = '16c7d209-0bb1-4c6c-9da7-6845a39bfb74';
+  $audit_content = \Drupal::entityTypeManager()->getStorage('block_content')->loadByProperties(['uuid' => $audit_uuid]);
+  if (!$audit_content) {
+    return;
+  }
+
+  $plugin_identifier = 'block_content:' . $audit_uuid;
+  $audit_placement = Block::load('jurenites_theme_website_audit') ?? Block::create([
+    'id' => 'jurenites_theme_website_audit',
+    'theme' => 'jurenites_theme',
+    'plugin' => $plugin_identifier,
+    'settings' => ['id' => $plugin_identifier, 'label' => 'Portfolio website audit', 'label_display' => '0', 'provider' => 'block_content', 'view_mode' => 'full'],
+  ]);
+  $audit_placement->enable()->setRegion('content')->setWeight(90);
+  $audit_placement->setVisibilityConfig('request_path', [
+    'id' => 'request_path', 'negate' => FALSE, 'pages' => '/portfolio',
+  ])->save();
+}

@@ -1,0 +1,15 @@
+{% if role_items %}
+<section class="role-slider" data-role-slider aria-label="{{ 'Professional roles'|t }}">
+  <ul class="numeric-values__grid role-slider__tiles" aria-label="{{ 'Choose a role'|t }}">
+    {% for role_item in role_items %}{{ role_item.tile_build }}{% endfor %}
+  </ul>
+  <div class="role-slider__panels">
+    {% for role_item in role_items %}
+      <section class="role-slider__panel" id="{{ role_item.panel_id }}" aria-labelledby="{{ role_item.button_id }}">
+        <h2 class="role-slider__heading">{{ role_item.role_heading }}</h2>
+        <div class="role-slider__story">{{ role_item.story_build }}</div>
+      </section>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

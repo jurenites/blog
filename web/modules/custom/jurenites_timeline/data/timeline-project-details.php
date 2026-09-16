@@ -10,26 +10,28 @@ declare(strict_types=1);
 return [
   'oksenate.gov' => [
     'summary' => 'Worked on SCSS accessibility, refined the mobile presentation, upgraded Drupal core through Drupal 11, and updated contributed modules while keeping the website stable.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'https://oksenate.gov/'],
     ],
   ],
   'oaiquartz.org' => [
     'summary' => 'Provided minor Drupal 7 theme support.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'https://oaiquartz.org/'],
     ],
   ],
   'Accountia' => [
     'summary' => 'Worked as Lead Product Designer and frontend developer. Designed a new interface and integrated its Storybook design system into an Angular frontend, including Material Design 3, Atomic Design, and RTL support. Mentored a junior UI/UX designer and built the product landing page.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'https://accountia.no/'],
+    ],
+    'proofs' => [
       ['title' => 'Figma design', 'url' => 'https://www.figma.com/file/4K0S1h3hmZxDLHEXZpaYzU/Accountia?node-id=0%3A1'],
     ],
   ],
   'Fluency Academy and Memhack mobile apps' => [
     'summary' => 'Worked as Project Manager and Business Analyst with the development team to implement new features for Brazilian-market language-learning platforms.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Fluency Academy website', 'url' => 'https://en.fluencytv.com/'],
     ],
   ],
@@ -38,7 +40,7 @@ return [
   ],
   'Vincofy' => [
     'summary' => 'Worked as UI/UX designer on a warehouse-management system.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'https://vincofy.com/'],
     ],
   ],
@@ -47,12 +49,16 @@ return [
   ],
   'Visuals2Go' => [
     'summary' => 'Updated the mobile app interface and subscription screens and tested the app through TestFlight. The app supports children with communication difficulties.',
-    'proofs' => [
-      ['title' => 'App Store listing', 'url' => 'https://apps.apple.com/us/app/visuals2go/id417882424'],
+    'store_links' => [
+      ['title' => 'App Store', 'url' => 'https://apps.apple.com/us/app/visuals2go/id417882424'],
     ],
   ],
   'ScatchApp' => [
     'summary' => 'Worked as UI/UX designer and prepared a new navigation system for an existing mobile application that sells event tickets.',
+    'store_links' => [
+      ['title' => 'Google Play', 'url' => 'https://play.google.com/store/apps/details?id=com.scatch&hl=en'],
+      ['title' => 'App Store', 'url' => 'https://apps.apple.com/pl/app/scatch-app/id6747970607'],
+    ],
     'proofs' => [
       ['title' => 'Interactive wireframes', 'url' => 'https://app.moqups.com/ilFBpzYixG/view/page/a83744219'],
       ['title' => 'Wireframes PDF', 'url' => 'https://www.dropbox.com/s/7692ic3zpm6u2bk/Scatch_app.pdf?dl=0'],
@@ -60,7 +66,7 @@ return [
   ],
   'Dzing Finance App' => [
     'summary' => 'Worked as Project Manager, prepared tickets with the customer, coordinated the development team and existing backend team, and learned fintech and Figma while delivering a debit-card management app.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'https://www.dzing.com/'],
     ],
   ],
@@ -69,7 +75,7 @@ return [
   ],
   'Enfusen' => [
     'summary' => 'Worked as PHP developer on a website-statistics analysis dashboard.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'https://www.enfusen.com/'],
     ],
   ],
@@ -81,7 +87,7 @@ return [
   ],
   'Nokia' => [
     'summary' => 'Worked in the Drupal 8 contractor support team fixing bugs on the official Nokia Networks website after the main development phase.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Nokia Networks website', 'url' => 'https://www.nokia.com/networks/'],
     ],
   ],
@@ -93,8 +99,10 @@ return [
   ],
   'Raisbeck Performance Systems' => [
     'summary' => 'Prepared a mobile-app wireframe intended to increase sales and promote aircraft upgrade packages from the existing website.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Raisbeck website', 'url' => 'https://raisbeck.com/'],
+    ],
+    'proofs' => [
       ['title' => 'Wireframe PDF', 'url' => 'https://www.dropbox.com/s/vo72lxbjyalrbp9/Raisbeck_Performance_Systems.pdf?dl=0'],
       ['title' => 'Reference webpage', 'url' => 'https://www.banyanair.com/raisbeck-engineering-performance-systems/'],
     ],
@@ -107,8 +115,10 @@ return [
   ],
   'Neuromation Marketplace and Neurowork' => [
     'summary' => 'Worked as Product Owner, researched ICOs and AI computer vision, and created project documentation and white papers for the Neuromation Marketplace and Neurowork.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Neuromation website', 'url' => 'https://neuromation.io/en/'],
+    ],
+    'proofs' => [
       ['title' => 'Marketplace wireframes', 'url' => 'https://app.moqups.com/4jJkQeog0p/view/page/a836ff84b'],
       ['title' => 'Neurowork wireframes', 'url' => 'https://app.moqups.com/bMGSwWiU4t/view/page/ae91c3f73'],
     ],
@@ -118,22 +128,28 @@ return [
   ],
   'ArkivMusic Naxos' => [
     'summary' => 'Worked as Product Owner and prepared new pages as low-detail grayscale wireframes.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'ArkivMusic website', 'url' => 'http://www.arkivmusic.com/'],
+    ],
+    'proofs' => [
       ['title' => 'Wireframe PDF', 'url' => 'https://www.dropbox.com/s/ezv5hkzjotby1x6/naxos_Arkiv_music.pdf?dl=0'],
     ],
   ],
   'Trackimo iOS' => [
     'summary' => 'Worked as Product Owner, discussed the customer’s goals, and created mobile-app wireframes from the agreed requirements.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Trackimo website', 'url' => 'https://trackimo.com/'],
+    ],
+    'proofs' => [
       ['title' => 'Wireframes', 'url' => 'https://app.moqups.com/YMaSx1prM4/view/page/aa9df7b72'],
     ],
   ],
   'Explore Talent' => [
     'summary' => 'Worked as UI/UX designer and created mobile-app wireframes based on the existing website.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Explore Talent website', 'url' => 'https://www.exploretalent.com/'],
+    ],
+    'proofs' => [
       ['title' => 'Wireframe PDF', 'url' => 'https://www.dropbox.com/s/4scffjn0sqrz5p4/Explore_Talent__Auditions.pdf?dl=0'],
     ],
   ],
@@ -157,36 +173,46 @@ return [
   ],
   'Program DB Novo Ministries' => [
     'summary' => 'Worked as Project Manager and Drupal 7 developer to rewrite a legacy system, prepare documentation and wireframes, plan sprints, and manage a backlog for volunteer, staff, child, enrolment, and attendance data.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'https://volunteer.novoministries.org/'],
+    ],
+    'proofs' => [
       ['title' => 'Wireframe PDF', 'url' => 'https://www.dropbox.com/s/dqbrl71w5xlu7q8/Programm_DB_Novo_Ministries.pdf?dl=0'],
     ],
   ],
   'Nature Footage' => [
     'summary' => 'Managed support work and assigned development tasks for a WordPress site used to preview and purchase wildlife videos stored on Amazon S3.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Nature Footage website', 'url' => 'https://www.naturefootage.com/'],
+    ],
+    'proofs' => [
       ['title' => 'Wireframes PDF', 'url' => 'https://www.dropbox.com/s/pvn0szovcl4qh28/NatureFootage.pdf?dl=0'],
     ],
   ],
   'CurtainCall' => [
     'summary' => 'Worked as Product Owner, translated the customer’s ideas into wireframes and implementation guidance, and coordinated investigations and delivery across the team.',
+    'store_links' => [
+      ['title' => 'App Store', 'url' => 'https://itunes.apple.com/us/app/curtain-calls/id1214308484?mt=8'],
+    ],
     'proofs' => [
-      ['title' => 'App Store listing', 'url' => 'https://itunes.apple.com/us/app/curtain-calls/id1214308484?mt=8'],
       ['title' => 'Wireframes PDF', 'url' => 'https://www.dropbox.com/s/5dl8ltqplenbrls/CurtainCall_App.pdf?dl=0'],
     ],
   ],
   'SpectorView' => [
     'summary' => 'Worked as Product Owner, created wireframes, a glossary, documentation, and Jira stories, and managed team size and customer meetings against the project budget.',
+    'store_links' => [
+      ['title' => 'App Store', 'url' => 'https://itunes.apple.com/us/app/spectorview/id1230246864?mt=8'],
+    ],
     'proofs' => [
-      ['title' => 'App Store listing', 'url' => 'https://itunes.apple.com/us/app/spectorview/id1230246864?mt=8'],
       ['title' => 'Wireframes PDF', 'url' => 'https://www.dropbox.com/s/xh855bzzzz9yhsy/Spector_View_App.pdf?dl=0'],
     ],
   ],
   'Commentate' => [
     'summary' => 'Worked as Project Manager, spoke with the customer daily, prioritised tasks for the iOS developers, and prepared budget reports.',
+    'store_links' => [
+      ['title' => 'App Store', 'url' => 'https://itunes.apple.com/us/app/c%D0%BEmmentate/id1192681516?mt=8'],
+    ],
     'proofs' => [
-      ['title' => 'App Store listing', 'url' => 'https://itunes.apple.com/us/app/c%D0%BEmmentate/id1192681516?mt=8'],
       ['title' => 'Wireframe PDF', 'url' => 'https://www.dropbox.com/s/dpwitw828wreccy/Commentate_App.pdf?dl=0'],
     ],
   ],
@@ -206,14 +232,16 @@ return [
   ],
   'Rockhopperz Next Doc Visit' => [
     'summary' => 'Worked as Project Manager, created wireframes and documentation, wrote development tasks and behaviour rules, and clarified customer requirements for an injury-priority appointment queue and doctor-notification system.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'https://nextdocapps.com/#/login'],
+    ],
+    'proofs' => [
       ['title' => 'Wireframes PDF', 'url' => 'https://www.dropbox.com/s/nysl2ewnrrhbrrg/Rockhoperz_NextDocVisit.pdf?dl=0'],
     ],
   ],
   'THDA' => [
     'summary' => 'Worked as Project Manager and discussed the development tasks with the customer.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'THDA website', 'url' => 'https://thda.org/'],
     ],
   ],
@@ -222,14 +250,16 @@ return [
   ],
   'Kidsvolunteer' => [
     'summary' => 'Worked as Project Manager and Product Owner, created developer wireframes and bug-tracker tasks, held daily customer meetings, and reviewed completed work with QA.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'https://kidsvolunteer.theaterchurch.com/'],
     ],
   ],
   'Clarity Grayhawk' => [
     'summary' => 'Worked as Project Manager and Product Owner, turned customer discussions into documentation, and planned a structured migration from the old system into a Drupal 7 questionnaire platform for loan providers.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'https://clarityamc.grayhawkvs.com/'],
+    ],
+    'proofs' => [
       ['title' => 'Wireframes PDF', 'url' => 'https://www.dropbox.com/s/seomfzn24rhzdsb/Clarity_Grayhawk.pdf?dl=0'],
     ],
   ],
@@ -238,31 +268,31 @@ return [
   ],
   'Life Church Staff App iOS' => [
     'summary' => 'Worked as Project Manager, designed the mobile-app wireframes, collaborated with a designer, and defined an external REST API around Laravel entities.',
-    'proofs' => [
-      ['title' => 'App Store listing', 'url' => 'https://itunes.apple.com/us/app/life-church/id1014635777?mt=8'],
+    'store_links' => [
+      ['title' => 'App Store', 'url' => 'https://itunes.apple.com/us/app/life-church/id1014635777?mt=8'],
     ],
   ],
   'Life Church Staff Portal Web' => [
     'summary' => 'Worked as Project Manager and Product Owner on a Drupal 7 staff portal with event administration, mobile API integration, push notifications, calendars, employee Q&A, and aggregated corporate social content.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Staff Portal', 'url' => 'https://staffportal.lifechurch.tv/user/login'],
     ],
   ],
   'Life Church LifeGroups' => [
     'summary' => 'Managed sprint planning and daily customer meetings for a mobile app and website search that helped people discover interest-based meeting groups.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'LifeGroups website', 'url' => 'http://lifegroups.lifechurch.tv/'],
     ],
   ],
   'Life Church Volunteer' => [
     'summary' => 'Worked as PHP developer on a Laravel site for volunteer applications, volunteer records, and background checks.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Volunteer website', 'url' => 'https://www.life.church/online/volunteer/'],
     ],
   ],
   'Life Church Roku' => [
     'summary' => 'Worked as PHP developer with the Roku API to create a custom company channel backed by video files stored on Amazon S3.',
-    'proofs' => [
+    'store_links' => [
       ['title' => 'Roku Channel Store', 'url' => 'https://channelstore.roku.com/details/2320/lifechurch'],
     ],
   ],
@@ -274,85 +304,85 @@ return [
   ],
   'OK State Fair' => [
     'summary' => 'Worked as PHP developer on a large theme-park information website, creating calendar-event features, page templates, and content.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'OK State Fair website', 'url' => 'http://www.okstatefair.com/'],
     ],
   ],
   'Community Health System' => [
     'summary' => 'Worked as PHP developer, added page-template types and CMS content to a Drupal 7 medical-information website.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'CHS website', 'url' => 'http://www.chs.net/'],
     ],
   ],
   'wemultiply' => [
     'summary' => 'Worked as PHP developer and applied a supplied design and HTML slice to a simple Drupal 7 information website.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'http://wemultiply.com/'],
     ],
   ],
   'Global-ny.com' => [
     'summary' => 'Worked as PHP developer, optimised a WordPress site for mobile browsers, and created its custom theme.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'http://global-ny.com/'],
     ],
   ],
   'Mcbride hospital orthopedic hospital' => [
     'summary' => 'Worked as PHP developer, converted HTML slices into Drupal 7 page templates, and built listings with Views for an information website.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'McBride website', 'url' => 'https://www.mcboh.com/'],
     ],
   ],
   'Hawaii Experience' => [
     'summary' => 'Delivered a Drupal 7 excursion website from estimation through launch, coordinating the PSD slicing, implementing templates, and configuring Ubercart.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'https://experiencehawaii.com/'],
     ],
   ],
   'AGC Aerospace' => [
     'summary' => 'Worked as PHP developer on a Drupal 7 information website, including its main pages, subdomains, and multisite configuration.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Company website', 'url' => 'http://acorngrowthcompanies.com/'],
     ],
   ],
   'Wiley Post Airport' => [
     'summary' => 'Worked as PHP developer supporting ASP code for a Flash-based airport website.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Airport website', 'url' => 'http://www.wileypostairport.com/Home.aspx'],
     ],
   ],
   'Harvard Immunology Website' => [
     'summary' => 'Worked as PHP developer and applied a teammate’s sliced templates to an information website.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Harvard Immunology website', 'url' => 'https://immunology.hms.harvard.edu/'],
     ],
   ],
   'Give Me Liberte' => [
     'summary' => 'Worked as PHP developer on a WordPress website with a blog and JavaScript carousel.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'http://www.givemeliberte.com/'],
     ],
   ],
   'Continental' => [
     'summary' => 'Worked as PHP developer and built a new information website from scratch using supplied designs and sliced templates.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'http://www.contres.com/'],
     ],
   ],
   'AdoTube' => [
     'summary' => 'Worked as PHP developer in the team on a Drupal 7 advertising control panel integrated into video players, including translation and the i18n module.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Company website', 'url' => 'http://exponential.com/'],
     ],
   ],
   'Bricktown OKC' => [
     'summary' => 'Worked as PHP developer with a Flash map and XML communication between the CMS and Flash frontend.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Bricktown website', 'url' => 'http://www.bricktownokc.com/'],
     ],
   ],
   'Science Museum Oklahoma' => [
     'summary' => 'Worked as developer on a Drupal 6 museum website with ecommerce ticketing and different themes for exhibition pages.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Museum website', 'url' => 'https://www.sciencemuseumok.org/'],
     ],
   ],
@@ -364,19 +394,19 @@ return [
   ],
   'Automobile Alley' => [
     'summary' => 'Worked as developer on a Drupal 6 website, including design, slicing, templating, and its mobile presentation.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Automobile Alley website', 'url' => 'http://www.automobilealley.org/'],
     ],
   ],
   'OU Law' => [
     'summary' => 'Worked as Drupal 6 developer on a large content website, building recursive navigation with repeated child paths and using Panels.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'OU Law website', 'url' => 'http://www.law.ou.edu/'],
     ],
   ],
   'Will Rogers Lobby Bar / Western Concepts Tasting Room' => [
     'summary' => 'Worked as PHP developer supporting a Flash website and its payment system.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Will Rogers Lobby Bar', 'url' => 'http://www.willrogerslobbybar.com/'],
       ['title' => 'Western Concepts', 'url' => 'https://www.westernconceptsdining.com/'],
       ['title' => 'The Tasting Room', 'url' => 'http://thetastingroomokc.com/'],
@@ -384,25 +414,25 @@ return [
   ],
   'Variety Care' => [
     'summary' => 'Worked as PHP developer and converted supplied slices into Drupal 6 information-page templates.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Variety Care website', 'url' => 'http://www.varietycare.org/'],
     ],
   ],
   'Mullikin Law' => [
     'summary' => 'Worked as PHP developer on Drupal 6 page templates and a custom Ajax weight-sorting interaction using jQuery Sortable. This project has a special place in my heart.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Mullikin Law website', 'url' => 'https://www.mullikinlaw.com/'],
     ],
   ],
   'Smartstart OK' => [
     'summary' => 'Worked as PHP developer, templated the website, created Views pages and content types, and delivered the Drupal 6 information site.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Smart Start Central Oklahoma website', 'url' => 'http://www.smartstartok.org/'],
     ],
   ],
   "Oklahoma Children's Theatre" => [
     'summary' => 'Worked as PHP developer and delivered a large Drupal 6 theatre site independently, including content types, custom modules, Views, event calendars, and ticketing with promo codes.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Theatre website', 'url' => 'https://www.oklahomachildrenstheatre.org/'],
     ],
   ],
@@ -411,13 +441,13 @@ return [
   ],
   'Flexability Concepts' => [
     'summary' => 'Worked as PHP developer supporting an existing information website, including design-led popups and block presentation.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Company website', 'url' => 'http://www.flexabilityconcepts.com/'],
     ],
   ],
   'One Health Body' => [
     'summary' => 'Worked as PHP developer and independently replaced the old CMS with a Drupal 6 website and online sporting-goods shop.',
-    'proofs' => [
+    'website_links' => [
       ['title' => 'Project website', 'url' => 'http://www.onehealthybod.com/'],
     ],
   ],

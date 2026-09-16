@@ -1,0 +1,172 @@
+<?php
+
+/**
+ * @file
+ * Separates career totals from role tiles while preserving editorial revisions.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\language\Entity\ContentLanguageSettings;
+use Drupal\paragraphs\Entity\Paragraph;
+
+/**
+ * Adds missing fields and widgets, retaining later editorial display choices.
+ */
+function jurenites_roles_add_field(string $entity_type, string $bundle_name, string $field_name, array $field_options, array $widget_options): void {
+  $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
+  if (!$field_storage) {
+    $field_storage = FieldStorageConfig::create([
+      'field_name' => $field_name, 'entity_type' => $entity_type,
+      'type' => $field_options['type'], 'cardinality' => $field_options['cardinality'] ?? 1,
+      'settings' => $field_options['storage_settings'] ?? [],
+      'translatable' => TRUE,
+    ]);
+    $field_storage->save();
+  }
+  if (!FieldConfig::loadByName($entity_type, $bundle_name, $field_name)) {
+    FieldConfig::create([
+      'field_storage' => $field_storage, 'bundle' => $bundle_name,
+      'label' => $field_options['label'], 'description' => $field_options['description'] ?? '',
+      'translatable' => $field_options['translatable'] ?? TRUE,
+      'settings' => $field_options['settings'] ?? [],
+    ])->save();
+  }
+  $display_id = "$entity_type.$bundle_name.default";
+  $form_display = EntityFormDisplay::load($display_id) ?? EntityFormDisplay::create([
+    'targetEntityType' => $entity_type, 'bundle' => $bundle_name, 'mode' => 'default', 'status' => TRUE,
+  ]);
+  if (!$form_display->getComponent($field_name)) {
+    $form_display->setComponent($field_name, $widget_options + ['region' => 'content'])->save();
+  }
+  $view_display = EntityViewDisplay::load($display_id) ?? EntityViewDisplay::create([
+    'targetEntityType' => $entity_type, 'bundle' => $bundle_name, 'mode' => 'default', 'status' => TRUE,
+  ]);
+  $view_display->removeComponent($field_name)->save();
+}
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_roles_install(): void {
+  if (\Drupal::state()->get('jurenites_roles.initialized')) {
+    return;
+  }
+  if (!BlockContentType::load('professional_roles')) {
+    BlockContentType::create(['id' => 'professional_roles', 'label' => 'Professional roles', 'revision' => TRUE])->save();
+  }
+  jurenites_roles_add_field('block_content', 'professional_roles', 'field_role_items', [
+    'type' => 'entity_reference_revisions', 'label' => 'Role tiles and stories', 'cardinality' => -1,
+    'translatable' => FALSE, 'storage_settings' => ['target_type' => 'paragraph'],
+    'settings' => ['handler' => 'default:paragraph', 'handler_settings' => [
+      'target_bundles' => ['numeric_value' => 'numeric_value'],
+      'target_bundles_drag_drop' => ['numeric_value' => ['weight' => 0, 'enabled' => TRUE]],
+    ]],
+  ], ['type' => 'paragraphs', 'weight' => 1, 'settings' => [
+    'title' => 'Role', 'title_plural' => 'Roles', 'edit_mode' => 'closed',
+    'closed_mode' => 'summary', 'autocollapse' => 'none', 'add_mode' => 'button',
+    'form_display_mode' => 'default', 'default_paragraph_type' => 'numeric_value',
+  ]]);
+  jurenites_roles_add_field('paragraph', 'numeric_value', 'field_role_heading', [
+    'type' => 'string', 'label' => 'Role heading',
+    'description' => 'For role tiles only. Shown in the selector and above the story.',
+  ], ['type' => 'string_textfield', 'weight' => 6]);
+  jurenites_roles_add_field('paragraph', 'numeric_value', 'field_role_story', [
+    'type' => 'text_long', 'label' => 'Role story',
+    'description' => 'For role tiles only. Use Expandable term to explain words directly inside a sentence.',
+  ], ['type' => 'text_textarea', 'weight' => 7]);
+  ContentLanguageSettings::loadByEntityTypeBundle('block_content', 'professional_roles')
+    ->setLanguageAlterable(TRUE)->setThirdPartySetting('content_translation', 'enabled', TRUE)->save();
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+
+  $transaction_scope = \Drupal::database()->startTransaction();
+  try {
+    $block_storage = \Drupal::entityTypeManager()->getStorage('block_content');
+    $role_uuid = '570fc0e9-29e0-4e73-b77b-c5f927c30f33';
+    $existing_roles = $block_storage->loadByProperties(['uuid' => $role_uuid]);
+    if (!$existing_roles) {
+      $metric_blocks = $block_storage->loadByProperties(['uuid' => 'c003d482-a65b-40e4-a05a-b0b203add14e']);
+      $metric_block = reset($metric_blocks);
+      // Identify the owner's three role tiles by stable UUID, never by list index.
+      $role_sources = [
+        '93ff7158-07e2-46a4-a736-9c655b42003a' => ['Web developer', 'Веб-разработчик'],
+        'e392af27-f97d-4c76-85a0-dbe013b3b9b2' => ['Project manager & product owner', 'Руководитель проектов и владелец продукта'],
+        '0b212368-c104-4708-bcbf-d509db82cd90' => ['Business analyst & UI/UX designer', 'Бизнес-аналитик и UI/UX-дизайнер'],
+      ];
+      $existing_tiles = [];
+      foreach ($metric_block?->get('field_numeric_items')->referencedEntities() ?? [] as $numeric_tile) {
+        $existing_tiles[$numeric_tile->uuid()] = $numeric_tile;
+      }
+      $role_tiles = [];
+      foreach ($role_sources as $tile_uuid => $heading_values) {
+        $source_tile = $existing_tiles[$tile_uuid] ?? NULL;
+        $role_tile = $source_tile ? $source_tile->createDuplicate() : Paragraph::create([
+          'type' => 'numeric_value', 'langcode' => 'en',
+          'field_numeric_number' => '—', 'field_numeric_description' => 'As a ' . $heading_values[0],
+        ]);
+        // Duplicate the role paragraphs so the old block revision still owns its originals.
+        $role_tile->set('parent_id', NULL)->set('parent_type', NULL)->set('parent_field_name', NULL);
+        $role_tile->set('field_role_heading', $heading_values[0]);
+        $role_tile->set('field_role_story', [
+          'value' => '<p>Your story as a ' . htmlspecialchars($heading_values[0]) . ' goes here.</p>', 'format' => 'basic_html',
+        ]);
+        if (\Drupal::languageManager()->getLanguage('ru')) {
+          $translated_tile = $role_tile->hasTranslation('ru') ? $role_tile->getTranslation('ru') : $role_tile->addTranslation('ru');
+          $translated_tile->set('field_role_heading', $heading_values[1]);
+          $translated_tile->set('field_role_story', [
+            'value' => '<p>Здесь будет история об этой роли.</p>', 'format' => 'basic_html',
+          ]);
+        }
+        $role_tiles[] = $role_tile;
+      }
+      $roles_block = BlockContent::create([
+        'uuid' => $role_uuid, 'type' => 'professional_roles', 'langcode' => 'en',
+        'info' => 'About professional roles', 'reusable' => TRUE, 'status' => TRUE,
+        'field_role_items' => $role_tiles,
+      ]);
+      if (\Drupal::languageManager()->getLanguage('ru')) {
+        $roles_block->addTranslation('ru', ['info' => 'Профессиональные роли']);
+      }
+      $roles_block->save();
+      if ($metric_block) {
+        $metric_block->setNewRevision(TRUE);
+        $metric_block->setRevisionLogMessage('Separate role tiles into the Professional roles block; original paragraphs retained in prior revisions.');
+        foreach ($metric_block->getTranslationLanguages() as $language_id => $language_object) {
+          $metric_translation = $metric_block->getTranslation($language_id);
+          $remaining_values = [];
+          foreach ($metric_translation->get('field_numeric_items') as $reference_item) {
+            if (!isset($role_sources[$reference_item->entity->uuid()])) {
+              $remaining_values[] = $reference_item->getValue();
+            }
+          }
+          $metric_translation->set('field_numeric_items', $remaining_values);
+        }
+        $metric_block->save();
+      }
+    }
+    $numeric_placement = Block::load('jurenites_theme_numeric_values');
+    // The existing About placement omitted its Russian alias.
+    if ($numeric_placement && trim($numeric_placement->getVisibility()['request_path']['pages'] ?? '') === '/about') {
+      $numeric_placement->setVisibilityConfig('request_path', ['id' => 'request_path', 'negate' => FALSE, 'pages' => "/about\n/obo"])->save();
+    }
+    if (!Block::load('jurenites_theme_professional_roles')) {
+      $plugin_identifier = 'block_content:' . $role_uuid;
+      Block::create([
+        'id' => 'jurenites_theme_professional_roles', 'theme' => 'jurenites_theme', 'region' => 'content',
+        'weight' => ($numeric_placement?->getWeight() ?? 0) + 1, 'status' => TRUE, 'plugin' => $plugin_identifier,
+        'settings' => ['id' => $plugin_identifier, 'label' => 'Professional roles', 'label_display' => '0', 'provider' => 'block_content', 'view_mode' => 'full'],
+        'visibility' => ['request_path' => ['id' => 'request_path', 'negate' => FALSE, 'pages' => "/about\n/obo"]],
+      ])->save();
+    }
+    \Drupal::state()->set('jurenites_roles.initialized', TRUE);
+  }
+  catch (\Throwable $install_error) {
+    $transaction_scope->rollBack();
+    throw $install_error;
+  }
+}

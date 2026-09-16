@@ -6,7 +6,7 @@
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   gap: calc(var(--space-scale-base-gap) * 2);
   margin-block-start: calc(var(--space-scale-base-gap) * 4);
-  padding: calc(var(--space-scale-base-gap) * 2);
+  //padding: calc(var(--space-scale-base-gap) * 2);
   border-radius: calc(var(--shape-corner-radius-base) * 2);
   background: var(--component-website-audit-background-color);
 }

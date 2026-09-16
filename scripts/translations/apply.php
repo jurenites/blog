@@ -28,7 +28,7 @@ if ($import_scope === 'timeline') {
     }
   }
   $content_rows = array_values(array_filter($content_rows, static fn (array $content_row): bool => isset($timeline_uuids[$content_row['uuid']])));
-  $timeline_strings = ['Timeline', 'Commercial work', 'records', 'Project durations', 'Project links', 'Proof @number', 'Featured', 'Special place in my heart', '@hours h'];
+  $timeline_strings = ['Timeline', 'Commercial work', 'records', 'Project durations', 'Project links', 'Product websites', 'App stores', 'Sources', 'Proof @number', 'Featured', 'Special place in my heart', '@hours h'];
   $interface_rows = array_values(array_filter($interface_rows, static fn (array $interface_row): bool => $interface_row['context'] === '' && in_array($interface_row['en'], $timeline_strings, TRUE)));
 }
 // Limit an editorial batch to explicit UUIDs without replaying older catalogue rows.

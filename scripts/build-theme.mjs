@@ -85,6 +85,15 @@ await esbuild.build({
 });
 await remove_generated_trailing_whitespace(BUILD_PATHS.font_preview_js_output);
 
+await esbuild.build({
+  entryPoints: [resolve(ROOT_DIRECTORY, 'src/slice/src/js/site-intro.js')],
+  outfile: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/js/site-intro.min.js'),
+  bundle: true,
+  minify: true,
+  target: ['es2018'],
+  legalComments: 'none',
+});
+
 console.log(`Built theme assets:
 - ${BUILD_PATHS.css_output}
 - ${BUILD_PATHS.ckeditor_css_output}

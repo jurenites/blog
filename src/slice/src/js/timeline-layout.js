@@ -123,7 +123,7 @@ export function initialize_timeline_layout(timeline_element) {
       project_element.addEventListener('click', () => {
         const matching_card = project_elements.find((candidate_element) =>
           candidate_element.matches('.timeline__year-detail')
-          && candidate_element.dataset.periodKey === project_element.dataset.periodKey);
+          && candidate_element.dataset.projectKey === project_element.dataset.projectKey);
         matching_card?.focus({ preventScroll: true });
         matching_card?.scrollIntoView({ block: 'center', behavior: 'instant' });
       }, event_options);

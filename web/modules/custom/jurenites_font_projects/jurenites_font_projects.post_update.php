@@ -12,6 +12,15 @@ use Drupal\Core\Serialization\Yaml;
 use Drupal\views\Entity\View;
 
 /**
+ * Adds an editable Timeline cross-link immediately after the Portfolio View.
+ */
+function jurenites_font_projects_post_update_portfolio_timeline_cross_link(): TranslatableMarkup {
+  \Drupal::moduleHandler()->loadInclude('jurenites_font_projects', 'install');
+  jurenites_font_projects_seed_timeline_cross_link();
+  return t('Added the editable Portfolio Timeline cross-link block.');
+}
+
+/**
  * Adds optional supporting video media to Project without replacing displays.
  */
 function jurenites_font_projects_post_update_project_supporting_videos(): TranslatableMarkup {

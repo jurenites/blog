@@ -1,0 +1,176 @@
+// The existing branding block is the only text surface, including without JS.
+@use "../tools";
+
+html[data-site-intro] {
+  overflow: hidden;
+
+  body {
+    overflow: hidden;
+
+    &::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: calc(var(--component-watermark-layer-default) + 1);
+      background: var(--component-hero-section-background-edge-color);
+    }
+  }
+
+  .site-header {
+    position: static;
+    z-index: auto;
+
+    // Fixed branding leaves the grid. Keep its cell and 48px line box occupied
+    // so the navigation and language picker never move beneath the fading canvas.
+    &::after {
+      content: "";
+      grid-column: 1;
+      grid-row: 1;
+      min-block-size: calc(var(--space-scale-base-gap) * 6);
+      pointer-events: none;
+    }
+
+    @include tools.breakpoint-down("mobile-max") {
+      &--enhanced::after {
+        // The normal mobile header uses the menu toggle instead of branding.
+        display: none;
+      }
+    }
+  }
+
+  .layout-container {
+    // Let the original branding rise above the canvas outside its page wrapper.
+    z-index: auto;
+  }
+
+  #block-jurenites-theme-site-branding {
+    position: fixed;
+    z-index: calc(var(--component-watermark-layer-default) + 2);
+    inset-block-start: var(--space-scale-base-gap);
+    inset-inline-start: var(--space-scale-base-gap);
+    display: inline-flex;
+    transform: translateY(calc(50svh - var(--space-scale-base-gap) * 4));
+
+    .site-header__brand {
+      display: inline-flex;
+      pointer-events: none;
+      background: transparent;
+    }
+
+    .site-header__brand-name {
+      // 96px on desktop; fit the full name on narrow entry pages.
+      font-size: min(calc(var(--space-scale-base-gap) * 12), 10vw);
+      line-height: calc(var(--space-scale-base-gap) * 6);
+    }
+
+    .site-header__brand-name-short {
+      gap: calc(var(--space-scale-base-gap) * 2);
+      transition: none;
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .site-header__brand-name-letter {
+      max-inline-size: 2ch;
+      // Clip the collapsing width without cutting 96px glyphs at the 48px line box.
+      overflow: visible;
+      clip-path: inset(-1em 0);
+      filter: none;
+      font-size: inherit;
+      letter-spacing: var(--space-scale-zero);
+      transition: none;
+    }
+  }
+}
+
+html[data-site-intro="fallback"] {
+  body * { visibility: hidden; }
+
+  #block-jurenites-theme-site-branding,
+  #block-jurenites-theme-site-branding * { visibility: visible; }
+}
+
+html[data-site-intro="pending"] #block-jurenites-theme-site-branding {
+  visibility: hidden;
+}
+
+html[data-site-intro="running"] {
+  body::after {
+    animation: site-intro-unveil var(--component-site-header-brand-name-hold-duration-default) linear both;
+  }
+
+  #block-jurenites-theme-site-branding {
+    animation: site-intro-arrive var(--component-site-header-brand-name-hold-duration-default) var(--motion-easing-standard-default) both;
+
+    .site-header__brand-name {
+      animation: site-intro-name var(--component-site-header-brand-name-hold-duration-default) var(--motion-easing-standard-default) both;
+    }
+
+    .site-header__brand-name-short {
+      animation: site-intro-gap var(--component-site-header-brand-name-hold-duration-default) var(--motion-easing-standard-default) both;
+    }
+
+    .site-header__brand-name-letter {
+      animation: site-intro-collapse var(--component-site-header-brand-name-hold-duration-default) var(--motion-easing-standard-default) both;
+    }
+  }
+}
+
+@keyframes site-intro-arrive {
+  0%, 40% {
+    inset-inline-start: var(--space-scale-base-gap);
+    transform: translateY(calc(50svh - var(--space-scale-base-gap) * 4));
+  }
+
+  85%, 100% {
+    inset-inline-start: max(var(--space-scale-base-gap), calc((100vw - var(--layout-container-max-desktop-default)) / 2 + var(--space-scale-base-gap)));
+    transform: translateY(0);
+  }
+}
+
+@keyframes site-intro-name {
+  0% {
+    opacity: 0;
+    font-size: min(calc(var(--space-scale-base-gap) * 12), 10vw);
+  }
+  15% { opacity: 1; }
+
+  40% {
+    font-size: min(calc(var(--space-scale-base-gap) * 12), 10vw);
+  }
+
+  85%, 100% {
+    opacity: 1;
+    font-size: calc(var(--space-scale-base-gap) * 5);
+  }
+}
+
+@keyframes site-intro-collapse {
+  0%, 60% { max-inline-size: 2ch; opacity: 1; }
+  85%, 100% { max-inline-size: 0; opacity: 0; }
+}
+
+@keyframes site-intro-gap {
+  0%, 60% { gap: calc(var(--space-scale-base-gap) * 2); }
+  85%, 100% { gap: var(--space-scale-two); }
+}
+
+@keyframes site-intro-unveil {
+  0%, 80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+// Covers a preference change while an intro is already running.
+@media (prefers-reduced-motion: reduce) {
+  html[data-site-intro="running"] {
+    body::after,
+    #block-jurenites-theme-site-branding,
+    #block-jurenites-theme-site-branding .site-header__brand-name,
+    #block-jurenites-theme-site-branding .site-header__brand-name-short,
+    #block-jurenites-theme-site-branding .site-header__brand-name-letter {
+      animation-duration: 1ms;
+    }
+  }
+}

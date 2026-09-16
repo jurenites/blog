@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Adds the authoring buttons without replacing existing editor settings.
+ */
+
+use Drupal\ckeditor5\HTMLRestrictions;
+use Drupal\editor\Entity\Editor;
+use Drupal\filter\Entity\FilterFormat;
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_expanding_text_install(): void {
+  foreach (['basic_html', 'full_html'] as $format_id) {
+    $text_editor = Editor::load($format_id);
+    if (!$text_editor || $text_editor->getEditor() !== 'ckeditor5') {
+      continue;
+    }
+    $editor_settings = $text_editor->getSettings();
+    $toolbar_items = array_values(array_filter($editor_settings['toolbar']['items'], static fn(string $item_name): bool => $item_name !== 'expandableTerm'));
+    $link_position = array_search('link', $toolbar_items, TRUE);
+    array_splice($toolbar_items, $link_position === FALSE ? 0 : $link_position + 1, 0, ['expandableTerm']);
+    $editor_settings['toolbar']['items'] = $toolbar_items;
+    foreach (['removeExpandableTerm'] as $toolbar_item) {
+      if (!in_array($toolbar_item, $editor_settings['toolbar']['items'], TRUE)) {
+        $editor_settings['toolbar']['items'][] = $toolbar_item;
+      }
+    }
+    $text_editor->setSettings($editor_settings)->save();
+    $text_format = FilterFormat::load($format_id);
+    if ($text_format->filters('filter_html')->status) {
+      $filter_settings = $text_format->filters('filter_html')->getConfiguration();
+      $filter_settings['settings']['allowed_html'] = HTMLRestrictions::fromString($filter_settings['settings']['allowed_html'])
+        ->merge(HTMLRestrictions::fromString('<span class="expandable-term expandable-term__label expandable-term__explanation">'))
+        ->toFilterHtmlAllowedTagsString();
+      $text_format->setFilterConfig('filter_html', $filter_settings)->save();
+    }
+  }
+}

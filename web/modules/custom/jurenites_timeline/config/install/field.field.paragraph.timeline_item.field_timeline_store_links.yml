@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_timeline_store_links
+    - paragraphs.paragraphs_type.timeline_item
+  module:
+    - link
+id: paragraph.timeline_item.field_timeline_store_links
+field_name: field_timeline_store_links
+entity_type: paragraph
+bundle: timeline_item
+label: 'App stores'
+description: 'Product listings in Google Play, the App Store or another app store. Use the store name as the link text.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 2
+  link_type: 16
+field_type: link

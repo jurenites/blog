@@ -86,14 +86,16 @@ function jurenites_timeline_ensure_node(): NodeInterface {
         'format' => 'basic_html',
       ];
     }
-    if (!empty($timeline_item_record['proofs'])) {
-      $timeline_paragraph_values['field_timeline_proof_links'] = array_map(
-        static fn (array $proof_link): array => [
-          'uri' => $proof_link['url'],
-          'title' => $proof_link['title'],
-        ],
-        $timeline_item_record['proofs'],
-      );
+    foreach (['website_links' => 'field_timeline_website_links', 'store_links' => 'field_timeline_store_links', 'proofs' => 'field_timeline_proof_links'] as $record_key => $field_name) {
+      if (!empty($timeline_item_record[$record_key])) {
+        $timeline_paragraph_values[$field_name] = array_map(
+          static fn (array $project_link): array => [
+            'uri' => $project_link['url'],
+            'title' => $project_link['title'],
+          ],
+          $timeline_item_record[$record_key],
+        );
+      }
     }
 
     $timeline_paragraphs[] = Paragraph::create($timeline_paragraph_values);

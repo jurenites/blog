@@ -213,15 +213,16 @@ function jurenites_timeline_post_update_import_cv_project_details(): Translatabl
         'value' => '<p>' . Html::escape($timeline_record['summary']) . '</p>',
         'format' => 'basic_html',
       ]);
-      if (!empty($timeline_record['proofs'])) {
+      $legacy_links = array_merge($timeline_record['website_links'] ?? [], $timeline_record['store_links'] ?? [], $timeline_record['proofs'] ?? []);
+      if ($legacy_links !== []) {
         $timeline_paragraph->set('field_timeline_proof_links', array_map(
           static fn (array $proof_link): array => [
             'uri' => $proof_link['url'],
             'title' => $proof_link['title'],
           ],
-          $timeline_record['proofs'],
+          $legacy_links,
         ));
-        $imported_link_count += count($timeline_record['proofs']);
+        $imported_link_count += count($legacy_links);
       }
       $timeline_paragraph->save();
       $timeline_node->get('field_timeline_items')->set($item_delta, [
@@ -295,4 +296,118 @@ function jurenites_timeline_post_update_duration_projects_only(): TranslatableMa
   return t('Detached @event_count one-time Timeline events and limited new records to duration projects.', [
     '@event_count' => $detached_event_count,
   ]);
+}
+
+/**
+ * Separates product destinations from sources without reseeding editorial text.
+ */
+function jurenites_timeline_post_update_separate_product_links(): TranslatableMarkup {
+  $config_directory = __DIR__ . '/config/install/';
+  foreach (['field_timeline_website_links', 'field_timeline_store_links'] as $field_name) {
+    if (FieldStorageConfig::loadByName('paragraph', $field_name) === NULL) {
+      FieldStorageConfig::create(\Symfony\Component\Yaml\Yaml::parseFile($config_directory . 'field.storage.paragraph.' . $field_name . '.yml'))->save();
+    }
+    if (FieldConfig::loadByName('paragraph', 'timeline_item', $field_name) === NULL) {
+      FieldConfig::create(\Symfony\Component\Yaml\Yaml::parseFile($config_directory . 'field.field.paragraph.timeline_item.' . $field_name . '.yml'))->save();
+    }
+  }
+  $proof_field = FieldConfig::loadByName('paragraph', 'timeline_item', 'field_timeline_proof_links');
+  $proof_config = \Symfony\Component\Yaml\Yaml::parseFile($config_directory . 'field.field.paragraph.timeline_item.field_timeline_proof_links.yml');
+  $proof_field->setLabel($proof_config['label'])->setDescription($proof_config['description'])->save();
+  $form_display = \Drupal::entityTypeManager()->getStorage('entity_form_display')->load('paragraph.timeline_item.default');
+  $form_config = \Symfony\Component\Yaml\Yaml::parseFile($config_directory . 'core.entity_form_display.paragraph.timeline_item.default.yml');
+  $view_display = \Drupal::entityTypeManager()->getStorage('entity_view_display')->load('paragraph.timeline_item.default');
+  foreach (['field_timeline_website_links', 'field_timeline_store_links', 'field_timeline_proof_links'] as $field_name) {
+    $form_display?->setComponent($field_name, $form_config['content'][$field_name]);
+    $view_display?->removeComponent($field_name);
+  }
+  $form_display?->save();
+  $view_display?->save();
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+
+  \Drupal::entityTypeManager()->getStorage('paragraph')->resetCache();
+  \Drupal::entityTypeManager()->getStorage('node')->resetCache();
+  $project_records = require __DIR__ . '/data/timeline-project-details.php';
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $node_ids = $node_storage->getQuery()->accessCheck(FALSE)->condition('type', 'timeline')->execute();
+  $updated_count = 0;
+  foreach ($node_storage->loadMultiple($node_ids) as $timeline_node) {
+    $updated_paragraphs = [];
+    $node_changed = FALSE;
+    foreach ($timeline_node->getTranslationLanguages() as $language_id => $language_object) {
+      $node_translation = $timeline_node->getTranslation($language_id);
+      foreach ($node_translation->get('field_timeline_items')->referencedEntities() as $item_delta => $timeline_paragraph) {
+        $revision_key = $timeline_paragraph->id() . ':' . $timeline_paragraph->getRevisionId();
+        if (!array_key_exists($revision_key, $updated_paragraphs)) {
+          $paragraph_changed = FALSE;
+          $project_name = (string) $timeline_paragraph->getUntranslated()->get('field_timeline_name')->value;
+          $project_record = $project_records[$project_name] ?? [];
+          // Only the reviewed URLs for this product can leave the source field.
+          $destination_fields = [];
+          foreach (['website_links' => 'field_timeline_website_links', 'store_links' => 'field_timeline_store_links'] as $record_key => $field_name) {
+            foreach ($project_record[$record_key] ?? [] as $project_link) {
+              $destination_fields[$project_link['url']] = [$field_name, $project_link['title']];
+            }
+          }
+          foreach ($timeline_paragraph->getTranslationLanguages() as $paragraph_language => $paragraph_language_object) {
+            $paragraph_translation = $timeline_paragraph->getTranslation($paragraph_language);
+            $retained_sources = [];
+            $sources_changed = FALSE;
+            foreach ($paragraph_translation->get('field_timeline_proof_links')->getValue() as $source_link) {
+              $destination_field = $destination_fields[$source_link['uri']] ?? NULL;
+              if ($destination_field === NULL) {
+                $retained_sources[] = $source_link;
+                continue;
+              }
+              [$field_name, $store_title] = $destination_field;
+              $existing_uris = array_column($paragraph_translation->get($field_name)->getValue(), 'uri');
+              if (!in_array($source_link['uri'], $existing_uris, TRUE)) {
+                if ($field_name === 'field_timeline_store_links') {
+                  $source_link['title'] = $store_title;
+                }
+                $paragraph_translation->get($field_name)->appendItem($source_link);
+              }
+              $sources_changed = TRUE;
+            }
+            if ($sources_changed) {
+              $paragraph_translation->set('field_timeline_proof_links', $retained_sources);
+              $paragraph_changed = TRUE;
+            }
+            if ($project_name === 'ScatchApp') {
+              foreach ($project_record['store_links'] as $store_link) {
+                $existing_uris = array_column($paragraph_translation->get('field_timeline_store_links')->getValue(), 'uri');
+                if (!in_array($store_link['url'], $existing_uris, TRUE)) {
+                  $paragraph_translation->get('field_timeline_store_links')->appendItem(['uri' => $store_link['url'], 'title' => $store_link['title']]);
+                  $paragraph_changed = TRUE;
+                }
+              }
+            }
+          }
+          if ($paragraph_changed) {
+            $timeline_paragraph->setNewRevision(TRUE);
+            $timeline_paragraph->save();
+            $updated_paragraphs[$revision_key] = $timeline_paragraph;
+            $updated_count++;
+          }
+          else {
+            $updated_paragraphs[$revision_key] = NULL;
+          }
+        }
+        if ($updated_paragraphs[$revision_key] !== NULL) {
+          $updated_paragraph = $updated_paragraphs[$revision_key];
+          $node_translation->get('field_timeline_items')->set($item_delta, [
+            'target_id' => $updated_paragraph->id(),
+            'target_revision_id' => $updated_paragraph->getRevisionId(),
+          ]);
+          $node_changed = TRUE;
+        }
+      }
+    }
+    if ($node_changed) {
+      $timeline_node->setNewRevision(TRUE);
+      $timeline_node->setRevisionLogMessage('Separated product websites, app stores and sources; added Scatch store links.');
+      $timeline_node->save();
+    }
+  }
+  return t('Separated product destinations and sources on @count Timeline items.', ['@count' => $updated_count]);
 }

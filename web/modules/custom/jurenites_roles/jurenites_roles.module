@@ -1,0 +1,75 @@
+<?php
+
+/**
+ * @file
+ * Renders role selectors with the shared Numeric value tile and formatted stories.
+ */
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_roles_theme(): array {
+  return ['jurenites_roles' => ['variables' => ['role_items' => []]]];
+}
+
+/**
+ * Implements hook_preprocess_paragraph().
+ */
+function jurenites_roles_preprocess_paragraph(array &$template_variables): void {
+  if (!empty($template_variables['elements']['#role_selector'])) {
+    $template_variables['role_selector'] = $template_variables['elements']['#role_selector'];
+    $template_variables['attributes']['class'][] = 'role-slider__tile';
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function jurenites_roles_block_content_view(array &$build_output, EntityInterface $block_entity, EntityViewDisplayInterface $view_display, string $view_mode): void {
+  if ($block_entity->bundle() !== 'professional_roles') return;
+  $cache_metadata = CacheableMetadata::createFromObject($block_entity)
+    ->addCacheContexts(['languages:language_content', 'languages:language_interface']);
+  $reference_fields = $block_entity->get('field_role_items');
+  $reference_access = $reference_fields->access('view', NULL, TRUE);
+  $cache_metadata->addCacheableDependency($reference_access);
+  $role_build = ['#theme' => 'jurenites_roles', '#role_items' => []];
+  if ($reference_access->isAllowed()) {
+    foreach ($reference_fields->referencedEntities() as $role_entity) {
+      $role_entity = \Drupal::service('entity.repository')->getTranslationFromContext($role_entity);
+      $role_access = $role_entity->access('view', NULL, TRUE);
+      $cache_metadata->addCacheableDependency($role_entity)->addCacheableDependency($role_access);
+      if (!$role_access->isAllowed()) continue;
+      $role_fields = [];
+      foreach (['field_role_heading', 'field_role_story'] as $field_name) {
+        $field_items = $role_entity->get($field_name);
+        $field_access = $field_items->access('view', NULL, TRUE);
+        $cache_metadata->addCacheableDependency($field_access);
+        if ($field_access->isAllowed()) $role_fields[$field_name] = $field_items;
+      }
+      $role_heading = $role_fields['field_role_heading']->value ?? '';
+      if ($role_heading === '') continue;
+      $panel_id = Html::getUniqueId('role-story-' . $role_entity->uuid());
+      $button_id = $panel_id . '-selector';
+      $tile_build = \Drupal::entityTypeManager()->getViewBuilder('paragraph')->view($role_entity, 'default', $role_entity->language()->getId());
+      // Each selector has instance-specific IDs; do not cache a normal numeric tile here.
+      unset($tile_build['#cache']['keys']);
+      $tile_build['#role_selector'] = ['panel_id' => $panel_id, 'button_id' => $button_id, 'role_heading' => $role_heading];
+      $story_items = $role_fields['field_role_story'] ?? NULL;
+      $role_build['#role_items'][] = [
+        'tile_build' => $tile_build, 'panel_id' => $panel_id, 'button_id' => $button_id,
+        'role_heading' => $role_heading,
+        'story_build' => $story_items && !$story_items->isEmpty() ? [
+          '#type' => 'processed_text', '#text' => $story_items->value,
+          '#format' => $story_items->format, '#langcode' => $role_entity->language()->getId(),
+        ] : [],
+      ];
+    }
+  }
+  $cache_metadata->applyTo($role_build);
+  $build_output['role_slider'] = $role_build;
+}

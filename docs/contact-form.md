@@ -1,6 +1,8 @@
 # Contact Form
 
 The public `/contact` route is owned by Webform's `contact` configuration entity.
+The theme gives its main content block 40px of top padding and hides the
+breadcrumb block on Contact, including language-prefixed routes.
 Apply the project recipe after installing Composer dependencies:
 
 ```bash

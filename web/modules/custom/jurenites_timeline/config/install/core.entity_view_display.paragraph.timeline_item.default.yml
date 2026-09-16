@@ -11,6 +11,8 @@ dependencies:
     - field.field.paragraph.timeline_item.field_timeline_periods
     - field.field.paragraph.timeline_item.field_timeline_proof_links
     - field.field.paragraph.timeline_item.field_timeline_summary
+    - field.field.paragraph.timeline_item.field_timeline_website_links
+    - field.field.paragraph.timeline_item.field_timeline_store_links
     - paragraphs.paragraphs_type.timeline_item
 id: paragraph.timeline_item.default
 targetEntityType: paragraph
@@ -18,6 +20,8 @@ bundle: timeline_item
 mode: default
 content: {  }
 hidden:
+  field_timeline_store_links: true
+  field_timeline_website_links: true
   field_timeline_emphasis: true
   field_timeline_hours: true
   field_timeline_kind: true

@@ -55,13 +55,7 @@
                   <article class="timeline__item-content">
                     <header class="timeline__item-header">
                       <h3 class="timeline__item-title">
-                        {% if timeline_item.primary_project_url %}
-                          <a class="timeline__item-details-link" href="{{ timeline_item.primary_project_url }}">
-                            {{ timeline_item.item_name }}
-                          </a>
-                        {% else %}
-                          {{ timeline_item.item_name }}
-                        {% endif %}
+                        {{ timeline_item.item_name }}
                       </h3>
                       {% if timeline_item.emphasis_kind == 'featured' %}
                         <span class="timeline__emphasis timeline__emphasis--featured">
@@ -84,27 +78,51 @@
                       {% endif %}
                     </header>
                     <div class="timeline__metadata">
-                      <span class="timeline__period">
-                        {% include '@jurenites_theme/components/date-time-value.html.twig' with {
-                          date_time_datetime: timeline_item.period.start_iso,
-                          date_time_display_markup: timeline_item.period.start_label,
-                          date_time_date_display_variant: 'date-month',
-                        } only %}
-                        {% if timeline_item.period.is_range %}
-                          <span aria-hidden="true">–</span>
+                      {% for project_period in timeline_item.project_periods %}
+                        <span class="timeline__period">
                           {% include '@jurenites_theme/components/date-time-value.html.twig' with {
-                            date_time_datetime: timeline_item.period.end_iso,
-                            date_time_display_markup: timeline_item.period.end_label,
+                            date_time_datetime: project_period.start_iso,
+                            date_time_display_markup: project_period.start_label,
                             date_time_date_display_variant: 'date-month',
                           } only %}
-                        {% endif %}
-                      </span>
+                          {% if project_period.is_range %}
+                            <span aria-hidden="true">–</span>
+                            {% include '@jurenites_theme/components/date-time-value.html.twig' with {
+                              date_time_datetime: project_period.end_iso,
+                              date_time_display_markup: project_period.end_label,
+                              date_time_date_display_variant: 'date-month',
+                            } only %}
+                          {% endif %}
+                        </span>
+                      {% endfor %}
                     </div>
                     {% if timeline_item.summary_markup %}
                       <div class="timeline__summary">{{ timeline_item.summary_markup }}</div>
                     {% endif %}
+                    {% if timeline_item.website_links %}
+                      <ul class="timeline__website-links" aria-label="{{ 'Product websites'|t }}">
+                        {% for project_link in timeline_item.website_links %}
+                          <li>
+                            <a class="timeline__website-link" href="{{ project_link.url }}">
+                              <span>{{ project_link.label }}</span>
+                              {% include '@jurenites_theme/components/icon.html.twig' with {
+                                icon_name: 'external-link',
+                                icon_class: 'timeline__website-external-mark',
+                              } only %}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                    {% if timeline_item.store_links %}
+                      <ul class="timeline__store-links" aria-label="{{ 'App stores'|t }}">
+                        {% for project_link in timeline_item.store_links %}
+                          <li><a href="{{ project_link.url }}">{{ project_link.label }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
                     {% if timeline_item.proof_links %}
-                      <ul class="timeline__proof-links" aria-label="{{ 'Project links'|t }}">
+                      <ul class="timeline__proof-links" aria-label="{{ 'Sources'|t }}">
                         {% for proof_link in timeline_item.proof_links %}
                           <li><a href="{{ proof_link.url }}">{{ proof_link.label }}</a></li>
                         {% endfor %}

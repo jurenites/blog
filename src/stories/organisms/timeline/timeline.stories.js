@@ -12,7 +12,7 @@ const TIMELINE_ITEMS = [
     periods: [{ start_date: "2026-07-01", end_date: "2026-07-01" }],
     hours_worked: 160,
     item_summary: "Worked on SCSS accessibility, refined the mobile presentation, and upgraded Drupal core and contributed modules.",
-    proof_links: [{ label: "Project website", url: "https://oksenate.gov/" }],
+    website_links: [{ url: "https://oksenate.gov/" }],
   },
   {
     item_name: "Accountia",
@@ -26,9 +26,29 @@ const TIMELINE_ITEMS = [
     hours_worked: 5500,
     emphasis_kind: "featured",
     item_summary: "Led product design and frontend development for an accounting platform, its Angular interface, and its Storybook design system.",
+    website_links: [{ url: "https://accountia.no/" }],
     proof_links: [
-      { label: "Project website", url: "https://accountia.no/" },
       { label: "Figma design", url: "https://www.figma.com/file/4K0S1h3hmZxDLHEXZpaYzU/Accountia" },
+    ],
+  },
+  {
+    item_name: "ScatchApp",
+    item_kind: "project",
+    organization_name: "Thrive.io",
+    organization_url: "https://thrive.io/",
+    periods: [
+      { start_date: "2019-11-01", end_date: "2019-12-01" },
+      { start_date: "2021-05-01", end_date: "2021-11-01" },
+      { start_date: "2022-06-01", end_date: "2022-07-01" },
+    ],
+    item_summary: "Designed a new navigation system for an event-ticket application.",
+    store_links: [
+      { label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.scatch&hl=en" },
+      { label: "App Store", url: "https://apps.apple.com/pl/app/scatch-app/id6747970607" },
+    ],
+    proof_links: [
+      { label: "Interactive wireframes", url: "https://app.moqups.com/ilFBpzYixG/view/page/a83744219" },
+      { label: "Wireframes PDF", url: "https://www.dropbox.com/s/7692ic3zpm6u2bk/Scatch_app.pdf?dl=0" },
     ],
   },
   {

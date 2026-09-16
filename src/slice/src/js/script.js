@@ -1,3 +1,5 @@
+import { initialize_expandable_terms } from './expandable-term.js';
+import { initialize_role_sliders } from './role-slider.js';
 import { initialize_company_sliders, detach_company_sliders } from './company-slider.js';
 import { initialize_screen_sliders, detach_screen_sliders } from './screen-slider.js';
 import { initialize_heading_typing, detach_heading_typing } from './heading-typing.js';
@@ -946,6 +948,12 @@ if (typeof Drupal !== 'undefined') {
     detach(timeline_context, drupal_settings, detach_trigger) {
       if (detach_trigger === 'unload') detach_timeline_organization_rails(timeline_context);
     },
+  };
+  Drupal.behaviors.jurenites_expandable_terms = {
+    attach(page_context) { initialize_expandable_terms(page_context); },
+  };
+  Drupal.behaviors.jurenites_roles = {
+    attach(page_context) { initialize_role_sliders(page_context); },
   };
   Drupal.behaviors.jurenites_company_slider = {
     attach(page_context) { initialize_company_sliders(page_context); },

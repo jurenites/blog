@@ -201,6 +201,10 @@ homepage three-tile composition and Storybook's `three_tile_grid` example.
 Its thumbnail zooms to 105% over 375ms on hover or keyboard focus and returns
 smoothly on exit. The scoped image transition preserves the progressive loader's
 200ms opacity fade; reduced-motion preferences disable the zoom.
+Portfolio Project Card thumbnails use the same 105% zoom and 375ms transition
+on card hover or keyboard focus, with a smooth return on exit. The image stays
+clipped inside its 16:9 media frame, preserves the loader fade, and remains
+unscaled when reduced motion is enabled.
 The homepage's Latest articles and News block H2 headings use the dedicated
 `.homepage-block__heading` class, with `layout.content.max.wide.default` as their
 maximum width and automatic inline margins to align with the block content.
@@ -402,6 +406,39 @@ restarts the hold after any remaining reveal finishes. Letter transitions take
 325ms with a 25ms stagger, twice the original animation speed. Reduced motion
 shows and hides the letters immediately while preserving the hold. Drupal and
 Storybook use the same brand interaction behavior.
+
+Drupal also reuses `#block-jurenites-theme-site-branding` for a first-visit intro
+on every themed entry route, including `/videos` and translated pages. A viewport
+canvas using the homepage's `component.hero-section.background-edge-color` reveals
+the existing white full name at 96px, vertically centered
+and aligned with the header's left text edge. Over two seconds, CSS fades the name
+in, moves it into the header, reduces it to 40px, collapses it to “AI,” and fades
+the canvas away. The text keeps a stable 48px line box; narrow viewports fit the
+name with a viewport-relative font size before returning to the existing mobile
+menu. No text clone, new token, or inline presentation style is introduced.
+
+The independent head library makes the repeat-visit decision before first paint.
+`localStorage['jurenites.site-intro']` stores `{ loading: true, shown_at }`;
+session storage provides a fallback within the current tab, without cookies. The timestamp
+allows one intro per 24 hours across routes, reloads, and tabs on the same origin.
+Blocking both storage mechanisms prevents persistence. Reduced motion skips the
+intro. Without JavaScript (or with its head script blocked), the same full name
+remains on the same homepage-colored canvas, and other content is hidden as the requested fallback.
+
+The intro waits for window load and fonts, with a four-second readiness limit so
+slow third-party resources cannot hold the canvas indefinitely. CSS owns the
+two-second animation using the existing brand hold-duration token. JavaScript
+releases input suppression on completion, on back/forward cache restoration, or
+through a bounded recovery timer. Ordinary hover/focus branding resumes afterward.
+While branding is fixed for the intro, a CSS pseudo-element reserves its original
+grid cell and 48px line box. Navigation and the language picker retain their final
+positions throughout the canvas fade; the enhanced mobile menu needs no spacer.
+Run `PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/site-intro.browser.mjs`
+against local Drupal to verify animation geometry, Videos entry, daily expiry,
+cross-route persistence, mobile, reduced motion, and the no-JavaScript canvas.
+`tests/site-intro-navigation.browser.mjs` also checks unchanged header geometry
+throughout the animation on Home and Videos at mobile, tablet, and desktop widths.
+
 Home remains in the compact menu, identified in Drupal by its front-page route
 rather than its translated label.
 At the token-defined 640px mobile maximum and below, the
