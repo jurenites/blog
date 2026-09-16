@@ -1,3 +1,7 @@
+.js img[data-progressive-image]:not([data-once~="jurenites-progressive-image"]) {
+  opacity: 0;
+}
+
 .jurenites-progressive-image {
   position: relative;
   display: block;
@@ -87,17 +91,30 @@
   --progressive-image-completion: 100%;
 }
 
+.jurenites-progressive-image[data-loading-stage="error"] > img,
+.jurenites-progressive-image[data-loading-stage="error"] > picture {
+  opacity: 0;
+  transition: none;
+}
+
 .jurenites-progressive-image[data-loading-stage="complete"] > img,
 .jurenites-progressive-image[data-loading-stage="complete"] > picture {
   opacity: 1;
 }
 
 .jurenites-progressive-image[data-loading-stage="complete"] .jurenites-progressive-image__preview,
-.jurenites-progressive-image[data-loading-stage="complete"] .jurenites-progressive-image__loading-line {
+.jurenites-progressive-image[data-loading-stage="complete"] .jurenites-progressive-image__loading-line,
+.jurenites-progressive-image[data-loading-stage="error"] .jurenites-progressive-image__loading-line {
   opacity: 0;
 }
 
+.jurenites-progressive-image[data-loading-stage="error"] .jurenites-progressive-image__preview {
+  opacity: 1;
+  transition: none;
+}
+
 .jurenites-progressive-image[data-loading-stage="error"] .jurenites-progressive-image__skeleton::after {
+  display: none;
   animation: none;
 }
 

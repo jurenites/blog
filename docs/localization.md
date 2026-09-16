@@ -71,6 +71,31 @@ When an older translation lacks a newly added field item, the importer copies
 the English item's structure before replacing its translated text. This keeps
 rich-text formats and link URLs alongside translated descriptions and labels.
 
+For a content-only batch, set `JURENITES_TRANSLATIONS_UUIDS` to a comma-separated
+list of entity UUIDs on both the dry run and the apply command. Include the
+referenced paragraphs and blocks whose text is part of the batch. This filters
+the selected content scope, skips interface imports and rejects UUIDs absent
+from the catalogue. The same English-source and Russian-editorial guards still
+apply; unrelated historical catalogue entries are not replayed.
+
+The September 15, 2026 DEV audit added the missing Russian versions of six
+published pages: four articles and two portfolio projects. The batch
+also translates their project paragraphs and image descriptions, missing shared
+page copy, pixel-editor instructions, skills descriptions and two recent
+timeline entries. Existing Russian translations, English content and shared
+media/paragraph references are preserved. This is a local content update;
+production requires its own database inventory and guarded import.
+
+Video recommendations do not need a separate translation merely because their
+titles are in English. Keep the original video titles and metadata. Translate
+author-written commentary only when it needs a missing language version, and
+preserve any existing bilingual commentary. Exclude videos from bulk
+missing-page translation batches unless explicitly requested.
+The Videos display selects each node's original language row once and renders
+in the visitor's content language with Drupal's normal fallback. This keeps
+untranslated recommendations visible on `/videos` and `/ru/videos`, without
+duplicating entries that already have translated commentary.
+
 This catalogue requires the same source entities and English text on the target
 environment. Do not run it blindly against a different production database.
 For a different site, inventory its own public content and prepare its own
@@ -135,6 +160,7 @@ the current guarded catalogue import remains an explicit editorial step.
 ```bash
 docker exec blog_jurenites_web ./vendor/bin/drush php:script scripts/translations/verify.php
 docker exec blog_jurenites_web ./vendor/bin/drush php:script tests/translated-route-layout.php
+docker exec blog_jurenites_web ./vendor/bin/drush php:script tests/video-language-fallback.php
 node --test tests/portfolio-tag-filtering.test.mjs tests/font-preview.test.mjs
 node scripts/translations/export.mjs
 npm run docs:check

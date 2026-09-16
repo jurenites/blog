@@ -43,7 +43,8 @@ body:has(.company-slider) {
 .company-slider__track {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: calc(var(--space-scale-base-gap) * 36);
+  grid-auto-columns: calc(var(--space-scale-base-gap) * 30);
+  justify-content: safe center;
   gap: calc(var(--space-scale-base-gap) * 3);
   overflow-x: auto;
   overscroll-behavior-inline: contain;

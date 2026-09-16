@@ -765,6 +765,12 @@ the color automatically from Drupal's cached 20px inline derivative, so editors
 do not need to enter a HEX value for every upload. The default Storybook story
 also exposes the average color as a color control for visual tuning.
 
+If the final image fails to load, its frame retains the same average-color
+placeholder without the skeleton animation or loading line. Images without a
+cached preview use the existing surface-color fallback. The broken image stays
+transparent, preserving its alternative text and frame dimensions; later
+successful loads reveal the image normally, including responsive source changes.
+
 External video loading retains a separate broken-TV noise treatment. Its shader
 generates a fresh independent grayscale value from each logical pixel coordinate
 and frame seed, without translating a spatial field or ordered pattern. Noise

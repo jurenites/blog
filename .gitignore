@@ -1,6 +1,12 @@
 .DS_Store
 node_modules/
 vendor/
+# QR Studio ships these browser libraries with the module.
+!web/modules/custom/jurenites_qr_studio/ui/vendor/
+web/modules/custom/jurenites_qr_studio/ui/vendor/*
+!web/modules/custom/jurenites_qr_studio/ui/vendor/qrcodegen.js
+!web/modules/custom/jurenites_qr_studio/ui/vendor/jsQR.js
+!web/modules/custom/jurenites_qr_studio/ui/vendor/jsQR-LICENSE.txt
 web/core/
 web/libraries/
 web/modules/contrib/

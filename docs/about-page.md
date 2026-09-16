@@ -278,6 +278,8 @@ The slider spans the usable viewport, beyond the reading column, with visible
 section overflow and a heading aligned to the content frame. The track scrolls
 at the screen edges; browser scrollbars and the admin navigation displacement
 are excluded from its width to avoid horizontal overflow of the whole page.
+The company cards are centered with equal space on both sides when the full row
+fits. When the row overflows, it aligns to the start so every card remains reachable.
 The native horizontal scrollbar remains visible and draggable, with an 8px-high
 square thumb and track in browsers supporting scrollbar pseudo-elements.
 Other browsers retain the thin native scrollbar fallback. Its shared

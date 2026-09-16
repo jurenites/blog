@@ -119,6 +119,11 @@
           progressive_wrapper.append(preview_element, rendered_image, loading_line);
           apply_average_color(progressive_wrapper, preview_source, image_element.ownerDocument);
 
+          // Keep observing responsive candidates and source changes after the
+          // initial request, including images already complete at attachment.
+          image_element.addEventListener("load", () => set_complete_stage(progressive_wrapper));
+          image_element.addEventListener("error", () => set_error_stage(progressive_wrapper));
+
           if (image_element.complete) {
             if (image_element.naturalWidth > 0) {
               set_complete_stage(progressive_wrapper);
@@ -129,13 +134,9 @@
           }
 
           requestAnimationFrame(() => {
-            progressive_wrapper.dataset.loadingStage = "image";
-          });
-          image_element.addEventListener("load", () => set_complete_stage(progressive_wrapper), {
-            once: true,
-          });
-          image_element.addEventListener("error", () => set_error_stage(progressive_wrapper), {
-            once: true,
+            if (progressive_wrapper.dataset.loadingStage === "placeholder") {
+              progressive_wrapper.dataset.loadingStage = "image";
+            }
           });
         },
       );

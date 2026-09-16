@@ -3628,5 +3628,1175 @@
     "en": "<p>Commercial projects ordered by when each engagement began.</p>",
     "ru": "<p>Коммерческие проекты в хронологическом порядке по дате начала работы.</p>",
     "previous_ru": "<p>Commercial projects and personal milestones, ordered by when each story began.</p>"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "26681fb7-751e-40b6-a3d1-f9c33fe56ab3",
+    "bundle": "project",
+    "field": "title",
+    "delta": 0,
+    "property": "value",
+    "en": "latest .gov site",
+    "ru": "Мой последний государственный сайт"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "26681fb7-751e-40b6-a3d1-f9c33fe56ab3",
+    "bundle": "project",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "<p>A government website <a href=\"https://oksenate.gov/\">oksenate.gov</a> has to keep working while the technology underneath it changes. For the site, I have upgraded a legacy Drupal core version, improved everyday usability, and rehearsed the release until a complex deployment became a fast and safe procedure.</p><p><strong>My contribution:</strong></p><ul><li data-list-item-id=\"e40d52d348256895238155e26516f04da\"><span class=\"u-typography-body\">Front-end accessibility (as a primary objective);&nbsp;</span></li><li data-list-item-id=\"ec1faa4b90021f444d4a2b05a98efc151\"><span class=\"u-typography-body\">made a major version core update (secondary objective)</span></li><li data-list-item-id=\"e41e66a07c3bae8c4aa7b3104cbadbdf8\"><span class=\"u-typography-body\">mobile-screen size support; fixed and cleaned Typography; updated the SCSS theme (as a consequence)</span></li><li data-list-item-id=\"ecf99a30b4e3c5db90ec76418c3651c2e\"><span class=\"u-typography-body\">post-update support; fixed for content on pages</span></li></ul><p>&nbsp;</p>",
+    "ru": "<p>Государственный сайт <a href=\"https://oksenate.gov/\">oksenate.gov</a> должен продолжать работать, даже когда меняются лежащие в его основе технологии. Для этого сайта я обновил устаревшую версию ядра Drupal, улучшил удобство повседневной работы и отрепетировал выпуск обновления, превратив сложное развёртывание в быструю и безопасную процедуру.</p><p><strong>Мой вклад:</strong></p><ul><li data-list-item-id=\"e40d52d348256895238155e26516f04da\"><span class=\"u-typography-body\">Доступность интерфейса — основная задача;&nbsp;</span></li><li data-list-item-id=\"ec1faa4b90021f444d4a2b05a98efc151\"><span class=\"u-typography-body\">обновление ядра до следующей основной версии — вторая задача</span></li><li data-list-item-id=\"e41e66a07c3bae8c4aa7b3104cbadbdf8\"><span class=\"u-typography-body\">поддержка мобильных экранов; исправление и упорядочивание типографики; сопутствующее обновление темы на SCSS</span></li><li data-list-item-id=\"ecf99a30b4e3c5db90ec76418c3651c2e\"><span class=\"u-typography-body\">поддержка после обновления; исправление содержимого страниц</span></li></ul><p>&nbsp;</p>"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "26681fb7-751e-40b6-a3d1-f9c33fe56ab3",
+    "bundle": "project",
+    "field": "body",
+    "delta": 0,
+    "property": "summary",
+    "en": "A Drupal 11 upgrade for the Oklahoma Senate, with clearer typography, stronger accessibility and a production upgrade window under five minutes.",
+    "ru": "Обновление сайта Сената Оклахомы до Drupal 11: более читаемая типографика, улучшенная доступность и обновление рабочего сайта менее чем за пять минут."
+  },
+  {
+    "entity_type": "node",
+    "uuid": "9dcf5017-82ef-477c-8d99-dcaa26896516",
+    "bundle": "project",
+    "field": "title",
+    "delta": 0,
+    "property": "value",
+    "en": "SMEP, game",
+    "ru": "SMEP, игра"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "9dcf5017-82ef-477c-8d99-dcaa26896516",
+    "bundle": "project",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "SMEP is my personal incremental game project. I started it in August 2019, with an idea I have kept returning to ever since: let players discover how simple ingredients can become an increasingly complex universe.\r\n\r\nThe working name stands for <strong>Standard Model Elementary Particles</strong>. It brings together my interest in science, interface design and the quiet satisfaction of making progress one small step at a time.",
+    "ru": "SMEP — мой личный проект инкрементальной игры. Я начал его в августе 2019 года с идеи, к которой с тех пор постоянно возвращаюсь: дать игрокам возможность открыть для себя, как из простых составляющих возникает всё более сложная вселенная.\r\n\r\nРабочее название расшифровывается как <strong>Standard Model Elementary Particles — «Элементарные частицы Стандартной модели»</strong>. Проект объединяет мой интерес к науке, дизайну интерфейсов и спокойному удовольствию от постепенного движения вперёд."
+  },
+  {
+    "entity_type": "node",
+    "uuid": "9dcf5017-82ef-477c-8d99-dcaa26896516",
+    "bundle": "project",
+    "field": "body",
+    "delta": 0,
+    "property": "summary",
+    "en": "My personal incremental game project, started in August 2019: exploring particles, chemistry and the emergence of complex matter through play.",
+    "ru": "Мой личный проект инкрементальной игры, начатый в августе 2019 года: изучение частиц, химии и возникновения сложной материи через игру."
+  },
+  {
+    "entity_type": "node",
+    "uuid": "9dcf5017-82ef-477c-8d99-dcaa26896516",
+    "bundle": "project",
+    "field": "field_image",
+    "delta": 0,
+    "property": "alt",
+    "en": "Particle and Antiparticle spheres with electron in between of them",
+    "ru": "Сферы частицы и античастицы с электроном между ними"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "388e9eea-9096-462a-a7bd-ef32ef130418",
+    "bundle": "article",
+    "field": "title",
+    "delta": 0,
+    "property": "value",
+    "en": "No Man’s Sky",
+    "ru": "No Man’s Sky"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "388e9eea-9096-462a-a7bd-ef32ef130418",
+    "bundle": "article",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "<p>When I first saw <a href=\"https://www.youtube.com/watch?v=nLtmEjqzg7M\">2014</a> the inventory in <a href=\"https://www.nomanssky.com\">No Man’s Sky</a> the game by <a href=\"https://hellogames.org\">Hello Games</a>,&nbsp;<br>I was fascinated by the way the game presented its materials as distinct things to discover and manage. Semi-transparent HUD, and no loading scren on flying from the surface of a planet to the open space; of course, I was hooked, and we all know how it ended <a href=\"https://www.pcgamer.com/the-anatomy-of-hype-how-no-mans-sky-became-the-best-and-worst-game-ever/\">The anatomy of hype</a> .<br>&nbsp;</p><drupal-media data-entity-type=\"media\" data-entity-uuid=\"b6816c8b-13f6-4ce8-9580-bf4db983ac49\">&nbsp;</drupal-media><h2>The inventory that started an idea</h2><p>I immediately thought it was one of the best things I had ever seen in a game interface. The cards for individual elements were what caught my attention. &nbsp;eventually i've played at 2023 the game when it was actually finished; I played only <span class=\"u-typography-machine-readable\">50h</span></p><p><img src=\"/sites/default/files/inline-images/NmsMisc_Inventory.JPG\" data-entity-uuid=\"9d6e3ace-d43d-4f6d-9e20-e824296d50d0\" data-entity-type=\"file\" width=\"1000\" height=\"538\"></p><p>&nbsp;</p><p>Looking at those cards, I began imagining an incremental game of my own. What if that same fascination could become a way to learn about real chemical elements, atoms, molecules, and subatomic particles? I wanted the things a player discovered to connect to the matter that actually exists around us. That idea became part of the beginning of <a href=\"/portfolio/smep\">SMEP, my own incremental game project</a>. gave me an important visual reference for its inventory and element cards, while <a href=\"/blog/spaceplan\">SPACEPLAN</a> strongly influenced how I thought about incremental games. I have put the fuller story of those projects’ early development on the SMEP project page.</p><p>&nbsp;</p><h2>Tools &amp; UI component growth</h2><p>&nbsp;</p><p>The origin inspirational card &nbsp;Aspect Ratio is about <code>1:1.2</code><br>For SMEP, I explored card proportions. I've started with at <a href=\"https://moqups.com\">moqups.com</a> (I had a paid subscription to them for a whopping <span class=\"u-typography-machine-readable\">!1 year</span> ) and didn't figure out that they do not have a simple property of inner border and outer border; they had something in between: the bottom and left corners were doing the inner line, and the top and right made an outer line. So it was hard to work with pixel-perfect sizes in that type of tool. I have learned a lot by using the wrong tool fo a task.<br>v0.1 - v0.8 <span class=\"u-typography-machine-readable\">75px</span> by <span class=\"u-typography-machine-readable\">100px</span> = <code>3 : 4</code> &nbsp;<code>1 : 1.33</code><br><em>See screenshots:</em></p><table class=\"table table-style-align-center\"><tbody><tr><td><img src=\"/sites/default/files/inline-images/v0.2_Main_Play_Screens%203.png\" data-entity-uuid=\"f633bed2-d7cd-4b07-a38a-90b6c7a7d085\" data-entity-type=\"file\" width=\"75\" height=\"101\"></td><td><img src=\"/sites/default/files/inline-images/v0.4_Screens%2023.png\" data-entity-uuid=\"633c8f35-9997-4e89-92ea-0009d50adc4d\" data-entity-type=\"file\" width=\"75\" height=\"101\"></td><td><img src=\"/sites/default/files/inline-images/v0.2_Main_Play_Screens%206.png\" data-entity-uuid=\"a2586cab-51ac-4dc8-83ce-17b510c69c1f\" data-entity-type=\"file\" width=\"75\" height=\"100\"></td><td><img src=\"/sites/default/files/inline-images/v0.2_Main_Play_Screens%205.png\" data-entity-uuid=\"922b5ea5-58b4-4db2-84d9-089da1738809\" data-entity-type=\"file\" width=\"75\" height=\"101\"></td><td><img src=\"/sites/default/files/inline-images/v0.2_Main_Play_Screens%207.png\" data-entity-uuid=\"673f8c22-e324-48e4-add6-839d6d45920f\" data-entity-type=\"file\" width=\"75\" height=\"100\"></td><td><img src=\"/sites/default/files/inline-images/v0.2_Main_Play_Screens%2012.png\" data-entity-uuid=\"8674ecbe-97e8-4060-bef5-4ee10ccd6d4b\" data-entity-type=\"file\" width=\"75\" height=\"100\"></td></tr></tbody></table><p>&nbsp;</p><p>&nbsp;</p><p>Gladly, I've switched then to a <a href=\"https://www.sketch.com\">Sketch</a> ( <span class=\"u-typography-machine-readable\">!2 years</span> of paid subscription) and started with \"Symbols\" (aka components); that's how it was called back in a day&nbsp;<br>v0.9 - v0.12 <span class=\"u-typography-machine-readable\">83px</span> by <span class=\"u-typography-machine-readable\">110px</span> = <code>0.75 : 1</code> &nbsp;<code>1 : 1.33</code><br><em>See screenshots:</em></p><table class=\"table table-style-align-center\"><tbody><tr><td><img src=\"/sites/default/files/inline-images/Group%207%20Copy%206.png\" data-entity-uuid=\"d1584d00-c4b3-4ce5-ae4e-1a0c7503798f\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%207%20Copy%2018.png\" data-entity-uuid=\"2059a6e5-54da-4d88-966b-f8ead7433acf\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Slice%202_0.png\" data-entity-uuid=\"4c9eb40a-6073-4662-9458-634b092ac6ac\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%204%20Copy%203.png\" data-entity-uuid=\"160dcc3a-1f8e-4ebf-bb90-99f3581171b2\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Slice%203_0.png\" data-entity-uuid=\"c1f94102-3355-474b-a4e0-342d50b30a9f\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%2011.png\" data-entity-uuid=\"de50e3d4-d270-4034-aced-06b69993ab3f\" data-entity-type=\"file\" width=\"84\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%207%20Copy%2015.png\" data-entity-uuid=\"4c1d71ef-1c3a-4701-a42b-11b4ba40bf1d\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%204%20Copy.png\" data-entity-uuid=\"d56ea9a4-c513-418e-95ed-58bf1584a637\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td></tr></tbody></table><p>&nbsp;</p><p>&nbsp;</p><p>eventually I shifted to <a href=\"https://www.figma.com\">Figma</a> ( <span class=\"u-typography-machine-readable\">!3 years</span> paid subscription), and it was paid off with a new AI tool they have and animation; it was cool, but now I switched to the free plan) This was the time whaen Ihevly relied on a \"Group\" the object, and when time comes to scale the size of a grouping, it became a mess. Especially when it was not a fixed aspect ratio, giving me a fraction point in sizing. - that was a learning curve for sure.<br>v0.13 - v0.15 <span class=\"u-typography-machine-readable\">83px</span> by <span class=\"u-typography-machine-readable\">109px</span> = <code>0.76 : 1</code> &nbsp;<code>1 : 1.31</code><br><em>See screenshots:</em></p><table class=\"table table-style-align-center\"><tbody><tr><td><img src=\"/sites/default/files/inline-images/Group%2010.png\" data-entity-uuid=\"6ead5516-9e47-44fa-ac23-2ff802a65133\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%2078.png\" data-entity-uuid=\"02adef21-0f77-492f-b076-b822e46f60cb\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%203%20Copy%202.png\" data-entity-uuid=\"54939e5b-7664-4c33-987c-942b346a5c39\" data-entity-type=\"file\" width=\"84\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Slice%204.png\" data-entity-uuid=\"5e654a78-cbe1-4d07-89bf-cf675af9fbdc\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Slice%205.png\" data-entity-uuid=\"3a15eec9-24ec-42db-8dd3-40fd6fb68b45\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%2013.png\" data-entity-uuid=\"257774bf-f1c1-499b-bea8-6e48d48d2f43\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%2014.png\" data-entity-uuid=\"8b947f49-79c5-435a-a95c-aeebf547fd76\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%2016.png\" data-entity-uuid=\"2637dae8-4e39-4711-a8c7-49582d67743f\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td></tr></tbody></table><p>&nbsp; &nbsp; &nbsp; &nbsp;<br>&nbsp;</p><p>&nbsp;</p><p>in finale. I switched to properly Auto-laout, and refined the logical layers of a component of a card, so it became agnostic to the type of the content and could be configured on the fly; that was a big speedup in my process of working with a tool. of a card.<strong>&nbsp;</strong><br>v0.16 <span class=\"u-typography-machine-readable\">84px</span> by <span class=\"u-typography-machine-readable\">108px</span> = <code>7 : 9</code> &nbsp;<code>1 : 1.29</code><br><em>See screenshots:</em></p><table class=\"table table-style-align-center\"><tbody><tr><td><img src=\"/sites/default/files/inline-images/Group%20728.png\" data-entity-uuid=\"8f3d71d5-23ec-49d1-be63-412ad54f7607\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Tile.png\" data-entity-uuid=\"5aacefb9-9fdb-496f-93c5-2a4dd8d04b9f\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Slice%203_1.png\" data-entity-uuid=\"590cc66c-a74f-49ae-ae6f-86632d1aaf5c\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Frame%20786.png\" data-entity-uuid=\"5b0fb1b3-1107-4578-bf3b-b790425a4eac\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Frame%20785.png\" data-entity-uuid=\"79ea5ad5-0d83-4079-9d24-ad9ee65c5f3a\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Slice%207.png\" data-entity-uuid=\"128773f5-14a6-4f26-b6bd-6f6407847986\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Slice%206.png\" data-entity-uuid=\"869720aa-d480-4094-abcd-c65ad621fd8c\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Slice%204_0.png\" data-entity-uuid=\"fd9389fe-2190-4d69-ba5f-5530f8011104\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td></tr></tbody></table><p>&nbsp;</p><h2>Scales and Sizes</h2><p>I haven't managed to squeeze this proportion into a screen, inspired by the <strong>golden ratio </strong><code>1 : 1.618</code> and settled on, a compact portrait format that felt balanced for the game. Although <span class=\"u-typography-machine-readable\">84px</span> and <span class=\"u-typography-machine-readable\">108px</span> are not prime numbers (but close), I've displayed the Set of prime numbers, for me and highlighted the one I'm going to use in a UI as a reference point. (Yep, it makes the whole sizing of the UI much more complicated than a usual 8px grid)<br><br><img src=\"/sites/default/files/inline-images/Prime%20Numbers.png\" data-entity-uuid=\"28e79e9c-739e-4e6c-b96c-980dddef6885\" data-entity-type=\"file\" height=\"420\" width=\"320\"></p><h2>&nbsp;</h2><h2>Resources Management</h2><p>Turns a huge collection of resources and technologies into a manageable crafting system. Its inventory uses a grid of illustrated icons, item names, and quantity counters, helping players recognise supplies and understand what they have.</p><p>The most useful artificial elements are the interface’s visual guides. Highlighting helps players locate relevant items, while recipe trees explain how basic materials become intermediate components and finished products.<br>&nbsp;</p>",
+    "ru": "<p>Когда я впервые увидел в <a href=\"https://www.youtube.com/watch?v=nLtmEjqzg7M\">2014</a> году инвентарь в <a href=\"https://www.nomanssky.com\">No Man’s Sky</a> — игре от <a href=\"https://hellogames.org\">Hello Games</a>,&nbsp;<br>меня заворожило то, как материалы представлены отдельными предметами, которые можно открывать и которыми можно управлять. Полупрозрачный HUD и полёт с поверхности планеты в открытый космос без экрана загрузки — конечно, я увлёкся. И все мы знаем, чем это закончилось: <a href=\"https://www.pcgamer.com/the-anatomy-of-hype-how-no-mans-sky-became-the-best-and-worst-game-ever/\">Анатомия хайпа</a> .<br>&nbsp;</p><drupal-media data-entity-type=\"media\" data-entity-uuid=\"b6816c8b-13f6-4ce8-9580-bf4db983ac49\">&nbsp;</drupal-media><h2>Инвентарь, с которого началась идея</h2><p>Я сразу подумал, что это один из лучших игровых интерфейсов, которые я когда-либо видел. Особенно меня привлекли карточки отдельных элементов. &nbsp;В итоге я поиграл в 2023 году, когда игру действительно довели до ума; провёл в ней всего <span class=\"u-typography-machine-readable\">50 ч</span></p><p><img src=\"/sites/default/files/inline-images/NmsMisc_Inventory.JPG\" data-entity-uuid=\"9d6e3ace-d43d-4f6d-9e20-e824296d50d0\" data-entity-type=\"file\" width=\"1000\" height=\"538\"></p><p>&nbsp;</p><p>Глядя на эти карточки, я начал представлять собственную инкрементальную игру. Что, если это увлечение станет способом узнать больше о реальных химических элементах, атомах, молекулах и субатомных частицах? Мне хотелось, чтобы открытия игрока были связаны с материей, которая действительно нас окружает. Эта идея стала одной из отправных точек для <a href=\"/portfolio/smep\">SMEP, моего собственного проекта инкрементальной игры</a>. No Man’s Sky стала важным визуальным ориентиром для инвентаря и карточек элементов, а <a href=\"/blog/spaceplan\">SPACEPLAN</a> сильно повлияла на моё представление об инкрементальных играх. Более подробную историю раннего развития этих идей я собрал на странице проекта SMEP.</p><p>&nbsp;</p><h2>Инструменты и развитие компонентов интерфейса</h2><p>&nbsp;</p><p>Соотношение сторон исходной карточки, которая меня вдохновила, — примерно <code>1:1.2</code><br>Для SMEP я исследовал пропорции карточек. Начал с <a href=\"https://moqups.com\">moqups.com</a> (у меня была платная подписка на целый <span class=\"u-typography-machine-readable\">!1 год</span> ) и не сразу понял, что там нет простого выбора между внутренней и внешней обводкой. Получалось нечто среднее: внизу и слева линия шла внутри, а вверху и справа — снаружи. Поэтому работать с точными размерами до пикселя было сложно. Используя неподходящий для задачи инструмент, я многому научился.<br>v0.1 - v0.8 <span class=\"u-typography-machine-readable\">75px</span> на <span class=\"u-typography-machine-readable\">100px</span> = <code>3 : 4</code> &nbsp;<code>1 : 1.33</code><br><em>Смотрите скриншоты:</em></p><table class=\"table table-style-align-center\"><tbody><tr><td><img src=\"/sites/default/files/inline-images/v0.2_Main_Play_Screens%203.png\" data-entity-uuid=\"f633bed2-d7cd-4b07-a38a-90b6c7a7d085\" data-entity-type=\"file\" width=\"75\" height=\"101\"></td><td><img src=\"/sites/default/files/inline-images/v0.4_Screens%2023.png\" data-entity-uuid=\"633c8f35-9997-4e89-92ea-0009d50adc4d\" data-entity-type=\"file\" width=\"75\" height=\"101\"></td><td><img src=\"/sites/default/files/inline-images/v0.2_Main_Play_Screens%206.png\" data-entity-uuid=\"a2586cab-51ac-4dc8-83ce-17b510c69c1f\" data-entity-type=\"file\" width=\"75\" height=\"100\"></td><td><img src=\"/sites/default/files/inline-images/v0.2_Main_Play_Screens%205.png\" data-entity-uuid=\"922b5ea5-58b4-4db2-84d9-089da1738809\" data-entity-type=\"file\" width=\"75\" height=\"101\"></td><td><img src=\"/sites/default/files/inline-images/v0.2_Main_Play_Screens%207.png\" data-entity-uuid=\"673f8c22-e324-48e4-add6-839d6d45920f\" data-entity-type=\"file\" width=\"75\" height=\"100\"></td><td><img src=\"/sites/default/files/inline-images/v0.2_Main_Play_Screens%2012.png\" data-entity-uuid=\"8674ecbe-97e8-4060-bef5-4ee10ccd6d4b\" data-entity-type=\"file\" width=\"75\" height=\"100\"></td></tr></tbody></table><p>&nbsp;</p><p>&nbsp;</p><p>К счастью, затем я перешёл на <a href=\"https://www.sketch.com\">Sketch</a> ( <span class=\"u-typography-machine-readable\">!2 года</span> платной подписки) и начал использовать «Symbols» — так тогда назывались компоненты.&nbsp;<br>v0.9 - v0.12 <span class=\"u-typography-machine-readable\">83px</span> на <span class=\"u-typography-machine-readable\">110px</span> = <code>0.75 : 1</code> &nbsp;<code>1 : 1.33</code><br><em>Смотрите скриншоты:</em></p><table class=\"table table-style-align-center\"><tbody><tr><td><img src=\"/sites/default/files/inline-images/Group%207%20Copy%206.png\" data-entity-uuid=\"d1584d00-c4b3-4ce5-ae4e-1a0c7503798f\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%207%20Copy%2018.png\" data-entity-uuid=\"2059a6e5-54da-4d88-966b-f8ead7433acf\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Slice%202_0.png\" data-entity-uuid=\"4c9eb40a-6073-4662-9458-634b092ac6ac\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%204%20Copy%203.png\" data-entity-uuid=\"160dcc3a-1f8e-4ebf-bb90-99f3581171b2\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Slice%203_0.png\" data-entity-uuid=\"c1f94102-3355-474b-a4e0-342d50b30a9f\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%2011.png\" data-entity-uuid=\"de50e3d4-d270-4034-aced-06b69993ab3f\" data-entity-type=\"file\" width=\"84\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%207%20Copy%2015.png\" data-entity-uuid=\"4c1d71ef-1c3a-4701-a42b-11b4ba40bf1d\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%204%20Copy.png\" data-entity-uuid=\"d56ea9a4-c513-418e-95ed-58bf1584a637\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td></tr></tbody></table><p>&nbsp;</p><p>&nbsp;</p><p>Позже я перешёл на <a href=\"https://www.figma.com\">Figma</a> ( <span class=\"u-typography-machine-readable\">!3 года</span> платной подписки). Новые инструменты ИИ и анимация оправдали затраты; было здорово, хотя теперь я перешёл на бесплатный тариф. В то время я активно использовал объект «Group», и при масштабировании группы всё превращалось в беспорядок. Особенно если соотношение сторон не было фиксированным и размеры получались дробными. Это точно был полезный опыт.<br>v0.13 - v0.15 <span class=\"u-typography-machine-readable\">83px</span> на <span class=\"u-typography-machine-readable\">109px</span> = <code>0.76 : 1</code> &nbsp;<code>1 : 1.31</code><br><em>Смотрите скриншоты:</em></p><table class=\"table table-style-align-center\"><tbody><tr><td><img src=\"/sites/default/files/inline-images/Group%2010.png\" data-entity-uuid=\"6ead5516-9e47-44fa-ac23-2ff802a65133\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%2078.png\" data-entity-uuid=\"02adef21-0f77-492f-b076-b822e46f60cb\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%203%20Copy%202.png\" data-entity-uuid=\"54939e5b-7664-4c33-987c-942b346a5c39\" data-entity-type=\"file\" width=\"84\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Slice%204.png\" data-entity-uuid=\"5e654a78-cbe1-4d07-89bf-cf675af9fbdc\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Slice%205.png\" data-entity-uuid=\"3a15eec9-24ec-42db-8dd3-40fd6fb68b45\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%2013.png\" data-entity-uuid=\"257774bf-f1c1-499b-bea8-6e48d48d2f43\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%2014.png\" data-entity-uuid=\"8b947f49-79c5-435a-a95c-aeebf547fd76\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td><td><img src=\"/sites/default/files/inline-images/Group%2016.png\" data-entity-uuid=\"2637dae8-4e39-4711-a8c7-49582d67743f\" data-entity-type=\"file\" width=\"83\" height=\"109\"></td></tr></tbody></table><p>&nbsp; &nbsp; &nbsp; &nbsp;<br>&nbsp;</p><p>&nbsp;</p><p>В итоге я начал правильно использовать Auto Layout и доработал логические слои компонента карточки. Он перестал зависеть от типа содержимого и стал настраиваться на ходу. Это заметно ускорило мою работу с карточками.<strong>&nbsp;</strong><br>v0.16 <span class=\"u-typography-machine-readable\">84px</span> на <span class=\"u-typography-machine-readable\">108px</span> = <code>7 : 9</code> &nbsp;<code>1 : 1.29</code><br><em>Смотрите скриншоты:</em></p><table class=\"table table-style-align-center\"><tbody><tr><td><img src=\"/sites/default/files/inline-images/Group%20728.png\" data-entity-uuid=\"8f3d71d5-23ec-49d1-be63-412ad54f7607\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Tile.png\" data-entity-uuid=\"5aacefb9-9fdb-496f-93c5-2a4dd8d04b9f\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Slice%203_1.png\" data-entity-uuid=\"590cc66c-a74f-49ae-ae6f-86632d1aaf5c\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Frame%20786.png\" data-entity-uuid=\"5b0fb1b3-1107-4578-bf3b-b790425a4eac\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Frame%20785.png\" data-entity-uuid=\"79ea5ad5-0d83-4079-9d24-ad9ee65c5f3a\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Slice%207.png\" data-entity-uuid=\"128773f5-14a6-4f26-b6bd-6f6407847986\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Slice%206.png\" data-entity-uuid=\"869720aa-d480-4094-abcd-c65ad621fd8c\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td><td><img src=\"/sites/default/files/inline-images/Slice%204_0.png\" data-entity-uuid=\"fd9389fe-2190-4d69-ba5f-5530f8011104\" data-entity-type=\"file\" width=\"84\" height=\"108\"></td></tr></tbody></table><p>&nbsp;</p><h2>Масштабы и размеры</h2><p>Мне не удалось вписать в экран пропорцию, вдохновлённую <strong>золотым сечением </strong><code>1 : 1.618</code>, и я остановился на компактном вертикальном формате, который выглядел сбалансированным для игры. Хотя <span class=\"u-typography-machine-readable\">84px</span> и <span class=\"u-typography-machine-readable\">108px</span> — не простые числа, хотя и близки к ним, я вывел для себя набор простых чисел и выделил те, которые собирался использовать в интерфейсе как ориентир. Да, это сильно усложняет систему размеров по сравнению с обычной сеткой 8 px.<br><br><img src=\"/sites/default/files/inline-images/Prime%20Numbers.png\" data-entity-uuid=\"28e79e9c-739e-4e6c-b96c-980dddef6885\" data-entity-type=\"file\" height=\"420\" width=\"320\"></p><h2>&nbsp;</h2><h2>Управление ресурсами</h2><p>Игра превращает огромную коллекцию ресурсов и технологий в понятную систему крафта. В инвентаре используется сетка иллюстрированных значков, названий предметов и счётчиков количества, благодаря которым игроки узнают запасы и понимают, чем располагают.</p><p>Особенно полезны визуальные подсказки интерфейса. Подсветка помогает находить нужные предметы, а деревья рецептов объясняют, как базовые материалы превращаются в промежуточные компоненты и готовые изделия.<br>&nbsp;</p>"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "388e9eea-9096-462a-a7bd-ef32ef130418",
+    "bundle": "article",
+    "field": "body",
+    "delta": 0,
+    "property": "summary",
+    "en": "<p>Impression of No Man’s Sky’s inventory system and element cards, and how they helped inspire.</p>",
+    "ru": "<p>Впечатления от инвентаря и карточек элементов No Man’s Sky и рассказ о том, как они стали источником вдохновения.</p>"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "e4bc975f-ad78-44a2-9e1e-4a63955de535",
+    "bundle": "article",
+    "field": "title",
+    "delta": 0,
+    "property": "value",
+    "en": "SPACEPLAN",
+    "ru": "SPACEPLAN"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "e4bc975f-ad78-44a2-9e1e-4a63955de535",
+    "bundle": "article",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "<p><a href=\"https://apps.apple.com/ru/app/spaceplan/id1200864554?l=en-GB\">SPACEPLAN</a> (<a href=\"http://jhollands.co.uk/spaceplan/\">web version</a>) was the first incremental game I played, even before I discovered <a href=\"https://cookieclicker.com/\">Cookie Clicker</a>. It introduced me to the idea that a small action could grow into a much larger system, and it became a strong influence on my own game project. With a perfect <a href=\"https://logey.bandcamp.com/album/spaceplan-original-soundtrack\">soundtrack</a><br><br>Clicking - making one Energy<br><br><em>See GIF:</em><br><img src=\"/sites/default/files/inline-images/Sep-11-2026%2012-58-31.gif\" data-entity-uuid=\"1713c413-9802-4329-ba0c-fff396d64e01\" data-entity-type=\"file\" width=\"250\" height=\"250\"><br><br>Energy spent on making a UI control element, a perfect match of learning process with a player, and revealing controls one y one, and not throwing the palyitr into sandbox imediatley.<br><br><em>See GIF:</em><br><img src=\"/sites/default/files/inline-images/Sep-11-2026%2013-05-28.gif\" data-entity-uuid=\"44d7066e-7868-4cf7-969b-ea4c8670819d\" data-entity-type=\"file\" width=\"250\" height=\"200\"><br><br><em>See GIF:</em><br><img src=\"/sites/default/files/inline-images/Sep-11-2026%2018-36-54.gif\" data-entity-uuid=\"3106ac74-7be0-46e1-8a1f-7049f0058c2d\" data-entity-type=\"file\" alt=\"play through animation\" width=\"320\" height=\"690\"><br><br><em>See Screenshot:</em><br><img src=\"/sites/default/files/inline-images/IMG_1410.PNG\" data-entity-uuid=\"f6b560b3-ae51-4819-b3b4-77d359376c51\" data-entity-type=\"file\" width=\"414\" height=\"736\"></p><h2>An influence</h2><p>When I began thinking about <a href=\"/portfolio/smep\">SMEP</a>, I wanted to explore particles, real chemical elements and molecules through an incremental game. Spaceplan helped shape how I thought about that kind of experience. The inventory and element cards in <a href=\"/blog/no-mans-sky-inventory-design\">No Man’s Sky</a> were another important influence. I started SMEP with its interface. The early game was entirely GUI, before there was an actual world. I have collected that development story on the project page; this article is a place to return to Spaceplan itself and describe its influence in more detail.</p><h2>To be continued</h2><p>I will continue this article with a closer look at my experience of Spaceplan and the ideas that stayed with me.</p>",
+    "ru": "<p><a href=\"https://apps.apple.com/ru/app/spaceplan/id1200864554?l=en-GB\">SPACEPLAN</a> (<a href=\"http://jhollands.co.uk/spaceplan/\">веб-версия</a>) стала первой инкрементальной игрой, в которую я сыграл, ещё до знакомства с <a href=\"https://cookieclicker.com/\">Cookie Clicker</a>. Она показала мне, как небольшое действие может вырасти в гораздо более крупную систему, и сильно повлияла на мой собственный игровой проект. А ещё у неё прекрасный <a href=\"https://logey.bandcamp.com/album/spaceplan-original-soundtrack\">саундтрек</a><br><br>Щелчок — одна единица энергии<br><br><em>Смотрите GIF:</em><br><img src=\"/sites/default/files/inline-images/Sep-11-2026%2012-58-31.gif\" data-entity-uuid=\"1713c413-9802-4329-ba0c-fff396d64e01\" data-entity-type=\"file\" width=\"250\" height=\"250\"><br><br>Энергия тратится на создание элемента управления интерфейсом. Это отлично согласует обучение с действиями игрока: элементы управления открываются один за другим, вместо того чтобы сразу бросать человека в песочницу.<br><br><em>Смотрите GIF:</em><br><img src=\"/sites/default/files/inline-images/Sep-11-2026%2013-05-28.gif\" data-entity-uuid=\"44d7066e-7868-4cf7-969b-ea4c8670819d\" data-entity-type=\"file\" width=\"250\" height=\"200\"><br><br><em>Смотрите GIF:</em><br><img src=\"/sites/default/files/inline-images/Sep-11-2026%2018-36-54.gif\" data-entity-uuid=\"3106ac74-7be0-46e1-8a1f-7049f0058c2d\" data-entity-type=\"file\" alt=\"Анимация прохождения\" width=\"320\" height=\"690\"><br><br><em>Смотрите скриншот:</em><br><img src=\"/sites/default/files/inline-images/IMG_1410.PNG\" data-entity-uuid=\"f6b560b3-ae51-4819-b3b4-77d359376c51\" data-entity-type=\"file\" width=\"414\" height=\"736\"></p><h2>Влияние</h2><p>Когда я начал обдумывать <a href=\"/portfolio/smep\">SMEP</a>, мне хотелось исследовать частицы, реальные химические элементы и молекулы через инкрементальную игру. Spaceplan помогла сформировать моё представление о таком опыте. Инвентарь и карточки элементов в <a href=\"/blog/no-mans-sky-inventory-design\">No Man’s Sky</a> стали ещё одним важным источником вдохновения. Я начал SMEP с интерфейса: на раннем этапе вся игра состояла из GUI, а самого игрового мира ещё не было. Эту историю разработки я собрал на странице проекта; здесь же хочу возвращаться к самой Spaceplan и подробнее рассказывать о её влиянии.</p><h2>Продолжение следует</h2><p>Я продолжу эту статью более подробным рассказом о своём опыте игры в Spaceplan и об идеях, которые остались со мной.</p>"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "e4bc975f-ad78-44a2-9e1e-4a63955de535",
+    "bundle": "article",
+    "field": "body",
+    "delta": 0,
+    "property": "summary",
+    "en": "How incremental game became an influence on my preception",
+    "ru": "Как инкрементальная игра повлияла на моё восприятие"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "b52ac74b-fd4b-4c2a-9225-84646d785adb",
+    "bundle": "article",
+    "field": "title",
+    "delta": 0,
+    "property": "value",
+    "en": "Conway’s Game of Life",
+    "ru": "Игра «Жизнь» Конвея"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "b52ac74b-fd4b-4c2a-9225-84646d785adb",
+    "bundle": "article",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "<p>Cellular automaton: a system of cells whose states change according to local rules.&nbsp;<br><br>Program is counting neighbours; simple as that rule makes so many possibilities, most of them boring, but some emerge a life-like behaviour. It always fascinated me.<br><br>I know the program is counting neighbours. That knowledge makes the experience more fascinating to me.<br><a href=\"https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life\">Wikipedia </a>is a useful starting point for its history and terminology.</p><p>Here is a <a href=\"https://www.youtube.com/watch?v=xP5-iIeKXE8\">Video</a> that can simulate a \"Game of Life\" within a \"Game of Life\" itself, making it Turing complete.<br>&nbsp;<br>One of the supporting films below is <a href=\"https://www.numberphile.com/videos/inventing-game-of-life-john-conway\">Numberphile’s interview about inventing Life</a>. The experiment came from someone trying possibilities, observing what happened, and caring about whether the result was interesting.<br><br>This is my tribute to <a href=\"https://en.wikipedia.org/wiki/John_Horton_Conway\">John Horton Conway</a></p><h2>Rules you can hold in your head <strong>B3/S23.</strong></h2><p>Imagine a sheet of squared paper. Every square is either alive or dead. Each has eight neighbours: the four beside it and the four touching its corners. A generation is one complete update of the sheet.</p><ul><li data-list-item-id=\"e1559a8834f6258f4472ee29d1a729d98\"><span class=\"u-typography-body\">a </span>Living cell <span class=\"u-typography-body\">with two or three living neighbours survives.</span></li><li data-list-item-id=\"e004a6bfd678d97e137e6ea4d11063a7b\"><span class=\"u-typography-body\">a </span>Dead cell <span class=\"u-typography-body\">with exactly three living neighbours becomes alive.</span></li><li data-list-item-id=\"efb521552784e8e9b184c2f3e7c195f26\"><span class=\"u-typography-body\">In every other case, the cell is dead in the next generation.</span></li></ul><p>All cells update simultaneously. Count neighbours in the old generation, calculate the new generation separately, then replace the old one. Otherwise, the answer could depend on whether the program happened to scan from left to right or right to left. That would be a different system.</p><h2>Stillness, rhythm, and something that travels</h2><p>These live examples show three kinds of behaviour: still lifes, oscillators, and a travelling glider. Each board has 6 rows and 6 columns at 4× zoom. Move your pointer over a board to add living cells and change the pattern; reload the page to restore all examples. Opposite edges connect, so the glider can leave one side and return from the other.</p><table class=\"table game-of-life-examples\"><caption>Small patterns in Conway’s Game of Life</caption><thead><tr><th scope=\"col\">Pattern</th><th scope=\"col\">What to watch</th></tr></thead><tbody><tr><th scope=\"row\"><h3>Block</h3><p><canvas class=\"game-of-life__canvas\" data-user=\"{&quot;width&quot;:6,&quot;height&quot;:6,&quot;size&quot;:4,&quot;alive&quot;:[&quot;c3&quot;,&quot;d3&quot;,&quot;c4&quot;,&quot;d4&quot;]}\" role=\"img\" aria-label=\"Block: a stable two-by-two square. Draw cells with the pointer; reload to restore.\">Live Block example. Enable JavaScript to interact.</canvas></p></th><td><strong>Still life · 4 living cells.</strong> A 2×2 square stays unchanged. Every living cell has three living neighbours, and no empty cell has exactly three.</td></tr><tr><th scope=\"row\"><h3>Blinker</h3><p><canvas class=\"game-of-life__canvas\" data-user=\"{&quot;width&quot;:6,&quot;height&quot;:6,&quot;size&quot;:4,&quot;alive&quot;:[&quot;b3&quot;,&quot;c3&quot;,&quot;d3&quot;]}\" role=\"img\" aria-label=\"Blinker: a three-cell line alternating between horizontal and vertical. Draw cells with the pointer; reload to restore.\">Live Blinker example. Enable JavaScript to interact.</canvas></p></th><td><strong>Oscillator · period 2.</strong> A 1×3 horizontal line becomes a 3×1 vertical line, then returns. Only the middle cell survives each change; the two end cells are replaced.</td></tr><tr><th scope=\"row\"><h3>Glider</h3><p><canvas class=\"game-of-life__canvas\" data-user=\"{&quot;width&quot;:6,&quot;height&quot;:6,&quot;size&quot;:4,&quot;alive&quot;:[&quot;b3&quot;,&quot;c4&quot;,&quot;d2&quot;,&quot;d3&quot;,&quot;d4&quot;]}\" role=\"img\" aria-label=\"Glider: five cells travelling diagonally across a wrapping board. Draw cells with the pointer; reload to restore.\">Live Glider example. Enable JavaScript to interact.</canvas></p></th><td><strong>Spaceship · 4 phases.</strong> Five living cells change shape and move one cell diagonally every four generations. On this wrapping 6×6 board, the undisturbed glider returns to its starting position after 24 generations.</td></tr><tr><th scope=\"row\"><h3>Beehive</h3><p><canvas class=\"game-of-life__canvas\" data-user=\"{&quot;width&quot;:6,&quot;height&quot;:6,&quot;size&quot;:4,&quot;alive&quot;:[&quot;c2&quot;,&quot;d2&quot;,&quot;b3&quot;,&quot;e3&quot;,&quot;c4&quot;,&quot;d4&quot;]}\" role=\"img\" aria-label=\"Beehive: a stable six-cell hollow shape. Draw cells with the pointer; reload to restore.\">Live Beehive example. Enable JavaScript to interact.</canvas></p></th><td><strong>Still life · 6 living cells.</strong> A hollow shape remains unchanged. Its living cells survive while the empty centre stays empty.</td></tr><tr><th scope=\"row\"><h3>Toad</h3><p><canvas class=\"game-of-life__canvas\" data-user=\"{&quot;width&quot;:6,&quot;height&quot;:6,&quot;size&quot;:4,&quot;alive&quot;:[&quot;c3&quot;,&quot;d3&quot;,&quot;e3&quot;,&quot;b4&quot;,&quot;c4&quot;,&quot;d4&quot;]}\" role=\"img\" aria-label=\"Toad: two offset three-cell rows alternating between two shapes. Draw cells with the pointer; reload to restore.\">Live Toad example. Enable JavaScript to interact.</canvas></p></th><td><strong>Oscillator · period 2.</strong> Two offset rows of three cells open out, then close again. The pattern repeats every two generations.</td></tr><tr><th scope=\"row\"><h3>Boat</h3><p><canvas class=\"game-of-life__canvas\" data-user=\"{&quot;width&quot;:6,&quot;height&quot;:6,&quot;size&quot;:4,&quot;alive&quot;:[&quot;b2&quot;,&quot;c2&quot;,&quot;b3&quot;,&quot;d3&quot;,&quot;c4&quot;]}\" role=\"img\" aria-label=\"Boat: a stable five-cell shape. Draw cells with the pointer; reload to restore.\">Live Boat example. Enable JavaScript to interact.</canvas></p></th><td><strong>Still life · 5 living cells.</strong> This compact shape stays unchanged. Like the glider, it has five living cells, but their arrangement produces stillness instead of travel.</td></tr></tbody></table><p>With the glider, the positions on the board stay fixed. What travels is a pattern of activity.&nbsp;</p><h2>When the field becomes soft: Lenia</h2><p><a href=\"https://chakazul.github.io/lenia.html\">Lenia, by Bert Wang-Chak Chan</a>, takes cellular automata in a different direction. It generalises the discrete ingredients of Life into a continuous formulation, explored numerically in its implementations. Instead of only an on/off state and eight immediate neighbours, its patterns develop through smoothly varying states and a wider neighbourhood.</p><p>The result can look remarkably organic: soft bodies, rounded structures, and activity that resembles locomotion. Chan’s project presents these as artificial-life patterns, with research papers, code, videos, and a web demo. They are not simply Conway cells drawn as circles.</p><p>The second supporting film below, <a href=\"https://www.youtube.com/watch?v=iE46jKYcI4Y\">Lenia: Mathematical Life Forms</a>, is linked from the creator’s project page. It is a good visual companion to the sharp little squares above. Both interest me because a specified process can produce forms that I would not have thought to draw by hand.</p>",
+    "ru": "<p>Клеточный автомат — система клеток, состояния которых меняются по локальным правилам.&nbsp;<br><br>Программа считает соседей. Такое простое правило даёт множество возможностей: большинство скучны, но в некоторых возникает поведение, напоминающее жизнь. Меня это всегда завораживало.<br><br>Я знаю, что программа всего лишь считает соседей. От этого происходящее становится для меня ещё интереснее.<br><a href=\"https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life\">Википедия </a>— полезная отправная точка для знакомства с историей и терминологией.</p><p>Вот <a href=\"https://www.youtube.com/watch?v=xP5-iIeKXE8\">видео</a>, в котором «Жизнь» моделируется внутри самой «Жизни», демонстрируя её полноту по Тьюрингу.<br>&nbsp;<br>Один из дополнительных фильмов ниже — <a href=\"https://www.numberphile.com/videos/inventing-game-of-life-john-conway\">интервью Numberphile об изобретении «Жизни»</a>. Этот эксперимент появился благодаря человеку, который пробовал разные варианты, наблюдал за происходящим и стремился получить интересный результат.<br><br>Так я отдаю дань уважения <a href=\"https://en.wikipedia.org/wiki/John_Horton_Conway\">Джону Хортону Конвею</a></p><h2>Правила, которые легко удержать в голове: <strong>B3/S23.</strong></h2><p>Представьте лист бумаги в клетку. Каждая клетка либо живая, либо мёртвая. У неё восемь соседей: четыре по сторонам и четыре по диагонали. Одно поколение — это полное обновление всего листа.</p><ul><li data-list-item-id=\"e1559a8834f6258f4472ee29d1a729d98\"><span class=\"u-typography-body\"></span>Живая клетка <span class=\"u-typography-body\">с двумя или тремя живыми соседями выживает.</span></li><li data-list-item-id=\"e004a6bfd678d97e137e6ea4d11063a7b\"><span class=\"u-typography-body\"></span>Мёртвая клетка <span class=\"u-typography-body\">ровно с тремя живыми соседями оживает.</span></li><li data-list-item-id=\"efb521552784e8e9b184c2f3e7c195f26\"><span class=\"u-typography-body\">Во всех остальных случаях в следующем поколении клетка мертва.</span></li></ul><p>Все клетки обновляются одновременно. Сначала считаем соседей в старом поколении, отдельно вычисляем новое и только потом заменяем старое. Иначе результат мог бы зависеть от того, в каком направлении программа обходит поле — слева направо или справа налево. Это была бы уже другая система.</p><h2>Неподвижность, ритм и движение</h2><p>Эти интерактивные примеры показывают три типа поведения: устойчивые фигуры, осцилляторы и движущийся глайдер. У каждого поля 6 строк и 6 столбцов с увеличением 4×. Проведите указателем по полю, чтобы добавить живые клетки и изменить рисунок; перезагрузите страницу, чтобы восстановить все примеры. Противоположные края соединены, поэтому глайдер может уйти с одной стороны и вернуться с другой.</p><table class=\"table game-of-life-examples\"><caption>Небольшие фигуры в игре «Жизнь» Конвея</caption><thead><tr><th scope=\"col\">Фигура</th><th scope=\"col\">На что обратить внимание</th></tr></thead><tbody><tr><th scope=\"row\"><h3>Блок</h3><p><canvas class=\"game-of-life__canvas\" data-user=\"{&quot;width&quot;:6,&quot;height&quot;:6,&quot;size&quot;:4,&quot;alive&quot;:[&quot;c3&quot;,&quot;d3&quot;,&quot;c4&quot;,&quot;d4&quot;]}\" role=\"img\" aria-label=\"Блок: устойчивый квадрат два на два. Рисуйте клетки указателем; перезагрузите страницу для восстановления.\">Интерактивный пример «Блок». Включите JavaScript для взаимодействия.</canvas></p></th><td><strong>Устойчивая фигура · 4 живые клетки.</strong> Квадрат 2×2 остаётся неизменным. У каждой живой клетки три живых соседа, а ни у одной пустой клетки нет ровно трёх.</td></tr><tr><th scope=\"row\"><h3>Мигалка</h3><p><canvas class=\"game-of-life__canvas\" data-user=\"{&quot;width&quot;:6,&quot;height&quot;:6,&quot;size&quot;:4,&quot;alive&quot;:[&quot;b3&quot;,&quot;c3&quot;,&quot;d3&quot;]}\" role=\"img\" aria-label=\"Мигалка: линия из трёх клеток, меняющая положение с горизонтального на вертикальное. Рисуйте клетки указателем; перезагрузите страницу для восстановления.\">Интерактивный пример «Мигалка». Включите JavaScript для взаимодействия.</canvas></p></th><td><strong>Осциллятор · период 2.</strong> Горизонтальная линия 1×3 становится вертикальной 3×1, а затем возвращается. При каждой смене выживает только средняя клетка; две крайние заменяются.</td></tr><tr><th scope=\"row\"><h3>Глайдер</h3><p><canvas class=\"game-of-life__canvas\" data-user=\"{&quot;width&quot;:6,&quot;height&quot;:6,&quot;size&quot;:4,&quot;alive&quot;:[&quot;b3&quot;,&quot;c4&quot;,&quot;d2&quot;,&quot;d3&quot;,&quot;d4&quot;]}\" role=\"img\" aria-label=\"Глайдер: пять клеток, движущихся по диагонали по полю с соединёнными краями. Рисуйте клетки указателем; перезагрузите страницу для восстановления.\">Интерактивный пример «Глайдер». Включите JavaScript для взаимодействия.</canvas></p></th><td><strong>Космический корабль · 4 фазы.</strong> Пять живых клеток меняют форму и сдвигаются на одну клетку по диагонали каждые четыре поколения. На этом поле 6×6 с соединёнными краями глайдер без внешнего вмешательства возвращается в исходное положение через 24 поколения.</td></tr><tr><th scope=\"row\"><h3>Улей</h3><p><canvas class=\"game-of-life__canvas\" data-user=\"{&quot;width&quot;:6,&quot;height&quot;:6,&quot;size&quot;:4,&quot;alive&quot;:[&quot;c2&quot;,&quot;d2&quot;,&quot;b3&quot;,&quot;e3&quot;,&quot;c4&quot;,&quot;d4&quot;]}\" role=\"img\" aria-label=\"Улей: устойчивая полая фигура из шести клеток. Рисуйте клетки указателем; перезагрузите страницу для восстановления.\">Интерактивный пример «Улей». Включите JavaScript для взаимодействия.</canvas></p></th><td><strong>Устойчивая фигура · 6 живых клеток.</strong> Полая фигура остаётся неизменной. Живые клетки выживают, а пустой центр остаётся пустым.</td></tr><tr><th scope=\"row\"><h3>Жаба</h3><p><canvas class=\"game-of-life__canvas\" data-user=\"{&quot;width&quot;:6,&quot;height&quot;:6,&quot;size&quot;:4,&quot;alive&quot;:[&quot;c3&quot;,&quot;d3&quot;,&quot;e3&quot;,&quot;b4&quot;,&quot;c4&quot;,&quot;d4&quot;]}\" role=\"img\" aria-label=\"Жаба: два смещённых ряда по три клетки, чередующие две формы. Рисуйте клетки указателем; перезагрузите страницу для восстановления.\">Интерактивный пример «Жаба». Включите JavaScript для взаимодействия.</canvas></p></th><td><strong>Осциллятор · период 2.</strong> Два смещённых ряда по три клетки раскрываются, а затем снова сходятся. Фигура повторяется каждые два поколения.</td></tr><tr><th scope=\"row\"><h3>Лодка</h3><p><canvas class=\"game-of-life__canvas\" data-user=\"{&quot;width&quot;:6,&quot;height&quot;:6,&quot;size&quot;:4,&quot;alive&quot;:[&quot;b2&quot;,&quot;c2&quot;,&quot;b3&quot;,&quot;d3&quot;,&quot;c4&quot;]}\" role=\"img\" aria-label=\"Лодка: устойчивая фигура из пяти клеток. Рисуйте клетки указателем; перезагрузите страницу для восстановления.\">Интерактивный пример «Лодка». Включите JavaScript для взаимодействия.</canvas></p></th><td><strong>Устойчивая фигура · 5 живых клеток.</strong> Эта компактная фигура остаётся неизменной. Как и у глайдера, в ней пять живых клеток, но их расположение создаёт неподвижность вместо движения.</td></tr></tbody></table><p>В случае глайдера позиции на поле остаются неподвижными. Движется рисунок активности.&nbsp;</p><h2>Когда поле становится мягким: Lenia</h2><p><a href=\"https://chakazul.github.io/lenia.html\">Lenia Берта Ван-Чак Чана</a> развивает клеточные автоматы в другом направлении. Она обобщает дискретные составляющие «Жизни» до непрерывной модели, которую в реализациях исследуют численно. Вместо двух состояний «включено/выключено» и восьми ближайших соседей её фигуры развиваются благодаря плавно меняющимся состояниям и более широкой окрестности.</p><p>Результат может выглядеть удивительно органично: мягкие тела, округлые структуры и активность, напоминающая передвижение. В проекте Чана они представлены как формы искусственной жизни; доступны научные статьи, код, видео и веб-демонстрация. Это не просто клетки Конвея, нарисованные кружками.</p><p>Второй дополнительный фильм ниже, <a href=\"https://www.youtube.com/watch?v=iE46jKYcI4Y\">Lenia: математические формы жизни</a>, размещён по ссылке со страницы проекта автора. Он хорошо дополняет чёткие маленькие квадраты выше. Оба подхода интересны мне тем, что заданный процесс может порождать формы, которые мне не пришло бы в голову нарисовать вручную.</p>"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "b52ac74b-fd4b-4c2a-9225-84646d785adb",
+    "bundle": "article",
+    "field": "body",
+    "delta": 0,
+    "property": "summary",
+    "en": "<p>A tribute to John Horton Conway, on emergence from cellular automata.</p><p>&nbsp;</p>",
+    "ru": "<p>Посвящение Джону Хортону Конвею: о возникновении сложного поведения в клеточных автоматах.</p><p>&nbsp;</p>"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "7f04441b-50dd-469e-bd0b-e37991a530d9",
+    "bundle": "article",
+    "field": "title",
+    "delta": 0,
+    "property": "value",
+    "en": "Human readable QR",
+    "ru": "QR-код, который может прочитать человек"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "7f04441b-50dd-469e-bd0b-e37991a530d9",
+    "bundle": "article",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "<p>try it yorself Here <a href=\"/qr-studio\">QR Pixel Studio</a><br><br>As a weekend one-day project, I've created a tool that helped me to put a text In a QR code, so it cannot only be decoded with a phone camera, uit also could lead to the generated doman name, which can then be configured to rediredct into actuar real website URL.<br><br>I built a browser-based encoder, decoder and pixel editor to explore that idea. It encodes text as I type, lets me draw and lock individual squares, and searches for addresses that fit around the artwork. Character highlights reveal where the data lives, while decoding checks show whether the edited code still works.<br><br>The text tool uses my <a href=\"/node/17/\">4Pixel</a><strong> </strong>, with each native font pixel mapped to one QR square. Lettering can be dragged across the grid, edited pixel by pixel, and exported as SVG—a small playground for typography, code, and scannable images.</p>",
+    "ru": "<p>Попробуйте сами: <a href=\"/qr-studio\">QR Pixel Studio</a><br><br>За один выходной я создал инструмент, который помог мне разместить текст внутри QR-кода. Такой код можно не только распознать камерой телефона: он ведёт на сгенерированное доменное имя, для которого затем можно настроить перенаправление на настоящий адрес сайта.<br><br>Чтобы исследовать эту идею, я сделал браузерный кодировщик, декодировщик и пиксельный редактор. Он кодирует текст по мере ввода, позволяет рисовать и закреплять отдельные квадраты и ищет адреса, которые вписываются в рисунок. Подсветка символов показывает, где находятся данные, а проверка декодирования — работает ли изменённый код.<br><br>Текстовый инструмент использует мой шрифт <a href=\"/node/17/\">4Pixel</a><strong> </strong>, причём каждому исходному пикселю шрифта соответствует один квадрат QR-кода. Надпись можно перетаскивать по сетке, редактировать попиксельно и экспортировать в SVG. Это небольшая площадка для экспериментов с типографикой, кодом и сканируемыми изображениями.</p>"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "7f04441b-50dd-469e-bd0b-e37991a530d9",
+    "bundle": "article",
+    "field": "body",
+    "delta": 0,
+    "property": "summary",
+    "en": "<p>try it yorself Here <a href=\"/qr-studio\">QR Pixel Studio</a><br>&nbsp;</p>",
+    "ru": "<p>Попробуйте сами: <a href=\"/qr-studio\">QR Pixel Studio</a><br>&nbsp;</p>"
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "21953f29-448b-458a-abde-8cf6a707bd73",
+    "bundle": "layered_scene",
+    "field": "field_scene_background",
+    "delta": 0,
+    "property": "alt",
+    "en": "A clean desk with two monitors and an open laptop, lit in cool grayscale.",
+    "ru": "Аккуратный стол с двумя мониторами и открытым ноутбуком в холодных серых тонах."
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "21953f29-448b-458a-abde-8cf6a707bd73",
+    "bundle": "layered_scene",
+    "field": "field_scene_description",
+    "delta": 0,
+    "property": "value",
+    "en": "Explore the projects, experiments, and decisions behind the work.",
+    "ru": "Познакомьтесь с проектами, экспериментами и решениями, которые стоят за моей работой."
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "21953f29-448b-458a-abde-8cf6a707bd73",
+    "bundle": "layered_scene",
+    "field": "field_scene_eyebrow",
+    "delta": 0,
+    "property": "value",
+    "en": "From the desk",
+    "ru": "За рабочим столом"
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "21953f29-448b-458a-abde-8cf6a707bd73",
+    "bundle": "layered_scene",
+    "field": "field_scene_foreground",
+    "delta": 0,
+    "property": "alt",
+    "en": "Alexander working at the desk, seen from behind.",
+    "ru": "Александр за работой за столом, вид со спины."
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "21953f29-448b-458a-abde-8cf6a707bd73",
+    "bundle": "layered_scene",
+    "field": "field_scene_heading",
+    "delta": 0,
+    "property": "value",
+    "en": "Let’s get to work.",
+    "ru": "Приступим к работе."
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "21953f29-448b-458a-abde-8cf6a707bd73",
+    "bundle": "layered_scene",
+    "field": "field_scene_primary",
+    "delta": 0,
+    "property": "title",
+    "en": "Explore projects",
+    "ru": "Посмотреть проекты"
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "21953f29-448b-458a-abde-8cf6a707bd73",
+    "bundle": "layered_scene",
+    "field": "field_scene_secondary",
+    "delta": 0,
+    "property": "title",
+    "en": "Start a conversation",
+    "ru": "Начать разговор"
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "41ea9024-22d7-4a64-bcf5-276512985f14",
+    "bundle": "contact_photo",
+    "field": "field_contact_photo",
+    "delta": 0,
+    "property": "alt",
+    "en": "Working at a desk with two monitors and a laptop, seen from behind in cool evening light.",
+    "ru": "Работа за столом с двумя мониторами и ноутбуком, вид со спины в холодном вечернем свете."
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "4c09fd25-c209-4ff5-bb66-7d22f54ea8c7",
+    "bundle": "editorial_copy",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "<p class=\"guidelines-view__introduction\">The visual rules and reusable building blocks behind the Jurenites blog. Each topic is maintained as editable Drupal content while its examples stay connected to project assets and tokens.</p>",
+    "ru": "<p class=\"guidelines-view__introduction\">Визуальные правила и многократно используемые компоненты, на которых построен блог Jurenites. Каждая тема хранится как редактируемый материал Drupal, а примеры связаны с ресурсами и токенами проекта.</p>"
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "02a66d4c-d098-40af-a32a-c50e98c6839c",
+    "bundle": "editorial_copy",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "More design guidelines are being prepared.",
+    "ru": "Готовятся новые руководства по дизайну."
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "0746e65e-2a9f-4c98-ac31-d7e02fd0e276",
+    "bundle": "editorial_copy",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "No front page content has been created yet.<br/>Follow the <a target=\"_blank\" href=\"https://www.drupal.org/docs/user_guide/en/index.html\">User Guide</a> to start building your site.",
+    "ru": "Материалы для главной страницы ещё не созданы.<br/>Воспользуйтесь <a target=\"_blank\" href=\"https://www.drupal.org/docs/user_guide/en/index.html\">руководством пользователя</a>, чтобы начать создание сайта."
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "6f5afd60-4a7d-46e1-af8c-3e7ae61b0437",
+    "bundle": "editorial_copy",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "No projects have been published yet.",
+    "ru": "Проекты пока не опубликованы."
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "520f11f2-2d74-45d8-b0a7-5bff30269d26",
+    "bundle": "editorial_copy",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "<p>These are videos I’ve enjoyed and think are worth watching to learn something new.</p>",
+    "ru": "<p>Это видео, которые мне понравились и которые, на мой взгляд, стоит посмотреть, чтобы узнать что-то новое.</p>"
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "16c7d209-0bb1-4c6c-9da7-6845a39bfb74",
+    "bundle": "website_audit",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>Website audit.</h2><p>We will analyze all technical and UX weaknesses of your current site and prepare a clear report with an action plan.</p><h3>What the report includes:</h3><ul><li>Analysis of load speed and performance</li><li>Check of responsiveness and mobile version</li><li>SEO audit: meta tags, structure, indexing</li><li>Usability and user experience analysis</li><li>Assessment of code quality and architecture</li><li>Recommendations for improving conversion rates</li></ul>",
+    "ru": "<h2>Аудит сайта.</h2><p>Мы проанализируем технические и UX-недостатки вашего сайта и подготовим понятный отчёт с планом действий.</p><h3>Что входит в отчёт:</h3><ul><li>Анализ скорости загрузки и производительности</li><li>Проверка адаптивности и мобильной версии</li><li>SEO-аудит: метатеги, структура, индексация</li><li>Анализ удобства использования и пользовательского опыта</li><li>Оценка качества кода и архитектуры</li><li>Рекомендации по повышению конверсии</li></ul>"
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "16c7d209-0bb1-4c6c-9da7-6845a39bfb74",
+    "bundle": "website_audit",
+    "field": "field_audit_link",
+    "delta": 0,
+    "property": "title",
+    "en": "Order",
+    "ru": "Заказать"
+  },
+  {
+    "entity_type": "block_content",
+    "uuid": "16c7d209-0bb1-4c6c-9da7-6845a39bfb74",
+    "bundle": "website_audit",
+    "field": "field_audit_offer",
+    "delta": 0,
+    "property": "value",
+    "en": "<p>A website audit is completely free for all new clients.</p>",
+    "ru": "<p>Для всех новых клиентов аудит сайта полностью бесплатный.</p>"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "47f52aff-cda5-4947-a8fc-d46787b77699",
+    "bundle": "pixel_glyph_editor",
+    "field": "field_editor_instructions",
+    "delta": 0,
+    "property": "value",
+    "en": "Click, tap, use Space or Enter, or drag across cells. Reloading starts from a blank grid.",
+    "ru": "Нажимайте мышью, касайтесь экрана, используйте пробел или Enter либо проводите указателем по клеткам. После перезагрузки сетка снова будет пустой."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "f38531ec-f049-424d-a227-4cd052216832",
+    "bundle": "timeline_item",
+    "field": "field_timeline_summary",
+    "delta": 0,
+    "property": "value",
+    "en": "<p>Worked on managing a team of 5 the suporting the project, partially vibe-coded, required envision ofa new features of filtering options, parsing and scraping data from the souce proejcts, &nbsp;based on a real estate makret at Dubai,</p>",
+    "ru": "<p>Руководил командой из пяти человек, поддерживающей проект на рынке недвижимости Дубая. Часть кода создавалась с помощью ИИ. Работа включала проработку новых возможностей фильтрации, разбор и сбор данных из исходных проектов.</p>"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "867cad05-b82d-4751-9d74-f10b1e2f86b2",
+    "bundle": "timeline_item",
+    "field": "field_timeline_summary",
+    "delta": 0,
+    "property": "value",
+    "en": "<p>Consilting a startup making a Brand for the product , that focus on a digital twin for a heating utilities,&nbsp;</p>",
+    "ru": "<p>Консультировал стартап и разрабатывал бренд продукта, посвящённого цифровому двойнику теплоснабжения.&nbsp;</p>"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "95441488-8e7c-4f4f-9e45-56d9fd880768",
+    "bundle": "technology_skill",
+    "field": "field_skill_category",
+    "delta": 0,
+    "property": "value",
+    "en": "CMS & content",
+    "ru": "CMS и контент"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "95441488-8e7c-4f4f-9e45-56d9fd880768",
+    "bundle": "technology_skill",
+    "field": "field_skill_description",
+    "delta": 0,
+    "property": "value",
+    "en": "Content models, Views, custom modules, theming and site maintenance.",
+    "ru": "Модели контента, Views, собственные модули, темы оформления и сопровождение сайтов."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "95441488-8e7c-4f4f-9e45-56d9fd880768",
+    "bundle": "technology_skill",
+    "field": "field_skill_evidence",
+    "delta": 0,
+    "property": "value",
+    "en": "Drupal 6–11 · Nokia, Novo Ministries, oksenate.gov",
+    "ru": "Drupal 6–11 · Nokia, Novo Ministries, oksenate.gov"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "56be7b88-d85b-4e8e-b011-b5a2a393486e",
+    "bundle": "technology_skill",
+    "field": "field_skill_category",
+    "delta": 0,
+    "property": "value",
+    "en": "Frontend",
+    "ru": "Фронтенд"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "56be7b88-d85b-4e8e-b011-b5a2a393486e",
+    "bundle": "technology_skill",
+    "field": "field_skill_description",
+    "delta": 0,
+    "property": "value",
+    "en": "Responsive page layouts, interface styling and accessibility refinements.",
+    "ru": "Адаптивная вёрстка страниц, оформление интерфейсов и улучшение доступности."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "01a1c5e7-356a-4c63-8bc1-a73bcabc3892",
+    "bundle": "technology_skill",
+    "field": "field_skill_category",
+    "delta": 0,
+    "property": "value",
+    "en": "Backend",
+    "ru": "Бэкенд"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "01a1c5e7-356a-4c63-8bc1-a73bcabc3892",
+    "bundle": "technology_skill",
+    "field": "field_skill_description",
+    "delta": 0,
+    "property": "value",
+    "en": "CMS features, server-side application logic and REST API development.",
+    "ru": "Возможности CMS, серверная логика приложений и разработка REST API."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "01a1c5e7-356a-4c63-8bc1-a73bcabc3892",
+    "bundle": "technology_skill",
+    "field": "field_skill_evidence",
+    "delta": 0,
+    "property": "value",
+    "en": "Drupal projects · Laravel volunteer system · Symfony 2 APIs",
+    "ru": "Проекты на Drupal · система для волонтёров на Laravel · API на Symfony 2"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "9ab5e760-2295-45b6-9a65-bd27aead538a",
+    "bundle": "technology_skill",
+    "field": "field_skill_category",
+    "delta": 0,
+    "property": "value",
+    "en": "Frontend",
+    "ru": "Фронтенд"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "9ab5e760-2295-45b6-9a65-bd27aead538a",
+    "bundle": "technology_skill",
+    "field": "field_skill_description",
+    "delta": 0,
+    "property": "value",
+    "en": "Browser interactions, Ajax requests and dynamic interface behaviour.",
+    "ru": "Взаимодействие в браузере, Ajax-запросы и динамическое поведение интерфейса."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "9ab5e760-2295-45b6-9a65-bd27aead538a",
+    "bundle": "technology_skill",
+    "field": "field_skill_evidence",
+    "delta": 0,
+    "property": "value",
+    "en": "CV programming stack · Mullikin Law Ajax sorting",
+    "ru": "Стек программирования из резюме · Ajax-сортировка для Mullikin Law"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "8dd893fe-2b34-436e-a6bd-aa17dee6f939",
+    "bundle": "technology_skill",
+    "field": "field_skill_category",
+    "delta": 0,
+    "property": "value",
+    "en": "Data",
+    "ru": "Данные"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "8dd893fe-2b34-436e-a6bd-aa17dee6f939",
+    "bundle": "technology_skill",
+    "field": "field_skill_description",
+    "delta": 0,
+    "property": "value",
+    "en": "Relational data modelling: entities, field definitions and relationships.",
+    "ru": "Реляционное моделирование данных: сущности, определения полей и связи."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "8dd893fe-2b34-436e-a6bd-aa17dee6f939",
+    "bundle": "technology_skill",
+    "field": "field_skill_evidence",
+    "delta": 0,
+    "property": "value",
+    "en": "CV database stack · schema design at OysterLabs and Precision",
+    "ru": "Стек баз данных из резюме · проектирование схем в OysterLabs и Precision"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "dd3efdaa-1f92-4397-b906-688b2652663b",
+    "bundle": "numeric_value",
+    "field": "field_numeric_caption",
+    "delta": 0,
+    "property": "value",
+    "en": "Platform and dependencies modernised",
+    "ru": "Обновлены платформа и зависимости"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "dd3efdaa-1f92-4397-b906-688b2652663b",
+    "bundle": "numeric_value",
+    "field": "field_numeric_description",
+    "delta": 0,
+    "property": "value",
+    "en": "Drupal core upgraded",
+    "ru": "Обновлено ядро Drupal"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "dd3efdaa-1f92-4397-b906-688b2652663b",
+    "bundle": "numeric_value",
+    "field": "field_numeric_number",
+    "delta": 0,
+    "property": "value",
+    "en": "11",
+    "ru": "11"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6f827c79-b42d-4d0d-8012-d186dbf91b6f",
+    "bundle": "numeric_value",
+    "field": "field_numeric_caption",
+    "delta": 0,
+    "property": "value",
+    "en": "Following a first rehearsal of roughly 3 hours",
+    "ru": "После первой репетиции, занявшей около 3 часов"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6f827c79-b42d-4d0d-8012-d186dbf91b6f",
+    "bundle": "numeric_value",
+    "field": "field_numeric_description",
+    "delta": 0,
+    "property": "value",
+    "en": "Production upgrade window",
+    "ru": "Время обновления рабочего сайта"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6f827c79-b42d-4d0d-8012-d186dbf91b6f",
+    "bundle": "numeric_value",
+    "field": "field_numeric_number",
+    "delta": 0,
+    "property": "value",
+    "en": "<5 min",
+    "ru": "<5 мин"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "c29ef99b-cede-421c-90d5-e9d426113c5f",
+    "bundle": "numeric_value",
+    "field": "field_numeric_caption",
+    "delta": 0,
+    "property": "value",
+    "en": "To locate malformed and escaped HTML",
+    "ru": "Для поиска некорректного и экранированного HTML"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "c29ef99b-cede-421c-90d5-e9d426113c5f",
+    "bundle": "numeric_value",
+    "field": "field_numeric_description",
+    "delta": 0,
+    "property": "value",
+    "en": "Legacy content database analysed",
+    "ru": "Проанализирована база устаревшего контента"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "c29ef99b-cede-421c-90d5-e9d426113c5f",
+    "bundle": "numeric_value",
+    "field": "field_numeric_number",
+    "delta": 0,
+    "property": "value",
+    "en": "2 GB",
+    "ru": "2 ГБ"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "573fb7f2-0407-4c19-9df1-c39ba71c14ed",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>Keep the service. Renew the foundations.</h2><p>The site was around six years old. Its platform and dependencies needed a substantial update, while senators, staff and the public still depended on its content and services. The brief was to reach Drupal 11 while preserving the familiar website and its content-management workflows.</p><p>That meant working through contributed-module compatibility, JavaScript dependencies and custom functionality, alongside the less visible work of making a production release predictable.</p>",
+    "ru": "<h2>Сохранить работу сервиса. Обновить основу.</h2><p>Сайту было около шести лет. Платформе и зависимостям требовалось серьёзное обновление, при этом сенаторы, сотрудники и посетители продолжали пользоваться его материалами и сервисами. Задача состояла в переходе на Drupal 11 с сохранением привычного сайта и процессов управления контентом.</p><p>Для этого нужно было разобраться с совместимостью сторонних модулей, JavaScript-зависимостями и собственной функциональностью, а также выполнить менее заметную работу: сделать выпуск обновления на рабочем сайте предсказуемым.</p>"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "789eec01-1c13-4b00-aa75-b31bd4e819ed",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>A familiar identity, a more readable website</h2><p>I consolidated inconsistent typography, increased undersized text and improved text contrast across the existing interface. A Figma style reference collected the typography rules so that changes followed a shared visual language.</p><p>On smaller screens, I corrected wrapping, spacing, navigation and button alignment. Dense tables, senator pages and form controls received particular attention. The aim was practical: make the information easier to read and the controls easier to use while respecting the Senate’s established identity.</p>",
+    "ru": "<h2>Знакомый облик и более читаемый сайт</h2><p>Я упорядочил разрозненную типографику, увеличил слишком мелкий текст и улучшил его контрастность в существующем интерфейсе. Правила типографики были собраны в справочнике стилей Figma, чтобы все изменения следовали единому визуальному языку.</p><p>На небольших экранах я исправил переносы, отступы, навигацию и выравнивание кнопок. Особое внимание уделил плотным таблицам, страницам сенаторов и элементам форм. Цель была практической: сделать информацию удобнее для чтения, а элементы управления — проще в использовании, сохранив узнаваемый облик Сената.</p>"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "477402c7-41b3-47d1-9342-716f486d3fd5",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>Accessibility improvements you can measure</h2><figure class=\"audit-comparison\"><img class=\"audit-comparison__image\" src=\"/themes/custom/jurenites_theme/assets/images/projects/oksenate/lighthouse-accessibility.svg\" alt=\"Lighthouse accessibility score: 91 before, 98 at release, an improvement of 7 points out of 100.\" width=\"300\" height=\"138\"><figcaption class=\"audit-comparison__caption\">Release-time accessibility results recorded in the project notes; this graphic is a summary, not a live audit.</figcaption></figure><p>The project notes record a Lighthouse accessibility score rising from <strong>91 to 98 out of 100</strong>. Automated checks helped identify and validate improvements alongside page-by-page review. These results describe the release under test; later content changes can affect the score. They do not establish complete accessibility compliance.</p><p><strong>What is Lighthouse?</strong> It is an automated website auditing tool available in Chrome DevTools, with separate checks for accessibility, performance and other aspects of page quality. To try it, open a page in Chrome, open DevTools, select Lighthouse and run an audit.</p><p><a href=\"https://developer.chrome.com/docs/lighthouse/overview\">How to use Lighthouse in Chrome — Google’s guide</a></p>",
+    "ru": "<h2>Измеримые улучшения доступности</h2><figure class=\"audit-comparison\"><img class=\"audit-comparison__image\" src=\"/themes/custom/jurenites_theme/assets/images/projects/oksenate/lighthouse-accessibility.svg\" alt=\"Оценка доступности Lighthouse: 91 до обновления, 98 при выпуске — улучшение на 7 баллов из 100.\" width=\"300\" height=\"138\"><figcaption class=\"audit-comparison__caption\">Результаты проверки доступности на момент выпуска, зафиксированные в заметках проекта. Это сводная иллюстрация, а не текущий аудит.</figcaption></figure><p>В заметках проекта зафиксирован рост оценки доступности Lighthouse с <strong>91 до 98 баллов из 100</strong>. Автоматические проверки вместе с постраничным просмотром помогали находить и подтверждать улучшения. Эти результаты относятся к проверенной версии сайта: последующие изменения контента могут повлиять на оценку. Они не подтверждают полное соответствие требованиям доступности.</p><p><strong>Что такое Lighthouse?</strong> Это инструмент автоматического аудита сайтов в Chrome DevTools с отдельными проверками доступности, производительности и других аспектов качества страниц. Чтобы попробовать его, откройте страницу в Chrome, запустите DevTools, выберите Lighthouse и выполните аудит.</p><p><a href=\"https://developer.chrome.com/docs/lighthouse/overview\">Как использовать Lighthouse в Chrome — руководство Google</a></p>"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "bee06d90-80cc-4a47-a663-b9710123a77f",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>Test Update the major core version</h2><p>I prepared a fresh PRE-PROD environment. a fulll copy ofa PROD env. Where the upgrade could be verified. The first run took roughly <span class=\"u-typography-machine-readable\">3 hours</span> while I worked through the command lne reading carefully every response from <span class=\"u-typography-machine-readable\">composer</span>.</p><p>Those rehearsals became a step-by-step release cheetsheet googledocumen, with expected output, recovery guidance, and a tested sequence. It made the procedure usable by another team member or system administrator if the original developer was unavailable.</p><p>By release, the production upgrade window was under five minutes, according to the engagement notes. The gain came from resolving uncertainty before the release: compatible dependencies, a known sequence and clear verification steps.</p><p>The engagement also established an accessible <span class=\"u-typography-machine-readable\">git</span> repository and a GitLab deployment workflow, with runtime content separated from application code.</p>",
+    "ru": "<h2>Репетиция обновления основной версии ядра</h2><p>Я подготовил новую среду PRE-PROD — полную копию рабочего окружения PROD, в которой можно было проверить обновление. Первый запуск занял примерно <span class=\"u-typography-machine-readable\">3 часа</span>, пока я последовательно выполнял команды и внимательно читал каждый ответ <span class=\"u-typography-machine-readable\">composer</span>.</p><p>Эти репетиции легли в основу пошаговой инструкции по выпуску в Google Документах: с ожидаемыми результатами команд, рекомендациями по восстановлению и проверенной последовательностью действий. Благодаря ей обновление мог выполнить другой участник команды или системный администратор, если исходный разработчик недоступен.</p><p>Согласно заметкам по проекту, к моменту выпуска обновление рабочего сайта занимало менее пяти минут. Ускорение стало результатом предварительной подготовки: совместимые зависимости, известная последовательность действий и понятные шаги проверки.</p><p>В рамках работы также был создан доступный команде репозиторий <span class=\"u-typography-machine-readable\">git</span> и процесс развёртывания через GitLab, с отделением контента сайта от кода приложения.</p>"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "43e51378-e705-4665-a45a-3f14b8d8701a",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>Follow through on the details</h2><p>Post-upgrade support included repairing video sharing from a chosen timestamp and resolving the homepage carousel’s compatibility with newer jQuery. I also traced broken layouts to malformed or escaped HTML in legacy content, using analysis of an approximately 2 GB database to find cases that were impractical to inspect manually.</p><p>When the site was reported to feel slower, the investigation separated application behaviour from hosting and the protective proxy layer. The engagement notes attribute the delay to that infrastructure layer rather than Drupal 11 itself. A media CDN was considered but not adopted because its cost offered limited value for a predominantly Oklahoma audience.</p>",
+    "ru": "<h2>Довести детали до конца</h2><p>Поддержка после обновления включала исправление ссылок на видео с выбранной временной отметкой и совместимости карусели на главной странице с новой версией jQuery. Я также выяснил, что некоторые поломки вёрстки вызваны некорректным или экранированным HTML в старом контенте. Анализ базы объёмом около 2 ГБ помог найти случаи, которые было непрактично проверять вручную.</p><p>Когда появились сообщения о замедлении сайта, в ходе исследования поведение приложения отделили от работы хостинга и защитного прокси. Заметки по проекту связывают задержку именно с инфраструктурой, а не с Drupal 11. CDN для медиаматериалов рассматривался, но от него отказались: при преимущественно местной аудитории Оклахомы его польза не оправдывала стоимость.</p>"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "d999bc02-a090-4c66-8707-57194ffacd95",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>A stronger foundation for the next change</h2><p>The result was a Drupal 11 website with improved readability, corrected mobile layouts and a documented release process. Just as valuable was the ability to repeat the work: shared typography rules, version-controlled code, a rehearsal environment and a runbook the team could follow.</p><p><strong>Project:</strong> Oklahoma Senate · Government and public information · Drupal development and maintenance.</p>",
+    "ru": "<h2>Более прочная основа для следующих изменений</h2><p>Результат — сайт на Drupal 11 с улучшенной читаемостью, исправленной мобильной вёрсткой и документированным процессом выпуска. Не менее важна повторяемость работы: общие правила типографики, код под контролем версий, среда для репетиций и инструкция, которой может следовать команда.</p><p><strong>Проект:</strong> Сенат Оклахомы · Государственная и общественная информация · Разработка и сопровождение на Drupal.</p>"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "5707f77c-2904-4cc9-b018-898cea1bf289",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>Where the inspiration began</h2><a href=\"https://jhollands.co.uk/spaceplan/\">Spaceplan</a> was the first incremental game I played, before I discovered <a href=\"https://orteil.dashnet.org/cookieclicker/\">Cookie Clicker</a>. It was my introduction to a genre where a small action can grow into a much larger system.\r\n\r\nThat became a starting point for my own project. With SMEP, I wanted to explore a different subject: particles, the formation of matter, and the possibility of learning something about physics and chemistry by playing with their ideas.",
+    "ru": "<h2>С чего началось вдохновение</h2><a href=\"https://jhollands.co.uk/spaceplan/\">Spaceplan</a> стала первой инкрементальной игрой, в которую я сыграл, ещё до знакомства с <a href=\"https://orteil.dashnet.org/cookieclicker/\">Cookie Clicker</a>. Так я открыл для себя жанр, в котором небольшое действие может вырасти в гораздо более крупную систему.\r\n\r\nЭто стало отправной точкой для собственного проекта. В SMEP мне хотелось исследовать другую тему: частицы, возникновение материи и возможность узнать что-то о физике и химии, играя с их идеями."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "14a9469e-7602-4f13-89b7-f975990edd9b",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>From a first click to a universe</h2>The opening I imagine is almost empty: a black screen, a point of light, and a first click that sets things in motion. The interface would reveal itself gradually as the player discovers what they can do.\r\n\r\nAt the heart of the concept is a loop of creating, combining and discovering. Players would generate particles, bring ingredients together, unlock new possibilities and eventually automate familiar actions. The broader progression would move from particles towards atoms, elements and more complex structures, with stars forming part of that journey.\r\n\r\nI want the next discovery to matter as much as the next upgrade. A new element should open a question: what can I make with this, and what conditions would I need?",
+    "ru": "<h2>От первого щелчка до вселенной</h2>Начало, которое я представляю, почти пустое: чёрный экран, точка света и первый щелчок, приводящий всё в движение. Интерфейс постепенно раскрывается по мере того, как игрок узнаёт о своих возможностях.\r\n\r\nВ основе концепции — цикл создания, объединения и открытий. Игроки генерируют частицы, соединяют составляющие, открывают новые возможности и со временем автоматизируют знакомые действия. Общее развитие ведёт от частиц к атомам, элементам и более сложным структурам; звёзды тоже становятся частью этого пути.\r\n\r\nМне хочется, чтобы следующее открытие значило не меньше очередного улучшения. Новый элемент должен вызывать вопрос: что из него можно сделать и какие условия для этого нужны?"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "57d43c49-0e58-4b91-a7c6-6dda19425177",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>Learning through interaction</h2>The design notes explore a central playground of moving particles, alongside cards for inspecting and combining what the player has discovered. Clicking, selecting and connecting would give abstract ideas something visible and tangible.\r\n\r\nThe educational aim is to make the basics of particle physics and chemistry approachable through experimentation. The notes include simplified mechanics, open questions and ideas that still need scientific checking. Working out how to keep the game understandable while respecting its subject is part of the design work ahead.",
+    "ru": "<h2>Обучение через взаимодействие</h2>В дизайнерских заметках рассматривается центральное поле с движущимися частицами и карточки для изучения и объединения того, что игрок уже открыл. Щелчки, выбор и соединение делают абстрактные идеи видимыми и осязаемыми.\r\n\r\nОбразовательная цель — сделать основы физики частиц и химии доступными через эксперименты. В заметках есть упрощённые механики, открытые вопросы и идеи, которые ещё требуют научной проверки. Найти баланс между понятностью игры и уважением к её предмету — часть предстоящей дизайнерской работы."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "23ab2412-a8d8-40c0-83e0-c3f9c74ce1aa",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>An idea I have kept building on since 2019</h2>Since August 2019, I have been putting my thoughts into SMEP: gameplay possibilities, interface sketches, progression ideas and references that help me think through the experience. The document has become a place to collect those thoughts and return to them over time.\r\n\r\nThe scope of those notes is deliberately broad. Some ideas describe the opening moments; others imagine much later stages. They are a record of the project's development and possibilities, rather than a promise that every feature will appear in the finished game.",
+    "ru": "<h2>Идея, которую я развиваю с 2019 года</h2>С августа 2019 года я собираю в SMEP свои мысли: варианты игрового процесса, наброски интерфейса, идеи развития и примеры, помогающие продумать опыт игрока. Документ стал местом, где можно сохранять эти мысли и со временем возвращаться к ним.\r\n\r\nЗаметки намеренно охватывают широкий круг тем. Одни идеи описывают первые минуты, другие — гораздо более поздние этапы. Это история развития проекта и его возможностей, а не обещание включить каждую функцию в готовую игру."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "7f2bd2ed-63d5-40a5-a897-4ccc11d7485e",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>Why now feels like the right time</h2>I expect to have more spare time to devote to SMEP, and modern technologies make it easier to turn the ideas I have collected into something I can try, evaluate and improve.\r\n\r\nThat makes this feel like a good moment to return to the project with renewed focus. I want to bring those years of thinking into a playable experience, starting with the interactions that make discovery enjoyable and building from there.\r\n\r\nThis is the first article about SMEP in my portfolio: an introduction to the project, where it came from, and the direction I want to take it.",
+    "ru": "<h2>Почему сейчас кажется подходящим моментом</h2>Я рассчитываю, что у меня будет больше свободного времени для SMEP, а современные технологии помогают быстрее превращать накопленные идеи в то, что можно попробовать, оценить и улучшить.\r\n\r\nПоэтому сейчас кажется удачным моментом вернуться к проекту с новыми силами. Я хочу воплотить годы размышлений в игровой опыт: начать с взаимодействий, которые делают открытия увлекательными, и развивать игру дальше.\r\n\r\nЭто первая статья о SMEP в моём портфолио: знакомство с проектом, его истоками и направлением, в котором я хочу двигаться."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "3766a58d-cf70-4140-9bc1-75b6d9da83e0",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>Project files</h2>The working materials show the ideas behind SMEP and the interface explorations that accompany them.\r\n\r\n<ul><li><a href=\"https://docs.google.com/document/d/1EUQXYyDMzqc4jOmuLILrwc33uNubBlAOJo1P4xmbJjU/edit?tab=t.0\">SMEP game design document — original notes and concepts</a></li><li><a href=\"https://www.figma.com/design/CDKvikFQtlPhZLUKnRu8F5/SMEP?node-id=0-1\">SMEP in Figma — interface design</a></li></ul>",
+    "ru": "<h2>Файлы проекта</h2>Рабочие материалы показывают идеи, лежащие в основе SMEP, и сопровождающие их исследования интерфейса.\r\n\r\n<ul><li><a href=\"https://docs.google.com/document/d/1EUQXYyDMzqc4jOmuLILrwc33uNubBlAOJo1P4xmbJjU/edit?tab=t.0\">Геймдизайн-документ SMEP — исходные заметки и концепции</a></li><li><a href=\"https://www.figma.com/design/CDKvikFQtlPhZLUKnRu8F5/SMEP?node-id=0-1\">SMEP в Figma — дизайн интерфейса</a></li></ul>"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "3285d847-e0a4-49da-85fe-6b1024310696",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>No Man’s Sky and the element cards</h2>\r\nWhen I first saw the inventory management in No Man’s Sky, I was immediately fascinated by the cards for its individual elements. My first reaction was that this was one of the best things I had ever seen in a game interface. It set me thinking about what I could do with that idea in my own incremental game.\r\n\r\nI wanted to use that sense of discovery to help players learn about real chemical elements, atoms, molecules and subatomic particles. The cards could become a way to explore and understand matter through play. This was one of the starting points for SMEP, and the idea has continued to evolve as I have worked on the project.",
+    "ru": "<h2>No Man’s Sky и карточки элементов</h2>\r\nКогда я впервые увидел управление инвентарём в No Man’s Sky, меня сразу увлекли карточки отдельных элементов. Первой мыслью было: это одна из лучших находок в игровом интерфейсе, которые я когда-либо видел. Я начал размышлять, как применить эту идею в собственной инкрементальной игре.\r\n\r\nМне хотелось использовать это чувство открытия, чтобы помочь игрокам узнать больше о реальных химических элементах, атомах, молекулах и субатомных частицах. Карточки могли стать способом исследовать и понимать материю через игру. Это была одна из отправных точек SMEP, и по мере работы над проектом идея продолжала развиваться."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "12387af7-6c34-4529-9482-c65544044b68",
+    "bundle": "project_story",
+    "field": "field_project_story_body",
+    "delta": 0,
+    "property": "value",
+    "en": "<h2>Starting with the interface</h2>\r\nI started working on the user interface first. In its early form, the whole game consisted of a graphical user interface: there was no actual game world yet. The interface was where I began exploring what the game could be.\r\n\r\nThe concept of a Petri dish grew out of that beginning: a world shown inside a circle. It gave me a way to imagine a contained space for the game within an experience that had started entirely as GUI. Spaceplan was another strong influence as I worked through these ideas.",
+    "ru": "<h2>Начать с интерфейса</h2>\r\nСначала я занялся пользовательским интерфейсом. На раннем этапе вся игра состояла из графического интерфейса: самого игрового мира ещё не было. Именно с интерфейса я начал исследовать, какой может стать игра.\r\n\r\nИз этого выросла концепция чашки Петри — мира внутри круга. Она помогла представить ограниченное игровое пространство в проекте, который начинался целиком как GUI. Spaceplan тоже сильно влияла на меня, пока я прорабатывал эти идеи."
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 0,
+    "property": "alt",
+    "en": "SMEP interface v0.2_Main_Play_Screens 3",
+    "ru": "Интерфейс SMEP v0.2_Main_Play_Screens 3"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 1,
+    "property": "alt",
+    "en": "SMEP interface v0.2_Main_Play_Screens 5-1",
+    "ru": "Интерфейс SMEP v0.2_Main_Play_Screens 5-1"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 2,
+    "property": "alt",
+    "en": "SMEP interface v0.2_Main_Play_Screens 5",
+    "ru": "Интерфейс SMEP v0.2_Main_Play_Screens 5"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 3,
+    "property": "alt",
+    "en": "SMEP interface v0.2_Main_Play_Screens 6-1",
+    "ru": "Интерфейс SMEP v0.2_Main_Play_Screens 6-1"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 4,
+    "property": "alt",
+    "en": "SMEP interface v0.2_Main_Play_Screens 6",
+    "ru": "Интерфейс SMEP v0.2_Main_Play_Screens 6"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 5,
+    "property": "alt",
+    "en": "SMEP interface v0.2_Main_Play_Screens 8",
+    "ru": "Интерфейс SMEP v0.2_Main_Play_Screens 8"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 6,
+    "property": "alt",
+    "en": "SMEP interface v0.2_Main_Play_Screens 9",
+    "ru": "Интерфейс SMEP v0.2_Main_Play_Screens 9"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 7,
+    "property": "alt",
+    "en": "SMEP interface v0.2_Main_Play_Screens 10",
+    "ru": "Интерфейс SMEP v0.2_Main_Play_Screens 10"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 8,
+    "property": "alt",
+    "en": "SMEP interface v0.2_Main_Play_Screens 11",
+    "ru": "Интерфейс SMEP v0.2_Main_Play_Screens 11"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 9,
+    "property": "alt",
+    "en": "SMEP interface v0.2_Main_Play_Screens 12",
+    "ru": "Интерфейс SMEP v0.2_Main_Play_Screens 12"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 10,
+    "property": "alt",
+    "en": "SMEP interface v0.3_Other_project_Samples 2",
+    "ru": "Интерфейс SMEP v0.3_Other_project_Samples 2"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 11,
+    "property": "alt",
+    "en": "SMEP interface v0.4_Screens 3",
+    "ru": "Интерфейс SMEP v0.4_Screens 3"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 12,
+    "property": "alt",
+    "en": "SMEP interface v0.4_Screens 4",
+    "ru": "Интерфейс SMEP v0.4_Screens 4"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 13,
+    "property": "alt",
+    "en": "SMEP interface v0.4_Screens 23",
+    "ru": "Интерфейс SMEP v0.4_Screens 23"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 14,
+    "property": "alt",
+    "en": "SMEP interface v0.5_Screens 2-1",
+    "ru": "Интерфейс SMEP v0.5_Screens 2-1"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 15,
+    "property": "alt",
+    "en": "SMEP interface v0.5_Screens 2-2",
+    "ru": "Интерфейс SMEP v0.5_Screens 2-2"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 16,
+    "property": "alt",
+    "en": "SMEP interface v0.5_Screens 6",
+    "ru": "Интерфейс SMEP v0.5_Screens 6"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 17,
+    "property": "alt",
+    "en": "SMEP interface v0.8_Screens 1-1",
+    "ru": "Интерфейс SMEP v0.8_Screens 1-1"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 18,
+    "property": "alt",
+    "en": "SMEP interface v0.8_Screens 1",
+    "ru": "Интерфейс SMEP v0.8_Screens 1"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 19,
+    "property": "alt",
+    "en": "SMEP interface v0.8_Screens 2",
+    "ru": "Интерфейс SMEP v0.8_Screens 2"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 20,
+    "property": "alt",
+    "en": "SMEP interface v0.8_Screens 15",
+    "ru": "Интерфейс SMEP v0.8_Screens 15"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 21,
+    "property": "alt",
+    "en": "SMEP interface v0.8_Screens 16",
+    "ru": "Интерфейс SMEP v0.8_Screens 16"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 22,
+    "property": "alt",
+    "en": "SMEP interface v0.8_Screens 17",
+    "ru": "Интерфейс SMEP v0.8_Screens 17"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 23,
+    "property": "alt",
+    "en": "SMEP interface v0.8_Screens 18",
+    "ru": "Интерфейс SMEP v0.8_Screens 18"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 24,
+    "property": "alt",
+    "en": "SMEP interface v0.8_Screens 19",
+    "ru": "Интерфейс SMEP v0.8_Screens 19"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 25,
+    "property": "alt",
+    "en": "SMEP interface v0.8_Screens 20",
+    "ru": "Интерфейс SMEP v0.8_Screens 20"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 26,
+    "property": "alt",
+    "en": "SMEP interface v0.8_Screens 21",
+    "ru": "Интерфейс SMEP v0.8_Screens 21"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 27,
+    "property": "alt",
+    "en": "SMEP interface v0.8_Screens 22",
+    "ru": "Интерфейс SMEP v0.8_Screens 22"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 28,
+    "property": "alt",
+    "en": "SMEP interface v0.9_Screens 1-1",
+    "ru": "Интерфейс SMEP v0.9_Screens 1-1"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 29,
+    "property": "alt",
+    "en": "SMEP interface v0.9_Screens 1",
+    "ru": "Интерфейс SMEP v0.9_Screens 1"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 30,
+    "property": "alt",
+    "en": "SMEP interface v0.9_Screens 2",
+    "ru": "Интерфейс SMEP v0.9_Screens 2"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 31,
+    "property": "alt",
+    "en": "SMEP interface v0.9_Screens 3-1",
+    "ru": "Интерфейс SMEP v0.9_Screens 3-1"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 32,
+    "property": "alt",
+    "en": "SMEP interface v0.9_Screens 3",
+    "ru": "Интерфейс SMEP v0.9_Screens 3"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 33,
+    "property": "alt",
+    "en": "SMEP interface v0.9_Screens 4-1",
+    "ru": "Интерфейс SMEP v0.9_Screens 4-1"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 34,
+    "property": "alt",
+    "en": "SMEP interface v0.9_Screens 4",
+    "ru": "Интерфейс SMEP v0.9_Screens 4"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 35,
+    "property": "alt",
+    "en": "SMEP interface v0.9_Screens 5-1",
+    "ru": "Интерфейс SMEP v0.9_Screens 5-1"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 36,
+    "property": "alt",
+    "en": "SMEP interface v0.9_Screens 5-2",
+    "ru": "Интерфейс SMEP v0.9_Screens 5-2"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 37,
+    "property": "alt",
+    "en": "SMEP interface v0.9_Screens 5",
+    "ru": "Интерфейс SMEP v0.9_Screens 5"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 38,
+    "property": "alt",
+    "en": "SMEP interface v0.9_Screens 6-1",
+    "ru": "Интерфейс SMEP v0.9_Screens 6-1"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 39,
+    "property": "alt",
+    "en": "SMEP interface v0.9_Screens 6",
+    "ru": "Интерфейс SMEP v0.9_Screens 6"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 40,
+    "property": "alt",
+    "en": "SMEP interface v0.5_Screens 2.png",
+    "ru": "Интерфейс SMEP v0.5_Screens 2.png"
+  },
+  {
+    "entity_type": "paragraph",
+    "uuid": "6d644483-4650-491f-84e4-2769c8508a87",
+    "bundle": "screen_slider",
+    "field": "field_screen_images",
+    "delta": 41,
+    "property": "alt",
+    "en": "SMEP interface v0.5_Screens 3.png",
+    "ru": "Интерфейс SMEP v0.5_Screens 3.png"
   }
 ]
