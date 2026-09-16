@@ -12,6 +12,8 @@ export default defineConfig([
       "web/core/**",
       "web/libraries/**",
       "web/modules/contrib/**",
+      // QR Studio ships upstream browser libraries with their license notices.
+      "web/modules/custom/jurenites_qr_studio/ui/vendor/**",
       "web/profiles/contrib/**",
       "web/sites/default/files/**",
       "web/themes/contrib/**",

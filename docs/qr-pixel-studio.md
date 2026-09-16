@@ -28,7 +28,7 @@ Browser storage belongs to each origin. To move work from `http://127.0.0.1:4179
 
 ## Assets and palette
 
-The app entry point is an unaggregated ES module. Its worker and logo URLs resolve against `import.meta.url`, so language prefixes, aliases, and installation subdirectories do not change their asset locations. Worker imports remain relative to the worker file. QR encoder and decoder libraries are bundled locally with their license notices.
+The app entry point is an unaggregated ES module. Its worker and logo URLs resolve against `import.meta.url`, so language prefixes, aliases, and installation subdirectories do not change their asset locations. Worker imports remain relative to the worker file. QR encoder and decoder libraries are bundled locally with their license notices. ESLint excludes `ui/vendor/` to preserve these upstream libraries; maintained application code remains covered by `npm run lint:js`.
 
 Editable colors are under `qr-studio.color` in `src/token/tokens.yaml`. Run `npm run build:qr-studio` to regenerate the module's `ui/palette.css`; the normal `build:tokens` script also runs this step. The module's stylesheet consumes these values without requiring the blog theme styles.
 

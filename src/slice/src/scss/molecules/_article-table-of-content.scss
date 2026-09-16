@@ -76,6 +76,7 @@ $contents-offset: calc(var(--drupal-displace-offset-top, var(--space-scale-zero)
     &:hover,
     &[aria-current="location"] {
       color: var(--color-palette-brand-tertiary);
+      line-height: calc(var(--space-scale-base-gap) * 3);
       text-decoration: underline;
       text-underline-offset: var(--space-scale-base-gap);
     }
