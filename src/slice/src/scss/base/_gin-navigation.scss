@@ -1,5 +1,5 @@
 // Gin's navigation is rendered inside the public theme for authenticated users.
-// Keep its component contract while translating its palette to Jurenites tokens.
+// Keep its component contract while translating its palette to jurenites tokens.
 
 body.jurenites-theme{
   .gin--navigation {
@@ -10,7 +10,7 @@ body.jurenites-theme{
     --color-blue-600: var(--color-palette-brand-primary);
     --color-blue-700: var(--color-palette-brand-primary-accent);
     // Gin uses both variables for expanded and hovered menu surfaces. Keep
-    // those states on the dark Jurenites elevation surface, not white-gray.
+    // those states on the dark jurenites elevation surface, not white-gray.
     --gin-bg-item-hover: var(--color-palette-light-black);
     --color-gray-050: var(--color-palette-light-black);
     --color-gray-100: var(--color-palette-pale-gray);

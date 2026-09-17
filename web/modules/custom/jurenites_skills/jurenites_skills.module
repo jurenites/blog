@@ -58,7 +58,7 @@ function jurenites_skills_block_content_view(array &$build_output, EntityInterfa
       continue;
     }
     $skill_data = [];
-    foreach (['technology_name' => 'field_skill_name', 'skill_category' => 'field_skill_category', 'skill_description' => 'field_skill_description', 'experience_note' => 'field_skill_evidence'] as $output_key => $field_name) {
+    foreach (['technology_name' => 'field_skill_name', 'skill_category' => 'field_skill_category', 'skill_description' => 'field_skill_description'] as $output_key => $field_name) {
       $skill_data[$output_key] = jurenites_skills_read_field($skill_entity, $field_name, $cache_metadata)?->value ?? '';
     }
     if ($skill_data['technology_name'] === '') {

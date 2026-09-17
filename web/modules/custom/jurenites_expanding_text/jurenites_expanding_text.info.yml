@@ -1,8 +1,8 @@
-name: Jurenites Expanding Text
+name: jurenites Expanding Text
 type: module
 description: Nested inline explanations with a visual CKEditor authoring tool.
 core_version_requirement: ^11
-package: Jurenites
+package: jurenites
 dependencies:
   - drupal:ckeditor5
   - drupal:filter

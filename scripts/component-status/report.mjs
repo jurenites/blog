@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFile, readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-export const CHECK_STATES = ['passed', 'failed', 'blocked', 'not_checked'];
+export const CHECK_STATES = ['passed', 'failed', 'blocked', 'not_checked', 'missing'];
 export const REQUIRED_CHECKS = [
   ['storybook', 'Storybook rendering'],
   ['drupal', 'Drupal with real data'],

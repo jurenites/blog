@@ -253,6 +253,18 @@ medium, large, and big map to 16px, 24px, 32px, and the 40px
 `shape.basic-tile` token; medium remains the default but still renders the
 `.avatar--medium` class.
 
+Full user profiles (`/user/{id}`) compose the same Avatar with the existing
+40px `big` size. The native picture formatter supplies the image without a
+self-link or HTML dimensions; Full name supplies the initials fallback, with
+the display name used when Full name is empty. Other profile fields retain
+their configured output.
+The Full name label uses `user-profile__full-name-label` and the existing
+`theme.dark.text.gray` token.
+The Member for field has dedicated `user-profile__member-for`,
+`user-profile__member-for-label`, and `user-profile__member-for-value` classes.
+Only its duration uses the existing `typography.machine-readable` role; Drupal
+continues to calculate and translate the elapsed membership time.
+
 Article detail pages use Drupal's native Comment entities for personal notes
 about the linked video or written post. The Comment Message molecule reuses the
 Article Teaser metadata layout with the existing 24px medium Avatar and Date
@@ -660,13 +672,17 @@ version Git-hash link explicitly retains the 4pixel family and a persistent 1px
 solid underline so it reads as a technical link without relying on color.
 
 Footer Navigation uses four titled columns of vertically stacked list links:
-Social networks, Get in touch, How I work, and Information. The columns stack on
+Social networks, Get in touch, How I work, and Information. The recruiter
+section sits below Get in touch; its description and three links are editable
+menu content. Privacy links use the separate Footer legal menu. The columns stack on
 mobile. Standard gray 1px solid dividers sit above the navigation and its bottom
 row. The bottom row places the rights message on the left and a separate Privacy
 Policy navigation group on the right, wrapping when needed on narrow screens.
-Privacy Policy remains editable in Drupal's Footer menu; preprocessing groups it
-by destination into the bottom row instead of Information. Storybook imports the same social profile
-data as Drupal.
+All headings and links are menu-link content in Drupal's Footer menu. Parent
+items marked Column heading supply the four columns; a Bottom-row group holds
+the legal links. Native menu parenting, order, enabled status, and translations
+control placement. No social-profile JSON or URL/title grouping is used at runtime.
+Storybook uses isolated demonstration data. See [Footer menu editing](footer-menu.md).
 Social links compose the shared Icon atom with locally stored monochrome
 `social-*.svg` assets. Only the explicitly classed social-network icon is reduced
 to 16px, along with the How I work brand icons. Figma alone uses an 18px-high
@@ -701,10 +717,18 @@ focus replace it with the official Wikimedia full-color envelope. Both versions
 preserve their geometry and aspect ratios, centered within one fixed 16px-wide
 by 12px-high icon viewport. The width and height have separate tokens.
 
-Footer Navigation composes the Badge atom inside its Fonts link. Drupal supplies
-the gray Badge's numeric label from the current count of accessible published
-Projects tagged `#Font`; Storybook exposes the same label, destination, and
-composed markup as controls rather than duplicating Badge HTML.
+Each link can independently select an existing leading icon, a shared
+color/gradient text value, translated hover text, and whether to open a new
+window. Empty options retain ordinary yellow-underlined links. Figma uses a
+continuous five-color gradient across the complete hover phrase;
+its icon retains its brand artwork. Validated menu strings become scoped stylesheet
+rules, with solid-color fallback and keyboard/forced-colors support.
+
+Footer Navigation composes the Badge atom for any link with a selected Portfolio
+counter Tag. The URL follows that tag and the gray badge counts accessible,
+published Project nodes once across translations. Counts are not stored in menu
+content. Fonts is the existing example using `#Font`; choosing another existing
+Tag creates the same behavior without code changes.
 Numeric badges use `badge--numeric`: the Numeric Display role's Ubuntu Sans Mono
 family, with tabular digits and a slashed zero, while retaining the compact Badge
 size. The Fonts count enables this style in both Drupal and Storybook.

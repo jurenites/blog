@@ -18,9 +18,10 @@ Use only the relevant steps for small tasks.
 [Visual Testing Plan](visual-testing-plan.md) describes proposed iframe review
 and screenshot comparisons across Figma, Storybook, and Drupal with matched
 content, revisions, states, and viewports. The dashboard and pixel-diff runner
-now exist for the first Storybook/Drupal case; Figma baseline comparison,
-manual overlays, Windows VM coverage, and automatic CI ingestion are still
-pending. Existing Storybook health inspection is a separate check.
+now support generic URL/selector mappings, optional Figma PNGs, three image
+panes, and 1:1 overlay/wipe/difference controls. Missing Figma references do not
+block implementation review. Windows VM coverage, automatic Figma exports, and
+automatic CI ingestion remain pending. Existing Storybook health inspection is a separate check.
 
 ## Current Token Pipeline
 

@@ -1,7 +1,7 @@
-name: Jurenites Editorial
+name: jurenites Editorial
 type: module
 description: Editable listing copy and content-owned component instructions.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:block_content

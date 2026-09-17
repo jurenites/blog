@@ -1,7 +1,7 @@
-name: Jurenites Companies
+name: jurenites Companies
 type: module
 description: Editable company collaborations with a horizontal logo slider.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:block

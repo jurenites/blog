@@ -1,11 +1,19 @@
 import { component_status_markup } from '../stories/organisms/component-status/component-status.markup.js';
 import { escape_html } from '../stories/template.js';
+import { review_panel_markup, connect_review_panel } from './review-panel.js';
+import { enable_custom_select } from '../slice/src/js/script.js';
 let dashboard_data;
+let review_busy = false;
+let review_dirty = false;
+let refresh_in_flight = false;
+let refresh_timer;
+const REFRESH_INTERVAL_MS = 60000;
 const search_input = document.querySelector('#component-search');
 const status_filter = document.querySelector('#status-filter');
+enable_custom_select(status_filter);
 const component_list = document.querySelector('#component-catalogue');
 const details_panel = document.querySelector('#component-details');
-const CHECK_LABELS = { passed: 'Passed', failed: 'Failed', blocked: 'Blocked', not_checked: 'Not checked' };
+const CHECK_LABELS = { passed: 'Passed', failed: 'Failed', blocked: 'Blocked', not_checked: 'Not checked', missing: 'Missing' };
 
 function safe_link(link_value) {
   if (!link_value) return '';
@@ -19,12 +27,12 @@ function report_time(date_value) {
 }
 function check_markup(check_result) {
   const status_label = check_result.is_stale ? `Stale · last result ${CHECK_LABELS[check_result.status].toLowerCase()}` : CHECK_LABELS[check_result.status];
-  const light_state = check_result.is_stale || ['blocked', 'not_checked'].includes(check_result.status) ? 'attention' : check_result.status;
+  const light_state = check_result.is_stale || ['blocked', 'not_checked', 'missing'].includes(check_result.status) ? 'attention' : check_result.status;
   const artifact_content = (check_result.artifacts ?? []).map((artifact_item) => {
     const artifact_url = safe_link(`/${artifact_item.artifact_path}`);
     return `<a class="status-dashboard__artifact" href="${artifact_url}" target="_blank" rel="noopener"><img src="${artifact_url}" alt="${escape_html(artifact_item.artifact_label)}" loading="lazy"><span>${escape_html(artifact_item.artifact_label)}</span></a>`;
   }).join('');
-  return `<article class="status-dashboard__check"><div class="status-dashboard__check-heading"><h3>${escape_html(check_result.check_label)}</h3><span><i class="component-status__light component-status__light--${light_state}" aria-hidden="true"></i>${escape_html(status_label)}</span></div><p>${escape_html(check_result.message)}</p>${check_result.is_stale ? '<p>Run again against the current source before relying on this result.</p>' : ''}<p class="status-dashboard__meta">${escape_html(report_time(check_result.checked_at))}${check_result.source_name ? ` · ${escape_html(check_result.source_name)}` : ''}${check_result.source_commit ? ` · ${escape_html(check_result.source_commit.slice(0, 8))}${check_result.source_dirty ? ' + working changes' : ''}` : ''}</p>${check_result.details ? `<details><summary>Technical evidence</summary><pre>${escape_html(JSON.stringify(check_result.details, null, 2))}</pre></details>` : ''}${artifact_content ? `<div class="status-dashboard__artifacts">${artifact_content}</div>` : ''}</article>`;
+  return `<article class="status-dashboard__check"><div class="status-dashboard__check-heading"><h3>${escape_html(check_result.check_label)}</h3><span><i class="component-status__light component-status__light--${light_state}" aria-hidden="true"></i>${escape_html(status_label)}</span></div><p>${escape_html(check_result.message)}</p>${check_result.is_stale ? '<p>Run again against the current source before relying on this result.</p>' : ''}<p class="status-dashboard__meta">${escape_html(report_time(check_result.checked_at))}${check_result.source_name ? ` · ${escape_html(check_result.source_name)}` : ''}${check_result.source_commit ? ` · ${escape_html(check_result.source_commit.slice(0, 8))}${check_result.source_dirty ? ' + working changes' : ''}` : ''}</p>${check_result.details ? `<details><summary>Technical evidence</summary><pre><code>${escape_html(JSON.stringify(check_result.details, null, 2))}</code></pre></details>` : ''}${artifact_content ? `<div class="status-dashboard__artifacts">${artifact_content}</div>` : ''}</article>`;
 }
 function render_catalogue() {
   if (!dashboard_data) return;
@@ -42,7 +50,7 @@ function render_details(move_focus = false) {
   const component_row = dashboard_data.components.find((row_item) => row_item.component_id === component_id);
   details_panel.hidden = !component_row;
   if (!component_row) return;
-  const case_config = dashboard_data.case_config[component_id] ?? {};
+  const case_config = dashboard_data.review_cases?.[component_id] ?? dashboard_data.case_config[component_id] ?? {};
   const story_url = `/storybook/iframe.html?id=${encodeURIComponent(component_row.story_ids[0])}&viewMode=story`;
   const source_links = [`<a href="${story_url}" target="_blank" rel="noopener">Open Storybook ↗</a>`];
   if (case_config.drupal_url && safe_link(case_config.drupal_url)) source_links.push(`<a href="${safe_link(case_config.drupal_url)}" target="_blank" rel="noopener">Open Drupal ↗</a>`);
@@ -56,25 +64,30 @@ function render_details(move_focus = false) {
       figma_preview = `<details class="status-dashboard__preview"><summary>Live Figma reference</summary><p>This live view may require Figma access. It is not an exported pixel baseline. Use the source link above if embedding is unavailable.</p><iframe src="${safe_link(figma_link.href)}" title="${escape_html(component_row.component_name)} in Figma" loading="lazy"></iframe></details>`;
     }
   }
-  details_panel.innerHTML = `<p class="status-dashboard__eyebrow">${escape_html(component_row.component_group)}</p><h2 id="detail-heading">${escape_html(component_row.component_name)}</h2><nav class="status-dashboard__source-links" aria-label="Component sources">${source_links.join('')}</nav><div>${component_row.checks.map(check_markup).join('')}</div><details class="status-dashboard__preview"><summary>Live Storybook preview</summary><p>This preview uses the story’s default example. Captures above record the exact data tested.</p><iframe src="${story_url}" title="${escape_html(component_row.component_name)} in Storybook" loading="lazy"></iframe></details>${figma_preview}<p class="status-dashboard__meta">Drupal’s same-origin frame policy keeps the live page in a separate tab. The screenshots above show the tested component.</p>`;
+  details_panel.innerHTML = `<p class="status-dashboard__eyebrow">${escape_html(component_row.component_group)}</p><h2 id="detail-heading">${escape_html(component_row.component_name)}</h2><nav class="status-dashboard__source-links" aria-label="Component sources">${source_links.join('')}</nav>${review_panel_markup(component_row, case_config, dashboard_data.review_cases?.[component_id])}<h3>Recorded checks</h3><div>${component_row.checks.map(check_markup).join('')}</div>${figma_preview}`;
+  review_dirty = false;
+  details_panel.querySelector('#visual-review-form').addEventListener('input', () => { review_dirty = true; });
+  connect_review_panel({ component_row, saved_case: dashboard_data.review_cases?.[component_id], review_token: dashboard_data.review_token, refresh_results, set_busy: (busy_value) => { review_busy = busy_value; } });
   if (move_focus) details_panel.focus();
 }
-async function refresh_results() {
+async function refresh_results(force_refresh = false) {
+  if (review_busy || refresh_in_flight || (document.hidden && force_refresh !== true)) return;
+  refresh_in_flight = true;
   const refresh_button = document.querySelector('#refresh-results');
   refresh_button.disabled = true;
   try {
     const response_data = await fetch('/api/status', { cache: 'no-store' });
     if (!response_data.ok) throw new Error('Reports unavailable. Run npm run status:build, then refresh.');
     const next_dashboard_data = await response_data.json();
-    const unchanged_results = dashboard_data && JSON.stringify([dashboard_data.components, dashboard_data.pipeline_checks, dashboard_data.report_errors, dashboard_data.case_config]) === JSON.stringify([next_dashboard_data.components, next_dashboard_data.pipeline_checks, next_dashboard_data.report_errors, next_dashboard_data.case_config]);
+    const unchanged_results = dashboard_data && JSON.stringify([dashboard_data.components, dashboard_data.pipeline_checks, dashboard_data.report_errors, dashboard_data.case_config, dashboard_data.review_cases]) === JSON.stringify([next_dashboard_data.components, next_dashboard_data.pipeline_checks, next_dashboard_data.report_errors, next_dashboard_data.case_config, next_dashboard_data.review_cases]);
     dashboard_data = next_dashboard_data;
-    if (unchanged_results) {
+    if (unchanged_results && force_refresh !== true) {
       document.querySelector('#updated-time').textContent = `Reports refreshed ${report_time(dashboard_data.refreshed_at)}`;
       return;
     }
     const passed_count = dashboard_data.components.filter((row_item) => row_item.overall_status === 'passed').length;
     const failed_count = dashboard_data.components.filter((row_item) => row_item.overall_status === 'failed').length;
-    const unchecked_count = dashboard_data.components.filter((row_item) => row_item.checks.every((check_result) => check_result.status === 'not_checked')).length;
+    const unchecked_count = dashboard_data.components.filter((row_item) => row_item.checks.every((check_result) => ['not_checked', 'missing'].includes(check_result.status))).length;
     const attention_count = dashboard_data.components.length - passed_count - failed_count - unchecked_count;
     document.querySelector('#status-summary').textContent = `${dashboard_data.components.length} components · ${passed_count} passed · ${failed_count} failed · ${attention_count} need attention · ${unchecked_count} not checked`;
     document.querySelector('#updated-time').textContent = `Reports refreshed ${report_time(dashboard_data.refreshed_at)}`;
@@ -83,22 +96,33 @@ async function refresh_results() {
     error_panel.textContent = dashboard_data.report_errors.join(' ');
     document.querySelector('#pipeline-results').innerHTML = dashboard_data.pipeline_checks.length ? dashboard_data.pipeline_checks.map(check_markup).join('') : '<p>No pipeline reports have been imported. CI and troubleshooting checks can use the same report format.</p>';
     render_catalogue();
-    render_details();
+    if (!review_dirty || force_refresh === true) render_details();
   } catch (request_error) {
     dashboard_data = undefined;
     component_list.replaceChildren();
-    details_panel.hidden = true;
+    if (!review_dirty) details_panel.hidden = true;
     document.querySelector('#pipeline-results').textContent = 'Current results unavailable.';
     document.querySelector('#status-summary').textContent = request_error.message;
-  } finally { refresh_button.disabled = false; }
+  } finally { refresh_in_flight = false; refresh_button.disabled = false; }
 }
 search_input.addEventListener('input', render_catalogue);
 status_filter.addEventListener('change', render_catalogue);
-document.querySelector('#refresh-results').addEventListener('click', refresh_results);
+document.querySelector('#refresh-results').addEventListener('click', () => refresh_results(true));
 window.addEventListener('hashchange', () => render_details(true));
 component_list.addEventListener('click', (click_event) => {
   const component_link = click_event.target.closest('[data-component-id]');
   if (component_link && window.location.hash === `#${component_link.dataset.componentId}`) render_details(true);
 });
 await refresh_results();
-setInterval(refresh_results, 30000);
+if (window.location.hash) render_details(true);
+function schedule_refresh() {
+  clearInterval(refresh_timer);
+  if (!document.hidden) refresh_timer = setInterval(refresh_results, REFRESH_INTERVAL_MS);
+}
+document.addEventListener('visibilitychange', () => {
+  schedule_refresh();
+  if (!document.hidden) void refresh_results();
+});
+window.addEventListener('pagehide', () => clearInterval(refresh_timer));
+window.addEventListener('pageshow', schedule_refresh);
+schedule_refresh();

@@ -58,8 +58,10 @@ body.jurenites-theme a.guideline-tile__link:not(.button):not(.site-header__link)
 .guideline-tile__color-preview {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  width: 100%;
-  min-height: var(--component-guideline-preview-height-default);
+  grid-template-rows: repeat(2, 1fr);
+  width: calc(var(--space-scale-base-gap) * 32);
+  max-width: 100%;
+  aspect-ratio: 1;
 }
 
 .guideline-tile__fallback {

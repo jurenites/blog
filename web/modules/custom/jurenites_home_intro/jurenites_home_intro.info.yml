@@ -1,7 +1,7 @@
-name: Jurenites Home Introduction
+name: jurenites Home Introduction
 type: module
 description: Editable two-tone introduction for the homepage.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:block

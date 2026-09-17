@@ -46,6 +46,12 @@ the fields and purges their stored values and revisions; fresh installation does
 not recreate them. The fixed “Web development” eyebrow is also removed from the
 Drupal and Storybook templates. Technology cards and rating notes remain.
 
+Technology skill Paragraphs no longer have the CV experience field
+(`field_skill_evidence`). The skills module's `remove_skill_evidence` post-update
+deletes its storage and purges values from every translation and revision.
+Run `drush updatedb` and `drush cr` on existing sites. Installation, starter data,
+translation imports, Drupal rendering and Storybook no longer include it.
+
 The Skills profile footer retains supporting experience copy. Its rating-scale
 details and project-history link are removed in Drupal and Storybook; the
 `field_skills_scale` field and its stored values are retained but no longer rendered.
@@ -393,8 +399,10 @@ The commands above target local DEV; use that environment's Drush invocation on
 STAGE/PROD. The install creates only the new block type, fields, content and
 Portfolio placement.
 
+The Footer menu owns all column headings and links, with optional presentation
+fields and a Portfolio counter Tag reference. See [Footer menu editing](footer-menu.md).
 Roundabout and 4pixel share the existing `#Font` term. The Footer menu's Fonts
-link opens that filtered Portfolio view, and its gray Badge queries the current
+link selects that term, opens its filtered Portfolio view, and its gray Badge queries the current
 number of accessible published Projects carrying the term. The number is not a
 stored menu value, so ordinary Project publication and tag cache invalidation
 keeps it current.
@@ -853,6 +861,14 @@ The recipe's homepage-only News block shows up to three published records,
 ordered by source publication time, newest first. Its News List Item thumbnail
 and title link to the original external URL. The recipe adds no News listing
 page or main-menu item.
+
+English and Russian homepages share the same original News items; no News
+translation is required. The View filters to original-language rows and renders
+the original content, so existing translations cannot duplicate or replace an
+item in the list. Interface labels and relative dates still follow the page
+language. Existing installations receive this configuration through
+`jurenites_blog_post_update_news_shared_original_content` when running
+`drush updatedb`, followed by `drush cr`.
 
 ## Gallery Item
 

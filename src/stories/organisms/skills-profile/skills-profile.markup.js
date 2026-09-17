@@ -17,7 +17,6 @@ export function skills_profile_markup({ skill_items = [] }) {
       technology_name: escape_html(skill_item.technology_name),
       skill_category: escape_html(skill_item.skill_category),
       skill_description: escape_html(skill_item.skill_description),
-      experience_note: escape_html(skill_item.experience_note),
       score_content,
     });
   }).join("");

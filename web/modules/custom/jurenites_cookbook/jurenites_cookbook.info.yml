@@ -1,7 +1,7 @@
-name: 'Jurenites Cookbook'
+name: 'jurenites Cookbook'
 type: module
 description: 'Creates the editable project Cookbook Basic Page and its Footer menu link.'
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:menu_link_content

@@ -8,6 +8,7 @@
 
 use Drupal\block_content\Entity\BlockContent;
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldStorageConfig;
 
 $block_storage = \Drupal::entityTypeManager()->getStorage('block_content');
 $block_entities = $block_storage->loadByProperties(['uuid' => '0a3f8606-ecf5-4da3-9c26-a4e7eac1f734']);
@@ -39,6 +40,7 @@ foreach ([['value' => NULL, 'expected' => NULL], ['value' => '0.0', 'expected' =
   $rendered_html = (string) \Drupal::service('renderer')->renderRoot($build_output);
   $assert_check(str_contains($rendered_html, '&lt;script&gt;unsafe&lt;/script&gt;'), 'Technology names must be escaped.');
   $assert_check(!str_contains($rendered_html, '<header') && !str_contains($rendered_html, '<footer'), 'The skills profile must render only the technology grid without a header or footer.');
+  $assert_check(!str_contains($rendered_html, 'skills-profile__evidence'), 'Removed CV evidence must not leave an empty paragraph.');
   $assert_check($score_case['value'] !== NULL || str_contains($rendered_html, 'Not assessed'), 'Missing scores need a visible unassessed state.');
 }
 foreach (['-0.1', '5.1'] as $invalid_score) {
@@ -56,6 +58,10 @@ $assert_check(in_array('paragraph:' . $source_skill->id(), $build_output['skills
 \Drupal::moduleHandler()->loadInclude('jurenites_skills', 'install');
 $before_values = $source_block->toArray();
 jurenites_skills_setup();
+$assert_check(FieldStorageConfig::loadByName('paragraph', 'field_skill_evidence') === NULL, 'Repeated setup must not recreate the removed CV evidence field.');
+foreach (\Drupal::service('entity_field.deleted_fields_repository')->getFieldStorageDefinitions() as $field_storage) {
+  $assert_check($field_storage->getTargetEntityTypeId() !== 'paragraph' || $field_storage->getName() !== 'field_skill_evidence', 'CV evidence storage and revision data must be fully purged.');
+}
 $block_storage->resetCache([$source_block->id()]);
 $assert_check($before_values === $block_storage->load($source_block->id())->toArray(), 'Repeated setup must preserve authored content.');
 $assert_check(count($block_storage->loadByProperties(['uuid' => $source_block->uuid()])) === 1, 'Repeated setup must not duplicate the profile.');

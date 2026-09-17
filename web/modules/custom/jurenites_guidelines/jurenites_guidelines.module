@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * @file
- * Theme integration for Jurenites guideline nodes.
+ * Theme integration for jurenites guideline nodes.
  */
 
 use Drupal\node\NodeInterface;

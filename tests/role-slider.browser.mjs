@@ -115,6 +115,7 @@ try {
   await page_instance.locator('.ck-editor__editable').first().screenshot({ path: 'artifacts/role-slider/editor.png' });
   // Preview nested terms using the real theme behavior without saving draft copy.
   await page_instance.goto('http://jurenites.local/about', { waitUntil: 'networkidle' });
+  await page_instance.locator('.role-slider__tab').first().click();
   await page_instance.evaluate((saved_markup) => {
     const story_container = document.querySelector('.role-slider__story');
     story_container.innerHTML = saved_markup;

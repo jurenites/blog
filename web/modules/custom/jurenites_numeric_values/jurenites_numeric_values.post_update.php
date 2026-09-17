@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Post-update functions for Jurenites Numeric Values.
+ * Post-update functions for jurenites Numeric Values.
  */
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;

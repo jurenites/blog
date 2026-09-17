@@ -1,7 +1,7 @@
-name: Jurenites Guidelines
+name: jurenites Guidelines
 type: module
 description: Provides editable design-guideline content backed by the project token source.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:field

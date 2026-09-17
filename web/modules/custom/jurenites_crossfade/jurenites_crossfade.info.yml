@@ -1,7 +1,7 @@
-name: Jurenites Two-image Crossfade
+name: jurenites Two-image Crossfade
 type: module
 description: Provides a lightweight two-image opacity crossfade formatter and Paragraph type.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:media

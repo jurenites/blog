@@ -1,7 +1,7 @@
-name: Jurenites Skills
+name: jurenites Skills
 type: module
 description: Editable About skills card with evidence and decimal confidence ratings.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:block

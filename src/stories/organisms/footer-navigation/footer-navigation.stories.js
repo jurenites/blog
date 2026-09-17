@@ -1,16 +1,25 @@
 import { footer_navigation_markup } from "./footer-navigation.markup.js";
-import social_profiles from "../../../../web/themes/custom/jurenites_theme/social-links.json";
 
 const SOCIAL_HEADING = "Social networks";
 const MESSENGERS_HEADING = "Get in touch";
+const RECRUITER_HEADING = "For recruiters";
+const RECRUITER_DESCRIPTION = "Actively looking for a job";
+const RECRUITER_LINKS = [
+  { link_label: "LinkedIn", link_url: "https://example.com/profile", icon_name: "social-linkedin" },
+  { link_label: "hh.ru", link_url: "https://example.com/resume", icon_name: "brand-hh" },
+  { link_label: "My CV", link_url: "https://docs.google.com/", icon_name: "" },
+];
 const INFORMATION_HEADING = "Information";
 const HOW_I_WORK_HEADING = "How I work";
-const GUIDELINE_LABEL = "Guideline";
+const GUIDELINE_LABEL = "Brandbook";
 const GUIDELINE_URL = "/guidelines";
 const GUIDELINE_ACTIVE_STATE = "";
 const GUIDELINE_PARENT_STATE = "location";
 const GUIDELINE_PAGE_STATE = "page";
-const SOCIAL_LINKS = social_profiles;
+// Isolated demonstration data; live footer content belongs to Drupal's menu.
+const SOCIAL_LINKS = [
+  { link_label: "YouTube", hover_label: "Example channel", link_url: "https://example.com/channel", icon_name: "social-youtube" },
+];
 const MESSENGER_LINKS = [
   { link_label: "Telegram", hover_label: "@jurenites", link_url: "https://t.me/jurenites", icon_name: "brand-telegram" },
   { link_label: "Gmail", hover_label: "jurenites@gmail.com", link_url: "mailto:jurenites@gmail.com", icon_name: "brand-gmail" },
@@ -18,10 +27,10 @@ const MESSENGER_LINKS = [
 ];
 const HOW_I_WORK_LINKS = [
   { link_label: "GitHub", hover_label: "blog_jurenites", link_url: "https://github.com/jurenites/blog", icon_name: "brand-github", color_token: "github" },
-  { link_label: "Figma", hover_label: "blog jurenites", link_url: "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=928-133&t=n2l2EWw0ldyJzj4u-0", icon_name: "brand-figma", color_token: "figma", hover_parts: [{ text: "bl", color_token: "figma-overlay-bl" }, { text: "og", color_token: "figma-overlay-og" }, { text: "\u00a0", color_token: "" }, { text: "jur", color_token: "figma-overlay-jur" }, { text: "eni", color_token: "figma-overlay-eni" }, { text: "tes", color_token: "figma-overlay-tes" }] },
+  { link_label: "Figma", hover_label: "blog jurenites", link_url: "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=928-133&t=n2l2EWw0ldyJzj4u-0", icon_name: "brand-figma", color_token: "figma" },
   { link_label: "Storybook", hover_label: "blog jurenites", link_url: "http://storybook.jurenites.com/", icon_name: "brand-storybook", color_token: "storybook" },
 ];
-const PRIVACY_POLICY_LABEL = "Privacy Policy";
+const PRIVACY_POLICY_LABEL = "No Privacy Policy";
 const PRIVACY_POLICY_URL = "/privacy-policy";
 const FONTS_LABEL = "Fonts";
 const FONTS_URL = "/portfolio?tag=font";
@@ -47,6 +56,9 @@ export default {
     },
   },
   argTypes: {
+    recruiter_heading: { control: "text" },
+    recruiter_description: { control: "text" },
+    recruiter_links: { control: "object" },
     social_heading: { control: "text" },
     messengers_heading: { control: "text" },
     information_heading: { control: "text" },
@@ -68,6 +80,9 @@ export default {
     current_year: { control: "text" },
   },
   args: {
+    recruiter_heading: RECRUITER_HEADING,
+    recruiter_description: RECRUITER_DESCRIPTION,
+    recruiter_links: RECRUITER_LINKS,
     social_heading: SOCIAL_HEADING,
     messengers_heading: MESSENGERS_HEADING,
     information_heading: INFORMATION_HEADING,

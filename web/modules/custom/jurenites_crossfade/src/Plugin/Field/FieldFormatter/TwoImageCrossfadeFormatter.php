@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 #[FieldFormatter(
   id: 'jurenites_two_image_crossfade',
-  label: new TranslatableMarkup('Jurenites two-image crossfade'),
+  label: new TranslatableMarkup('jurenites two-image crossfade'),
   description: new TranslatableMarkup('Alternates between two image media items with configurable hold and transition durations.'),
   field_types: ['entity_reference'],
 )]

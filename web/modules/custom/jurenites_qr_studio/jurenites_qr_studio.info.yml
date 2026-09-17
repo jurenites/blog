@@ -1,5 +1,5 @@
-name: Jurenites QR Studio
+name: jurenites QR Studio
 type: module
 description: Browser-local QR pixel editor with fixed characters, wildcard search, and SVG export.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11

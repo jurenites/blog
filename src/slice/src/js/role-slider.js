@@ -8,7 +8,7 @@ export function initialize_role_sliders(page_context = document) {
     if (!tab_buttons.length || tab_buttons.length !== story_panels.length) return;
     const tile_track = slider_element.querySelector('.role-slider__tiles');
     const reduced_motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let selected_index = 0;
+    let selected_index = tab_buttons.length - 1;
     tile_track.setAttribute('role', 'tablist');
     tab_buttons.forEach((tab_button, tab_index) => {
       tab_button.setAttribute('role', 'tab');
@@ -55,6 +55,6 @@ export function initialize_role_sliders(page_context = document) {
       }
     }
     slider_element.dataset.roleReady = 'true';
-    select_role(0, false, false);
+    select_role(selected_index, false, false);
   });
 }

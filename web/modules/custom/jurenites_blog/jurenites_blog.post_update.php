@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Post-update functions for Jurenites Blog.
+ * Post-update functions for jurenites Blog.
  */
 
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
@@ -15,6 +15,40 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\node\Entity\NodeType;
 use Drupal\views\Entity\View;
+
+/**
+ * Shares original News items across homepage languages without duplicates.
+ */
+function jurenites_blog_post_update_news_shared_original_content(): TranslatableMarkup {
+  $news_view = View::load('news');
+  if ($news_view === NULL) {
+    return t('The News view was not present.');
+  }
+
+  $display_settings = $news_view->get('display');
+  $display_options = &$display_settings['default']['display_options'];
+  unset($display_options['filters']['langcode']);
+  $display_options['filters']['default_langcode'] = [
+    'id' => 'default_langcode',
+    'table' => 'node_field_data',
+    'field' => 'default_langcode',
+    'relationship' => 'none',
+    'group_type' => 'group',
+    'admin_label' => '',
+    'entity_type' => 'node',
+    'entity_field' => 'default_langcode',
+    'plugin_id' => 'boolean',
+    'operator' => '=',
+    'value' => '1',
+    'group' => 1,
+    'exposed' => FALSE,
+  ];
+  $display_options['rendering_language'] = '***LANGUAGE_entity_default***';
+  unset($display_options);
+  $news_view->set('display', $display_settings)->save();
+
+  return t('News now shows each original item once in every homepage language without requiring translations.');
+}
 
 /**
  * Loads twelve Videos per page, including the initial grid and later batches.
@@ -906,7 +940,7 @@ function jurenites_blog_post_update_prefix_tag_labels(): TranslatableMarkup {
 function jurenites_blog_post_update_restore_page_title_block(): TranslatableMarkup {
   $page_title_block = Block::load('jurenites_theme_page_title');
   if ($page_title_block === NULL) {
-    return t('The Jurenites page-title block was not present.');
+    return t('The jurenites page-title block was not present.');
   }
 
   $visibility_conditions = $page_title_block->getVisibilityConditions();
@@ -915,7 +949,7 @@ function jurenites_blog_post_update_restore_page_title_block(): TranslatableMark
     $page_title_block->save();
   }
 
-  return t('Restored the Jurenites page-title block on normal routes.');
+  return t('Restored the jurenites page-title block on normal routes.');
 }
 
 /**

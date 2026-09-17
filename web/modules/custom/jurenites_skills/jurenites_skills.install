@@ -93,7 +93,6 @@ function jurenites_skills_setup(): void {
     'field_skill_name' => ['Technology', 'string', 0],
     'field_skill_category' => ['Category', 'string', 1],
     'field_skill_description' => ['What I use it for', 'string_long', 2],
-    'field_skill_evidence' => ['CV experience', 'string_long', 3],
   ] as $field_name => $field_details) {
     jurenites_skills_add_field('paragraph', 'technology_skill', $field_name, [
       'type' => $field_details[1], 'label' => $field_details[0], 'required' => $field_name === 'field_skill_name',
@@ -117,7 +116,6 @@ function jurenites_skills_setup(): void {
         'field_skill_name' => $skill_data['technology_name'],
         'field_skill_category' => $skill_data['skill_category'],
         'field_skill_description' => $skill_data['skill_description'],
-        'field_skill_evidence' => $skill_data['experience_note'],
         'field_skill_score' => $skill_data['skill_score'],
       ]);
     }

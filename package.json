@@ -2,7 +2,7 @@
   "name": "blog-jurenites",
   "private": true,
   "type": "module",
-  "version": "1.113.3",
+  "version": "1.119.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/jurenites/blog.git"
@@ -46,7 +46,7 @@
     "status:serve": "node scripts/component-status/server.mjs",
     "status:test": "PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node scripts/component-status/run.mjs",
     "status:import": "node scripts/component-status/import.mjs",
-    "test:component-status": "node --test tests/component-status.test.mjs",
+    "test:component-status": "node --test tests/component-status.test.mjs tests/component-status-review.test.mjs",
     "status:diagnose": "node scripts/component-status/diagnose.mjs",
     "build:qr-studio": "node scripts/build-qr-studio-palette.mjs && node scripts/build-qr-studio-font.mjs",
     "test:qr-studio": "node --test web/modules/custom/jurenites_qr_studio/tests/*.test.mjs"

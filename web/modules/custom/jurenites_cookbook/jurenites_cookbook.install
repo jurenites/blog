@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Installs the editable Jurenites project Cookbook.
+ * Installs the editable jurenites project Cookbook.
  */
 
 use Drupal\menu_link_content\Entity\MenuLinkContent;

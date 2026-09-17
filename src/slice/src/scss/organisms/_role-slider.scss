@@ -1,7 +1,7 @@
 @use "../tools";
 
 .role-slider {
-  margin-block: calc(var(--space-scale-base-gap) * 3) calc(var(--space-scale-base-gap) * 6);
+  margin-block: 0 calc(var(--space-scale-base-gap) * 6);
   min-width: 0;
 }
 

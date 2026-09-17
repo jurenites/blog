@@ -1,7 +1,7 @@
-name: 'Jurenites Call to Action'
+name: 'jurenites Call to Action'
 type: module
 description: 'Editable, translatable project invitation on the home page.'
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:block

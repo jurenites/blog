@@ -158,7 +158,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: true
-          content: '<p class="guidelines-view__introduction">The visual rules and reusable building blocks behind the Jurenites blog. Each topic is maintained as editable Drupal content while its examples stay connected to project assets and tokens.</p>'
+          content: '<p class="guidelines-view__introduction">The visual rules and reusable building blocks behind the jurenites blog. Each topic is maintained as editable Drupal content while its examples stay connected to project assets and tokens.</p>'
           tokenize: false
       footer: {  }
       display_extenders: {  }

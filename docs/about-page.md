@@ -121,7 +121,7 @@ white, blue and orange artwork. Both states share identical bounds and proportio
 
 The About page includes a reusable **Skills profile** content block, placed after
 the introduction and numeric values. It uses repeatable **Technology skill**
-Paragraphs: technology, category, explanation, CV evidence and an optional decimal
+Paragraphs: technology, category, explanation and an optional decimal
 confidence rating from 0.0 to 5.0. Edit and reorder these under Content → Blocks →
 About web development skills. Blank ratings display “Not assessed”; zero is a
 valid rating. Whole-number ratings display without a decimal suffix (5.0 → 5),
@@ -167,7 +167,7 @@ needed. These checks are prompts for self-assessment, not automatic certificatio
 Scale: **1.0** basic awareness; **2.0** work with guidance; **3.0** independent
 routine work; **4.0** solve complex problems; **5.0** deep expertise. Fractions
 are subjective refinement only. Reduce or clear a score when the exercise exposes
-a gap; previous project experience remains valuable and stays in the evidence line.
+a gap; previous project experience remains valuable context for self-assessment.
 
 ### Implementation and delivery
 
@@ -343,13 +343,17 @@ their tracking captions/links are retained. Clicking anywhere on a role tile
 selects its story below, except tracking links, which keep their own navigation.
 The role labels remain keyboard-accessible tabs with a focus outline around the
 whole tile and a short slide motion. There are no separate slider controls.
+The last role tile and its story are active by default.
 The panels share the tallest panel's height to avoid movement while switching.
 On narrow screens the role tiles scroll horizontally. Reduced motion disables
 slide animation; without JavaScript all stories remain readable.
 
 Edit **About professional roles** under Content → Blocks. Each repeatable tile
 uses the existing Numeric value Paragraph plus a **Role heading** and formatted
-**Role story**. The initial story paragraphs are explicit placeholders while the
+**Role story**. Each tab displays the full **Numeric description**
+(`field_numeric_description`); its story heading uses **Role heading**
+(`field_role_heading`). Include any desired prefix such as “As a” in the
+Numeric description. The initial story paragraphs are explicit placeholders while the
 owner reviews the final copy. Headings, stories and numeric fields support
 translations and revisions; ordering is shared between languages. Existing
 metric numbers, descriptions, artwork, captions and links are preserved.

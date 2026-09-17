@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Testing Component status dashboard · Jurenites</title>
+  <title>Testing Component status dashboard · jurenites</title>
   <link rel="stylesheet" href="/style.css">
   <script type="module" src="/app.js"></script>
 </head>
 <body class="status-dashboard">
   <main class="status-dashboard__main">
     <header class="status-dashboard__header">
-      <a class="status-dashboard__brand" href="/">Jurenites <span>/ Development</span></a>
+      <a class="status-dashboard__brand" href="/">jurenites <span>/ Development</span></a>
       <button class="status-dashboard__refresh" type="button" id="refresh-results">Refresh results</button>
     </header>
     <section class="status-dashboard__intro" aria-labelledby="page-heading">
@@ -19,6 +19,7 @@
       <p>From design to the page. Review what passed, what failed, and what still needs a check.</p>
       <p class="status-dashboard__summary" id="status-summary" role="status">Loading component catalogue…</p>
       <p class="status-dashboard__updated" id="updated-time"></p>
+      <p class="status-dashboard__meta">Results refresh automatically every minute while this page is visible. Refreshing reads saved results; it does not run tests.</p>
     </section>
     <div class="status-dashboard__legend" aria-label="Status legend">
       <span><i class="component-status__light component-status__light--passed" aria-hidden="true"></i>Passed</span>
@@ -27,8 +28,14 @@
     </div>
     <section aria-label="Component catalogue">
       <div class="status-dashboard__filters">
-        <label>Find a component<input id="component-search" type="search" placeholder="Search components" autocomplete="off"></label>
-        <label>Show<select id="status-filter"><option value="all">All statuses</option><option value="passed">Passed</option><option value="attention">Needs attention / not checked</option><option value="failed">Failed</option></select></label>
+        <div class="status-dashboard__filter-field">
+          <label class="text-input__label" for="component-search">Find a component</label>
+          <input class="text-input__control" id="component-search" type="search" placeholder="Search components" autocomplete="off">
+        </div>
+        <div class="status-dashboard__filter-field">
+          <label class="input-text__label" for="status-filter">Show</label>
+          <select class="select-input__native" id="status-filter" data-jurenites-select><option value="all">All statuses</option><option value="passed">Passed</option><option value="attention">Needs attention / not checked</option><option value="failed">Failed</option></select>
+        </div>
       </div>
       <p id="report-errors" role="alert" hidden></p>
       <div id="component-catalogue"></div>

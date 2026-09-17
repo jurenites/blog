@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Install hooks for Jurenites Blog.
+ * Install hooks for jurenites Blog.
  */
 
 use Drupal\block\Entity\Block;

@@ -1,0 +1,2 @@
+Source: https://i.hh.ru/styles/images/logos/hh.ru__min_.svg
+Official hh.ru outline and lettering, adapted to currentColor with transparent lettering to match the shared social icon behavior. Brand hover color is editable on the Drupal menu link.

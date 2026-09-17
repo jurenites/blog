@@ -2,7 +2,7 @@ import guideline_logo_url from "../../../../web/themes/custom/jurenites_theme/lo
 import { guideline_tile_markup } from "./guideline-tile.markup.js";
 
 const GUIDELINE_TITLE = "Logo Icon";
-const GUIDELINE_SUMMARY = "The compact Jurenites mark, its source asset, spacing, sizing, and correct use.";
+const GUIDELINE_SUMMARY = "The compact jurenites mark, its source asset, spacing, sizing, and correct use.";
 const GUIDELINE_URL = "#";
 const PREVIEW_KIND = "logo-icon";
 const COLOR_TITLE = "Color";

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * @file
- * Post-update functions for Jurenites Timeline.
+ * Post-update functions for jurenites Timeline.
  */
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;

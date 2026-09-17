@@ -26,7 +26,7 @@ export function numeric_value_tile_markup({
     tile_class: role_selector ? ' role-slider__tile' : '',
     numeric_number_class: role_selector ? ' role-slider__number' : '',
     numeric_description: role_selector
-      ? `<button class="numeric-values__description role-slider__tab" type="button" id="${escape_html(role_selector.button_id)}" aria-controls="${escape_html(role_selector.panel_id)}"><span class="role-slider__prefix">As a</span> ${escape_html(role_selector.role_heading)}</button>`
+      ? `<button class="numeric-values__description role-slider__tab" type="button" id="${escape_html(role_selector.button_id)}" aria-controls="${escape_html(role_selector.panel_id)}">${escape_html(numeric_description)}</button>`
       : `<p class="numeric-values__description">${escape_html(numeric_description)}</p>`,
     numeric_caption: numeric_caption || numeric_caption_link_url
       ? `<p class="numeric-values__caption">${escape_html(numeric_caption)}${numeric_caption_link_url ? ` <a class="numeric-values__caption-link" href="${escape_html(numeric_caption_link_url)}"${caption_target_attributes}><span>${escape_html(caption_link_label)}</span>${caption_external_icon}</a>` : ""}</p>`

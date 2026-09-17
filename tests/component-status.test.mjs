@@ -69,3 +69,13 @@ test('pixel comparison detects a real changed pixel and refuses image resizing',
   assert.equal(dimension_difference.status, 'failed');
   assert.equal(dimension_difference.difference_buffer, undefined);
 });
+
+test('missing Figma does not erase independent implementation results or imply full parity', () => {
+  const report_data = report_fixture();
+  report_data.components[0].checks[3].status = 'missing';
+  validate_report(report_data);
+  const component_row = merge_reports(COMPONENT_ROWS, [report_data], 'current-source', CURRENT_TIME).components[0];
+  assert.equal(component_row.overall_status, 'attention');
+  assert.equal(component_row.checks.find((check_item) => check_item.check_key === 'integration').status, 'passed');
+  assert.equal(component_row.checks.find((check_item) => check_item.check_key === 'figma').status, 'missing');
+});

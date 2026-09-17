@@ -87,19 +87,18 @@ display:
           value:
             news: news
           group: 1
-        langcode:
-          id: langcode
+        default_langcode:
+          id: default_langcode
           table: node_field_data
-          field: langcode
+          field: default_langcode
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: node
-          entity_field: langcode
-          plugin_id: language
-          operator: in
-          value:
-            '***LANGUAGE_language_content***': '***LANGUAGE_language_content***'
+          entity_field: default_langcode
+          plugin_id: boolean
+          operator: '='
+          value: '1'
           group: 1
           exposed: false
       style:
@@ -113,6 +112,7 @@ display:
         type: 'entity:node'
         options:
           view_mode: news_list
+      rendering_language: '***LANGUAGE_entity_default***'
       query:
         type: views_query
         options:

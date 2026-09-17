@@ -44,9 +44,10 @@ Testing runs throughout this process, with a dedicated Testing milestone after
 Drupal assembly and before final verification. The proposed visual testing layer
 connects Figma frames, Storybook components, and the Drupal theme rendered with real
 data. The first local component-status dashboard and Storybook/Drupal capture
-case are implemented; Figma comparison remains blocked pending a matched export.
-Manual iframe/image overlays, automated three-way comparison, and a Windows
-virtual-machine CI job are explicit TODOs. See
+case are implemented. The dashboard now accepts per-component URLs/selectors,
+shows captured-image overlays, and compares an optional Figma PNG against both
+implementations. Missing Figma references remain explicit. Automatic Figma
+exports and a Windows virtual-machine CI job are still TODOs. See
 [Visual Testing Plan](visual-testing-plan.md) for scope, acceptance criteria,
 commands, and current limitations.
 
@@ -256,8 +257,9 @@ proxy. These names deliberately mirror the future `jurenites.com` domain shape.
 The planned visual testing workflow lives in `docs/visual-testing-plan.md`.
 The local dashboard lists actual Storybook components and runs the first
 Storybook/Drupal rendering and screenshot case for Article Blog List Item.
-Figma comparisons, pinned content revisions, and automatic CI ingestion remain
-future work. Keep each result tied to its actual build and captured data.
+Optional uploaded Figma PNGs and generic website/Storybook comparisons are
+available in the case form. Pinned content revisions, automatic Figma exports,
+and automatic CI ingestion remain future work. Keep each result tied to its actual build and captured data.
 
 An existing browser inspection script checks Storybook health. It does not
 compare pixels with Figma or Drupal. `playwright` is now a declared development

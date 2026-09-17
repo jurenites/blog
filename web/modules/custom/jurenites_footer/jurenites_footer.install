@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * @file
+ * Creates editable footer metadata without seeding editorial link content.
+ */
+
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_footer_install(): void {
+  $field_definitions = [
+    'field_footer_role' => ['Footer item type', 'list_string', 'options_select', FALSE, ['allowed_values' => ['link' => 'Link', 'column' => 'Column heading', 'bottom' => 'Bottom-row group']], [], 'Use a top-level heading for each column. Place links underneath it using Parent link. For headings, enter &lt;nolink&gt; in Link.'],
+    'field_footer_hover_text' => ['Hover text', 'string', 'string_textfield', TRUE, ['max_length' => 255], [], 'Optional text shown on hover and keyboard focus. Translate it with the menu link.'],
+    'field_footer_icon' => ['Leading icon', 'list_string', 'options_select', FALSE, ['allowed_values_function' => 'jurenites_footer_icon_options'], [], 'Optional icon from the existing site icon library.'],
+    'field_footer_new_window' => ['Open in a new window', 'boolean', 'boolean_checkbox', FALSE, [], [], 'Applies to web links. Email and telephone links always use their normal application.'],
+    'field_footer_tag' => ['Portfolio counter tag', 'entity_reference', 'entity_reference_autocomplete', FALSE, ['target_type' => 'taxonomy_term'], ['handler' => 'default:taxonomy_term', 'handler_settings' => ['target_bundles' => ['tags' => 'tags'], 'auto_create' => FALSE]], 'Optional existing Tag. The link opens Portfolio filtered by this tag and shows its live count of published, accessible Projects.'],
+  ];
+  $form_display = EntityFormDisplay::load('menu_link_content.menu_link_content.default')
+    ?? EntityFormDisplay::create(['targetEntityType' => 'menu_link_content', 'bundle' => 'menu_link_content', 'mode' => 'default', 'status' => TRUE]);
+  foreach ($field_definitions as $field_name => [$field_label, $field_type, $widget_type, $is_translatable, $storage_settings, $field_settings, $field_description]) {
+    if (!FieldStorageConfig::loadByName('menu_link_content', $field_name)) {
+      FieldStorageConfig::create(['entity_type' => 'menu_link_content', 'field_name' => $field_name, 'type' => $field_type, 'settings' => $storage_settings, 'cardinality' => 1])->save();
+    }
+    if (!FieldConfig::loadByName('menu_link_content', 'menu_link_content', $field_name)) {
+      FieldConfig::create([
+        'entity_type' => 'menu_link_content', 'bundle' => 'menu_link_content',
+        'field_name' => $field_name, 'label' => $field_label,
+        'description' => $field_description, 'translatable' => $is_translatable,
+        'settings' => $field_settings,
+        'default_value' => $field_name === 'field_footer_role' ? [['value' => 'link']] : [],
+      ])->save();
+    }
+    $form_display->setComponent($field_name, ['type' => $widget_type, 'weight' => 20 + array_search($field_name, array_keys($field_definitions), TRUE)]);
+  }
+  $form_display->save();
+  jurenites_footer_install_hover_paint();
+  jurenites_footer_install_sections();
+  \Drupal::service('content_translation.manager')->setEnabled('menu_link_content', 'menu_link_content', TRUE);
+
+  // Native menu hierarchy owns the presentation, including collapsed headings.
+  $footer_block = \Drupal::entityTypeManager()->getStorage('block')->load('jurenites_theme_footer_navigation');
+  if ($footer_block) {
+    $block_settings = $footer_block->get('settings');
+    $block_settings['depth'] = 0;
+    $block_settings['expand_all_items'] = TRUE;
+    $footer_block->set('settings', $block_settings)->save();
+  }
+}
+
+/**
+ * Adds the replacement text field and hides the retained legacy preset data.
+ */
+function jurenites_footer_install_hover_paint(): void {
+  $field_name = 'field_footer_hover_paint';
+  if (!FieldStorageConfig::loadByName('menu_link_content', $field_name)) {
+    FieldStorageConfig::create([
+      'entity_type' => 'menu_link_content', 'field_name' => $field_name,
+      'type' => 'string', 'settings' => ['max_length' => 1024], 'cardinality' => 1,
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('menu_link_content', 'menu_link_content', $field_name)) {
+    FieldConfig::create([
+      'entity_type' => 'menu_link_content', 'bundle' => 'menu_link_content',
+      'field_name' => $field_name, 'label' => 'Hover color or gradient',
+      'description' => 'A hex color, a CSS token var(--token-name), or linear-gradient(90deg, color, color). Optional percentage stops are supported. Shared by all languages. Empty uses yellow. The gradient spans the whole text; icons and badges keep their own appearance.',
+      'translatable' => FALSE,
+    ])->save();
+  }
+  $form_display = EntityFormDisplay::load('menu_link_content.menu_link_content.default');
+  $form_display->removeComponent('field_footer_color');
+  $form_display->setComponent($field_name, ['type' => 'string_textfield', 'weight' => 23, 'settings' => ['size' => 100]])->save();
+}
+
+/**
+ * Adds nested section headings and an independently editable legal menu.
+ */
+function jurenites_footer_install_sections(): void {
+  $role_storage = FieldStorageConfig::loadByName('menu_link_content', 'field_footer_role');
+  $role_options = $role_storage->getSetting('allowed_values');
+  $role_options['section'] = 'Section heading';
+  $role_storage->setSetting('allowed_values', $role_options)->save();
+  $role_field = FieldConfig::loadByName('menu_link_content', 'menu_link_content', 'field_footer_role');
+  $role_field->setDescription('Use Column heading at the top level, or Section heading beneath a column. Enter <nolink> for headings. A section Description appears below its heading. Nest links with Parent link.')->save();
+  if (!\Drupal\system\Entity\Menu::load('footer-legal')) {
+    \Drupal\system\Entity\Menu::create([
+      'id' => 'footer-legal', 'label' => 'Footer legal',
+      'description' => 'Privacy and legal links displayed beside the footer rights message.',
+    ])->save();
+  }
+}

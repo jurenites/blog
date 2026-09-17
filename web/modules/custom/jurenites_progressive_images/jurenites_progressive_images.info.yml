@@ -1,7 +1,7 @@
-name: Jurenites Progressive Images
+name: jurenites Progressive Images
 type: module
 description: Adds reserved image geometry and visible loading-state feedback to blurry responsive images.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:responsive_image

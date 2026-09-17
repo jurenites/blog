@@ -1,7 +1,7 @@
-name: Jurenites Admin
+name: jurenites Admin
 type: module
 description: Customizes project administration behavior and Gin branding.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:contextual
