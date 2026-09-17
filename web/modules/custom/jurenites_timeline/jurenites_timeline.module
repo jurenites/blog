@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * @file
- * Presentation data for the Jurenites Timeline page.
+ * Presentation data for the jurenites Timeline page.
  */
 
 use Drupal\Core\Cache\Cache;

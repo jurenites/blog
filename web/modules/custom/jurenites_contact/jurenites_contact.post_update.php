@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Post-update functions for Jurenites Contact.
+ * Post-update functions for jurenites Contact.
  */
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;

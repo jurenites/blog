@@ -81,6 +81,8 @@ const external_css_variables = new Set([
   "--drupal-displace-offset-right",
 ]);
 const contract_errors = [];
+// Validated Drupal menu content supplies these properties; they are not tokens.
+const footer_paint_variables = new Set(['--footer-hover-color', '--footer-hover-gradient']);
 const token_source_content = await readFile(TOKEN_SOURCE_PATH, "utf8");
 
 const token_tree = await loadTokenTree(TOKEN_SOURCE_PATH);
@@ -205,7 +207,9 @@ for (const scan_directory of SCAN_DIRECTORIES) {
       }
 
       for (const variable_match of source_content.matchAll(CSS_VARIABLE_PATTERN)) {
-        if (!defined_variables.has(variable_match[1]) && !external_css_variables.has(variable_match[1])) {
+        const is_footer_paint = relative_path === 'src/slice/src/scss/organisms/_footer-navigation.scss'
+          && footer_paint_variables.has(variable_match[1]);
+        if (!defined_variables.has(variable_match[1]) && !external_css_variables.has(variable_match[1]) && !is_footer_paint) {
           contract_errors.push(`${relative_path}: undefined token variable ${variable_match[1]}`);
         }
       }

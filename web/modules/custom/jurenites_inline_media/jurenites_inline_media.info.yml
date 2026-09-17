@@ -1,7 +1,7 @@
-name: Jurenites Inline Media
+name: jurenites Inline Media
 type: module
 description: Small GIF and video uploads through the rich text media library.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:ckeditor5

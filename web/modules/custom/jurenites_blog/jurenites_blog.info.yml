@@ -1,7 +1,7 @@
-name: Jurenites Blog
+name: jurenites Blog
 type: module
 description: Provides Blog filtering and stored external metadata for Article and News content.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:block

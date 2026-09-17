@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * @file
- * Installs the editable Jurenites design guidelines.
+ * Installs the editable jurenites design guidelines.
  */
 
 use Drupal\menu_link_content\Entity\MenuLinkContent;
@@ -32,7 +32,7 @@ function jurenites_guidelines_ensure_content(): array {
     'logo_icon',
     10,
     '/guidelines/logo-icon',
-    'The compact Jurenites mark, its source asset, spacing, sizing, and correct use.',
+    'The compact jurenites mark, its source asset, spacing, sizing, and correct use.',
     <<<'HTML'
 <h2>One source asset</h2>
 <p>The compact mark is the website theme logo. Use the checked-in SVG as the authoritative artwork so the header, browser surfaces, documentation, and future exports stay aligned.</p>

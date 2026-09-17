@@ -1,7 +1,7 @@
-name: Jurenites FAQ
+name: jurenites FAQ
 type: module
 description: Editable, numbered FAQ with expandable answers.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:block

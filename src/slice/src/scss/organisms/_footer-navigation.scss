@@ -124,27 +124,7 @@ body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--gith
 
 body.jurenites-theme .footer-navigation .footer-navigation__resource-link--figma:hover,
 body.jurenites-theme .footer-navigation .footer-navigation__resource-link--figma:focus-visible {
-  color: var(--theme-dark-text-primary-default);
-}
-
-.footer-navigation__resource-label-part--figma-overlay-bl {
   color: var(--component-footer-navigation-figma-overlay-bl-color);
-}
-
-.footer-navigation__resource-label-part--figma-overlay-og {
-  color: var(--component-footer-navigation-figma-overlay-og-color);
-}
-
-.footer-navigation__resource-label-part--figma-overlay-jur {
-  color: var(--component-footer-navigation-figma-overlay-jur-color);
-}
-
-.footer-navigation__resource-label-part--figma-overlay-eni {
-  color: var(--component-footer-navigation-figma-overlay-eni-color);
-}
-
-.footer-navigation__resource-label-part--figma-overlay-tes {
-  color: var(--component-footer-navigation-figma-overlay-tes-color);
 }
 
 .footer-navigation__resource-icon {
@@ -285,4 +265,111 @@ body.jurenites-theme .footer-navigation a.footer-navigation__messenger-link[data
   .footer-navigation__columns {
     grid-template-columns: 1fr;
   }
+}
+
+// Validated menu strings supply these paint properties in the document stylesheet.
+:where(.footer-navigation__editable-link) {
+  --footer-hover-color: var(--color-palette-brand-tertiary);
+  --footer-hover-gradient: none;
+}
+
+body.jurenites-theme .footer-navigation a.footer-navigation__editable-link {
+  &:hover,
+  &:focus-visible {
+    color: var(--footer-hover-color, var(--color-palette-brand-tertiary));
+
+    > .footer-navigation__link-label {
+      text-decoration-color: currentColor;
+    }
+  }
+}
+
+.footer-navigation__hover-text {
+  display: inline-block;
+}
+
+.footer-navigation__resource-link--figma {
+  --footer-hover-gradient: linear-gradient(
+    90deg,
+    var(--component-footer-navigation-figma-overlay-bl-color),
+    var(--component-footer-navigation-figma-overlay-og-color),
+    var(--component-footer-navigation-figma-overlay-jur-color),
+    var(--component-footer-navigation-figma-overlay-eni-color),
+    var(--component-footer-navigation-figma-overlay-tes-color)
+  );
+}
+
+@supports (background-clip: text) {
+  body.jurenites-theme .footer-navigation a.footer-navigation__link--gradient,
+  body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--figma {
+    &:hover,
+    &:focus-visible {
+      .footer-navigation__hover-text,
+      .footer-navigation__resource-label-text--hover > span {
+        background-color: var(--footer-hover-color, var(--color-palette-brand-tertiary));
+        background-image: var(--footer-hover-gradient);
+        background-clip: text;
+        color: transparent;
+      }
+    }
+  }
+}
+
+@media (forced-colors: active) {
+  body.jurenites-theme .footer-navigation a.footer-navigation__link--gradient,
+  body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--figma {
+    &:hover,
+    &:focus-visible {
+      .footer-navigation__hover-text,
+      .footer-navigation__resource-label-text--hover > span {
+        background-image: none;
+        color: LinkText;
+      }
+    }
+  }
+}
+
+.footer-navigation__editable-link[data-footer-icon="brand-gmail"] > .footer-navigation__social-network-icon {
+  --icon-gmail-fill: currentColor;
+
+  width: calc(var(--component-footer-navigation-gmail-icon-height-default) * 800 / 636.36322);
+  height: var(--component-footer-navigation-gmail-icon-height-default);
+}
+
+.footer-navigation__editable-link[data-footer-icon="brand-yandex-mail"] > .footer-navigation__social-network-icon {
+  --icon-yandex-mail-default-display: inline;
+  --icon-yandex-mail-color-display: none;
+
+  width: var(--component-footer-navigation-yandex-mail-icon-width-default);
+  height: var(--component-footer-navigation-yandex-mail-icon-height-default);
+}
+
+.footer-navigation__editable-link[data-footer-icon="brand-figma"] > .footer-navigation__social-network-icon {
+  height: var(--component-footer-navigation-figma-icon-height-default);
+}
+
+.footer-navigation__editable-link:hover,
+.footer-navigation__editable-link:focus-visible {
+  &[data-footer-icon="brand-gmail"] > .footer-navigation__social-network-icon {
+    --icon-gmail-fill: initial;
+  }
+
+  &[data-footer-icon="brand-yandex-mail"] > .footer-navigation__social-network-icon {
+    --icon-yandex-mail-default-display: none;
+    --icon-yandex-mail-color-display: inline;
+  }
+
+  &[data-footer-icon="brand-figma"] > .footer-navigation__social-network-icon {
+    --icon-figma-fill: initial;
+  }
+}
+
+.footer-navigation__section {
+  margin-top: calc(var(--space-scale-base-gap) * 3);
+}
+
+.footer-navigation__section-description {
+  margin: 0 0 calc(var(--space-scale-base-gap) * 2);
+  color: var(--theme-dark-text-gray);
+  @include tools.typography-body;
 }

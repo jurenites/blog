@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 #[ViewsArgumentDefault(
   id: 'jurenites_tag_slug',
-  title: new TranslatableMarkup('Jurenites tag slug from query parameter'),
+  title: new TranslatableMarkup('jurenites tag slug from query parameter'),
 )]
 final class TagSlug extends ArgumentDefaultPluginBase implements CacheableDependencyInterface, ContainerFactoryPluginInterface {
 

@@ -1,0 +1,6 @@
+{{ footer_navigation_cache }}
+{% if items %}
+  <nav class="footer-navigation__legal-navigation" aria-label="{{ footer_legal_label }}">
+    {% include '@jurenites_theme/navigation/footer-menu-items.html.twig' with { footer_items: items, list_class: 'footer-navigation__legal-list' } %}
+  </nav>
+{% endif %}

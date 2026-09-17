@@ -1,2 +1,65 @@
 @use '../slice/src/scss/settings/fonts' with ($font-assets-path: '/fonts');
 @use '../slice/src/scss/main';
+
+.visual-review {
+  margin-block: calc(var(--space-scale-base-gap) * 4);
+
+  &__form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: calc(var(--space-scale-base-gap) * 2);
+  }
+
+  &__field {
+    display: grid;
+    align-content: start;
+    gap: var(--space-scale-base-gap);
+    min-width: 0;
+    font: var(--typography-caption);
+  }
+
+  &__field input:not(.text-input__control), &__field select {
+    width: 100%;
+    min-width: 0;
+    padding: calc(var(--space-scale-base-gap) * 1.5);
+    border: var(--space-scale-one) solid var(--theme-dark-border-outline-default);
+    border-radius: 0;
+    background: var(--theme-dark-surface-background-elevation-level-1);
+    color: var(--theme-dark-text-primary-default);
+    font: var(--typography-body);
+    box-sizing: border-box;
+  }
+
+  &__checkbox, &__actions { grid-column: 1 / -1; }
+  &__checkbox { display: flex; align-items: baseline; gap: var(--space-scale-base-gap); }
+  &__actions { display: flex; align-items: end; flex-wrap: wrap; gap: calc(var(--space-scale-base-gap) * 2); }
+  &__actions button:disabled { cursor: wait; }
+  &__three-up { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(var(--space-scale-base-gap) * 2); margin-block: calc(var(--space-scale-base-gap) * 4); }
+  &__figure { margin: 0; min-width: 0; border: var(--space-scale-one) solid var(--theme-dark-border-outline-default); }
+  &__figure figcaption { padding: calc(var(--space-scale-base-gap) * 2); font: var(--typography-subtitle-1); }
+  &__image { display: block; width: 100%; height: auto; }
+  &__empty { padding: calc(var(--space-scale-base-gap) * 2); color: var(--theme-dark-text-gray); }
+  &__canvas-scroll, &__frame-scroll { overflow: auto; max-height: var(--component-status-preview-height-default); border: var(--space-scale-one) solid var(--theme-dark-border-outline-default); }
+  &__canvas { display: block; max-width: none; }
+  &__comparison, &__live { margin-block: calc(var(--space-scale-base-gap) * 4); }
+  &__frame { display: block; height: 900px; max-width: none; border: 0; }
+  &__frame--360 { width: 360px; }
+  &__frame--768 { width: 768px; }
+  &__frame--1280 { width: 1280px; }
+  &__frame--1920 { width: 1920px; }
+}
+
+@media (width <= 768px) {
+  .visual-review__form { grid-template-columns: minmax(0, 1fr); }
+  .visual-review__three-up { grid-template-columns: repeat(3, minmax(240px, 1fr)); overflow-x: auto; }
+}
+
+.status-dashboard__main { max-width: none; }
+
+.status-dashboard__filter-field {
+  display: grid;
+  align-content: start;
+  gap: var(--space-scale-base-gap);
+  flex: 1;
+  min-width: 0;
+}

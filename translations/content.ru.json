@@ -4031,16 +4031,6 @@
   },
   {
     "entity_type": "paragraph",
-    "uuid": "95441488-8e7c-4f4f-9e45-56d9fd880768",
-    "bundle": "technology_skill",
-    "field": "field_skill_evidence",
-    "delta": 0,
-    "property": "value",
-    "en": "Drupal 6–11 · Nokia, Novo Ministries, oksenate.gov",
-    "ru": "Drupal 6–11 · Nokia, Novo Ministries, oksenate.gov"
-  },
-  {
-    "entity_type": "paragraph",
     "uuid": "56be7b88-d85b-4e8e-b011-b5a2a393486e",
     "bundle": "technology_skill",
     "field": "field_skill_category",
@@ -4081,16 +4071,6 @@
   },
   {
     "entity_type": "paragraph",
-    "uuid": "01a1c5e7-356a-4c63-8bc1-a73bcabc3892",
-    "bundle": "technology_skill",
-    "field": "field_skill_evidence",
-    "delta": 0,
-    "property": "value",
-    "en": "Drupal projects · Laravel volunteer system · Symfony 2 APIs",
-    "ru": "Проекты на Drupal · система для волонтёров на Laravel · API на Symfony 2"
-  },
-  {
-    "entity_type": "paragraph",
     "uuid": "9ab5e760-2295-45b6-9a65-bd27aead538a",
     "bundle": "technology_skill",
     "field": "field_skill_category",
@@ -4111,16 +4091,6 @@
   },
   {
     "entity_type": "paragraph",
-    "uuid": "9ab5e760-2295-45b6-9a65-bd27aead538a",
-    "bundle": "technology_skill",
-    "field": "field_skill_evidence",
-    "delta": 0,
-    "property": "value",
-    "en": "CV programming stack · Mullikin Law Ajax sorting",
-    "ru": "Стек программирования из резюме · Ajax-сортировка для Mullikin Law"
-  },
-  {
-    "entity_type": "paragraph",
     "uuid": "8dd893fe-2b34-436e-a6bd-aa17dee6f939",
     "bundle": "technology_skill",
     "field": "field_skill_category",
@@ -4138,16 +4108,6 @@
     "property": "value",
     "en": "Relational data modelling: entities, field definitions and relationships.",
     "ru": "Реляционное моделирование данных: сущности, определения полей и связи."
-  },
-  {
-    "entity_type": "paragraph",
-    "uuid": "8dd893fe-2b34-436e-a6bd-aa17dee6f939",
-    "bundle": "technology_skill",
-    "field": "field_skill_evidence",
-    "delta": 0,
-    "property": "value",
-    "en": "CV database stack · schema design at OysterLabs and Precision",
-    "ru": "Стек баз данных из резюме · проектирование схем в OysterLabs и Precision"
   },
   {
     "entity_type": "paragraph",

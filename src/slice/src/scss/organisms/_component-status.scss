@@ -72,7 +72,7 @@
   &__brand { color: inherit; text-decoration: none; }
   &__brand span, &__updated, &__meta, &__footer { color: var(--theme-dark-text-gray); }
 
-  &__refresh, &__filters input, &__filters select {
+  &__refresh, &__filters input:not(.text-input__control), &__filters select {
     padding: calc(var(--space-scale-base-gap) * 1.5) calc(var(--space-scale-base-gap) * 2);
     border: var(--space-scale-one) solid var(--theme-dark-border-outline-default);
     background: var(--theme-dark-surface-background-elevation-level-1);

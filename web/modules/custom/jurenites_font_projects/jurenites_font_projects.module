@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * @file
- * Runtime hooks and shared content helpers for Jurenites font projects.
+ * Runtime hooks and shared content helpers for jurenites font projects.
  */
 
 use Drupal\Core\Cache\Cache;
@@ -45,7 +45,8 @@ function jurenites_font_projects_media_view(array &$build_output, EntityInterfac
  * Adds the dynamic font-Project count to the Fonts footer menu item.
  */
 function jurenites_font_projects_preprocess_menu(array &$menu_variables): void {
-  if (($menu_variables['menu_name'] ?? '') !== 'footer') {
+  if (\Drupal::moduleHandler()->moduleExists('jurenites_footer')
+    || ($menu_variables['menu_name'] ?? '') !== 'footer') {
     return;
   }
 

@@ -1,6 +1,14 @@
 // Drupal-only wrappers for CMS content and contextual editing.
 @use "../tools";
 
+.user-profile__full-name-label {
+  color: var(--theme-dark-text-gray);
+}
+
+.user-profile__member-for-value {
+  @include tools.typography-machine-readable;
+}
+
 .path-contact #block-jurenites-theme-content {
   padding-top: calc(var(--space-scale-base-gap) * 5);
 }

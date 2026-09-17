@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Post-update functions for Jurenites Admin.
+ * Post-update functions for jurenites Admin.
  */
 
 use Drupal\comment\CommentInterface;

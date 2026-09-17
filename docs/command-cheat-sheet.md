@@ -45,10 +45,47 @@ npm run version:bump -- major
 
 
 
+#### Update Drupal core and contributed projects in DEV
+
+Resolve dependency updates in DEV and deploy the resulting `composer.lock` with
+`composer install` in PROD. Keep `minimum-stability: stable`; Drupal 12 alpha is
+for compatibility testing and has no supported upgrade path to later alphas or
+beta. It also requires PHP 8.5, above the current DEV PHP 8.4 runtime.
+
+Before updating, save `composer.json`, `composer.lock`, and a compressed database
+dump under an ignored `backups/` subdirectory, outside `web/`. Check pending
+database updates first: `updatedb` also applies pending custom-module hooks.
+
+```bash
+docker exec blog_jurenites_web ./vendor/bin/drush updatedb:status
+docker exec blog_jurenites_web composer outdated 'drupal/*' --direct
+docker exec blog_jurenites_web composer update 'drupal/*' --with-all-dependencies --dry-run --no-interaction
+docker exec blog_jurenites_web composer update 'drupal/*' --with-all-dependencies --no-interaction
+docker exec blog_jurenites_web composer validate --strict
+docker exec blog_jurenites_web composer check-platform-reqs
+docker exec blog_jurenites_web composer audit
+```
+
+On 2026-09-17, the resolved update moves core 11.4.6 to the 11.4.7 security
+release, Image Blurry Placeholder 1.2.0 to 1.3.0, Image Compare 1.0.3 to 1.1.0,
+Publication Date 3.1.0 to 3.2.0, and Tagify 2.0.2 to 2.0.3, with compatible
+Symfony patch updates. See the [11.4.7 release notes](https://www.drupal.org/project/drupal/releases/11.4.7)
+and [Drupal 12 alpha limitations](https://www.drupal.org/project/drupal/releases/12.0.0-alpha1).
+
+Local verification passed: Composer validation, platform requirements and audit
+(zero advisories), no remaining database updates, and all 21 projects in the
+refreshed Drupal update report marked current. Fifteen public/login routes,
+including both languages and the Russian About alias `/ru/obo`, returned HTTP
+200; translated Videos layout and Game of Life editor checks also passed.
+Rollback files are in `backups/composer-update-20260917/`; the compressed SQL dump
+passed `gzip -t`. This records DEV verification, not a production deployment.
+
 #### Run database updates, then clear cache
 
 ```bash
 docker exec blog_jurenites_web ./vendor/bin/drush updatedb --yes
+docker exec blog_jurenites_web ./vendor/bin/drush cr
+docker exec blog_jurenites_web ./vendor/bin/drush updatedb:status
 ```
 
 
@@ -407,4 +444,3 @@ The visible watermark combines those two read-only sources. The tracked release 
 ```bash
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
 ```
-

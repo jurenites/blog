@@ -6,12 +6,29 @@ import { chromium } from 'playwright';
 import { create_status_server, PROJECT_ROOT, REPORT_DIRECTORY } from './server.mjs';
 import { component_catalogue, source_fingerprint, validate_report } from './report.mjs';
 import { compare_images } from './images.mjs';
+import { read_review_cases, run_visual_review, validate_review_case } from './review.mjs';
 
 const requested_component = process.argv[2] ?? 'molecules-video-article-blog-list-item';
 const case_config = JSON.parse(await readFile(resolve(PROJECT_ROOT, 'config/component-status.json'), 'utf8')).components[requested_component];
 const story_index = JSON.parse(await readFile(resolve(PROJECT_ROOT, 'storybook-static/index.json'), 'utf8'));
 const component_record = component_catalogue(story_index).find((component_item) => component_item.component_id === requested_component);
 if (!component_record) throw new Error(`Component is absent from the built Storybook index: ${requested_component}`);
+if (requested_component !== 'molecules-video-article-blog-list-item') {
+  const saved_cases = await read_review_cases(REPORT_DIRECTORY);
+  const selected_case = saved_cases[requested_component] ?? case_config;
+  if (!selected_case) throw new Error('Open this component in the dashboard and configure its website and selectors first.');
+  const review_case = validate_review_case({ ...selected_case, component_id: requested_component, story_url: selected_case.story_url ?? `/storybook/iframe.html?id=${component_record.story_ids[0]}&viewMode=story`, viewport_width: selected_case.viewport_width ?? selected_case.viewport_widths?.[0] ?? 1280 }, [component_record]);
+  const review_server = create_status_server();
+  await new Promise((resolve_listen) => { review_server.listen(0, '127.0.0.1', resolve_listen); });
+  try {
+    const review_report = await run_visual_review({ project_root: PROJECT_ROOT, report_directory: REPORT_DIRECTORY, status_origin: `http://127.0.0.1:${review_server.address().port}`, review_case });
+    const review_checks = review_report.components[0].checks;
+    console.log(review_checks.map((check_item) => `${check_item.status.toUpperCase()} ${check_item.check_label}: ${check_item.message}`).join('\n'));
+    process.exitCode = review_checks.some((check_item) => check_item.status === 'failed') ? 1 : review_checks.some((check_item) => check_item.status !== 'passed') ? 2 : 0;
+  } finally { await new Promise((resolve_close) => { review_server.close(resolve_close); }); }
+  process.exit(process.exitCode);
+}
+
 const current_fingerprint = await source_fingerprint(PROJECT_ROOT);
 const run_id = new Date().toISOString().replace(/[^0-9]/g, '');
 const artifact_directory = resolve(REPORT_DIRECTORY, 'artifacts', run_id);

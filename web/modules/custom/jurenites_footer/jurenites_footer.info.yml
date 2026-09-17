@@ -1,0 +1,13 @@
+name: 'jurenites Footer'
+type: module
+description: 'Editable footer columns, link presentation, and Portfolio tag counters in the native Footer menu.'
+package: jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:block
+  - drupal:menu_link_content
+  - drupal:content_translation
+  - drupal:field
+  - drupal:options
+  - drupal:taxonomy
+  - jurenites_blog:jurenites_blog

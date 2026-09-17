@@ -1,0 +1,205 @@
+<?php
+
+/**
+ * @file
+ * Renders the Footer menu using editable menu hierarchy and field metadata.
+ */
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent;
+use Drupal\node\NodeInterface;
+use Drupal\jurenites_footer\HoverPaint;
+
+/**
+ * Validates the shared text field through Drupal's normal entity forms/API.
+ */
+function jurenites_footer_entity_bundle_field_info_alter(array &$field_definitions, \Drupal\Core\Entity\EntityTypeInterface $entity_type, string $bundle_name): void {
+  if ($entity_type->id() === 'menu_link_content' && isset($field_definitions['field_footer_hover_paint'])) {
+    $field_definitions['field_footer_hover_paint']->addConstraint('FooterHoverPaint');
+  }
+}
+
+/**
+ * Supplies existing SVG icon names to the native field select widget.
+ */
+function jurenites_footer_icon_options(): array {
+  $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
+  $icon_options = [];
+  foreach (glob(DRUPAL_ROOT . '/' . $theme_path . '/assets/icons/*.svg') ?: [] as $icon_path) {
+    $icon_name = basename($icon_path, '.svg');
+    $icon_options[$icon_name] = ucwords(str_replace('-', ' ', $icon_name));
+  }
+  asort($icon_options);
+  return $icon_options;
+}
+
+/**
+ * Keeps footer-specific controls on native Footer link forms only.
+ */
+function jurenites_footer_form_menu_link_content_form_alter(array &$form_elements, FormStateInterface $form_state): void {
+  $menu_entity = $form_state->getFormObject()->getEntity();
+  foreach (array_keys($form_elements) as $element_name) {
+    if (str_starts_with($element_name, 'field_footer_') && !in_array($menu_entity->getMenuName(), ['footer', 'footer-legal'], TRUE)) {
+      $form_elements[$element_name]['#access'] = FALSE;
+    }
+  }
+  if (in_array($menu_entity->getMenuName(), ['footer', 'footer-legal'], TRUE)) {
+    $form_elements['footer_help'] = [
+      '#type' => 'item', '#weight' => -20,
+      '#markup' => t('Column headings belong at the top level. Use Section heading beneath a column for a second section, and Description for its visible introduction. Nest links using Parent link, or drag them on the Footer menu page. Privacy links belong in the separate Footer legal menu. Leading icon selects a bundled SVG; adding new artwork currently requires adding it to the site icon library. Translate headings and hover text using the Translate tab. Leave optional presentation fields empty for an ordinary link.'),
+    ];
+  }
+}
+
+/**
+ * Attaches paint rules before cached/BigPipe footer placeholders are rendered.
+ */
+function jurenites_footer_page_attachments(array &$page_attachments): void {
+  $paint_cache = (new CacheableMetadata())->addCacheTags(['menu_link_content_list', 'config:system.menu.footer', 'config:system.menu.footer-legal']);
+  $menu_storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
+  foreach ($menu_storage->loadByProperties(['menu_name' => ['footer', 'footer-legal'], 'enabled' => TRUE]) as $menu_entity) {
+    $paint_cache->addCacheableDependency($menu_entity);
+    $paint_value = $menu_entity->hasField('field_footer_hover_paint') ? (string) $menu_entity->get('field_footer_hover_paint')->value : '';
+    $hover_paint = HoverPaint::parse($paint_value);
+    if (!$hover_paint) {
+      continue;
+    }
+    $paint_class = 'footer-navigation__paint-' . substr(hash('sha256', $hover_paint['value']), 0, 16);
+    $paint_css = '.' . $paint_class . '{--footer-hover-color:' . $hover_paint['fallback'] . ';';
+    if ($hover_paint['gradient']) {
+      $paint_css .= '--footer-hover-gradient:' . $hover_paint['value'] . ';';
+    }
+    // Head attachments must belong to the initial page, not a late menu fragment.
+    $page_attachments['#attached']['html_head'][] = [
+      ['#tag' => 'style', '#value' => $paint_css . '}'], $paint_class,
+    ];
+  }
+  CacheableMetadata::createFromRenderArray($page_attachments)
+    ->merge($paint_cache)->applyTo($page_attachments);
+}
+
+/**
+ * Implements hook_preprocess_menu().
+ */
+function jurenites_footer_preprocess_menu(array &$menu_variables): void {
+  if (!in_array($menu_variables['menu_name'] ?? '', ['footer', 'footer-legal'], TRUE)) {
+    return;
+  }
+  $navigation_cache = (new CacheableMetadata())->addCacheContexts([
+    'languages:language_interface', 'languages:language_content',
+    'route', 'url.path', 'url.query_args', 'user.permissions', 'user.node_grants:view',
+  ])->addCacheTags(['config:system.menu.footer', 'config:system.menu.footer-legal', 'menu_link_content_list']);
+  $parent_breadcrumb = \Drupal::service('breadcrumb')->build(\Drupal::routeMatch());
+  $navigation_cache->addCacheableDependency($parent_breadcrumb);
+  $ancestor_urls = array_map(static fn($breadcrumb_link): string => $breadcrumb_link->getUrl()->toString(), $parent_breadcrumb->getLinks());
+  $current_page_url = Url::fromRoute('<current>')->toString();
+  $current_query_args = \Drupal::request()->query->all();
+  if ($menu_variables['menu_name'] === 'footer-legal') {
+    foreach ($menu_variables['items'] as &$legal_item) {
+      $legal_item = jurenites_footer_prepare_item($legal_item, $navigation_cache, $current_page_url, $current_query_args, $ancestor_urls);
+    }
+    unset($legal_item);
+    $legal_menu = \Drupal\system\Entity\Menu::load('footer-legal');
+    $menu_variables['footer_legal_label'] = $legal_menu ? $legal_menu->label() : t('Footer legal');
+    $navigation_cache->addCacheableDependency($legal_menu);
+    $menu_variables['footer_navigation_cache'] = [];
+    $navigation_cache->applyTo($menu_variables['footer_navigation_cache']);
+    return;
+  }
+  $menu_tree = \Drupal::menuTree();
+  $tree_parameters = new \Drupal\Core\Menu\MenuTreeParameters();
+  $tree_parameters->onlyEnabledLinks();
+  $legal_tree = $menu_tree->load('footer-legal', $tree_parameters);
+  $legal_tree = $menu_tree->transform($legal_tree, [
+    ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+    ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+  ]);
+  $menu_variables['footer_legal_menu'] = $menu_tree->build($legal_tree);
+  $menu_variables['footer_columns'] = [];
+  $menu_variables['footer_bottom_groups'] = [];
+  $menu_variables['footer_ungrouped_items'] = [];
+  foreach ($menu_variables['items'] as $menu_item) {
+    $prepared_item = jurenites_footer_prepare_item($menu_item, $navigation_cache, $current_page_url, $current_query_args, $ancestor_urls);
+    if ($prepared_item['footer_role'] === 'column') {
+      $menu_variables['footer_columns'][] = $prepared_item;
+    }
+    elseif ($prepared_item['footer_role'] === 'bottom') {
+      $menu_variables['footer_bottom_groups'][] = $prepared_item;
+    }
+    else {
+      // Keep newly added top-level links visible until an editor assigns a parent.
+      $menu_variables['footer_ungrouped_items'][] = $prepared_item;
+    }
+  }
+  $menu_variables['footer_navigation_cache'] = [];
+  $navigation_cache->applyTo($menu_variables['footer_navigation_cache']);
+}
+
+/**
+ * Prepares one accessible menu item and its descendants without label matching.
+ */
+function jurenites_footer_prepare_item(array $menu_item, CacheableMetadata $navigation_cache, string $current_page_url, array $current_query_args, array $ancestor_urls): array {
+  $menu_item['footer_role'] = 'link';
+  $menu_item['footer_icon'] = '';
+  $menu_item['footer_description'] = '';
+  $menu_item['footer_hover_text'] = '';
+  $menu_item['footer_new_window'] = FALSE;
+  $menu_plugin = $menu_item['original_link'] ?? NULL;
+  if ($menu_plugin instanceof MenuLinkContent) {
+    $menu_entity = \Drupal::service('entity.repository')->getTranslationFromContext($menu_plugin->getEntity());
+    $navigation_cache->addCacheableDependency($menu_entity);
+    $menu_item['footer_description'] = $menu_entity->getDescription();
+    $menu_item['footer_role'] = $menu_entity->get('field_footer_role')->value ?: 'link';
+    $menu_item['footer_icon'] = $menu_entity->get('field_footer_icon')->value ?: '';
+    $paint_value = $menu_entity->hasField('field_footer_hover_paint') ? (string) $menu_entity->get('field_footer_hover_paint')->value : '';
+    $hover_paint = HoverPaint::parse($paint_value);
+    if ($hover_paint) {
+      $paint_class = 'footer-navigation__paint-' . substr(hash('sha256', $hover_paint['value']), 0, 16);
+      $menu_item['attributes']->addClass($paint_class);
+      if ($hover_paint['gradient']) {
+        $menu_item['attributes']->addClass('footer-navigation__link--gradient');
+      }
+    }
+    $menu_item['footer_hover_text'] = $menu_entity->get('field_footer_hover_text')->value ?: '';
+    $menu_item['footer_new_window'] = (bool) $menu_entity->get('field_footer_new_window')->value;
+    if (!$menu_entity->get('field_footer_tag')->isEmpty()) {
+      // Include list tags even when a previously selected term has been deleted.
+      $navigation_cache->addCacheTags(['node_list', 'node_list:project', 'taxonomy_term_list:tags']);
+      $selected_term = $menu_entity->get('field_footer_tag')->entity;
+      if ($selected_term) {
+        $term_access = $selected_term->access('view', NULL, TRUE);
+        $navigation_cache->addCacheableDependency($term_access)->addCacheableDependency($selected_term);
+        if ($term_access->isAllowed()) {
+          $tag_slug = \Drupal::service('jurenites_blog.tag_slug_resolver')->slugify($selected_term->getUntranslated()->label());
+          $menu_item['url'] = Url::fromUserInput('/portfolio', ['query' => ['tag' => $tag_slug]]);
+          $project_count = (int) \Drupal::entityQuery('node')->accessCheck(TRUE)
+            ->condition('type', 'project')->condition('status', NodeInterface::PUBLISHED)
+            ->condition('field_tags.target_id', $selected_term->id())->count()->execute();
+          $menu_item['font_project_badge'] = [
+            '#theme' => 'badge', '#badge_label' => (string) $project_count,
+            '#numeric_style' => TRUE, '#color_variant' => 'gray',
+          ];
+        }
+      }
+    }
+  }
+  $item_url = $menu_item['url']->toString();
+  $menu_item['footer_is_email'] = str_starts_with($item_url, 'mailto:');
+  $menu_item['footer_new_window'] = $menu_item['footer_new_window']
+    && !preg_match('/^(mailto:|tel:)/i', $item_url);
+  $base_url = clone $menu_item['url'];
+  $base_url->setOption('query', []);
+  $item_query = $menu_item['url']->getOption('query') ?: [];
+  $is_current_page = $base_url->toString() === $current_page_url && (!$item_query || $item_query == $current_query_args);
+  $is_parent_page = !$item_query && $item_url !== Url::fromRoute('<front>')->toString()
+    && (in_array($item_url, $ancestor_urls, TRUE) || $menu_item['in_active_trail']);
+  if ($menu_item['footer_role'] === 'link' && ($is_current_page || $is_parent_page)) {
+    $menu_item['attributes']->addClass('is-active')->setAttribute('aria-current', $is_current_page ? 'page' : 'location');
+  }
+  foreach ($menu_item['below'] as $child_key => $child_item) {
+    $menu_item['below'][$child_key] = jurenites_footer_prepare_item($child_item, $navigation_cache, $current_page_url, $current_query_args, $ancestor_urls);
+  }
+  return $menu_item;
+}

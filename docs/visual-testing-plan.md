@@ -1,8 +1,10 @@
 # Visual Testing Layer Plan
 
-Status: the first local component-status dashboard and Storybook/Drupal capture
-runner are implemented. Figma pixel baselines, full three-pane review, manual
-overlays, Windows VM tests, and automatic CI report ingestion remain TODOs.
+Status: the local dashboard now accepts a website URL/path, component selectors,
+Storybook URL/args, viewport, and optional Figma PNG for each component. It shows
+three visual panes, manual overlays/wipes, and automated image differences.
+Figma references can be missing; implementation comparisons remain available.
+Automatic Figma exports, Windows VM tests, and CI ingestion remain TODOs.
 This layer defines milestone 12, **Testing**, of the
 [Cookbook](cookbook-product-design-process.md), supplies evidence for milestone
 13, final verification, and supports checks throughout the
@@ -23,6 +25,80 @@ the same case and see exactly what an automated result checked.
 A page frame must be compared with an equivalent page capture, and a component
 with the corresponding clipped component region. Different text, media, states,
 or bounds make a case unmatched; they must not produce a passing pixel result.
+
+## Using the Comparison Form
+
+Open a component in `http://127.0.0.1:7779/`. The **Compare this component** form
+accepts a real website URL (or a path relative to `http://jurenites.local`), a
+unique CSS selector for that component on the page, its local Storybook iframe
+URL including any `args`, a Storybook selector, and a viewport. **Capture and
+compare** saves the mapping locally and runs Playwright from a fresh anonymous
+browser context. Merely opening the dashboard does not start tests.
+
+The website loads as a complete page. The runner scrolls to and captures the
+selected element in place, preserving applied CSS, inherited rules, layout
+constraints, and any visible overlays. It does not copy the element into an
+isolated document. Fonts, images, progressive-image loading, and Font Preview
+readiness settle before capture. Selectors must match exactly one region.
+Cookie notices and other overlays remain visible; align that state before
+claiming parity. Interactions performed in a separate browser tab do not carry
+into the fresh capture session.
+
+Use the three fitted image previews for an overview. Use **Overlay**, **Wipe**,
+**Toggle layer**, or **Pixel difference** for a 1:1 comparison without stretching.
+Different capture dimensions are reported explicitly; the pixel comparator does
+not resize them. Live Storybook HTML and source links are available below the
+images. Drupal's same-origin frame restriction still requires its live page to
+open in a separate tab. No production frame policy was changed.
+
+Matching inputs must be explicitly checked in the form before a comparison can
+pass. Otherwise it produces exploratory differences marked **blocked**, while
+independent rendering checks can pass. A missing Figma reference is **missing**,
+not a failed implementation test. Overall complete parity still requires all
+four checks; inspect the website/Storybook result independently when working
+from code. Unmapped components remain not checked until configured and captured.
+
+For **Organisms / Font Preview / 4pixel**, the current English DEV mapping is
+`/portfolio/my-first-font` with `.font-preview--4pixel` on both surfaces.
+`/portfolio/4pixel` is its Russian alias, not the English route. The first real
+1280px capture revealed different available widths (800px website / 592px
+Storybook) and a visible website cookie notice. These are findings to review,
+not automatically fixed by the comparison tool.
+
+### Optional Figma Reference and Code-First Work
+
+A Figma reference may be any matching frame, not necessarily a reusable Figma
+Component. Select the frame, export PNG at 1×, and choose it in the form. Keep
+its content, state, background, and bounds consistent with the captured region.
+Optionally record its Figma URL too. The uploaded PNG is content-hashed and
+saved locally; both implementation captures are compared against it. A linked
+frame without a PNG is still a missing pixel reference. Export guidance:
+[Figma static exports](https://help.figma.com/hc/en-us/articles/360040028114-Export-static-designs-from-Figma).
+
+When work begins in code: compare Storybook and the actual website first, review
+which behavior and appearance are intended, then create/update the corresponding
+Figma frame/components using the shared tokens. Review that Figma result and
+export/link its reference. A missing Figma design must never be fabricated or
+silently replaced by an implementation screenshot labelled as a design baseline.
+Automatic frame export/sync is a later integration; manual PNG upload works now.
+
+Mappings are saved under `.cache/component-status/review-cases.json`; reports
+use `report-review-<component-id>.json`, with captures/content evidence under
+`artifacts/review-…/` and uploaded references under `artifacts/baselines/`.
+All are local and ignored by Git. These reports describe live inputs, not pinned
+Drupal revisions. Changing source still requires `npm run status:build` before
+another trusted capture. The capture endpoint requires a same-origin JSON
+request with the current server token and runs one comparison at a time.
+
+Run a saved case from the terminal with:
+
+```bash
+npm run status:test -- organisms-font-preview-4pixel
+```
+
+The original default Article Blog List Item CLI case retains its special
+content-mirroring loader. Generic cases use the explicit Storybook URL/args;
+they do not automatically convert arbitrary Drupal content into story inputs.
 
 ## Iframe Review Surface
 
@@ -52,9 +128,10 @@ page must not depend on direct DOM access across origins or promise synchronized
 interaction across the three systems. Automated captures open implementation
 URLs directly and reproduce the case's state independently.
 
-### TODO: Manual Comparison Mode
+### Manual Comparison Mode and Remaining Live-Frame Work
 
-Extend the existing local dashboard with a case-level review surface:
+The local case form implements captured-image review. The full live-frame surface
+and persisted reviewer decisions remain planned:
 
 - Select expected design, Storybook, or actual website as either comparison
   layer. Keep a third pane available for context and source links.
@@ -75,14 +152,15 @@ Current Drupal frame restrictions make screenshot overlays the initial route
 for its comparison layer. Figma's viewer chrome must never become part of the
 expected image. A blocked iframe can fall back to saved images and direct links.
 
-### TODO: Automatic Comparison Mode
+### Automatic Comparison Mode
 
 Reuse the installed [pixelmatch](https://github.com/mapbox/pixelmatch) library
 with `pngjs` for image decoding and Playwright for browser captures. The existing
 `scripts/component-status/images.mjs` already produces a difference image for
 equal-sized Storybook/Drupal PNGs, using `threshold: 0` and `includeAA: true`.
-Extend that path to the three comparison pairs above and approved browser
-regression baselines; a second image comparison library is not needed initially.
+The generic review runner now uses that path for all three comparison pairs
+when a PNG is uploaded. Approved browser regression baselines remain future work;
+a second image comparison library is not needed initially.
 
 For every pair, save expected, actual, and difference images, image dimensions,
 different-pixel count and ratio, comparator settings, and capture metadata.
@@ -172,6 +250,46 @@ saving, or correct links. Existing browser-error, blank-render, overflow, and
 token checks remain useful and separate. Add focused coverage for actual overlap
 bugs; intentional nesting is not a failure just because rectangles intersect.
 
+## Dashboard hosting
+
+`npm run status:serve` starts a custom Node.js `node:http` server in
+`scripts/component-status/server.mjs`, bound to `127.0.0.1:7779`. It serves the
+built dashboard and Storybook files, saved reports, and the Playwright capture
+API. This is a separate process from Drupal and the Storybook development server.
+
+The Docker Nginx configuration includes `test.jurenites.local`, proxying to
+`host.docker.internal:7779` on Docker Desktop. The Node service remains on the
+host with its installed Chromium. To activate the route:
+
+1. Add `test.jurenites.local` to the `127.0.0.1` entry in the Mac's `/etc/hosts`.
+2. Build with `npm run status:build` and start/restart `npm run status:serve`.
+3. Run `docker compose exec local_proxy nginx -t`, then
+   `docker compose exec local_proxy nginx -s reload`.
+4. Verify `curl -I http://test.jurenites.local/` and open the dashboard. Confirm
+   that `/api/status` loads and a component capture completes through this URL.
+
+The server accepts this exact local hostname and the existing loopback URLs.
+Capture POSTs must match the request's origin and include the current review
+token. Captures still fetch the bundled Storybook through internal loopback.
+An alternate `COMPONENT_STATUS_PORT` also requires changing the Nginx upstream.
+The route is prepared in source; its runtime activation and capture verification
+are pending. Docker connectivity could not be checked because the tool approval
+service failed, and `/etc/hosts` has not been changed.
+
+`test.jurenites.com` is proposed, not deployed. A full interactive installation
+needs DNS, HTTPS, a reverse proxy, a supervised Node process, writable private
+report storage, and enough resources for Playwright/Chromium. Confirm these
+capabilities in ISPmanager first; hosting a static Storybook does not establish
+support for this service. Protect the interactive dashboard with authentication:
+the review token prevents cross-origin capture requests but does not identify a
+user. It is delivered to dashboard readers, who can otherwise trigger captures.
+The production hostname is intentionally not enabled in the local server yet.
+
+An alternative is to publish read-only reports at the public subdomain and run
+captures locally or in CI. That needs a static report export/read-only viewer;
+copying `generated/status-dashboard` alone is insufficient because the current
+page calls the Node API. Decide the intended audience before production setup.
+
 ## Implemented Local Component Status
 
 Start with:
@@ -189,7 +307,14 @@ story variants, and excludes documentation-only entries. Its searchable list
 uses green for complete passing coverage, red for a current failed check, and
 orange for incomplete, blocked, or stale results. Every name opens check details,
 source links, timestamps, source identity, and captured evidence. Color is always
-accompanied by text. Results refresh every 30 seconds while the page is open.
+accompanied by text. Results load when the page is opened and refresh every
+60 seconds while the document is visible. Switching to a hidden tab pauses its
+timer; returning refreshes immediately and restarts the timer. Closing the page
+ends polling. This uses browser JavaScript and ordinary HTTP requests, with no
+server scheduler, webhooks, or WebSockets. **Refresh results** remains available
+for an immediate reload of saved reports; it does not launch tests. Automatic
+refresh preserves unsaved comparison inputs and does not overlap an active
+refresh or capture.
 
 The first case is **Article Blog List Item**, configured in
 `config/component-status.json`. At 360px and 1280px it selects the Blog list item
@@ -252,7 +377,9 @@ Reports use schema version 1 with `source_name`, `checked_at`,
 `components` array, and optional `pipeline_checks`. Each component record has a
 `component_id` from the dashboard API and a `checks` array. Each check contains
 `check_key`, `check_label`, `status`, and `message`, with optional JSON `details`
-and `artifacts`. Valid states are `passed`, `failed`, `blocked`, and `not_checked`.
+and `artifacts`. Valid states are `passed`, `failed`, `blocked`, `not_checked`, and `missing`.
+`missing` identifies an absent design reference; consumers must preserve it as
+incomplete coverage rather than a failed implementation or a complete pass.
 Required component check keys are `storybook`, `drupal`, `integration`, and `figma`.
 
 Use a distinct source name for each producer; an import replaces that producer's
@@ -270,17 +397,20 @@ to display. Artifact entries use `artifact_label` and an `artifact_path` beneath
 separately. The importer does not fetch external assets or execute commands.
 
 The report reader rejects invalid states, duplicate check keys, and unsafe
-artifact paths. Invalid reports are reported visibly and excluded. The server
-is read-only: viewing the page never launches tests or changes CI settings.
+artifact paths. Invalid reports are reported visibly and excluded. Viewing the page never launches tests or changes CI settings. The explicit
+**Capture and compare** action saves a local mapping/reference and starts a
+local capture; it does not write website content or change CI settings.
 
 ## Remaining Work
 
 - [ ] Export and match the specified Figma reference to actual content and states.
 - [ ] Pin Drupal content revisions and media identities for repeatable baselines.
 - [ ] Resolve the component differences revealed by the first captures.
-- [ ] Add manual iframe/image overlays, wipe, blink, and difference controls.
-- [ ] Extend automatic comparison to all three pairs and approved browser baselines.
-- [ ] Expand mappings beyond Article Blog List Item.
+- [x] Add captured-image overlays, wipe, layer toggle, and difference controls.
+- [ ] Add permitted live-frame stacking and saved manual review decisions.
+- [x] Compare all three pairs when a Figma PNG is supplied.
+- [ ] Add approved browser regression baselines.
+- [x] Add generic per-component mappings and the real 4pixel page example.
 - [ ] Run the mapped cases in native Windows browsers on a virtual machine.
 - [ ] Connect CI producers, artifact retention, and review before delivery gating.
 - [ ] Add focused functional and accessibility coverage alongside visual checks.
@@ -347,7 +477,10 @@ Existing `npm run storybook:inspect` remains the broader Storybook health check;
 it does not yet write component-status reports. `playwright`, `pngjs`, and
 `pixelmatch` are now declared development dependencies. Tests for report
 aggregation, stale evidence, input validation, and exact PNG comparison run with
-`npm run test:component-status`.
+`npm run test:component-status`. Browser checks are available as
+`PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/component-status-review.browser.mjs`
+(real DEV 4pixel page), and `node tests/component-status-review.integration.mjs`
+(temporary identical-render / PNG import fixture).
 
 Chromatic provides an existing [Storybook visual-testing and CI workflow](https://www.chromatic.com/docs/visual/).
 It is an option for hosted screenshot review. The local dashboard adds the

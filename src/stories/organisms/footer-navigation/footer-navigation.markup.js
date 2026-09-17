@@ -5,6 +5,9 @@ import footer_navigation_template from "./footer-navigation.template.html?raw";
 import footer_navigation_item_template from "./footer-navigation-item.template.html?raw";
 
 export function footer_navigation_markup({
+  recruiter_heading,
+  recruiter_description,
+  recruiter_links = [],
   social_heading,
   messengers_heading,
   information_heading,
@@ -32,6 +35,9 @@ export function footer_navigation_markup({
   });
 
   return render_template(footer_navigation_template, {
+    recruiter_heading: escape_html(recruiter_heading),
+    recruiter_description: escape_html(recruiter_description),
+    recruiter_links_markup: recruiter_links.map((recruiter_link) => `<li class="footer-navigation__item"><a class="footer-navigation__link" href="${escape_html(recruiter_link.link_url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape_html(recruiter_link.link_label)} (opens in a new window)">${recruiter_link.icon_name ? icon_markup({ icon_name: recruiter_link.icon_name, class_name: "footer-navigation__social-network-icon" }) : ""}<span class="footer-navigation__link-label">${escape_html(recruiter_link.link_label)}</span></a></li>`).join(""),
     social_heading: escape_html(social_heading),
     messengers_heading: escape_html(messengers_heading),
     information_heading: escape_html(information_heading),
@@ -67,9 +73,7 @@ export function footer_navigation_markup({
         class_name: "footer-navigation__external-mark",
       }),
       hover_label: escape_html(resource_link.hover_label),
-      hover_label_markup: resource_link.hover_parts
-        ? resource_link.hover_parts.map((hover_part) => `<span class="footer-navigation__resource-label-part${hover_part.color_token ? ` footer-navigation__resource-label-part--${escape_html(hover_part.color_token)}` : ""}">${escape_html(hover_part.text)}</span>`).join("")
-        : escape_html(resource_link.hover_label),
+      hover_label_markup: escape_html(resource_link.hover_label),
       link_label: escape_html(resource_link.link_label),
       link_accessible_label: escape_html(`${resource_link.link_label}: ${resource_link.hover_label} (opens in a new window)`),
       link_url: escape_html(resource_link.link_url),

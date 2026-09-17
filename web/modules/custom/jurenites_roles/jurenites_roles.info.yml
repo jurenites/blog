@@ -1,8 +1,8 @@
-name: Jurenites Professional Roles
+name: jurenites Professional Roles
 type: module
 description: Editable role stories below the separate project and experience metrics.
 core_version_requirement: ^11
-package: Jurenites
+package: jurenites
 dependencies:
   - jurenites_numeric_values:jurenites_numeric_values
   - jurenites_expanding_text:jurenites_expanding_text

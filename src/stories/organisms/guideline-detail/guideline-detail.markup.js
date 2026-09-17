@@ -60,11 +60,11 @@ function guideline_logo_specimen_markup(logo_icon_url) {
       </header>
       <div class="guideline-logo-specimen__grid">
         <figure class="guideline-logo-specimen__surface guideline-logo-specimen__surface--dark">
-          <img class="guideline-logo-specimen__image" src="${safe_logo_url}" alt="Jurenites pixel wordmark icon" />
+          <img class="guideline-logo-specimen__image" src="${safe_logo_url}" alt="jurenites pixel wordmark icon" />
           <figcaption>Dark surface</figcaption>
         </figure>
         <figure class="guideline-logo-specimen__surface guideline-logo-specimen__surface--light">
-          <img class="guideline-logo-specimen__image" src="${safe_logo_url}" alt="Jurenites pixel wordmark icon" />
+          <img class="guideline-logo-specimen__image" src="${safe_logo_url}" alt="jurenites pixel wordmark icon" />
           <figcaption>Light surface</figcaption>
         </figure>
       </div>

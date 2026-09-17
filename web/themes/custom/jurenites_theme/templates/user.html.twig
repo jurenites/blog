@@ -1,0 +1,13 @@
+{# Full profiles compose the same Avatar atom as compact author metadata. #}
+<article{{ attributes }}>
+  {% if show_profile_avatar %}
+    {% include '@jurenites_theme/components/avatar.html.twig' with {
+      avatar_size: 'big',
+      avatar_initials: profile_avatar_initials,
+      avatar_image: content.user_picture,
+    } only %}
+    {{ content|without('user_picture') }}
+  {% else %}
+    {{ content }}
+  {% endif %}
+</article>

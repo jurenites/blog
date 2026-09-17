@@ -56,7 +56,7 @@ msgid "Information"
 msgstr "Информация"
 
 msgid "No rights reserved"
-msgstr "Все права свободны"
+msgstr "Все права принадлежат интернету"
 
 msgid "version"
 msgstr "версия"

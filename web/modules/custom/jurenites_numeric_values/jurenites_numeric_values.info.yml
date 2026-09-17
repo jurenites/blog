@@ -1,7 +1,7 @@
-name: Jurenites Numeric Values
+name: jurenites Numeric Values
 type: module
 description: Provides reusable Numeric values blocks and repeatable numeric-value Paragraph items.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:block_content

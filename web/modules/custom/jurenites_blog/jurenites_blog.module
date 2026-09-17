@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Article content helpers for the Jurenites Blog.
+ * Article content helpers for the jurenites Blog.
  */
 
 use Drupal\Core\File\FileExists;
@@ -813,7 +813,7 @@ function jurenites_blog_load_public_url(string $remote_url, int $byte_limit): st
     'timeout' => 20,
     'headers' => [
       'Accept-Language' => 'en-US,en;q=0.9',
-      'User-Agent' => 'Mozilla/5.0 (compatible; JurenitesNews/1.0)',
+      'User-Agent' => 'Mozilla/5.0 (compatible; jurenitesNews/1.0)',
     ],
     'allow_redirects' => [
       'max' => 3,

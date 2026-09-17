@@ -7,7 +7,7 @@
     <h2 class="numeric-values__number{% if role_selector %} role-slider__number{% endif %}">{{ numeric_value_text }}</h2>
     {% if role_selector %}
       <button class="numeric-values__description role-slider__tab" type="button" id="{{ role_selector.button_id }}" aria-controls="{{ role_selector.panel_id }}">
-        <span class="role-slider__prefix">{{ 'As a'|t }}</span> {{ role_selector.role_heading }}
+        {{ paragraph.field_numeric_description.value }}
       </button>
     {% else %}
       <p class="numeric-values__description">{{ paragraph.field_numeric_description.value }}</p>

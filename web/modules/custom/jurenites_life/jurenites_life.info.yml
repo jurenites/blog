@@ -1,8 +1,8 @@
-name: Jurenites Game of Life
+name: jurenites Game of Life
 type: module
 description: Live Conway simulation for its tribute Article and editable supporting video references.
 core_version_requirement: ^11
-package: Jurenites
+package: jurenites
 dependencies:
   - drupal:node
   - drupal:media

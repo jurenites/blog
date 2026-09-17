@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 1.113.3
-Reviewed: 2026-09-16
+Version: 1.119.0
+Reviewed: 2026-09-17
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal
@@ -28,6 +28,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
 
 ## Current Source Contract
 
+- Footer columns, links, translations, optional icon/hover settings, and
+  Portfolio tag counters are edited through Drupal's native Footer menu.
+  See `footer-menu.md` for editing and the one-time legacy content migration.
+
 - Production HTTPS uses ISPmanager-managed Let's Encrypt for the apex and
   `www` domains. The real checkout is under `/www/jurenites.com`, only `/web`
   is public, and the former `/apps/blog_jurenites` path remains a compatibility
@@ -44,9 +48,10 @@ token endpoint, planned visual testing workflow, and DEV/PROD command runbook.
   affected decisions. The proposed visual testing layer
   connects Figma, Storybook, and Drupal with real content through iframe review
   and controlled screenshot comparisons. The first local dashboard and
-  Storybook/Drupal case are implemented; Figma comparison and automatic CI
-  ingestion remain pending, alongside manual overlay controls and Windows VM
-  pipeline coverage. The editor-owned Cookbook page still needs an editorial
+  Storybook/Drupal case are implemented. The dashboard now supports generic
+  URL/selector comparisons, optional Figma PNG upload, missing references, and
+  manual overlay/wipe/difference controls. Automatic Figma exports, CI ingestion,
+  and Windows VM pipeline coverage remain pending. The editor-owned Cookbook page still needs an editorial
   revision. See `workflow.md` and `visual-testing-plan.md`.
 
 - Product ideas start in task conversations. Durable decisions and deferred

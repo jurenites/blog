@@ -1,7 +1,7 @@
-name: 'Jurenites font projects'
+name: 'jurenites font projects'
 type: module
 description: 'Provides Project content, interactive font sections, and the initial Roundabout and 4pixel projects.'
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:image

@@ -1,7 +1,7 @@
-name: 'Jurenites Contact'
+name: 'jurenites Contact'
 type: module
 description: 'Owns the public contact Webform, notification handler, and background bot protection.'
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:block

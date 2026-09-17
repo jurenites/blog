@@ -1,0 +1,5 @@
+name: 'Jurenites editable footer menu'
+description: 'Adds native menu fields for footer headings, optional link presentation, and Portfolio tag counters without seeding editorial links.'
+type: 'Site'
+install:
+  - jurenites_footer

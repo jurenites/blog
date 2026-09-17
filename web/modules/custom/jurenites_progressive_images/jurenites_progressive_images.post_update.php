@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Post-update functions for Jurenites Progressive Images.
+ * Post-update functions for jurenites Progressive Images.
  */
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;

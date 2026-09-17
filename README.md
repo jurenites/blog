@@ -216,11 +216,12 @@ The local Docker stack routes semantic hostnames through its port-80 proxy:
 
 - Drupal: `http://jurenites.local`
 - Storybook: `http://storybook.jurenites.local`
+- Visual testing: `http://test.jurenites.local` (host Node service on port 7779)
 
-Add both names to the host machine once if they are not already present:
+Add these names to `/etc/hosts` on the host machine once:
 
 ```text
-jurenites.local storybook.jurenites.local
+127.0.0.1 jurenites.local storybook.jurenites.local test.jurenites.local
 ```
 
 Run Storybook through Docker:
@@ -229,6 +230,13 @@ Run Storybook through Docker:
 docker compose up storybook
 curl -I http://storybook.jurenites.local/
 ```
+
+For visual testing, run `npm run status:build` and `npm run status:serve` on the
+host. After changing the proxy configuration, validate and reload it with
+`docker compose exec local_proxy nginx -t` followed by
+`docker compose exec local_proxy nginx -s reload`. See the
+[visual testing hosting notes](docs/visual-testing-plan.md#dashboard-hosting)
+for verification and the separate production requirements.
 
 Or run Storybook directly from the host:
 

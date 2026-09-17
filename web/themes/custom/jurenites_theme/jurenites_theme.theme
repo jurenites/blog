@@ -41,7 +41,7 @@ function jurenites_theme_theme(
 }
 
 /**
- * Supplies the shared social profiles and local SVG assets to the footer.
+ * Supplies the local SVG asset base path to the editable footer menu.
  */
 function jurenites_theme_preprocess_menu(array &$menu_variables): void {
   if (($menu_variables['menu_name'] ?? '') !== 'footer') {
@@ -49,115 +49,7 @@ function jurenites_theme_preprocess_menu(array &$menu_variables): void {
   }
 
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
-  $menu_variables['social_links'] = json_decode(
-    file_get_contents(DRUPAL_ROOT . '/' . $theme_path . '/social-links.json'),
-    TRUE,
-    512,
-    JSON_THROW_ON_ERROR,
-  );
   $menu_variables['icon_asset_base_url'] = base_path() . $theme_path . '/assets/icons';
-  $menu_variables['messenger_links'] = [
-    [
-      'link_label' => 'Telegram',
-      'hover_label' => '@jurenites',
-      'link_url' => 'https://t.me/jurenites',
-      'icon_name' => 'brand-telegram',
-    ],
-    [
-      'link_label' => 'Gmail',
-      'hover_label' => 'jurenites@gmail.com',
-      'link_url' => 'mailto:jurenites@gmail.com',
-      'icon_name' => 'brand-gmail',
-    ],
-    [
-      'link_label' => 'Yandex.Mail',
-      'hover_label' => 'jurenites@yandex.ru',
-      'link_url' => 'mailto:jurenites@yandex.ru',
-      'icon_name' => 'brand-yandex-mail',
-    ],
-  ];
-  $how_i_work_menu_items = [];
-  $information_menu_items = [];
-  $legal_menu_items = [];
-  $privacy_policy_url = Url::fromUserInput('/privacy-policy')->toString();
-  $route_match = \Drupal::routeMatch();
-  $parent_breadcrumb = \Drupal::service('breadcrumb')->build($route_match);
-  $ancestor_urls = array_map(
-    static fn($breadcrumb_link): string => $breadcrumb_link->getUrl()->toString(),
-    $parent_breadcrumb->getLinks(),
-  );
-  $current_page_url = Url::fromRoute('<current>')->toString();
-  $current_query_args = \Drupal::request()->query->all();
-  $navigation_cache = CacheableMetadata::createFromObject($parent_breadcrumb)
-    ->addCacheContexts(['route', 'url.path', 'url.query_args']);
-  $menu_variables['footer_navigation_cache'] = [];
-  $navigation_cache->applyTo($menu_variables['footer_navigation_cache']);
-  foreach ($menu_variables['items'] as $footer_menu_item) {
-    $footer_item_url = $footer_menu_item['url']->toString();
-    // Query-specific links such as Fonts retain their own exact-link behavior.
-    $is_section_link = !$footer_menu_item['url']->getOption('query');
-    $is_current_page = $is_section_link && $footer_item_url === $current_page_url;
-    if (!$is_section_link) {
-      $footer_base_url = clone $footer_menu_item['url'];
-      $footer_base_url->setOption('query', []);
-      $is_current_page = $footer_base_url->toString() === $current_page_url
-        && $footer_menu_item['url']->getOption('query') == $current_query_args;
-    }
-    $is_parent_page = $is_section_link
-      && $footer_item_url !== Url::fromRoute('<front>')->toString()
-      && (in_array($footer_item_url, $ancestor_urls, TRUE) || $footer_menu_item['in_active_trail']);
-    if ($is_current_page || $is_parent_page) {
-      $footer_menu_item['attributes']->addClass('is-active');
-      $footer_menu_item['attributes']->setAttribute('aria-current', $is_current_page ? 'page' : 'location');
-    }
-    $footer_item_title = strtolower(strip_tags((string) ($footer_menu_item['title'] ?? '')));
-    if ($footer_item_url === $privacy_policy_url) {
-      $legal_menu_items[] = $footer_menu_item;
-    }
-    elseif (in_array($footer_item_title, ['cookbook', 'guidelines'], TRUE)) {
-      if ($footer_item_title === 'guidelines') {
-        $footer_menu_item['title'] = t('Guideline');
-      }
-      $how_i_work_menu_items[] = $footer_menu_item;
-    }
-    else {
-      $information_menu_items[] = $footer_menu_item;
-    }
-  }
-  $menu_variables['how_i_work_menu_items'] = $how_i_work_menu_items;
-  $menu_variables['information_menu_items'] = $information_menu_items;
-  $menu_variables['legal_menu_items'] = $legal_menu_items;
-  $menu_variables['how_i_work_links'] = [
-    [
-      'link_label' => 'GitHub',
-      'hover_label' => 'blog_jurenites',
-      'link_url' => 'https://github.com/jurenites/blog',
-      'icon_name' => 'brand-github',
-      'color_token' => 'github',
-    ],
-    [
-      'link_label' => 'Figma',
-      'hover_label' => 'blog jurenites',
-      'link_url' => 'https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=928-133&t=n2l2EWw0ldyJzj4u-0',
-      'icon_name' => 'brand-figma',
-      'color_token' => 'figma',
-      'hover_parts' => [
-        ['text' => 'bl', 'color_token' => 'figma-overlay-bl'],
-        ['text' => 'og', 'color_token' => 'figma-overlay-og'],
-        ['text' => "\u{00A0}", 'color_token' => ''],
-        ['text' => 'jur', 'color_token' => 'figma-overlay-jur'],
-        ['text' => 'eni', 'color_token' => 'figma-overlay-eni'],
-        ['text' => 'tes', 'color_token' => 'figma-overlay-tes'],
-      ],
-    ],
-    [
-      'link_label' => 'Storybook',
-      'hover_label' => 'blog jurenites',
-      'link_url' => 'http://storybook.jurenites.com/',
-      'icon_name' => 'brand-storybook',
-      'color_token' => 'storybook',
-    ],
-  ];
 }
 
 /**
@@ -755,10 +647,44 @@ function jurenites_theme_preprocess_paragraph(array &$paragraph_variables): void
 }
 
 /**
- * Keeps compact author pictures visual rather than linking to user profiles.
+ * Prepares shared Avatars for full profiles and compact author pictures.
  */
 function jurenites_theme_preprocess_user(array &$user_variables): void {
-  if (($user_variables['elements']['#view_mode'] ?? '') !== 'compact'
+  $user_view_mode = $user_variables['elements']['#view_mode'] ?? '';
+  $user_variables['show_profile_avatar'] = $user_view_mode === 'full';
+
+  if ($user_variables['show_profile_avatar']) {
+    $profile_user = $user_variables['user'];
+    $profile_name = $profile_user->hasField('field_full_name')
+      ? trim((string) $profile_user->get('field_full_name')->value)
+      : '';
+    $user_variables['profile_avatar_initials'] = jurenites_theme_name_initials(
+      $profile_name !== '' ? $profile_name : $profile_user->getDisplayName(),
+    );
+
+    if (isset($user_variables['content']['member_for'])) {
+      $membership_field = &$user_variables['content']['member_for'];
+      unset($membership_field['#markup']);
+      $membership_field['#type'] = 'container';
+      $membership_field['#theme_wrappers'] = ['container'];
+      $membership_field['#attributes']['class'][] = 'user-profile__member-for';
+      $membership_field['membership_label'] = [
+        '#type' => 'html_tag',
+        '#tag' => 'h4',
+        '#attributes' => ['class' => ['label', 'user-profile__member-for-label']],
+        '#value' => t('Member for'),
+      ];
+      $membership_field['membership_duration'] = [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['user-profile__member-for-value']],
+        'duration_text' => \Drupal::service('date.formatter')
+          ->formatTimeDiffSince($profile_user->getCreatedTime(), ['return_as_object' => TRUE])
+          ->toRenderable(),
+      ];
+    }
+  }
+
+  if (!in_array($user_view_mode, ['compact', 'full'], TRUE)
     || empty($user_variables['content']['user_picture'])) {
     return;
   }
@@ -1083,6 +1009,12 @@ function jurenites_theme_preprocess_field(array &$field_variables): void {
   $field_element = $field_variables['element'];
   $field_name = $field_element['#field_name'] ?? '';
   $entity_bundle = $field_element['#bundle'] ?? '';
+
+  if ($field_name === 'field_full_name'
+    && ($field_element['#entity_type'] ?? '') === 'user'
+    && ($field_element['#view_mode'] ?? '') === 'full') {
+    $field_variables['title_attributes']['class'][] = 'user-profile__full-name-label';
+  }
 
   if ($field_name === 'field_media_oembed_video' && $entity_bundle === 'remote_video') {
     foreach ($field_variables['items'] as &$video_item_variables) {

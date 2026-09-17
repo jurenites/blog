@@ -1,7 +1,7 @@
-name: Jurenites Timeline
+name: jurenites Timeline
 type: module
 description: Provides the editable CV timeline page and repeatable commercial-project records.
-package: Jurenites
+package: jurenites
 core_version_requirement: ^11
 dependencies:
   - drupal:datetime_range

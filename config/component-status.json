@@ -12,6 +12,15 @@
       ],
       "viewport_height": 900,
       "figma_blocked_reason": "Figma frame 1186:1660 is linked. Export was blocked by the Figma MCP Starter-plan call limit; no pixel baseline was captured."
+    },
+    "organisms-font-preview-4pixel": {
+      "drupal_url": "http://jurenites.local/portfolio/my-first-font",
+      "drupal_selector": ".font-preview--4pixel",
+      "story_selector": ".font-preview--4pixel",
+      "viewport_widths": [
+        1280
+      ],
+      "viewport_height": 900
     }
   }
 }

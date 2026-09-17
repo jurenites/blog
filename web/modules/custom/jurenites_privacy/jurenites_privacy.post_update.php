@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Post-update functions for Jurenites Privacy.
+ * Post-update functions for jurenites Privacy.
  */
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;

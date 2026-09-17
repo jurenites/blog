@@ -1,7 +1,7 @@
 import guideline_logo_url from "../../../../web/themes/custom/jurenites_theme/logo.svg?url";
 import { guideline_detail_markup } from "./guideline-detail.markup.js";
 
-const GUIDELINE_SUMMARY = "The compact Jurenites mark, its source asset, spacing, sizing, and correct use.";
+const GUIDELINE_SUMMARY = "The compact jurenites mark, its source asset, spacing, sizing, and correct use.";
 const GUIDELINE_BODY = "<h2>One source asset</h2><p>Use the checked-in SVG as the authoritative artwork so every surface stays aligned.</p><h2>Correct use</h2><ul><li>Keep the square aspect ratio.</li><li>Preserve the white field and black pixel artwork.</li></ul>";
 const PREVIEW_KIND = "logo-icon";
 const COLOR_SUMMARY = "The live foundation, brand, and system palettes generated from the project token source.";

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * @file
- * Post-update hooks for Jurenites font projects.
+ * Post-update hooks for jurenites font projects.
  */
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
