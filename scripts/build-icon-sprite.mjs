@@ -16,6 +16,8 @@ export async function build_icon_sprite(icon_directory = ICON_DIRECTORY) {
     }
     const symbol_attributes = root_match[1].replace(/\s(?:width|height|xmlns|id|aria-labelledby)="[^"]*"/g, '');
     let symbol_content = root_match[2];
+    // Preserve exported mask semantics without inline style in rendered markup.
+    symbol_content = symbol_content.replace(/(<mask\b[^>]*?)\sstyle="mask-type:\s*(luminance|alpha);?"/g, '$1 mask-type="$2"');
     // Namespace clip paths and other internal references so files cannot collide.
     symbol_content = symbol_content.replace(/\bid="([^"]+)"/g, `id="jurenites-${icon_name}-$1"`)
       .replace(/url\(#([^)]+)\)/g, `url(#jurenites-${icon_name}-$1)`)
@@ -63,7 +65,13 @@ export async function write_initial_icon_markup(project_directory) {
   await writeFile(resolve(generated_directory, 'icon-markup.js'), `// Generated from src/public/assets/icons. Do not edit.\nexport const ICON_SHAPES = ${JSON.stringify(icon_shapes, null, 2)};\n`);
   await writeFile(resolve(generated_directory, 'control-icons.js'), `// Generated control geometry: no network dependency.\nexport const CLOSE_ICON_SVG = ${JSON.stringify(icon_shapes['cross-big'].replace('__ICON_CLASS__', ''))};\nexport const CHEVRON_ICON_SVG = ${JSON.stringify(icon_shapes['chevron-down'].replace('__ICON_CLASS__', ''))};\n`);
   const twig_branches = Object.entries(icon_shapes).map(([icon_name, icon_shape], icon_index) => {
-    const twig_shape = icon_shape.replaceAll('__ICON_INSTANCE__', '{{ icon_instance_id }}').replace('__ICON_CLASS__', '{{ icon_svg_extra_class|default(\'\') }}');
+    const active_shape = icon_shapes[`${icon_name}-active`];
+    const twig_icon_shape = (shape_source, extra_class = '') => shape_source
+      .replaceAll('__ICON_INSTANCE__', '{{ icon_instance_id }}')
+      .replace('__ICON_CLASS__', `{{ icon_svg_extra_class|default('') }}${extra_class}`);
+    const twig_shape = active_shape
+      ? `{% if with_active_state|default(false) %}\n${twig_icon_shape(icon_shape, ' icon__svg--default')}\n${twig_icon_shape(active_shape, ' icon__svg--active')}\n{% else %}\n${twig_icon_shape(icon_shape)}\n{% endif %}`
+      : twig_icon_shape(icon_shape);
     return `{% ${icon_index === 0 ? 'if' : 'elseif'} icon_name == '${icon_name}' %}\n${twig_shape}`;
   });
   const twig_source = `{# Generated from editable SVG assets. Only the requested icon is rendered. #}\n{% set icon_instance_id = 'initial-icon-' ~ random(2147483647) %}\n${twig_branches.join('\n')}\n{% endif %}\n`;

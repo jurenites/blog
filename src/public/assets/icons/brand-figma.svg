@@ -1,16 +1,14 @@
-<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300" aria-labelledby="figma-title figma-description">
-  <title id="figma-title">Figma</title>
-  <desc id="figma-description">Figma logo</desc>
-  <style>
-    .st0 { fill: var(--icon-figma-fill, var(--component-footer-navigation-figma-overlay-tes-color)); }
-    .st1 { fill: var(--icon-figma-fill, var(--component-footer-navigation-figma-overlay-jur-color)); }
-    .st2 { fill: var(--icon-figma-fill, var(--component-footer-navigation-figma-overlay-bl-color)); }
-    .st3 { fill: var(--icon-figma-fill, var(--component-footer-navigation-figma-overlay-og-color)); }
-    .st4 { fill: var(--icon-figma-fill, var(--component-footer-navigation-figma-overlay-eni-color)); }
-  </style>
-  <path class="st0" d="M50 300c27.6 0 50-22.4 50-50v-50H50c-27.6 0-50 22.4-50 50s22.4 50 50 50z"/>
-  <path class="st1" d="M0 150c0-27.6 22.4-50 50-50h50v100H50c-27.6 0-50-22.4-50-50z"/>
-  <path class="st2" d="M0 50C0 22.4 22.4 0 50 0h50v100H50C22.4 100 0 77.6 0 50z"/>
-  <path class="st3" d="M100 0h50c27.6 0 50 22.4 50 50s-22.4 50-50 50h-50V0z"/>
-  <path class="st4" d="M200 150c0 27.6-22.4 50-50 50s-50-22.4-50-50 22.4-50 50-50 50 22.4 50 50z"/>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1394_1696)">
+<path d="M5.25 16C6.768 16 8 14.8054 8 13.3334V10.6667H5.25C3.732 10.6667 2.5 11.8614 2.5 13.3334C2.5 14.8054 3.732 16 5.25 16Z" fill="white"/>
+<path d="M2.5 7.99998C2.5 6.52798 3.732 5.33331 5.25 5.33331H8V10.6666H5.25C3.732 10.6666 2.5 9.47198 2.5 7.99998Z" fill="white"/>
+<path d="M2.5 2.66667C2.5 1.19467 3.732 0 5.25 0H8V5.33333H5.25C3.732 5.33333 2.5 4.13867 2.5 2.66667Z" fill="white"/>
+<path d="M8 0H10.75C12.268 0 13.5 1.19467 13.5 2.66667C13.5 4.13867 12.268 5.33333 10.75 5.33333H8V0Z" fill="white"/>
+<path d="M13.5 7.99998C13.5 9.47198 12.268 10.6666 10.75 10.6666C9.232 10.6666 8 9.47198 8 7.99998C8 6.52798 9.232 5.33331 10.75 5.33331C12.268 5.33331 13.5 6.52798 13.5 7.99998Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip0_1394_1696">
+<rect width="11" height="16" fill="white" transform="translate(2.5)"/>
+</clipPath>
+</defs>
 </svg>

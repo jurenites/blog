@@ -3,6 +3,8 @@ import input_text_group_template from "./input-text-group.template.html?raw";
 import { escape_html, render_template } from "../../template.js";
 import { select_input_markup } from "../../atoms/select-input/select-input.markup.js";
 
+import { checkbox_markup } from "../../atoms/checkbox/checkbox.markup.js";
+
 const GROUP_CONTROL_NAMES = new Set(["radio-group", "checkbox-group", "choice-chips"]);
 
 function option_value_list(choice_options) {
@@ -117,16 +119,15 @@ function single_checkbox_markup({
   is_disabled,
   selected_values,
 }) {
-  const control_attributes = accessibility_attributes({
+  return checkbox_markup({
     field_id,
-    field_description,
-    validation_state,
+    field_name,
+    field_label,
+    checkbox_state: selected_value_set(selected_values).has("yes") ? "filled" : "empty",
     is_required,
     is_disabled,
+    accessibility_attributes: accessibility_attributes({ field_id, field_description, validation_state }),
   });
-  const checked_attribute = selected_value_set(selected_values).has("yes") ? " checked" : "";
-
-  return `<div class="input-text__choice"><input class="input-text__choice-input input-text__choice-input--checkbox" id="${escape_html(field_id)}" name="${escape_html(field_name)}" type="checkbox" value="yes" ${control_attributes}${checked_attribute}><label class="input-text__choice-label" for="${escape_html(field_id)}">${escape_html(field_label)}${required_indicator_markup(is_required)}</label></div>`;
 }
 
 function choice_group_markup({
@@ -157,6 +158,16 @@ function choice_group_markup({
         is_required: required_choice,
         is_disabled,
       });
+      if (input_type === "checkbox") {
+        return checkbox_markup({
+          field_id: choice_id,
+          field_name: control_name,
+          field_label: choice_option,
+          field_value: choice_value,
+          checkbox_state: selected_options.has(choice_option.toLowerCase()) ? "filled" : "empty",
+          accessibility_attributes: choice_attributes,
+        });
+      }
       const input_class_name = field_control === "choice-chips"
         ? "input-text__chip-input"
         : `input-text__choice-input input-text__choice-input--${input_type}`;

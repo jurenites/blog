@@ -4,6 +4,9 @@
 @use "settings/fonts" with (
   $font-assets-path: "../assets/fonts"
 );
+@use "atoms/checkbox" with (
+  $checkbox-assets-path: "../assets/images/checkbox"
+);
 @use "main";
 @use "drupal/editorial";
 @use "drupal/site-intro";

@@ -154,6 +154,8 @@ function jurenites_blog_form_node_news_form_alter(
 
   $managed_field_names = [
     'field_news_source_name',
+    'field_youtube_creator_url',
+    'field_youtube_channel_avatar',
     'field_news_source_published',
     'field_image',
   ];
@@ -596,6 +598,20 @@ function jurenites_blog_set_news_metadata(NodeInterface $news_node): void {
     ? trim((string) $original_node->get('field_news_source_url')->uri)
     : '';
   $source_changed = $original_url !== '' && $source_url !== $original_url;
+  $video_identifier = jurenites_blog_youtube_identifier($source_url);
+  $creator_url_missing = $video_identifier !== ''
+    && $news_node->hasField('field_youtube_creator_url')
+    && $news_node->get('field_youtube_creator_url')->isEmpty();
+  if ($source_changed && $news_node->hasField('field_youtube_creator_url')) {
+    $news_node->set('field_youtube_creator_url', NULL);
+  }
+  $avatar_missing = $video_identifier !== ''
+    && $news_node->hasField('field_youtube_channel_avatar')
+    && $news_node->get('field_youtube_channel_avatar')->isEmpty();
+  if ($source_changed && $news_node->hasField('field_youtube_channel_avatar')) {
+    // Never retain another source's identity after a URL change.
+    $news_node->set('field_youtube_channel_avatar', NULL);
+  }
   $source_name_missing = $news_node->get('field_news_source_name')->isEmpty();
   $published_time_missing = $news_node->get('field_news_source_published')->isEmpty();
   $thumbnail_missing = $news_node->get('field_image')->isEmpty();
@@ -603,11 +619,12 @@ function jurenites_blog_set_news_metadata(NodeInterface $news_node): void {
   if (!$source_changed
     && !$source_name_missing
     && !$published_time_missing
-    && !$thumbnail_missing) {
+    && !$thumbnail_missing
+    && !$avatar_missing
+    && !$creator_url_missing) {
     return;
   }
 
-  $video_identifier = jurenites_blog_youtube_identifier($source_url);
   if ($video_identifier !== '') {
     jurenites_blog_set_news_youtube_metadata(
       $news_node,
@@ -714,14 +731,25 @@ function jurenites_blog_set_news_youtube_metadata(
   $source_name_missing = $news_node->get('field_news_source_name')->isEmpty();
   $published_time_missing = $news_node->get('field_news_source_published')->isEmpty();
   $thumbnail_missing = $news_node->get('field_image')->isEmpty();
+  $avatar_missing = $news_node->hasField('field_youtube_channel_avatar')
+    && $news_node->get('field_youtube_channel_avatar')->isEmpty();
 
-  if ($source_changed || $source_name_missing) {
+  $creator_url_missing = $news_node->hasField('field_youtube_creator_url')
+    && $news_node->get('field_youtube_creator_url')->isEmpty();
+
+  if ($source_changed || $source_name_missing || $creator_url_missing) {
     try {
       $resource_url = \Drupal::service('media.oembed.url_resolver')->getResourceUrl($video_url);
       $video_resource = \Drupal::service('media.oembed.resource_fetcher')->fetchResource($resource_url);
       $source_name = trim((string) $video_resource->getAuthorName());
-      if ($source_name !== '') {
+      if (($source_changed || $source_name_missing) && $source_name !== '') {
         $news_node->set('field_news_source_name', $source_name);
+      }
+      if ($creator_url_missing) {
+        $creator_url = $video_resource->getAuthorUrl()?->toString() ?? '';
+        if (in_array(parse_url($creator_url, PHP_URL_SCHEME), ['http', 'https'], TRUE)) {
+          $news_node->set('field_youtube_creator_url', ['uri' => $creator_url]);
+        }
       }
     }
     catch (\Throwable $source_exception) {
@@ -735,24 +763,30 @@ function jurenites_blog_set_news_youtube_metadata(
     }
   }
 
-  if ($source_changed || $published_time_missing) {
+  if ($source_changed || $published_time_missing || $avatar_missing) {
     try {
       $date_separator = str_contains($video_url, '?') ? '&' : '?';
       $video_page = jurenites_blog_load_public_url(
         $video_url . $date_separator . 'hl=en',
         5 * 1024 * 1024,
       );
+      if ($avatar_missing) {
+        $avatar_url = jurenites_blog_youtube_channel_avatar_url($video_page);
+        if ($avatar_url !== '') {
+          $news_node->set('field_youtube_channel_avatar', $avatar_url);
+        }
+      }
       $date_found = preg_match('/"publishDate":"([^"]+)"/', $video_page, $date_matches);
       $published_time = $date_found === 1
         ? jurenites_blog_normalize_datetime($date_matches[1])
         : '';
-      if ($published_time !== '') {
+      if (($source_changed || $published_time_missing) && $published_time !== '') {
         $news_node->set('field_news_source_published', $published_time);
       }
     }
     catch (\Throwable $date_exception) {
       \Drupal::logger('jurenites_blog')->warning(
-        'Unable to save the YouTube publication time for News @news_id: @message',
+        'Unable to save the YouTube publication time or avatar for News @news_id: @message',
         [
           '@news_id' => $news_node->id() ?? 'new',
           '@message' => $date_exception->getMessage(),

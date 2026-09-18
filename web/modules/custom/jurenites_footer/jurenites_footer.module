@@ -29,6 +29,10 @@ function jurenites_footer_icon_options(): array {
   $icon_options = [];
   foreach (glob(DRUPAL_ROOT . '/' . $theme_path . '/assets/icons/*.svg') ?: [] as $icon_path) {
     $icon_name = basename($icon_path, '.svg');
+    // Active companions are selected automatically with their base artwork.
+    if (str_ends_with($icon_name, '-active')) {
+      continue;
+    }
     $icon_options[$icon_name] = ucwords(str_replace('-', ' ', $icon_name));
   }
   asort($icon_options);

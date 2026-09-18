@@ -28,7 +28,7 @@ try {
   assert.ok(first_parent && second_parent);
   await admin_page.locator('[name="menu_parent"]').selectOption(first_parent.option_value);
   await admin_page.locator('[name="field_footer_icon"]').selectOption('brand-figma');
-  await admin_page.locator('[name="field_footer_hover_paint[0][value]"]').fill('linear-gradient(90deg, var(--component-footer-navigation-figma-overlay-bl-color), var(--component-footer-navigation-figma-overlay-tes-color))');
+  await admin_page.locator('[name="field_footer_hover_paint[0][value]"]').fill('linear-gradient(90deg, var(--color-palette-brand-primary), var(--color-palette-brand-tertiary))');
   await admin_page.locator('[name="field_footer_hover_text[0][value]"]').fill('Editable hover example');
   await admin_page.locator('[name="field_footer_new_window[value]"]').check();
   await admin_page.screenshot({ path: 'artifacts/footer-menu/link-editor.png', fullPage: true });

@@ -35,8 +35,10 @@ test('review endpoint rejects requests without same-origin authorization', async
   await new Promise((resolve_listen) => { status_server.listen(0, '127.0.0.1', resolve_listen); });
   try {
     const status_origin = `http://127.0.0.1:${status_server.address().port}`;
-    const response_data = await fetch(`${status_origin}/api/review`, { method: 'POST', headers: { origin: 'https://example.com', 'content-type': 'application/json' }, body: '{}' });
-    assert.equal(response_data.status, 403);
+    for (const endpoint_path of ['/api/review', '/api/language-picker']) {
+      const response_data = await fetch(`${status_origin}${endpoint_path}`, { method: 'POST', headers: { origin: 'https://example.com', 'content-type': 'application/json' }, body: '{}' });
+      assert.equal(response_data.status, 403);
+    }
   } finally { await new Promise((resolve_close) => { status_server.close(resolve_close); }); }
 });
 

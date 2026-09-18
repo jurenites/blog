@@ -17,6 +17,56 @@ use Drupal\node\Entity\NodeType;
 use Drupal\views\Entity\View;
 
 /**
+ * Adds the shared creator-link field to News without changing content.
+ */
+function jurenites_blog_post_update_news_author_link(): TranslatableMarkup {
+  $recipe_directory = DRUPAL_ROOT . '/../recipes/jurenites_news/config/';
+  $field_name = 'field_youtube_creator_url';
+  if (FieldStorageConfig::loadByName('node', $field_name) === NULL) {
+    $storage_definition = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($recipe_directory . 'field.storage.node.' . $field_name . '.yml'));
+    FieldStorageConfig::create($storage_definition)->save();
+  }
+  if (FieldConfig::loadByName('node', 'news', $field_name) === NULL) {
+    $field_definition = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($recipe_directory . 'field.field.node.news.' . $field_name . '.yml'));
+    FieldConfig::create($field_definition)->save();
+  }
+  $form_display = \Drupal::entityTypeManager()->getStorage('entity_form_display')->load('node.news.default');
+  if ($form_display !== NULL && !$form_display->getComponent($field_name)) {
+    $form_display->setComponent($field_name, ['type' => 'link_default', 'weight' => 7, 'region' => 'content'])->save();
+  }
+  foreach (\Drupal::entityTypeManager()->getStorage('entity_view_display')->loadByProperties(['targetEntityType' => 'node', 'bundle' => 'news']) as $view_display) {
+    $view_display->removeComponent($field_name)->save();
+  }
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+  return t('Added the News author link. Save existing YouTube News items to collect missing channel URLs.');
+}
+
+/**
+ * Adds the shared channel-avatar field to News without changing content.
+ */
+function jurenites_blog_post_update_news_source_avatar(): TranslatableMarkup {
+  $recipe_directory = DRUPAL_ROOT . '/../recipes/jurenites_news/config/';
+  $field_name = 'field_youtube_channel_avatar';
+  if (FieldStorageConfig::loadByName('node', $field_name) === NULL) {
+    $storage_definition = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($recipe_directory . 'field.storage.node.' . $field_name . '.yml'));
+    FieldStorageConfig::create($storage_definition)->save();
+  }
+  if (FieldConfig::loadByName('node', 'news', $field_name) === NULL) {
+    $field_definition = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($recipe_directory . 'field.field.node.news.' . $field_name . '.yml'));
+    FieldConfig::create($field_definition)->save();
+  }
+  $form_display = \Drupal::entityTypeManager()->getStorage('entity_form_display')->load('node.news.default');
+  if ($form_display !== NULL && !$form_display->getComponent($field_name)) {
+    $form_display->setComponent($field_name, ['type' => 'string_textfield', 'weight' => 6, 'region' => 'content'])->save();
+  }
+  foreach (\Drupal::entityTypeManager()->getStorage('entity_view_display')->loadByProperties(['targetEntityType' => 'node', 'bundle' => 'news']) as $view_display) {
+    $view_display->removeComponent($field_name)->save();
+  }
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+  return t('Added the News channel avatar. Save existing YouTube News items to collect missing avatars.');
+}
+
+/**
  * Shares original News items across homepage languages without duplicates.
  */
 function jurenites_blog_post_update_news_shared_original_content(): TranslatableMarkup {

@@ -6,8 +6,10 @@
  */
 
 require_once __DIR__ . '/../web/modules/custom/jurenites_footer/src/HoverPaint.php';
+require_once __DIR__ . '/../web/modules/custom/jurenites_footer/src/LegacyHoverPaint.php';
 
 use Drupal\jurenites_footer\HoverPaint;
+use Drupal\jurenites_footer\LegacyHoverPaint;
 
 $first_color = HoverPaint::legacyValue('github');
 $second_color = HoverPaint::legacyValue('storybook');
@@ -38,4 +40,13 @@ foreach ($invalid_values as $paint_value) {
     throw new RuntimeException('Invalid paint accepted: ' . $paint_value);
   }
 }
-echo "PASS: hex/token colors, gradients, fallback, invalid syntax and declaration/URL injection rejection.\n";
+$original_paint = 'linear-gradient(315deg, var(--component-footer-navigation-linkedin-color-hover) 0%, #aBcDeF 40%, var(--color-palette-brand-tertiary) 100%)';
+$expected_paint = 'linear-gradient(315deg, #2867B2 0%, #aBcDeF 40%, var(--color-palette-brand-tertiary) 100%)';
+if (LegacyHoverPaint::resolveReferences($original_paint) !== $expected_paint
+  || LegacyHoverPaint::resolveReferences($expected_paint) !== $expected_paint
+  || LegacyHoverPaint::resolveReferences('var(--system-icon-default-svg-viewport)') !== 'var(--system-icon-default-svg-viewport)'
+  || HoverPaint::legacyValue('github') !== '#0FBF3E'
+  || str_contains(HoverPaint::legacyValue('figma'), 'var(')) {
+  throw new RuntimeException('Legacy migration must resolve removed colors once and preserve custom paint and unrelated tokens.');
+}
+echo "PASS: paint grammar, injection rejection, literal legacy presets, mixed gradient migration and idempotence.\n";

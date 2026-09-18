@@ -21,6 +21,19 @@
         1280
       ],
       "viewport_height": 900
+    },
+    "organisms-top-nav-menu-site-header": {
+      "review_suite": "language-picker",
+      "drupal_url": "http://jurenites.local/",
+      "drupal_selector": ".site-header__language",
+      "story_url": "/storybook/iframe.html?id=organisms-top-nav-menu-site-header--default-story&viewMode=story",
+      "story_selector": ".site-header__language",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1394-1424",
+      "viewport_widths": [
+        1280,
+        360
+      ],
+      "viewport_height": 900
     }
   }
 }

@@ -1,0 +1,31 @@
+/* Storybook fixtures only. Live hover paint belongs to Drupal menu fields. */
+/* stylelint-disable declaration-property-value-disallowed-list -- Independent editorial paint fixtures, outside the theme palette. */
+
+.footer-navigation--demo [data-social-icon="social-youtube"] {
+  --footer-hover-color: #FF0033;
+}
+
+.footer-navigation--demo [data-social-icon="messenger-brand-telegram"] {
+  --footer-hover-color: #2AABEE;
+}
+
+.footer-navigation--demo [data-social-icon="messenger-brand-gmail"] {
+  --footer-hover-color: #EA4335;
+}
+
+.footer-navigation--demo [data-social-icon="messenger-brand-yandex-mail"] {
+  --footer-hover-color: #FFCC00;
+}
+
+.footer-navigation--demo [data-social-icon="brand-github"] {
+  --footer-hover-color: #0FBF3E;
+}
+
+.footer-navigation--demo [data-social-icon="brand-storybook"] {
+  --footer-hover-color: #FF4785;
+}
+
+.footer-navigation--demo [data-social-icon="brand-figma"] {
+  --footer-hover-color: #F24E1E;
+  --footer-hover-gradient: linear-gradient(90deg, #F24E1E, #FF7262, #A259FF, #1ABCFE, #0ACF83);
+}

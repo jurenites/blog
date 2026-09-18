@@ -1,4 +1,6 @@
 import { initialize_expandable_terms } from './expandable-term.js';
+import { initialize_checkboxes } from './checkbox.js';
+import { initialize_file_inputs } from './file-input.js';
 import { initialize_role_sliders } from './role-slider.js';
 import { initialize_company_sliders, detach_company_sliders } from './company-slider.js';
 import { initialize_screen_sliders, detach_screen_sliders } from './screen-slider.js';
@@ -1032,6 +1034,18 @@ if (typeof Drupal !== 'undefined') {
   Drupal.behaviors.jurenites_custom_select = {
     attach(context) {
       initialize_custom_selects(context);
+    },
+  };
+
+  Drupal.behaviors.jurenites_checkbox = {
+    attach(input_context) {
+      initialize_checkboxes(input_context);
+    },
+  };
+
+  Drupal.behaviors.jurenites_file_input = {
+    attach(input_context) {
+      initialize_file_inputs(input_context);
     },
   };
 

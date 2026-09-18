@@ -11,7 +11,8 @@ try {
   const browser_errors = [];
   page_instance.on('pageerror', (page_error) => browser_errors.push(page_error.message));
   await page_instance.goto(`${STATUS_ORIGIN}/#organisms-font-preview-4pixel`);
-  await page_instance.locator('#visual-review-form').waitFor();
+  await page_instance.locator('#visual-review-form').waitFor({ state: 'attached' });
+  if (!await page_instance.locator('#visual-review-form').isVisible()) await page_instance.getByText('Source mapping & capture settings', { exact: true }).click();
   assert.match(await page_instance.locator('[name="drupal_url"]').inputValue(), /portfolio\/my-first-font/);
   await page_instance.locator('[name="inputs_matched"]').uncheck();
   await page_instance.getByRole('button', { name: 'Capture and compare' }).click();
@@ -19,6 +20,7 @@ try {
   const capture_images = page_instance.locator('.visual-review__three-up img');
   assert.equal(await capture_images.count(), 2, await page_instance.locator('#component-details').innerText());
   assert.match(await page_instance.locator('.visual-review__empty').innerText(), /Missing/);
+  await page_instance.getByText('Overlay and differences', { exact: true }).click();
   await page_instance.locator('#comparison-mode').selectOption('wipe');
   await page_instance.getByRole('button', { name: 'Toggle layer' }).click();
   await page_instance.locator('#comparison-mode').selectOption('difference');

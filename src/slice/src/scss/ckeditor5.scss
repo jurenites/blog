@@ -11,3 +11,7 @@
 @use "atoms/inline-media";
 
 @use "atoms/expandable-term";
+
+.ck-content {
+  --ck-color-widget-editable-focus-background: var(--color-palette-dark-black);
+}

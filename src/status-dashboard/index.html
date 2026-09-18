@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Testing Component status dashboard · jurenites</title>
+  <link rel="icon" type="image/svg+xml" sizes="16x16" href="/favicon.svg">
   <link rel="stylesheet" href="/style.css">
   <script type="module" src="/app.js"></script>
 </head>
@@ -14,19 +15,17 @@
       <button class="status-dashboard__refresh" type="button" id="refresh-results">Refresh results</button>
     </header>
     <section class="status-dashboard__intro" aria-labelledby="page-heading">
-      <p class="status-dashboard__eyebrow">Design system health</p>
-      <h1 id="page-heading">Testing Component status dashboard</h1>
-      <p>From design to the page. Review what passed, what failed, and what still needs a check.</p>
+      <h1 id="page-heading">Visual testing</h1>
+      <p>Figma · Storybook · Website</p>
       <p class="status-dashboard__summary" id="status-summary" role="status">Loading component catalogue…</p>
       <p class="status-dashboard__updated" id="updated-time"></p>
-      <p class="status-dashboard__meta">Results refresh automatically every minute while this page is visible. Refreshing reads saved results; it does not run tests.</p>
+      <p class="status-dashboard__meta">Saved results refresh every minute while this page is visible.</p>
     </section>
-    <div class="status-dashboard__legend" aria-label="Status legend">
-      <span><i class="component-status__light component-status__light--passed" aria-hidden="true"></i>Passed</span>
-      <span><i class="component-status__light component-status__light--attention" aria-hidden="true"></i>Incomplete, blocked, or stale</span>
-      <span><i class="component-status__light component-status__light--failed" aria-hidden="true"></i>Failed</span>
-    </div>
-    <section aria-label="Component catalogue">
+    <div class="status-dashboard__workspace">
+    <aside class="status-dashboard__catalogue" aria-label="Component catalogue">
+      <h2>Components</h2>
+      <p class="status-dashboard__meta">Storybook inventory. Each component links its Figma and website references separately.</p>
+      <div class="status-dashboard__catalogue-tools"><span id="catalogue-count" role="status"></span><button class="status-dashboard__refresh" id="show-all-components" type="button">Show all</button></div>
       <div class="status-dashboard__filters">
         <div class="status-dashboard__filter-field">
           <label class="text-input__label" for="component-search">Find a component</label>
@@ -40,12 +39,16 @@
       <p id="report-errors" role="alert" hidden></p>
       <div id="component-catalogue"></div>
       <p id="empty-results" hidden>No components match these filters.</p>
-    </section>
+    </aside>
+    <div class="status-dashboard__review">
+    <p id="selection-placeholder">Choose a component to compare Figma, Storybook and the website. Missing references stay visible.</p>
     <section class="status-dashboard__details" id="component-details" aria-labelledby="detail-heading" hidden tabindex="-1"></section>
-    <section class="status-dashboard__pipeline" aria-labelledby="pipeline-heading">
-      <h2 id="pipeline-heading">CI/CD & diagnostics</h2>
+    </div>
+    </div>
+    <details class="status-dashboard__pipeline">
+      <summary>CI/CD &amp; diagnostics</summary>
       <div id="pipeline-results"><p>No pipeline reports have been imported.</p></div>
-    </section>
+    </details>
     <footer class="status-dashboard__footer">Local reports · A green light applies only to the checks listed in its details. Source changes and results older than 24 hours need a new run.</footer>
   </main>
 </body>

@@ -3,21 +3,31 @@
 .component-status {
   &__grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0 calc(var(--space-scale-base-gap) * 5);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
     padding: 0;
     margin: 0;
     list-style: none;
   }
 
-  &__item { min-width: 0; }
+  &__item, &__group { min-width: 0; }
+
+  &__grid--nested { padding-inline-start: calc(var(--space-scale-base-gap) * 2); }
+  &__group-heading {
+    padding-block: calc(var(--space-scale-base-gap) * 2);
+    border-bottom: var(--space-scale-one) solid var(--theme-dark-border-outline-default);
+    font: var(--typography-subtitle-1);
+    cursor: pointer;
+  }
+  &__group-heading:focus-visible { @include tools.focus-ring; }
 
   &__link {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) fit-content(45%) var(--component-status-indicator-size-default);
     align-items: center;
     gap: var(--space-scale-base-gap) calc(var(--space-scale-base-gap) * 2);
-    padding-block: calc(var(--space-scale-base-gap) * 3);
+    padding-block: calc(var(--space-scale-base-gap) * 2);
+    padding-inline-end: var(--space-scale-base-gap);
     border-bottom: var(--space-scale-one) solid var(--theme-dark-border-outline-default);
     color: var(--theme-dark-text-primary-default);
     text-decoration: none;
@@ -25,25 +35,29 @@
     &:hover, &:focus-visible { color: var(--theme-dark-action-primary-default); }
   }
 
-  &__name { overflow-wrap: anywhere; }
+  &__name { justify-self: start; text-align: left; overflow-wrap: anywhere; }
 
   &__label {
-    grid-column: 2;
+    justify-self: end;
+    text-align: right;
     color: var(--theme-dark-text-gray);
     font: var(--typography-caption);
   }
 
   &__light {
     display: inline-block;
+    justify-self: end;
     flex: none;
     width: var(--component-status-indicator-size-default);
     height: var(--component-status-indicator-size-default);
-    border-radius: 50%;
-    background: var(--theme-dark-system-warning-accent);
+    border-radius: var(--shape-corner-radius-none);
+    color: var(--theme-dark-text-gray);
+    background: currentColor;
 
-    &--passed { background: var(--theme-dark-system-success-soft); }
-    &--failed { background: var(--theme-dark-system-error-soft); }
-    &--attention { background: var(--theme-dark-system-warning-accent); }
+    &--passed { color: var(--theme-dark-system-success); }
+    &--failed { color: var(--theme-dark-system-error); }
+    &--passed, &--failed { box-shadow: 0 0 var(--space-scale-base-gap) currentColor; }
+    &--attention { color: var(--theme-dark-text-gray); }
   }
 }
 
@@ -101,18 +115,14 @@
   &__check p { margin-block: var(--space-scale-base-gap); }
   &__check pre { white-space: pre-wrap; overflow-wrap: anywhere; font: var(--typography-machine-readable); }
   &__artifacts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(var(--space-scale-base-gap) * 2); margin-top: calc(var(--space-scale-base-gap) * 3); }
-  &__artifact { display: grid; align-content: start; gap: var(--space-scale-base-gap); overflow-wrap: anywhere; }
-  &__artifact img { display: block; width: 100%; height: auto; border: var(--space-scale-one) solid var(--theme-dark-border-outline-default); }
+  &__artifact { display: grid; align-content: start; min-width: 0; overflow: auto; gap: var(--space-scale-base-gap); overflow-wrap: anywhere; }
+  &__artifact img { display: block; justify-self: start; width: auto; max-width: none; height: auto; border: var(--space-scale-one) solid var(--theme-dark-border-outline-default); }
   &__preview { margin-top: calc(var(--space-scale-base-gap) * 4); }
   &__preview iframe { width: 100%; height: var(--component-status-preview-height-default); border: var(--space-scale-one) solid var(--theme-dark-border-outline-default); }
   &__footer { margin-block: calc(var(--space-scale-base-gap) * 7) calc(var(--space-scale-base-gap) * 3); }
   & summary { cursor: pointer; }
   & a { color: inherit; }
   & a:focus-visible, & button:focus-visible, & input:focus-visible, & select:focus-visible, & summary:focus-visible { outline: var(--space-scale-two) solid var(--theme-dark-action-primary-default); outline-offset: var(--space-scale-two); }
-}
-
-@include tools.breakpoint-down('tablet-max') {
-  .component-status__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @include tools.breakpoint-down('mobile-max') {

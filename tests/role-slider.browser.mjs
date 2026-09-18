@@ -129,6 +129,7 @@ try {
   const prior_url = page_instance.url();
   await first_term.locator(':scope > .expandable-term__trigger').press('Enter');
   assert.equal(await first_term.locator(':scope > .expandable-term__explanation').isVisible(), true);
+  assert.equal(await first_term.locator(':scope > .expandable-term__trigger').isVisible(), true);
   const nested_term = first_term.locator('.expandable-term').first();
   await nested_term.locator(':scope > .expandable-term__trigger').press('Space');
   assert.equal(await nested_term.locator(':scope > .expandable-term__explanation').isVisible(), true);
@@ -138,7 +139,8 @@ try {
   await page_instance.keyboard.press('Escape');
   assert.equal(await nested_term.locator(':scope > .expandable-term__trigger').isVisible(), true);
   assert.equal(await first_term.locator(':scope > .expandable-term__explanation').isVisible(), true);
-  await first_term.locator(':scope > .expandable-term__explanation > .expandable-term__collapse').click();
+  assert.equal(await first_term.locator(':scope > .expandable-term__trigger').isVisible(), true);
+  await first_term.locator(':scope > .expandable-term__collapse').click();
   assert.equal(await first_term.locator(':scope > .expandable-term__trigger').isVisible(), true);
   assert.equal(await first_term.locator(':scope > .expandable-term__trigger').evaluate((button_element) => button_element === document.activeElement), true);
   // Reattachment must not create duplicate controls.
@@ -150,7 +152,7 @@ try {
   assert.equal(await no_script_page.locator('.role-slider__panel:visible').count(), 3);
   assert(await no_script_page.locator('.role-slider__number').evaluateAll((number_elements) => number_elements.every((number_element) => number_element.scrollWidth <= number_element.clientWidth + 1)), 'Role numbers fit without JavaScript.');
   await no_script_page.evaluate((saved_markup) => { document.querySelector('.role-slider__story').innerHTML = saved_markup; }, nested_markup);
-  assert.equal(await no_script_page.locator('.expandable-term__label:visible').count(), 0);
+  assert.equal(await no_script_page.locator('.expandable-term__label:visible').count(), 2);
   assert.equal(await no_script_page.locator('.expandable-term__explanation:visible').count(), 2);
   await no_script_page.goto('http://jurenites.local/ru/obo', { waitUntil: 'domcontentloaded' });
   assert.equal(await no_script_page.locator('.role-slider__panel').count(), 3);

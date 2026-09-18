@@ -7,6 +7,8 @@ dependencies:
     - field.field.node.news.field_news_source_published
     - field.field.node.news.field_news_source_url
     - field.field.node.news.field_tags
+    - field.field.node.news.field_youtube_channel_avatar
+    - field.field.node.news.field_youtube_creator_url
     - node.type.news
   module:
     - datetime
@@ -40,6 +42,22 @@ content:
     settings:
       size: 60
       placeholder: 'Publication or channel'
+    third_party_settings: {  }
+  field_youtube_creator_url:
+    type: link_default
+    weight: 7
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_youtube_channel_avatar:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_news_source_published:
     type: datetime_default

@@ -26,9 +26,9 @@ const MESSENGER_LINKS = [
   { link_label: "Yandex.Mail", hover_label: "jurenites@yandex.ru", link_url: "mailto:jurenites@yandex.ru", icon_name: "brand-yandex-mail" },
 ];
 const HOW_I_WORK_LINKS = [
-  { link_label: "GitHub", hover_label: "blog_jurenites", link_url: "https://github.com/jurenites/blog", icon_name: "brand-github", color_token: "github" },
-  { link_label: "Figma", hover_label: "blog jurenites", link_url: "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=928-133&t=n2l2EWw0ldyJzj4u-0", icon_name: "brand-figma", color_token: "figma" },
-  { link_label: "Storybook", hover_label: "blog jurenites", link_url: "http://storybook.jurenites.com/", icon_name: "brand-storybook", color_token: "storybook" },
+  { link_label: "GitHub", hover_label: "blog_jurenites", link_url: "https://github.com/jurenites/blog", icon_name: "brand-github", icon_variant: "github" },
+  { link_label: "Figma", hover_label: "blog jurenites", link_url: "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=928-133&t=n2l2EWw0ldyJzj4u-0", icon_name: "brand-figma", icon_variant: "figma" },
+  { link_label: "Storybook", hover_label: "blog jurenites", link_url: "http://storybook.jurenites.com/", icon_name: "brand-storybook", icon_variant: "storybook" },
 ];
 const PRIVACY_POLICY_LABEL = "No Privacy Policy";
 const PRIVACY_POLICY_URL = "/privacy-policy";

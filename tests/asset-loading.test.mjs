@@ -59,13 +59,21 @@ const settle_requests = () => new Promise((resolve_test) => { setImmediate(resol
 test('sprite contains every source icon with unique fragment IDs and preserved geometry', async () => {
   const sprite_source = await build_icon_sprite();
   const icon_files = (await readdir(new URL('../src/public/assets/icons/', import.meta.url))).filter((file_name) => file_name.endsWith('.svg'));
-  for (const file_name of icon_files) assert.ok(sprite_source.includes(`id="jurenites-icon-${file_name.replace('.svg', '')}"`));
+  for (const file_name of icon_files) {
+    const icon_name = file_name.replace('.svg', '');
+    const source_svg = await readFile(new URL(`../src/public/assets/icons/${file_name}`, import.meta.url), 'utf8');
+    const source_viewbox = source_svg.match(/viewBox="[^"]+"/)[0];
+    const symbol_start = sprite_source.indexOf(`<symbol id="jurenites-icon-${icon_name}"`);
+    assert.notEqual(symbol_start, -1);
+    assert.ok(sprite_source.slice(symbol_start, sprite_source.indexOf('>', symbol_start)).includes(source_viewbox), file_name);
+  }
   const symbol_ids = [...sprite_source.matchAll(/\bid="([^"]+)"/g)].map((id_match) => id_match[1]);
   assert.equal(new Set(symbol_ids).size, symbol_ids.length);
   for (const reference_match of sprite_source.matchAll(/url\(#([^)]+)\)/g)) assert.ok(symbol_ids.includes(reference_match[1]));
   assert.match(sprite_source, /id="jurenites-icon-chevron-down"[^>]*fill="none"/);
-  assert.match(sprite_source, /viewBox="0 0 1000 1000"/);
-  assert.doesNotMatch(sprite_source, /<style|class="st\d|#[0-9a-f]{6}\b/i);
+  assert.doesNotMatch(sprite_source, /<style|class="st\d/i);
+  assert.doesNotMatch(sprite_source, /\sstyle="/);
+  assert.match(sprite_source, /<mask[^>]*mask-type="luminance"/);
   const sprite_directory = new URL('../web/themes/custom/jurenites_theme/assets/icon-sprites/', import.meta.url);
   const { asset_name } = JSON.parse(await readFile(new URL('manifest.json', sprite_directory), 'utf8'));
   assert.match(asset_name, /^icons\.[a-f0-9]{16}\.svg$/);

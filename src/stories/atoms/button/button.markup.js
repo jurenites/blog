@@ -5,6 +5,7 @@ import { escape_html, render_template } from "../../template.js";
 
 export function button_markup({
   button_label,
+  button_type = "",
   button_accessible_label = "",
   style_variant = token_default_option("component-button-default-style", "component-button-style-"),
   is_disabled = false,
@@ -19,6 +20,7 @@ export function button_markup({
     : "";
 
   return render_template(button_template, {
+    button_type_attribute: ["button", "submit", "reset"].includes(button_type) ? ` type="${button_type}"` : "",
     additional_classes: `${prefix_icon_class_name}${
       additional_class_names ? ` ${escape_html(additional_class_names)}` : ""
     }`,

@@ -8,6 +8,8 @@ dependencies:
     - field.field.node.news.field_news_source_published
     - field.field.node.news.field_news_source_url
     - field.field.node.news.field_tags
+    - field.field.node.news.field_youtube_channel_avatar
+    - field.field.node.news.field_youtube_creator_url
     - node.type.news
   module:
     - user
@@ -17,6 +19,8 @@ bundle: news
 mode: news_list
 content: {  }
 hidden:
+  field_youtube_creator_url: true
+  field_youtube_channel_avatar: true
   field_image: true
   field_news_source_name: true
   field_news_source_published: true

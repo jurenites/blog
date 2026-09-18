@@ -49,15 +49,16 @@ color:
     brand-tertiary-accent: "#C8C844" # Dark yellow
     brand-tertiary: "#FFFF66" # Yellow
     brand-tertiary-soft: "#FFFFAA" # Light yellow
-    system-success-accent: "#35744A" # Dark green
-    system-success: "#4F9D69" # Green
-    system-success-soft: "#7EB991" # Light green
-    system-error-accent: "#912A23" # Dark red
-    system-error: "#C5524A" # Red
-    system-error-soft: "#B85C5C" # Muted red
-    system-warning-accent: "#D3BD88" # Light orange
-    system-warning: "#B6974B" # Orange
-    system-warning-strong: "#866F38" # Dark orange
+    # Bright RGB system ramps share the CMY brand's 44/BB, 66/FF and AA/FF levels.
+    system-success-accent: "#44BB44" # Strong green
+    system-success: "#66FF66" # Bright green
+    system-success-soft: "#AAFFAA" # Light green
+    system-error-accent: "#BB4444" # Strong red
+    system-error: "#FF6666" # Bright red
+    system-error-soft: "#FFAAAA" # Light red
+    system-warning-accent: "#FFD5AA" # Light orange; retained light-accent role
+    system-warning: "#FFB366" # Bright orange
+    system-warning-strong: "#BB8044" # Strong orange
 theme:
   dark:
     surface:
@@ -232,42 +233,6 @@ component:
     ray-softness-default: 12px # Feather the beam perimeter before clipping at the screen edge.
     ray-color-duration-default: 2800ms # Slow color changes evoke moving screen content without flashing.
     image-edge-fade-width-default: 100px # Blend every image edge into its matching page canvas; capped on small images.
-  footer-navigation:
-    social-icon-size-default: 16px # Compact social icons in the footer.
-    gmail-icon-height-default: 12px # Rectangular Gmail mark, independently adjustable.
-    gmail-gradient-red-color: "#FC413D"
-    gmail-gradient-light-green-color: "#60D673"
-    gmail-gradient-green-color: "#42C868"
-    gmail-gradient-deep-green-color: "#0EBC5F"
-    gmail-gradient-teal-color: "#00A9BB"
-    gmail-gradient-blue-color: "#3C90FF"
-    gmail-gradient-deep-blue-color: "#3186FF"
-    gmail-gradient-pink-color: "#FF63A0"
-    gmail-gradient-orange-color: "#FC5C30"
-    gmail-gradient-amber-color: "#FEB10C"
-    gmail-gradient-yellow-color: "#FEC700"
-    gmail-gradient-light-yellow-color: "#FFDB0F"
-    gmail-color-hover: "#EA4335" # Google brand red.
-    yandex-mail-icon-width-default: 16px # Shared width for both envelope states.
-    yandex-mail-icon-height-default: 12px # Fixed viewport; artwork stays proportional.
-    yandex-mail-color-hover: "#FFCC00" # https://www.brandcolorcode.com/yandex-mail
-    yandex-mail-light-yellow-color: "#FFDA3E"
-    yandex-mail-red-color: "#FF3333"
-    figma-icon-height-default: 18px # Taller Figma logo; other brand icons remain 16px.
-    linkedin-color-hover: "#2867B2" #https://brand.linkedin.com/en-us
-    facebook-color-hover: "#1877F2" #https://www.meta.com/brand/resources/facebook/logo/?srsltid=AfmBOoraVFK97HX6ieR7N9jiy8s7kCosZ5_BZTv1rmvFrK-jg5gEckD_
-    vk-color-hover: "#0077FF"
-    youtube-color-hover: "#FF0033" #https://brand.youtube/youtube-logo/
-    soundcloud-color-hover: "#FF5500" #https://www.color-hex.com/color-palette/73640
-    steam-color-hover: "#66C0F4" # Steam's interface blue.
-    telegram-color-hover: "#2AABEE" # https://telegram.org/tour/screenshots
-    github-color-hover: "#0FBF3E" # https://brand.github.com/foundations/color
-    storybook-color-hover: "#FF4785" # https://storybook.js.org/branding/
-    figma-overlay-bl-color: "#F24E1E" # Figma brand color overlay.
-    figma-overlay-og-color: "#FF7262" # Figma brand color overlay.
-    figma-overlay-jur-color: "#A259FF" # Figma brand color overlay.
-    figma-overlay-eni-color: "#1ABCFE" # Figma brand color overlay.
-    figma-overlay-tes-color: "#0ACF83" # Figma brand color overlay.
   message-toast:
     width-default: 420px # Readable notifications on wide screens.
     top-offset-default: 112px # Clear the frontend navigation and its backdrop.
