@@ -20,6 +20,7 @@
   <time
     class="{{ resolved_date_classes|join(' ') }}"
     datetime="{{ date_time_datetime }}"
+    {% if date_time_relative_suffix %}data-time-suffix="{{ date_time_relative_suffix }}"{% endif %}
     {% if date_time_exact_date_title %}title="{{ date_time_exact_date_title }}"{% endif %}
   >{{ date_time_display_markup }}</time>
 {% endif %}

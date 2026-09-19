@@ -1,20 +1,8 @@
-<svg viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g display="var(--icon-yandex-mail-default-display, inline)" transform="translate(0 0.5)">
-<g clip-path="url(#clip0_1147_80)">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g opacity="0.81">
-<path d="M5.65234 5.17578L0 11.0127V0L5.65234 5.17578Z" fill="white"/>
-<path d="M16 11.0127L10.3467 5.17578L16 0V11.0127Z" fill="white"/>
+<path d="M5.65234 7.17578L0 13.0127V2L5.65234 7.17578Z" fill="white"/>
+<path d="M16 13.0127L10.3467 7.17578L16 2V13.0127Z" fill="white"/>
 </g>
-<path d="M16 11.0127H0L5.65234 5.17578L7.16602 6.56152C7.63306 6.98951 8.36698 6.98951 8.83398 6.56152L10.3467 5.17578L16 11.0127Z" fill="white"/>
-<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M16 0L8.83392 6.56182C8.36692 6.98981 7.63312 6.98981 7.16608 6.56182L0 0H16Z" fill="white"/>
-</g>
-<defs>
-<clipPath id="clip0_1147_80">
-<rect width="16" height="11" fill="white"/>
-</clipPath>
-</defs>
-</g>
-<g display="var(--icon-yandex-mail-color-display, none)" transform="matrix(0.04 0 0 0.04 -2.24 -4.24)">
-<g fill="none" fill-rule="evenodd"><path fill="var(--component-footer-navigation-yandex-mail-light-yellow-color)" d="M56 402.667h400V109.333H56z"/><path fill="var(--component-footer-navigation-yandex-mail-color-hover)" d="M256 182.667l-200 220h400z"/><path d="M456 109.333L276.848 284.116c-11.675 11.4-30.02 11.4-41.696 0L56 109.333h400z" fill="var(--component-footer-navigation-yandex-mail-red-color)"/></g>
-</g>
+<path d="M16 13.0127H0L5.65234 7.17578L7.16602 8.56152C7.63306 8.98951 8.36698 8.98951 8.83398 8.56152L10.3467 7.17578L16 13.0127Z" fill="white"/>
+<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M16 2L8.83392 8.56182C8.36692 8.98981 7.63312 8.98981 7.16608 8.56182L0 2H16Z" fill="white"/>
 </svg>

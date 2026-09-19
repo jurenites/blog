@@ -14,7 +14,8 @@
 
 .footer-navigation__columns {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, max-content));
+  justify-content: space-between;
   gap: calc(var(--space-scale-base-gap) * 4);
 }
 
@@ -112,36 +113,6 @@ body.jurenites-theme .footer-navigation a.footer-navigation__link--with-badge > 
   //margin-inline-start: calc(var(--space-scale-base-gap) * 0.5);
 }
 
-body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--storybook:hover,
-body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--storybook:focus-visible {
-  color: var(--component-footer-navigation-storybook-color-hover);
-}
-
-body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--github:hover,
-body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--github:focus-visible {
-  color: var(--component-footer-navigation-github-color-hover);
-}
-
-body.jurenites-theme .footer-navigation .footer-navigation__resource-link--figma:hover,
-body.jurenites-theme .footer-navigation .footer-navigation__resource-link--figma:focus-visible {
-  color: var(--component-footer-navigation-figma-overlay-bl-color);
-}
-
-.footer-navigation__resource-icon {
-  width: var(--component-footer-navigation-social-icon-size-default);
-  height: var(--component-footer-navigation-social-icon-size-default);
-}
-
-// Figma keeps one complete logo, with a slightly taller brand-specific viewport.
-.footer-navigation__resource-link--figma .footer-navigation__resource-icon {
-  height: var(--component-footer-navigation-figma-icon-height-default);
-}
-
-.footer-navigation__resource-link--figma:hover .footer-navigation__resource-icon,
-.footer-navigation__resource-link--figma:focus-visible .footer-navigation__resource-icon {
-  --icon-figma-fill: initial;
-}
-
 .footer-navigation__bottom-row {
   display: flex;
   flex-wrap: wrap;
@@ -171,7 +142,7 @@ body.jurenites-theme .footer-navigation .footer-navigation__resource-link--figma
   @include tools.typography-body;
 }
 
-body.jurenites-theme .footer-navigation .footer-navigation__social-link {
+body.jurenites-theme .footer-navigation a.footer-navigation__social-link {
   color: var(--theme-dark-text-primary-default);
 
   .footer-navigation__social-label {
@@ -191,67 +162,14 @@ body.jurenites-theme .footer-navigation .footer-navigation__social-link {
 
   &:hover,
   &:focus-visible {
+    color: var(--footer-hover-color, var(--color-palette-brand-tertiary));
+
     .footer-navigation__social-label-text--default {
       visibility: hidden;
     }
 
     .footer-navigation__social-label-text--hover {
       visibility: visible;
-    }
-
-    @each $network-name in linkedin, facebook, vk, youtube, soundcloud, steam {
-      &[data-social-icon="social-#{$network-name}"] {
-        color: var(--component-footer-navigation-#{$network-name}-color-hover);
-      }
-    }
-
-    &[data-social-icon="messenger-brand-telegram"] {
-      color: var(--component-footer-navigation-telegram-color-hover);
-    }
-  }
-}
-
-.footer-navigation__social-network-icon {
-  width: var(--component-footer-navigation-social-icon-size-default);
-  height: var(--component-footer-navigation-social-icon-size-default);
-}
-
-.footer-navigation__messenger-link[data-social-icon="messenger-brand-gmail"] > .footer-navigation__social-network-icon {
-  --icon-gmail-fill: currentColor;
-
-  width: calc(var(--component-footer-navigation-gmail-icon-height-default) * 800 / 636.36322);
-  height: var(--component-footer-navigation-gmail-icon-height-default);
-}
-
-// Gmail reveals its brand gradient together with the account label.
-body.jurenites-theme .footer-navigation a.footer-navigation__messenger-link[data-social-icon="messenger-brand-gmail"] {
-  &:hover,
-  &:focus-visible {
-    color: var(--component-footer-navigation-gmail-color-hover);
-
-    > .footer-navigation__social-network-icon {
-      --icon-gmail-fill: initial;
-    }
-  }
-}
-
-.footer-navigation__messenger-link[data-social-icon="messenger-brand-yandex-mail"] > .footer-navigation__social-network-icon {
-  --icon-yandex-mail-default-display: inline;
-  --icon-yandex-mail-color-display: none;
-
-  width: var(--component-footer-navigation-yandex-mail-icon-width-default);
-  height: var(--component-footer-navigation-yandex-mail-icon-height-default);
-}
-
-// https://www.brandcolorcode.com/yandex-mail
-body.jurenites-theme .footer-navigation a.footer-navigation__messenger-link[data-social-icon="messenger-brand-yandex-mail"] {
-  &:hover,
-  &:focus-visible {
-    color: var(--component-footer-navigation-yandex-mail-color-hover);
-
-    > .footer-navigation__social-network-icon {
-      --icon-yandex-mail-default-display: none;
-      --icon-yandex-mail-color-display: inline;
     }
   }
 }
@@ -288,17 +206,6 @@ body.jurenites-theme .footer-navigation a.footer-navigation__editable-link {
   display: inline-block;
 }
 
-.footer-navigation__resource-link--figma {
-  --footer-hover-gradient: linear-gradient(
-    90deg,
-    var(--component-footer-navigation-figma-overlay-bl-color),
-    var(--component-footer-navigation-figma-overlay-og-color),
-    var(--component-footer-navigation-figma-overlay-jur-color),
-    var(--component-footer-navigation-figma-overlay-eni-color),
-    var(--component-footer-navigation-figma-overlay-tes-color)
-  );
-}
-
 @supports (background-clip: text) {
   body.jurenites-theme .footer-navigation a.footer-navigation__link--gradient,
   body.jurenites-theme .footer-navigation a.footer-navigation__resource-link--figma {
@@ -326,41 +233,6 @@ body.jurenites-theme .footer-navigation a.footer-navigation__editable-link {
         color: LinkText;
       }
     }
-  }
-}
-
-.footer-navigation__editable-link[data-footer-icon="brand-gmail"] > .footer-navigation__social-network-icon {
-  --icon-gmail-fill: currentColor;
-
-  width: calc(var(--component-footer-navigation-gmail-icon-height-default) * 800 / 636.36322);
-  height: var(--component-footer-navigation-gmail-icon-height-default);
-}
-
-.footer-navigation__editable-link[data-footer-icon="brand-yandex-mail"] > .footer-navigation__social-network-icon {
-  --icon-yandex-mail-default-display: inline;
-  --icon-yandex-mail-color-display: none;
-
-  width: var(--component-footer-navigation-yandex-mail-icon-width-default);
-  height: var(--component-footer-navigation-yandex-mail-icon-height-default);
-}
-
-.footer-navigation__editable-link[data-footer-icon="brand-figma"] > .footer-navigation__social-network-icon {
-  height: var(--component-footer-navigation-figma-icon-height-default);
-}
-
-.footer-navigation__editable-link:hover,
-.footer-navigation__editable-link:focus-visible {
-  &[data-footer-icon="brand-gmail"] > .footer-navigation__social-network-icon {
-    --icon-gmail-fill: initial;
-  }
-
-  &[data-footer-icon="brand-yandex-mail"] > .footer-navigation__social-network-icon {
-    --icon-yandex-mail-default-display: none;
-    --icon-yandex-mail-color-display: inline;
-  }
-
-  &[data-footer-icon="brand-figma"] > .footer-navigation__social-network-icon {
-    --icon-figma-fill: initial;
   }
 }
 

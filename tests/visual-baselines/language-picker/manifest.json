@@ -1,0 +1,11 @@
+{
+  "file_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites",
+  "exported_at": "2026-09-18",
+  "export_method": "Figma download_assets: native PNG exports verified at 1x; no resizing or recoloring",
+  "reference_scope": "Language picker only, Eng selected, Eng/Rus options; expanded state hovers Eng",
+  "states": [
+    { "state_id": "default", "state_label": "Default", "node_id": "1394:1424", "width": 80, "height": 40, "sha256": "0747e452aac3627995ebd5ad0281207433091941f3f94ae233813a491d011f87" },
+    { "state_id": "suffix-hover", "state_label": "Suffix hovered", "node_id": "1401:4526", "width": 80, "height": 40, "sha256": "db321afd02463c27afcb800a948b39e8177bd3a685ae240ec075a894d3e8579e" },
+    { "state_id": "expanded", "state_label": "Expanded · Eng option", "node_id": "1394:1444", "width": 80, "height": 130, "sha256": "ac45d097ccad308a9a409517ef8786674fc572cf23625cd75c58bd2ff17b1277" }
+  ]
+}

@@ -1,4 +1,5 @@
 import news_list_item_template from "./news-list-item.template.html?raw";
+import { author_identity_markup } from "../author-identity/author-identity.markup.js";
 import { chip_markup } from "../../atoms/chip/chip.markup.js";
 import { date_time_value_markup } from "../../atoms/date-time-value/date-time-value.markup.js";
 import { icon_markup } from "../../atoms/icon/icon.markup.js";
@@ -8,7 +9,9 @@ export function news_list_item_markup({
   news_title,
   source_url,
   source_name,
-  source_label,
+  source_author_url = "",
+  source_avatar_url = "",
+  source_avatar_initials = "",
   thumbnail_url,
   thumbnail_alt,
   tag_names = [],
@@ -20,8 +23,13 @@ export function news_list_item_markup({
   return render_template(news_list_item_template, {
     news_title: escape_html(news_title),
     source_url: escape_html(source_url),
-    source_name: escape_html(source_name),
-    source_label: escape_html(source_label),
+    source_identity_content: author_identity_markup({
+      author_name: source_name,
+      author_url: source_author_url,
+      avatar_image_url: source_avatar_url,
+      avatar_initials: source_avatar_initials,
+      avatar_size: "small",
+    }),
     thumbnail_url: escape_html(thumbnail_url),
     thumbnail_alt: escape_html(thumbnail_alt),
     tag_list_content: tag_names

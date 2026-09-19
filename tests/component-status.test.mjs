@@ -10,8 +10,8 @@ function report_fixture(check_status = 'passed') {
   return { schema_version: 1, source_name: 'unit-test', checked_at: CHECKED_AT, source_fingerprint: 'current-source', components: [{ component_id: 'molecules-test-item', checks: ['storybook', 'drupal', 'integration', 'figma'].map((check_key) => ({ check_key, check_label: check_key, status: check_status, message: 'Evidence' })) }] };
 }
 
-test('catalogue groups story variants and excludes documentation entries', () => {
-  const component_rows = component_catalogue({ entries: { first_story: { type: 'story', id: 'a--one', title: 'Molecules/Test Item' }, second_story: { type: 'story', id: 'a--two', title: 'Molecules/Test Item' }, docs_entry: { type: 'docs', id: 'a--docs', title: 'Molecules/Test Item' } } });
+test('catalogue groups story variants and excludes documentation and Foundations', () => {
+  const component_rows = component_catalogue({ entries: { first_story: { type: 'story', id: 'a--one', title: 'Molecules/Test Item' }, second_story: { type: 'story', id: 'a--two', title: 'Molecules/Test Item' }, docs_entry: { type: 'docs', id: 'a--docs', title: 'Molecules/Test Item' }, foundation_story: { type: 'story', id: 'spacing--default', title: 'Foundations/Spacing and Elevation' }, nested_foundation: { type: 'story', id: 'palette--default', title: 'Foundations/Colors/Palette' } } });
   assert.equal(component_rows.length, 1);
   assert.deepEqual(component_rows[0].story_ids, ['a--one', 'a--two']);
 });

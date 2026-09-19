@@ -1,3 +1,4 @@
+import "./footer-navigation.demo.css";
 import { escape_html, render_template } from "../../template.js";
 import { badge_markup } from "../../atoms/badge/badge.markup.js";
 import { icon_markup } from "../../atoms/icon/icon.markup.js";
@@ -37,7 +38,7 @@ export function footer_navigation_markup({
   return render_template(footer_navigation_template, {
     recruiter_heading: escape_html(recruiter_heading),
     recruiter_description: escape_html(recruiter_description),
-    recruiter_links_markup: recruiter_links.map((recruiter_link) => `<li class="footer-navigation__item"><a class="footer-navigation__link" href="${escape_html(recruiter_link.link_url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape_html(recruiter_link.link_label)} (opens in a new window)">${recruiter_link.icon_name ? icon_markup({ icon_name: recruiter_link.icon_name, class_name: "footer-navigation__social-network-icon" }) : ""}<span class="footer-navigation__link-label">${escape_html(recruiter_link.link_label)}</span></a></li>`).join(""),
+    recruiter_links_markup: recruiter_links.map((recruiter_link) => `<li class="footer-navigation__item"><a class="footer-navigation__link" href="${escape_html(recruiter_link.link_url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape_html(recruiter_link.link_label)} (opens in a new window)">${recruiter_link.icon_name ? icon_markup({ icon_name: recruiter_link.icon_name, class_name: "footer-navigation__social-network-icon", is_link_prefix: true }) : ""}<span class="footer-navigation__link-label">${escape_html(recruiter_link.link_label)}</span></a></li>`).join(""),
     social_heading: escape_html(social_heading),
     messengers_heading: escape_html(messengers_heading),
     information_heading: escape_html(information_heading),
@@ -62,7 +63,7 @@ export function footer_navigation_markup({
       icon_name: escape_html(`messenger-${messenger_link.icon_name}`),
       social_icon_markup: icon_markup({
         icon_name: messenger_link.icon_name,
-        class_name: "footer-navigation__social-network-icon",
+        class_name: "footer-navigation__social-network-icon", is_link_prefix: true,
       }),
       resource_link_class: "footer-navigation__messenger-link",
     })).join(""),
@@ -80,9 +81,9 @@ export function footer_navigation_markup({
       icon_name: escape_html(resource_link.icon_name),
       social_icon_markup: icon_markup({
         icon_name: resource_link.icon_name,
-        class_name: "footer-navigation__resource-icon",
+        class_name: "footer-navigation__resource-icon", is_link_prefix: true,
       }),
-      resource_link_class: `footer-navigation__resource-link${resource_link.color_token ? ` footer-navigation__resource-link--${resource_link.color_token}` : ""}`,
+      resource_link_class: `footer-navigation__resource-link${resource_link.icon_variant ? ` footer-navigation__resource-link--${resource_link.icon_variant}` : ""}`,
     })).join(""),
     social_links_markup: social_links.map((social_link) => render_template(footer_navigation_item_template, {
       link_target_attributes: 'target="_blank" rel="me noopener noreferrer"',
@@ -98,7 +99,7 @@ export function footer_navigation_markup({
       icon_name: escape_html(social_link.icon_name),
       social_icon_markup: icon_markup({
         icon_name: social_link.icon_name,
-        class_name: "footer-navigation__social-network-icon",
+        class_name: "footer-navigation__social-network-icon", is_link_prefix: true,
       }),
     })).join(""),
     current_year: escape_html(current_year),

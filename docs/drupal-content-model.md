@@ -259,7 +259,8 @@ adjacent projects; ranges continuing across a year boundary have no break.
 Overlapping projects take the first free one of four
 parallel lanes. If more than four ranges overlap, the shared marker uses a
 45-degree yellow-and-white stripe. The year heading sticks until the next year
-replaces it.
+replaces it. Month labels and year headings prevent text selection when dragging
+across the calendar rail.
 
 An organization appears as a large linked heading in the same left rail as the
 year. It remains sticky while years, including empty years, pass below it and is
@@ -862,6 +863,25 @@ ordered by source publication time, newest first. Its News List Item thumbnail
 and title link to the original external URL. The recipe adds no News listing
 page or main-menu item.
 
+Source names use the shared Author Identity component with its small (16px)
+Avatar, matching the Videos list in Drupal and Storybook. YouTube News stores
+the owner's image in the existing `field_youtube_channel_avatar` field, populated
+on save through the shared YouTube parser. Missing avatars retry on later saves;
+existing avatars and publication-date corrections are preserved. Changing the
+source URL clears the previous avatar. Other sources and unavailable images use
+source-name initials. Rendering never fetches metadata from external services.
+Deploy with `drush updatedb` and `drush cr`; the
+`jurenites_blog_post_update_news_source_avatar` update adds the field without
+rewriting content. Save existing YouTube News items to populate missing images.
+
+News author names link to their stored `field_youtube_creator_url`, collected
+from YouTube oEmbed on save and rendered with `rel="external noopener"` through
+the shared Author Identity. Missing URLs retry on save without replacing an
+existing source name or manual URL correction. Source changes clear the old
+profile URL; unavailable URLs leave a plain-text name. The
+`jurenites_blog_post_update_news_author_link` update adds the existing creator
+URL field to News; save existing YouTube News items to fill their links.
+
 English and Russian homepages share the same original News items; no News
 translation is required. The View filters to original-language rows and renders
 the original content, so existing translations cannot duplicate or replace an
@@ -954,8 +974,8 @@ native keyboard expansion and collapse; reduced-motion disables transitions.
 `jurenites_expanding_text` adds **Expandable term** beside **Link** in the Basic
 HTML and Full HTML CKEditor toolbars. Select plain text within one paragraph and
 press the button. The editor shows the short term followed by an arrow and an
-editable explanation; type the complete replacement phrase so the surrounding
-sentence still reads naturally. The short term can also be edited directly.
+editable explanation; write supporting detail that reads naturally in parentheses
+after the original phrase. The short term can also be edited directly.
 Select a word inside that explanation and use the same button to nest another
 expansion. There is no configured nesting-depth limit. This also works in quotes.
 Selections spanning blocks or containing links/objects are intentionally disabled.
@@ -969,13 +989,20 @@ The saved format is nested spans with the classes `expandable-term`,
 `expandable-term__label`, and `expandable-term__explanation`. No scripts, inline
 styles, arbitrary attributes or buttons are permitted by the new Basic HTML
 allowlist. Frontend enhancement creates real buttons at runtime. Clicking or
-pressing Enter/Space replaces the term inline with its explanation; a small
-return arrow collapses it. Escape collapses the innermost focused explanation.
+pressing Enter/Space keeps the original yellow phrase in place and adds its
+explanation in parentheses. The shared tooltip reads “Expand” when closed and
+“Collapse” when open. Click the phrase again or use the return arrow to collapse
+it. Escape collapses the innermost focused explanation.
 Focus returns to its term after collapse. Each expansion can contain further
 terms and formatted inline text. Paragraphs reflow naturally; nothing opens a
 new page or popup, and the term is colored without an underline. Without
-JavaScript the complete explanation is readable. Shared token styling is also
-loaded in CKEditor. Storybook: **Atoms / Expandable Term**.
+JavaScript both the original phrase and complete explanation are readable.
+Details fade in over the existing long motion duration and fade out over the
+media-reveal duration, while inline content reflows naturally. Rapid toggles
+cancel stale completion callbacks; reduced-motion users get immediate changes. Shared token styling is also
+loaded in CKEditor. Focused nested editable regions use the existing dark-black
+palette token through `--ck-color-widget-editable-focus-background`, scoped to
+`.ck-content`. Storybook: **Atoms / Expandable Term**.
 
 The initial local implementation includes placeholder role stories only; the
 owner's longer About and Home copy remains under review.

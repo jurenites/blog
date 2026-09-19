@@ -84,6 +84,14 @@ and apply overrides to that class. Do not use a broad descendant selector that
 can accidentally style sibling or nested instances of the shared atom. Verify
 that other instances retain the shared atom's default presentation.
 
+## External Link Suffixes
+
+Show an external-link suffix only on a standalone link or a link at the end of
+a text block, with no text, badge, or other inline content following its label.
+Omit the suffix and its reserved space for links within continuing text; do not
+automatically decorate external links in prose. Eligible suffixes appear on
+hover and keyboard focus without shifting surrounding content.
+
 ## Token Editing
 
 The user defines the exact token inventory. Reuse existing tokens; do not add
@@ -106,6 +114,19 @@ values only because they are derived from the token source.
 Exception: Technology Stack logo colors are fixed component artwork constants
 in `src/brand/technology-stack/brand-colors.js`. Keep them out of the token file
 and shared palette; do not expose them as design-token variables.
+
+Footer brand colors are also outside the design-token inventory: fixed logo
+fills belong in the reviewed SVG assets, and editable hover colors/gradients
+belong in Drupal menu fields. Literal colors in the footer's isolated Storybook
+demo stylesheet and frozen legacy migration map are content fixtures, not theme
+defaults. Generated icon markup inherits the SVG artwork colors.
+
+Link prefix icons always occupy a fixed 16px by 16px box with a 16 by 16 SVG
+viewBox. This is an artwork contract, not a design token. Designers own path
+placement inside that viewport: never add per-logo dimensions, offsets, or
+transforms. Preserve supplied SVG files, including white fills and separate
+`-active.svg` companions; use those companions for hover and keyboard focus.
+Keep surrounding component spacing token-based.
 
 ## Documentation Versioning
 

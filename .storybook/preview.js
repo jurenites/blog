@@ -1,4 +1,7 @@
+import { initialize_elapsed_times } from '../src/slice/src/js/elapsed-time.js';
 import { install_icon_sprite } from '../src/slice/src/js/icon-sprite.js';
+import { initialize_checkboxes } from '../src/slice/src/js/checkbox.js';
+import { initialize_file_inputs } from '../src/slice/src/js/file-input.js';
 import { initialize_heading_typing } from '../src/slice/src/js/heading-typing.js';
 // Storybook consumes the same compiled design system as the Drupal theme:
 // src/slice/src/scss/main.scss is the single CSS source of truth.
@@ -156,8 +159,11 @@ export const decorators = [
     document.body.classList.add("jurenites-theme");
     const story_output = story_render();
     window.requestAnimationFrame(() => {
+      initialize_elapsed_times(document);
       initialize_avatar_images(document);
       initialize_custom_selects(document);
+      initialize_file_inputs(document);
+      initialize_checkboxes(document);
       initialize_font_previews(document);
       initialize_hero_sections(document);
       initialize_layered_scenes(document);

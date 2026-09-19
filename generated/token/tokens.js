@@ -522,10 +522,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "system success accent",
-    "source_value": "#35744A",
-    "value": "#35744A",
-    "css_value": "#35744A",
-    "resolved_css_value": "#35744A",
+    "source_value": "#44BB44",
+    "value": "#44BB44",
+    "css_value": "#44BB44",
+    "resolved_css_value": "#44BB44",
     "is_reference": false,
     "reference_name": null
   },
@@ -538,10 +538,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "system success",
-    "source_value": "#4F9D69",
-    "value": "#4F9D69",
-    "css_value": "#4F9D69",
-    "resolved_css_value": "#4F9D69",
+    "source_value": "#66FF66",
+    "value": "#66FF66",
+    "css_value": "#66FF66",
+    "resolved_css_value": "#66FF66",
     "is_reference": false,
     "reference_name": null
   },
@@ -554,10 +554,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "system success soft",
-    "source_value": "#7EB991",
-    "value": "#7EB991",
-    "css_value": "#7EB991",
-    "resolved_css_value": "#7EB991",
+    "source_value": "#AAFFAA",
+    "value": "#AAFFAA",
+    "css_value": "#AAFFAA",
+    "resolved_css_value": "#AAFFAA",
     "is_reference": false,
     "reference_name": null
   },
@@ -570,10 +570,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "system error accent",
-    "source_value": "#912A23",
-    "value": "#912A23",
-    "css_value": "#912A23",
-    "resolved_css_value": "#912A23",
+    "source_value": "#BB4444",
+    "value": "#BB4444",
+    "css_value": "#BB4444",
+    "resolved_css_value": "#BB4444",
     "is_reference": false,
     "reference_name": null
   },
@@ -586,10 +586,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "system error",
-    "source_value": "#C5524A",
-    "value": "#C5524A",
-    "css_value": "#C5524A",
-    "resolved_css_value": "#C5524A",
+    "source_value": "#FF6666",
+    "value": "#FF6666",
+    "css_value": "#FF6666",
+    "resolved_css_value": "#FF6666",
     "is_reference": false,
     "reference_name": null
   },
@@ -602,10 +602,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "system error soft",
-    "source_value": "#B85C5C",
-    "value": "#B85C5C",
-    "css_value": "#B85C5C",
-    "resolved_css_value": "#B85C5C",
+    "source_value": "#FFAAAA",
+    "value": "#FFAAAA",
+    "css_value": "#FFAAAA",
+    "resolved_css_value": "#FFAAAA",
     "is_reference": false,
     "reference_name": null
   },
@@ -618,10 +618,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "system warning accent",
-    "source_value": "#D3BD88",
-    "value": "#D3BD88",
-    "css_value": "#D3BD88",
-    "resolved_css_value": "#D3BD88",
+    "source_value": "#FFD5AA",
+    "value": "#FFD5AA",
+    "css_value": "#FFD5AA",
+    "resolved_css_value": "#FFD5AA",
     "is_reference": false,
     "reference_name": null
   },
@@ -634,10 +634,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "system warning",
-    "source_value": "#B6974B",
-    "value": "#B6974B",
-    "css_value": "#B6974B",
-    "resolved_css_value": "#B6974B",
+    "source_value": "#FFB366",
+    "value": "#FFB366",
+    "css_value": "#FFB366",
+    "resolved_css_value": "#FFB366",
     "is_reference": false,
     "reference_name": null
   },
@@ -650,10 +650,10 @@ export const TOKEN_RECORDS = [
     ],
     "type": "color",
     "description": "system warning strong",
-    "source_value": "#866F38",
-    "value": "#866F38",
-    "css_value": "#866F38",
-    "resolved_css_value": "#866F38",
+    "source_value": "#BB8044",
+    "value": "#BB8044",
+    "css_value": "#BB8044",
+    "resolved_css_value": "#BB8044",
     "is_reference": false,
     "reference_name": null
   },
@@ -821,9 +821,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{color.palette.system-error-accent}",
-    "value": "#912A23",
+    "value": "#BB4444",
     "css_value": "var(--color-palette-system-error-accent)",
-    "resolved_css_value": "#912A23",
+    "resolved_css_value": "#BB4444",
     "is_reference": true,
     "reference_name": "color-palette-system-error-accent"
   },
@@ -940,9 +940,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{color.palette.system-success-accent}",
-    "value": "#35744A",
+    "value": "#44BB44",
     "css_value": "var(--color-palette-system-success-accent)",
-    "resolved_css_value": "#35744A",
+    "resolved_css_value": "#44BB44",
     "is_reference": true,
     "reference_name": "color-palette-system-success-accent"
   },
@@ -957,9 +957,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{color.palette.system-success}",
-    "value": "#4F9D69",
+    "value": "#66FF66",
     "css_value": "var(--color-palette-system-success)",
-    "resolved_css_value": "#4F9D69",
+    "resolved_css_value": "#66FF66",
     "is_reference": true,
     "reference_name": "color-palette-system-success"
   },
@@ -974,9 +974,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{color.palette.system-success-soft}",
-    "value": "#7EB991",
+    "value": "#AAFFAA",
     "css_value": "var(--color-palette-system-success-soft)",
-    "resolved_css_value": "#7EB991",
+    "resolved_css_value": "#AAFFAA",
     "is_reference": true,
     "reference_name": "color-palette-system-success-soft"
   },
@@ -991,9 +991,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{color.palette.system-error-accent}",
-    "value": "#912A23",
+    "value": "#BB4444",
     "css_value": "var(--color-palette-system-error-accent)",
-    "resolved_css_value": "#912A23",
+    "resolved_css_value": "#BB4444",
     "is_reference": true,
     "reference_name": "color-palette-system-error-accent"
   },
@@ -1008,9 +1008,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{color.palette.system-error}",
-    "value": "#C5524A",
+    "value": "#FF6666",
     "css_value": "var(--color-palette-system-error)",
-    "resolved_css_value": "#C5524A",
+    "resolved_css_value": "#FF6666",
     "is_reference": true,
     "reference_name": "color-palette-system-error"
   },
@@ -1025,9 +1025,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{color.palette.system-error-soft}",
-    "value": "#B85C5C",
+    "value": "#FFAAAA",
     "css_value": "var(--color-palette-system-error-soft)",
-    "resolved_css_value": "#B85C5C",
+    "resolved_css_value": "#FFAAAA",
     "is_reference": true,
     "reference_name": "color-palette-system-error-soft"
   },
@@ -1042,9 +1042,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{color.palette.system-warning-accent}",
-    "value": "#D3BD88",
+    "value": "#FFD5AA",
     "css_value": "var(--color-palette-system-warning-accent)",
-    "resolved_css_value": "#D3BD88",
+    "resolved_css_value": "#FFD5AA",
     "is_reference": true,
     "reference_name": "color-palette-system-warning-accent"
   },
@@ -1059,9 +1059,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{color.palette.system-warning}",
-    "value": "#B6974B",
+    "value": "#FFB366",
     "css_value": "var(--color-palette-system-warning)",
-    "resolved_css_value": "#B6974B",
+    "resolved_css_value": "#FFB366",
     "is_reference": true,
     "reference_name": "color-palette-system-warning"
   },
@@ -1076,9 +1076,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{color.palette.system-warning-strong}",
-    "value": "#866F38",
+    "value": "#BB8044",
     "css_value": "var(--color-palette-system-warning-strong)",
-    "resolved_css_value": "#866F38",
+    "resolved_css_value": "#BB8044",
     "is_reference": true,
     "reference_name": "color-palette-system-warning-strong"
   },
@@ -2898,566 +2898,6 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
-    "name": "component-footer-navigation-social-icon-size-default",
-    "path": [
-      "component",
-      "footer-navigation",
-      "social-icon-size-default"
-    ],
-    "type": "dimension",
-    "description": "Compact social icons in the footer.",
-    "source_value": "16px",
-    "value": "16px",
-    "css_value": "16px",
-    "resolved_css_value": "16px",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-icon-height-default",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-icon-height-default"
-    ],
-    "type": "dimension",
-    "description": "Rectangular Gmail mark, independently adjustable.",
-    "source_value": "12px",
-    "value": "12px",
-    "css_value": "12px",
-    "resolved_css_value": "12px",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-gradient-red-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-gradient-red-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#FC413D",
-    "value": "#FC413D",
-    "css_value": "#FC413D",
-    "resolved_css_value": "#FC413D",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-gradient-light-green-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-gradient-light-green-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#60D673",
-    "value": "#60D673",
-    "css_value": "#60D673",
-    "resolved_css_value": "#60D673",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-gradient-green-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-gradient-green-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#42C868",
-    "value": "#42C868",
-    "css_value": "#42C868",
-    "resolved_css_value": "#42C868",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-gradient-deep-green-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-gradient-deep-green-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#0EBC5F",
-    "value": "#0EBC5F",
-    "css_value": "#0EBC5F",
-    "resolved_css_value": "#0EBC5F",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-gradient-teal-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-gradient-teal-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#00A9BB",
-    "value": "#00A9BB",
-    "css_value": "#00A9BB",
-    "resolved_css_value": "#00A9BB",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-gradient-blue-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-gradient-blue-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#3C90FF",
-    "value": "#3C90FF",
-    "css_value": "#3C90FF",
-    "resolved_css_value": "#3C90FF",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-gradient-deep-blue-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-gradient-deep-blue-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#3186FF",
-    "value": "#3186FF",
-    "css_value": "#3186FF",
-    "resolved_css_value": "#3186FF",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-gradient-pink-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-gradient-pink-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#FF63A0",
-    "value": "#FF63A0",
-    "css_value": "#FF63A0",
-    "resolved_css_value": "#FF63A0",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-gradient-orange-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-gradient-orange-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#FC5C30",
-    "value": "#FC5C30",
-    "css_value": "#FC5C30",
-    "resolved_css_value": "#FC5C30",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-gradient-amber-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-gradient-amber-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#FEB10C",
-    "value": "#FEB10C",
-    "css_value": "#FEB10C",
-    "resolved_css_value": "#FEB10C",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-gradient-yellow-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-gradient-yellow-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#FEC700",
-    "value": "#FEC700",
-    "css_value": "#FEC700",
-    "resolved_css_value": "#FEC700",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-gradient-light-yellow-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-gradient-light-yellow-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#FFDB0F",
-    "value": "#FFDB0F",
-    "css_value": "#FFDB0F",
-    "resolved_css_value": "#FFDB0F",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-gmail-color-hover",
-    "path": [
-      "component",
-      "footer-navigation",
-      "gmail-color-hover"
-    ],
-    "type": "string",
-    "description": "Google brand red.",
-    "source_value": "#EA4335",
-    "value": "#EA4335",
-    "css_value": "#EA4335",
-    "resolved_css_value": "#EA4335",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-yandex-mail-icon-width-default",
-    "path": [
-      "component",
-      "footer-navigation",
-      "yandex-mail-icon-width-default"
-    ],
-    "type": "dimension",
-    "description": "Shared width for both envelope states.",
-    "source_value": "16px",
-    "value": "16px",
-    "css_value": "16px",
-    "resolved_css_value": "16px",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-yandex-mail-icon-height-default",
-    "path": [
-      "component",
-      "footer-navigation",
-      "yandex-mail-icon-height-default"
-    ],
-    "type": "dimension",
-    "description": "Fixed viewport; artwork stays proportional.",
-    "source_value": "12px",
-    "value": "12px",
-    "css_value": "12px",
-    "resolved_css_value": "12px",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-yandex-mail-color-hover",
-    "path": [
-      "component",
-      "footer-navigation",
-      "yandex-mail-color-hover"
-    ],
-    "type": "string",
-    "description": "https://www.brandcolorcode.com/yandex-mail",
-    "source_value": "#FFCC00",
-    "value": "#FFCC00",
-    "css_value": "#FFCC00",
-    "resolved_css_value": "#FFCC00",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-yandex-mail-light-yellow-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "yandex-mail-light-yellow-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#FFDA3E",
-    "value": "#FFDA3E",
-    "css_value": "#FFDA3E",
-    "resolved_css_value": "#FFDA3E",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-yandex-mail-red-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "yandex-mail-red-color"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#FF3333",
-    "value": "#FF3333",
-    "css_value": "#FF3333",
-    "resolved_css_value": "#FF3333",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-figma-icon-height-default",
-    "path": [
-      "component",
-      "footer-navigation",
-      "figma-icon-height-default"
-    ],
-    "type": "dimension",
-    "description": "Taller Figma logo; other brand icons remain 16px.",
-    "source_value": "18px",
-    "value": "18px",
-    "css_value": "18px",
-    "resolved_css_value": "18px",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-linkedin-color-hover",
-    "path": [
-      "component",
-      "footer-navigation",
-      "linkedin-color-hover"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#2867B2",
-    "value": "#2867B2",
-    "css_value": "#2867B2",
-    "resolved_css_value": "#2867B2",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-facebook-color-hover",
-    "path": [
-      "component",
-      "footer-navigation",
-      "facebook-color-hover"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#1877F2",
-    "value": "#1877F2",
-    "css_value": "#1877F2",
-    "resolved_css_value": "#1877F2",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-vk-color-hover",
-    "path": [
-      "component",
-      "footer-navigation",
-      "vk-color-hover"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#0077FF",
-    "value": "#0077FF",
-    "css_value": "#0077FF",
-    "resolved_css_value": "#0077FF",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-youtube-color-hover",
-    "path": [
-      "component",
-      "footer-navigation",
-      "youtube-color-hover"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#FF0033",
-    "value": "#FF0033",
-    "css_value": "#FF0033",
-    "resolved_css_value": "#FF0033",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-soundcloud-color-hover",
-    "path": [
-      "component",
-      "footer-navigation",
-      "soundcloud-color-hover"
-    ],
-    "type": "string",
-    "description": "",
-    "source_value": "#FF5500",
-    "value": "#FF5500",
-    "css_value": "#FF5500",
-    "resolved_css_value": "#FF5500",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-steam-color-hover",
-    "path": [
-      "component",
-      "footer-navigation",
-      "steam-color-hover"
-    ],
-    "type": "string",
-    "description": "Steam's interface blue.",
-    "source_value": "#66C0F4",
-    "value": "#66C0F4",
-    "css_value": "#66C0F4",
-    "resolved_css_value": "#66C0F4",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-telegram-color-hover",
-    "path": [
-      "component",
-      "footer-navigation",
-      "telegram-color-hover"
-    ],
-    "type": "string",
-    "description": "https://telegram.org/tour/screenshots",
-    "source_value": "#2AABEE",
-    "value": "#2AABEE",
-    "css_value": "#2AABEE",
-    "resolved_css_value": "#2AABEE",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-github-color-hover",
-    "path": [
-      "component",
-      "footer-navigation",
-      "github-color-hover"
-    ],
-    "type": "string",
-    "description": "https://brand.github.com/foundations/color",
-    "source_value": "#0FBF3E",
-    "value": "#0FBF3E",
-    "css_value": "#0FBF3E",
-    "resolved_css_value": "#0FBF3E",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-storybook-color-hover",
-    "path": [
-      "component",
-      "footer-navigation",
-      "storybook-color-hover"
-    ],
-    "type": "string",
-    "description": "https://storybook.js.org/branding/",
-    "source_value": "#FF4785",
-    "value": "#FF4785",
-    "css_value": "#FF4785",
-    "resolved_css_value": "#FF4785",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-figma-overlay-bl-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "figma-overlay-bl-color"
-    ],
-    "type": "string",
-    "description": "Figma brand color overlay.",
-    "source_value": "#F24E1E",
-    "value": "#F24E1E",
-    "css_value": "#F24E1E",
-    "resolved_css_value": "#F24E1E",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-figma-overlay-og-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "figma-overlay-og-color"
-    ],
-    "type": "string",
-    "description": "Figma brand color overlay.",
-    "source_value": "#FF7262",
-    "value": "#FF7262",
-    "css_value": "#FF7262",
-    "resolved_css_value": "#FF7262",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-figma-overlay-jur-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "figma-overlay-jur-color"
-    ],
-    "type": "string",
-    "description": "Figma brand color overlay.",
-    "source_value": "#A259FF",
-    "value": "#A259FF",
-    "css_value": "#A259FF",
-    "resolved_css_value": "#A259FF",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-figma-overlay-eni-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "figma-overlay-eni-color"
-    ],
-    "type": "string",
-    "description": "Figma brand color overlay.",
-    "source_value": "#1ABCFE",
-    "value": "#1ABCFE",
-    "css_value": "#1ABCFE",
-    "resolved_css_value": "#1ABCFE",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
-    "name": "component-footer-navigation-figma-overlay-tes-color",
-    "path": [
-      "component",
-      "footer-navigation",
-      "figma-overlay-tes-color"
-    ],
-    "type": "string",
-    "description": "Figma brand color overlay.",
-    "source_value": "#0ACF83",
-    "value": "#0ACF83",
-    "css_value": "#0ACF83",
-    "resolved_css_value": "#0ACF83",
-    "is_reference": false,
-    "reference_name": null
-  },
-  {
     "name": "component-message-toast-width-default",
     "path": [
       "component",
@@ -3644,9 +3084,9 @@ export const TOKEN_RECORDS = [
     "type": "color",
     "description": "",
     "source_value": "{theme.dark.system.error-accent}",
-    "value": "#912A23",
+    "value": "#BB4444",
     "css_value": "var(--theme-dark-system-error-accent)",
-    "resolved_css_value": "#912A23",
+    "resolved_css_value": "#BB4444",
     "is_reference": true,
     "reference_name": "theme-dark-system-error-accent"
   },

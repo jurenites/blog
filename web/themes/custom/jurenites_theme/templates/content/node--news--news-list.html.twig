@@ -27,8 +27,13 @@
     {{ title_suffix }}
 
     <div class="news-list-item__source">
-      {# <span class="news-list-item__source-label">{{ 'Source'|t }}</span> #}
-      <span class="news-list-item__source-name">{{ news_source_name }}</span>
+      {% include '@jurenites_theme/components/author-identity.html.twig' with {
+        author_name_text: news_source_name,
+        author_url: news_author_url,
+        author_avatar_image: news_source_avatar,
+        author_avatar_initials: news_source_initials,
+        avatar_size: 'small',
+      } only %}
     </div>
 
     <div class="news-list-item__meta">
@@ -38,6 +43,7 @@
       <span class="news-list-item__date">
         {% include '@jurenites_theme/components/date-time-value.html.twig' with {
           date_time_value_kind: 'elapsed-time',
+          date_time_relative_suffix: 'ago'|t,
           date_time_datetime: news_published_date_iso,
           date_time_display_markup: news_published_date_markup,
           date_time_exact_date_title: news_published_date_title,

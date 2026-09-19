@@ -52,6 +52,8 @@
     font: inherit;
     font-size: calc(var(--space-scale-base-gap) * 3);
     cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
 
     &:hover { background: var(--theme-dark-surface-background-page); }
     &:focus-visible { @include tools.focus-ring; }

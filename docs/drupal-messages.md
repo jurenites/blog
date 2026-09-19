@@ -15,6 +15,7 @@ preserve message HTML and links, use status/alert accessibility roles, and offer
 translated dismiss buttons. Drupal retains ownership of announcements, message
 IDs, and its add/select/remove/clear API. Keyboard dismissal moves focus to the
 next toast, the previous toast, or the main content when the last toast closes.
+The dismiss button's close symbol cannot be selected as text.
 Without JavaScript, server messages remain readable and dismiss buttons hide.
 
 Styles live in `src/slice/src/scss/molecules/_message-toast.scss`; dimensions and

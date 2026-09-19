@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild';
@@ -17,5 +17,6 @@ await build({
 const compiled_style = sass.compile(resolve(PROJECT_ROOT, 'src/status-dashboard/status.scss'), { style: 'compressed' });
 await writeFile(resolve(OUTPUT_PATH, 'style.css'), compiled_style.css);
 await writeFile(resolve(OUTPUT_PATH, 'index.html'), await readFile(resolve(PROJECT_ROOT, 'src/status-dashboard/index.html')));
+await copyFile(resolve(PROJECT_ROOT, 'src/status-dashboard/favicon.svg'), resolve(OUTPUT_PATH, 'favicon.svg'));
 await writeFile(resolve(OUTPUT_PATH, 'build-info.json'), JSON.stringify({ built_at: new Date().toISOString() }, null, 2));
 console.log('Built the local component status dashboard.');

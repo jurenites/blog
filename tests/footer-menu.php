@@ -47,7 +47,7 @@ $paint_entity = $paint_entities[0];
 $original_paint = $paint_entity->get('field_footer_hover_paint')->value;
 $test_project = NULL;
 try {
-  $test_paint = 'linear-gradient(315deg, var(--component-footer-navigation-linkedin-color-hover), var(--component-footer-navigation-steam-color-hover))';
+  $test_paint = 'linear-gradient(315deg, var(--color-palette-brand-primary), var(--color-palette-brand-tertiary))';
   $paint_entity->set('field_footer_hover_paint', $test_paint)->save();
   footer_assert_check(footer_page_xpath()->query('//head/style[contains(., "--footer-hover-gradient:' . $test_paint . '")]')->length === 1, 'Changed brand paint must be attached to the initial page head and invalidate cached pages.');
   $first_column->set('title', 'Footer integration heading');

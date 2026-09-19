@@ -284,6 +284,22 @@ function jurenites_theme_add_news_metadata(array &$node_variables): void {
 
   $node_variables['news_source_url'] = $source_url;
   $node_variables['news_source_name'] = $source_name;
+  $creator_url = $news_node->hasField('field_youtube_creator_url')
+    ? trim((string) $news_node->get('field_youtube_creator_url')->uri) : '';
+  $node_variables['news_author_url'] = in_array(parse_url($creator_url, PHP_URL_SCHEME), ['http', 'https'], TRUE)
+    ? $creator_url : '';
+  $node_variables['news_source_initials'] = jurenites_theme_name_initials($source_name);
+  $avatar_url = $news_node->hasField('field_youtube_channel_avatar')
+    ? trim((string) $news_node->get('field_youtube_channel_avatar')->value) : '';
+  if (parse_url($avatar_url, PHP_URL_SCHEME) === 'https'
+    && in_array(strtolower((string) parse_url($avatar_url, PHP_URL_HOST)), ['yt3.googleusercontent.com', 'yt3.ggpht.com'], TRUE)) {
+    $node_variables['news_source_avatar'] = [
+      '#theme' => 'image',
+      '#uri' => $avatar_url,
+      '#alt' => '',
+      '#attributes' => ['loading' => 'lazy'],
+    ];
+  }
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
   $node_variables['icon_asset_base_url'] = '/' . $theme_path . '/assets/icons';
   $node_variables['news_tag_names'] = [];

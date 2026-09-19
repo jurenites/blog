@@ -21,7 +21,7 @@
 }
 
 .input-text__label,
-.form-item > label,
+.form-item:not(.form-type-checkbox) > label,
 .input-text > legend {
   display: block;
   flex: 0 0 calc(var(--space-scale-base-gap) * 2);
@@ -134,8 +134,7 @@
   min-height: calc(var(--space-scale-base-gap) * 5);
 }
 
-.input-text__choice-input,
-.form-checkbox,
+.input-text__choice-input--radio,
 .form-radio {
   flex: 0 0 auto;
   width: calc(var(--space-scale-base-gap) * 2);
@@ -145,28 +144,17 @@
   border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
   background: var(--color-palette-light-black);
   cursor: pointer;
-}
-
-.input-text__choice-input--checkbox,
-.form-checkbox {
-  border-radius: var(--shape-corner-radius-small);
-}
-
-.input-text__choice-input--radio,
-.form-radio {
   border-radius: var(--shape-corner-radius-full);
 }
 
-.input-text__choice-input:checked,
-.form-checkbox:checked,
+.input-text__choice-input--radio:checked,
 .form-radio:checked {
   border-color: var(--theme-dark-action-primary-default);
   background: var(--theme-dark-action-primary-default);
   box-shadow: inset 0 0 0 calc(var(--space-scale-base-gap) * 0.5) var(--theme-dark-surface-background-page);
 }
 
-.input-text__choice-input:focus-visible,
-.form-checkbox:focus-visible,
+.input-text__choice-input--radio:focus-visible,
 .form-radio:focus-visible {
   @include tools.focus-ring;
 }

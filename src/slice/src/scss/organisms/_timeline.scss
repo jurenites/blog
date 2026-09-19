@@ -85,6 +85,12 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
   }
 }
 
+.timeline__year-heading,
+.timeline__month {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .timeline__year-heading {
   position: sticky;
   inset-block-start: calc(var(--space-scale-base-gap) * 8);

@@ -19,6 +19,13 @@ const IGNORED_PATHS = new Set([
   "web/themes/custom/jurenites_theme/js/font-preview.min.js",
   "web/themes/custom/jurenites_theme/js/script.min.js",
 ]);
+const ARTWORK_COLOR_PATHS = new Set([
+  "src/brand/technology-stack/brand-colors.js",
+  // Generated directly from reviewed SVG artwork, including fixed brand fills.
+  "web/themes/custom/jurenites_theme/templates/components/icon-geometry.html.twig",
+  // Independent Storybook content; never bundled into the Drupal theme.
+  "src/stories/organisms/footer-navigation/footer-navigation.demo.css",
+]);
 const HEX_PATTERN = /#[0-9a-fA-F]{3,8}\b/g;
 const OLD_COLOR_REFERENCE_PATTERN = /:\s*["']?\{(?:color\.(?:value|palette)|theme\.)[^}]+\}["']?/g;
 const QUOTED_COLOR_REFERENCE_PATTERN = /:\s*["'](?:color\.(?:value|palette)|theme\.)[^"']+["']/g;
@@ -162,7 +169,7 @@ for (const scan_directory of SCAN_DIRECTORIES) {
 
     const source_content = await readFile(source_path, "utf8");
     // Owner-approved component artwork constants are outside the design palette.
-    const hex_matches = relative_path === "src/brand/technology-stack/brand-colors.js"
+    const hex_matches = ARTWORK_COLOR_PATHS.has(relative_path)
       ? [] : [...source_content.matchAll(HEX_PATTERN)];
     for (const hex_match of hex_matches) {
       contract_errors.push(`${relative_path}: hardcoded color ${hex_match[0]}`);
@@ -199,6 +206,10 @@ for (const scan_directory of SCAN_DIRECTORIES) {
           // Two author-adjusted photograph coordinates, explicitly kept local.
           .replace(relative_path === "src/slice/src/scss/organisms/_hero-section.scss"
             ? /^\$hero-photo-(?:top|right)-offset:\s*\d+(?:\.\d+)?px;/gm : /$^/g,
+          (source_match) => " ".repeat(source_match.length))
+          // Owner-defined Link prefix viewport: fixed artwork size, not a token.
+          .replace(relative_path === "src/slice/src/scss/atoms/_icon.scss"
+            ? /\.icon--link-prefix\s*\{\s*display: grid;\s*width: 16px;\s*height: 16px;/g : /$^/g,
           (source_match) => " ".repeat(source_match.length));
         for (const dimension_match of uncommented_source.matchAll(HARDCODED_PIXEL_DIMENSION_PATTERN)) {
           const line_number = uncommented_source.slice(0, dimension_match.index).split("\n").length;

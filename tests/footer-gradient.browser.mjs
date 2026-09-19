@@ -38,6 +38,10 @@ try {
     const no_script_link = no_script_page.locator('[data-footer-icon="brand-figma"]');
     await no_script_link.hover();
     assert.match(await no_script_link.locator('.footer-navigation__hover-text').evaluate((text_node) => getComputedStyle(text_node).backgroundImage), /^linear-gradient/);
+    assert.equal(await no_script_link.locator('.icon__svg--active').isVisible(), true);
+    assert.equal(await no_script_link.locator('.icon__svg--default').isVisible(), false);
+    assert.equal((await no_script_link.locator('.icon--link-prefix').boundingBox()).width, 16);
+    assert.equal((await no_script_link.locator('.icon--link-prefix').boundingBox()).height, 16);
     await no_script_context.close();
   }
   console.log('PASS: actual Figma gradient in EN/RU, isolated server-rendered component without JavaScript, text-only clipping, keyboard focus, forced-colors fallback.');

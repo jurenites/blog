@@ -16,6 +16,8 @@ config:
     - field.storage.node.field_news_source_name
     - field.storage.node.field_news_source_published
     - field.storage.node.field_news_source_url
+    - field.storage.node.field_youtube_creator_url
+    - field.storage.node.field_youtube_channel_avatar
     - field.storage.node.field_tags
   actions:
     user.role.content_editor:

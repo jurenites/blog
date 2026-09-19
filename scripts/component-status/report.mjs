@@ -19,9 +19,10 @@ export function component_catalogue(story_index) {
   const component_groups = new Map();
   for (const story_entry of Object.values(story_index.entries ?? {})) {
     if (story_entry.type !== 'story') continue;
+    const title_parts = story_entry.title.split('/');
+    if (title_parts[0].trim() === 'Foundations') continue;
     const component_id = component_identifier(story_entry.title);
     if (!component_groups.has(component_id)) {
-      const title_parts = story_entry.title.split('/');
       component_groups.set(component_id, {
         component_id,
         component_name: title_parts.at(-1),
@@ -113,7 +114,7 @@ export function merge_reports(component_rows, report_list, current_fingerprint, 
 
 export async function source_fingerprint(project_root) {
   const hash_value = createHash('sha256');
-  for (const relative_root of ['src', '.storybook', 'scripts/component-status', 'web/themes/custom/jurenites_theme/templates']) {
+  for (const relative_root of ['src', '.storybook', 'scripts/component-status', 'web/themes/custom/jurenites_theme/templates', 'tests/visual-baselines']) {
     await hash_directory(resolve(project_root, relative_root), relative_root);
   }
   hash_value.update(await readFile(resolve(project_root, 'config/component-status.json')));

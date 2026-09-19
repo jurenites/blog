@@ -28,12 +28,24 @@ or bounds make a case unmatched; they must not produce a passing pixel result.
 
 ## Using the Comparison Form
 
-Open a component in `http://127.0.0.1:7779/`. The **Compare this component** form
+Open a component in `http://test.jurenites.local/` (or `http://127.0.0.1:7779/`).
+The **Source mapping & capture settings** form
 accepts a real website URL (or a path relative to `http://jurenites.local`), a
 unique CSS selector for that component on the page, its local Storybook iframe
 URL including any `args`, a Storybook selector, and a viewport. **Capture and
 compare** saves the mapping locally and runs Playwright from a fresh anonymous
 browser context. Merely opening the dashboard does not start tests.
+
+Viewport width uses the shared Select Input control, including its 40px trigger,
+40px chevron area and keyboard-operated options; form values stay numeric.
+Figma PNG selection uses the shared File Input: a 40px secondary Choose file
+button and a 40px drop area. Both selection methods populate `figma_png`; files
+are sent only when Capture and compare is submitted.
+The content-matching confirmation and optional saved-reference removal use the
+shared Checkbox renderer: a 24px active square inside a non-interactive wrapper,
+40px tall with zero start padding beside a clickable label. Their form names
+remain `inputs_matched` and `remove_baseline`; the saved confirmation sets the
+initial checked state.
 
 The website loads as a complete page. The runner scrolls to and captures the
 selected element in place, preserving applied CSS, inherited rules, layout
@@ -44,12 +56,30 @@ Cookie notices and other overlays remain visible; align that state before
 claiming parity. Interactions performed in a separate browser tab do not carry
 into the fresh capture session.
 
-Use the three fitted image previews for an overview. Use **Overlay**, **Wipe**,
+The comparison leads with **Figma → Storybook → Website**, each at native size.
+Narrow captures appear side by side when their combined widths fit; wide captures
+stack in that same order. A 1920px capture remains 1920 CSS pixels wide, scrolling
+inside its pane when necessary. Layout recalculates after image loads, state
+changes and container resizing. Open **Overlay and differences** to use **Overlay**, **Wipe**,
 **Toggle layer**, or **Pixel difference** for a 1:1 comparison without stretching.
 Different capture dimensions are reported explicitly; the pixel comparator does
 not resize them. Live Storybook HTML and source links are available below the
-images. Drupal's same-origin frame restriction still requires its live page to
-open in a separate tab. No production frame policy was changed.
+images. The current viewer opens Drupal in a separate tab. DEV Drupal sends
+`X-Frame-Options: SAMEORIGIN`; `jurenites.local` and `test.jurenites.local` are
+different origins even though both are under our control. This is a configurable
+framing restriction, not a general prohibition on embedding our own sites.
+An explicit response policy such as `Content-Security-Policy: frame-ancestors
+'self' http://test.jurenites.local` can permit the testing origin while excluding
+unrelated sites. This policy change has not been applied. CORS is not the switch
+for iframe display; cross-origin DOM access is a separate restriction. See
+[frame-ancestors](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/frame-ancestors).
+
+Figma supports an interactive design iframe targeting `node-id`. The existing
+Live Figma reference uses that embed, with zoom controls, footer and fullscreen
+enabled. A small frame can appear magnified in the viewer; its zoom is independent
+of the pinned 1× PNG. Figma's design embed documentation provides pan/zoom controls
+but does not specify a fixed 100% initial zoom parameter. See
+[Figma file embeds](https://developers.figma.com/docs/embeds/embed-figma-file/).
 
 Matching inputs must be explicitly checked in the form before a comparison can
 pass. Otherwise it produces exploratory differences marked **blocked**, while
@@ -252,6 +282,79 @@ bugs; intentional nesting is not a failure just because rectangles intersect.
 
 ## Dashboard hosting
 
+### Official language-picker case
+
+The first three-state Figma-backed case is the language picker inside
+**Organisms / Top Nav Menu Site Header**. Open
+`http://127.0.0.1:7779/#organisms-top-nav-menu-site-header` and select
+**Run language-picker tests**, or run:
+
+```bash
+npm run status:build
+npm run status:test -- organisms-top-nav-menu-site-header
+```
+
+`config/component-status.json` selects the real Drupal homepage and the complete
+Storybook header story. The comparison region is `.site-header__language`, not
+the hidden `.select-input__native.site-header__language-select`. Both sources
+retain their page CSS and surrounding header. The runner uses native mouse and
+keyboard actions without changing component markup or styling.
+
+Pinned, unmodified 1× PNG exports and their SHA-256 provenance are stored in
+`tests/visual-baselines/language-picker/`. The Figma file is
+`UMshUcV87SZqsg1aDaDpnZ`:
+
+| State | Figma node | Expected crop |
+| --- | --- | --- |
+| Default, Eng selected | `1394:1424` | 80 × 40 |
+| Pointer over suffix icon | `1401:4526` | 80 × 40 |
+| Expanded, Eng option active/hovered | `1394:1444` | 80 × 130 |
+
+Each state runs at 1280 × 900 and 360 × 900, Chromium at device scale 1,
+English locale, UTC, dark scheme, and reduced motion. The expanded crop includes
+the union of the picker and absolutely positioned menu, including their gap.
+Images are never resized for comparison. A changed baseline hash blocks the run;
+approve a new design export explicitly before updating the PNG and manifest.
+Baselines participate in source fingerprints and are not replaced automatically.
+
+The report records dimensions, text and option values, computed styles, browser
+errors, platform/browser versions, source identity, and exact pixel differences.
+Rendering checks also cover header containment, navigation/brand overlap, page
+overflow, expanded state, and Escape / ArrowDown / End / focus restoration.
+Full-header screenshots provide context; these checks do not assert full-header
+visual parity. Drupal content outside the picker remains live.
+
+The dashboard's **Recorded state** selector switches the Figma, Storybook, and
+website images together, including the 1:1 overlay, wipe, and difference controls.
+`report-language-picker.json` and captures live in `.cache/component-status`.
+Missing captures stay blocked, and exact raster differences remain failed even
+when they may include font antialiasing. The CLI returns 1 for failed checks and
+2 for blocked checks, so this same command can be used as a pipeline gate once
+the required Drupal environment and built Storybook are available.
+
+With the dashboard running, its end-to-end interaction check is:
+
+```bash
+PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/language-picker.browser.mjs
+```
+
+This exercises the capture button, six state/viewport choices, three-image
+previews, Figma pixel differences, overlay, and mobile dashboard overflow. It
+requires all captures to complete but deliberately does not require design parity
+to pass: a functioning dashboard must display failing comparisons correctly.
+
+The initial September 18 run found matching 80 × 40 closed controls and 80 × 130
+expanded regions. Default and suffix-hover captures match exactly between
+Storybook and Drupal. Expanded captures differ across 320 pixels in rows 38–41:
+the dropdown shadow and 2px gap pick up different surrounding page backgrounds.
+Keep that contextual difference visible rather than masking it or changing page
+styles in the test. All three states differ from the pinned Figma references;
+visible differences include text colour, the suffix's 1px upward offset, its
+inset hover surface, and expanded suffix/selected-option backgrounds. These are
+recorded findings, not fixes or approved changes to the Figma baseline.
+
+### Serving the dashboard
+
 `npm run status:serve` starts a custom Node.js `node:http` server in
 `scripts/component-status/server.mjs`, bound to `127.0.0.1:7779`. It serves the
 built dashboard and Storybook files, saved reports, and the Playwright capture
@@ -272,9 +375,13 @@ The server accepts this exact local hostname and the existing loopback URLs.
 Capture POSTs must match the request's origin and include the current review
 token. Captures still fetch the bundled Storybook through internal loopback.
 An alternate `COMPONENT_STATUS_PORT` also requires changing the Nginx upstream.
-The route is prepared in source; its runtime activation and capture verification
-are pending. Docker connectivity could not be checked because the tool approval
-service failed, and `/etc/hosts` has not been changed.
+The route was activated locally on September 18: the Mac's `/etc/hosts` maps
+`test.jurenites.local` to `127.0.0.1`, and Nginx configuration validation and
+reload succeeded. Chromium resolved the hostname and loaded the dashboard,
+six recorded language-picker states, and comparison images. `/api/status`
+returned 200; a token-authorized same-origin POST reached input validation.
+This activation check did not launch another capture. Both Docker's local proxy
+and the host's `npm run status:serve` process must remain running.
 
 `test.jurenites.com` is proposed, not deployed. A full interactive installation
 needs DNS, HTTPS, a reverse proxy, a supervised Node process, writable private
@@ -292,6 +399,9 @@ page calls the Node API. Decide the intended audience before production setup.
 
 ## Implemented Local Component Status
 
+The dashboard uses the supplied `test_logo_16.svg` artwork as its SVG favicon,
+stored in `src/status-dashboard/favicon.svg` and copied by the dashboard build.
+
 Start with:
 
 ```bash
@@ -303,9 +413,53 @@ npm run status:diagnose     # populate local report/image, docs, and version che
 ```
 
 The dashboard discovers components from the built Storybook `index.json`, groups
-story variants, and excludes documentation-only entries. Its searchable list
+story variants, and excludes documentation-only entries and the entire
+`Foundations` hierarchy. Foundations remain available in Storybook. Its searchable list
+follows the Storybook title hierarchy in expandable folders, including nested
+groups such as `Molecules/Blog`. Component rows place the name on the left and
+the status label and indicator on the right. Filtering retains the matching
+components' ancestor folders; documentation-only pages are not testable rows.
+The desktop catalogue sits alongside the selected comparison, with a visible
+filtered/total count and **Show all** to clear both filters and expand folders.
+The testing inventory contains 66 components after excluding the six Foundations
+entries. This is the eligible Storybook inventory,
+not automatic discovery of every Figma frame or Drupal region. All three source
+panes remain present even when a design reference or website mapping is missing.
+A linked Figma frame without its PNG is identified separately from a missing link.
+The header component's current test is explicitly **Language picker**, with three
+states at two viewports; it does not certify the entire header. Capture settings,
+overlay tools, detailed evidence and diagnostics use disclosures so the images
+remain the primary review surface. On narrow screens the scrollable catalogue
+appears above the comparison.
+
+Responsive layout and catalogue coverage are checked with:
+
+```bash
+PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/component-status-layout.browser.mjs
+```
+
+This checks real inventory/filtering/missing mappings and intercepted image
+fixtures at 80px, 360px and 1920px. Fixtures test the viewer, not component parity.
+
+Comparison PNGs display at their natural dimensions (`width: auto`, no maximum
+width scaling), with overflow scrolling. An 80 × 40 image occupies 80 × 40 CSS
+pixels. Recorded evidence images also retain their natural size.
+
+Playwright captures the complete page at the configured viewport and device
+scale 1, measures the selected region, and crops that region automatically.
+The expanded language picker includes the dropdown's bounds. The output PNG
+starts at `(0,0)` without relocating or restyling the source element. Shrinking
+an iframe to the crop dimensions would instead change the page's responsive
+layout; cross-origin frame policies also prevent a generic parent-page crop.
+The current automatic runs recapture Storybook and Drupal; Figma exports remain
+pinned design references and are refreshed explicitly rather than silently
+replacing the expected images during a test.
+
+The searchable list
 uses green for complete passing coverage, red for a current failed check, and
-orange for incomplete, blocked, or stale results. Every name opens check details,
+gray for unchecked, incomplete, blocked, or stale results. Indicators are square,
+matching the Crossfade Dot corner treatment. Green and red indicators have a
+matching glow; inactive gray indicators remain unlit. Every name opens check details,
 source links, timestamps, source identity, and captured evidence. Color is always
 accompanied by text. Results load when the page is opened and refresh every
 60 seconds while the document is visible. Switching to a hidden tab pauses its
@@ -352,7 +506,7 @@ demonstration data and do not become real reports.
 Each component currently requires Storybook rendering, Drupal rendering,
 Storybook/Drupal comparison, and Figma parity before its overall light is green.
 Unmapped components remain not checked. A source-fingerprint change or a report
-older than 24 hours makes its evidence stale and its light orange. A Storybook
+older than 24 hours makes its evidence stale and its light gray. A Storybook
 build stamp prevents the runner from certifying an old bundle against new
 source. The browser captures use the same environment and real input values;
 this does not yet provide pinned content revisions or full accessibility testing.

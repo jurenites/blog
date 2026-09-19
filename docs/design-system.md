@@ -138,6 +138,46 @@ counter. It does not persist, upload, or generate a font file.
 Both organisms keep normal geometry in SCSS and tokens, with no presentational
 sizing attributes in their initial markup.
 
+`Molecules/Input fields/File Input` combines the shared secondary Button with a
+single-file drop area containing the button. The joined control is 400px wide
+(using the Text Input full-width token), capped to its container, and 40px tall.
+There is no gap or extra left border between the button and filename area;
+corners remain square. The selected filename truncates inside the drop area and
+uses the primary white text color; the empty placeholder stays gray. Keyboard
+file selection, drag/drop, disabled state, accepted file types and form reset
+share one initializer; the native file input remains the form value and no-JS
+fallback. Choosing a file does not upload it automatically. The testing dashboard
+uses this same component for its optional Figma PNG reference. Browser coverage:
+`PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/file-input.browser.mjs`.
+
+`Atoms/Checkbox` uses the supplied empty, filled and partially selected SVGs
+unchanged inside a 24px native input, the only square hover/click target.
+A non-interactive wrapper supplies the surrounding 40px square with 8px padding.
+When a visible label follows it, the wrapper retains its 40px height but has
+auto width and zero start padding (32px wide at the default scale), leaving
+8px between the input and label. Wrapper padding neither highlights nor toggles
+the checkbox. The optional wrapping label still toggles its associated input.
+The existing `shape.basic-tile`, icon viewport, spacing and secondary hover
+tokens define this geometry and highlight. Native keyboard focus, Space, required, disabled and form submission
+behavior are preserved. Forced-colors mode restores the system checkbox.
+The same CSS styles Drupal `.form-checkbox` controls;
+`input--checkbox.html.twig` supplies their non-interactive wrapper; Input text single and
+grouped checkbox examples import the shared checkbox renderer. Partial state
+uses the DOM `indeterminate` property, initialized once from
+`data-checkbox-state="partially"` by the shared Drupal/Storybook initializer.
+Application code can update `indeterminate` directly for group selection; normal
+activation clears it. Without JavaScript, checked and unchecked controls work
+normally and the partial-state fixture falls back to unchecked. Checkbox assets
+live in `src/public/assets/images/checkbox/` and are copied into the committed
+theme image directory by the theme build. Verify against a built Storybook
+served on port 6006 and local Drupal with:
+
+```sh
+mkdir -p .cache/component-status/artifacts/checkbox
+docker exec blog_jurenites_web ./vendor/bin/drush php:script tests/checkbox-fixture.php > .cache/component-status/artifacts/checkbox/drupal-form.html
+PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/checkbox.browser.mjs
+```
+
 Form controls share one `Molecules/Input fields/Input text` composition.
 Its controls cover nine standard presentations: text, password, textarea,
 select, single checkbox, radio group, checkbox group, choice chips, and file
@@ -312,6 +352,9 @@ leave only the static central dot visible.
 The Icon Atom Storybook gallery presents the selected icon first, including its
 machine name. Gallery items are keyboard-accessible clickable controls, and
 hover/focus uses the next elevation surface to make the interaction visible.
+Both gallery tiles and the selected preview preserve a `0 0 16 16` SVG viewBox
+at 16 by 16 CSS pixels, centered inside the tile. Other icons retain the default
+24px viewport; the gallery does not enlarge the supplied 16px artwork.
 
 Icons required by the current page render their own SVG geometry immediately.
 `scripts/build-icon-sprite.mjs` generates `icon-geometry.html.twig` from the
@@ -671,6 +714,18 @@ default and hover states without replacing the surrounding typography. The
 version Git-hash link explicitly retains the 4pixel family and a persistent 1px
 solid underline so it reads as a technical link without relying on color.
 
+External News title links follow Timeline website links: use the existing
+`color.palette.brand-primary` cyan, darkened to 70% cyan mixed with black on
+hover and keyboard focus. Their suffix external-link icon is hidden at rest
+and revealed on hover or keyboard focus, with its space reserved to prevent
+layout shifts. Drupal and Storybook share the News List Item stylesheet.
+
+External-link suffixes are limited to standalone links and links that end a text
+block. When text, a badge, or other inline content follows the link label, omit
+the suffix entirely, including any reserved icon space. Ordinary external links
+inside continuing prose receive no automatic suffix. Footer links with a
+trailing badge also omit the suffix.
+
 Footer Navigation uses four titled columns of vertically stacked list links:
 Social networks, Get in touch, How I work, and Information. The recruiter
 section sits below Get in touch; its description and three links are editable
@@ -683,39 +738,28 @@ items marked Column heading supply the four columns; a Bottom-row group holds
 the legal links. Native menu parenting, order, enabled status, and translations
 control placement. No social-profile JSON or URL/title grouping is used at runtime.
 Storybook uses isolated demonstration data. See [Footer menu editing](footer-menu.md).
-Social links compose the shared Icon atom with locally stored monochrome
-`social-*.svg` assets. Only the explicitly classed social-network icon is reduced
-to 16px, along with the How I work brand icons. Figma alone uses an 18px-high
-viewport and the complete `brand-figma.svg` geometry in both states: its fills
-inherit `currentColor` at rest and restore token-backed brand colors on hover
-or keyboard focus. The External Link icon retains the Icon atom's 24px default
-and appears only inside the hover/focus label for all three external-link groups.
-`currentColor` supports black or white presentation; the dark footer uses white,
-switching the icon and label to each network's color
-on hover and keyboard focus while the platform label changes to the account
-name: LinkedIn, Facebook, and VK blue, YouTube red, SoundCloud orange, and
-Steam's interface blue. The account label ends with the shared External Link
-icon, and each social profile opens in a new window. These colors live in the
-`component.footer-navigation` tokens. Icon geometry comes from Simple Icons 11.15.0;
-provenance and its CC0 notice are stored in `social-icons-license.txt` alongside
-the assets.
-Get in touch includes Telegram and Gmail (`mailto:jurenites@gmail.com`). Gmail
-reveals the email address on hover and keyboard focus, with Google red from its
-footer token (`#EA4335`). The global yellow hover rule excludes footer social
-and resource links through a zero-specificity `:where()` condition; their
-component rules own the brand colors for hover and keyboard focus. Its updated 2026 Icon inherits the white text color at rest and
-reveals token-backed gradients on hover or keyboard focus. It retains its
-original aspect ratio and a separate 12px
-height token for optical size adjustment. The
-email link opens the mail app and omits the external-window mark and target.
-Yandex.Mail follows the same behavior, linking to `mailto:jurenites@yandex.ru`
-and revealing `jurenites@yandex.ru` on hover or keyboard focus. Its label uses
-the Yandex.Mail yellow hover token, with the brand-color source recorded in SCSS
-and tokens. The supplied altered white SVG is shown at rest, preserving its
-81% side-panel opacity and 50% top-flap opacity. Hover and keyboard
-focus replace it with the official Wikimedia full-color envelope. Both versions
-preserve their geometry and aspect ratios, centered within one fixed 16px-wide
-by 12px-high icon viewport. The width and height have separate tokens.
+Link prefixes compose the shared Icon atom with `is_link_prefix: true`. Every
+prefix occupies exactly 16 by 16 CSS pixels, and the supplied SVGs use
+`viewBox="0 0 16 16"`. This fixed artwork contract has no footer sizing tokens,
+per-brand dimensions, offsets, or corrective transforms: designers place the
+paths within the viewport. The trailing External Link icon retains the shared
+Icon atom's 24px default.
+
+The 16 supplied assets are preserved unchanged in `src/public/assets/icons/`,
+under the existing menu icon identifiers. See `link-prefix-icons-source.txt` for
+the source-name mapping. Default paths retain their white fills. Unpaired white
+icons take the menu link's color through CSS on hover and keyboard focus;
+Figma, Gmail, and Yandex.Mail instead reveal their separate `-active.svg` files.
+The asset build discovers these companions automatically and emits both states
+inside the same prefix box, so the switch works without JavaScript and never
+changes layout. The three active files keep their original multicolor fills,
+gradients, geometry, and internal artwork positioning.
+
+The menu's Leading icon field selects the base asset; companion assets are not
+separate menu choices. Hover text and colors remain editable menu content.
+Email links open the mail app and omit the external-window mark and target.
+Yandex.Mail's supplied white artwork retains its 81% side-panel and 50% top-flap
+opacity. No uploaded SVG field or menu-content migration is required.
 
 Each link can independently select an existing leading icon, a shared
 color/gradient text value, translated hover text, and whether to open a new
@@ -751,9 +795,25 @@ to hours and minutes. The duration variant owns the split number, unit, and
 remaining label markup: the integer and `min` use secondary text while `to read`
 or `to watch` uses gray text. Each date and duration remains a machine-readable
 `time` element while surrounding molecules retain author, topic, and layout
-responsibilities.
+responsibilities. Homepage news and elapsed Author Byline dates share a browser
+clock in Drupal and Storybook. It recalculates from `datetime` every second,
+changes text only when a displayed unit changes, and refreshes on tab return or
+page restoration. Date-only YouTube values use UTC midnight; timestamps retain
+their publication time. News retains its translated `ago` suffix, and unit labels
+follow the element/page language. Appended video batches join the same clock;
+Drupal detach releases removed elements. Server text remains the no-JavaScript
+fallback. Absolute dates, durations, and comment timestamps are unchanged.
 
 ## Color
+
+The system success/error/warning palette uses bright RGB ramps aligned with the
+CMY brand palette's channel levels: strong shades use 44/BB, main colors use
+66/FF, and light shades use AA/FF. Success is green, error is red, and warning
+remains orange; the warning ramp retains its existing light-accent and dark-strong
+roles. These are shared token changes across Storybook and Drupal. Testing uses
+neutral gray for unchecked/incomplete/stale states, with square green/red markers
+and a matching static glow for current passes/failures. Status labels still carry
+the meaning independently of color.
 
 - HEX only, with letters written in uppercase. Never use the CSS `opacity`
   property; express alpha as 8-digit HEX (used for shadow colors) so composited
@@ -765,7 +825,7 @@ responsibilities.
   `theme.dark.*` owns global semantic surface, text, action, border, brand, and feedback roles, and
   `component.{component-name}.color.*` owns component-specific mappings.
 - Palette colors stay on one line, for example
-  `system-success-soft: "#7EB991" # Light green`.
+  `system-success-soft: "#AAFFAA" # Light green`.
   Theme and component assignments are direct YAML key/value pairs such as
   `primary: color.palette.brand-primary`, without quotes or braces. The token
   loader converts the concise source schema to internal DTCG records and fails

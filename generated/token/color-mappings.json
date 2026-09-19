@@ -90,39 +90,39 @@
     },
     "--color-palette-system-success-accent": {
       "display_name": "system success accent",
-      "value": "#35744A"
+      "value": "#44BB44"
     },
     "--color-palette-system-success": {
       "display_name": "system success",
-      "value": "#4F9D69"
+      "value": "#66FF66"
     },
     "--color-palette-system-success-soft": {
       "display_name": "system success soft",
-      "value": "#7EB991"
+      "value": "#AAFFAA"
     },
     "--color-palette-system-error-accent": {
       "display_name": "system error accent",
-      "value": "#912A23"
+      "value": "#BB4444"
     },
     "--color-palette-system-error": {
       "display_name": "system error",
-      "value": "#C5524A"
+      "value": "#FF6666"
     },
     "--color-palette-system-error-soft": {
       "display_name": "system error soft",
-      "value": "#B85C5C"
+      "value": "#FFAAAA"
     },
     "--color-palette-system-warning-accent": {
       "display_name": "system warning accent",
-      "value": "#D3BD88"
+      "value": "#FFD5AA"
     },
     "--color-palette-system-warning": {
       "display_name": "system warning",
-      "value": "#B6974B"
+      "value": "#FFB366"
     },
     "--color-palette-system-warning-strong": {
       "display_name": "system warning strong",
-      "value": "#866F38"
+      "value": "#BB8044"
     }
   },
   "theme_to_palette": {

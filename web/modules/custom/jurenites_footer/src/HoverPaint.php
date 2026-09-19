@@ -44,15 +44,15 @@ final class HoverPaint {
   }
 
   /**
-   * Converts the former preset identifiers without adding palette values.
+   * Converts former preset identifiers to literal content during migration.
    */
   public static function legacyValue(string $color_name): string {
     if ($color_name === 'figma') {
       $color_stops = array_map(static fn(string $color_part): string => 'var(--component-footer-navigation-figma-overlay-' . $color_part . '-color)', ['bl', 'og', 'jur', 'eni', 'tes']);
-      return 'linear-gradient(90deg, ' . implode(', ', $color_stops) . ')';
+      return LegacyHoverPaint::resolveReferences('linear-gradient(90deg, ' . implode(', ', $color_stops) . ')');
     }
     if (in_array($color_name, ['linkedin', 'facebook', 'vk', 'youtube', 'soundcloud', 'steam', 'telegram', 'gmail', 'yandex-mail', 'github', 'storybook'], TRUE)) {
-      return 'var(--component-footer-navigation-' . $color_name . '-color-hover)';
+      return LegacyHoverPaint::resolveReferences('var(--component-footer-navigation-' . $color_name . '-color-hover)');
     }
     return '';
   }

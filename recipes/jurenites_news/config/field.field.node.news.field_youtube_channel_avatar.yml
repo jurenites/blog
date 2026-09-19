@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_youtube_channel_avatar
+    - node.type.news
+id: node.news.field_youtube_channel_avatar
+field_name: field_youtube_channel_avatar
+entity_type: node
+bundle: news
+label: 'YouTube channel avatar URL'
+description: 'Filled automatically from YouTube. Administrators can correct the channel avatar URL.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

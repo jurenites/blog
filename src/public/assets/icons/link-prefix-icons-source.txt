@@ -1,0 +1,23 @@
+Link prefix artwork supplied by Alexander Ilivanov on 2026-09-18.
+Source folder: /Users/alexanderilivanov/Downloads/other-icons
+All 16 supplied files copied byte-for-byte. Root viewBox: 0 0 16 16.
+Source width/height metadata stays in the asset; rendered dimensions belong to CSS.
+No path edits, recoloring, rescaling, or repositioning during import.
+
+Source file -> bundled asset (existing menu identifier retained):
+facebook.svg -> social-facebook.svg
+figma.svg -> brand-figma.svg
+figma-active.svg -> brand-figma-active.svg
+github.svg -> brand-github.svg
+gmail.svg -> brand-gmail.svg
+gmail-active.svg -> brand-gmail-active.svg
+hh-ru.svg -> brand-hh.svg
+linkedin.svg -> social-linkedin.svg
+soundcloud.svg -> social-soundcloud.svg
+steam.svg -> social-steam.svg
+storybook.svg -> brand-storybook.svg
+telegram.svg -> brand-telegram.svg
+vkontakte.svg -> social-vk.svg
+yandex.svg -> brand-yandex-mail.svg
+yandex-mail-active.svg -> brand-yandex-mail-active.svg
+youtube.svg -> social-youtube.svg

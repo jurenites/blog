@@ -2,8 +2,10 @@ import { news_list_item_markup } from "./news-list-item.markup.js";
 
 const NEWS_TITLE = "ASTRA IS HERE (GPT-6 RELEASED)";
 const SOURCE_URL = "https://www.youtube.com/watch?v=xdXLzFzxA9Q";
-const SOURCE_NAME = "@Matthew Berman";
-const SOURCE_LABEL = "YouTube";
+const SOURCE_AUTHOR_URL = "https://www.youtube.com/@matthew_berman";
+const SOURCE_NAME = "Matthew Berman";
+const SOURCE_AVATAR_URL = "https://yt3.ggpht.com/1X83USLZjNCWy21jOEP9rhsLujx6airwI-ANVsBhWMoErFuUkbx6-tDBjM-OAaIwxDv8MoUlHUk=s48-c-k-c0x00ffffff-no-rj";
+const SOURCE_AVATAR_INITIALS = "MB";
 const THUMBNAIL_URL = "https://i.ytimg.com/vi/xdXLzFzxA9Q/maxresdefault.jpg";
 const THUMBNAIL_ALT = "Matthew Berman beside the text GPT-6";
 const TAG_NAMES = ["#Artificial Intelligence"];
@@ -24,7 +26,9 @@ export default {
     news_title: { control: "text" },
     source_url: { control: "text" },
     source_name: { control: "text" },
-    source_label: { control: "text" },
+    source_author_url: { control: "text" },
+    source_avatar_url: { control: "text" },
+    source_avatar_initials: { control: "text" },
     thumbnail_url: { control: "text" },
     thumbnail_alt: { control: "text" },
     tag_names: { control: "object" },
@@ -43,7 +47,9 @@ export default {
     news_title: NEWS_TITLE,
     source_url: SOURCE_URL,
     source_name: SOURCE_NAME,
-    source_label: SOURCE_LABEL,
+    source_author_url: SOURCE_AUTHOR_URL,
+    source_avatar_url: SOURCE_AVATAR_URL,
+    source_avatar_initials: SOURCE_AVATAR_INITIALS,
     thumbnail_url: THUMBNAIL_URL,
     thumbnail_alt: THUMBNAIL_ALT,
     tag_names: TAG_NAMES,
@@ -55,3 +61,7 @@ export default {
 };
 
 export const default_story = {};
+
+export const initials_fallback = { args: { source_avatar_url: "" } };
+
+export const unlinked_source = { args: { source_author_url: "" } };

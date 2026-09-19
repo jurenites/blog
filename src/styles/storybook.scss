@@ -217,10 +217,11 @@ samp {
   min-width: var(--shape-basic-tile);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-scale-base-gap);
   height: var(--shape-basic-tile);
   box-sizing: border-box;
-  padding: var(--space-scale-base-gap);
+  padding: 0;
   border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
   border-radius: var(--shape-corner-radius-small);
   background-color: var(--theme-dark-surface-background-elevation-level-0);
@@ -236,12 +237,21 @@ samp {
 }
 
 .icon-gallery__item {
+  display: grid;
+  place-items: center;
   height: var(--shape-basic-tile);
   width: var(--shape-basic-tile);
-  padding: var(--space-scale-base-gap);
+  padding: 0;
   cursor: pointer;
   transition: background-color var(--motion-duration-short-default) var(--motion-easing-standard-default);
   border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+}
+
+// Preserve the supplied 16px artwork viewport in both gallery previews.
+.icon-gallery__item > .icon:has(> .icon__svg[viewBox="0 0 16 16"]),
+.icon-gallery__selected-item > .icon:has(> .icon__svg[viewBox="0 0 16 16"]) {
+  width: 16px;
+  height: 16px;
 }
 
 .icon-gallery__item:hover,

@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 import { component_catalogue, merge_reports, source_fingerprint, validate_report } from './report.mjs';
 import { read_review_cases, run_visual_review, validate_review_case } from './review.mjs';
+import { run_language_picker } from './language-picker.mjs';
 export const PROJECT_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 export const REPORT_DIRECTORY = resolve(PROJECT_ROOT, '.cache/component-status');
 const MIME_TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.woff': 'font/woff', '.ttf': 'font/ttf', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg' };
@@ -43,11 +44,17 @@ export function create_status_server() {
     if (!request_origin) { http_response.writeHead(403); http_response.end(); return; }
     try {
       const request_path = decodeURIComponent(new URL(http_request.url, 'http://localhost').pathname);
-      if (request_path === '/api/review' && http_request.method === 'POST') {
+      if (['/api/review', '/api/language-picker'].includes(request_path) && http_request.method === 'POST') {
         if (http_request.headers['x-review-token'] !== REVIEW_TOKEN || http_request.headers.origin !== request_origin || http_request.headers['content-type'] !== 'application/json') { http_response.writeHead(403); http_response.end(); return; }
         if (review_running) { http_response.writeHead(409, { 'content-type': 'application/json' }); http_response.end(JSON.stringify({ error: 'A capture is already running. Wait for it to finish.' })); return; }
         review_running = true;
         try {
+          if (request_path === '/api/language-picker') {
+            const report_data = await run_language_picker({ project_root: PROJECT_ROOT, report_directory: REPORT_DIRECTORY, status_origin });
+            http_response.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' });
+            http_response.end(JSON.stringify(report_data));
+            return;
+          }
           let request_body = '';
           for await (const request_chunk of http_request) {
             request_body += request_chunk.toString();

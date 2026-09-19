@@ -59,14 +59,13 @@
   &__title-link {
     display: inline-flex;
     align-items: center;
-    //gap: calc(var(--space-scale-base-gap) * 0.5);
-    color: var(--theme-dark-text-primary-default);
+    gap: var(--space-scale-zero);
     text-decoration: none;
     @include tools.motion-transition(color);
   }
 
-  &__title-link:hover {
-    color: var(--color-palette-brand-tertiary);
+  &__title-link:is(:hover, :focus-visible) &__external-mark {
+    visibility: visible;
   }
 
   &__image-link:focus-visible,
@@ -89,7 +88,18 @@
   }
 
   &__external-mark {
+    visibility: hidden;
+    flex-shrink: 0;
     color: inherit;
+  }
+}
+
+// Match Timeline website links while overriding the global anchor colors.
+body.jurenites-theme .news-list-item a.news-list-item__title-link[rel~="external"] {
+  color: var(--color-palette-brand-primary);
+
+  &:is(:hover, :focus-visible) {
+    color: color-mix(in srgb, var(--color-palette-brand-primary) 70%, var(--color-palette-full-black));
   }
 }
 

@@ -1,0 +1,12 @@
+<div class="file-input" data-file-input>
+  <label class="input-text__label" for="{{field_id}}">{{field_label}}</label>
+  <input class="file-input__native" id="{{field_id}}" name="{{field_name}}" type="file" accept="{{accepted_types}}" aria-describedby="{{field_id}}-hint {{field_id}}-error"{{disabled_attribute}}>
+  <div class="file-input__controls">
+    <div class="file-input__drop-zone" data-drop-label="{{drop_label}}">
+      {{choose_button}}
+      <div class="file-input__drop-content"><span class="file-input__filename" role="status">{{drop_label}}</span></div>
+    </div>
+  </div>
+  <p class="file-input__hint" id="{{field_id}}-hint">{{hint_text}}</p>
+  <p class="file-input__error" id="{{field_id}}-error" role="alert" hidden></p>
+</div>
