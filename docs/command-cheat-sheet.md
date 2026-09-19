@@ -258,7 +258,7 @@ The final status must report `Database: Connected` and `Drupal bootstrap: Succes
 cd /var/www/u3614358/data/apps/blog_jurenites
 
 RESTORE_TIMESTAMP="$(date +%Y-%m-%d-%H%M%S)"
-PUBLIC_FILES_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/blog_jurenites-public-files-dev-2026-09-16-185153.tar.gz"
+PUBLIC_FILES_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/blog_jurenites-public-files-dev-2026-09-19-154148.tar.gz"
 FILES_BACKUP_DIRECTORY="/var/www/u3614358/data/backups/files-before-dev-restore-${RESTORE_TIMESTAMP}"
 FILES_STAGING_DIRECTORY="/var/www/u3614358/data/apps/files-restore-${RESTORE_TIMESTAMP}"
 
@@ -444,3 +444,4 @@ The visible watermark combines those two read-only sources. The tracked release 
 ```bash
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
 ```
+

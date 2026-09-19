@@ -91,3 +91,24 @@ function jurenites_contact_post_update_disable_previous_submission_notice(): Tra
   $contact_webform->save();
   return t('Disabled the repeated previous-submissions reminder on Contact.');
 }
+
+/**
+ * Makes the Contact subject and sender name optional.
+ */
+function jurenites_contact_post_update_make_subject_and_sender_optional(): TranslatableMarkup {
+  $contact_webform = \Drupal::entityTypeManager()->getStorage('webform')->load('contact');
+  if (!$contact_webform) {
+    return t('The Contact Webform was not found; no required fields were changed.');
+  }
+
+  $contact_elements = $contact_webform->getElementsDecoded();
+  foreach (['message_subject', 'sender_name'] as $element_name) {
+    if (isset($contact_elements[$element_name])) {
+      $contact_elements[$element_name]['#required'] = FALSE;
+    }
+  }
+  $contact_webform->setElements($contact_elements);
+  $contact_webform->save();
+
+  return t('Made Subject and Who you are optional on the Contact form.');
+}
