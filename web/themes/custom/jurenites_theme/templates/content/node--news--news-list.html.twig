@@ -43,6 +43,7 @@
       <span class="news-list-item__date">
         {% include '@jurenites_theme/components/date-time-value.html.twig' with {
           date_time_value_kind: 'elapsed-time',
+          date_time_relative_suffix: 'ago'|t,
           date_time_datetime: news_published_date_iso,
           date_time_display_markup: news_published_date_markup,
           date_time_exact_date_title: news_published_date_title,

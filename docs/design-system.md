@@ -795,7 +795,14 @@ to hours and minutes. The duration variant owns the split number, unit, and
 remaining label markup: the integer and `min` use secondary text while `to read`
 or `to watch` uses gray text. Each date and duration remains a machine-readable
 `time` element while surrounding molecules retain author, topic, and layout
-responsibilities.
+responsibilities. Homepage news and elapsed Author Byline dates share a browser
+clock in Drupal and Storybook. It recalculates from `datetime` every second,
+changes text only when a displayed unit changes, and refreshes on tab return or
+page restoration. Date-only YouTube values use UTC midnight; timestamps retain
+their publication time. News retains its translated `ago` suffix, and unit labels
+follow the element/page language. Appended video batches join the same clock;
+Drupal detach releases removed elements. Server text remains the no-JavaScript
+fallback. Absolute dates, durations, and comment timestamps are unchanged.
 
 ## Color
 

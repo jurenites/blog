@@ -49,6 +49,9 @@ function date_value_markup({
     exact_date_title: exact_date_title
       ? ` title="${escape_html(exact_date_title)}"`
       : "",
+    elapsed_attributes: value_kind === "elapsed-time"
+      ? ` data-time-suffix="${escape_html(relative_suffix)}" data-time-unit-labels="${escape_html(JSON.stringify(unit_labels ?? {}))}"`
+      : "",
     formatted_value: escape_html(displayed_date_value),
   });
 }
