@@ -8,7 +8,7 @@
 <article{{ attributes.addClass(news_classes) }}>
   <div class="news-list-item__media">
     <a class="news-list-item__image-link" href="{{ news_source_url }}" rel="external">
-      <img src="{{ news_thumbnail_url }}" alt="{{ news_thumbnail_alt }}" loading="lazy">
+      {{ news_thumbnail_image }}
     </a>
   </div>
 

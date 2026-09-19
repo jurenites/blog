@@ -28,6 +28,16 @@
     @include tools.motion-transition(transform);
   }
 
+  &__image-link > .jurenites-progressive-image {
+    height: 100%;
+  }
+
+  &__image-link > .jurenites-progressive-image:not([data-loading-stage="error"]) > img {
+    transition:
+      transform var(--motion-duration-medium-default) var(--motion-easing-standard-default),
+      opacity var(--motion-duration-media-reveal-default) var(--motion-easing-standard-default);
+  }
+
   &:hover &__media img,
   &:focus-within &__media img {
     transform: scale(1.04);
@@ -108,6 +118,7 @@ body.jurenites-theme .news-list-item a.news-list-item__title-link[rel~="external
   .news-list-item__media img,
   .news-list-item:hover .news-list-item__media img,
   .news-list-item:focus-within .news-list-item__media img,
+  .news-list-item__image-link > .jurenites-progressive-image:not([data-loading-stage="error"]) > img,
   .news-list-item__title-link {
     transform: none;
     transition-duration: var(--motion-duration-instant-default);

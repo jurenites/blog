@@ -433,6 +433,13 @@ Select Input and Input text examples wrap each label/control pair in
 explicit 16px height and line-height so control placement does not depend on the
 font's intrinsic line box.
 
+Drupal's native `.form-text` fields, including the username and password on
+`/user/login`, share the Text Input atom's dark surface, text, spacing, and focus
+styles. Autofilled fields use `theme.dark.surface.background-elevation-level-0`,
+one step darker than the normal input surface, through an inset shadow. Text and
+caret retain the primary text color; native autocomplete remains enabled.
+The controls declare a dark color scheme for browser-provided UI.
+
 Static source assets, including local font files used by Storybook, live in
 `src/public/`.
 
@@ -902,6 +909,11 @@ placeholder without the skeleton animation or loading line. Images without a
 cached preview use the existing surface-color fallback. The broken image stays
 transparent, preserving its alternative text and frame dimensions; later
 successful loads reveal the image normally, including responsive source changes.
+
+Homepage News thumbnails use the same Drupal image render path and progressive
+loader, including its average-color fallback on failure. Their fixed 16:9 media
+frame remains stable while loading and after errors; raw image markup must not
+bypass that behavior.
 
 External video loading retains a separate broken-TV noise treatment. Its shader
 generates a fresh independent grayscale value from each logical pixel coordinate

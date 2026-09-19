@@ -317,10 +317,16 @@ function jurenites_theme_add_news_metadata(array &$node_variables): void {
   $image_item = $news_node->get('field_image')->first();
   $image_file = $image_item?->entity;
   if ($image_file !== NULL) {
-    $node_variables['news_thumbnail_url'] =
-      \Drupal::service('file_url_generator')->generateString($image_file->getFileUri());
-    $node_variables['news_thumbnail_alt'] = trim((string) $image_item->alt)
-      ?: $news_node->label();
+    $node_variables['news_thumbnail_image'] = [
+      '#theme' => 'image',
+      '#uri' => $image_file->getFileUri(),
+      '#alt' => trim((string) $image_item->alt) ?: $news_node->label(),
+      '#attributes' => [
+        'loading' => 'lazy',
+        'use-blurry-placeholder' => TRUE,
+        'data-original-url' => $image_file->getFileUri(),
+      ],
+    ];
     CacheableMetadata::createFromObject($image_file)
       ->applyTo($node_variables['elements']);
   }

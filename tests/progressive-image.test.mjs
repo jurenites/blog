@@ -5,6 +5,7 @@ import { chromium as chromium_browser } from 'playwright';
 
 const BEHAVIOR_SOURCE = await readFile('web/modules/custom/jurenites_progressive_images/js/progressive-image.js', 'utf8');
 const LOADER_STYLES = await readFile('web/modules/custom/jurenites_progressive_images/css/progressive-image.css', 'utf8');
+const THEME_STYLES = await readFile('web/themes/custom/jurenites_theme/css/style.min.css', 'utf8');
 const ONCE_SOURCE = await readFile('web/core/assets/vendor/once/once.min.js', 'utf8');
 const PREVIEW_SOURCE = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="2" height="1"><path fill="rgb(40, 80, 120)" d="M0 0h2v1H0z"/></svg>')}`;
 
@@ -18,9 +19,11 @@ test('failed progressive images retain their color and frame, then recover on su
     body: 'Missing image',
   }));
   await browser_page.setContent(`<html class="js"><head><style>
-    :root { --theme-dark-surface-background-elevation-level-1: rgb(20, 20, 20); }
     .image-frame { width: 320px; }
+    ${THEME_STYLES}
     ${LOADER_STYLES}
+    :root { --theme-dark-surface-background-elevation-level-1: rgb(20, 20, 20); }
+    .news-list-item__media { width: 160px; }
     </style></head><body>
     <div class="image-frame"><img id="missing-preview" src="https://image-fixture.test/missing.png"
       alt="Missing preview" data-progressive-image data-progressive-image-width="640" data-progressive-image-height="360"></div>
@@ -29,6 +32,10 @@ test('failed progressive images retain their color and frame, then recover on su
       data-progressive-image-width="640" data-progressive-image-height="360" data-progressive-image-preview="${PREVIEW_SOURCE}"></picture></div>
     <div class="image-frame"><img id="loaded-image" src="${PREVIEW_SOURCE}" alt="Loaded image" data-progressive-image
       data-progressive-image-width="640" data-progressive-image-height="360" data-progressive-image-preview="${PREVIEW_SOURCE}"></div>
+    <div class="news-list-item__media"><a class="news-list-item__image-link" href="#news">
+      <img id="news-image" src="https://image-fixture.test/missing-news.jpg" alt="News thumbnail"
+        loading="lazy" data-progressive-image data-progressive-image-preview="${PREVIEW_SOURCE}">
+    </a></div>
     </body></html>`);
   await browser_page.waitForFunction(() => [...document.images].every((image_element) => image_element.complete));
   assert.equal(await browser_page.locator('#missing-preview').evaluate((image_element) => getComputedStyle(image_element).opacity), '0');
@@ -37,6 +44,7 @@ test('failed progressive images retain their color and frame, then recover on su
   await browser_page.addScriptTag({ content: BEHAVIOR_SOURCE });
   await browser_page.evaluate(() => Drupal.behaviors.jurenites_progressive_images.attach(document));
   await browser_page.waitForFunction(() => document.querySelector('#responsive-image').closest('.jurenites-progressive-image').dataset.averageColor);
+  await browser_page.waitForFunction(() => getComputedStyle(document.querySelector('#loaded-image')).opacity === '1');
 
   async function inspect_image(image_selector) {
     return browser_page.locator(image_selector).evaluate((image_element) => {
@@ -66,6 +74,18 @@ test('failed progressive images retain their color and frame, then recover on su
   assert.equal((await inspect_image('#responsive-image')).preview_color, 'rgb(40, 80, 120)');
   assert.equal((await inspect_image('#responsive-image')).image_opacity, '0');
   assert.equal((await inspect_image('#loaded-image')).image_opacity, '1');
+  const news_error_state = await inspect_image('#news-image');
+  assert.equal(news_error_state.loading_stage, 'error');
+  assert.equal(news_error_state.image_opacity, '0');
+  assert.equal(news_error_state.frame_height, 90);
+  assert.equal(news_error_state.alternate_text, 'News thumbnail');
+  await browser_page.locator('#news-image').evaluate((image_element, preview_source) => { image_element.src = preview_source; }, PREVIEW_SOURCE);
+  await browser_page.waitForFunction(() => document.querySelector('#news-image').closest('.jurenites-progressive-image').dataset.loadingStage === 'complete');
+  await browser_page.waitForFunction(() => getComputedStyle(document.querySelector('#news-image')).opacity === '1');
+  await browser_page.locator('#news-image').evaluate((image_element) => { image_element.src = 'https://image-fixture.test/news-retry-failed.jpg'; });
+  await browser_page.waitForFunction(() => document.querySelector('#news-image').closest('.jurenites-progressive-image').dataset.loadingStage === 'error');
+  assert.equal((await inspect_image('#news-image')).image_opacity, '0', 'A failed News retry must hide the broken image immediately.');
+  assert.equal((await inspect_image('#news-image')).frame_height, 90);
 
   // A cached successful image must still respond to later failures and retries.
   for (const request_number of [1, 2]) {
@@ -79,6 +99,7 @@ test('failed progressive images retain their color and frame, then recover on su
     assert.equal(failed_state.preview_color, 'rgb(40, 80, 120)');
     await browser_page.locator('#loaded-image').evaluate((image_element, preview_source) => { image_element.src = preview_source; }, PREVIEW_SOURCE);
     await browser_page.waitForFunction(() => document.querySelector('#loaded-image').closest('.jurenites-progressive-image').dataset.loadingStage === 'complete');
+    await browser_page.waitForFunction(() => getComputedStyle(document.querySelector('#loaded-image')).opacity === '1');
     assert.equal((await inspect_image('#loaded-image')).image_opacity, '1');
   }
 

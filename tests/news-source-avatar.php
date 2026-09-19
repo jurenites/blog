@@ -103,6 +103,11 @@ try {
   \Drupal::service('theme.initialization')->initTheme('jurenites_theme');
   $node_variables = ['node' => $news_node, 'elements' => []];
   jurenites_theme_add_news_metadata($node_variables);
+  $thumbnail_build = $node_variables['news_thumbnail_image'];
+  $thumbnail_markup = (string) \Drupal::service('renderer')->renderInIsolation($thumbnail_build);
+  news_avatar_expect(str_contains($thumbnail_markup, 'data-progressive-image'), 'News thumbnails must use the shared loader even when the original file is missing.');
+  news_avatar_expect(str_contains($thumbnail_markup, 'alt="Fixture"') && str_contains($thumbnail_markup, 'loading="lazy"'), 'The thumbnail loader must preserve alternative text and lazy loading.');
+  news_avatar_expect(!preg_match('/\s(?:style|width|height)=/', $thumbnail_markup), 'News thumbnails must not add inline presentation attributes.');
   $identity_build = [
     '#type' => 'inline_template',
     '#template' => "{% include '@jurenites_theme/components/author-identity.html.twig' with {author_name_text: news_source_name, author_url: news_author_url, author_avatar_image: news_source_avatar, author_avatar_initials: news_source_initials, avatar_size: 'small'} only %}",
