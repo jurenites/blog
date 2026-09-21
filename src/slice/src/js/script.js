@@ -17,6 +17,7 @@ import { install_message_toasts } from './message-toast.js';
 import { initialize_pixel_glyph_editors } from './pixel-glyph-editor.js';
 import { initialize_numeric_value_counters } from './numeric-values.js';
 import { initialize_hero_sections } from './hero-section.js';
+import { initialize_progressive_photos, detach_progressive_photos } from './progressive-photo.js';
 import { initialize_layered_scenes, detach_layered_scenes } from './layered-scene.js';
 import {
   detach_timeline_organization_rails,
@@ -939,6 +940,13 @@ if (typeof Drupal !== 'undefined') {
     attach(listing_context) { initialize_video_grids(listing_context); },
     detach(listing_context, drupal_settings, detach_trigger) {
       if (detach_trigger === 'unload') detach_video_grids(listing_context);
+    },
+  };
+
+  Drupal.behaviors.jurenites_progressive_photos = {
+    attach(photo_context) { initialize_progressive_photos(photo_context); },
+    detach(photo_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_progressive_photos(photo_context);
     },
   };
 

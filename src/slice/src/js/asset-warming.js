@@ -53,6 +53,8 @@ export function install_asset_warming(page_window = window, page_document = docu
     const asset_elements = source_template.content.querySelectorAll('link[rel="stylesheet"][href], script[src], img[src]');
     for (const asset_element of asset_elements) {
       if (!warming_allowed() || asset_count >= ASSET_LIMIT) break;
+      // No-script originals bypass the photo's staged requests if prefetched.
+      if (asset_element.closest('noscript')) continue;
       const is_image = asset_element.tagName === 'IMG';
       if (is_image && image_count >= 2) continue;
       const asset_source = asset_element.getAttribute('src') || asset_element.getAttribute('href');

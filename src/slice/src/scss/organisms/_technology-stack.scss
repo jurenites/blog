@@ -53,7 +53,7 @@
   color: var(--theme-dark-text-primary-default);
   text-decoration: none;
   //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
-  transition: border-color var(--motion-duration-short-default);
+  transition: background-color var(--motion-duration-short-default), border-color var(--motion-duration-short-default);
 }
 
 .technology-stack__artwork {
@@ -94,6 +94,7 @@
 }
 
 .technology-stack__link:is(:hover, :focus-visible) {
+  background-color: var(--theme-dark-surface-background-elevation-level-1);
   color: var(--theme-dark-text-primary-default);
   border-color: var(--theme-dark-action-primary-default);
 

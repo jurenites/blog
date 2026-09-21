@@ -6,6 +6,22 @@
  */
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\field\Entity\FieldConfig;
+
+/**
+ * Shares nested tile references while keeping each tile's text translatable.
+ */
+function jurenites_numeric_values_post_update_share_paragraph_tile_references(): TranslatableMarkup {
+  $numeric_items_field = FieldConfig::loadByName('paragraph', 'numeric_values', 'field_numeric_items');
+  if ($numeric_items_field !== NULL && $numeric_items_field->isTranslatable()) {
+    // Layout Paragraphs otherwise duplicates already translated child tiles
+    // when the editor initializes a missing section translation.
+    $numeric_items_field->setTranslatable(FALSE)->save();
+    \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+  }
+
+  return t('Numeric Values sections now share tile references across languages while preserving translated tile text.');
+}
 
 /**
  * Adds the structured reusable Numeric values block to the homepage.

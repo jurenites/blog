@@ -11,7 +11,7 @@ require_once __DIR__ . '/jurenites_contact.photo.inc';
  * Implements hook_theme().
  */
 function jurenites_contact_theme(): array {
-  return ['jurenites_contact_photo' => ['variables' => ['image_url' => '', 'image_description' => '']]];
+  return ['jurenites_contact_photo' => ['variables' => ['image_url' => '', 'image_description' => '', 'contact_photo' => []]]];
 }
 
 /**
@@ -35,6 +35,9 @@ function jurenites_contact_block_content_view(array &$build_output, \Drupal\Core
         '#theme' => 'jurenites_contact_photo',
         '#image_url' => \Drupal::service('file_url_generator')->generateString($image_file->getFileUri()),
         '#image_description' => $image_items->alt ?? '',
+        '#contact_photo' => jurenites_progressive_images_photo_build(
+          $image_file, $image_items->alt ?? '', 'contact-photo__image', TRUE,
+        ),
       ];
     }
   }

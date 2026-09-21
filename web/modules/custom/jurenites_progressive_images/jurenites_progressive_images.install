@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for progressive photographs.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_progressive_images_install(): void {
+  jurenites_progressive_images_photo_styles();
+}

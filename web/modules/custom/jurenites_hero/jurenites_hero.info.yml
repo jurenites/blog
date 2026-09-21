@@ -4,6 +4,7 @@ description: Editable photographic Hero content blocks with reorderable slides.
 package: jurenites
 core_version_requirement: ^11
 dependencies:
+  - jurenites_progressive_images:jurenites_progressive_images
   - drupal:block
   - drupal:block_content
   - drupal:image

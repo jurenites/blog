@@ -1,3 +1,5 @@
+@use "../tools";
+
 // Original artwork geometry; display thumbnails at half their exported size.
 $screen-width: 375px;
 $screen-height: 667px;
@@ -114,6 +116,11 @@ body.jurenites-theme:has(.screen-slider) {
   color: inherit;
   font: inherit;
   cursor: pointer;
+  @include tools.motion-transition(background-color);
+
+  &:not(:disabled, [aria-disabled="true"]):is(:hover, :focus-visible) {
+    background-color: var(--theme-dark-surface-background-elevation-level-1);
+  }
 }
 
 .screen-slider__play-icon,
@@ -140,5 +147,6 @@ body.jurenites-theme:has(.screen-slider) {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .screen-slider__control { transition-duration: var(--motion-duration-instant-default); }
   .screen-slider__dot::after { transition: none; }
 }

@@ -8,6 +8,18 @@
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\file\FileInterface;
 
+require_once __DIR__ . '/jurenites_progressive_images.photo.inc';
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_progressive_images_theme(): array {
+  return ['jurenites_progressive_photo' => ['variables' => [
+    'image_description' => '', 'image_class' => '', 'original_url' => '',
+    'preview_url' => '', 'image_candidates' => [], 'lazy_loading' => FALSE,
+  ]]];
+}
+
 /**
  * Implements hook_entity_insert().
  */

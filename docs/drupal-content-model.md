@@ -698,7 +698,13 @@ The two content types reuse the established editorial components:
 
 The public Views queries keep these presentations separate. `/blog` lists
 published Article nodes; `/videos` lists published Video nodes. The homepage
-Latest articles block also selects Article nodes only. Both pages retain tag filtering.
+Latest articles block (`frontpage`, display `block_1`, “Homepage Articles”) shows
+up to three published Article nodes with **Promoted to front page = Yes**, newest
+first and in the current content language. Editors control inclusion with the
+node form's promotion checkbox. The Blog page includes published Articles
+regardless of promotion. Both listing pages retain tag filtering. Existing sites
+receive the homepage filter through
+`jurenites_blog_post_update_homepage_promoted_articles()` and `drush updatedb`.
 Videos loads 12 items initially and in each subsequent page batch. It uses a wide
 grid with three columns on desktop, two on tablets, and one
 on phones. Each tile keeps its thumbnail above the title and creator details,

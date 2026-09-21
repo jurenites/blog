@@ -1,0 +1,15 @@
+// The photograph itself fills the existing component frame at every stage.
+.hero-section__image[data-photo-stages],
+.contact-photo__image[data-photo-stages] {
+  image-rendering: pixelated;
+
+  &[data-photo-state="complete"] {
+    image-rendering: auto;
+  }
+}
+
+// Drupal adds .js in the head. Without scripting, use the noscript original.
+html:not(.js) .hero-section__image[data-photo-stages],
+html:not(.js) .contact-photo__image[data-photo-stages] {
+  display: none;
+}

@@ -5,6 +5,23 @@ at DEV there is a Docker service names such as `db` resolve inside the DEV Docke
 
 # DEV Environment
 
+### Blender outputs and Git
+
+`output/ceramic-logo/.gitignore` keeps rendered frames, images, videos,
+validation reports, Blender backups, and Python caches local. The small editable
+scene, build/render scripts, and source SVG remain versioned. Back up local
+artwork and exports separately when needed.
+
+For already tracked outputs, adding an ignore rule is not sufficient. Remove
+only the intended generated paths from the index with `git rm --cached` (or
+`git rm -r --cached` for a directory); this preserves the working files. Review
+`git diff --cached --stat` before committing.
+
+A cleanup commit stops tracking those files in subsequent revisions. It does
+not remove their blobs from earlier commits or reduce full-clone history size.
+Purging published blobs requires a coordinated history rewrite and force push;
+back up the original history and local artwork before doing that.
+
 ### Step 1: StepRun commands from the project folder
 
 ```bash
@@ -422,6 +439,34 @@ curl -I http://www.jurenites.com/
 
 Check the reported site URI, database, and Drupal root before continuing.
 
+### Analytics transfers with the database
+
+The DEV database already stores the enabled **jurenites Blog PROD** container
+with Measurement ID `G-0JRLBSZQB4`. A fresh database export/import carries that
+configuration to PROD; no Analytics deployment script is needed. Older database
+archives still contain the previous ID, so export again for this deployment.
+
+Local tracking is blocked on every path by an insertion-condition override in
+DEV's ignored `web/sites/default/settings.php`. That override is not stored in
+the database. Keep PROD's existing `settings.php` and `.env` when transferring
+code and public files, then run the usual database updates and cache clear.
+A code-only deployment does not transfer this database configuration.
+
+The container's stable machine name still contains `G-8TW69FRKWF`; its actual
+Measurement ID is `G-0JRLBSZQB4`. The Chrome opt-out extension remains unchanged.
+After deployment, check the public tag configuration and GA4 using a browser
+profile without the opt-out extension.
+
+For a replacement DEV installation, preserve this local settings override:
+
+```php
+$config['google_tag.container.G-8TW69FRKWF.6a91c7e379c2c0.58424849']['conditions']['request_path'] = [
+  'id' => 'request_path',
+  'negate' => TRUE,
+  'pages' => '*',
+];
+```
+
 (optional) Verify the production identity
 
 PROD does not build or write identity metadata. The tracked release record arrives with the source, and Drupal reads the  (optional) checked-out commit from `.git`:
@@ -433,15 +478,18 @@ cat web/themes/custom/jurenites_theme/release-info.json
 
 The visible watermark combines those two read-only sources. The tracked release record is also available at `/themes/custom/jurenites_theme/release-info.json`.
 
-1. Run production database updates, then clear cache
+2. Run production database updates, then clear cache
 
 ```bash
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com updatedb --yes
 ```
 
-1. then Clear the production Drupal cache
+3. then Clear the production Drupal cache
 
 ```bash
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr
 ```
-
+(optional) re install the libraries
+```bash
+/opt/php/8.3/bin/php /var/www/u3614358/data/bin/composer install --no-dev --optimize-autoloader
+```

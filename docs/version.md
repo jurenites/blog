@@ -1,7 +1,7 @@
 # Documentation Version
 
-Version: 1.128.5
-Reviewed: 2026-09-17
+Version: 1.129.6
+Reviewed: 2026-09-19
 
 This checkpoint says the `/docs` folder has been reviewed against the current
 source structure, token pipeline, Storybook organization, Figma sync flow, Drupal

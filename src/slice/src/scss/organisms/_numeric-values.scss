@@ -35,7 +35,6 @@
 
 .numeric-values__tile {
   min-height: var(--component-numeric-values-tile-min-height-default);
-  background: var(--theme-dark-surface-background-elevation-level-0);
 }
 
 .numeric-values__tile-content {
@@ -46,6 +45,13 @@
   gap: var(--space-scale-base-gap);
   box-sizing: border-box;
   padding: calc(var(--space-scale-base-gap) * 3);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+  @include tools.motion-transition(background-color);
+
+  &:hover,
+  &:focus-within {
+    background-color: var(--theme-dark-surface-background-elevation-level-1);
+  }
   //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
 }
 
@@ -129,6 +135,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .numeric-values__tile-content {
+    transition-duration: var(--motion-duration-instant-default);
+  }
+
   .numeric-values__digit-track {
     transform: translateY(-1em);
   }
