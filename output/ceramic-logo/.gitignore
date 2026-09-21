@@ -1,0 +1,10 @@
+# Keep the editable scene, scripts, README, and source artwork in Git.
+# Rendered media, validation output, and local caches stay on this machine.
+/frames/
+/*.png
+/*.mp4
+/*.json
+/*.log
+/*.blend[0-9]*
+__pycache__/
+*.pyc

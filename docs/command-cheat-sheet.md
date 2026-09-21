@@ -5,6 +5,23 @@ at DEV there is a Docker service names such as `db` resolve inside the DEV Docke
 
 # DEV Environment
 
+### Blender outputs and Git
+
+`output/ceramic-logo/.gitignore` keeps rendered frames, images, videos,
+validation reports, Blender backups, and Python caches local. The small editable
+scene, build/render scripts, and source SVG remain versioned. Back up local
+artwork and exports separately when needed.
+
+For already tracked outputs, adding an ignore rule is not sufficient. Remove
+only the intended generated paths from the index with `git rm --cached` (or
+`git rm -r --cached` for a directory); this preserves the working files. Review
+`git diff --cached --stat` before committing.
+
+A cleanup commit stops tracking those files in subsequent revisions. It does
+not remove their blobs from earlier commits or reduce full-clone history size.
+Purging published blobs requires a coordinated history rewrite and force push;
+back up the original history and local artwork before doing that.
+
 ### Step 1: StepRun commands from the project folder
 
 ```bash

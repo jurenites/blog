@@ -2,6 +2,11 @@
 
 An eight-second Blender animation based on the supplied `user_logo_32.svg`.
 
+Git retains the small editable `.blend` scene, Python scripts, this README,
+and source SVG. Rendered frames, stills, videos, validation reports, Blender
+backup files, and Python caches are local outputs excluded by `.gitignore`.
+Back up local outputs separately if they must be preserved across machines.
+
 - `ceramic-logo-8s.mp4`: 1080 × 1080, H.264, 24 fps, 192 frames, silent.
 - `ceramic-logo-still.png`: full-resolution still from frame 48.
 - `ceramic-logo.blend`: editable geometry, procedural ceramic shader, camera, and animated light.
