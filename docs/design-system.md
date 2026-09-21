@@ -35,6 +35,16 @@ pixel dimensions in shared theme SCSS, and missing SCSS token variables. The
 same contract is part of `npm run lint` and rejects HEX letters that are not
 uppercase in `src/token/tokens.yaml`.
 
+### Clickable surfaces
+
+Numeric tiles (including role selectors), article
+cards, project cards, guideline tiles, linked company tiles, technology tiles,
+and screen-slider controls use `theme.dark.surface.background.elevation-level-1`
+for a lighter background on hover and keyboard focus. Card surfaces respond when
+a contained link or button receives focus. Existing link, artwork, selection,
+and focus-ring treatments remain in place. Background transitions use existing
+motion tokens and become instant with reduced motion.
+
 ### Dimension ownership
 
 Reusable absolute dimensions in the shared theme SCSS belong in
@@ -887,6 +897,24 @@ Its 100px four-edge mask is capped at 25% of each dimension and reveals the
 matching Hero edge color used by the complete About-page shell. The hero clips
 the excess width to prevent horizontal page scrolling.
 The screen-light toggle is hidden at the mobile breakpoint (640px and below).
+
+The About Hero and Contact photograph use a separate pixelated loading sequence.
+Drupal embeds an uncropped 24px preview in the initial HTML, filling the existing
+photo frame with sharp pixels. Candidates are 96, 320, 640, 1280, and up to 1920px
+wide, capped at the uploaded image width without upscaling. JavaScript requests
+one stage at a time and replaces the displayed image only after `decode()`
+resolves. Requests completing within 120ms skip the next intermediate size;
+slower requests advance one size at a time. There is no artificial delay or fade.
+The final size follows the rendered width and device pixel density (1x with Save
+Data); enlarging the frame can request a further upgrade. Contact upgrades wait
+until the photo approaches the viewport. Failed stages retain the last completed
+image while trying the next size. The original remains the no-JavaScript fallback;
+speculative asset warming excludes `noscript` images so it cannot fetch that
+original in advance and bypass the staged requests.
+Uploaded files, field access, photo positioning, edge masks, and screen lighting
+remain owned by their existing components. Run Drupal database updates to install
+the `portrait_progressive_*` image styles on existing sites. This behavior is
+scoped to these Drupal photos; thumbnail loaders retain their existing behavior.
 
 The Drupal homepage uses `color.palette.full-black` as a plain background and
 does not initialize a canvas. Storybook exposes `plain-black` and the experimental

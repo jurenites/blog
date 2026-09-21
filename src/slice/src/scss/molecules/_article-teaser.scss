@@ -51,12 +51,13 @@
   //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
   background: var(--theme-dark-surface-background-elevation-level-0);
   box-shadow: var(--elevation-shadow-level-0);
-  transition-property: box-shadow;
+  transition-property: background-color, box-shadow;
   transition-duration: var(--motion-duration-short-default);
   transition-timing-function: var(--motion-easing-standard-default);
 
   &:hover,
   &:focus-within {
+    background-color: var(--theme-dark-surface-background-elevation-level-1);
     box-shadow: var(--component-article-teaser-shadow-hover-default);
   }
 

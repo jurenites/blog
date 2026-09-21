@@ -27,7 +27,7 @@ function jurenites_hero_theme(): array {
     'jurenites_hero' => [
       'variables' => [
         'section_label' => '', 'eyebrow_heading' => '', 'background_image_url' => '',
-        'image_description' => '', 'glow_enabled' => FALSE, 'hero_slides' => [],
+        'image_description' => '', 'background_photo' => [], 'glow_enabled' => FALSE, 'hero_slides' => [],
       ],
     ],
   ];
@@ -71,6 +71,9 @@ function jurenites_hero_block_content_view(array &$build_output, EntityInterface
     if ($file_access->isAllowed()) {
       $hero_build['#background_image_url'] = \Drupal::service('file_url_generator')->generateString($image_file->getFileUri());
       $hero_build['#image_description'] = $image_items->alt ?? '';
+      $hero_build['#background_photo'] = jurenites_progressive_images_photo_build(
+        $image_file, $image_items->alt ?? '', 'hero-section__image',
+      );
     }
   }
   $slide_items = jurenites_hero_read_field($block_entity, 'field_hero_slides', $cache_metadata);

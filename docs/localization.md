@@ -37,6 +37,14 @@ database backups outside Git. The first import also enables content translation
 for the affected bundles and changes Paragraphs reference fields to shared
 structure, which is the supported Paragraphs translation arrangement.
 
+Numeric Values sections also share their nested `field_numeric_items` references;
+the tiles' authored text remains translatable. Marking the reference field as
+translatable makes Layout Paragraphs duplicate existing bilingual tiles when an
+editor opens a missing section translation, causing a duplicate-language PHP
+exception. The Numeric Values post-update corrects existing field configuration
+without resaving content, and fresh installs use the same shared setting.
+Verify with `drush php:script tests/numeric-values-translation.php`.
+
 ```bash
 docker exec blog_jurenites_web ./vendor/bin/drush sql:dump --result-file=/tmp/jurenites-before-ru.sql
 docker exec blog_jurenites_web ./vendor/bin/drush php:script scripts/translations/apply.php

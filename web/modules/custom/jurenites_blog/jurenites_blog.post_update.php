@@ -868,6 +868,41 @@ function jurenites_blog_post_update_homepage_article_tiles(): TranslatableMarkup
 }
 
 /**
+ * Limits homepage Article tiles to content promoted by an editor.
+ */
+function jurenites_blog_post_update_homepage_promoted_articles(): TranslatableMarkup {
+  $frontpage_view = View::load('frontpage');
+  if ($frontpage_view === NULL || !$frontpage_view->getDisplay('block_1')) {
+    return t('The homepage Articles display was unavailable; its filters were unchanged.');
+  }
+
+  $view_executable = $frontpage_view->getExecutable();
+  $view_executable->setDisplay('block_1');
+  $homepage_filters = $view_executable->display_handler->getOption('filters');
+  $homepage_filters['promote'] = [
+    'id' => 'promote',
+    'table' => 'node_field_data',
+    'field' => 'promote',
+    'relationship' => 'none',
+    'group_type' => 'group',
+    'admin_label' => '',
+    'entity_type' => 'node',
+    'entity_field' => 'promote',
+    'plugin_id' => 'boolean',
+    'operator' => '=',
+    'value' => '1',
+    'group' => 1,
+    'exposed' => FALSE,
+  ];
+  $view_executable->display_handler->setOverride('filters', FALSE);
+  $view_executable->display_handler->setOption('filters', $homepage_filters);
+  $view_executable->display_handler->setOption('display_description', 'The three newest published Articles promoted to the front page.');
+  $frontpage_view->save();
+
+  return t('Latest articles now shows only published Articles promoted to the front page.');
+}
+
+/**
  * Makes alt text optional for every image field.
  */
 function jurenites_blog_post_update_optional_image_alt_text(): TranslatableMarkup {

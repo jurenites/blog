@@ -1,0 +1,6 @@
+{% if preview_url and image_candidates %}
+  <img class="{{ image_class }}" src="{{ preview_url }}" alt="{{ image_description }}" decoding="async" data-photo-stages="{{ image_candidates|json_encode }}" data-photo-state="preview" data-photo-lazy="{{ lazy_loading ? 'true' : 'false' }}">
+  <noscript><img class="{{ image_class }}" src="{{ original_url }}" alt="{{ image_description }}" loading="{{ lazy_loading ? 'lazy' : 'eager' }}" decoding="async"></noscript>
+{% else %}
+  <img class="{{ image_class }}" src="{{ original_url }}" alt="{{ image_description }}" loading="{{ lazy_loading ? 'lazy' : 'eager' }}" decoding="async">
+{% endif %}

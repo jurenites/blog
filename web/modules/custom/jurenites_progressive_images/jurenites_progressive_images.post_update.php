@@ -8,6 +8,14 @@
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
+ * Adds uncropped stages for the About and Contact photographs.
+ */
+function jurenites_progressive_images_post_update_portrait_stages(): TranslatableMarkup {
+  jurenites_progressive_images_photo_styles();
+  return t('Added progressive portrait image sizes for About and Contact.');
+}
+
+/**
  * Enables responsive progressive loading for Article blog-list images.
  */
 function jurenites_progressive_images_post_update_article_teaser(): TranslatableMarkup {

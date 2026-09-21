@@ -24,10 +24,12 @@
   background: var(--theme-dark-surface-background-elevation-level-0);
   //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
   //border-radius: calc(var(--shape-corner-radius-base) * 1.5);
-  @include tools.motion-transition(box-shadow, border-color);
+  @include tools.motion-transition(background-color, box-shadow, border-color);
 }
 
-.project-card:hover {
+.project-card:hover,
+.project-card:focus-within {
+  background-color: var(--theme-dark-surface-background-elevation-level-1);
   border-color: var(--theme-dark-border-outline-default);
   @include tools.elevation("level-3");
 }
@@ -67,6 +69,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .project-card {
+    transition-duration: var(--motion-duration-instant-default);
+  }
+
   .project-card .project-card__media img,
   .project-card:hover .project-card__media img,
   .project-card:focus-within .project-card__media img {

@@ -75,6 +75,13 @@ Use square corners for UI elements, including slider pagination markers. Avatar
 is the circular exception. Do not introduce other rounded corners unless the
 user explicitly requests them.
 
+## Interaction Feedback
+
+Every enabled clickable element must have visible hover feedback and keyboard
+focus feedback. Tile and card backgrounds should become lighter on hover and
+when their controls receive keyboard focus, using existing surface tokens.
+Preserve disabled states and reduced-motion behavior.
+
 ## Selector Scope
 
 Target the exact semantic element or component role being styled. When a
