@@ -6,7 +6,7 @@ const SECTION_HEADING = 'Companies I have worked with';
 const COMPANY_ITEMS = company_catalogue;
 
 export default {
-  title: 'Organisms/Company Slider',
+  title: 'Organisms/Section/Company Slider',
   tags: ['autodocs'],
   args: { section_heading: SECTION_HEADING, company_items: COMPANY_ITEMS },
   argTypes: { section_heading: { control: 'text' }, company_items: { control: 'object' } },

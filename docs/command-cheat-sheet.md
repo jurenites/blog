@@ -1,26 +1,18 @@
 ## Command Cheat Sheet
 
-Keep DEV .env and PROD .env commands separate.  
-at DEV there is a Docker service names such as `db` resolve inside the DEV Docker network, so run Drush inside the web container rather than directly on local machine (macOS).
+Keep DEV .env and PROD .env commands separate at DEV there is a Docker service names such as `db` resolve inside the DEV Docker network, so run Drush inside the web container rather than directly on local machine (macOS).
 
 # DEV Environment
 
 ### Blender outputs and Git
 
-`output/ceramic-logo/.gitignore` keeps rendered frames, images, videos,
-validation reports, Blender backups, and Python caches local. The small editable
-scene, build/render scripts, and source SVG remain versioned. Back up local
-artwork and exports separately when needed.
+`output/ceramic-logo/.gitignore` keeps rendered frames, images, videos, validation reports, Blender backups, and Python caches local. The small editable scene, build/render scripts, and source SVG remain versioned. Back up local artwork and exports separately when needed.
 
-For already tracked outputs, adding an ignore rule is not sufficient. Remove
-only the intended generated paths from the index with `git rm --cached` (or
+For already tracked outputs, adding an ignore rule is not sufficient. Remove only the intended generated paths from the index with `git rm --cached` (or
 `git rm -r --cached` for a directory); this preserves the working files. Review
 `git diff --cached --stat` before committing.
 
-A cleanup commit stops tracking those files in subsequent revisions. It does
-not remove their blobs from earlier commits or reduce full-clone history size.
-Purging published blobs requires a coordinated history rewrite and force push;
-back up the original history and local artwork before doing that.
+A cleanup commit stops tracking those files in subsequent revisions. It does not remove their blobs from earlier commits or reduce full-clone history size. Purging published blobs requires a coordinated history rewrite and force push; back up the original history and local artwork before doing that.
 
 ### Step 1: StepRun commands from the project folder
 
@@ -60,18 +52,11 @@ npm run version:bump -- minor
 npm run version:bump -- major
 ```
 
-
-
 #### Update Drupal core and contributed projects in DEV
 
-Resolve dependency updates in DEV and deploy the resulting `composer.lock` with
-`composer install` in PROD. Keep `minimum-stability: stable`; Drupal 12 alpha is
-for compatibility testing and has no supported upgrade path to later alphas or
-beta. It also requires PHP 8.5, above the current DEV PHP 8.4 runtime.
+Resolve dependency updates in DEV and deploy the resulting `composer.lock` with `composer install` in PROD. Keep `minimum-stability: stable`; Drupal 12 alpha is for compatibility testing and has no supported upgrade path to later alphas or beta. It also requires PHP 8.5, above the current DEV PHP 8.4 runtime.
 
-Before updating, save `composer.json`, `composer.lock`, and a compressed database
-dump under an ignored `backups/` subdirectory, outside `web/`. Check pending
-database updates first: `updatedb` also applies pending custom-module hooks.
+Before updating, save `composer.json`, `composer.lock`, and a compressed database dump under an ignored `backups/` subdirectory, outside `web/`. Check pending database updates first: `updatedb` also applies pending custom-module hooks.
 
 ```bash
 docker exec blog_jurenites_web ./vendor/bin/drush updatedb:status
@@ -83,19 +68,9 @@ docker exec blog_jurenites_web composer check-platform-reqs
 docker exec blog_jurenites_web composer audit
 ```
 
-On 2026-09-17, the resolved update moves core 11.4.6 to the 11.4.7 security
-release, Image Blurry Placeholder 1.2.0 to 1.3.0, Image Compare 1.0.3 to 1.1.0,
-Publication Date 3.1.0 to 3.2.0, and Tagify 2.0.2 to 2.0.3, with compatible
-Symfony patch updates. See the [11.4.7 release notes](https://www.drupal.org/project/drupal/releases/11.4.7)
-and [Drupal 12 alpha limitations](https://www.drupal.org/project/drupal/releases/12.0.0-alpha1).
+On 2026-09-17, the resolved update moves core 11.4.6 to the 11.4.7 security release, Image Blurry Placeholder 1.2.0 to 1.3.0, Image Compare 1.0.3 to 1.1.0, Publication Date 3.1.0 to 3.2.0, and Tagify 2.0.2 to 2.0.3, with compatible Symfony patch updates. See the [11.4.7 release notes](https://www.drupal.org/project/drupal/releases/11.4.7) and [Drupal 12 alpha limitations](https://www.drupal.org/project/drupal/releases/12.0.0-alpha1).
 
-Local verification passed: Composer validation, platform requirements and audit
-(zero advisories), no remaining database updates, and all 21 projects in the
-refreshed Drupal update report marked current. Fifteen public/login routes,
-including both languages and the Russian About alias `/ru/obo`, returned HTTP
-200; translated Videos layout and Game of Life editor checks also passed.
-Rollback files are in `backups/composer-update-20260917/`; the compressed SQL dump
-passed `gzip -t`. This records DEV verification, not a production deployment.
+Local verification passed: Composer validation, platform requirements and audit (zero advisories), no remaining database updates, and all 21 projects in the refreshed Drupal update report marked current. Fifteen public/login routes, including both languages and the Russian About alias `/ru/obo`, returned HTTP 200; translated Videos layout and Game of Life editor checks also passed. Rollback files are in `backups/composer-update-20260917/`; the compressed SQL dump passed `gzip -t`. This records DEV verification, not a production deployment.
 
 #### Run database updates, then clear cache
 
@@ -104,8 +79,6 @@ docker exec blog_jurenites_web ./vendor/bin/drush updatedb --yes
 docker exec blog_jurenites_web ./vendor/bin/drush cr
 docker exec blog_jurenites_web ./vendor/bin/drush updatedb:status
 ```
-
-
 
 #### Apply project Drupal recipes
 
@@ -120,16 +93,12 @@ docker exec blog_jurenites_web ./vendor/bin/drush recipe /opt/drupal/recipes/jur
 docker exec blog_jurenites_web ./vendor/bin/drush recipe /opt/drupal/recipes/jurenites_cookbook
 ```
 
-
-
 # DEV to PROD Content Restore (Manual)
 
-Development Mode - Use this direction only when intentionally replaces all from: DEV ->  to: PROD content.  
-Inactive Mode - The normal long-term content-sync direction is form: PROD -> to: DEV.   
+Development Mode - Use this direction only when intentionally replaces all from: DEV ->  to: PROD content. Inactive Mode - The normal long-term content-sync direction is form: PROD -> to: DEV.   
 
 - The Database SQLdump contains content; importing it replaces every DB records.   
 - public Files are transferred separately in a .tar archive.
-
 
 
 ### Step 0: at the DEV .env push changes to a codebase repo (terminal)

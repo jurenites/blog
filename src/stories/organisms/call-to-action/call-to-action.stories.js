@@ -21,7 +21,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: "Organisms/Call to Action",
+  title: "Organisms/Section/Call to Action",
   tags: ["autodocs"],
   render: render_story,
   argTypes: {

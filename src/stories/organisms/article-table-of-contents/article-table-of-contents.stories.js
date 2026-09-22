@@ -25,7 +25,7 @@ const EDGE_SECTIONS = [
 ];
 
 export default {
-  title: 'Organisms/Article Table of Contents',
+  title: 'Organisms/Blog/Article Table of Contents',
   parameters: { layout: 'padded' },
   args: {
     article_title: ARTICLE_TITLE,

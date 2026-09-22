@@ -73,7 +73,7 @@ function render_story({ icon_name }) {
 }
 
 export default {
-  title: "Atoms/Icon",
+  title: "Foundations/Icon",
   tags: ["autodocs"],
   render: render_story,
   argTypes: {

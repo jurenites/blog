@@ -76,7 +76,7 @@ function render_article_grid_story(story_arguments) {
 }
 
 export default {
-  title: "Molecules/Blog/Article Teaser",
+  title: "Organisms/Blog/Article Teaser",
   tags: ["autodocs"],
   render: render_article_story,
   argTypes: {
