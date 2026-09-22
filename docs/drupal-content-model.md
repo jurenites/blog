@@ -530,10 +530,12 @@ optional and do not change its type. Both types retain Body, Content sections,
 images, shared Tags, content time, translations, revisions and comments.
 
 Article add/edit forms show the optional Body **Summary** with the existing
-**Basic HTML** CKEditor toolbar. `jurenites_admin` keeps it visible even when
+**Full HTML** CKEditor toolbar. `jurenites_admin` keeps it visible even when
 empty and converts the submitted formatted widget back to Drupal's native
 summary string. The summary still shares the Body's stored text format; no
-field or content migration is needed. An empty summary retains Drupal's trimmed
+field or content migration is needed. Select **Full HTML** for Body to preserve
+the same formatting when the summary is displayed. Existing text-format access
+permissions still apply. An empty summary retains Drupal's trimmed
 Body fallback. Video and other content forms keep their existing widgets.
 Deploy the module change and rebuild Drupal cache to activate it.
 
@@ -560,6 +562,10 @@ Comments, supporting fields and other page headings are excluded. Without
 JavaScript or with fewer than two headings, Body keeps its readable single-column
 layout. Smooth scrolling respects reduced-motion preferences. The theme and the
 Article Table of Contents Storybook example share the same behavior and SCSS.
+Contents links keep a token-based 24px line height in every interaction state,
+including wrapped labels, so hovering or changing the current section does not
+shift the list. Hover and current-section underlines use the existing 2px spacing
+token for their offset from the text.
 
 The [Conway's Game of Life Article](game-of-life.md) combines editable long-form
 copy with a node-scoped live experiment, local diagrams, and native Remote video
@@ -980,7 +986,7 @@ native keyboard expansion and collapse; reduced-motion disables transitions.
 `jurenites_expanding_text` adds **Expandable term** beside **Link** in the Basic
 HTML and Full HTML CKEditor toolbars. Select plain text within one paragraph and
 press the button. The editor shows the short term followed by an arrow and an
-editable explanation; write supporting detail that reads naturally in parentheses
+editable explanation; write supporting detail that reads naturally in brackets
 after the original phrase. The short term can also be edited directly.
 Select a word inside that explanation and use the same button to nest another
 expansion. There is no configured nesting-depth limit. This also works in quotes.
@@ -996,16 +1002,26 @@ The saved format is nested spans with the classes `expandable-term`,
 styles, arbitrary attributes or buttons are permitted by the new Basic HTML
 allowlist. Frontend enhancement creates real buttons at runtime. Clicking or
 pressing Enter/Space keeps the original yellow phrase in place and adds its
-explanation in parentheses. The shared tooltip reads “Expand” when closed and
-“Collapse” when open. Click the phrase again or use the return arrow to collapse
-it. Escape collapses the innermost focused explanation.
+explanation in square brackets. The shared tooltip reads “Expand” when closed and
+“Collapse” when open. Click the phrase again or the trailing SVG close button
+(shared `cross-big` icon) to collapse it. The complete explanation has a dark
+background, pale-gray text (two palette steps below the previous light-white),
+and square brackets. Its background follows each wrapped
+line, and the close button stays inline at the end. Nested terms remain separate
+controls; the explanation stays a span so buttons never nest inside buttons.
+Escape collapses the innermost focused explanation.
 Focus returns to its term after collapse. Each expansion can contain further
 terms and formatted inline text. Paragraphs reflow naturally; nothing opens a
 new page or popup, and the term is colored without an underline. Without
 JavaScript both the original phrase and complete explanation are readable.
-Details fade in over the existing long motion duration and fade out over the
-media-reveal duration, while inline content reflows naturally. Rapid toggles
-cancel stale completion callbacks; reduced-motion users get immediate changes. Shared token styling is also
+Details type into the paragraph by grapheme over `motion.duration.medium.default`
+(250 ms total, independent of text length), pushing following text and the close
+button through normal inline wrapping. Characters are batched per animation
+frame; a temporary inert, accessibility-hidden preview preserves formatting while
+the original nested controls stay intact. Completion or interruption restores the
+original content. Collapse fades out over the media-reveal duration. Rapid toggles
+cancel stale completion callbacks; reduced-motion users get immediate changes.
+Shared token styling is also
 loaded in CKEditor. Focused nested editable regions use the existing dark-black
 palette token through `--ck-color-widget-editable-focus-background`, scoped to
 `.ck-content`. Storybook: **Atoms / Expandable Term**.

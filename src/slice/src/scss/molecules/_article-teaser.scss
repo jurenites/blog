@@ -2,6 +2,18 @@
 
 @use "../tools";
 
+@keyframes article-title-arrow-reveal {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--space-scale-base-gap) * -1));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @view-transition {
   navigation: auto;
 }
@@ -239,13 +251,34 @@
 
   &__title {
     margin: 0;
-    @include tools.typography-subtitle-1;
+    @include tools.typography-link;
   }
 
   &__title-link {
+    display: inline;
     color: var(--theme-dark-text-primary-default);
     text-decoration: none;
+  }
 
+  &__title-link:is(:hover, :focus-visible) &__internal-mark {
+    visibility: visible;
+    animation: article-title-arrow-reveal var(--motion-duration-medium-default) var(--motion-easing-decelerate-default) both;
+  }
+
+  &__title-link:focus-visible {
+    @include tools.focus-ring;
+  }
+
+  &__internal-mark {
+    visibility: hidden;
+    vertical-align: middle;
+    color: inherit;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__title-link:is(:hover, :focus-visible) &__internal-mark {
+      animation: none;
+    }
   }
 
   &__content {

@@ -731,11 +731,34 @@ default and hover states without replacing the surrounding typography. The
 version Git-hash link explicitly retains the 4pixel family and a persistent 1px
 solid underline so it reads as a technical link without relying on color.
 
-External News title links follow Timeline website links: use the existing
-`color.palette.brand-primary` cyan, darkened to 70% cyan mixed with black on
-hover and keyboard focus. Their suffix external-link icon is hidden at rest
+All public-theme anchors whose `rel` token list includes `external` use the
+existing `color.palette.brand-primary` cyan, darkened to 70% cyan mixed with
+black on hover and keyboard focus. The shared global rule covers Article body
+links, News titles, author links and other placements, including combined
+values such as `rel="external noopener noreferrer"`. Links without this token
+retain their existing component colors. Drupal and Storybook share this rule.
+Technology Stack official-site links retain `rel="external"` but use white at
+rest and brand-primary blue on hover and keyboard focus. Names are visually
+collapsed at rest and revealed on hover/focus, remaining available as accessible
+link text. Each square-cornered highlight fits the logo and revealed name instead
+of stretching across its grid cell. Logo artwork keeps its existing brand states.
+Company Slider website links keep their names visible and white at rest. Hover
+and keyboard focus turn the name cyan and reveal an external-link SVG suffix
+whose space stays reserved. Company logos retain their white artwork treatment.
+News title links retain their suffix external-link icon, hidden at rest
 and revealed on hover or keyboard focus, with its space reserved to prevent
 layout shifts. Drupal and Storybook share the News List Item stylesheet.
+External Numeric Values caption links use the same blue external-link colors
+and reveal their external-link SVG suffix on hover and keyboard focus, with
+its space reserved at rest.
+
+Article List Item titles use Link typography and semantic H2 headings. Their
+internal links show the shared `arrow-right` SVG after the title on hover and
+keyboard focus, with the icon hidden at rest and its space reserved to prevent
+layout shifts. The arrow fades in while moving one base gap from left to right,
+using the existing medium duration and deceleration curve. It stays inline after
+the last title word when the heading wraps. Reduced motion shows it immediately.
+Drupal and Storybook share this presentation.
 
 External-link suffixes are limited to standalone links and links that end a text
 block. When text, a badge, or other inline content follows the link label, omit

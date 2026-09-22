@@ -7,7 +7,7 @@ import footer_navigation_item_template from "./footer-navigation-item.template.h
 
 export function footer_navigation_markup({
   recruiter_heading,
-  recruiter_description,
+  section_description = "",
   recruiter_links = [],
   social_heading,
   messengers_heading,
@@ -37,7 +37,7 @@ export function footer_navigation_markup({
 
   return render_template(footer_navigation_template, {
     recruiter_heading: escape_html(recruiter_heading),
-    recruiter_description: escape_html(recruiter_description),
+    section_description_markup: section_description ? `<p class="footer-navigation__section-description">${escape_html(section_description)}</p>` : "",
     recruiter_links_markup: recruiter_links.map((recruiter_link) => `<li class="footer-navigation__item"><a class="footer-navigation__link" href="${escape_html(recruiter_link.link_url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape_html(recruiter_link.link_label)} (opens in a new window)">${recruiter_link.icon_name ? icon_markup({ icon_name: recruiter_link.icon_name, class_name: "footer-navigation__social-network-icon", is_link_prefix: true }) : ""}<span class="footer-navigation__link-label">${escape_html(recruiter_link.link_label)}</span></a></li>`).join(""),
     social_heading: escape_html(social_heading),
     messengers_heading: escape_html(messengers_heading),

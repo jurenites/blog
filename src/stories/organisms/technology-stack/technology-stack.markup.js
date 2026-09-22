@@ -8,7 +8,7 @@ function technology_item_markup(technology_data) {
        <img class="technology-stack__logo technology-stack__logo--color" src="${asset_directory}${escape_html(technology_data.logo_file)}" alt="" loading="lazy" decoding="async">`
     : `<span class="technology-stack__text-mark">${escape_html(technology_data.text_mark)}</span>`;
   return `<li class="technology-stack__item">
-    <a class="technology-stack__link${technology_data.monochrome_brand ? ' technology-stack__link--monochrome' : ''}" href="${escape_html(technology_data.official_url)}">
+    <a class="technology-stack__link${technology_data.monochrome_brand ? ' technology-stack__link--monochrome' : ''}" href="${escape_html(technology_data.official_url)}" rel="external">
       <span class="technology-stack__artwork" aria-hidden="true">${logo_content}</span>
       <span class="technology-stack__name">${escape_html(technology_data.technology_name)}</span>
     </a>

@@ -40,12 +40,12 @@ function jurenites_admin_field_widget_single_element_form_alter(array &$widget_e
 
   $summary_element = &$widget_element['summary'];
   $summary_element['#type'] = 'text_format';
-  $summary_element['#format'] = 'basic_html';
-  $summary_element['#allowed_formats'] = ['basic_html'];
+  $summary_element['#format'] = 'full_html';
+  $summary_element['#allowed_formats'] = ['full_html'];
   $summary_element['#element_validate'][] = 'jurenites_admin_validate_article_summary';
   // Keep the rich editor visible, including when a new Article has no summary.
   $summary_element['#attributes']['class'] = ['text-summary'];
-  $summary_element['#description'] = t('Format the summary with Basic HTML. Leave blank to use trimmed Body text. The saved summary shares the Body text format.');
+  $summary_element['#description'] = t('Format the summary with Full HTML. Leave blank to use trimmed Body text. The saved summary shares the Body text format. Select Full HTML for Body to preserve the same formatting.');
 }
 
 /**

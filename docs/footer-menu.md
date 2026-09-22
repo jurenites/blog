@@ -40,8 +40,16 @@ the menu editor; rerunning the script intentionally does not overwrite it.
 
 The **For recruiters** section sits under **Get in touch**, with LinkedIn, hh.ru,
 and My CV. Set its type to **Section heading**, its Link to `<nolink>`, and its
-Parent link to the contact column. Its native **Description** field supplies
-“Actively looking for a job” and can be translated with the heading.
+Parent link to the contact column. Edit its native **Description** field to change
+the introduction displayed beneath the heading. Clear it to hide the introduction;
+use **Translate** to edit the Russian description independently. This text belongs
+only to CMS menu content, with no default in code or the setup script. Storybook
+provides an optional empty **section_description** control for demonstrations.
+
+The current menu maintains the job-status text as a separate child item with
+**Section heading** type and a `<nolink>` destination. Edit that item's **Menu
+link title** (or its translation) to change the status. Keep the parent recruiter
+section's **Description** empty to avoid displaying the same status twice.
 
 Privacy links are maintained separately at
 `/admin/structure/menu/manage/footer-legal` (**Footer legal**). This independent

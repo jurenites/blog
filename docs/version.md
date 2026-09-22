@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 1.129.6
+Version: 1.132.6
 Reviewed: 2026-09-19
 
 This checkpoint says the `/docs` folder has been reviewed against the current

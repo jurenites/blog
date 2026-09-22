@@ -140,7 +140,7 @@ try {
   assert.equal(await nested_term.locator(':scope > .expandable-term__trigger').isVisible(), true);
   assert.equal(await first_term.locator(':scope > .expandable-term__explanation').isVisible(), true);
   assert.equal(await first_term.locator(':scope > .expandable-term__trigger').isVisible(), true);
-  await first_term.locator(':scope > .expandable-term__collapse').click();
+  await first_term.locator(':scope > .expandable-term__explanation > .expandable-term__collapse').click();
   assert.equal(await first_term.locator(':scope > .expandable-term__trigger').isVisible(), true);
   assert.equal(await first_term.locator(':scope > .expandable-term__trigger').evaluate((button_element) => button_element === document.activeElement), true);
   // Reattachment must not create duplicate controls.

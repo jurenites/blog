@@ -67,6 +67,7 @@ await writeFile(BUILD_PATHS.ckeditor_css_output, ckeditor_css_result.css);
 await esbuild.build({
   entryPoints: [BUILD_PATHS.js_entry],
   outfile: BUILD_PATHS.js_output,
+  loader: { '.svg': 'text' },
   bundle: true,
   minify: true,
   sourcemap: false,

@@ -43,11 +43,12 @@
 }
 
 .technology-stack__link {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--space-scale-base-gap);
-  height: 100%;
+  gap: var(--space-scale-zero);
+  width: fit-content;
+  max-width: 100%;
   min-height: calc(var(--space-scale-base-gap) * 4);
   padding: calc(var(--space-scale-base-gap) * 1);
   color: var(--theme-dark-text-primary-default);
@@ -68,8 +69,8 @@
 .technology-stack__logo {
   grid-area: 1 / 1;
   display: block;
-  width: calc(var(--space-scale-base-gap) * 2);
-  height: calc(var(--space-scale-base-gap) * 2);
+  width: calc(var(--space-scale-base-gap) * 4);
+  height: calc(var(--space-scale-base-gap) * 4);
   object-fit: contain;
 }
 
@@ -89,16 +90,26 @@
 }
 
 .technology-stack__name {
+  min-width: 0;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
   text-align: start;
   @include tools.typography-body-2;
 }
 
 .technology-stack__link:is(:hover, :focus-visible) {
+  gap: var(--space-scale-base-gap);
   background-color: var(--theme-dark-surface-background-elevation-level-1);
-  color: var(--theme-dark-text-primary-default);
+  color: var(--color-palette-brand-primary);
   border-color: var(--theme-dark-action-primary-default);
 
-  .technology-stack__name { text-decoration: underline; }
+  .technology-stack__name {
+    max-width: none;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+  }
   .technology-stack__logo--white { visibility: hidden; }
   .technology-stack__logo--color { visibility: visible; }
   .technology-stack__text-mark { color: var(--theme-dark-action-primary-default); }

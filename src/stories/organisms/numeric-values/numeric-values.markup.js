@@ -17,10 +17,10 @@ export function numeric_value_tile_markup({
   const caption_is_external = /^(https?:)?\/\//i.test(numeric_caption_link_url);
   const caption_link_label = numeric_caption_link_label || numeric_caption_link_url;
   const caption_target_attributes = caption_is_external
-    ? ` target="_blank" rel="noopener noreferrer" aria-label="${escape_html(caption_link_label)} (opens in a new tab)"` : '';
+    ? ` target="_blank" rel="external noopener noreferrer" aria-label="${escape_html(caption_link_label)} (opens in a new tab)"` : '';
   const caption_external_icon = caption_is_external ? icon_markup({
     icon_name: 'external-link',
-    class_name: 'footer-navigation__external-mark numeric-values__caption-external-mark',
+    class_name: 'numeric-values__caption-external-mark',
   }) : '';
   return render_template(numeric_value_tile_template, {
     tile_class: role_selector ? ' role-slider__tile' : '',

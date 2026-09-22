@@ -31,9 +31,17 @@
     {% endif %}
     {{ title_prefix }}
     {% if label %}
-      <h5{{ title_attributes.addClass('article-list-item__title').setAttribute('data-jurenites-article-title-transition', 'article-title-' ~ article_id) }}>
-        <a class="article-list-item__title-link" href="{{ url }}" rel="bookmark">{{ label }}</a>
-      </h5>
+      <h2{{ title_attributes.addClass('article-list-item__title').setAttribute('data-jurenites-article-title-transition', 'article-title-' ~ article_id) }}>
+        <a class="article-list-item__title-link" href="{{ url }}" rel="bookmark">
+          {%- apply spaceless -%}
+          <span>{{ label }}</span>
+          {% include '@jurenites_theme/components/icon.html.twig' with {
+            icon_name: 'arrow-right',
+            icon_class: 'article-list-item__internal-mark',
+          } only %}
+          {%- endapply -%}
+        </a>
+      </h2>
     {% endif %}
     {{ title_suffix }}
     {% if node.bundle == 'video' %}

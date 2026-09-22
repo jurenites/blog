@@ -104,15 +104,6 @@
   }
 }
 
-// Match Timeline website links while overriding the global anchor colors.
-body.jurenites-theme .news-list-item a.news-list-item__title-link[rel~="external"] {
-  color: var(--color-palette-brand-primary);
-
-  &:is(:hover, :focus-visible) {
-    color: color-mix(in srgb, var(--color-palette-brand-primary) 70%, var(--color-palette-full-black));
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .news-list-item,
   .news-list-item__media img,
