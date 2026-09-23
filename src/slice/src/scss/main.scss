@@ -40,6 +40,7 @@
 @use "molecules/article-teaser";
 @use "molecules/article-table-of-content";
 @use "molecules/news-list-item";
+@use "molecules/card-loading";
 @use "molecules/pagination";
 @use "molecules/author-identity";
 @use "molecules/author-byline";
@@ -88,3 +89,4 @@
 @use "organisms/company-slider";
 
 @use "atoms/horizontal-scrollbar";
+@use "atoms/last-word-not-wrap";

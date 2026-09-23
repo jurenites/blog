@@ -229,38 +229,55 @@ samp {
 
 .icon-gallery__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--shape-basic-tile), 1fr));
+  grid-template-columns: repeat(auto-fill, var(--shape-basic-tile));
   gap: var(--space-scale-base-gap);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.icon-gallery__item {
+.icon-gallery__tile {
   display: grid;
   place-items: center;
   height: var(--shape-basic-tile);
   width: var(--shape-basic-tile);
+  box-sizing: border-box;
   padding: 0;
+  border-radius: var(--shape-corner-radius-small);
+  background-color: var(--theme-dark-surface-background-elevation-level-0);
+  color: inherit;
   cursor: pointer;
-  transition: background-color var(--motion-duration-short-default) var(--motion-easing-standard-default);
+  @include tools.motion-transition(background-color);
   border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
 }
 
+.icon-gallery__glyph {
+  width: var(--system-icon-default-svg-viewport);
+  height: var(--system-icon-default-svg-viewport);
+}
+
 // Preserve the supplied 16px artwork viewport in both gallery previews.
-.icon-gallery__item > .icon:has(> .icon__svg[viewBox="0 0 16 16"]),
-.icon-gallery__selected-item > .icon:has(> .icon__svg[viewBox="0 0 16 16"]) {
+.icon-gallery__glyph:has(> .icon__svg[viewBox="0 0 16 16"]) {
   width: 16px;
   height: 16px;
 }
 
-.icon-gallery__item:hover,
-.icon-gallery__item:focus-visible {
+.icon-gallery__tile:hover,
+.icon-gallery__tile:focus-visible {
   background-color: var(--theme-dark-surface-background-elevation-level-1);
   border-color: var(--theme-dark-border-divider-default);
 }
 
-.icon-gallery__item code,
+.icon-gallery__tile:focus-visible {
+  @include tools.focus-ring;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-gallery__tile {
+    transition: none;
+  }
+}
+
 .icon-gallery__selected-item code {
   display: none;
   min-width: 0;

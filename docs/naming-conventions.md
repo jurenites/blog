@@ -1,200 +1,112 @@
-# Naming Conventions (the shared language)
+# Naming Conventions
 
-This is the contract that lets a Figma frame, a SCSS class, a Storybook story, a
-Drupal component, and a token all refer to the same thing without guessing.
+Use meaningful names that connect source code, Storybook, Drupal markup, and
+Figma. `AGENTS.md` is the working convention; existing platform APIs and token
+identifiers retain their required names.
 
-The single bridging idea: **BEM names are identical in code and in Figma layer
-names.** If you rename or edit a frame in Figma, its name tells us exactly which
-code part it maps to, and vice versa.
+## Project identifiers
 
-## 1. Component key (the stable identifier)
-
-Every component has one canonical key: `{level}/{block}`, lowercase, kebab-case.
-
-```
-atoms/button        atoms/avatar        atoms/badge
-molecules/project-card   molecules/contact-me-widget   molecules/article-teaser
-organisms/timeline-rail
-```
-
-- `level` is the Atomic Design layer: `atoms`, `molecules`, `organisms`, `components`.
-- `block` is the BEM block, kebab-case, and must be multi-word-meaningful where it
-  matters (no lone generic words — same spirit as the token naming rule).
-
-This key is the same in every tool. Everything else is a deterministic transform
-of it:
-
-| Tool            | Derived from key `molecules/project-card`                     |
-| --------------- | ------------------------------------------------------------- |
-| Storybook title | `Molecules/Project Card`                                      |
-| SCSS file       | `src/slice/src/scss/molecules/_project-card.scss`             |
-| SCSS block      | `.project-card`                                               |
-| Figma page      | `Molecules`                                                   |
-| Figma component | `project-card` (exact block name, so layer mapping is literal) |
-| Drupal SDC      | `web/themes/custom/jurenites_theme/components/project-card/`  |
-| Mapping tag     | sharedPluginData `jrn.componentKey = "molecules/project-card"` |
-
-## 2. BEM inside a component (block / element / modifier)
-
-```
-.block                 block root
-.block__element        a named part of the block
-.block--modifier       a variant of the whole block
-.block__element--mod   a variant of a part
-```
-
-Rules:
-
-- Elements and modifiers are kebab-case; multi-word parts stay hyphenated
-  (`project-card__tag-list`, `contact-me-widget__avatar`).
-- Never nest element-of-element in the name: it is `card__title`, not
-  `card__header__title`. Nesting lives in the DOM, not the class.
-
-## 3. Figma layer names == BEM names (the key rule)
-
-Inside a Figma component, **name every meaningful layer after its BEM selector**:
-
-```
-project-card                     (component / frame root = .project-card)
-  project-card__media            (= .project-card__media)
-  project-card__body
-    project-card__title
-    project-card__excerpt
-    project-card__tag-list
-      chip                       (an instance of the atoms/chip component)
-  project-card__actions
-    button                       (an instance of the atoms/button component)
-```
-
-Because the layer name is the selector, when you edit `project-card__media` in
-Figma, we both know it is `.project-card__media` in `_project-card.scss` and the
-`media` area of the Drupal component. No translation table needed.
-
-Layers that are pure decoration or auto-layout scaffolding can keep Figma default
-names; only name the layers that map to real BEM parts.
-
-## 4. Variant axes (one vocabulary everywhere)
-
-Use the same three axes across tools. Add axes only when a component truly needs
-them.
-
-| Axis      | Figma variant property | Storybook arg    | CSS expression                  |
-| --------- | ---------------------- | ---------------- | ------------------------------- |
-| Variant   | `Variant=Primary`      | `style_variant`  | `.button--primary`              |
-| Size      | `Size=Medium`          | `component_size` | `.button--medium`               |
-| State     | `State=Hover`          | (interaction)    | `:hover`, `:focus`, `[disabled]`, `.is-active` |
-
-- Figma property names are Capitalized; values are Capitalized.
-- CSS modifiers are kebab-case lowercase.
-- Interactive states (`hover`, `focus`, `disabled`) are real CSS states in code;
-  in Figma they are explicit `State` variants so designers can see them.
-
-## 5. Tokens inside components
-
-Components must consume tokens, never raw values:
-
-- Code: `var(--theme-dark-action-primary-default)`, `@include tools.typography-headline-5;`.
-- Figma: bind fills/strokes/radius/gap/padding to the matching variable. Each
-  variable already carries WEB code syntax (`var(--…)`), so Dev Mode shows the
-  exact CSS variable name.
-
-Editable YAML tokens use direct key/value syntax. Keep scalar tokens on one
-line, use plain dot paths for references and YAML comments for explanations,
-and never add `$type`, `$value`, or `$description`; the build infers internal
-metadata from the resolved value and token path.
-
-Do not create self-mapping option registries such as `small: small`. Storybook
-control choices belong in the component story as named constants; tokens retain
-only actual design decisions and meaningful mappings whose key and value differ.
-
-Store each `elevation.shadow.*` token as one complete CSS shadow value, not an
-object of offset, blur, spread, and color keys. Consumers should need only
-`box-shadow: var(--elevation-shadow-level-*);`.
-
-Color names make their abstraction layer explicit:
-
-- `color-palette-*` directly owns a reusable palette role and its unique HEX.
-  In YAML, each palette token is one uppercase HEX string on a single line;
-  an optional inline comment provides a friendlier display label. The role set is not fixed: a palette
-  may use primary and secondary only, or add tertiary, quaternary, and further
-  roles as needed.
-- `theme-dark-*` selects palette values for the dark theme.
-- Global semantic roles belong to the active theme: `theme-dark-surface-*`,
-  `theme-dark-text-*`, `theme-dark-action-*`, and `theme-dark-border-*`.
-- Component-specific roles use
-  `component-{component-name}-color-{property}-{state}`, for example
-  `component-input-text-color-validation-error-default`. Watermark colors use
-  `component-watermark-color-*` because the watermark owns them.
-
-Do not use `component-color-*` without a component name: it does not identify
-ownership. Do not let component SCSS reach into `color-palette-*`; map the role
-through the active theme first.
-
-## 6. How a Figma frame is linked back to code (3 layers of safety)
-
-1. **Naming** — component name = block key, layer names = BEM selectors (above).
-2. **Mapping tag** — every Figma component is tagged on creation:
-   ```js
-   node.setSharedPluginData('jrn', 'componentKey', 'molecules/project-card');
-   node.setSharedPluginData('jrn', 'bemBlock', 'project-card');
-   ```
-   Tooling/agents can query this to resolve a frame to its code component even if
-   a name drifts.
-3. **Code Connect** — the formal Figma Dev Mode link from a component to its code
-   snippet (`.figma.ts`/SDC). Added when on a Dev/Full seat; until then layers 1–2
-   are enough. See the `figma-code-connect` skill.
-
-## 7. Drupal (Single Directory Components)
-
-Target the Drupal SDC layout so the block name is the directory name:
-
-```
-components/project-card/
-  project-card.component.yml   (props/slots, named with BEM parts)
-  project-card.twig
-  project-card.css             (compiled from slice, or @import)
-```
-
-Slots/props are named after BEM elements (`media`, `title`, `excerpt`,
-`tag_list`, `actions`) so the Twig, the SCSS, and the Figma layers line up.
-
-## 8. Quick checklist when adding a component
-
-- [ ] Pick the key `{level}/{block}` and use it everywhere.
-- [ ] SCSS partial `_{block}.scss` with `.block`, `.block__element`, `.block--modifier`.
-- [ ] One Storybook story titled `{Level}/{Block}`, variants via Controls.
-- [ ] Figma component named `{block}`, layers named after BEM selectors.
-- [ ] Variant props use the `Variant` / `Size` / `State` vocabulary, with
-      two-word Storybook arg names such as `style_variant`.
-- [ ] Tokens bound (Figma) / used via vars+mixins (code) — no raw values.
-- [ ] Figma component tagged with `jrn.componentKey` and `jrn.bemBlock`.
-
-## 9. Variable naming
-
-Every new variable, prop, Storybook arg, token segment, and meaningful helper name
-must use at least two words. The name should explain what the value represents,
-not only what type of thing it is.
-
-Examples:
+New variables, props, Storybook args, and helper functions use at least two
+meaningful words. JavaScript uses `snake_case`; top-level story demo constants
+use `SCREAMING_SNAKE_CASE`. CSS classes, BEM parts, and template filenames use
+`kebab-case`. Token paths use dot notation in `src/token/tokens.yaml`.
 
 | Avoid | Use |
-| ----- | --- |
-| `eyebrow` | `eyebrow_heading` |
+| --- | --- |
 | `label` | `button_label` |
 | `variant` | `style_variant` |
 | `title` | `card_title` |
+| `eyebrow` | `eyebrow_heading` |
 | `tokens` | `token_map` |
 
-Notation by file type:
+External API keys such as Storybook's `title`, DOM properties, and Drupal field
+API names keep their required spelling. Reuse existing token namespaces rather
+than renaming `color`, `space`, or `component` to satisfy a variable-name rule.
+The user owns the token inventory; do not add tokens without an explicit request.
 
-- CSS classes, template filenames, and BEM parts use `kebab-case`.
-- JavaScript variables, functions, Storybook args, and `argTypes` use `snake_case`.
-- Design tokens use `dot.notation` in the source tree.
+## Component source and Storybook
 
-These conventions are checked by `npm run lint`. Naming mismatches are warnings
-for now; syntax and correctness problems remain blocking. The severity is kept in
-`eslint.config.js` and `stylelint.config.js` so the team can tighten individual
-rules without changing component code or adding Git hooks.
+A component has a stable BEM block name, for example `project-card`:
 
-Single-word names are only acceptable when they are required external API keys or
-literal HTML/CSS concepts that cannot be renamed without breaking the platform.
+| Surface | Current example |
+| --- | --- |
+| Story folder | `src/stories/molecules/project-card/` |
+| Story file | `project-card.stories.js` |
+| Shared story renderer | `project-card.markup.js` where composition needs it |
+| SCSS partial | `src/slice/src/scss/molecules/_project-card.scss` |
+| BEM block | `.project-card` |
+| Storybook title | `Molecules/Project Card` |
+| Drupal integration | Theme or module Twig using the same BEM contract |
+
+The visible Storybook title can include additional groups such as Blog, Video,
+or Section. It need not reproduce the filesystem path. The generated Storybook
+index is authoritative for story IDs and dashboard mappings.
+
+Keep each visible example's story, local templates, and markup helpers together.
+Place individual demo values near the top of the story and wire them through
+`args`; arrays and renderer maps can be one named constant each. Named exports
+cover distinct scenarios, while Controls expose property combinations. Compose
+existing renderers instead of copying another component's HTML.
+
+## BEM and selector scope
+
+```css
+.project-card {}
+.project-card__media {}
+.project-card__tag-list {}
+.project-card--featured {}
+```
+
+Do not encode DOM nesting as `card__header__title`. Give a composed atom a
+component-specific class before overriding it, such as
+`.project-card__action-icon`; a broad `.project-card .icon` can affect unrelated
+nested icons. Interaction states use actual `:hover`, `:focus-visible`, disabled
+attributes, or the component's existing state classes.
+
+Use two-word application prop names such as `card_title` and `tag_items`, even
+when their corresponding BEM element is simply `__title` or `__tags`.
+
+## Figma mapping convention
+
+When maintaining matching Figma components, use the BEM block as the component
+name and BEM selectors as names for layers that correspond to markup:
+
+```text
+project-card
+  project-card__media
+  project-card__body
+    project-card__title
+    project-card__tag-list
+      chip
+```
+
+Pure layout scaffolding can retain descriptive Figma names. Match relevant
+variant vocabulary to code, such as `Variant=Primary` and `style_variant`, or
+`Size=Medium` and `component_size`. Define hover/focus/disabled Figma states only
+where the component supports them.
+
+A mapping tag such as shared plugin data `jrn.componentKey` or `jrn.bemBlock`
+can help tools resolve a renamed layer. This is a convention for authored Figma
+work, not metadata automatically applied by the token-sync plugin. That plugin
+updates variables and styles only. Code Connect mappings and an SDC conversion
+are not prerequisites of the current theme and are not an implemented library.
+
+## Tokens and values
+
+Use existing semantic tokens and generated typography mixins in component styles.
+YAML scalar tokens use direct values or dot-path references; comments explain
+intent. Do not add source `$type`, `$value`, or `$description` wrappers, enum
+self-mappings, or copied palette values. Storybook owns control-option arrays.
+
+Palette values live in `color.palette.*`; semantic roles live in `theme.dark.*`;
+component mappings live in `component.<component-name>.*`. Generated CSS flattens
+paths with dashes. Fixed artwork and footer content exceptions are documented in
+`AGENTS.md` and [Design System](design-system.md).
+
+## Enforcement
+
+`npm run lint` checks JavaScript, SCSS, HTML templates, and the token contract.
+Naming rules currently report warnings; syntax and correctness rules can fail
+the command. The actual severities live in `eslint.config.js` and
+`stylelint.config.js`. Passing lint does not replace review of naming, semantic
+markup, selector scope, or Figma correspondence.

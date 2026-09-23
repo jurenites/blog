@@ -1,11 +1,12 @@
 {# Homepage preview for a manually curated external News source. #}
+{% import '@jurenites_theme/components/card-loading.html.twig' as card_loading %}
 {% set news_classes = [
   'news-list-item',
   'node--type-' ~ node.bundle|clean_class,
   'node--view-mode-' ~ view_mode|clean_class,
 ] %}
 
-<article{{ attributes.addClass(news_classes) }}>
+<article{{ attributes.addClass(news_classes) }} {{ card_loading.loading_attributes('news-list') }}>
   <div class="news-list-item__media">
     <a class="news-list-item__image-link" href="{{ news_source_url }}" rel="external">
       {{ news_thumbnail_image }}

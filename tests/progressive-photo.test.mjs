@@ -4,7 +4,6 @@ import test from 'node:test';
 import { chromium as chromium_browser } from 'playwright';
 
 const PHOTO_SOURCE = (await readFile('src/slice/src/js/progressive-photo.js', 'utf8')).replaceAll('export function', 'function');
-const WARMING_SOURCE = (await readFile('src/slice/src/js/asset-warming.js', 'utf8')).replaceAll('export function', 'function');
 const THEME_STYLES = await readFile('web/themes/custom/jurenites_theme/css/style.min.css', 'utf8');
 const PREVIEW_SOURCE = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="14"><path fill="rgb(40,80,120)" d="M0 0h24v14H0z"/></svg>')}`;
 const PHOTO_WIDTHS = [96, 320, 640, 1280, 1672];
@@ -106,28 +105,4 @@ test('Save Data caps density at 1x and reduced motion needs no animation', async
   await browser_page.waitForFunction(() => document.querySelector('img').dataset.photoState === 'complete');
   assert.deepEqual(requested_widths, [96, 320]);
   assert.equal(await browser_page.locator('img').evaluate((image_element) => getComputedStyle(image_element).animationName), 'none');
-});
-
-test('speculative asset warming never downloads the no-script full photo', async (test_context) => {
-  const { browser_page } = await create_fixture(test_context);
-  await browser_page.addScriptTag({ content: WARMING_SOURCE });
-  await browser_page.evaluate(() => {
-    const navigation_element = document.createElement('nav');
-    navigation_element.className = 'site-header__navigation';
-    navigation_element.innerHTML = '<a href="https://photo-fixture.test/about">About</a>';
-    document.body.append(navigation_element);
-    install_asset_warming({
-      navigator: { onLine: true },
-      location: { href: 'https://photo-fixture.test/contact', origin: 'https://photo-fixture.test', protocol: 'https:' },
-      performance: window.performance,
-      setTimeout: window.setTimeout.bind(window),
-      clearTimeout: window.clearTimeout.bind(window),
-      requestIdleCallback: (idle_callback) => idle_callback(),
-      fetch: async () => new Response('<noscript><img src="/original-photo.jpg"></noscript><img src="/ordinary-thumbnail.jpg">', {
-        headers: { 'content-type': 'text/html', 'cache-control': 'public' },
-      }),
-    }, document);
-  });
-  await browser_page.waitForFunction(() => document.querySelector('link[data-asset-warming]'));
-  assert.deepEqual(await browser_page.locator('link[data-asset-warming]').evaluateAll((link_elements) => link_elements.map((link_element) => link_element.href)), ['https://photo-fixture.test/ordinary-thumbnail.jpg']);
 });

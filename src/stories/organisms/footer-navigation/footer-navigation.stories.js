@@ -7,7 +7,14 @@ const SECTION_DESCRIPTION = "";
 const RECRUITER_LINKS = [
   { link_label: "LinkedIn", link_url: "https://example.com/profile", icon_name: "social-linkedin" },
   { link_label: "hh.ru", link_url: "https://example.com/resume", icon_name: "brand-hh" },
-  { link_label: "My CV", link_url: "https://docs.google.com/", icon_name: "" },
+  {
+    link_label: "I'm opened to exploring new opportunities",
+    item_role: "section",
+    icon_name: "pulse-indicator",
+    child_links: [
+      { link_label: "My CV", link_url: "https://docs.google.com/", icon_name: "brand-google-docs" },
+    ],
+  },
 ];
 const INFORMATION_HEADING = "Information";
 const HOW_I_WORK_HEADING = "How I work";

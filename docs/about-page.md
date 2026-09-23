@@ -17,10 +17,10 @@ Edit **About project invitation** under Content → Blocks or through its
 contextual pencil. Both heading lines and the button label/link are translatable,
 revisionable fields. Installation seeds the content only once and preserves
 later edits, unpublishing and deletion. The placement uses `<front>` at content
-weight `100`, covering both `/` and `/ru`. Russian copy is “ЕСТЬ ПРОЕКТ?”,
-“ДАВАЙТЕ ОБСУДИМ!” and “СВЯЗАТЬСЯ”. Update `11001` moves the existing placement
+weight `100`, covering both `/` and `/ru`. Edit translated heading and button
+copy through the block translation form. Update `11001` moves the existing placement
 and adds the missing translation in a new revision, preserving English content
-and any existing Russian translation. **Organisms / Call to Action** in
+and any existing Russian translation. **Organisms / Section / Call to Action** in
 Storybook uses the same SCSS and Button atom.
 
 Enable with `docker exec blog_jurenites_web vendor/bin/drush en jurenites_call_to_action -y`,
@@ -38,24 +38,48 @@ skills profile. The owner's supplied list defines three core knowledge areas:
 - **Databases**: MySQL.
 - **Visuals**: Figma, Unity, Blender, Godot and CapCut.
 
-1С-Битрикс, PWA and Битрикс24 are excluded. This is a technology inventory, not a
+1C-Bitrix, PWA and Bitrix24 are excluded. This is a technology inventory, not a
 new competency assessment; the existing skills profile and its provisional
-ratings remain independent. The reference site could not be retrieved, so the
-technology names supplied by the owner are the authoritative list.
+ratings remain independent. The technology names supplied by the owner define the catalogue.
 
-Each logo fits a 16 × 16 px box beside the technology name, with an 8 px gap.
-The JavaScript text mark fits the same compact artwork box.
-Group headings use the existing `theme.dark.text.gray` token.
-Links use a 32 px minimum height and 8 px padding on every side. The shared
-Body 2 role has a 16 px line box, so a single-line item is exactly 32 px high;
-wrapping can grow the item without clipping its text.
-Logos are white at rest. Hover and keyboard focus reveal their original brand
-colors; Unity and CapCut reveal their official black artwork on a white backing.
-JavaScript has a text mark because the language has no single official
-logo. MySQL uses its dolphin wordmark. Each logo and name share one link to the
-official project website; HTML and JavaScript link to their WHATWG and Ecma
-standards pages. The grid
-works without JavaScript and removes transitions for reduced motion.
+The 15 technologies share one square tile grid in catalogue order. The block
+uses the existing 960px wide-content frame independently of the 800px About text
+column: six 160px tiles per row at full width. At the existing 640px mobile
+breakpoint, the grid uses up to three columns, wrapping to two when three 128px
+tiles no longer fit. The final row retains its natural item count. Category and subgroup
+labels appear in each hover panel instead of consuming separate grid rows.
+
+Every tile uses the same existing 900 surface (`black`), with the same 50
+surface (`white`) on hover or keyboard focus. There are no alternating row or
+column colors. A single light square glides between active tiles. White logos
+reveal their existing brand artwork, while the JavaScript text mark becomes dark.
+Logo boxes occupy 48% of the tile, capped at 80px. No artwork is replaced and no
+new palette or typography tokens are introduced.
+
+Holding hover for 500ms reveals a Tooltip surface below the tile, switching above
+when the viewport requires it. It includes the category and a cyan underlined
+technology name with the shared external-link icon. Only this name link
+navigates to the official site. Tiles are non-link, keyboard-focusable groups:
+hover, focus or a touch tap reveals the panel, and clicking the tile never
+navigates. Tab moves from the tile to its panel link; Escape dismisses the panel
+and returns focus to the tile when needed. A hover bridge spans the 8px gap.
+The whole tooltip, including its padding and category text, cancels the close
+timer while hovered. It closes after leaving both tile and tooltip unless
+keyboard focus or a touch-open state keeps it active; Escape still dismisses it.
+The grid and tile wrappers do not create stacking contexts, allowing the shared
+Tooltip layer to appear above the following skills block. Accessible tile and
+link names are always present. HTML and JavaScript retain their WHATWG and Ecma destinations.
+Reduced motion disables the sliding highlight; CSS hover/focus and direct links
+work without JavaScript when the component is rendered independently. The site's
+existing no-JavaScript intro displays branding only, so the whole About page is
+not available in that mode. Drupal attach/detach and Storybook use the same
+`technology-stack.js` behavior.
+
+`tests/technology-stack.browser.mjs` checks responsive square geometry, palette
+inversion, panel delay/placement and overlap with the skills block, non-navigating
+tiles, keyboard and touch link navigation, reduced motion,
+Russian-route rendering and Storybook. It also checks the server-rendered
+component's no-JavaScript fallback in isolation from the site's intro.
 
 Enable locally with
 `docker exec blog_jurenites_web ./vendor/bin/drush en jurenites_technology_stack -y`,
@@ -79,19 +103,19 @@ substitutes. Public image files are copied into the theme by the normal build.
 | Technology | Official source |
 | --- | --- |
 | Drupal | `web/core/misc/logo/drupal-logo.svg`; [brand colors](https://www.drupal.org/about/media-kit/logos) |
-| HTML5 | [W3C logo downloads](https://www.w3.org/html/logo/) — color and white SVGs |
-| PHP | [Wikimedia SVG](https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg) — shared official artwork for both states; Colin Viebrock, CC BY-SA 3.0 |
-| MySQL | [Official SVG](https://labs.mysql.com/common/logos/mysql-logo.svg) — dolphin wordmark, downloaded 14 September 2026 |
-| Node.js | [Node.js branding](https://nodejs.org/en/about/branding) — green and white JS marks |
+| HTML5 | [W3C logo downloads](https://www.w3.org/html/logo/); color and white SVGs |
+| PHP | [Wikimedia SVG](https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg); shared official artwork for both states; Colin Viebrock, CC BY-SA 3.0 |
+| MySQL | [Official SVG](https://labs.mysql.com/common/logos/mysql-logo.svg); dolphin wordmark, downloaded 14 September 2026 |
+| Node.js | [Node.js branding](https://nodejs.org/en/about/branding); green and white JS marks |
 | Vue | [Official SVG](https://vuejs.org/logo.svg) |
-| React | [Official website](https://react.dev/) — inline React mark |
-| Laravel | [Wikimedia SVG](https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg) — Laravel symbol |
-| Docker | [Media resources](https://www.docker.com/company/newsroom/media-resources/) — ocean-blue mark |
-| Figma | [Official website](https://www.figma.com/) — inline header mark |
-| Unity | [Brand page](https://unity.com/legal/branding-trademarks) — symbol extracted from the existing official SVG |
-| Blender | [Logo kit](https://www.blender.org/about/logo/) — symbol extracted from the existing logo-kit SVG |
-| Godot | [Press kit](https://godotengine.org/press/) — color and white icons; Andrea Calabró, CC BY 4.0 |
-| CapCut | [Official website](https://www.capcut.com/) — symbol extracted from the existing header SVG |
+| React | [Official website](https://react.dev/); inline React mark |
+| Laravel | [Wikimedia SVG](https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg); Laravel symbol |
+| Docker | [Media resources](https://www.docker.com/company/newsroom/media-resources/); ocean-blue mark |
+| Figma | [Official website](https://www.figma.com/); inline header mark |
+| Unity | [Brand page](https://unity.com/legal/branding-trademarks); symbol extracted from the existing official SVG |
+| Blender | [Logo kit](https://www.blender.org/about/logo/); symbol extracted from the existing logo-kit SVG |
+| Godot | [Press kit](https://godotengine.org/press/); color and white icons; Andrea Calabró, CC BY 4.0 |
+| CapCut | [Official website](https://www.capcut.com/); symbol extracted from the existing header SVG |
 
 Drupal, Laravel and React use upstream geometry in `src/brand/technology-stack/`
 with fixed component colors in `src/brand/technology-stack/brand-colors.js`.
@@ -189,9 +213,10 @@ no longer part of the Storybook renderer. Component presentation lives in
 star icons, progress bars or JavaScript requirement. Authored fields support translations;
 the initial copy is English.
 
-## Point-cloud bust
+## Deferred point-cloud bust
 
-The About Me page will feature an artistic 3D bust made from points, not a
+This concept is not implemented in the current website. The proposed About
+feature is an artistic 3D bust made from points, not a
 triangle surface. The initial capture device is the iPhone 11 front TrueDepth
 camera.
 
@@ -264,9 +289,9 @@ row keeps company names aligned. Each website link has a readable ID:
 `company-life-church`, `company-funnel-design-group`, `company-thrive`,
 `company-oysterlabs` and `company-volcanoideas`. Repeated Drupal instances receive
 unique suffixes; scoped logo modifier classes handle per-company sizing.
-Company names use Link typography (16px, weight 300, 24px line height), stay
-white, and show a thin underline only when the company link is hovered or
-keyboard-focused, matching the Technology Stack name interaction.
+Company names use Link typography (16px, weight 300, 24px line height) and
+remain visible in white at rest. Hover or keyboard focus makes the name cyan,
+underlines it, and reveals the external-link suffix in its reserved space.
 The arrow controls are hidden. While visible, the row pauses for three seconds,
 then advances to the next card boundary with a 700ms eased transition. It stops
 at the last scroll position and steps backwards to the first, repeating in both
@@ -284,7 +309,7 @@ The native horizontal scrollbar remains visible and draggable, with an 8px-high
 square thumb and track in browsers supporting scrollbar pseudo-elements.
 Other browsers retain the thin native scrollbar fallback. Its shared
 `.horizontal-scrollbar` atom is demonstrated independently in **Atoms /
-Horizontal Scrollbar** for reuse. **Organisms / Company Slider** previews the
+Horizontal Scrollbar** for reuse. **Organisms / Section / Company Slider** previews the
 same automatic movement, catalogue and styles as Drupal.
 
 “See the projects” uses the shared Link typography role (16px, weight 300,
@@ -366,7 +391,7 @@ remaining statistics. The original paragraphs remain attached to the old block
 revision. A database transaction groups the content writes; a state marker and
 stable block UUID prevent repeat setup from overwriting edits or recreating
 removed content. On a site without these original role UUIDs, the new role tiles
-use an em dash for hours rather than inventing figures. Deployment requires
+use a missing-value marker for hours rather than inventing figures. Deployment requires
 explicit module enablement on that environment.
 
 Storybook: **Organisms / Role Slider**, including a nested-explanation example.

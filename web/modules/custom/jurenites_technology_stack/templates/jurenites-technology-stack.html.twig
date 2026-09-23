@@ -1,34 +1,29 @@
 {% if technology_categories %}
-  <section class="technology-stack" aria-label="{{ section_heading }}">
+  <section class="technology-stack" data-technology-stack aria-label="{{ section_heading }}">
     <h2 class="technology-stack__heading">{{ section_heading }}</h2>
-    {% for category_data in technology_categories %}
-      <section class="technology-stack__category" aria-label="{{ category_data.category_name }}">
-        <h3 class="technology-stack__category-heading">{{ category_data.category_name }}</h3>
-        <div class="technology-stack__groups">
-          {% for group_data in category_data.technology_groups %}
-            <div class="technology-stack__group">
-              {% if group_data.group_name %}<h4 class="technology-stack__group-heading">{{ group_data.group_name }}</h4>{% endif %}
-              <ul class="technology-stack__grid">
-                {% for technology_data in group_data.technology_items %}
-                  <li class="technology-stack__item">
-                    <a class="technology-stack__link{{ technology_data.monochrome_brand ? ' technology-stack__link--monochrome' : '' }}" href="{{ technology_data.official_url }}" rel="external">
-                      <span class="technology-stack__artwork" aria-hidden="true">
-                        {% if technology_data.logo_file %}
-                          <img class="technology-stack__logo technology-stack__logo--white" src="{{ asset_directory }}{{ technology_data.white_logo_file ?: technology_data.logo_file }}" alt="" loading="lazy" decoding="async">
-                          <img class="technology-stack__logo technology-stack__logo--color" src="{{ asset_directory }}{{ technology_data.logo_file }}" alt="" loading="lazy" decoding="async">
-                        {% else %}
-                          <span class="technology-stack__text-mark">{{ technology_data.text_mark }}</span>
-                        {% endif %}
-                      </span>
-                      <span class="technology-stack__name">{{ technology_data.technology_name }}</span>
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
+    <ul class="technology-stack__grid">
+      {% for category_data in technology_categories %}
+        {% for group_data in category_data.technology_groups %}
+          {% for technology_data in group_data.technology_items %}
+            <li class="technology-stack__item">
+              <div class="technology-stack__tile" tabindex="0" role="group" aria-label="{{ technology_data.technology_name }}">
+                <span class="technology-stack__artwork" aria-hidden="true">
+                  {% if technology_data.logo_file %}
+                    <img class="technology-stack__logo technology-stack__logo--white" src="{{ asset_directory }}{{ technology_data.white_logo_file ?: technology_data.logo_file }}" alt="" loading="lazy" decoding="async">
+                    <img class="technology-stack__logo technology-stack__logo--color" src="{{ asset_directory }}{{ technology_data.logo_file }}" alt="" loading="lazy" decoding="async">
+                  {% else %}
+                    <span class="technology-stack__text-mark">{{ technology_data.text_mark }}</span>
+                  {% endif %}
+                </span>
+                <span class="tooltip technology-stack__tooltip">
+                  <span class="technology-stack__category-name">{{ category_data.category_name }}{% if group_data.group_name %} / {{ group_data.group_name }}{% endif %}</span>
+                  <a class="technology-stack__link" href="{{ technology_data.official_url }}" rel="external"><span class="technology-stack__name">{{ technology_data.technology_name }}{% include '@jurenites_theme/components/icon.html.twig' with {icon_name: 'external-link', icon_class: 'technology-stack__external-mark'} only %}</span></a>
+                </span>
+              </div>
+            </li>
           {% endfor %}
-        </div>
-      </section>
-    {% endfor %}
+        {% endfor %}
+      {% endfor %}
+    </ul>
   </section>
 {% endif %}

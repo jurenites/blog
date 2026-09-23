@@ -1,0 +1,17 @@
+{
+    "_hash": "fd1bcfe1831421b0c36aa06a65b97a0a47c73bf72c0a6f2be1a2d77354ddaa48",
+    "patches": {
+        "drupal/ms_clarity": [
+            {
+                "package": "drupal/ms_clarity",
+                "description": "Fix Drupal 11 settings form and tracking configuration cache metadata",
+                "url": "patches/ms-clarity-drupal-11-settings-cache.patch",
+                "sha256": "388038d3f409aafaa9cfaa2bfeb5ca242beda4d11de7f6f2cd0655c1535dec29",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}

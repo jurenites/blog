@@ -1,6 +1,6 @@
 # CI/CD And Generated Artifacts
 
-The project combines focused local checks with the GitHub and GitLab jobs
+The project combines focused local checks with the GitHub workflows
 documented below. The proposed Figma/Storybook/Drupal visual testing layer is
 not a CI gate yet. Keep verification claims tied to the checks actually run.
 
@@ -24,9 +24,9 @@ reviewed baselines, screenshots, diffs, and explicit blocked/not-checked states.
 ### TODO: Testing Milestone in CI
 
 Add the dedicated Testing step between implementation and final verification.
-Extend the existing local Playwright/`pixelmatch` runner to compare the expected
-design, Storybook, and Drupal with matching real content. Provide manual image
-overlays and automatic differences in its review artifacts.
+The local Playwright/`pixelmatch` runner already supports captured-image
+overlays and all three comparison pairs when a matching Figma PNG is supplied.
+CI integration still needs pinned content, candidate artifacts, and report retention.
 
 The planned Windows job uses a native Windows browser on a GitHub-hosted VM,
 the candidate Storybook artifact, and a reachable Drupal review environment
@@ -55,7 +55,7 @@ No Windows job or new visual deployment gate is configured by this TODO.
 | Reject stale Storybook build identity | `npm run build:info:check` |
 | Validate synchronized project version | `npm run version:check` |
 | Bump the normal minor release | `npm run version:bump` |
-| Bump a specific SemVer part | `npm run version:bump -- patch|minor|major` |
+| Bump a specific SemVer part | `npm run version:bump -- patch` (or `minor`, `major`) |
 
 ## GitHub Actions
 
@@ -72,8 +72,11 @@ No Windows job or new visual deployment gate is configured by this TODO.
   Its default `minor` bump advances `1.0.0` to `1.1.0`; `patch` and `major` are
   also available. It opens a reviewable pull request instead of writing directly
   to `main`. Merging that pull request starts the normal Storybook deployment.
-- `figma-sync.yml` exists for future dispatch/manual sync work, but the current
-  preferred workflow is local token editing plus `npm run figma:prepare`.
+- `figma-sync.yml` is dispatchable legacy scaffolding, not a working pull
+  integration: it calls `scripts/sync.sh pull`, which the current script does not
+  implement. Do not use it to import Figma changes. The supported direction is
+  local token editing plus `npm run figma:prepare`.
+- No GitLab pipeline or Windows visual-testing workflow is checked in.
 
 There are deliberately no Git hooks or version changes on ordinary pushes. Run
 `npm run version:check` and `npm run lint` locally whenever you want a pre-push
@@ -92,8 +95,8 @@ referenced by that CSS without requiring a build on the server. Previously this
 directory was ignored, allowing the CSS to arrive while font requests returned
 404 and Ubuntu Sans Mono fell through to a fallback monospace font.
 
-For an existing PROD checkout missing these files, use the font repair procedure
-in `docs/command-cheat-sheet.md`.
+If deployed fonts are missing, build from the intended release checkout and
+deploy the generated font directory together with its matching theme CSS.
 
 ## Deployment Identity
 
@@ -129,6 +132,5 @@ warnings so existing components can be migrated gradually:
 To make naming blocking later, change the relevant `warn`/`severity: "warning"`
 settings in `eslint.config.js` and `stylelint.config.js` to errors.
 
-Do not reintroduce generated token JSON mirrors for CI convenience. If CI comes
-back, it should rebuild from `src/token/tokens.yaml` and compare the current
+Do not reintroduce generated token JSON mirrors for CI convenience. Active and future workflows should rebuild from `src/token/tokens.yaml` and compare the current
 generated artifacts.

@@ -47,7 +47,7 @@ final class TechnologyStackBlock extends BlockBase {
       '#type' => 'checkboxes', '#title' => $this->t('Visible technologies'),
       '#options' => $technology_options,
       '#default_value' => $this->configuration['technology_selection'] ?? array_keys($technology_options),
-      '#description' => $this->t('The block title is the section heading. Technologies retain their Code, Databases and Visuals grouping.'),
+      '#description' => $this->t('The block title is the section heading. Technologies appear in one tile grid; their Code, Databases and Visuals groups appear in the hover panels.'),
     ];
     return $form;
   }

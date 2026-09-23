@@ -5,8 +5,8 @@ rules. The machine-readable contract for every value lives in
 `src/token/tokens.yaml`; this page explains intent and usage.
 
 The [product workflow](workflow.md) connects these rules to the Cookbook's
-thirteen milestones and feedback loops. The proposed
-[visual testing layer](visual-testing-plan.md) will compare matched Figma,
+thirteen milestones and feedback loops. The local
+[visual testing layer](visual-testing-plan.md) compares matched Figma,
 Storybook, and Drupal views with real content. Shared tokens and markup are
 inputs to that verification; their reuse alone does not establish pixel parity.
 
@@ -17,7 +17,9 @@ src/token/tokens.yaml            <-- editable single source of truth
   -> scripts/build-tokens.mjs
        -> generated/styles/_tokens.scss              (CSS vars + SCSS mixins/utilities)
        -> generated/token/tokens.js                  (JS token records and values)
-       -> scripts/figma/design-system-sync.js        (Figma sync helper)
+       -> generated/token/color-mappings.json       (inspection table)
+  generated/token/tokens.js
+       -> scripts/figma/design-system-sync.js        (handwritten Figma sync helper)
        -> scripts/build-storybook-info.mjs
             -> generated/storybook/storybook-tokens.css (temporary manager CSS)
   -> src/slice/src/scss/main.scss
@@ -29,7 +31,7 @@ Never hand-edit generated files. Edit `src/token/tokens.yaml`, then run
 `npm run build:tokens` (or `npm run build:theme`, which runs tokens first).
 The token build also runs `scripts/check-token-contract.mjs`, which rejects
 hardcoded colors outside the YAML source (except the Technology Stack's fixed
-logo artwork constants), static CSS opacity declarations
+logo artwork constants and isolated footer content fixtures), static CSS opacity declarations
 (only `0`/`1` visibility keyframes are allowed), hardcoded
 pixel dimensions in shared theme SCSS, and missing SCSS token variables. The
 same contract is part of `npm run lint` and rejects HEX letters that are not
@@ -39,7 +41,7 @@ uppercase in `src/token/tokens.yaml`.
 
 Numeric tiles (including role selectors), article
 cards, project cards, guideline tiles, linked company tiles, technology tiles,
-and screen-slider controls use `theme.dark.surface.background.elevation-level-1`
+and screen-slider controls use `theme.dark.surface.background-elevation-level-1`
 for a lighter background on hover and keyboard focus. Card surfaces respond when
 a contained link or button receives focus. Existing link, artwork, selection,
 and focus-ring treatments remain in place. Background transitions use existing
@@ -47,7 +49,9 @@ motion tokens and become instant with reduced motion.
 
 ### Dimension ownership
 
-Reusable absolute dimensions in the shared theme SCSS belong in
+Reuse existing tokens for reusable absolute dimensions in shared theme SCSS.
+The user defines the token inventory; additions require an explicit request.
+The editable values live in
 `src/token/tokens.yaml`. Name a component-owned value with the existing
 `component.<component>.<part>-<property>-<state>` pattern, such as
 `component.article-teaser.list-media-min-width-default`; use `system`, `layout`,
@@ -60,6 +64,37 @@ fractions, grid line numbers, aspect ratios, transforms, and spacing-grid
 multipliers do not become tokens merely because they contain a number. Use the
 generated breakpoint mixins instead of copying breakpoint widths into media
 queries.
+
+### Whole-card loading
+
+Article previews (including the homepage teasers), Video previews, News items,
+and Portfolio Project cards reserve an estimated whole-card height in their
+initial HTML. The generated `components/card-loading.html.twig` macro writes
+only a `data-card-loading` marker and a temporary inline `min-height`, derived
+from the existing spacing grid by `scripts/build-card-loading.mjs` during the
+theme build. This is the explicit exception to the clean-DOM sizing rule.
+
+The existing head script installs `card-loading.js` before card markup is
+parsed. It refines the estimate using the available card width, current layout,
+and existing tokens. Media retain their existing 16:9 frames and `object-fit`
+behavior. The runtime waits for parsed content and font readiness, measures the
+natural card heights in one frame, and uses the existing 200ms media-reveal
+duration to grow or shrink from the estimate. It then removes its inline sizing
+and loading attributes, preserving unrelated inline properties and handing
+responsive layout back to the component stylesheet. There are no duplicate
+cards or permanent measurement wrappers.
+
+Reduced motion, keyboard entry, and a width change during the transition finish
+the handover immediately. Lazy images do not delay it because their frames
+already reserve space; stalled readiness releases the reservation after two
+seconds. The same runtime handles newly appended Video cards and Storybook
+examples. Without JavaScript, the initial minimum height leaves real content
+visible and free to grow. Estimates can still cause layout shift; the transition
+softens that correction and does not promise a zero CLS score.
+
+Verify the behavior with `node --test tests/card-loading.browser.test.mjs`
+(uses installed Google Chrome), rebuild theme assets, and clear Drupal caches
+after changing the generated macro or templates.
 
 ### Page canvas and browser color
 
@@ -85,7 +120,7 @@ surface, an 8px primary-action accent border, and a large opening quotation mark
 in the same accent color. Padding and paragraph spacing follow the 8px grid.
 Paragraphs remain block elements so longer quotations retain their structure.
 The same atom stylesheet is included in the public theme, Storybook, and
-CKEditor preview; no authored class is required. `Atoms/Blockquote` demonstrates
+CKEditor preview; no authored class is required. `Molecules/Blockquote` demonstrates
 single and multiple paragraphs. The existing `.pull-quote` molecule keeps its
 own presentation.
 
@@ -104,8 +139,8 @@ Components are organised by Atomic Design and ITCSS layers:
 | components  | `src/slice/src/scss/components/`| Content layout and page-specific compositions |
 
 Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
-`Organisms`, `Components`. Each component has exactly one story; use the
-Controls tab for property combinations.
+`Organisms`, `Components`. Each component owns its story file; named exports cover useful scenarios and
+Controls expose property combinations. Navigation titles may add nested groups.
 
 Font Preview is a shared Storybook/Drupal organism selected through an
 allowlisted font identifier. Its initial HTML contains one editable preview input
@@ -262,12 +297,11 @@ unscaled when reduced motion is enabled.
 The homepage's Latest articles and News block H2 headings use the dedicated
 `.homepage-block__heading` class, with `layout.content.max.wide.default` as their
 maximum width and automatic inline margins to align with the block content.
-The Blog and Videos Views use a separate borderless Article Blog List Item: a
-horizontal media-and-content row with the same metadata contract, collapsing to
-one column on mobile. This keeps both listings readable without treating every
-post as a homepage card. Drupal gives this presentation its own `blog_list`
-view mode, keeping its markup and render cache independent from the homepage
-`teaser` cards.
+The Blog View uses the borderless Article Blog List Item as a horizontal media
+and content row that stacks on mobile. Videos reuses that markup inside its
+responsive grid, with media above the title and creator details and no excerpt.
+Both use `blog_list`, independent of the homepage `teaser` presentation. Articles
+and Videos are separate Drupal content types; see [Content model](drupal-content-model.md).
 
 Storybook groups the video preview under
 `Molecules/Video/Article Blog List Item`. Shared editorial components, including
@@ -353,7 +387,8 @@ The shared `.crossfade-dot` class is consumed by both Storybook and Drupal's
 two-image crossfade paginator.
 
 The decorative Pulse Indicator atom adapts the expanding-dot treatment from
-Billy Sweeney's portfolio. An 8px solid marker stays fixed while a translucent
+Billy Sweeney's portfolio. Its 16px square container matches footer prefix sizing.
+An 8px solid marker stays fixed while a translucent
 8px radius expands to four times its diameter over three seconds and fades to
 transparent. Its source markup uses scoped `.pulse-indicator` BEM classes,
 Storybook exposes running and paused examples, and reduced-motion preferences
@@ -362,9 +397,16 @@ leave only the static central dot visible.
 The Icon Atom Storybook gallery presents the selected icon first, including its
 machine name. Gallery items are keyboard-accessible clickable controls, and
 hover/focus uses the next elevation surface to make the interaction visible.
-Both gallery tiles and the selected preview preserve a `0 0 16 16` SVG viewBox
-at 16 by 16 CSS pixels, centered inside the tile. Other icons retain the default
-24px viewport; the gallery does not enlarge the supplied 16px artwork.
+The gallery separates interface icons with a `0 0 24 24` viewBox from brand and
+social icons with a `0 0 16 16` viewBox. Both groups use square 40px tiles, with
+centered artwork rendered at its native 24px or 16px size. Grouping follows the
+source SVG viewBox. The selected preview preserves the same native icon sizing.
+
+Monochrome SVG fills and strokes in `src/public/assets/icons/` use `currentColor`
+to inherit CSS text colors, including the default Figma, Gmail and Yandex Mail
+icons. Their full-color `-active.svg` companions retain their artwork colors.
+Telegram's luminance mask retains its white fill so CSS colors cannot dim or
+hide the masked artwork.
 
 Icons required by the current page render their own SVG geometry immediately.
 `scripts/build-icon-sprite.mjs` generates `icon-geometry.html.twig` from the
@@ -381,11 +423,12 @@ SCSS continues to own dimensions and colors. Storybook's Icon helper renders the
 same generated geometry directly; its gallery and composed examples therefore
 have the same initial-loading behavior as Drupal.
 
-The versioned catalog sprite is still fetched after window.load for later
-client-created symbols and HTTP cache reuse. Failure or delay of that optional
-request cannot hide current-page icons. It retries once after 1.5 seconds, with
-an eight-second timeout per attempt. Next-page asset warming retains its bounded
-idle/intent behavior. The load event covers eager resources, not lazy images.
+The versioned catalog sprite is fetched for later client-created symbols and
+HTTP cache reuse. In Drupal, the background queue waits for the initial load,
+current-page media and fonts, and an 800 ms quiet interval before starting the
+catalog. Failure or delay cannot hide current-page icons. The catalog retries
+once after 1.5 seconds, with an eight-second timeout per attempt. Its standalone
+Storybook loader still starts after `window.load`.
 
 Theme and Storybook builds generate immediate markup and the versioned sprite
 from the same source geometry. Rebuild and clear Drupal caches after SVG changes;
@@ -393,25 +436,50 @@ restart Storybook after editing sources. Ship the generated Twig and JavaScript
 alongside the sprite manifest and hashed files. Retain older hashed files for
 cached HTML. Deployment cache headers control retention and revalidation.
 
-After the icon loader settles, `asset-warming.js` uses idle time to inspect one likely next
-public page (the first Article title, otherwise a header navigation link).
-Hover or keyboard focus can prepare a second destination. Each page view has a
-budget of two destination requests, one at a time, with a five-second timeout
-and a 256 KiB HTML inspection limit. Up to six previously unseen same-origin
-stylesheet, script and image URLs per destination receive low-priority HTTP
-prefetch hints; at most two images are hinted. Existing resource requests and
-already hinted URLs are deduplicated. This prepares the image `src` fallback;
-responsive derivatives, CSS-referenced fonts/backgrounds and videos are not
-recursively fetched. Browsers may decline prefetch hints or evict cached assets.
+After the icon loader settles, `asset-warming.js` prepares up to two likely public
+destinations, preferring Article titles and then header navigation. Hover or
+keyboard focus can prioritize an unstarted destination. HTML inspection is
+limited to 256 KiB and five seconds per request. Destination markup stays inert:
+scripts do not execute, and inspecting it does not activate images or iframes.
 
-Warming pauses for hidden tabs, offline connections, Save-Data and reported
-2G/3G connections, and is disabled for signed-in pages. Only header navigation
-and Article title/image links qualify. External URLs, downloads, query/hash
-links, administration/account/action paths, redirects and private/no-store
-responses are excluded. A `data-no-prefetch` ancestor opts a link out. Native
-navigation remains unchanged; HTTP cache headers govern reuse and revalidation.
-There is no service worker or custom persistent cache. Verify deployment cache
-headers separately; local behavior does not prove production cache policy.
+The queue reads progressive-photo stages, image `srcset`, and matching picture
+sources with recognized formats. It selects up to three images per destination,
+queues their smallest network derivatives first, and then queues larger stages
+up to the viewport width times device pixel ratio, capped at 1280px. If every
+candidate is larger, only the smallest is selected. Embedded previews need no
+request; no-script originals are excluded. Ordinary images without candidates
+use their `src`. Up to twelve distinct image, stylesheet and script URLs per
+destination are queued, with images ahead of shared code. CSS-referenced fonts,
+backgrounds, videos, external assets and recursively linked pages are excluded.
+
+Downloads run one at a time at low priority and consume complete responses into
+the normal browser HTTP cache. Media/code requests time out after ten seconds;
+each response is limited to 2 MiB, with an 8 MiB total body budget per page view
+including inspected HTML and partial attempts. Streaming limits are checked per
+received chunk, so the final chunk can exceed the remaining allowance. There is
+an 800 ms quiet interval between jobs. HTTP cache headers govern reuse and
+revalidation; browsers can evict cached responses. This does not guarantee a
+fully downloaded next page or offline navigation.
+
+`loading-activity.js` observes current-page images, progressive-photo request and
+decode state, CSS fonts, resource completions, media DOM changes, interaction and
+page visibility. Font-preview fetches use `track_foreground_loading()` through
+body consumption and parsing; Drupal's jQuery AJAX activity is also observed when
+available. New application-owned asynchronous requests should use the same
+helper. This is a page-scoped activity signal, not a browser-wide network-idle
+API: unrelated third-party fetches, iframe traffic and streams are not tracked
+while in flight. Offscreen lazy images are not forced to load to reach quiet.
+
+Scrolling, keyboard/pointer input or observed loading activity interrupts a
+background HTML/media/code transfer. Interrupted jobs retry after quiet; failed
+or timed-out jobs are skipped. Hidden/offline tabs and Save-Data or reported
+2G/3G connections suspend speculative work and resume on the corresponding state
+change. Next-page warming is disabled for signed-in pages. External URLs,
+downloads, query/hash links, administration/account/action paths, redirects and
+private/no-store responses are excluded. A `data-no-prefetch` ancestor opts links
+or destination assets out. Native navigation remains unchanged, with no service
+worker or custom persistent cache. Production cache headers need separate
+verification.
 
 
 The Breadcrumbs molecule and Drupal share the same class contract. Nested pages
@@ -476,8 +544,8 @@ expand into “Alexander Ilivanov” letter by letter on hover or keyboard focus
 Added letters grow and loosen their spacing as they appear. The gap between the
 first and last names expands from 2px to 16px with the reveal. The animated name is
 sized to its content so the Home link and hover background cover the full reveal.
-Its height follows the natural text line box, keeping the hover background and
-clickable area as tall as the lettering without a fixed 48px limit.
+Its centered nested line boxes preserve a 48px brand height throughout reveal
+and collapse, keeping the header and following content stationary.
 Equal side columns preserve the centered menu's position. The 48px logo image is
 no longer rendered, including on LEGO-tagged pages; the favicon is retained.
 The name stays white with a component-specific 300 font weight and gains the
@@ -629,6 +697,38 @@ translatable in one field table instead of using four separate fields or an
 opaque JSON value. The Basic page title remains a semantic `h1`; Storybook's
 `heading_level` is a render-context control and is not editorial content.
 
+### Last word not wrap
+
+Public content headings (`h1` through `h6`), including `/videos` titles, join the
+last two words with a nonbreaking space. The shared Drupal/Storybook initializer
+preserves nested links, two-tone segments, and explicit line breaks, and runs
+before heading typing measures the text. Each explicit line or block segment
+receives its own final-word protection. AJAX-loaded video titles use the same
+Drupal behavior.
+
+Inline text backgrounds inherit the immediate parent's background color, with
+no page, card, or interaction-specific color overrides. A transparent parent
+keeps the text background transparent so the surrounding surface shows through.
+Backgrounds follow the text fragments on every line.
+Titles have visible overflow and may extend into surrounding gaps. At viewport
+edges or inside existing clipping/scroll regions, emergency wrapping takes
+priority over keeping the pair together. Font loading and resizing recalculate
+this fallback; the feature adds neither clipping nor an internal scrollbar.
+Article and video title arrows use a zero-width word-joiner anchor at the end of
+the link. The arrow paints after the final character on the same line without
+reserving line-breaking space or changing title height on hover/keyboard focus.
+At screen/clipping edges, constrained titles reserve the existing icon width so
+the arrow remains visible without horizontal scrolling. The existing reveal
+animation and reduced-motion behavior are preserved in Drupal and Storybook.
+
+Navigation, footer, hidden labels, editors, dialogs, Numeric Values counters,
+and QR Studio are excluded. `data-last-word-not-wrap="off"` opts a heading or
+containing region out. Without JavaScript, titles retain their original markup
+and wrapping. Content stored in Drupal is unchanged.
+
+Verify with `PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/last-word-not-wrap.browser.mjs`.
+Set `LIVE_SITE_URL=http://jurenites.local` to include served-page checks.
+
 Page content headings (`h1` only, including Two-tone Heading at that level)
 type once when at least 10% of the heading enters the browser viewport,
 then settle from up to `0.02em` (2%) extra character spacing to zero extra spacing
@@ -652,14 +752,15 @@ Numeric Values is a responsive Home-page-ready tile section. Each semantic `h2`
 number uses the 64px `numeric-display` role backed by Ubuntu Sans Mono, while
 its Text uses `subtitle-1`. The reusable Drupal Content Block accepts one to
 eight nested items and the grid caps each row at four tiles. Each item can add
-one optional project-owned asset through the shared Icon component; the current
-two homepage items intentionally omit icons. Date Time Value uses the caption scale and
+an optional attached SVG image whose intrinsic proportions are preserved,
+with an 80px maximum width. Placement and selected artwork belong to Drupal content. Date Time Value uses the caption scale and
 the same monospaced family for absolute dates, elapsed time, and read/watch
-durations. Numeric Value items expose Number, Text, Icon, and an optional Start
-year used to calculate elapsed years automatically.
+durations. Numeric Value items expose Number, Text, an optional SVG image, caption, and
+links. The former Start year field was migrated to a stored Number and removed;
+values no longer increment automatically.
 
 The source stays deliberately short, for example
-`headline-4: '600 32px/40px var(--typography-font-family-sans)'`. The builder emits
+`headline-4: '100 32px/40px var(--typography-font-family-sans)'`. The builder emits
 `--typography-headline-4` plus a mixin that applies it through the `font`
 property. Every role includes an explicit line height divisible by the 8px base
 grid and at least as large as its font size; `npm run tokens:check` enforces this.
@@ -716,7 +817,7 @@ Handwritten CSS and SCSS must not declare numeric `font-size` values or numeric
 token; the token-contract lint rejects raw `px`, `rem`, and `em` typography.
 
 Open Sans is the only website heading/body family. Body and Link use weight
-300, Headline 1–4 use 600, and the compact 12px Badge uses 500. Other sans-serif
+300, Headline 1–4 currently declare 100, and the compact 12px Badge uses 500. Other sans-serif
 roles retain normal weight. Roundabout is demonstration-only and appears on
 the Fonts foundation page and its Project's Font Preview. 4pixel is reserved
 for its demonstration, Project preview, and compact technical details: the 5px
@@ -766,6 +867,11 @@ the suffix entirely, including any reserved icon space. Ordinary external links
 inside continuing prose receive no automatic suffix. Footer links with a
 trailing badge also omit the suffix.
 
+Badge and Chip atoms have no text underline in Storybook or the Drupal theme,
+including linked chips on hover and keyboard focus. The global link treatment
+excludes both atoms. Linked chips keep their surface and text color feedback
+and visible keyboard focus outline.
+
 Footer Navigation uses four titled columns of vertically stacked list links:
 Social networks, Get in touch, How I work, and Information. The recruiter
 section sits below Get in touch; its description and three links are editable
@@ -774,8 +880,8 @@ mobile. Standard gray 1px solid dividers sit above the navigation and its bottom
 row. The bottom row places the rights message on the left and a separate Privacy
 Policy navigation group on the right, wrapping when needed on narrow screens.
 All headings and links are menu-link content in Drupal's Footer menu. Parent
-items marked Column heading supply the four columns; a Bottom-row group holds
-the legal links. Native menu parenting, order, enabled status, and translations
+items marked Column heading supply the four columns. The Footer legal menu
+holds legal links; Bottom-row group remains supported for legacy content. Native menu parenting, order, enabled status, and translations
 control placement. No social-profile JSON or URL/title grouping is used at runtime.
 Storybook uses isolated demonstration data. See [Footer menu editing](footer-menu.md).
 Link prefixes compose the shared Icon atom with `is_link_prefix: true`. Every
@@ -856,8 +962,8 @@ and a matching static glow for current passes/failures. Status labels still carr
 the meaning independently of color.
 
 - HEX only, with letters written in uppercase. Never use the CSS `opacity`
-  property; express alpha as 8-digit HEX (used for shadow colors) so composited
-  colors stay predictable.
+  property outside parsed keyframes with binary `0`/`1` visibility endpoints.
+  Use token colors with alpha for static transparency.
 - Color mappings use three explicit layers. `color.palette.*` directly owns each
   reusable palette role as one uppercase HEX string, so the role and HEX each
   occur once without a duplicate value registry. An optional inline comment
@@ -982,17 +1088,16 @@ canvas and stops rendering frames. The handoff uses a 200ms opacity-filter
 transition so the loaded YouTube thumbnail replaces the static without a hard
 visual cut; reduced-motion removes that transition.
 
-The planned scenic evolution uses **depth layers** rather than one flattened
-background: sky, clouds, distant sea, wave bands, shoreline, sand dunes, and
-foreground silhouettes. **Scroll travel** is the page's normalized vertical
-progress; each layer receives a different **parallax rate**, with distant layers
-moving least and foreground dunes moving most. The pointer texture remains a
-surface treatment and must not become a separate visible object above the scene.
+### Deferred scenic background
+
+A possible future scene would use separate sky, sea, shoreline, and foreground
+layers with different scroll-parallax rates. It is not implemented on Drupal's
+plain-black homepage. Revisit scope and rendering technology before building it.
 
 ## Spacing and gaps
 
-`space.scale.*` keeps only the literal exceptions `zero-pixels`, `one-pixel`,
-and `two-pixels`, plus the `base-gap` 8px grid unit. Calculate every larger
+`space.scale.*` keeps only the literal exceptions `zero`, `one`,
+and `two`, plus the `base-gap` 8px grid unit. Calculate every larger
 spacing value where it is used so the multiplier remains visible instead of
 requiring another semantic size name. For example,
 `margin-left: calc(var(--space-scale-base-gap) * 2);` produces 16px.
@@ -1005,36 +1110,10 @@ requiring another semantic size name. For example,
   stable. Chip uses its `component.chip.corner-radius-default` pill radius;
   Avatar owns a local `9999px` identity-image radius; Select Input owns
   a local 50% radius only for its transient 36px hover indicator inside the
-  otherwise square 40px suffix target.
+  otherwise square 40px suffix target. Comment Message also retains its existing
+  component-owned speech-bubble geometry. These scoped source exceptions do not
+  authorize rounded corners on new UI; follow `AGENTS.md` and explicit design direction.
 - `shape.border-width.*`: hairline-default, thick-default.
-
-### Canvas shape language
-
-Use this glossary for procedural WebGL artwork:
-
-- **silhouette**: the closed outer boundary of a shape.
-- **hard edge**: an abrupt transition at the silhouette, with no blur or alpha
-  feathering.
-- **face**: one projected 2D polygon representing a visible side of a 3D-looking
-  object.
-- **edge function**: a signed mathematical test that says whether a canvas pixel
-  lies inside or outside a face.
-- **signed distance field (SDF)**: a function returning distance to a shape's
-  boundary; negative values are inside, positive values are outside.
-- **color field**: the smoothly varying color evaluated independently inside a
-  face.
-- **alpha field**: the smoothly varying transparency inside a face. It may fade
-  to transparent while the silhouette itself remains geometrically sharp.
-- **grain continuity**: background and shape use the same logical-pixel noise
-  scale and seed space, preventing the shape from looking pasted on.
-- **projected solid**: several 2D faces arranged to imply a cube, dune, crystal,
-  or other 3D form without requiring a full 3D engine.
-
-The current technical choice is custom WebGL 1 in one canvas. Projected faces
-and SDF primitives are sufficient for the reference cube, soft internal light,
-hard face boundaries, transparency fields, dither, and parallax layers. Adopt a
-3D scene library only when real camera rotation, perspective geometry, depth
-occlusion, or dynamic lighting becomes a concrete requirement.
 
 ## Elevation and shadow
 
@@ -1051,23 +1130,15 @@ tiles consume the generated background and shadow utility classes directly.
 - Apply with `@include tools.motion-transition(color, background-color);`.
 - All motion must respect `prefers-reduced-motion`.
 
-## Drupal theme structure (inspiration)
+## Drupal theme structure
 
-The nearby `senate` Drupal 11 theme (`oksenate`) is a good structural reference:
-it organises Twig templates by entity type and keeps a separate build `dist/`.
-As `jurenites_theme` grows, mirror that template organisation:
+Handwritten theme templates are organized under `templates/layout`, `content`,
+`field`, `form`, `navigation`, `misc`, `block`, `paragraph`, `views`, and `components`. Custom modules also own
+feature templates. This is a Twig theme with shared SCSS/JS; it is not a migrated
+Single Directory Components library. See [Repository structure](repository-structure.md).
 
-```text
-web/themes/custom/jurenites_theme/templates/
-  html/        page/        region/
-  block/       node/        paragraph/
-  field/       media/       views/        taxonomy/       navigation/
-```
-
-We keep our distinction: editable source in `src/slice/`, compiled minified assets
-in the theme `css/` and `js/`. The Drupal-specific `theme.scss` entrypoint
-configures relative font URLs, and `npm run build:theme` copies source fonts from
-`src/public/assets/fonts/` into the generated theme asset directory.
+The `theme.scss` entrypoint configures relative font URLs. `npm run build:theme`
+builds public and CKEditor CSS, JavaScript, and deployable source assets.
 
 ## Button hover states
 

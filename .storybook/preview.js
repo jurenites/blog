@@ -1,8 +1,11 @@
 import { initialize_elapsed_times } from '../src/slice/src/js/elapsed-time.js';
+import { install_card_loading } from '../src/slice/src/js/card-loading.js';
 import { install_icon_sprite } from '../src/slice/src/js/icon-sprite.js';
 import { initialize_checkboxes } from '../src/slice/src/js/checkbox.js';
 import { initialize_file_inputs } from '../src/slice/src/js/file-input.js';
 import { initialize_heading_typing } from '../src/slice/src/js/heading-typing.js';
+import { initialize_last_word_not_wrap } from '../src/slice/src/js/last-word-not-wrap.js';
+import { initialize_technology_stacks, detach_technology_stacks } from '../src/slice/src/js/technology-stack.js';
 // Storybook consumes the same compiled design system as the Drupal theme:
 // src/slice/src/scss/main.scss is the single CSS source of truth.
 import "../src/slice/src/scss/main.scss";
@@ -23,6 +26,7 @@ import { initialize_layered_scenes } from "../src/slice/src/js/layered-scene.js"
 import { initialize_game_of_life } from "../src/slice/src/js/game-of-life.js";
 
 void install_icon_sprite();
+install_card_loading();
 
 const PREVIEW_WATERMARK_ID = "storybook-preview-watermark";
 
@@ -156,6 +160,7 @@ export const parameters = {
 
 export const decorators = [
   (story_render, story_context) => {
+    detach_technology_stacks(document);
     document.body.classList.add("jurenites-theme");
     const story_output = story_render();
     window.requestAnimationFrame(() => {
@@ -173,6 +178,8 @@ export const decorators = [
       initialize_site_headers(document);
       initialize_timeline_organization_rails(document);
       initialize_tooltips(document);
+      initialize_technology_stacks(document);
+      initialize_last_word_not_wrap(document);
       initialize_heading_typing(document);
       if (story_context.parameters.preview_watermark?.disabled) {
         remove_preview_watermark();

@@ -55,9 +55,12 @@ other component markup, including the initial server-rendered DOM. Define
 dimensions and visual presentation in the component's SCSS, using design tokens
 where applicable.
 
-Runtime code may add temporary sizing only after the page has loaded when it is
-strictly required for skeleton-loading behavior. Do not use that exception for
-the component's normal layout or final rendered appearance.
+Whole-card loading is the narrow exception: Article, Video, News, and Project
+previews may render a generated, token-derived inline minimum-height estimate.
+The head runtime may temporarily size those cards during loading, animate to
+their measured natural height, and remove its inline properties and loading
+attributes after handover. Preserve unrelated inline properties. This exception
+does not permit permanent inline styling or dimension attributes on containers.
 
 ## Vertical Rhythm
 

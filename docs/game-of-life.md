@@ -64,7 +64,7 @@ No remote footage or photographs have been copied into the repository.
   intrinsic bitmap resolution, paints each shared grid line once, and caches the
   grid drawing between generations.
 
-The Storybook example is **Organisms/Game of Life**, with Detail and Thumbnail preview sizes. It shares the engine,
+The Storybook example is **Organisms/Game of Life/Game of Life big**, with Detail and Thumbnail preview sizes. It shares the engine,
 behaviour, and SCSS with Drupal and mirrors the module's semantic template.
 Other rule families are discussed and linked in the article; the widget itself
 runs Conway's rules, with the currently hovered cell sustained by visitor input.
@@ -107,7 +107,7 @@ cells. Interactions are temporary: reloading restores the authored preset. The
 undisturbed. Offscreen and hidden-tab animation stops; reduced-motion preference
 starts examples stationary while pointer drawing remains available.
 
-**Organisms/Game of Life Example** provides Glider, Blinker, Block, Beehive, Toad, and Boat stories
+**Organisms/Game of Life/Game of Life small Example** provides Glider, Blinker, Block, Beehive, Toad, and Boat stories
 with editable dimensions, zoom, and living-cell arrays. SCSS attribute selectors
 own all displayed sizing, using the existing cell/border tokens and example
 defaults in `src/token/tokens.yaml`; JavaScript only sets intrinsic bitmap size.

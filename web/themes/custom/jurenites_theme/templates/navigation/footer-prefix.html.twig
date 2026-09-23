@@ -1,0 +1,7 @@
+{% if footer_icon == 'pulse-indicator' %}
+  <span class="footer-navigation__pulse-prefix">
+    {% include '@jurenites_theme/components/pulse-indicator.html.twig' only %}
+  </span>
+{% elseif footer_icon %}
+  {% include '@jurenites_theme/components/icon.html.twig' with { icon_name: footer_icon, icon_class: 'footer-navigation__social-network-icon', is_link_prefix: true } only %}
+{% endif %}

@@ -6,19 +6,39 @@ import { useArgs as use_story_args } from "@storybook/preview-api";
 const ICON_ASSET_MODULES = import.meta.glob("/src/public/assets/icons/*.svg", {
   eager: true,
   import: "default",
-  query: "?url",
+  query: "?raw",
 });
 const ICON_FILE_NAMES = Object.keys(ICON_ASSET_MODULES)
   .map((asset_path) => asset_path.split("/").pop())
   .sort();
 const ICON_NAME = ICON_FILE_NAMES[0];
+const ICON_GROUPS = [
+  { group_name: "interface", group_heading: "Interface icons · 24px", viewport_size: 24 },
+  { group_name: "brand", group_heading: "Brand and social icons · 16px", viewport_size: 16 },
+];
 
 function icon_gallery_item_markup(icon_file_name) {
   const icon_machine_name = icon_file_name.replace(/\.svg$/i, "");
-  return `<li class="icon-gallery__item" data-icon-machine-name="${escape_html(icon_machine_name)}" tabindex="0" role="button" aria-label="Select ${escape_html(icon_machine_name)}">
-    ${icon_markup({ icon_name: icon_file_name, with_tooltip: true })}
-    <code>${escape_html(icon_machine_name)}</code>
+  return `<li class="icon-gallery__item">
+    <button class="icon-gallery__tile" type="button" data-icon-machine-name="${escape_html(icon_machine_name)}" aria-label="Select ${escape_html(icon_machine_name)}">
+      ${icon_markup({ icon_name: icon_file_name, class_name: "icon-gallery__glyph", with_tooltip: true })}
+    </button>
   </li>`;
+}
+
+function icon_gallery_group_markup({ group_name, group_heading, viewport_size }) {
+  const viewport_pattern = new RegExp(`viewBox=["']0 0 ${viewport_size} ${viewport_size}["']`);
+  const group_file_names = Object.entries(ICON_ASSET_MODULES)
+    .filter(([, asset_source]) => viewport_pattern.test(asset_source))
+    .map(([asset_path]) => asset_path.split("/").pop())
+    .sort();
+
+  return `<section class="icon-gallery__group" aria-labelledby="icon-gallery-${group_name}-heading">
+    <h2 id="icon-gallery-${group_name}-heading">${group_heading}</h2>
+    <ul class="icon-gallery__grid">
+      ${group_file_names.map(icon_gallery_item_markup).join("")}
+    </ul>
+  </section>`;
 }
 
 function render_story({ icon_name }) {
@@ -30,25 +50,20 @@ function render_story({ icon_name }) {
     <section class="icon-gallery__selected" aria-labelledby="icon-gallery-selected-heading">
       <h2 id="icon-gallery-selected-heading">Selected icon</h2>
       <div class="icon-gallery__selected-item">
-        ${icon_markup({ icon_name, with_tooltip: true })}
+        ${icon_markup({ icon_name, class_name: "icon-gallery__glyph", with_tooltip: true })}
         <code>${escape_html(icon_machine_name)}</code>
       </div>
     </section>
-    <section aria-labelledby="icon-gallery-all-heading">
-      <h2 id="icon-gallery-all-heading">All icons</h2>
-      <ul class="icon-gallery__grid">
-        ${ICON_FILE_NAMES.map(icon_gallery_item_markup).join("")}
-      </ul>
-    </section>
+    ${ICON_GROUPS.map(icon_gallery_group_markup).join("")}
   `;
 
   const selected_item_element = story_element.querySelector(".icon-gallery__selected-item");
-  const gallery_item_elements = story_element.querySelectorAll(".icon-gallery__item");
+  const gallery_item_elements = story_element.querySelectorAll(".icon-gallery__tile");
 
   function update_selected_icon(icon_file_name) {
     const selected_machine_name = icon_file_name.replace(/\.svg$/i, "");
     selected_item_element.innerHTML = `
-      ${icon_markup({ icon_name: icon_file_name, with_tooltip: true })}
+      ${icon_markup({ icon_name: icon_file_name, class_name: "icon-gallery__glyph", with_tooltip: true })}
       <code>${escape_html(selected_machine_name)}</code>
     `;
   }
@@ -61,12 +76,6 @@ function render_story({ icon_name }) {
     };
 
     gallery_item_element.addEventListener("click", select_gallery_item);
-    gallery_item_element.addEventListener("keydown", (keyboard_event) => {
-      if (keyboard_event.key === "Enter" || keyboard_event.key === " ") {
-        keyboard_event.preventDefault();
-        select_gallery_item();
-      }
-    });
   });
 
   return story_element;

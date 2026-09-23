@@ -47,12 +47,11 @@ Enable `smtp` separately in each environment, then configure
   password. Google requires 2-Step Verification for app passwords.
 - Keep SMTP debugging off and plain-text messages enabled for Contact.
 
-DEV has these non-secret settings prepared. A credential-free SMTP connection
-over implicit TLS on port 465 succeeded from the DEV container; the STARTTLS
-connection on port 587 failed, so DEV uses 465. SMTP remains off until the account
-owner enters the app password privately in the local administration form and
-switches SMTP on. Enter `jurenites@gmail.com` in the test-email field for the
-first save, then clear that field after testing.
+Check the active environment before enabling SMTP; neither Composer dependencies
+nor these example settings establish its current state. Enter credentials
+privately in that environment's administration form, keep debugging disabled,
+and send a test message before checking Contact delivery. Clear the test-email
+field after the test.
 
 Saving the SMTP form with SMTP on sets `system.mail:interface.default` to
 `SMTPMailSystem`. Webform's email-provider check automatically removes its

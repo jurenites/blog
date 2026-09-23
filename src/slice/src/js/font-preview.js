@@ -1,3 +1,4 @@
+import { track_foreground_loading } from './loading-activity.js';
 import { parse as parse_font } from "opentype.js";
 import {
   create_font_metadata,
@@ -71,14 +72,14 @@ function translated_label(source_label) {
 
 export function load_font_asset(font_url) {
   if (!FONT_PROMISES.has(font_url)) {
-    const font_promise = fetch(font_url, { credentials: "same-origin" })
+    const font_promise = track_foreground_loading(() => fetch(font_url, { credentials: "same-origin" })
       .then((font_response) => {
         if (!font_response.ok) {
           throw new Error(`Font request failed with ${font_response.status}.`);
         }
         return font_response.arrayBuffer();
       })
-      .then((font_buffer) => parse_font(font_buffer));
+      .then((font_buffer) => parse_font(font_buffer)));
     FONT_PROMISES.set(font_url, font_promise);
   }
 

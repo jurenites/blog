@@ -26,9 +26,8 @@ and dismissal behavior for all three message types.
 
 Timer regression checks: `node --test tests/message-toast.test.mjs`. These cover
 expiry durations, overlapping hover/focus pauses, remaining-time resumption,
-and repeated Drupal behavior attachment. Local browser verification confirmed
-that a hovered status survives while a warning expires, then disappears after
-the pointer leaves; errors remain visible.
+and repeated Drupal behavior attachment. Use the browser procedure below to
+verify hover/focus timing and persistent errors against the currently served build.
 
 ## Repeatable browser test
 

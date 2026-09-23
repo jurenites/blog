@@ -1,0 +1,20 @@
+// Last word not wrap: allow the final pair into surrounding space, never a scroller.
+.last-word-not-wrap {
+  min-inline-size: 0;
+  overflow: visible;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+
+  &--constrained {
+    overflow-wrap: anywhere;
+  }
+}
+
+.last-word-not-wrap__text {
+  position: relative;
+  z-index: 1;
+  background-color: inherit;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}

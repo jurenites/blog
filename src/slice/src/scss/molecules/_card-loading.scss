@@ -1,0 +1,10 @@
+// Temporary whole-card reservation must not shrink thumbnail artwork or stretch
+// grid rows. Removing the marker restores every component's normal layout.
+[data-card-loading-pending] {
+  align-content: start;
+  grid-auto-rows: max-content;
+
+  > * {
+    flex-shrink: 0;
+  }
+}

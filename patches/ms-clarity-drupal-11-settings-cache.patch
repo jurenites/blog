@@ -1,0 +1,61 @@
+--- a/src/Form/MicrosoftClarityAdminSettingsForm.php
++++ b/src/Form/MicrosoftClarityAdminSettingsForm.php
+@@ -3,6 +3,7 @@
+ namespace Drupal\ms_clarity\Form;
+ 
+ use Drupal\Core\Config\ConfigFactoryInterface;
++use Drupal\Core\Config\TypedConfigManagerInterface;
+ use Drupal\Core\Extension\ModuleHandlerInterface;
+ use Drupal\Core\Form\ConfigFormBase;
+ use Drupal\Core\Form\FormStateInterface;
+@@ -76,8 +77,8 @@
+    * @param \Drupal\ms_clarity\Helpers\MicrosoftClarityAccounts $ms_clarity_accounts
+    *   The Microsoft Account Manager accounts manager.
+    */
+-  public function __construct(ConfigFactoryInterface $config_factory, AccountInterface $current_user, ModuleHandlerInterface $module_handler, MicrosoftClarityAccounts $ms_clarity_accounts) {
+-    parent::__construct($config_factory,$module_handler);
++  public function __construct(ConfigFactoryInterface $config_factory, AccountInterface $current_user, ModuleHandlerInterface $module_handler, MicrosoftClarityAccounts $ms_clarity_accounts, TypedConfigManagerInterface $typed_config_manager) {
++    parent::__construct($config_factory, $typed_config_manager);
+     $this->currentUser = $current_user;
+     $this->moduleHandler = $module_handler;
+     $this->msAccounts = $ms_clarity_accounts;
+@@ -93,6 +94,7 @@
+       $container->get('current_user'),
+       $container->get('module_handler'),
+       $container->get('ms_clarity.accounts'),
++      $container->get('config.typed'),
+     );
+   }
+ 
+@@ -210,7 +212,7 @@
+       '#type' => 'checkboxes',
+       '#title' => $this->t('Roles'),
+       '#default_value' => !empty($visibility_user_role_roles) ? $visibility_user_role_roles : [],
+-      '#options' => array_map('\Drupal\Component\Utility\Html::escape', user_role_names()),
++      '#options' => array_map('\Drupal\Component\Utility\Html::escape', array_map(static fn ($user_role) => $user_role->label(), \Drupal\user\Entity\Role::loadMultiple())),
+       '#description' => $this->t('If none of the roles are selected, all users will be tracked. If a user has any of the roles checked, that user will be tracked (or excluded, depending on the setting above).'),
+     ];
+     $form['submit'] = [
+--- a/ms_clarity.module
++++ b/ms_clarity.module
+@@ -6,6 +6,7 @@
+  */
+ 
+ use Drupal\Core\Routing\RouteMatchInterface;
++use Drupal\Core\Cache\CacheableMetadata;
+ 
+ /**
+  * Implements hook_theme().
+@@ -40,6 +41,12 @@
+  * Implements hook_page_attachments().
+  */
+ function ms_clarity_page_attachments(array &$page) {
++  // Tracking settings and visibility must vary and invalidate cached pages.
++  CacheableMetadata::createFromRenderArray($page)
++    ->addCacheableDependency(\Drupal::config('ms_clarity.settings'))
++    ->addCacheContexts(['url.path', 'user.roles'])
++    ->applyTo($page);
++
+   /** @var \Drupal\ms_clarity\Helpers\MicrosoftClarityAccounts $msAccount */
+   $msAccount = \Drupal::service('ms_clarity.accounts');
+ 

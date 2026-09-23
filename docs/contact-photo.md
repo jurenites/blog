@@ -11,8 +11,8 @@ to `/contact`, with Content-region weight 100; it does not appear on confirmatio
 pages. Setup preserves existing content and placement changes.
 
 The `contact_photo` block type and managed image field belong to
-`jurenites_contact`. The theme shares `.contact-photo` styling with
-**Molecules / Contact Photo** in Storybook. The full 16:9 photograph scales to its
+`jurenites_contact`. The theme owns `.contact-photo` styling in the shared SCSS source. There is
+currently no dedicated Contact Photo story in `src/stories/`. The full 16:9 photograph scales to its
 container without cropping and reserves its aspect ratio while lazy loading.
 The photograph breaks out of the 800px readable frame to a centered maximum of
 1600px; the form and heading retain their original width. On pages containing

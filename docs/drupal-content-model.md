@@ -52,16 +52,12 @@ deletes its storage and purges values from every translation and revision.
 Run `drush updatedb` and `drush cr` on existing sites. Installation, starter data,
 translation imports, Drupal rendering and Storybook no longer include it.
 
-The Skills profile footer retains supporting experience copy. Its rating-scale
-details and project-history link are removed in Drupal and Storybook; the
-`field_skills_scale` field and its stored values are retained but no longer rendered.
-
-Skills profile owns **Rating scale explanation** and **Draft ratings note** in
-its existing Content Block form. Pixel Glyph Editor Paragraphs own an
-**Instructions** field, edited inside their parent Project's Content sections.
-These fields are translatable; the existing Russian pixel instructions are
-preserved. Nested Hero, Timeline, Skills and other Paragraph records continue to
-be edited, reordered or removed through their owning node or block form.
+Skills profile retains rating-scale, draft-note, review-state, and supporting-note
+fields for editorial use, but the current public renderer shows only the
+technology grid. Pixel Glyph Editor Paragraphs own an **Instructions** field,
+edited inside their parent Project's Content sections. These authored fields
+support translation. Nested Hero, Timeline, Skills and other Paragraph records
+are edited through their owning node or block form.
 
 `jurenites_admin` shows one native pencil for the innermost hovered or
 keyboard-focused content region for accounts with **Access contextual links**
@@ -71,16 +67,9 @@ interactions. Drupal checks access separately for each action. No permissions
 are granted to visitors or ordinary authenticated accounts. Menus use transparent items on a dark surface; only the hovered or keyboard-focused
 item becomes white. They can extend beyond Portfolio/Guideline cards.
 
-The September 12 audit covered all 60 custom-theme templates and seven custom
-module templates. Article, News, Guideline, Project, Timeline and Basic Page copy
-is already node/field content; Hero, Interests, Numeric values, Skills, Contact
-photo and Cookie notice are existing block/Paragraph content. The migration
-removes the remaining visible editorial paragraphs in Videos, Skills and the
-pixel editor, and moves literal listing text from Views configuration to content.
-It restores contextual wrappers/suffixes on Article teasers, Project cards and
-details, Guideline tiles, Interests, navigation and branding. Shared Storybook
-stories and markup remain unchanged; new wrapper styling is imported only by the
-Drupal `theme.scss` entrypoint.
+The editorial integration preserves native contextual wrappers on Article,
+Project, Guideline, block, navigation, and branding output. Drupal-specific
+wrapper styling is imported through `theme.scss`.
 
 Existing sites receive this migration with `drush updatedb` through
 `jurenites_admin_post_update_enable_editorial_content`. A fresh configured site
@@ -135,7 +124,8 @@ already-clean pages, homepages, login, edit access and POST behavior.
 
 ## Basic Page
 
-Purpose: stable site pages such as About and Contact.
+Purpose: stable authored pages such as About, Cookbook, and Privacy Policy.
+The `/contact` route belongs to Webform; see [Contact form](contact-form.md).
 
 The published `/cookbook` Basic Page is the editor-owned working manual for the
 project. Its `basic_html` Body explains the idea, token, Storybook, Drupal,
@@ -158,7 +148,7 @@ without creating one field definition and field table per component control.
 The public Basic page title is always rendered as `h1`; heading level belongs to
 the rendering context, not to author-entered content.
 
-The homepage uses a reusable Numeric values Content Block containing one to
+The reusable Numeric values Content Block, initially seeded for the homepage, contains one to
 eight nested Numeric Value Paragraph items. The block field enforces the
 eight-item limit; its public grid renders no more than four items per row.
 Each item contains:
@@ -166,8 +156,8 @@ Each item contains:
 - Number: required short display text such as `80+`.
 - Text: subtitle text such as `Projects commercial have worked with`.
 - Caption: optional gray text on its own line below Text, using caption typography.
-- Caption link: optional URL and link text following the caption. Domain labels
-  remain gray and underlined, with the shared yellow link hover and focus ring.
+- Caption link: optional URL and link text following the caption. External captions use the shared Link typography, cyan external-link colors,
+  and a suffix revealed on hover or keyboard focus.
   For tracking notes, enter `*tracked with` as Caption and the domain as link text.
 - Icon image: optional attached SVG file. It renders as an external image at
   its intrinsic dimensions while preserving the file's own `viewBox` and
@@ -177,13 +167,16 @@ Each item contains:
   to `/timeline` while its number and descriptive text remain plain content.
 
 The current professional-experience example stores `16` directly in Number.
-The About page also shows three role-hour tiles, with tracking captions linking
+The About page shows the general metrics separately from the Professional roles
+block described in [About page](about-page.md#career-metrics-and-professional-roles).
+Its three role-hour tiles have tracking captions linking
 to `redmine.org`, `atlassian.com`, and `track.toggl.com`. Caption fields are
 optional and do not replace the separate call-to-action link.
 
 Basic pages and Articles retain the Numeric Values Paragraph in Content
-sections for existing authored compositions, while the homepage instance is a
-Content Block so its placement is managed through Drupal's block layout.
+sections for existing authored compositions, while the reusable
+Content Block has native Block layout placement. The roles migration extends an existing About-only metrics placement to its
+translated alias; installed placement remains environment-owned.
 
 ## Home introduction
 
@@ -201,8 +194,7 @@ setup reruns. The shared heading renders as the homepage's `h1`. Native Block
 layout places it at weight `-40`, visible only on `<front>` in either language,
 before the existing homepage sections.
 
-Styles live in `_home-introduction.scss`, shared with **Organisms/Home
-Introduction** in Storybook. At mobile widths the heading reduces in size while
+Styles live in `_home-introduction.scss`, shared with **Organisms/Section/Home Introduction** in Storybook. At mobile widths the heading reduces in size while
 the description remains left-aligned. Build the theme, enable
 `jurenites_home_intro`, then clear Drupal cache
 on each target environment:
@@ -218,8 +210,8 @@ docker exec blog_jurenites_web vendor/bin/drush cr
 The About page uses the reusable `hero` Content Block with an editable background
 image and reorderable `hero_slide` Paragraphs. English and Russian content,
 button labels and destinations are authored in the translated block; placement
-and page visibility are managed through Block layout. The block is withheld from
-both language homepages. See [Hero section](hero-section.md) for editing and setup.
+and page visibility are managed through Block layout. Source setup restricts the initial block to About; saved placement can override
+that default, including homepage visibility through `<front>`. See [Hero section](hero-section.md) for editing and setup.
 
 ## Timeline
 
@@ -250,22 +242,28 @@ duration bar.
 Every completed year's calendar rail occupies the same twelve 32px rows, with
 December at the top and January at the bottom so scrolling moves backward
 through time. The enhanced layout stacks calendar years with no gaps and places
-descriptions in a separate flowing column. A sticky calendar viewport follows
-the text's start-month anchors as the page scrolls; dense descriptions can take
-more space without stretching the calendar. The current year begins with the current month and does not render
-months that have not started. Duration records use an 8px-wide bar spanning
+descriptions in a separate sticky viewport. The calendar stays in document
+flow and sets the page's scroll distance: each scroll pixel moves the date axis
+by one pixel, regardless of the pointer's column or project density. The project
+viewport follows start-month anchors at a variable ratio, moving faster through
+dense descriptions and more slowly through sparse periods. Projects sharing a
+month travel continuously through the interval before the next date. The panel
+clamps at its beginning and end so the first and last descriptions stay reachable;
+reverse scrolling uses the same mapping. The current year begins with the current month and does not render
+months that have not started. Duration records use a solid 1px yellow line inside
+a centered 16px-wide button spanning
 exactly the inclusive start and end months, with a small visual break between
 adjacent projects; ranges continuing across a year boundary have no break.
 Overlapping projects take the first free one of four
-parallel lanes. If more than four ranges overlap, the shared marker uses a
-45-degree yellow-and-white stripe. The year heading sticks until the next year
+parallel lanes. Shared lanes retain the same solid yellow line. The year heading sticks until the next year
 replaces it. Month labels and year headings prevent text selection when dragging
 across the calendar rail.
 
 An organization appears as a large linked heading in the same left rail as the
 year. It remains sticky while years, including empty years, pass below it and is
 pushed away only when the next employer transition reaches the rail. It is not
-repeated for every project. The rendered sequence ends at 2010.
+repeated for every project. The rendered sequence ends at August 2010; that year shows August through
+December in Drupal and Storybook.
 
 The starter node contains the 72 commercial projects transcribed from the
 current CV and no personal milestones. Every commercial project also
@@ -277,11 +275,17 @@ month scale in a narrow left rail with up to four parallel duration tracks. The
 corresponding project descriptions and links form a wider, left-aligned column
 on the right; dense text groups grow so those entries stack instead of overlapping.
 Hover or keyboard focus on a card or duration segment highlights every segment
-of that project in full white with a small glow, and gives its cards a lighter
-background. Each project has one description card, placed at the first authored
+of that project with the Select Input suffix's inset background and transition,
+preserving the thin yellow line, and gives its cards a lighter background.
+Each project has one description card, placed at the first authored
 period's start, with every time frame listed together. Additional periods retain
 their calendar bars without repeating the project heading or description.
-Every duration button focuses that project's single card.
+Every duration button focuses that project's single card and scrolls to its
+description by mapping its text position back to the calendar's page position,
+with a 900–1600ms ease-in/ease-out animation, depending on distance. Direct project
+links and keyboard focus into clipped project links use the same mapping.
+Wheel, touch, pointer and navigation-key input can interrupt the animation;
+reduced-motion preferences use immediate navigation.
 Without JavaScript the complete grouped chronology remains readable.
 Project titles are plain text. Product websites display their actual hostname
 without a protocol or path while retaining the full destination URL. Website
@@ -383,7 +387,7 @@ at weight 10. Apply with `drush updatedb -y` and `drush cr`. It preserves the
 saved content, translations, revisions and publication status, and skips sites
 where the content block itself was deleted.
 
-The shared `Organisms/Website Audit` Storybook example uses the same SCSS and
+The shared `Organisms/Section/Website Audit` Storybook example uses the same SCSS and
 primary Button atom. Desktop shows report details beside the offer; at the shared mobile breakpoint (640px and below)
 these stack. The surface is almost black, without an outer outline or internal
 divider. The semantic `time` element carries a day duration; visible copy
@@ -633,8 +637,8 @@ must accommodate the 20 MB video limit; local PHP allows 200 MB uploads and
 Shared fields and Video-specific source metadata:
 
 - Title
-- Slug
-- Teaser
+- URL alias: maintained through Pathauto and the native alias controls.
+- Summary: stored in Body rather than a separate Teaser field.
 - YouTube video (Video only): one required direct YouTube URL. The YouTube Field module extracts the
   video ID and renders a responsive player with YouTube's video thumbnail.
   The URL must identify a video that is not already used by another Video node,
@@ -650,10 +654,10 @@ Shared fields and Video-specific source metadata:
   the video URL refreshes them for the new source. The Video Authored on
   calendar date follows the YouTube publication date while retaining its
   existing time of day; any time component in the source timestamp is ignored.
-  When an Video has no Hero image, Drupal downloads YouTube's
+  When a Video has no Hero image, Drupal downloads YouTube's
   1280×720 thumbnail into that Image field on save and uses the oEmbed image as
   a lower-resolution fallback. Editors can then replace or manipulate it like
-  any other Article image; an existing Image is never overwritten
+  any other managed node image; an existing Image is never overwritten
   automatically. On the full Video, an animated no-signal layer occupies the
   responsive player figure until its iframe loads; the layer inherits the
   formatter's rendered size and aspect ratio. The Videos list presents this
@@ -669,8 +673,6 @@ Shared fields and Video-specific source metadata:
   total minutes for videos longer than one hour.
 - Hero image
 - Tags: the shared Tagify input. Reuse existing Tags terms for content work.
-- Topics
-- Related projects
 - Publish state
 - Promoted to front page: disabled by default for new Articles. Editors can
   still enable it explicitly, and existing Articles retain their current value.
@@ -902,45 +904,11 @@ language. Existing installations receive this configuration through
 `jurenites_blog_post_update_news_shared_original_content` when running
 `drush updatedb`, followed by `drush cr`.
 
-## Gallery Item
-
-Purpose: visual inspiration, GIF/image/code recreation entries.
-
-Suggested fields:
-
-- Title
-- Body
-- Media
-- Source URL
-- Source author
-- Code recreation URL
-- Tags
-
-## External Link
-
-Purpose: designers, videos, tweets/posts, tools, and links that shape the project.
-
-Suggested fields:
-
-- Title
-- URL
-- Body
-- Source/account
-- Platform
-- Topics
-
 ## Taxonomies
 
-Start with a small set:
-
-- Topic
-- Technology
-- Role
-- Visibility
-
-Add more only when content entry becomes painful without them.
-
-The commercial Timeline calendar starts at August 2010; its 2010 section shows August through December in both Drupal and Storybook.
+Articles, Videos, News, and Projects reuse the existing Tags vocabulary. Select
+existing terms for content work; do not create a parallel Topic, Technology,
+Role, or Visibility vocabulary without an explicit requirement. Additional content models need an explicit product requirement.
 
 ## Browser applications
 

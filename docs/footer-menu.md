@@ -18,7 +18,7 @@ Use **Parent link** or the menu overview's drag handles to move links between
 columns and to reorder them. **Show as expanded** is not required: the footer
 block expands its menu tree. Additional nested links remain visible as lists.
 
-**Testing** (**Тестирование**) belongs in **How I work**, immediately after
+**Testing** belongs in **How I work**, immediately after
 **Cookbook** and before **Brandbook**. Its destination is ordinary editable menu
 content: `http://test.jurenites.local/` in DEV and `https://test.jurenites.com/`
 in PROD. The theme does not rewrite destinations by hostname. Adding this link
@@ -50,6 +50,12 @@ The current menu maintains the job-status text as a separate child item with
 **Section heading** type and a `<nolink>` destination. Edit that item's **Menu
 link title** (or its translation) to change the status. Keep the parent recruiter
 section's **Description** empty to avoid displaying the same status twice.
+Choose **Pulse Indicator** in that status item's **Leading icon** field to show
+the shared animated atom before the text. The prefix is decorative, keeps the
+atom's existing dimensions and motion tokens, and stops pulsing when reduced
+motion is enabled. Its 16px-wide prefix centers the atom vertically in a 24px-high
+box, aligning it with the text's first line. Leading icons also render on section
+headings.
 
 Privacy links are maintained separately at
 `/admin/structure/menu/manage/footer-legal` (**Footer legal**). This independent
@@ -68,7 +74,7 @@ four headings as the top-level column structure; their wording is freely editabl
 
 | Field | Behavior |
 | --- | --- |
-| Leading icon | Choose from the existing site SVG icon library, or leave empty. |
+| Leading icon | Choose from the existing site SVG icon library or Pulse Indicator, or leave empty. Applies to links and section headings. |
 | Hover text | Alternate text on pointer hover and keyboard focus; translatable. |
 | Hover color or gradient | A shared plain text field accepting a hex color, `var(--token-name)`, or `linear-gradient(...)`. Empty uses yellow. Gradients span the complete text phrase, including keyboard focus. |
 | Open in a new window | Adds a safe new-window target and accessible announcement. Email and phone links always use their normal application. |
@@ -83,6 +89,10 @@ Link prefixes have a fixed 16 by 16 CSS-pixel box. Prepare artwork with
 size or position adjustments in code. A matching `-active.svg` asset is paired
 automatically for hover and keyboard focus and hidden from the base-icon selector.
 Both assets are bundled into the initial markup; no JavaScript is required.
+For **My CV**, select **Brand Google Docs** as its Leading icon. The matching
+`brand-google-docs-active.svg` preserves Google's blue-to-lilac gradient on hover
+and keyboard focus; the default is monochrome. Both use the shared 16 by 16
+viewport. Artwork provenance is recorded beside the SVG assets.
 The supplied default SVG files retain white fills, with CSS applying the menu's
 hover color to unpaired white artwork. Active companions retain their own colors.
 Existing menu icon names are unchanged, so no content migration is needed.

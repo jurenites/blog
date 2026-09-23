@@ -8,8 +8,8 @@ or an uploaded CV's actual URL; installation does not invent a CV download.
 
 ## Editing and placement
 
-- Go to **Content > Content blocks**, find **About hero** (or **Обо мне:
-  вводный блок** in Russian), and choose Edit.
+- Go to **Content > Content blocks**, find **About hero**, and choose Edit.
+  Use its Translate tab for localized copy.
   Replace **Background image**, edit **Introductory line**, and expand the slides
   to change their text and button destinations. Set alternative text for an image.
 - Use the slide drag handles to change their order; the first is initially shown.
@@ -19,7 +19,9 @@ or an uploaded CV's actual URL; installation does not invent a CV download.
 - Go to **Structure > Block layout > Jurenites theme** to move the block between
   regions, change its weight/order, or configure page visibility. Its initial
   placement is in Content on the English `/about` and Russian `/ru/obo` pages.
-  It is not displayed on either language's homepage.
+  These are source defaults; saved Block layout changes can place it elsewhere,
+  including `<front>` for both language homepages. Inspect the active placement
+  before changing or verifying it.
 - Additional Hero content blocks can be created and placed independently.
 
 ## Behavior and shared implementation
@@ -32,20 +34,10 @@ menu retains its opaque background. **Organisms/Top Nav Menu Site Header →
 Homepage Overlay** demonstrates the shared treatment; its tint, blur and fade
 height are editable under `component.site-header` in `src/token/tokens.yaml`.
 
-The shared header home link pairs the logo with separate “A” and “I” initials in
-the `headline-3` typography role and `color.palette.full-white`. Hovering the link
-or focusing it with a keyboard expands “A” into “Alexander” and “I” into
-“Ilivanov” one letter at a time. Added letters grow from a smaller size and
-tighter spacing into the final typography. The absolutely positioned name track
-uses a fixed compact layout slot, so expansion does not move the centered main
-navigation. When hover or focus leaves, the complete name remains visible for
-two seconds before collapsing. Its accessible link label always contains the
-full name, and reduced-motion preferences make the state change immediate. The
-name remains a text span, so branding does not add a heading to the page outline.
-The same treatment appears in the header's Storybook examples, including the
-LEGO logo variant. On tablets, navigation occupies a second row to leave room
-for the expanded name. The existing enhanced mobile menu replaces the brand with
-the menu toggle.
+The shared header home link uses text initials that reveal Alexander Ilivanov
+on hover or keyboard focus. Header branding, the first-visit intro, responsive
+navigation, and reduced-motion behavior are documented in
+[Design System](design-system.md). The header no longer renders a logo image.
 
 The photograph stays still while manual tabs select the message and calls to
 action. Arrow keys, Home and End select/focus tabs. No autoplay or pointer-tracking
@@ -60,8 +52,8 @@ in `.hero-section__glow` follow the supplied photo and scale with the image.
 The image and glow share `.hero-section__photo-plane`. Adjust placement on
 `.hero-section__scene`, never by padding the image alone. The author's 40px top
 and 80px right offsets remain local SCSS variables and scale down on small screens.
-Touch devices have a **Screen light** toggle with a pressed state; keyboard focus
-on the Hero links also reveals the light. The stacked layout supports 360px widths.
+The **Screen light** toggle has a pressed state and is hidden at the mobile
+breakpoint (640px and below); keyboard focus on Hero links also reveals the light. The stacked layout supports 360px widths.
 Reduced motion keeps the light static and disables its entrance transition.
 Without JavaScript every slide remains readable and its links remain usable.
 
@@ -78,8 +70,7 @@ in both languages and does not alter authored images. Normal styling is entirely
 in SCSS; image markup has no presentational sizing or inline style attributes.
 
 `src/slice/src/scss/organisms/_hero-section.scss` and
-`src/slice/src/js/hero-section.js` are shared by Drupal and **Organisms/Hero
-Section** in Storybook. The `jurenites_hero` module owns authoring fields, rendering
+`src/slice/src/js/hero-section.js` are shared by Drupal and **Organisms/Section/Hero Section** in Storybook. The `jurenites_hero` module owns authoring fields, rendering
 data and the Twig template. The theme supplies the visual styles and behavior.
 Background files, Paragraphs and link access results contribute render-cache
 metadata. Author text is escaped and CTA links use Drupal's Link render element.

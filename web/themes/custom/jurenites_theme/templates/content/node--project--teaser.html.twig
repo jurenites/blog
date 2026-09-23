@@ -1,4 +1,5 @@
-<article{{ attributes.addClass('project-card') }}>
+{% import '@jurenites_theme/components/card-loading.html.twig' as card_loading %}
+<article{{ attributes.addClass('project-card') }} {{ card_loading.loading_attributes('project-card') }}>
   {{ title_prefix }}
   {{ title_suffix }}
   {% if content.field_image %}

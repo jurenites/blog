@@ -252,6 +252,12 @@
   &__title {
     margin: 0;
     @include tools.typography-link;
+
+    &.last-word-not-wrap--constrained {
+      // At a screen/clipping edge, leave room for the attached arrow as the
+      // emergency wrapping fallback shortens the title's line boxes.
+      padding-inline-end: var(--system-icon-default-svg-viewport);
+    }
   }
 
   &__title-link {
@@ -269,10 +275,19 @@
     @include tools.focus-ring;
   }
 
+  &__title-end {
+    // A zero-width word joiner anchors this inline box to the final glyph.
+    position: relative;
+    white-space: nowrap;
+  }
+
   &__internal-mark {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 100%;
     visibility: hidden;
-    vertical-align: middle;
     color: inherit;
+    background-color: var(--theme-dark-surface-background-page);
   }
 
   @media (prefers-reduced-motion: reduce) {

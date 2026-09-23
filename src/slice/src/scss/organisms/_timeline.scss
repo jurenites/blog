@@ -133,7 +133,7 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
   display: grid;
   grid-template-columns: calc(var(--space-scale-base-gap) * 5) repeat(4, var(--component-timeline-marker-size-default));
   grid-template-rows: repeat(12, var(--component-timeline-month-height-default));
-  column-gap: var(--space-scale-base-gap);
+  column-gap: var(--space-scale-one);
   width: $timeline-axis-width;
   margin: 0;
   padding: 0;
@@ -191,29 +191,42 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
   position: relative;
   z-index: 2;
   display: block;
-  width: var(--component-timeline-marker-size-default);
+  width: calc(var(--space-scale-base-gap) * 2);
   height: var(--component-timeline-marker-size-default);
-  background: var(--theme-dark-action-primary-default);
+  margin-inline-start: calc((var(--component-timeline-marker-size-default) - (var(--space-scale-base-gap) * 2)) / 2);
+  background: transparent;
   padding: 0;
   border: 0;
   border-radius: 0;
   cursor: pointer;
 }
 
+.timeline__marker::before {
+  position: absolute;
+  inset: var(--space-scale-two);
+  background: transparent;
+  content: "";
+  @include tools.motion-transition(background-color);
+}
+
+.timeline__marker::after {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 50%;
+  width: var(--shape-border-width-hairline-default);
+  background: var(--theme-dark-action-primary-default);
+  content: "";
+  pointer-events: none;
+}
+
+.timeline__marker:is(:hover, :focus-visible, .is-project-highlighted)::before {
+  background: var(--theme-dark-action-secondary-hover);
+}
+
 .timeline__marker--duration {
   height: calc(100% - var(--space-scale-two));
   min-height: var(--component-timeline-marker-size-default);
   margin-block: var(--space-scale-one);
-}
-
-.timeline__item--overlap .timeline__marker--duration {
-  background: repeating-linear-gradient(
-    45deg,
-    var(--theme-dark-action-primary-default) 0,
-    var(--theme-dark-action-primary-default) var(--space-scale-two),
-    var(--theme-dark-text-primary-default) var(--space-scale-two),
-    var(--theme-dark-text-primary-default) calc(var(--space-scale-two) * 2)
-  );
 }
 
 .timeline__marker--continues-before {
@@ -233,8 +246,6 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
 
 .timeline__item .timeline__marker.is-project-highlighted {
   z-index: 4;
-  background: var(--component-timeline-marker-color-active);
-  box-shadow: 0 0 var(--space-scale-base-gap) var(--component-timeline-marker-color-active);
 }
 
 .timeline__year-detail.is-project-highlighted {
@@ -255,9 +266,17 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
 }
 
 .timeline__rail-window {
+  // The calendar stays in document flow and sets the entire scroll distance.
+  // Keep the outer lane's widened hit area inside the calendar column.
+  margin-inline-end: calc(var(--space-scale-base-gap) * -0.5);
+  padding-inline-end: calc(var(--space-scale-base-gap) * 0.5);
+}
+
+.timeline__details-window {
   position: sticky;
   top: calc(var(--space-scale-base-gap) * 8);
   height: calc(100dvh - (var(--space-scale-base-gap) * 8));
+  min-width: 0;
   overflow: hidden;
   overflow-anchor: none;
   scrollbar-width: none;
@@ -270,10 +289,6 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
 .timeline--synchronized {
   .timeline__year-group {
     content-visibility: visible;
-  }
-
-  .timeline__year-heading {
-    inset-block-start: 0;
   }
 
   .timeline__year-canvas {
@@ -482,6 +497,10 @@ body.jurenites-theme .timeline .timeline__website-links a.timeline__website-link
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .timeline__marker::before {
+    transition-duration: var(--motion-duration-instant-default);
+  }
+
   body.jurenites-theme .timeline .timeline__website-links a.timeline__website-link {
     transition-duration: var(--motion-duration-instant-default);
   }

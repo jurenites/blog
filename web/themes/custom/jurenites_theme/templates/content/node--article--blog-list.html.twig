@@ -5,6 +5,7 @@
  */
 #}
 {% set article_id = node.id %}
+{% import '@jurenites_theme/components/card-loading.html.twig' as card_loading %}
 {% set article_classes = [
   'article-list-item',
   content.game_of_life ? 'article-list-item--game-of-life',
@@ -15,7 +16,7 @@
   node.isSticky() ? 'node--sticky',
 ] %}
 
-<article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }}>
+<article{{ attributes.addClass(article_classes).setAttribute('data-article-id', article_id) }} {{ card_loading.loading_attributes('article-list') }}>
   {% if content.game_of_life or node.field_image is not empty %}
     <div
       class="article-list-item__media"
@@ -35,10 +36,10 @@
         <a class="article-list-item__title-link" href="{{ url }}" rel="bookmark">
           {%- apply spaceless -%}
           <span>{{ label }}</span>
-          {% include '@jurenites_theme/components/icon.html.twig' with {
+          <span class="article-list-item__title-end">&NoBreak;{% include '@jurenites_theme/components/icon.html.twig' with {
             icon_name: 'arrow-right',
             icon_class: 'article-list-item__internal-mark',
-          } only %}
+          } only %}</span>
           {%- endapply -%}
         </a>
       </h2>
