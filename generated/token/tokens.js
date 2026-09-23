@@ -3954,7 +3954,7 @@ export const TOKEN_RECORDS = [
       "marker-color-active"
     ],
     "type": "string",
-    "description": "Matching project segments glow on hover and focus.",
+    "description": "Keyboard focus outline for project markers and cards.",
     "source_value": "{color.palette.full-white}",
     "value": "#FFFFFF",
     "css_value": "var(--color-palette-full-white)",
@@ -3970,7 +3970,7 @@ export const TOKEN_RECORDS = [
       "marker-size-default"
     ],
     "type": "dimension",
-    "description": "Exact square event marker and duration-bar width.",
+    "description": "Calendar lane width; markers have a wider hit area and hairline artwork.",
     "source_value": "{space.scale.base-gap}",
     "value": "8px",
     "css_value": "var(--space-scale-base-gap)",
@@ -4098,11 +4098,11 @@ export const TOKEN_RECORDS = [
       "container-size-default"
     ],
     "type": "dimension",
-    "description": "Compact field around the dot; the animated radius may extend beyond it.",
-    "source_value": "24px",
-    "value": "24px",
-    "css_value": "24px",
-    "resolved_css_value": "24px",
+    "description": "Matches footer prefix sizing; the animated radius may extend beyond it.",
+    "source_value": "16px",
+    "value": "16px",
+    "css_value": "16px",
+    "resolved_css_value": "16px",
     "is_reference": false,
     "reference_name": null
   },

@@ -86,14 +86,6 @@ the selected content scope, skips interface imports and rejects UUIDs absent
 from the catalogue. The same English-source and Russian-editorial guards still
 apply; unrelated historical catalogue entries are not replayed.
 
-The September 15, 2026 DEV audit added the missing Russian versions of six
-published pages: four articles and two portfolio projects. The batch
-also translates their project paragraphs and image descriptions, missing shared
-page copy, pixel-editor instructions, skills descriptions and two recent
-timeline entries. Existing Russian translations, English content and shared
-media/paragraph references are preserved. This is a local content update;
-production requires its own database inventory and guarded import.
-
 Video recommendations do not need a separate translation merely because their
 titles are in English. Keep the original video titles and metadata. Translate
 author-written commentary only when it needs a missing language version, and
@@ -119,8 +111,10 @@ Custom renderers resolve paragraph and taxonomy translations from the current
 language before displaying their text.
 
 Tag filters retain English-derived keys such as `?tag=font`; translated labels
-are presentation values. Views filter by the current content language to avoid
-duplicate English/Russian rows. Translation cache metadata must include the
+are presentation values. Blog and other translated listings filter by content
+language. Videos selects original rows once and renders with language fallback.
+Homepage News selects and renders original content in both languages, without
+requiring News translations. Translation cache metadata must include the
 language context and referenced content dependencies.
 
 URL language prefixes do not change a page's layout identity. The theme removes
@@ -148,12 +142,8 @@ text use the selected language. Month labels on the axis and in project date
 ranges begin with a capital letter, including Russian abbreviations; this is
 scoped to the timeline and does not change global date translations.
 
-The September 8 correction covers the 73 current projects on local node 25,
-including the manually added Accountia landing page and edited Dzing text.
-The catalogue records the actual English field values, rather than assuming
-the installation seed data is still current. Names retain their complete
-English spelling. The correction preserves the English content, dates, item
-order and destination URLs.
+Catalogue entries must match the actual English field values and entity UUIDs
+in the target database, rather than an assumed seed count or node ID.
 
 For future authoring, keep one English source timeline with shared paragraph
 structure and dates. A translation step can prepare Russian drafts for new or

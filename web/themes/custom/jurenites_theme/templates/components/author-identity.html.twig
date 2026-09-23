@@ -27,7 +27,7 @@
       {% if author_name_markup %}
         {{ author_name_markup }}
       {% elseif author_url %}
-        <a href="{{ author_url }}" rel="external noopener">{{ author_name_text }}</a>
+        <a href="{{ author_url }}"{% if author_link_target_blank %} target="_blank"{% endif %} rel="external noopener">{{ author_name_text }}</a>
       {% else %}
         {{ author_name_text }}
       {% endif %}

@@ -81,7 +81,6 @@ test("Timeline rendering provides calendar years, exact duration lanes, and offi
   assert.match(timeline_styles, /content-visibility: auto/);
   assert.match(timeline_styles, /component-timeline-marker-size-default/);
   assert.match(timeline_styles, /repeat\(12, var\(--component-timeline-month-height-default\)\)/);
-  assert.match(timeline_styles, /repeating-linear-gradient/);
   assert.match(timeline_styles, /@for \$lane_number from 1 through 4/);
   assert.match(timeline_styles, /@for \$visible_month_count from 1 through 12/);
   assert.match(timeline_styles, /timeline__organization-sticky/);

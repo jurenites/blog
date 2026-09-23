@@ -2,12 +2,23 @@ import "./footer-navigation.demo.css";
 import { escape_html, render_template } from "../../template.js";
 import { badge_markup } from "../../atoms/badge/badge.markup.js";
 import { icon_markup } from "../../atoms/icon/icon.markup.js";
+import { pulse_indicator_markup } from "../../atoms/pulse-indicator/pulse-indicator.markup.js";
 import footer_navigation_template from "./footer-navigation.template.html?raw";
 import footer_navigation_item_template from "./footer-navigation-item.template.html?raw";
 
+function recruiter_item_markup(recruiter_link) {
+  if (recruiter_link.item_role === "section") {
+    const prefix_markup = recruiter_link.icon_name === "pulse-indicator"
+      ? `<span class="footer-navigation__pulse-prefix">${pulse_indicator_markup()}</span>`
+      : "";
+    return `<li class="footer-navigation__item footer-navigation__section"><h3 class="footer-navigation__heading${prefix_markup ? " footer-navigation__heading--with-prefix" : ""}">${prefix_markup}<span>${escape_html(recruiter_link.link_label)}</span></h3><ul class="footer-navigation__list">${(recruiter_link.child_links || []).map(recruiter_item_markup).join("")}</ul></li>`;
+  }
+  return `<li class="footer-navigation__item"><a class="footer-navigation__link" href="${escape_html(recruiter_link.link_url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape_html(recruiter_link.link_label)} (opens in a new window)">${recruiter_link.icon_name ? icon_markup({ icon_name: recruiter_link.icon_name, class_name: "footer-navigation__social-network-icon", is_link_prefix: true }) : ""}<span class="footer-navigation__link-label">${escape_html(recruiter_link.link_label)}</span></a></li>`;
+}
+
 export function footer_navigation_markup({
   recruiter_heading,
-  recruiter_description,
+  section_description = "",
   recruiter_links = [],
   social_heading,
   messengers_heading,
@@ -37,8 +48,8 @@ export function footer_navigation_markup({
 
   return render_template(footer_navigation_template, {
     recruiter_heading: escape_html(recruiter_heading),
-    recruiter_description: escape_html(recruiter_description),
-    recruiter_links_markup: recruiter_links.map((recruiter_link) => `<li class="footer-navigation__item"><a class="footer-navigation__link" href="${escape_html(recruiter_link.link_url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape_html(recruiter_link.link_label)} (opens in a new window)">${recruiter_link.icon_name ? icon_markup({ icon_name: recruiter_link.icon_name, class_name: "footer-navigation__social-network-icon", is_link_prefix: true }) : ""}<span class="footer-navigation__link-label">${escape_html(recruiter_link.link_label)}</span></a></li>`).join(""),
+    section_description_markup: section_description ? `<p class="footer-navigation__section-description">${escape_html(section_description)}</p>` : "",
+    recruiter_links_markup: recruiter_links.map(recruiter_item_markup).join(""),
     social_heading: escape_html(social_heading),
     messengers_heading: escape_html(messengers_heading),
     information_heading: escape_html(information_heading),

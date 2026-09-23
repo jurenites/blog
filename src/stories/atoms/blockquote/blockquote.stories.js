@@ -4,7 +4,7 @@ const QUOTE_TEXT = "A useful design system makes the ordinary decisions quiet, r
 const CONTINUATION_TEXT = "Longer quotations keep their paragraph breaks, giving each thought enough room to be read in context.";
 
 export default {
-  title: "Atoms/Blockquote",
+  title: "Molecules/Blockquote",
   tags: ["autodocs"],
   render: blockquote_markup,
   argTypes: {

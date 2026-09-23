@@ -30,7 +30,7 @@ const HERO_SLIDES = [
 ];
 
 export default {
-  title: "Organisms/Hero Section",
+  title: "Organisms/Section/Hero Section",
   tags: ["autodocs"],
   render: hero_section_markup,
   parameters: {

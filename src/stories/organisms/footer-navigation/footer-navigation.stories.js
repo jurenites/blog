@@ -3,11 +3,18 @@ import { footer_navigation_markup } from "./footer-navigation.markup.js";
 const SOCIAL_HEADING = "Social networks";
 const MESSENGERS_HEADING = "Get in touch";
 const RECRUITER_HEADING = "For recruiters";
-const RECRUITER_DESCRIPTION = "Actively looking for a job";
+const SECTION_DESCRIPTION = "";
 const RECRUITER_LINKS = [
   { link_label: "LinkedIn", link_url: "https://example.com/profile", icon_name: "social-linkedin" },
   { link_label: "hh.ru", link_url: "https://example.com/resume", icon_name: "brand-hh" },
-  { link_label: "My CV", link_url: "https://docs.google.com/", icon_name: "" },
+  {
+    link_label: "I'm opened to exploring new opportunities",
+    item_role: "section",
+    icon_name: "pulse-indicator",
+    child_links: [
+      { link_label: "My CV", link_url: "https://docs.google.com/", icon_name: "brand-google-docs" },
+    ],
+  },
 ];
 const INFORMATION_HEADING = "Information";
 const HOW_I_WORK_HEADING = "How I work";
@@ -57,7 +64,7 @@ export default {
   },
   argTypes: {
     recruiter_heading: { control: "text" },
-    recruiter_description: { control: "text" },
+    section_description: { control: "text", description: "Optional section introduction. On the website, edit the section menu item's Description field in Drupal." },
     recruiter_links: { control: "object" },
     social_heading: { control: "text" },
     messengers_heading: { control: "text" },
@@ -81,7 +88,7 @@ export default {
   },
   args: {
     recruiter_heading: RECRUITER_HEADING,
-    recruiter_description: RECRUITER_DESCRIPTION,
+    section_description: SECTION_DESCRIPTION,
     recruiter_links: RECRUITER_LINKS,
     social_heading: SOCIAL_HEADING,
     messengers_heading: MESSENGERS_HEADING,

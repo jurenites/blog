@@ -1,6 +1,6 @@
 # From Product Purpose to Pixels: My Product Design and Development Cookbook
 
-> Working article draft · Alexander Ilivanov · September 10, 2026
+> Working article draft · Alexander Ilivanov · Reviewed September 22, 2026
 >
 > This article will evolve through revisions, practical examples, images, links, and embedded previews. The examples below are illustrative; they do not describe a completed client project.
 
@@ -140,7 +140,9 @@ Integration brings new information. Real content may challenge a layout. A frame
 
 ## 12. Testing
 
-After assembling the application, I test the connection between three views: the matching Figma frame, the isolated Storybook component, and the Drupal theme rendered with real content. In manual mode, a review page would show labeled iframes with direct links, plus an aligned overlay, a wipe slider, and a difference view for captured images. Where embedding is permitted, matching Storybook and Drupal frames could also be stacked for visual inspection. A first local component-status dashboard now lists Storybook components, records rendering checks, and compares Storybook with Drupal screenshots using real content. It shows source links and individual results. Figma pixel comparison and automatic CI report ingestion are still pending.
+After assembling the application, I test the connection between three views: the matching Figma frame, the isolated Storybook component, and the Drupal theme rendered with real content. In manual mode, a review page would show labeled iframes with direct links, plus an aligned overlay, a wipe slider, and a difference view for captured images. Where embedding is permitted, matching Storybook and Drupal frames could also be stacked for visual inspection. A first local component-status dashboard now lists Storybook components, records rendering checks, and compares Storybook with Drupal screenshots using real content. It shows source links and individual results. The dashboard now supports manual overlays and PNG-based Figma comparisons,
+and the language-picker case uses pinned design exports. Automatic Figma export,
+pinned Drupal content revisions, and automatic CI ingestion remain pending.
 
 For each comparison I would use the same text, media, language, viewport, and component state. The Drupal view would use selected real entities and recorded content revisions; Storybook fixtures and the Figma reference would carry the matching values. A separate review against current live content would help expose long titles, optional fields, and other editorial variations.
 
@@ -150,7 +152,10 @@ Pixel-perfect layout is the goal, with narrowly documented tolerances only where
 
 Technical references: [Figma file embeds](https://developers.figma.com/docs/embeds/embed-figma-file/), [Figma frame exports](https://developers.figma.com/docs/rest-api/file-endpoints/#get-images-endpoint), and [Playwright visual comparisons](https://playwright.dev/docs/test-snapshots).
 
-**TODO:** integrate manual comparison controls and automated design/Storybook/website image comparisons into the existing dashboard. Reuse Playwright for capture and the existing `pixelmatch`/`pngjs` comparison tools. Add a Windows virtual-machine run using native Windows browsers, with separate reviewed Windows screenshot baselines. The CI job should use the same build and content snapshot as the other checks, save screenshots and differences, and eventually gate delivery once the cases are repeatable. These additions are planned; the current local runner does not establish Windows coverage.
+**Remaining work:** pin the Drupal content used by repeatable cases, add approved
+browser regression baselines, and connect CI report producers. The local
+dashboard already uses Playwright, `pixelmatch`, and `pngjs` for captured-image
+comparison and manual review controls. Add a Windows virtual-machine run using native Windows browsers, with separate reviewed Windows screenshot baselines. The CI job should use the same build and content snapshot as the other checks, save screenshots and differences, and eventually gate delivery once the cases are repeatable. These additions are planned; the current local runner does not establish Windows coverage.
 
 **Milestone:** reproducible test results and reviewable visual evidence for the expected design, the component implementation, and the actual website with real content.
 
@@ -172,7 +177,7 @@ Although verification is the final milestone in this description, I define expec
 
 ## When an AI agent builds the first version
 
-The route can change when I start by asking an AI agent to build a working prototype. Around the component stage—or even earlier—code may appear before the design library, documentation, and data model are fully developed.
+The route can change when I start by asking an AI agent to build a working prototype. Around the component stage, or even earlier, code may appear before the design library, documentation, and data model are fully developed.
 
 That implementation gives me something concrete to explore. It can also contain assumptions about terminology, permissions, data, or behavior that I never explicitly chose.
 
@@ -207,7 +212,7 @@ For a concrete example, imagine that QA discovers a customer can see another cus
 
 The loop is as small or as broad as the finding requires. A spacing adjustment may affect one token or component. A new ownership model may reach all the way back to roles and relationships.
 
-The purpose of this cookbook is to keep those connections visible as the product evolves—from the reason it exists to the smallest details someone interacts with.
+The purpose of this cookbook is to keep those connections visible as the product evolves, from the reason it exists to the smallest details someone interacts with.
 
 ---
 
@@ -224,7 +229,7 @@ Use a path of thirteen numbered milestones grouped into four levels of detail:
 - **Build the visual language:** tokens; Figma; Storybook.
 - **Deliver and learn:** documentation; backlog; application; testing; verification.
 
-Place a return path beneath the milestones. Feedback enters through labeled sources—customer, QA, development, management, personal ideas, and AI output—and travels back to the affected milestone. Keep the product purpose visible above the whole path. Use labels and arrow direction so the meaning remains clear without color.
+Place a return path beneath the milestones. Feedback enters through labeled sources, customer, QA, development, management, personal ideas, and AI output, and travels back to the affected milestone. Keep the product purpose visible above the whole path. Use labels and arrow direction so the meaning remains clear without color.
 
 A single circular arrow from step 13 to step 1 would hide the smaller loops. The visual should show that feedback can arrive during any stage and that a change can return to step 4 or step 7 without restarting the whole project.
 
@@ -249,6 +254,7 @@ Add captions and useful alternative text with each image. Future iframe previews
 
 For substantive revisions, leave a short editorial note explaining what changed and why. Keep examples of intended behavior distinct from evidence of behavior verified in an actual build.
 
-Editorial revision · September 11, 2026: aligned the workflow summary with the twelve milestones and added the proposed Figma, Storybook, and Drupal visual testing layer.
-
-Editorial revision · September 16, 2026: added Testing as milestone 12, moved final verification to milestone 13, and recorded manual overlays, automated comparison, and Windows VM pipeline integration as TODOs. Publishing this revision to the editor-owned Drupal page and its translation remains pending.
+Editorial revision · September 22, 2026: retained the thirteen milestones and
+updated Testing to distinguish implemented local comparisons from remaining
+Windows and CI work. Review the editor-owned Drupal page and its translation
+before publishing; this repository revision does not update their content.

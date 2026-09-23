@@ -19,7 +19,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: "Organisms/Home Introduction",
+  title: "Organisms/Section/Home Introduction",
   tags: ["autodocs"],
   render: render_story,
   argTypes: {

@@ -22,11 +22,11 @@ function jurenites_footer_entity_bundle_field_info_alter(array &$field_definitio
 }
 
 /**
- * Supplies existing SVG icon names to the native field select widget.
+ * Supplies existing SVG icons and the Pulse Indicator to the native selector.
  */
 function jurenites_footer_icon_options(): array {
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
-  $icon_options = [];
+  $icon_options = ['pulse-indicator' => t('Pulse Indicator')];
   foreach (glob(DRUPAL_ROOT . '/' . $theme_path . '/assets/icons/*.svg') ?: [] as $icon_path) {
     $icon_name = basename($icon_path, '.svg');
     // Active companions are selected automatically with their base artwork.
@@ -52,7 +52,7 @@ function jurenites_footer_form_menu_link_content_form_alter(array &$form_element
   if (in_array($menu_entity->getMenuName(), ['footer', 'footer-legal'], TRUE)) {
     $form_elements['footer_help'] = [
       '#type' => 'item', '#weight' => -20,
-      '#markup' => t('Column headings belong at the top level. Use Section heading beneath a column for a second section, and Description for its visible introduction. Nest links using Parent link, or drag them on the Footer menu page. Privacy links belong in the separate Footer legal menu. Leading icon selects a bundled SVG; adding new artwork currently requires adding it to the site icon library. Translate headings and hover text using the Translate tab. Leave optional presentation fields empty for an ordinary link.'),
+      '#markup' => t('Column headings belong at the top level. Use Section heading beneath a column for a second section, and Description for its visible introduction. Nest links using Parent link, or drag them on the Footer menu page. Privacy links belong in the separate Footer legal menu. Leading icon selects a bundled SVG or the animated Pulse Indicator for links and section headings; adding new artwork requires adding it to the site icon library. Translate headings and hover text using the Translate tab. Leave optional presentation fields empty for an ordinary link.'),
     ];
   }
 }

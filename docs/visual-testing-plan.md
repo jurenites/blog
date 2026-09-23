@@ -1,10 +1,13 @@
-# Visual Testing Layer Plan
+# Visual Testing: Local Tools and Remaining Work
 
 Status: the local dashboard now accepts a website URL/path, component selectors,
 Storybook URL/args, viewport, and optional Figma PNG for each component. It shows
 three visual panes, manual overlays/wipes, and automated image differences.
 Figma references can be missing; implementation comparisons remain available.
-Automatic Figma exports, Windows VM tests, and CI ingestion remain TODOs.
+The language-picker suite also has pinned Figma exports and three recorded
+interaction states at two viewports. Automatic Figma exports, Windows VM tests,
+and CI ingestion remain future work. Current results belong to saved reports,
+not to historical findings in this document.
 This layer defines milestone 12, **Testing**, of the
 [Cookbook](cookbook-product-design-process.md), supplies evidence for milestone
 13, final verification, and supports checks throughout the
@@ -90,10 +93,9 @@ from code. Unmapped components remain not checked until configured and captured.
 
 For **Organisms / Font Preview / 4pixel**, the current English DEV mapping is
 `/portfolio/my-first-font` with `.font-preview--4pixel` on both surfaces.
-`/portfolio/4pixel` is its Russian alias, not the English route. The first real
-1280px capture revealed different available widths (800px website / 592px
-Storybook) and a visible website cookie notice. These are findings to review,
-not automatically fixed by the comparison tool.
+`/portfolio/4pixel` is its translated alias, not the English route. Verify the
+current route, available width, content, and overlay state before comparing;
+these belong to the case inputs and are not automatically corrected by the tool.
 
 ### Optional Figma Reference and Code-First Work
 
@@ -343,15 +345,10 @@ previews, Figma pixel differences, overlay, and mobile dashboard overflow. It
 requires all captures to complete but deliberately does not require design parity
 to pass: a functioning dashboard must display failing comparisons correctly.
 
-The initial September 18 run found matching 80 × 40 closed controls and 80 × 130
-expanded regions. Default and suffix-hover captures match exactly between
-Storybook and Drupal. Expanded captures differ across 320 pixels in rows 38–41:
-the dropdown shadow and 2px gap pick up different surrounding page backgrounds.
-Keep that contextual difference visible rather than masking it or changing page
-styles in the test. All three states differ from the pinned Figma references;
-visible differences include text colour, the suffix's 1px upward offset, its
-inset hover surface, and expanded suffix/selected-option backgrounds. These are
-recorded findings, not fixes or approved changes to the Figma baseline.
+Inspect the latest report for actual geometry and pixel differences. A passing
+render or matching capture size does not establish a passing Figma comparison.
+Do not mask contextual shadows or adjust source styles inside a test to obtain
+a pass.
 
 ### Serving the dashboard
 
@@ -375,13 +372,9 @@ The server accepts this exact local hostname and the existing loopback URLs.
 Capture POSTs must match the request's origin and include the current review
 token. Captures still fetch the bundled Storybook through internal loopback.
 An alternate `COMPONENT_STATUS_PORT` also requires changing the Nginx upstream.
-The route was activated locally on September 18: the Mac's `/etc/hosts` maps
-`test.jurenites.local` to `127.0.0.1`, and Nginx configuration validation and
-reload succeeded. Chromium resolved the hostname and loaded the dashboard,
-six recorded language-picker states, and comparison images. `/api/status`
-returned 200; a token-authorized same-origin POST reached input validation.
-This activation check did not launch another capture. Both Docker's local proxy
-and the host's `npm run status:serve` process must remain running.
+Both Docker's local proxy and the host's `npm run status:serve` process must
+remain running. Recheck host resolution and `/api/status` after restarting them;
+checked-in proxy configuration does not establish current service availability.
 
 `test.jurenites.com` is proposed, not deployed. A full interactive installation
 needs DNS, HTTPS, a reverse proxy, a supervised Node process, writable private
@@ -421,8 +414,8 @@ the status label and indicator on the right. Filtering retains the matching
 components' ancestor folders; documentation-only pages are not testable rows.
 The desktop catalogue sits alongside the selected comparison, with a visible
 filtered/total count and **Show all** to clear both filters and expand folders.
-The testing inventory contains 66 components after excluding the six Foundations
-entries. This is the eligible Storybook inventory,
+The component count is derived from the current built Storybook index. This is
+the eligible Storybook inventory,
 not automatic discovery of every Figma frame or Drupal region. All three source
 panes remain present even when a design reference or website mapping is missing.
 A linked Figma frame without its PNG is identified separately from a missing link.
@@ -488,11 +481,11 @@ view mode, so the component capture continues to use its list-item rendering on
 
 The supplied Figma reference is
 [Article Blog List Item, node 1186:1660](https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1186-1660).
-Its export was blocked by the connector's Starter-plan call quota. The dashboard
-provides the reference link and an optional live Figma embed, but the Figma check
-remains blocked without an exported, content-matched baseline. Figma pixel
-comparison is not implemented by the first runner. A live embed is not proof of
-parity. Drupal sends `X-Frame-Options: SAMEORIGIN`, so the separate-origin local
+The default CLI case has an empty `figma_baselines` map in
+`config/component-status.json`. Its Figma check remains blocked until a matching
+baseline is supplied. The generic dashboard capture path accepts a PNG and
+compares all three pairs; the language-picker suite uses pinned exports. A live
+embed alone is not proof of parity. Drupal sends `X-Frame-Options: SAMEORIGIN`, so the separate-origin local
 dashboard provides Drupal captures and a direct link instead of weakening that
 policy to embed it.
 
@@ -500,7 +493,7 @@ The local server binds only to `127.0.0.1`; it is an independent development too
 not a public Drupal route or a deployment. Generated dashboard files live in
 `generated/status-dashboard/`, with local reports, fixtures, and screenshots in
 `.cache/component-status/`; both are ignored by Git. The grid also has a shared
-Storybook example at `Organisms/Component Status`, whose states are labeled as
+Storybook example at `Organisms/Testing Component status dashboard`, whose states are labeled as
 demonstration data and do not become real reports.
 
 Each component currently requires Storybook rendering, Drupal rendering,
@@ -512,8 +505,8 @@ source. The browser captures use the same environment and real input values;
 this does not yet provide pinned content revisions or full accessibility testing.
 
 `status:test` exits 0 only for complete passes, 1 for a failed check, and 2 for
-blocked checks. A nonzero result is expected while the first mismatch and Figma
-baseline gap remain. The report is saved for the dashboard in each case.
+blocked checks. The default CLI case remains incomplete while its Figma baseline is missing;
+other failures and blocked states depend on the current capture. The report is saved for the dashboard in each case.
 
 ## CI/CD and Troubleshooting Reports
 
@@ -557,9 +550,10 @@ local capture; it does not write website content or change CI settings.
 
 ## Remaining Work
 
-- [ ] Export and match the specified Figma reference to actual content and states.
+- [ ] Add a content-matched Figma baseline to the default Article Blog List Item case.
 - [ ] Pin Drupal content revisions and media identities for repeatable baselines.
-- [ ] Resolve the component differences revealed by the first captures.
+- [ ] Review and resolve differences shown by current captures without silently
+  replacing approved references.
 - [x] Add captured-image overlays, wipe, layer toggle, and difference controls.
 - [ ] Add permitted live-frame stacking and saved manual review decisions.
 - [x] Compare all three pairs when a Figma PNG is supplied.
@@ -568,8 +562,9 @@ local capture; it does not write website content or change CI settings.
 - [ ] Run the mapped cases in native Windows browsers on a virtual machine.
 - [ ] Connect CI producers, artifact retention, and review before delivery gating.
 - [ ] Add focused functional and accessibility coverage alongside visual checks.
-- [ ] Publish the new Testing milestone to the editor-owned Cookbook page and
-  its translation in a reviewed content revision; the docs update does not do so.
+- [ ] Compare the repository Cookbook draft with the editor-owned page and its
+  translation before publishing a reviewed revision. Documentation edits do not
+  establish their current database content or publish it.
 
 ## TODO: Windows Virtual Machine and Pipeline Integration
 

@@ -5,8 +5,9 @@
  */
 #}
 {% set article_id = node.id %}
+{% import '@jurenites_theme/components/card-loading.html.twig' as card_loading %}
 
-<div{{ attributes.addClass('article-teaser') }}>
+<div{{ attributes.addClass('article-teaser') }} {{ card_loading.loading_attributes('article-teaser') }}>
   {% if content.game_of_life or content.field_image %}
     <div
       class="article-teaser__media{{ content.game_of_life ? ' article-teaser__media--game-of-life' }}"

@@ -1,4 +1,21 @@
+import close_icon_source from '../../../public/assets/icons/cross-big.svg?raw';
+import { type_term_explanation } from './expandable-term-typing.js';
+
 let expansion_sequence = 0;
+
+function create_term_close_icon(owner_document) {
+  const close_icon = owner_document.createElement('icon');
+  close_icon.className = 'icon expandable-term__close-icon';
+  close_icon.setAttribute('name', 'cross-big');
+  close_icon.dataset.iconName = 'cross-big';
+  close_icon.setAttribute('aria-hidden', 'true');
+  close_icon.innerHTML = close_icon_source;
+  const close_geometry = close_icon.querySelector('svg');
+  close_geometry.removeAttribute('width');
+  close_geometry.removeAttribute('height');
+  close_geometry.classList.add('icon__svg');
+  return close_icon;
+}
 
 export function initialize_expandable_terms(page_context = document) {
   const term_elements = [...page_context.querySelectorAll('.expandable-term')];
@@ -12,6 +29,10 @@ export function initialize_expandable_terms(page_context = document) {
     const reduced_motion = owner_document.defaultView.matchMedia('(prefers-reduced-motion: reduce)');
     const expand_button = owner_document.createElement('button');
     const collapse_button = owner_document.createElement('button');
+    const term_content = owner_document.createElement('span');
+    term_content.className = 'expandable-term__content';
+    term_content.append(...term_explanation.childNodes);
+    term_explanation.append(term_content);
     const original_label = term_label.textContent;
     const collapse_label = typeof Drupal !== 'undefined' ? Drupal.t('Collapse explanation: @term', { '@term': original_label }) : `Collapse explanation: ${original_label}`;
     expand_button.type = collapse_button.type = 'button';
@@ -21,7 +42,7 @@ export function initialize_expandable_terms(page_context = document) {
     const expand_label = typeof Drupal !== 'undefined' ? Drupal.t('Expand') : 'Expand';
     const close_label = typeof Drupal !== 'undefined' ? Drupal.t('Collapse') : 'Collapse';
     collapse_button.className = 'expandable-term__collapse';
-    collapse_button.textContent = '↶';
+    collapse_button.append(create_term_close_icon(owner_document));
     collapse_button.setAttribute('aria-label', collapse_label);
     term_explanation.id = `term-explanation-${++expansion_sequence}`;
     term_explanation.tabIndex = -1;
@@ -30,12 +51,15 @@ export function initialize_expandable_terms(page_context = document) {
     collapse_button.setAttribute('aria-expanded', 'true');
     term_label.hidden = true;
     term_label.after(expand_button);
-    term_element.append(collapse_button);
+    term_explanation.append(collapse_button);
     let transition_sequence = 0;
     let expanded_state = false;
+    let finish_typing = () => {};
     const set_expanded = (is_expanded, animate_change = true) => {
       const current_transition = ++transition_sequence;
+      finish_typing();
       expanded_state = is_expanded;
+      term_element.classList.toggle('is-expanded', is_expanded);
       expand_button.setAttribute('aria-expanded', String(is_expanded));
       expand_button.dataset.tooltipLabel = is_expanded ? close_label : expand_label;
       const tooltip_element = expand_button.jurenites_tooltip_element;
@@ -52,8 +76,11 @@ export function initialize_expandable_terms(page_context = document) {
         return;
       }
       term_explanation.hidden = false;
-      term_explanation.classList.add(is_expanded ? 'is-expanding' : 'is-collapsing');
-      // Animate only presentation; the inline text retains its natural layout.
+      if (is_expanded) {
+        finish_typing = type_term_explanation(term_content, reduced_motion);
+        return;
+      }
+      term_explanation.classList.add('is-collapsing');
       const transition_animations = term_explanation.getAnimations();
       Promise.all(transition_animations.map((term_animation) => term_animation.finished.catch(() => {})))
         .then(() => {

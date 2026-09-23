@@ -3,9 +3,11 @@ import { initialize_expandable_terms } from './expandable-term.js';
 import { initialize_checkboxes } from './checkbox.js';
 import { initialize_file_inputs } from './file-input.js';
 import { initialize_role_sliders } from './role-slider.js';
+import { initialize_technology_stacks, detach_technology_stacks } from './technology-stack.js';
 import { initialize_company_sliders, detach_company_sliders } from './company-slider.js';
 import { initialize_screen_sliders, detach_screen_sliders } from './screen-slider.js';
 import { initialize_heading_typing, detach_heading_typing } from './heading-typing.js';
+import { initialize_last_word_not_wrap, detach_last_word_not_wrap } from './last-word-not-wrap.js';
 import { CLOSE_ICON_SVG, CHEVRON_ICON_SVG } from '../../../../generated/icons/control-icons.js';
 import { install_icon_sprite } from './icon-sprite.js';
 import { enable_site_header_brand } from './site-header-brand.js';
@@ -917,9 +919,15 @@ if (typeof Drupal !== 'undefined') {
     },
   };
   Drupal.behaviors.jurenites_heading_typing = {
-    attach(page_context) { initialize_heading_typing(page_context); },
+    attach(page_context) {
+      initialize_last_word_not_wrap(page_context);
+      initialize_heading_typing(page_context);
+    },
     detach(page_context, drupal_settings, detach_trigger) {
-      if (detach_trigger === 'unload') detach_heading_typing(page_context);
+      if (detach_trigger === 'unload') {
+        detach_heading_typing(page_context);
+        detach_last_word_not_wrap(page_context);
+      }
     },
   };
   Drupal.behaviors.jurenites_browser_color = {
@@ -957,7 +965,7 @@ if (typeof Drupal !== 'undefined') {
     },
   };
   install_message_toasts(Drupal);
-  void install_icon_sprite().then(() => install_asset_warming());
+  install_asset_warming(window, document, () => install_icon_sprite());
   Drupal.behaviors.jurenites_timeline_organization = {
     attach(timeline_context) {
       initialize_timeline_organization_rails(timeline_context);
@@ -1067,6 +1075,13 @@ if (typeof Drupal !== 'undefined') {
   Drupal.behaviors.jurenites_tooltips = {
     attach(tooltip_context) {
       initialize_tooltips(tooltip_context);
+    },
+  };
+
+  Drupal.behaviors.jurenites_technology_stacks = {
+    attach(stack_context) { initialize_technology_stacks(stack_context); },
+    detach(stack_context, stack_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_technology_stacks(stack_context);
     },
   };
 

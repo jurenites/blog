@@ -34,9 +34,10 @@ $database_transaction = \Drupal::database()->startTransaction();
 $recruiter_heading = $menu_items['recruiter_heading'];
 $recruiter_heading->set('title', 'For recruiters')->set('link', ['uri' => 'route:<nolink>'])
   ->set('parent', $menu_items['contact_heading']->getPluginId())->set('weight', 10)
-  ->set('field_footer_role', 'section')->set('description', 'Actively looking for a job');
+  ->set('field_footer_role', 'section');
 $russian_heading = $recruiter_heading->hasTranslation('ru') ? $recruiter_heading->getTranslation('ru') : $recruiter_heading->addTranslation('ru');
-$russian_heading->set('title', 'Для рекрутеров')->set('description', 'Активно ищу работу');
+$russian_heading->set('title', 'Для рекрутеров');
+// Descriptions belong to editors; preserve existing values and translations.
 $recruiter_heading->save();
 foreach (['linkedin_link', 'hh_link'] as $link_weight => $item_key) {
   $menu_items[$item_key]->set('parent', $recruiter_heading->getPluginId())->set('weight', $link_weight)

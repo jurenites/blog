@@ -1,7 +1,15 @@
 @use "../tools";
 
+// The About text frame is 800px; this inventory uses the existing 960px frame.
+#block-jurenites-theme-technology-stack {
+  width: min(var(--layout-content-max-wide-default), calc(100vw - var(--layout-gutter-tablet-default) * 2));
+  margin-inline: calc((100% - min(var(--layout-content-max-wide-default), 100vw - var(--layout-gutter-tablet-default) * 2)) / 2);
+}
+
 .technology-stack {
-  //margin-block: calc(var(--space-scale-base-gap) * 1);
+  width: 100%;
+  max-width: var(--layout-content-max-wide-default);
+  margin-inline: auto;
   color: var(--theme-dark-text-primary-default);
 }
 
@@ -10,118 +18,216 @@
   @include tools.typography-headline-3;
 }
 
-.technology-stack__category {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 4fr);
-  gap: calc(var(--space-scale-base-gap) * 3);
-  padding-block: calc(var(--space-scale-base-gap) * 4);
-  border-block-start: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
-}
-
-.technology-stack__category-heading {
-  margin: 0;
-  @include tools.typography-headline-5;
-}
-
-.technology-stack__groups {
-  display: grid;
-  gap: calc(var(--space-scale-base-gap) * 4);
-  min-width: 0;
-}
-
-.technology-stack__group-heading {
-  margin-block: 0 calc(var(--space-scale-base-gap) * 2);
-  color: var(--theme-dark-text-gray);
-  @include tools.typography-eyebrow;
-}
-
 .technology-stack__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--space-scale-base-gap) * 16)), 1fr));
-  gap: var(--space-scale-base-gap);
   @include tools.unstyled-list;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
-.technology-stack__link {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--space-scale-base-gap);
+.technology-stack__item {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 1;
+  background: var(--theme-dark-surface-background-elevation-level-0);
+}
+
+.technology-stack__tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
   height: 100%;
-  min-height: calc(var(--space-scale-base-gap) * 4);
-  padding: calc(var(--space-scale-base-gap) * 1);
   color: var(--theme-dark-text-primary-default);
   text-decoration: none;
-  //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
-  transition: background-color var(--motion-duration-short-default), border-color var(--motion-duration-short-default);
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    transition: background-color var(--motion-duration-medium-default);
+  }
+
+  &:focus-visible::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    @include tools.focus-ring;
+    outline-offset: calc(var(--space-scale-two) * -1);
+  }
+}
+
+// This one surface moves between cells using Web Animations; sizing stays in CSS.
+.technology-stack__highlight {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: var(--color-palette-white);
+  pointer-events: none;
 }
 
 .technology-stack__artwork {
+  position: relative;
+  z-index: 2;
   display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
   place-items: center;
-  flex: 0 0 calc(var(--space-scale-base-gap) * 2);
-  width: calc(var(--space-scale-base-gap) * 2);
-  height: calc(var(--space-scale-base-gap) * 2);
-  transition: background-color var(--motion-duration-short-default);
+  width: 48%;
+  height: 48%;
+  max-width: calc(var(--space-scale-base-gap) * 10);
+  max-height: calc(var(--space-scale-base-gap) * 10);
 }
 
 .technology-stack__logo {
   grid-area: 1 / 1;
   display: block;
-  width: calc(var(--space-scale-base-gap) * 2);
-  height: calc(var(--space-scale-base-gap) * 2);
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
   object-fit: contain;
 }
 
-.technology-stack__logo--white {
-  filter: brightness(0) invert(1);
-}
-
-.technology-stack__logo--color {
-  visibility: hidden;
-}
+.technology-stack__logo--white { filter: brightness(0) invert(1); }
+.technology-stack__logo--color { visibility: hidden; }
 
 .technology-stack__text-mark {
-  @include tools.typography-badge;
-
-  color: var(--color-palette-full-white);
+  @include tools.typography-headline-3;
+  color: var(--color-palette-white);
   font-family: var(--typography-font-family-number);
 }
 
-.technology-stack__name {
+// Reuse the Tooltip surface, with an outside-the-tile link and a hover bridge.
+.tooltip.technology-stack__tooltip {
+  position: absolute;
+  inset-block-start: calc(100% + var(--space-scale-base-gap));
+  inset-inline-start: 50%;
+  display: grid;
+  gap: var(--space-scale-base-gap);
+  width: max-content;
+  max-width: min(calc(var(--space-scale-base-gap) * 32), calc(100vw - var(--space-scale-base-gap) * 4));
+  padding: calc(var(--space-scale-base-gap) * 2);
+  background: var(--component-tooltip-color-background-full-black-default);
+  color: var(--component-tooltip-color-foreground-default);
   text-align: start;
-  @include tools.typography-body-2;
+  transform: translateX(-50%);
+  transition: visibility 0s var(--motion-duration-short-default);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 100%;
+    height: var(--space-scale-base-gap);
+  }
 }
 
-.technology-stack__link:is(:hover, :focus-visible) {
-  background-color: var(--theme-dark-surface-background-elevation-level-1);
-  color: var(--theme-dark-text-primary-default);
-  border-color: var(--theme-dark-action-primary-default);
+.technology-stack__tile[data-panel-position="top"] .technology-stack__tooltip {
+  inset-block-start: auto;
+  inset-block-end: calc(100% + var(--space-scale-base-gap));
 
-  .technology-stack__name { text-decoration: underline; }
+  &::before {
+    inset-block-start: 100%;
+    inset-block-end: auto;
+  }
+}
+
+.technology-stack__tile[data-panel-align="start"] .technology-stack__tooltip {
+  inset-inline-start: 0;
+  transform: none;
+}
+
+.technology-stack__tile[data-panel-align="end"] .technology-stack__tooltip {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+  transform: none;
+}
+
+.technology-stack__category-name {
+  @include tools.typography-caption;
+  color: var(--color-palette-light-gray);
+}
+
+.technology-stack__link {
+  display: block;
+  color: var(--color-palette-brand-primary);
+  text-decoration: none;
+
+  &:is(:hover, :focus-visible) {
+    background: var(--theme-dark-surface-background-elevation-level-1);
+  }
+
+  &:focus-visible { @include tools.focus-ring; }
+}
+
+.technology-stack__name {
+  @include tools.typography-link;
+  display: flex;
+  align-items: center;
+  gap: var(--space-scale-zero);
+  color: var(--color-palette-brand-primary);
+  text-decoration: underline;
+  text-underline-offset: var(--space-scale-two);
+}
+
+.technology-stack__external-mark {
+  flex: 0 0 calc(var(--space-scale-base-gap) * 3);
+  width: calc(var(--space-scale-base-gap) * 3);
+  height: calc(var(--space-scale-base-gap) * 3);
+}
+
+.technology-stack:not([data-technology-ready]) .technology-stack__tile:is(:hover, :focus-within),
+.technology-stack__tile.is-active {
+  &::before { background: var(--color-palette-white); }
   .technology-stack__logo--white { visibility: hidden; }
   .technology-stack__logo--color { visibility: visible; }
-  .technology-stack__text-mark { color: var(--theme-dark-action-primary-default); }
+  .technology-stack__text-mark { color: var(--theme-dark-text-inverse-default); }
+
+  &:not([data-panel-dismissed]) .technology-stack__tooltip {
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: var(--motion-duration-extra-long);
+  }
+
+  &:focus-within .technology-stack__tooltip,
+  &[data-touch-open] .technology-stack__tooltip { transition-delay: 0s; }
 }
 
-.technology-stack__link--monochrome:is(:hover, :focus-visible) .technology-stack__artwork {
-  background: var(--color-palette-full-white);
+.technology-stack[data-technology-ready] .technology-stack__tile::before {
+  background: transparent;
 }
 
-.technology-stack__link:focus-visible {
-  @include tools.focus-ring;
+// Keep the whole panel interactive while the pointer is inside, including padding.
+.technology-stack__tile:not([data-panel-dismissed]) > .technology-stack__tooltip:hover {
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.technology-stack__tile[data-panel-dismissed] > .technology-stack__tooltip {
+  visibility: hidden;
+  pointer-events: none;
+  transition-delay: 0s;
+}
+
+.technology-stack:not([data-technology-ready]) .technology-stack__tooltip {
+  inset-inline-start: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  transform: none;
 }
 
 @include tools.breakpoint-down("mobile-max") {
-  .technology-stack__category {
-    grid-template-columns: minmax(0, 1fr);
+  .technology-stack__grid {
+    // Up to three columns, with a 16-grid-unit minimum before wrapping.
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, max(calc(var(--space-scale-base-gap) * 16), calc(100% / 3))), 1fr));
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .technology-stack__link,
-  .technology-stack__artwork,
-  .technology-stack__logo {
-    transition: none;
-  }
+  .technology-stack__tile::before { transition: none; }
 }

@@ -1,6 +1,18 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright';
+
+const saved_descriptions = JSON.parse(execFileSync('docker', ['exec', 'blog_jurenites_web', 'vendor/bin/drush', 'php:eval', `
+  $menu_items = \\Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['uuid' => '690d71e1-8037-404a-b8cf-854e558eed3f']);
+  $menu_item = reset($menu_items);
+  if (!$menu_item) { throw new \\RuntimeException('Missing recruiter menu section.'); }
+  $saved_descriptions = [];
+  foreach (['en', 'ru'] as $language_code) {
+    $saved_descriptions[$language_code] = $menu_item->getTranslation($language_code)->getDescription();
+  }
+  echo json_encode($saved_descriptions);
+`], { encoding: 'utf8' }));
 
 const browser_instance = await chromium.launch({ headless: true });
 try {
@@ -13,13 +25,16 @@ try {
       const notice_dismiss = page_instance.locator('[data-jurenites-cookie-policy-dismiss]');
       if (await notice_dismiss.isVisible()) await notice_dismiss.click();
       const footer_root = page_instance.locator('.footer-navigation');
-      const recruiter_section = footer_root.locator('.footer-navigation__section');
+      const recruiter_section = footer_root.locator('.footer-navigation__section').filter({ has: page_instance.getByRole('heading', { name: language_path === '/' ? 'For recruiters' : 'Для рекрутеров', exact: true }) });
       assert.equal(await recruiter_section.count(), 1);
-      assert.equal(await recruiter_section.locator('h3').textContent(), language_path === '/' ? 'For recruiters' : 'Для рекрутеров');
-      assert.equal(await recruiter_section.locator('.footer-navigation__section-description').textContent(), language_path === '/' ? 'Actively looking for a job' : 'Активно ищу работу');
+      assert.equal(await recruiter_section.locator(':scope > h3').textContent(), language_path === '/' ? 'For recruiters' : 'Для рекрутеров');
+      const saved_description = saved_descriptions[language_path === '/' ? 'en' : 'ru'];
+      const description_element = recruiter_section.locator(':scope > .footer-navigation__section-description');
+      assert.equal(await description_element.count(), saved_description ? 1 : 0);
+      if (saved_description) assert.equal(await description_element.textContent(), saved_description);
       assert.deepEqual(await recruiter_section.locator('a').evaluateAll((link_nodes) => link_nodes.map((link_node) => (link_node.querySelector('.footer-navigation__social-label-text--default') || link_node.querySelector('.footer-navigation__link-label')).textContent.trim())), ['LinkedIn', 'hh.ru', language_path === '/' ? 'My CV' : 'Моё резюме']);
       assert.equal(await recruiter_section.locator('a[href*="docs.google.com/document/d/1Aec-"]').count(), 1);
-      const contact_column = footer_root.locator('.footer-navigation__columns > nav').filter({ has: page_instance.locator('.footer-navigation__section') });
+      const contact_column = footer_root.locator('.footer-navigation__columns > nav').filter({ has: recruiter_section });
       assert.equal(await contact_column.locator('a[href="mailto:jurenites@gmail.com"]').count(), 1);
       const gmail_bounds = await contact_column.locator('a[href="mailto:jurenites@gmail.com"]').boundingBox();
       const section_bounds = await recruiter_section.boundingBox();

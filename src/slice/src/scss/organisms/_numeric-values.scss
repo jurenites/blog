@@ -154,7 +154,7 @@
 .numeric-values__caption-link {
   display: inline-flex;
   align-items: center;
-  gap: calc(var(--space-scale-base-gap) / 2);
+  //gap: calc(var(--space-scale-base-gap) / 2);
   @include tools.typography-link;
 
   &:is(:hover, :focus-visible) .numeric-values__caption-external-mark {
@@ -167,6 +167,6 @@
   flex-shrink: 0;
 }
 
-body.jurenites-theme .numeric-values__caption-link:not(:hover, :focus-visible) {
+body.jurenites-theme .numeric-values__caption-link:not([rel~="external"]):not(:hover, :focus-visible) {
   color: var(--theme-dark-text-gray);
 }

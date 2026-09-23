@@ -1,237 +1,121 @@
 # Repository Structure
 
-The root `README.md` is the only project-owned README. Detailed folder contracts
-live in `/docs` so source directories contain implementation files rather than
-separate documentation islands.
+The root `README.md` is the project entry point. Detailed documentation belongs
+in `/docs`; working conventions belong in `AGENTS.md`.
 
-## Token Source
+## Editable source and generated output
 
-`src/token/tokens.yaml` is the editable source of truth for design tokens.
+| Source | Responsibility | Output or consumer |
+| --- | --- | --- |
+| `src/token/tokens.yaml` | Editable design-token inventory | Generated SCSS, JS records, and color mapping table |
+| `src/slice/src/scss/` | Shared component styles and Drupal entrypoints | Storybook, public theme CSS, CKEditor CSS |
+| `src/slice/src/js/` | Shared frontend behavior | Storybook imports and built theme JavaScript |
+| `src/stories/` | Story files, templates, shared markup helpers | Storybook navigation and previews |
+| `src/public/` | Fonts, images, SVGs, and public source assets | Storybook static assets and built Drupal assets |
+| `src/brand/technology-stack/` | Fixed logo artwork and brand constants | Generated Technology Stack SVGs |
+| `web/themes/custom/jurenites_theme/` | Handwritten Twig and Drupal theme integration | Public rendering and deployable generated assets |
+| `web/modules/custom/` | Drupal fields, renderers, routes, editors, and migrations | Installed Drupal functionality |
+| `recipes/` | Explicit Drupal setup recipes | Environment configuration and initial content |
+| `translations/` | Reviewed English/Russian catalogues | Guarded Drupal imports and generated review exports |
+| `scripts/figma/` | Token-sync plugin source and build | Explicit Figma variable/style updates |
+| `scripts/component-status/`, `src/status-dashboard/` | Local capture service and review UI | Component-status dashboard and reports |
+| `tests/` | Focused unit, Drupal, and browser checks | Evidence for the behavior exercised |
+| `scripts/blender/`, `output/` | Artwork tooling and working assets | Local editable scenes and exports |
 
-Generated token artifacts live at:
+Project-owned code lives beside generated deployable files in the theme; do not
+assume every file under the theme directory can be regenerated. The theme uses
+`base theme: false` and does not inherit Stable 9.
 
-- `generated/styles/_tokens.scss` for CSS and SCSS consumers.
-- `generated/token/tokens.js` for Storybook and other JavaScript consumers.
-
-Rebuild both artifacts after changing the YAML source:
+## Token and theme builds
 
 ```bash
+npm ci
 npm run build:tokens
-```
-
-Do not edit the generated token artifacts by hand.
-
-## Theme Source
-
-`src/slice/` contains editable frontend source shared by the Drupal theme and
-Storybook.
-
-- SCSS source: `src/slice/src/scss/`
-- JavaScript source: `src/slice/src/js/`
-- Drupal theme output: `web/themes/custom/jurenites_theme/css/style.min.css` and
-  `web/themes/custom/jurenites_theme/js/script.min.js`
-
-Build the Drupal theme with:
-
-```bash
 npm run build:theme
+npm run build-storybook
 ```
 
-Keep editable styles and scripts under `src/slice/`. The Drupal theme contains
-Twig templates and generated minified assets.
+The token builder writes:
 
-`jurenites_theme` is self-contained (`base theme: false`) and does not inherit
-from Drupal's deprecated Stable 9 theme. Its handwritten Twig templates and
-generated shared assets define the public rendering contract directly.
+- `generated/styles/_tokens.scss`: CSS variables, SCSS helpers, and utilities.
+- `generated/token/tokens.js`: token records for JavaScript and Figma consumers.
+- `generated/token/color-mappings.json`: a readable generated mapping table.
 
-## Drupal Recipes
+`build:tokens` also checks the token contract, builds Technology Stack artwork,
+and generates the QR Studio palette. `build:qr-studio` additionally rebuilds the
+4pixel glyph data. Do not hand-edit generated artifacts or add a second editable
+token mirror.
 
-Project-owned Drupal setup recipes live under `recipes/`. Apply the media setup
-to an installed site with:
+The theme builder produces public `css/style.min.css`, CKEditor CSS, and
+`js/script.min.js`; it also prepares icon markup/sprites and copies fonts,
+images, icons, and other required assets into the theme. Commit deployable
+outputs with their source changes. Run Drupal cache rebuild after deploying
+changed assets or templates. See [CI/CD](ci-cd.md).
+
+Theme templates use `templates/layout`, `content`, `field`, `form`, `navigation`,
+`misc`, `block`, `paragraph`, `views`, and `components`. The `components` directory contains shared Twig
+partials; it is not a complete Drupal SDC library. Module-owned templates remain
+under their owning module.
+
+## Storybook and local testing
+
+Story files live in dedicated component folders under `src/stories/`. Their
+`title` defines the visible navigation, which can differ from the source folder's
+Atomic Design group. Named story exports describe useful scenarios. Composed
+stories import shared `*.markup.js` helpers instead of duplicating atom HTML.
+
+`npm run storybook` serves the development application. `npm run build-storybook`
+writes the deployable `storybook-static/` application. `.storybook/` contains
+configuration and must not be used as a hosting document root.
+
+`npm run status:build` builds Storybook, stamps its source identity, and generates
+`generated/status-dashboard/`. `npm run status:serve` starts the local Node
+service. Saved mappings, uploaded references, reports, and captures live in
+`.cache/component-status/`. These are ignored local artifacts, not Drupal
+content. See [Visual testing](visual-testing-plan.md).
+
+## Drupal setup and editorial ownership
+
+Apply only the recipes needed for the target site, from its matching source
+checkout. For example, on local DEV:
 
 ```bash
 docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_media
+docker compose exec web vendor/bin/drush cr
 ```
 
-This enables Media Library and configures reusable Image media for JPEG and
-other web-image uploads, plus Remote video media for YouTube and Vimeo URLs.
+Recipes and install hooks establish fields, configuration, and initial content.
+Update hooks migrate already-installed environments through `drush updatedb`.
+Seed-once content remains editor-owned after creation; do not reapply old recipes
+to undo later content-model migrations. In particular, follow the documented
+Article/Video split sequence before using the separate Video type.
 
-Apply progressive responsive image delivery with:
+Feature setup and ownership live in [Content model](drupal-content-model.md),
+[About](about-page.md), [Hero](hero-section.md), [Contact](contact-form.md),
+[footer](footer-menu.md), and [localization](localization.md). Composer's presence
+on disk does not establish module enablement or environment configuration.
 
-```bash
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_progressive_images
-```
+## Media infrastructure
 
-This recipe enables the maintained Image Blurry Placeholder module and Drupal's
-responsive image styles. The project-owned
-`web/modules/custom/jurenites_progressive_images` module pre-generates a cached
-20px derivative when Drupal first saves an image, then uses that inline data to
-calculate the image's average color in the browser. A restrained gradient
-skeleton and 1px loading-state line remain visible until the final image
-crossfades in. This also covers locally cached YouTube/Vimeo thumbnail files in
-the Media Library.
+The local stack's upload ceilings are defined in source:
 
-Portfolio cards use dedicated 440px, 880px, and 1320px WebP candidates. This
-covers 1x, 2x, and 3x density for a card up to 440 logical points wide without
-sending the largest file to every screen. Other responsive image contexts keep
-their existing 325px, 650px, 1300px, and 2600px candidate sets.
-
-The loading line reports discrete states, not downloaded bytes. Native
-responsive image requests intentionally remain under browser control, where
-JavaScript does not receive reliable byte-level progress events.
-
-The blurry derivative is painted in a separate decorative layer. The native
-`img` remains unfiltered, so browser-provided alt text and broken-image feedback
-are never blurred. Local PHP allows 512 MB for GD because large source photos
-are decompressed into memory while Drupal creates responsive derivatives.
-
-Apply the accessible two-image comparison feature with:
-
-```bash
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_image_comparison
-```
-
-This recipe enables Image Compare Accessible Slider and its Media integration,
-then creates an Image comparison content type with a two-item Image media field.
-
-Apply Paragraphs and the lightweight automatic two-image crossfade with:
-
-```bash
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_paragraphs_crossfade
-```
-
-The recipe adds Content sections to Articles and Basic pages. The project-owned
-`web/modules/custom/jurenites_crossfade` module supplies the exact-two-image
-validation, formatter, two-second holds, half-second opacity transitions,
-infinite loop, image-load guard, and reduced-motion fallback without a carousel
-dependency. Hold and transition durations are formatter settings under Manage
-display. Two 4px pagination dots expose the active image and allow direct
-selection; automatic rotation pauses while the pointer is over the image area.
-
-The Composer project also installs stable Layout Paragraphs 2.x. DEV enables it
-with core Layout Discovery so the existing Paragraph reference field can later
-adopt its visual drag-and-drop widget and formatter. Installation alone does not
-change the Content sections form or public rendering: those continue using the
-classic Paragraphs configuration until the project adds an explicit layout
-section component and switches the field displays.
-
-Add the reusable homepage Numeric values block and its repeatable tile model with:
-
-```bash
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_numeric_values
-```
-
-The `Numeric values` Content Block stores one to eight nested Numeric Value
-Paragraph items. Each item has a required Number, Text, and an optional attached
-SVG Icon image whose intrinsic dimensions, viewport, and aspect ratio are
-preserved up to an 80px maximum width. The installed two-item block is reusable
-and is placed only on the homepage before the article and news blocks.
-
-Apply the structured Basic page heading controls with:
-
-```bash
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_two_tone_heading
-```
-
-The `jurenites_two_tone_heading` module provides one compound field type and
-widget. Basic page editors keep using the native Title for the first strong
-segment, then edit Title 2, Title 3, and their placement controls in one field.
-The active theme renders that data through the shared Two-tone Heading component
-as the page's semantic `h1`.
-
-Apply the project administration setup to install Gin, force its dark
-appearance, and add Jurenites browser and toolbar branding:
-
-```bash
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_admin
-```
-
-The recipe enables the project-owned `web/modules/custom/jurenites_admin`
-module. Its Gin-only library replaces the Drupal toolbar droplet with
-`web/themes/custom/jurenites_theme/favicon.svg`. Gin's browser tab uses the
-fixed inverted `favicon-admin.svg` mark so admin tabs stay visually distinct
-from the adaptive public-site favicon. The same module keeps Article comments
-open, grants public read access, and reserves comment posting and own-comment
-editing for the Content editor role. Other content comment fields remain
-closed.
-
-Apply the public privacy-policy route with:
-
-```bash
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_privacy
-```
-
-The `jurenites_privacy` module creates an editable, published Basic Page at
-`/privacy-policy`, adds its link to Drupal’s secondary Footer menu, creates the
-Cookie Policy Notice as a reusable Basic Content Block, and places both blocks
-in the theme’s Footer region. Editors own the notice title through the block
-placement label and its paragraphs through the Content Block body. The notice
-does not set cookies or create a browser identifier. Its
-“Whatever” and the accessible 40px square ghost close button (shared `cross-big`
-SVG icon) both store the versioned boolean
-`jurenites-cookie-notice-dismissed-v2` preference in `localStorage` and hide
-the notice; when storage is unavailable, dismissal lasts only for the current
-page view. The block starts hidden and is revealed only after that preference is
-checked, preventing a dismissed notice from flashing during page load. It spans
-the full viewport width, flush with the bottom and both side edges,
-while remaining a non-modal footer block. The desktop content group is centered:
-up to 800px of text, a 24px gap, and a 120px “Whatever” button. The close button
-stays at the right edge, vertically aligned with “Whatever”. On mobile, the copy
-sits above both aligned buttons. The notice and policy page remain separate Drupal content responsibilities.
-
-Apply the editable project Cookbook with:
-
-```bash
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_cookbook
-```
-
-The `jurenites_cookbook` module creates the published `/cookbook` Basic Page and
-places its Drupal Footer menu link directly after Privacy Policy and before the
-dynamic Fonts link. The install copy is a starting point only: after creation,
-the Body and its image or GIF placements belong to Drupal editors.
-
-Apply the public design guidelines with:
-
-```bash
-docker compose exec web vendor/bin/drush recipe /opt/drupal/recipes/jurenites_guidelines
-```
-
-The `jurenites_guidelines` module installs the `guideline` node type, its
-ordered `/guidelines` View, matching tile and detail view modes, and the initial
-Logo Icon and Color nodes. The Logo specimen reuses the theme SVG. The Color
-specimen reads `generated/token/tokens.js`, which is rebuilt from
-`src/token/tokens.yaml`; it does not store a second palette in Drupal content.
-Both visual contracts also have matching Storybook examples. Editors own each
-node's required summary and detailed Body after its stable UUID is created.
-
-## Media Upload Infrastructure
-
-Image media has an explicit 200 MB Drupal field limit. Supporting request limits
-are source controlled across the local stack:
-
-- `docker/php-upload.ini`: 200 MB file and 210 MB POST limits.
+- `docker/php-upload.ini`: 200 MB file and 210 MB POST limits, with 512 MB memory.
 - `docker/apache-upload.conf`: 210 MiB request-body limit.
-- `docker/local-proxy.conf`: 210 MiB Nginx body limit and 300-second timeouts.
-- `recipes/jurenites_media/recipe.yml`: 200 MB Image media field validation.
+- `docker/local-proxy.conf`: 210 MiB body limit and 300-second timeouts.
+- `recipes/jurenites_media/recipe.yml`: 200 MB Image media validation.
 
-The request limits intentionally exceed the file limit to allow multipart form
-overhead. Any future File, Document, Audio, or local Video media field needs its
-own Drupal field limit even though the server-level limits already allow it.
+Drupal fields impose their own limits below the server ceiling. Inline GIFs and
+images use 5 MB; inline MP4/WebM media use 20 MB. See the content-model document.
+Production PHP and web-server limits must be verified separately.
 
-## Generated Artifacts
+## Dependencies and local artifacts
 
-Files under `generated/` are derived from editable source and must not be edited
-by hand. The token build currently produces:
+`composer.lock` and `package-lock.json` pin installed dependencies. Upstream
+README files inside Composer packages or scaffolded Drupal files are dependency
+documentation, not additional project documentation to maintain.
 
-- `generated/styles/_tokens.scss`, consumed by the Drupal theme and Storybook.
-- `generated/token/tokens.js`, consumed by Storybook controls and token-driven
-  JavaScript.
-
-The source for both files is `src/token/tokens.yaml`. Regenerate them with
-`npm run build:tokens`.
-
-## Dependency Documentation
-
-Composer dependencies under `vendor/` and Drupal scaffold files under `web/`
-may contain upstream README files. They are ignored, third-party files rather
-than project documentation, and dependency installation may recreate them.
+Artwork under `output/` mixes retained source with ignored render products.
+Check its local ignore rules before removing anything; Git history cleanup does
+not back up untracked files. Database backups, uploads, credentials, and active
+Drupal configuration remain environment-owned. See the
+[command runbook](command-cheat-sheet.md).

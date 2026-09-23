@@ -13,7 +13,7 @@ Storybook and appropriate source, build, and runtime checks verify the result.
 ## Product Process
 
 The [Cookbook article draft](cookbook-product-design-process.md) describes the
-agreed process. Its [public page](http://jurenites.local/node/22) is editor-owned;
+agreed process. Its [public page](http://jurenites.local/cookbook) is editor-owned;
 repository documentation changes do not publish a new Drupal content revision.
 Start with product purpose, the people affected, and the intended outcome, then
 use these thirteen milestones at the level of detail the task needs:
@@ -41,7 +41,7 @@ A prototype may start in code; review its assumptions and reconcile the design,
 content model, tokens, and docs before treating them as agreed behavior.
 
 Testing runs throughout this process, with a dedicated Testing milestone after
-Drupal assembly and before final verification. The proposed visual testing layer
+Drupal assembly and before final verification. The local visual testing layer
 connects Figma frames, Storybook components, and the Drupal theme rendered with real
 data. The first local component-status dashboard and Storybook/Drupal capture
 case are implemented. The dashboard now accepts per-component URLs/selectors,
@@ -83,6 +83,8 @@ The builder infers token types and normalizes the source into internal DTCG reco
   utility classes
 - `generated/token/tokens.js` for Storybook JS, Drupal token JSON output, and
   Figma sync input
+- `generated/token/color-mappings.json` for inspection of palette, theme, and
+  component references; it is generated, not a second editable token source
 
 Run `npm run build:tokens` after editing `src/token/tokens.yaml`. `npm run build:theme` runs tokens first automatically.
 Token generation immediately runs `npm run tokens:check`, so copied HEX values,
@@ -103,41 +105,22 @@ Token groups:
 
 See `docs/design-system.md` for the full guideline.
 
-Token naming rules (see `system.naming` in `src/token/tokens.yaml`):
-
-- Use dot notation in the YAML source; generated CSS/SCSS names flatten those
-  paths with dashes.
-- Each namespace segment must contain at least two word parts (for example `base-unit`, `marker-size`). Never use a single character or a lone word as a segment (invalid: `a`, `x`, `orange`).
-- Each token name must describe scope, component or role, property, and state when applicable.
-
-Example:
-
-```json
-{
-  "component-timeline-marker-size-active": "40px"
-}
-```
-
-Avoid generic names like `orange`, `small`, `primary`, or `card` until the semantic role is clear.
+Token names use dot notation in YAML and flatten to dash-separated names in
+CSS/SCSS. Reuse the existing inventory and namespace structure; only add tokens
+when the user requests them. The two-word naming rule applies to new project
+variables, props, args, and helpers, not to renaming existing token namespaces.
+See [Naming conventions](naming-conventions.md).
 
 ### Storybook
 
 Storybook is the place to prove component behavior before Drupal integration. It compiles `src/slice/src/scss/main.scss` directly, so component CSS has a single source of truth shared with the Drupal theme.
 
-Stories are organised by Atomic Design: `Foundations`, `Atoms`, `Molecules`, `Organisms`, `Components`. Each component has exactly one story; property combinations are explored via the Controls tab.
-
-Current Foundations: Colors, Color Abstraction, Color Contrast, Typography,
-Fonts, and Spacing. Their JS reads `generated/token/tokens.js`; their styles read
-`generated/styles/_tokens.scss`.
-
-Current Atoms: Avatar, Badge, Button, Chip, Divider, Icon, Date Time Value,
-Surface, Tooltip, Version Watermark.
-
-Current Molecules: Article Teaser, Article Blog List Item, Author Byline, Contact
-Me Widget, Pagination, Project Card, Pull Quote.
-
-Current Organisms: Top Nav Menu Site Header, Font Preview, and Pixel Glyph
-Editor.
+Stories are organized under `Foundations`, `Atoms`, `Molecules`, `Organisms`,
+and `Components`, with nested groups such as Blog, Video, and Section. Each
+component owns a story file and shared markup helpers in its source folder;
+named exports provide useful scenarios and Controls expose editable properties.
+The current navigation comes from each story's `title` and the built
+`storybook-static/index.json`, rather than a separately maintained list.
 
 Pagination shares one BEM class contract between its Storybook markup helper and
 Drupal's `templates/navigation/pager.html.twig` override. At the token-defined
@@ -156,10 +139,10 @@ Font Preview Paragraph; it is not part of the global theme bundle. The 4×4
 Pixel Glyph Editor remains a deterministic in-memory interaction with no saved
 browser or server state.
 
-Timeline examples live in `src/stories/timeline/`. The implemented Drupal
+Timeline examples live in `src/stories/organisms/timeline/`. The implemented Drupal
 chronology and its content model are documented in `docs/drupal-content-model.md`.
 
-The Storybook interface and every preview screen display release identity in the
+Each Storybook preview displays release identity in the
 bottom-right corner: the shared project version, deployed Git commit hash,
 collaboration credit, and release time in GMT.
 
@@ -237,7 +220,8 @@ project aliases, the local font downloads, and 4pixel's editor after applying
 it in each environment. Optional Windows imagery is later editorial media, not
 a recipe or interactive-component dependency.
 
-LLM-specific continuity notes live in `docs/llm-project-memory.md`. Keep that file updated when the site structure or implementation decisions change.
+Keep continuity in the relevant feature document and working conventions in
+`AGENTS.md`; do not maintain a duplicate project-memory summary.
 
 ### Local Development
 
@@ -250,11 +234,11 @@ docker compose up -d
 Then verify the site with an actual HTTP check, not just running containers.
 The Compose stack uses `jurenites.local` for Drupal and
 `storybook.jurenites.local` for Storybook, routed through one local port-80
-proxy. These names deliberately mirror the future `jurenites.com` domain shape.
+proxy. These names mirror the public `jurenites.com` domain structure.
 
 ### Visual Testing
 
-The planned visual testing workflow lives in `docs/visual-testing-plan.md`.
+The local visual testing workflow and remaining integration work live in `docs/visual-testing-plan.md`.
 The local dashboard lists actual Storybook components and runs the first
 Storybook/Drupal rendering and screenshot case for Article Blog List Item.
 Optional uploaded Figma PNGs and generic website/Storybook comparisons are
@@ -266,7 +250,7 @@ compare pixels with Figma or Drupal. `playwright` is now a declared development
 dependency. The existing setup instructions are:
 
 ```bash
-npm install --save-dev playwright
+npm ci
 npm run playwright:install
 npm run storybook:inspect
 ```
@@ -294,5 +278,5 @@ assets, and release identity must agree before delivery.
 Use [CI/CD](ci-cd.md) for the actual pipelines and
 [Command Cheat Sheet](command-cheat-sheet.md) for environment-specific commands.
 A local result does not establish that another environment was deployed or
-verified. The proposed visual testing layer will begin locally; add CI gating
+verified. The visual testing layer runs locally; add CI gating
 only after repeatable scenarios and reviewed baselines exist.

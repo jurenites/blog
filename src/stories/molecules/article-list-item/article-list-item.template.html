@@ -1,4 +1,4 @@
-<article class="article-list-item">
+<article class="article-list-item" data-card-loading="article-list">
   <div class="article-list-item__media">
     <a class="article-list-item__image-link" href="{{article_url}}">
       <img src="{{thumbnail_url}}" alt="{{thumbnail_alt}}">
@@ -6,9 +6,9 @@
   </div>
   <div class="article-list-item__body">
     <div class="article-list-item__heading">
-      <h5 class="article-list-item__title">
-        <a class="article-list-item__title-link" href="{{article_url}}">{{teaser_title}}</a>
-      </h5>
+      <h2 class="article-list-item__title">
+        <a class="article-list-item__title-link" href="{{article_url}}"><span>{{teaser_title}}</span><span class="article-list-item__title-end">&NoBreak;{{title_arrow_content}}</span></a>
+      </h2>
       {{title_tags_content}}
     </div>
     <div class="article-list-item__content">{{teaser_excerpt}}</div>

@@ -29,6 +29,7 @@
     "require": {
         "cloudfour/image-compare": "^1.0.5",
         "composer/installers": "^2.3",
+        "cweagans/composer-patches": "^2.0",
         "drupal/antibot": "^2.0",
         "drupal/captcha": "^2.0",
         "drupal/core-composer-scaffold": "^11.3",
@@ -40,6 +41,7 @@
         "drupal/image_blurry_placeholder": "^1.2",
         "drupal/image_compare": "^1.0",
         "drupal/layout_paragraphs": "^2.1",
+        "drupal/ms_clarity": "^2.0",
         "drupal/paragraphs": "^1.22",
         "drupal/pathauto": "^1.15",
         "drupal/publication_date": "^3.1",
@@ -66,7 +68,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "php-http/discovery": true,
             "php-tuf/composer-integration": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "cweagans/composer-patches": true
         },
         "sort-packages": true
     },
@@ -128,6 +131,11 @@
                 "  * Remove the plugin that prints this message:",
                 "      composer remove drupal/core-project-message"
             ]
+        },
+        "patches": {
+            "drupal/ms_clarity": {
+                "Fix Drupal 11 settings form and tracking configuration cache metadata": "patches/ms-clarity-drupal-11-settings-cache.patch"
+            }
         }
     },
     "require-dev": {

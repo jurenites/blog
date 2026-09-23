@@ -53,7 +53,7 @@ Run `npm run test:qr-studio` for encoding, solver, mapping, live input, rotation
 docker exec blog_jurenites_web php web/modules/custom/jurenites_qr_studio/tests/drupal-route.php
 ```
 
-The smoke test verifies the anonymous route, required input/canvas, processed Drupal attachments, ES-module entry point, isolated styles, and all directly requested assets. Local module enablement and these checks were completed for this integration. Production enablement/deployment and real-phone scanning are separate checks.
+The smoke test verifies the anonymous route, required input/canvas, processed Drupal attachments, ES-module entry point, isolated styles, and all directly requested assets. Run it against the target DEV build. Production enablement/deployment and real-phone scanning are separate checks.
 
 ## Editing the Twig document in Cursor
 
@@ -64,4 +64,4 @@ Save `web/modules/custom/jurenites_qr_studio/templates/qr-studio-document.html.t
 
 These tasks only rewrite this document. Attributes, Twig expressions, inline spaces, and raw pre/textarea/script/style bodies are preserved. If Twig control-flow blocks are introduced, use the Twig formatter instead of this HTML layout toggle. The equivalent terminal commands are `node scripts/format-qr-studio-twig.mjs expand` and `node scripts/format-qr-studio-twig.mjs compact`.
 
-The workspace uses the already-installed **Twig Language 2** extension for ordinary **Format Document / Format Selection**. It preserves existing line breaks; Twig format-on-save is disabled so saving does not choose a layout for you.
+The workspace settings target the **Twig Language 2** extension for ordinary **Format Document / Format Selection**. It preserves existing line breaks; Twig format-on-save is disabled so saving does not choose a layout for you.

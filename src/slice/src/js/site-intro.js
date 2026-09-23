@@ -1,4 +1,8 @@
 // Runs in the head, before the first paint and independently of Drupal behaviors.
+import { install_card_loading } from './card-loading.js';
+
+install_card_loading();
+
 const INTRO_STORAGE_KEY = 'jurenites.site-intro';
 const INTRO_REPEAT_INTERVAL = 24 * 60 * 60 * 1000;
 const INTRO_READY_LIMIT = 4000;

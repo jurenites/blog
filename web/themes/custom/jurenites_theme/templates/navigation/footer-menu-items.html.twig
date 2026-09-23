@@ -3,7 +3,10 @@
     {% for footer_item in footer_items %}
       <li class="footer-navigation__item{% if footer_item.footer_role == 'section' %} footer-navigation__section{% endif %}">
         {% if footer_item.footer_role == 'section' %}
-          <h3 class="footer-navigation__heading">{{ footer_item.title }}</h3>
+          <h3 class="footer-navigation__heading{% if footer_item.footer_icon %} footer-navigation__heading--with-prefix{% endif %}">
+            {% include '@jurenites_theme/navigation/footer-prefix.html.twig' with { footer_icon: footer_item.footer_icon } only %}
+            <span>{{ footer_item.title }}</span>
+          </h3>
           {% if footer_item.footer_description %}
             <p class="footer-navigation__section-description">{{ footer_item.footer_description }}</p>
           {% endif %}
@@ -17,7 +20,7 @@
         {% endif %}
         <a href="{{ footer_item.url }}"{{ footer_item.attributes.addClass(link_classes) }}{% if footer_item.footer_icon %} data-footer-icon="{{ footer_item.footer_icon }}"{% endif %}{% if footer_item.footer_new_window %} target="_blank" rel="noopener noreferrer"{% endif %}{% if footer_item.footer_hover_text or footer_item.footer_new_window or footer_item.footer_is_email %} aria-label="{{ footer_item.title }}{% if footer_item.footer_hover_text %}: {{ footer_item.footer_hover_text }}{% endif %}{% if footer_item.font_project_badge %}, {{ footer_item.font_project_badge['#badge_label'] }}{% endif %}{% if footer_item.footer_new_window %} ({{ 'opens in a new window'|t }}){% elseif footer_item.footer_is_email %} ({{ 'opens your email app'|t }}){% endif %}"{% endif %}>
           {% if footer_item.footer_icon %}
-            {% include '@jurenites_theme/components/icon.html.twig' with { icon_name: footer_item.footer_icon, icon_class: 'footer-navigation__social-network-icon', is_link_prefix: true } only %}
+            {% include '@jurenites_theme/navigation/footer-prefix.html.twig' with { footer_icon: footer_item.footer_icon } only %}
           {% endif %}
           {% if footer_item.footer_hover_text %}
             <span class="footer-navigation__social-label footer-navigation__link-label" aria-hidden="true">

@@ -17,7 +17,7 @@
     font: var(--typography-badge);
     text-decoration: none;
 
-    &:hover {
+    &:is(:hover, :focus-visible) {
       background: var(--theme-dark-surface-background-elevation-level-2);
       border-color: var(--theme-dark-border-outline-default);
       color: var(--color-palette-brand-tertiary);

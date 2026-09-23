@@ -8,8 +8,8 @@ html {
 }
 
 ::selection {
-  color: var(--color-palette-full-white);
-  background-color: color-mix(in srgb, var(--color-palette-brand-tertiary) 25%, transparent);
+  color: var(--color-palette-full-black);
+  background-color: color-mix(in srgb, var(--color-palette-brand-tertiary) 100%, transparent);
 }
 
 body.jurenites-theme {
@@ -30,20 +30,39 @@ body.jurenites-theme {
   // Badged footer links own their decoration: underline the label only, never
   // the anchor. An ancestor underline cannot be cancelled by the nested Badge.
   // Keep this exclusion in :where() so it adds no priority to other links.
+  // Badge and Chip atoms also own their decoration and colors.
   /* stylelint-disable-next-line selector-class-pattern -- Preserve the user-requested article_table-of-content public class. */
-  a:not(.button):not(.site-header__link):not(.site-header__brand):where(:not(.footer-navigation__link--with-badge, .technology-stack__link, .company-slider__company-link, .article_table-of-content__link)) {
-    // The selected Portfolio chip owns its text color.
-    &:where(:not(.portfolio-filter__chip[aria-current="true"])) {
+  a:not(.button):not(.site-header__link):not(.site-header__brand):where(:not(.badge, .chip, .footer-navigation__link--with-badge, .technology-stack__link, .company-slider__company-link, .article_table-of-content__link)) {
+    // Selected Portfolio chips and external links own their text colors.
+    &:where(:not(.portfolio-filter__chip[aria-current="true"], [rel~="external"])) {
       color: var(--theme-dark-text-primary-default);
     }
     text-decoration: underline;
     text-decoration-thickness: var(--space-scale-one);
     @include tools.motion-transition(color);
 
-    // Footer brand links supply their own hover colors. Keep this exclusion
+    // Footer brand links and external links supply their own hover colors. Keep this exclusion
     // at zero specificity so component selectors do not need stronger overrides.
-    &:where(:not(.footer-navigation__social-link, .footer-navigation__resource-link)):hover {
+    &:where(:not(.footer-navigation__social-link, .footer-navigation__resource-link, [rel~="external"])):hover {
       color: var(--color-palette-brand-tertiary);
+    }
+  }
+
+  // The rel attribute is a token list, including external noopener noreferrer.
+  a[rel~="external"]:where(:not(.technology-stack__link, .company-slider__company-link)) {
+    color: var(--color-palette-brand-primary);
+    @include tools.motion-transition(color);
+
+    &:is(:hover, :focus-visible) {
+      color: color-mix(in srgb, var(--color-palette-brand-primary) 70%, var(--color-palette-full-black));
+    }
+  }
+
+  .news-list-item__title-link[rel~="external"] {
+    color: var(--color-palette-full-white);
+
+    &:is(:hover, :focus-visible) {
+      color: var(--color-palette-brand-primary);
     }
   }
 

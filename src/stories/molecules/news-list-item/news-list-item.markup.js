@@ -26,6 +26,7 @@ export function news_list_item_markup({
     source_identity_content: author_identity_markup({
       author_name: source_name,
       author_url: source_author_url,
+      author_link_target_blank: true,
       avatar_image_url: source_avatar_url,
       avatar_initials: source_avatar_initials,
       avatar_size: "small",

@@ -2,6 +2,7 @@ import article_list_item_template from "./article-list-item.template.html?raw";
 import article_list_item_tags_template from "./article-list-item-tags.template.html?raw";
 import article_list_item_tag_template from "./article-list-item-tag.template.html?raw";
 import { chip_markup } from "../../atoms/chip/chip.markup.js";
+import { icon_markup } from "../../atoms/icon/icon.markup.js";
 import { author_byline_markup } from "../author-byline/author-byline.markup.js";
 import { escape_html, render_template } from "../../template.js";
 
@@ -32,6 +33,7 @@ export function article_list_item_markup({
       })).join(""),
     }) : "",
     teaser_title: escape_html(teaser_title),
+    title_arrow_content: icon_markup({ icon_name: "arrow-right", class_name: "article-list-item__internal-mark" }),
     teaser_excerpt: escape_html(teaser_excerpt),
     article_url: escape_html(article_url),
     thumbnail_url: escape_html(thumbnail_url),

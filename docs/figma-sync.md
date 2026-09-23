@@ -1,7 +1,7 @@
 # Figma Sync
 
 `src/token/tokens.yaml` is the editable source of truth. Figma sync is explicit:
-edit tokens, regenerate artifacts, then run the generated Figma module when the
+edit tokens, regenerate artifacts, then run the bundled Figma plugin when the
 file should be updated.
 
 ## Current Direction
@@ -30,7 +30,10 @@ effect styles. It does not create or change components or canvas pages.
 
 Manual Figma-to-token pulling is paused while the project is still being shaped.
 When it returns, the pull should write back to `src/token/tokens.yaml` directly
-and then rebuild generated artifacts. It should not recreate JSON token mirrors.
+and then rebuild generated artifacts. It should not recreate editable JSON token mirrors. The existing generated
+`color-mappings.json` is an inspection artifact. The dispatchable legacy
+`.github/workflows/figma-sync.yml` still calls an unsupported `sync.sh pull`
+command and must not be treated as a working import pipeline.
 
 ## Relationship to the Product Workflow
 
@@ -43,5 +46,6 @@ parity by itself.
 The proposed [visual testing layer](visual-testing-plan.md) maps exact Figma
 frames to Storybook stories and Drupal regions with matching real content and
 states. Iframes support review; exported, versioned frames supply screenshot
-references. The first dashboard maps Article Blog List Item and compares
-Storybook with Drupal; its Figma export and pixel baseline are still blocked.
+references. The dashboard accepts manually exported Figma PNGs and compares all three
+pairs. The language-picker suite has pinned Figma exports; the default Article
+Blog List Item case still has no Figma baseline. Automatic exports remain pending.

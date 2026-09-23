@@ -14,11 +14,14 @@
     <ul class="company-slider__track horizontal-scrollbar" data-company-track tabindex="0" aria-label="{{ 'Companies. Use left and right arrow keys to scroll.'|t }}">
       {% for company_data in company_items %}
         <li class="company-slider__item">
-          <a id="{{ company_data.company_link_id }}" class="company-slider__company-link" href="{{ company_data.website_url }}" aria-label="{{ company_data.company_name }}">
+          <a id="{{ company_data.company_link_id }}" class="company-slider__company-link" href="{{ company_data.website_url }}" rel="external" aria-label="{{ company_data.company_name }}">
             <span class="company-slider__artwork">
               <img class="company-slider__logo company-slider__logo--{{ company_data.company_key }}" src="{{ asset_directory }}{{ company_data.logo_file }}{{ company_data.logo_version ? "?v=" ~ company_data.logo_version : "" }}" alt="" loading="lazy" decoding="async">
             </span>
-            <span class="company-slider__name">{{ company_data.company_name }}</span>
+            <span class="company-slider__name"><span>{{ company_data.company_name }}</span>{% include '@jurenites_theme/components/icon.html.twig' with {
+              icon_name: 'external-link',
+              icon_class: 'company-slider__external-mark',
+            } only %}</span>
           </a>
           <p class="company-slider__relationship">{{ company_data.relationship_text }}</p>
           <a class="company-slider__projects" href="{{ company_data.projects_url }}" aria-label="{{ 'See the projects: @company'|t({'@company': company_data.company_name}) }}">{{ 'See the projects'|t }}</a>

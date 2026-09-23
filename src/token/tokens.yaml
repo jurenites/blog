@@ -327,8 +327,8 @@ component:
         hour: numeric
         minute: 2-digit
   timeline:
-    marker-color-active: color.palette.full-white # Matching project segments glow on hover and focus.
-    marker-size-default: space.scale.base-gap # Exact square event marker and duration-bar width.
+    marker-color-active: color.palette.full-white # Keyboard focus outline for project markers and cards.
+    marker-size-default: space.scale.base-gap # Calendar lane width; markers have a wider hit area and hairline artwork.
     marker-size-active: 40px
     line-width-default: shape.border-width.hairline-default # Quiet continuous chronology rail.
     month-height-default: 32px # Every calendar year is twelve identical month tracks.
@@ -340,7 +340,7 @@ component:
   crossfade-dot:
     marker-size-default: 4px # Visible marker inside the larger interactive target.
   pulse-indicator:
-    container-size-default: 24px # Compact field around the dot; the animated radius may extend beyond it.
+    container-size-default: 16px # Matches footer prefix sizing; the animated radius may extend beyond it.
     marker-size-default: 8px # Shared resting diameter for the central dot and animated radius.
     radius-scale-expanded: 4 # Expands the radius to a diameter.
     animation-duration-default: 3000ms # Calm repeating pulse adapted from the visual reference.

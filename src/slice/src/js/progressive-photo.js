@@ -40,6 +40,8 @@ export function initialize_progressive_photos(page_context = document) {
     async function refine_photo() {
       if (request_active || !photo_visible || photo_disposed || !visible_image.isConnected) return;
       request_active = true;
+      visible_image.dataset.photoLoading = 'true';
+      visible_image.ownerDocument.dispatchEvent(new CustomEvent('jurenites:media-activity'));
       while (!photo_disposed && visible_image.isConnected && attempted_index < target_index()) {
         const request_index = Math.min(attempted_index + next_stride, target_index());
         const next_image = new Image();
@@ -78,6 +80,8 @@ export function initialize_progressive_photos(page_context = document) {
       if (!photo_disposed) {
         visible_image.dataset.photoState = loaded_index >= target_index() ? 'complete' : 'error';
       }
+      visible_image.dataset.photoLoading = 'false';
+      visible_image.ownerDocument.dispatchEvent(new CustomEvent('jurenites:media-activity'));
       request_active = false;
     }
 

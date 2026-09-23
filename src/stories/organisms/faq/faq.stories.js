@@ -32,7 +32,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: "Organisms/FAQ",
+  title: "Organisms/Section/FAQ",
   tags: ["autodocs"],
   render: render_story,
   argTypes: {

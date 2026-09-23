@@ -3,7 +3,7 @@
 .skills-profile {
   margin-block: calc(var(--space-scale-base-gap) * 6);
   overflow: hidden;
-  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
   background: var(--theme-dark-surface-background-elevation-level-0);
   color: var(--theme-dark-text-primary-default);
 }
@@ -68,7 +68,7 @@
   font-variant-numeric: tabular-nums;
   line-height: calc(var(--space-scale-base-gap) * 7);
   white-space: nowrap;
-  color: var(--theme-dark-action-primary-default);
+  color: var(--theme-dark-text-secondary-default);
 
   @supports (line-height: round(up, 1em, 1em)) {
     line-height: round(up, 1.15em, var(--space-scale-base-gap));

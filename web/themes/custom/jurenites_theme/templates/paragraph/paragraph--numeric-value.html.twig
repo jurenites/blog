@@ -16,12 +16,12 @@
       <p class="numeric-values__caption">
         {{ paragraph.field_numeric_caption.value }}
         {% if numeric_caption_link_url %}
-          <a class="numeric-values__caption-link" href="{{ numeric_caption_link_url }}"{% if numeric_caption_link_external %} target="_blank" rel="noopener noreferrer" aria-label="{{ numeric_caption_link_label }} ({{ 'opens in a new tab'|t }})"{% endif %}>
+          <a class="numeric-values__caption-link" href="{{ numeric_caption_link_url }}"{% if numeric_caption_link_external %} target="_blank" rel="external noopener noreferrer" aria-label="{{ numeric_caption_link_label }} ({{ 'opens in a new tab'|t }})"{% endif %}>
             <span>{{ numeric_caption_link_label }}</span>
             {% if numeric_caption_link_external %}
               {% include '@jurenites_theme/components/icon.html.twig' with {
                 icon_name: 'external-link',
-                icon_class: 'footer-navigation__external-mark numeric-values__caption-external-mark'
+                icon_class: 'numeric-values__caption-external-mark'
               } only %}
             {% endif %}
           </a>

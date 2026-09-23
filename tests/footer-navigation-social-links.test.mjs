@@ -6,6 +6,10 @@ const DRUPAL_FOOTER_TEMPLATE_SOURCE = readFileSync(
   "web/themes/custom/jurenites_theme/templates/navigation/footer-menu-items.html.twig",
   "utf8",
 );
+const DRUPAL_PREFIX_TEMPLATE_SOURCE = readFileSync(
+  "web/themes/custom/jurenites_theme/templates/navigation/footer-prefix.html.twig",
+  "utf8",
+);
 const FOOTER_ITEM_TEMPLATE_SOURCE = readFileSync(
   "src/stories/organisms/footer-navigation/footer-navigation-item.template.html",
   "utf8",
@@ -37,13 +41,13 @@ test("Drupal and Storybook expose the same accessible label-swap contract", () =
 
   assert.match(DRUPAL_FOOTER_TEMPLATE_SOURCE, /icon_name: 'external-link'/);
   assert.match(DRUPAL_FOOTER_TEMPLATE_SOURCE, /icon_class: 'footer-navigation__external-mark'/);
-  assert.match(DRUPAL_FOOTER_TEMPLATE_SOURCE, /icon_class: 'footer-navigation__social-network-icon'/);
+  assert.match(DRUPAL_PREFIX_TEMPLATE_SOURCE, /icon_class: 'footer-navigation__social-network-icon'/);
   assert.match(FOOTER_ITEM_TEMPLATE_SOURCE, /\{\{external_icon_markup\}\}/);
   assert.match(FOOTER_MARKUP_SOURCE, /icon_name: "external-link"/);
   assert.match(FOOTER_MARKUP_SOURCE, /class_name: "footer-navigation__external-mark"/);
   assert.match(FOOTER_MARKUP_SOURCE, /class_name: "footer-navigation__social-network-icon"/);
   assert.match(FOOTER_MARKUP_SOURCE, /is_link_prefix: true/);
-  assert.match(DRUPAL_FOOTER_TEMPLATE_SOURCE, /is_link_prefix: true/);
+  assert.match(DRUPAL_PREFIX_TEMPLATE_SOURCE, /is_link_prefix: true/);
   assert.doesNotMatch(FOOTER_STYLES_SOURCE, /footer-navigation__social-link[\s\S]*?\.icon\s*\{/);
   assert.match(FOOTER_STYLES_SOURCE, /&:hover,\s*&:focus-visible/);
   assert.match(FOOTER_STYLES_SOURCE, /footer-navigation__social-label-text--hover/);

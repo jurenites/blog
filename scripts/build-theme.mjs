@@ -1,4 +1,5 @@
 import { write_icon_sprite_assets, write_initial_icon_markup } from './build-icon-sprite.mjs';
+import { write_card_loading_markup } from './build-card-loading.mjs';
 import * as esbuild from 'esbuild';
 import { cp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
@@ -37,6 +38,7 @@ async function remove_generated_trailing_whitespace(output_path) {
 }
 
 await write_initial_icon_markup(ROOT_DIRECTORY);
+await write_card_loading_markup(ROOT_DIRECTORY);
 await write_icon_sprite_assets(resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/assets/icon-sprites'));
 
 await mkdir(dirname(BUILD_PATHS.css_output), { recursive: true });
@@ -67,6 +69,7 @@ await writeFile(BUILD_PATHS.ckeditor_css_output, ckeditor_css_result.css);
 await esbuild.build({
   entryPoints: [BUILD_PATHS.js_entry],
   outfile: BUILD_PATHS.js_output,
+  loader: { '.svg': 'text' },
   bundle: true,
   minify: true,
   sourcemap: false,

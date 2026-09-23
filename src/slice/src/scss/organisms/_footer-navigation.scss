@@ -33,6 +33,20 @@
   gap: var(--space-scale-base-gap);
 }
 
+.footer-navigation__heading--with-prefix {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-scale-base-gap);
+}
+
+.footer-navigation__pulse-prefix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  height: calc(var(--space-scale-base-gap) * 3);
+}
+
 .footer-navigation__link {
   display: inline-flex;
   align-items: center;

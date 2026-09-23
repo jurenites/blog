@@ -34,7 +34,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: "Organisms/Website Audit",
+  title: "Organisms/Section/Website Audit",
   tags: ["autodocs"],
   render: render_story,
   argTypes: {
