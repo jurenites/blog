@@ -58,6 +58,14 @@ body.jurenites-theme {
     }
   }
 
+  .news-list-item__title-link[rel~="external"] {
+    color: var(--color-palette-full-white);
+
+    &:is(:hover, :focus-visible) {
+      color: var(--color-palette-brand-primary);
+    }
+  }
+
   // Drupal's generated node-link list contains the redundant "Read more" action.
   // Keep the list in the DOM while hiding it everywhere on the public site; the
   // article title and image links use separate classes and remain interactive.

@@ -8,6 +8,7 @@ export function author_identity_markup({
   author_prefix_text = "",
   author_name,
   author_url = "",
+  author_link_target_blank = false,
   avatar_initials,
   avatar_image_url = "",
   avatar_size = "medium",
@@ -17,7 +18,7 @@ export function author_identity_markup({
   coauthor_avatar_image_url = "",
 }) {
   const author_name_markup = author_url
-    ? `<a href="${escape_html(author_url)}">${escape_html(author_name)}</a>`
+    ? `<a href="${escape_html(author_url)}"${author_link_target_blank ? ' target="_blank" rel="noopener"' : ""}>${escape_html(author_name)}</a>`
     : escape_html(author_name);
 
   const primary_avatar_content = avatar_markup({

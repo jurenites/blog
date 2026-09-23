@@ -8,7 +8,7 @@
 
 <article{{ attributes.addClass(news_classes) }} {{ card_loading.loading_attributes('news-list') }}>
   <div class="news-list-item__media">
-    <a class="news-list-item__image-link" href="{{ news_source_url }}" rel="external">
+    <a class="news-list-item__image-link" href="{{ news_source_url }}" target="_blank" rel="external noopener">
       {{ news_thumbnail_image }}
     </a>
   </div>
@@ -16,7 +16,7 @@
   <div class="news-list-item__body">
     {{ title_prefix }}
     <h2{{ title_attributes.addClass('news-list-item__title') }}>
-      <a class="news-list-item__title-link" href="{{ news_source_url }}" rel="external">
+    <a class="news-list-item__title-link" href="{{ news_source_url }}" target="_blank" rel="external noopener">
         <span class="news-list-item__title-text">{{ node.label }}</span>
         {% include '@jurenites_theme/components/icon.html.twig' with {
           icon_name: 'external-link',
@@ -34,6 +34,7 @@
         author_avatar_image: news_source_avatar,
         author_avatar_initials: news_source_initials,
         avatar_size: 'small',
+        author_link_target_blank: true,
       } only %}
     </div>
 

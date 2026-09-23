@@ -7,6 +7,11 @@
   grid-template-columns: var(--component-news-list-item-media-width-default) minmax(0, 1fr);
   gap: calc(var(--space-scale-base-gap) * 3);
   min-width: 0;
+  @include tools.motion-transition(background-color);
+
+  &:is(:hover, :focus-within) {
+    background-color: var(--theme-dark-surface-background-elevation-level-1);
+  }
 
   &__media {
     aspect-ratio: 16 / 9;
@@ -102,6 +107,10 @@
     flex-shrink: 0;
     color: inherit;
   }
+}
+
+.article-list.news-list {
+  max-width: calc(var(--layout-content-max-wide-default) / 2);
 }
 
 @media (prefers-reduced-motion: reduce) {
