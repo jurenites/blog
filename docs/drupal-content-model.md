@@ -4,6 +4,19 @@ Keep the first content model universal. Do not overfit each project into many cu
 
 Rule: create fields only when Drupal needs to sort, filter, reference, render, or query the value. If the value is mostly storytelling, keep it in `Body`.
 
+## Rich-text authoring
+
+Body, article summaries, comments, and other formatted text fields use Full HTML
+with CKEditor. The format chooser and format help are hidden while the editor's
+hidden format input is retained. Plain string textareas remain plain fields.
+Basic HTML and Restricted HTML are removed after their content references,
+including translations and historical revisions, migrate to Full HTML without
+changing authored prose. Restricted HTML paragraph breaks are stored as explicit
+HTML so they survive the change. Starter content also uses Full HTML. Content editors have
+Full HTML permission; public roles do not gain editorial permissions. Drupal's
+Plain text fallback and Webform's internal format remain available to their
+respective systems, outside the editorial format chooser.
+
 ## Editable page copy and contextual menus
 
 Public editorial paragraphs belong to Drupal content, including copy around
@@ -80,6 +93,43 @@ reset subsequent CMS edits or recreate deliberately deleted content on reruns.
 Starter copy belongs only in installation/migration code. Do not use theme
 fallback paragraphs that make a cleared CMS field reappear.
 
+The `jurenites_editorial_post_update_template_copy` update extends this model:
+
+| Copy | Editing location |
+| --- | --- |
+| Timeline eyebrow and project-count label | Timeline node edit/translation form |
+| Project image comparison heading | Project node edit/translation form |
+| Guideline specimen heading and description | Guideline node edit/translation form |
+| Pixel editor heading and instructions | Pixel Glyph Editor Paragraph in the parent Project |
+| Header display name and footer rights message | Named Page copy blocks under Content → Blocks |
+| QR Studio tagline, encoding tip, stencil help, structure help, expected legend, saved-match help and domain notice | Named QR Studio Page copy blocks under Content → Blocks |
+
+Standalone copy uses stable block UUIDs, content-language selection, access checks
+and entity/list cache tags. Header and footer use plain text extracted from Body;
+QR help renders Body through its selected text format. Keep header/footer Body
+to a single text line. The header derives animated initials and letters from the
+authored name. Deleting, unpublishing or clearing a block does not restore seed
+copy. Edit these standalone blocks through Content → Blocks; they are embedded
+directly in the templates rather than placed as separate layout blocks.
+
+The update adds six translatable, single-value fields and nine reusable blocks.
+It seeds existing records once, keeps Paragraph revision references intact and
+creates revisions for updated nodes. New Guideline records require their own
+specimen copy. The migration preserves existing interface translations where
+available; new phrases retain English until an editor supplies a translation.
+No content permissions change.
+
+Interface labels remain in Drupal's interface translation system. The template
+audit includes control titles, placeholders, alternate text and accessible
+labels. QR Studio's server-rendered labels now use translation filters and its
+document language follows Drupal; its client-side JavaScript messages still
+need a separate localization pass. Technical glyphs, numbers and generated
+asset paths are not editorial copy.
+
+Run `node --test tests/template-copy.test.mjs` to check production Twig templates
+for untranslated literal text, and the integration check below for editing,
+clearing, access and migration behavior.
+
 The local integration check is:
 
 ```bash
@@ -128,7 +178,7 @@ Purpose: stable authored pages such as About, Cookbook, and Privacy Policy.
 The `/contact` route belongs to Webform; see [Contact form](contact-form.md).
 
 The published `/cookbook` Basic Page is the editor-owned working manual for the
-project. Its `basic_html` Body explains the idea, token, Storybook, Drupal,
+project. Its `full_html` Body explains the idea, token, Storybook, Drupal,
 verification, and release loop and includes explicit image and GIF placeholders.
 The `jurenites_cookbook` module writes that starter Body only when the stable
 node is first created; later CKEditor revisions are not reset by setup code.
@@ -374,12 +424,18 @@ temporary Project is rolled back after form, save and render checks.
 The Portfolio listing ends with a separate **Website audit** Content Block,
 placed in the Content region after the gallery on `/portfolio`, including tag
 filters. `jurenites_website_audit` seeds the supplied report checklist and free
-new-client offer. Body and Offer are formatted, translatable content; Turnaround
-stores the number of business days (initially 3), and Order button owns its label
+new-client offer. Body and Offer are formatted, translatable content. Offer uses
+Full HTML and owns the turnaround paragraph and semantic `time` element
+(initially 3 business days); there is no separate Turnaround field. Order button owns its label
 and internal link (initially `/contact`). Edit **Portfolio website audit** under
 Content → Blocks or through its contextual pencil. The block supports revisions,
 translation, unpublishing and deletion; setup never restores removed content or
 resets edits. No new taxonomy terms are created.
+
+Update `jurenites_website_audit_update_11002()` moves the existing turnaround into
+Offer HTML in every translation and saved revision before deleting the old field
+storage. Subsequent edits and clears remain CMS-owned. Apply with `drush updatedb`
+and `drush cr`.
 
 Update `jurenites_website_audit_update_11001()` restores the missing placement
 of the existing audit block at Content weight 90, after the Portfolio timeline
@@ -449,8 +505,8 @@ stable UUID. Rerunning it preserves existing editorial content. Initial copy
 lives in `scripts/content/oksenate.json`; subsequent edits belong in Drupal.
 Rebuild the token-derived graphic with `node scripts/build-oksenate-graphic.mjs`
 after `npm run build:tokens`, then run `npm run build:theme` to copy the image
-assets into the theme. The matching Storybook example is
-`Molecules/Audit Comparison`. Content was prepared and checked locally; this
+assets into the theme. This graphic is project content and has no standalone
+Storybook example. Content was prepared and checked locally; this
 does not deploy the new page to PROD.
 
 SMEP's first personal-project article lives at `/portfolio/smep`, authored by
@@ -510,7 +566,7 @@ has its own canonical detail page.
 
 Guideline uses the native Title plus three deliberate values:
 
-- Guidance: a required `basic_html` Body with a required summary. The summary
+- Guidance: a required `full_html` Body with a required summary. The summary
   is the overview-tile description; the Body is editor-owned detail copy.
 - Guideline section: selects the project-owned Logo Icon or Color specimen.
 - Overview order: a whole number used by the Guidelines View so new topics can
@@ -604,11 +660,11 @@ video creation/validation still require provider connectivity. The DEV check
 and Video views with outbound HTTP and YouTube oEmbed calls disabled, and checks
 that other providers retain their renderer.
 
-### Small media inside rich text
+### Media inside rich text
 
-Basic HTML and Full HTML expose **Insert Media** next to the image-upload
-button. Choose **Animated GIF** (GIF, up to 5 MB) or **Video** (MP4/WebM, up to
-20 MB), add a file, complete its media details, and insert the selected item
+Full HTML and Full HTML expose **Insert Media** next to the image-upload
+button. Choose **Animated GIF** (GIF, up to 5 MB) or **Video** (MP4/WebM/MOV, up to
+500 MB), add a file, complete its media details, and insert the selected item
 at the cursor. Use H.264 MP4 for broad browser playback support. Uploads are
 reusable Media records; their presence does not change an Article into a Video.
 
@@ -622,7 +678,7 @@ normal dimensions come from CSS, with no width/height/style HTML attributes.
 
 The existing direct image-upload button now has a 5 MB limit for all inline
 images, including GIFs. Hero images and the existing Image Media type keep
-their separate upload settings. Content editors can use Basic HTML, open the
+their separate upload settings. Content editors can use Full HTML, open the
 media library, create these two media types and edit their own uploads.
 Anonymous visitors can view published embeds but cannot upload media.
 
@@ -631,8 +687,9 @@ For existing installations, apply
 then rebuild caches. No existing article body or uploaded file is rewritten.
 Verify limits, access, editor configuration and public rendering with
 `drush php:script tests/inline-media.php`. PHP and web-server request limits
-must accommodate the 20 MB video limit; local PHP allows 200 MB uploads and
-210 MB requests. Production limits must be checked during deployment.
+must accommodate the 500 MB video limit; local PHP allows 500 MB uploads and
+510 MB requests. Existing sites receive the updated Video field through
+`jurenites_inline_media_post_update_expand_video_uploads`. Production limits must be checked during deployment.
 
 Shared fields and Video-specific source metadata:
 
@@ -967,7 +1024,7 @@ Authors use the normal visual editor; Source Editing is not required.
 
 The saved format is nested spans with the classes `expandable-term`,
 `expandable-term__label`, and `expandable-term__explanation`. No scripts, inline
-styles, arbitrary attributes or buttons are permitted by the new Basic HTML
+styles, arbitrary attributes or buttons are permitted by the new Full HTML
 allowlist. Frontend enhancement creates real buttons at runtime. Clicking or
 pressing Enter/Space keeps the original yellow phrase in place and adds its
 explanation in square brackets. The shared tooltip reads “Expand” when closed and
@@ -996,3 +1053,65 @@ palette token through `--ck-color-widget-editable-focus-background`, scoped to
 
 The initial local implementation includes placeholder role stories only; the
 owner's longer About and Home copy remains under review.
+
+## Dynamic preview artwork
+
+Project and Article previews support an optional translatable **Dynamic thumbnail**
+SVG upload. It overrides the preview Image without replacing the full-page image.
+See [Dynamic thumbnails](dynamic-thumbnails.md) for the four-group SVG format,
+editorial workflow, cursor behavior, and validation.
+
+### ScatchApp project note and Home preview
+
+`/portfolio/scatchapp` is an editable Project with a Body introduction and
+summary, four Project story paragraphs, the existing `#UI/UX Design` tag,
+the supplied PNG hero, and the unmodified SVG Dynamic thumbnail. The copy
+describes Alexander's collaboration with the co-founder: translating ideas into
+Figma screens which the co-founder brought to the development team. It makes no
+claim about measured outcomes or implementation parity with the current app.
+
+The Home-only **ScatchApp interactive case preview** basic Content Block is
+placed at weight 3. Its Full HTML Body contains editable copy and generated
+markup from the existing Preview Mobile Screen Card helper. The modern phone
+plays the supplied list recording and then the filter recording, both muted,
+and links to the Project. The map screenshot supplies the static fallback.
+The shared runtime retains hover pause, keyboard feedback, offscreen pause and
+reduced-motion behavior. Detail-page recordings expose native playback controls and still frames extracted from the supplied videos.
+
+Seed once with `node scripts/build-scatchapp-preview.mjs`, `npm run build:theme`,
+then `drush php:script scripts/create-scatchapp-project.php` and `drush cr`.
+The generator writes `generated/content/scatchapp-preview.html`; the seeder
+preserves an existing Project and block, including editorial clears and placement.
+Source copy lives in `scripts/content/scatchapp.json`. Assets are under
+`src/public/assets/images/projects/scatchapp/` and
+`src/public/assets/videos/scatchapp/`; the theme build copies these to theme assets.
+
+Product context was checked against the [Scatch website](https://getscatch.app/)
+and the [indexed Google Play description](https://chrome-stats.com/d/com.scatch).
+The timeline's App Store and Google Play URLs are retained as project references;
+direct store-page fetching was unavailable during authoring. No screenshot is
+labelled as a before state until its source is identified by the author.
+
+### Accountia case-study HTML prototype
+
+Accountia currently has a minimal six-card mobile preview in Storybook under
+**Pages / Accountia Case Study / Project Overview**. Each item reuses the exact
+**Molecules / Preview Mobile Screen Card** renderer and its existing phone,
+background, cursor interaction, and screen-sequence runtime. The page adds only
+a responsive three/two/one-column grid and short screen captions. Storybook args
+control the screen selection, playback, phone era, display size, and background.
+The previous composed case-study layout is no longer rendered.
+
+The selected screens are Dashboard, Products, Product details, Suppliers,
+Employees, and Fees. All six source exports are exactly 360px wide; other widths
+are excluded by the page renderer. Clicking a card opens its original PNG.
+The desktop and mobile dashboard assets were refreshed from the supplied
+replacements. The desktop asset remains available but is not shown in this
+mobile-only preview. Source filenames and dimensions are recorded in
+`src/stories/pages/accountia-case-study/accountia-assets.json`.
+
+For a standalone development preview, run `node scripts/preview-accountia.mjs`
+and open `http://127.0.0.1:6011/previews/accountia/`. Port 6010 can continue serving
+the built Storybook. The prototype does not change Drupal content, routes, or
+Blog listings. Article text and other project presentation blocks are deferred
+until the basic card composition has been reviewed.

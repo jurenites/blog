@@ -53,12 +53,13 @@
   @include tools.typography-headline-3;
 }
 
-.website-audit__turnaround {
+.website-audit__offer-copy .website-audit__turnaround {
   display: flex;
   flex-direction: column;
   gap: var(--space-scale-base-gap);
   margin: 0;
   color: var(--theme-dark-text-secondary-default);
+  margin-block-start: calc(var(--space-scale-base-gap) * 3);
   @include tools.typography-caption;
 }
 

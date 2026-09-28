@@ -68,5 +68,5 @@ if (RASTER_RUNTIME) {
     await sharp_renderer(new URL(`${image_name}.svg`, OUTPUT_DIRECTORY).pathname, { density: 192 })
       .png().toFile(new URL(`${image_name}.png`, OUTPUT_DIRECTORY).pathname);
   }
-  console.log('Built PNG counterparts for Drupal Basic HTML.');
+  console.log('Built PNG counterparts for Drupal Full HTML.');
 }

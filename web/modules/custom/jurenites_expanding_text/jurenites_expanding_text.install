@@ -13,7 +13,7 @@ use Drupal\filter\Entity\FilterFormat;
  * Implements hook_install().
  */
 function jurenites_expanding_text_install(): void {
-  foreach (['basic_html', 'full_html'] as $format_id) {
+  foreach (['full_html'] as $format_id) {
     $text_editor = Editor::load($format_id);
     if (!$text_editor || $text_editor->getEditor() !== 'ckeditor5') {
       continue;

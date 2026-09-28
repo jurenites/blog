@@ -6,7 +6,7 @@ const DOWNLOAD_FILENAME = "roundabout-regular.ttf";
 const SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog.";
 
 export default {
-  title: "Organisms/Font Preview/Roundabout",
+  title: "Organisms/Blog/Font Preview/Roundabout",
   parameters: { layout: "padded" },
   args: {
     font_title: FONT_TITLE,

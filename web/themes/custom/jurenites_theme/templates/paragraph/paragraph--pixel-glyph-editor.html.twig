@@ -1,8 +1,7 @@
 {% set component_id = 'pixel-glyph-editor-' ~ paragraph.uuid.value|clean_id %}
 <section class="pixel-glyph-editor" data-jurenites-pixel-glyph-editor aria-labelledby="{{ component_id }}-title">
   <header class="pixel-glyph-editor__header">
-    {# <p class="pixel-glyph-editor__eyebrow">{{ 'Interactive grid'|t }}</p> #}
-    <h2 id="{{ component_id }}-title">{{ 'Draw a 4×4 glyph'|t }}</h2>
+    <h2 id="{{ component_id }}-title">{{ editor_heading }}</h2>
     {{ editor_instructions }}
   </header>
   <div class="pixel-glyph-editor__workspace">

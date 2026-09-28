@@ -3,9 +3,9 @@
   {{ title_suffix }}
 
   <header class="timeline__header">
-    <p class="timeline__eyebrow">{{ 'Commercial work'|t }}</p>
+    <p class="timeline__eyebrow">{{ node.field_timeline_eyebrow.value }}</p>
     <div class="timeline__introduction">{{ content.body }}</div>
-    <p class="timeline__count">{{ timeline_item_count }} {{ 'records'|t }}</p>
+    <p class="timeline__count">{{ timeline_item_count }} {{ node.field_timeline_count_label.value }}</p>
   </header>
 
   <div class="timeline__years">

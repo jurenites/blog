@@ -1,6 +1,7 @@
 import { timeline_markup } from "./timeline.markup.js";
 
 const TIMELINE_HEADING = "Timeline";
+const TIMELINE_COUNT_LABEL = "Commercial projects";
 const TIMELINE_INTRODUCTION = "Commercial projects ordered by when each engagement began.";
 const TIMELINE_CURRENT_DATE = "2026-09-07";
 const TIMELINE_ITEMS = [
@@ -106,6 +107,7 @@ export default {
   render: render_timeline_story,
   args: {
     timeline_heading: TIMELINE_HEADING,
+    timeline_count_label: TIMELINE_COUNT_LABEL,
     timeline_introduction: TIMELINE_INTRODUCTION,
     timeline_items: TIMELINE_ITEMS,
     timeline_current_date: TIMELINE_CURRENT_DATE,

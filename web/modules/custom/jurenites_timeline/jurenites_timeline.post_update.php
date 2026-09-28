@@ -211,7 +211,7 @@ function jurenites_timeline_post_update_import_cv_project_details(): Translatabl
 
       $timeline_paragraph->set('field_timeline_summary', [
         'value' => '<p>' . Html::escape($timeline_record['summary']) . '</p>',
-        'format' => 'basic_html',
+        'format' => 'full_html',
       ]);
       $legacy_links = array_merge($timeline_record['website_links'] ?? [], $timeline_record['store_links'] ?? [], $timeline_record['proofs'] ?? []);
       if ($legacy_links !== []) {
@@ -277,7 +277,7 @@ function jurenites_timeline_post_update_duration_projects_only(): TranslatableMa
     if ($current_introduction === '<p>Commercial projects and personal milestones, ordered by when each story began.</p>') {
       $timeline_node->set('body', [
         'value' => '<p>Commercial projects ordered by when each engagement began.</p>',
-        'format' => (string) ($timeline_node->get('body')->format ?: 'basic_html'),
+        'format' => (string) ($timeline_node->get('body')->format ?: 'full_html'),
       ]);
     }
     $timeline_node->setNewRevision(TRUE);

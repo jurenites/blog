@@ -1,10 +1,10 @@
 // The existing branding block is the only text surface, including without JS.
 @use "../tools";
 
-html[data-site-intro] {
+:is(html, .loading-name)[data-site-intro] {
   overflow: hidden;
 
-  body {
+  :is(body, .loading-name__stage) {
     overflow: hidden;
 
     &::after {
@@ -43,7 +43,7 @@ html[data-site-intro] {
     z-index: auto;
   }
 
-  #block-jurenites-theme-site-branding {
+  :is(#block-jurenites-theme-site-branding, .loading-name__branding) {
     position: fixed;
     z-index: calc(var(--component-watermark-layer-default) + 2);
     inset-block-start: var(--space-scale-base-gap);
@@ -76,7 +76,7 @@ html[data-site-intro] {
       max-inline-size: 2ch;
       // Clip the collapsing width without cutting 96px glyphs at the 48px line box.
       overflow: visible;
-      clip-path: inset(-1em 0);
+      clip-path: none;
       filter: none;
       font-size: inherit;
       letter-spacing: var(--space-scale-zero);
@@ -85,23 +85,23 @@ html[data-site-intro] {
   }
 }
 
-html[data-site-intro="fallback"] {
+:is(html, .loading-name)[data-site-intro="fallback"] {
   body * { visibility: hidden; }
 
-  #block-jurenites-theme-site-branding,
-  #block-jurenites-theme-site-branding * { visibility: visible; }
+  :is(#block-jurenites-theme-site-branding, .loading-name__branding),
+  :is(#block-jurenites-theme-site-branding, .loading-name__branding) * { visibility: visible; }
 }
 
-html[data-site-intro="pending"] #block-jurenites-theme-site-branding {
+:is(html, .loading-name)[data-site-intro="pending"] :is(#block-jurenites-theme-site-branding, .loading-name__branding) {
   visibility: hidden;
 }
 
-html[data-site-intro="running"] {
-  body::after {
+:is(html, .loading-name)[data-site-intro="running"] {
+  :is(body, .loading-name__stage)::after {
     animation: site-intro-unveil var(--component-site-header-brand-name-hold-duration-default) linear both;
   }
 
-  #block-jurenites-theme-site-branding {
+  :is(#block-jurenites-theme-site-branding, .loading-name__branding) {
     animation: site-intro-arrive var(--component-site-header-brand-name-hold-duration-default) var(--motion-easing-standard-default) both;
 
     .site-header__brand-name {
@@ -132,7 +132,7 @@ html[data-site-intro="running"] {
 
 @keyframes site-intro-name {
   0% {
-    opacity: 0;
+    opacity: 1;
     font-size: min(calc(var(--space-scale-base-gap) * 12), 10vw);
   }
   15% { opacity: 1; }
@@ -148,8 +148,8 @@ html[data-site-intro="running"] {
 }
 
 @keyframes site-intro-collapse {
-  0%, 60% { max-inline-size: 2ch; opacity: 1; }
-  85%, 100% { max-inline-size: 0; opacity: 0; }
+  0%, 60% { max-inline-size: 2ch; opacity: 1; clip-path: none; }
+  85%, 100% { max-inline-size: 0; opacity: 0; clip-path: inset(-1em 0); }
 }
 
 @keyframes site-intro-gap {
@@ -164,12 +164,12 @@ html[data-site-intro="running"] {
 
 // Covers a preference change while an intro is already running.
 @media (prefers-reduced-motion: reduce) {
-  html[data-site-intro="running"] {
-    body::after,
-    #block-jurenites-theme-site-branding,
-    #block-jurenites-theme-site-branding .site-header__brand-name,
-    #block-jurenites-theme-site-branding .site-header__brand-name-short,
-    #block-jurenites-theme-site-branding .site-header__brand-name-letter {
+  :is(html, .loading-name)[data-site-intro="running"] {
+    :is(body, .loading-name__stage)::after,
+    :is(#block-jurenites-theme-site-branding, .loading-name__branding),
+    :is(#block-jurenites-theme-site-branding, .loading-name__branding) .site-header__brand-name,
+    :is(#block-jurenites-theme-site-branding, .loading-name__branding) .site-header__brand-name-short,
+    :is(#block-jurenites-theme-site-branding, .loading-name__branding) .site-header__brand-name-letter {
       animation-duration: 1ms;
     }
   }

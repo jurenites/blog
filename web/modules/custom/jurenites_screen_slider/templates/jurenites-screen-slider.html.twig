@@ -1,9 +1,9 @@
 {% if screen_images %}
-<section class="screen-slider" data-screen-slider role="region" aria-roledescription="carousel" aria-label="{{ 'Interface screens'|t }}">
+<section class="screen-slider" data-screen-slider role="region" aria-roledescription="{{ 'carousel'|t }}" aria-label="{{ 'Interface screens'|t }}">
   <div class="screen-slider__viewport" data-slider-viewport tabindex="0" aria-label="{{ 'Screens. Use left and right arrow keys to navigate.'|t }}">
     <div class="screen-slider__track" data-slider-track>
       {% for screen_image in screen_images %}
-        <div class="screen-slider__screen" role="group" aria-roledescription="slide" aria-label="{{ loop.index }} / {{ screen_images|length }}">
+        <div class="screen-slider__screen" role="group" aria-roledescription="{{ 'slide'|t }}" aria-label="{{ loop.index }} / {{ screen_images|length }}">
           <img class="screen-slider__image" src="{{ screen_image.image_url }}" alt="{{ screen_image.image_alt }}" loading="lazy" decoding="async" draggable="false">
         </div>
       {% endfor %}

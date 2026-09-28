@@ -142,6 +142,10 @@ Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
 `Organisms`, `Components`. Each component owns its story file; named exports cover useful scenarios and
 Controls expose property combinations. Navigation titles may add nested groups.
 
+`Organisms/Cookie Policy Notice` uses a content-height Storybook preview with
+the notice in normal flow so the dialog is visible without a viewport-sized gap.
+The public site's fixed notice positioning is unchanged.
+
 Font Preview is a shared Storybook/Drupal organism selected through an
 allowlisted font identifier. Its initial HTML contains one editable preview input
 rendered directly in the selected font, with no synchronized duplicate text,
@@ -180,6 +184,8 @@ same blank in-memory state; each button exposes its current state through
 vertically centered, and mirrors that state as a 16px 4×4 miniature after every
 change. The component has no separately titled Preview section or filled-cell
 counter. It does not persist, upload, or generate a font file.
+Storybook includes the editor inside the 4pixel Interactive Preview; it has no
+separate story.
 Both organisms keep normal geometry in SCSS and tokens, with no presentational
 sizing attributes in their initial markup.
 
@@ -415,6 +421,14 @@ renders only the requested icon branch, including one shared Figma geometry for 
 The whole icon catalog is not embedded in the HTML shell. Internal SVG IDs are
 scoped per instance so repeated icons cannot clash with the deferred sprite.
 
+The fixed cookie notice reserves its measured height at the end of the site
+footer, below the navigation bottom row. A resize observer keeps this space in
+sync with wrapping text and viewport changes. Both dismissal buttons slide the
+notice down while collapsing the reserved space with the existing medium motion
+duration; reduced-motion preferences close it immediately. Saved dismissals
+reserve no space. Runtime measurements live in a scoped stylesheet, without
+inline presentation attributes.
+
 The cookie notice close button is server-rendered with its cross geometry before
 the notice is revealed. Enhanced Select chevrons and the JavaScript fallback for
 the cookie close button use a generated two-icon module, shipped inside the
@@ -560,11 +574,19 @@ Drupal also reuses `#block-jurenites-theme-site-branding` for a first-visit intr
 on every themed entry route, including `/videos` and translated pages. A viewport
 canvas using the homepage's `component.hero-section.background-edge-color` reveals
 the existing white full name at 96px, vertically centered
-and aligned with the header's left text edge. Over two seconds, CSS fades the name
-in, moves it into the header, reduces it to 40px, collapses it to “AI,” and fades
+and aligned with the header's left text edge. Over two seconds, each character appears blurred and sharpens in sequence, then CSS
+moves the name into the header, reduces it to 40px, collapses it to “AI,” and fades
 the canvas away. The text keeps a stable 48px line box; narrow viewports fit the
 name with a viewport-relative font size before returning to the existing mobile
 menu. No text clone, new token, or inline presentation style is introduced.
+
+Storybook **Organisms/Loading Name** previews this same opening sequence without
+the daily storage gate. First name, last name, total duration, character duration,
+character stagger, and blur radius are editable, with a Replay animation button.
+The shared `loading-name.js` reveal uses Web Animations without inline styles,
+reusing the header blur and brand timing tokens in Drupal. Longer names or slower
+preview settings fit the reveal into the first 40% of the sequence so all letters
+sharpen before movement and collapse. Reduced motion skips the reveal.
 
 The independent head library makes the repeat-visit decision before first paint.
 `localStorage['jurenites.site-intro']` stores `{ loading: true, shown_at }`;

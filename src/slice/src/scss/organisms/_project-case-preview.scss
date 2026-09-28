@@ -1,0 +1,30 @@
+@use "../tools";
+
+.project-case-preview {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--layout-content-max-wide-default);
+  margin-inline: auto;
+  padding-inline: var(--layout-gutter-desktop-default);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: calc(var(--space-scale-base-gap) * 4);
+  margin-block: calc(var(--space-scale-base-gap) * 4);
+
+  &__copy {
+    min-width: 0;
+    display: grid;
+    gap: calc(var(--space-scale-base-gap) * 2);
+  }
+
+  &__copy > p,
+  &__copy > h2 {
+    margin: 0;
+  }
+
+  @include tools.breakpoint-down("mobile-max") {
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline: var(--layout-gutter-mobile-default);
+  }
+}

@@ -39,7 +39,7 @@ function jurenites_font_projects_seed_timeline_cross_link(): void {
       'uuid' => $block_uuid, 'type' => 'basic', 'langcode' => 'en',
       'info' => 'Portfolio Timeline cross-link', 'reusable' => TRUE, 'status' => TRUE,
       'body' => [
-        'format' => 'basic_html',
+        'format' => 'full_html',
         'value' => '<p>Want to see more ? checkout the <a href="/timeline">Timeline</a></p>',
       ],
     ]);
@@ -47,7 +47,7 @@ function jurenites_font_projects_seed_timeline_cross_link(): void {
       $cross_link_block->addTranslation('ru', [
         'info' => 'Портфолио: ссылка на хронологию',
         'body' => [
-          'format' => 'basic_html',
+          'format' => 'full_html',
           'value' => '<p>Хотите увидеть больше? Посмотрите <a href="/ru/timeline">хронологию</a></p>',
         ],
         'content_translation_source' => 'en',

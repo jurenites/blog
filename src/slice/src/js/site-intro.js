@@ -1,4 +1,5 @@
 // Runs in the head, before the first paint and independently of Drupal behaviors.
+import { reveal_loading_name } from './loading-name.js';
 import { install_card_loading } from './card-loading.js';
 
 install_card_loading();
@@ -8,6 +9,7 @@ const INTRO_REPEAT_INTERVAL = 24 * 60 * 60 * 1000;
 const INTRO_READY_LIMIT = 4000;
 const root_element = document.documentElement;
 let completion_timeout;
+let cancel_name_reveal = () => {};
 let original_inert = false;
 let intro_started = false;
 
@@ -43,6 +45,7 @@ function remember_intro_visit() {
 
 function finish_site_intro() {
   window.clearTimeout(completion_timeout);
+  cancel_name_reveal();
   root_element.removeAttribute('data-site-intro');
   if (intro_started) document.body.inert = original_inert;
 }
@@ -57,6 +60,7 @@ function start_site_intro() {
 
   remember_intro_visit();
   root_element.setAttribute('data-site-intro', 'running');
+  cancel_name_reveal = reveal_loading_name(branding_element);
   branding_element.addEventListener('animationend', (animation_event) => {
     if (animation_event.animationName === 'site-intro-arrive') finish_site_intro();
   });

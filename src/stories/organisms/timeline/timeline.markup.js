@@ -308,6 +308,7 @@ function timeline_months_markup(year_label, visible_month_count) {
 
 export function timeline_markup({
   timeline_heading,
+  timeline_count_label,
   timeline_introduction,
   timeline_items,
   timeline_current_date = new Date().toISOString().slice(0, 10),
@@ -336,6 +337,7 @@ export function timeline_markup({
     timeline_heading: escape_html(timeline_heading),
     timeline_introduction: escape_html(timeline_introduction),
     timeline_item_count: escape_html(sorted_items.length),
+    timeline_count_label: escape_html(timeline_count_label),
     timeline_organization_sticky_markup: organization_sticky_markup(initial_organization),
     timeline_years_markup,
   });

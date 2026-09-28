@@ -125,6 +125,12 @@ also generates these three public SVG files through
 `scripts/build-technology-logos.mjs`. Other downloaded SVGs preserve upstream
 color values. Logo sizing, white presentation and hover behavior are scoped to
 `src/slice/src/scss/organisms/_technology-stack.scss`.
+Each artwork wrapper also has a stable `.technology-stack__artwork--<technology_key>`
+class in Drupal and Storybook, for example `.technology-stack__artwork--drupal`.
+Set `width` and `height` on that modifier in the component SCSS to size both logo
+states together. Override `max-width` and `max-height` as well when the desired
+size exceeds the shared artwork limits. MySQL uses `--sql`, Node.js uses
+`--nodejs`, and JavaScript's text mark uses `--javascript`.
 Technology names are underlined when their link is hovered or keyboard-focused.
 
 Laravel and PHP were refreshed from the linked SVGs on 14 September 2026.
@@ -369,6 +375,11 @@ selects its story below, except tracking links, which keep their own navigation.
 The role labels remain keyboard-accessible tabs with a focus outline around the
 whole tile and a short slide motion. There are no separate slider controls.
 The last role tile and its story are active by default.
+Role tiles lighten on hover and when a control inside receives keyboard focus;
+ordinary non-clickable Numeric Values tiles keep their resting background.
+External tracking links inside role tiles use light-white text at rest and
+brand-primary blue on hover and keyboard focus. Other external links retain
+their existing colors.
 The panels share the tallest panel's height to avoid movement while switching.
 On narrow screens the role tiles scroll horizontally. Reduced motion disables
 slide animation; without JavaScript all stories remain readable.
@@ -398,7 +409,7 @@ Storybook: **Organisms / Role Slider**, including a nested-explanation example.
 Validation: `tests/role-slider.php` covers translations, schema/filter config and
 repeat setup; `tests/role-slider.browser.mjs` covers desktop/mobile layout,
 keyboard selection, reduced motion and actual editor authoring. An existing
-Basic HTML Source Editing warning about the Game of Life table class is reported
+Full HTML Source Editing warning about the Game of Life table class is reported
 separately by the integration check.
 
 Numeric caption links use the shared Link typography (16px, weight 300, 24px line

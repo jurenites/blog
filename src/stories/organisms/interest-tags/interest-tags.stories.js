@@ -23,7 +23,7 @@ function render_interest_tags(story_args) {
 }
 
 export default {
-  title: "Organisms/Interest Tags",
+  title: "Organisms/Section/Interest Tags",
   tags: ["autodocs"],
   render: render_interest_tags,
   parameters: {

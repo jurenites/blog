@@ -136,6 +136,11 @@ and external documents are outside the site's translation catalogue.
 
 ### Timeline translation
 
+The eyebrow and project-count label are translatable fields on the Timeline
+node. Edit them on the node's edit or translation form. Storybook supplies the
+count label through `timeline_count_label`; its HTML placeholder renderer does
+not execute Twig translation filters.
+
 The timeline renderer reads project and organization names from the original
 entity in both languages. Descriptions, introduction, link labels and interface
 text use the selected language. Month labels on the axis and in project date

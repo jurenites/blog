@@ -14,7 +14,7 @@ use Drupal\field\Entity\FieldConfig;
  */
 function jurenites_admin_post_update_enable_inline_media(): string {
   \Drupal::service('module_installer')->install(['jurenites_inline_media']);
-  return t('Enabled inline GIF uploads up to 5 MB and MP4/WebM uploads up to 20 MB.');
+  return t('Enabled inline GIF uploads up to 5 MB and MP4/WebM/MOV uploads up to 500 MB.');
 }
 
 /**
@@ -176,4 +176,13 @@ function jurenites_admin_post_update_allow_own_article_comment_deletion(): strin
 function jurenites_admin_post_update_enable_editorial_content(): string {
   \Drupal::service('module_installer')->install(['jurenites_editorial']);
   return t('Created editable page-copy blocks and component instructions.');
+}
+
+/**
+ * Uses Full HTML for all editorial rich-text fields and historical content.
+ */
+function jurenites_admin_post_update_full_html_only(): string {
+  \Drupal::moduleHandler()->loadInclude('jurenites_admin', 'inc', 'jurenites_admin.formats');
+  $updated_row_count = jurenites_admin_configure_full_html();
+  return t('Migrated @count content rows to Full HTML and removed Basic HTML and Restricted HTML.', ['@count' => $updated_row_count]);
 }

@@ -1,0 +1,19 @@
+{
+  "project_title": "ScatchApp: from ideas to interface",
+  "project_summary": "Turning the co-founder’s ideas for an event and ticketing app into Figma screens, with a focus on navigation, event discovery, and filtering.",
+  "project_intro": "<p>ScatchApp brings event discovery and ticketing into one mobile app. People can explore events nearby, find something that fits their interests, and buy, sell, or exchange tickets. My work focused on translating the co-founder’s ideas into interface designs, including a new navigation system for the existing application.</p>",
+  "story_sections": [
+    {
+      "story_html": "<h2>Working with the co-founder</h2><p>I worked closely with the co-founder, turning his initial ideas into screens and flows in Figma. Our conversations became concrete layouts that we could look through together: where information should appear, how people would move between screens, and how each idea could work within the app.</p><p>Once the designs were ready, the co-founder took them to the development team responsible for building the application. My contribution was the interface design that helped make those ideas tangible and ready for that discussion.</p>"
+    },
+    {
+      "story_html": "<h2>Exploring events through a map and list</h2><p>The design brings two ways of browsing events together: a map for understanding what is nearby, and a list for looking through the available options. The recording below shows the map and list views in use.</p><video class=\"inline-media__video\" controls playsinline preload=\"metadata\" aria-label=\"ScatchApp map and event list design recording\" poster=\"/themes/custom/jurenites_theme/assets/images/projects/scatchapp/list-poster.png\" src=\"/themes/custom/jurenites_theme/assets/videos/scatchapp/list.mp4\"></video>"
+    },
+    {
+      "story_html": "<h2>Narrowing the search</h2><p>Filtering is another part of the discovery flow. This recording shows how people can use the filter interface to refine the events they see.</p><video class=\"inline-media__video\" controls playsinline preload=\"metadata\" aria-label=\"ScatchApp event filter design recording\" poster=\"/themes/custom/jurenites_theme/assets/images/projects/scatchapp/filter-poster.png\" src=\"/themes/custom/jurenites_theme/assets/videos/scatchapp/filter.mp4\"></video><p>Together, the recordings illustrate the browsing and filtering flows covered in this project note.</p>"
+    },
+    {
+      "story_html": "<h2>Project links</h2><ul><li><a href=\"https://getscatch.app/\">Scatch website</a></li><li><a href=\"https://play.google.com/store/apps/details?id=com.scatch&amp;hl=en\">Google Play</a></li><li><a href=\"https://apps.apple.com/pl/app/scatch-app/id6747970607\">App Store</a></li><li><a href=\"https://app.moqups.com/ilFBpzYixG/view/page/a83744219\">Interactive wireframes</a></li><li><a href=\"https://www.dropbox.com/s/7692ic3zpm6u2bk/Scatch_app.pdf?dl=0\">Wireframes PDF</a></li></ul>"
+    }
+  ]
+}

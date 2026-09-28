@@ -138,7 +138,7 @@ function jurenites_guidelines_ensure_node(
       $guideline_node->set('body', [
         'summary' => $guideline_summary,
         'value' => $guideline_body,
-        'format' => 'basic_html',
+        'format' => 'full_html',
       ]);
       $guideline_requires_save = TRUE;
     }
@@ -165,7 +165,7 @@ function jurenites_guidelines_ensure_node(
     'body' => [
       'summary' => $guideline_summary,
       'value' => $guideline_body,
-      'format' => 'basic_html',
+      'format' => 'full_html',
     ],
     'field_guideline_section' => $guideline_section,
     'field_guideline_order' => $guideline_order,

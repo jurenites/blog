@@ -45,7 +45,7 @@ try {
   $project_node = Node::create([
     'type' => 'project', 'title' => 'Project supporting video verification',
     'uid' => 1, 'status' => 1, 'path' => ['pathauto' => 0],
-    'body' => ['value' => '<p>Project narrative verification.</p>', 'format' => 'basic_html'],
+    'body' => ['value' => '<p>Project narrative verification.</p>', 'format' => 'full_html'],
     'field_supporting_videos' => array_values($video_ids),
   ]);
   project_video_expect(count($project_node->field_supporting_videos->validate()) === 0, 'Remote video references must validate.');

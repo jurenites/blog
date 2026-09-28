@@ -68,8 +68,8 @@ function jurenites_faq_install(): void {
       'field_faq_heading' => 'Questions?',
       'field_faq_subheading' => 'Here are answers.',
       'field_faq_items' => [
-        ['summary' => 'How do you run projects?', 'value' => '<p>I begin by getting to know your goals, then turn them into a design plan with weekly milestones. Regular progress notes, async check-ins, and timely replies keep you involved without having to manage every detail. Explore my <a href="/cookbook">Cookbook</a> for a closer look at the process.</p>', 'format' => 'basic_html'],
-        ['summary' => 'Can we hop on calls?', 'value' => '<p>Absolutely. We begin with a strategy call to agree on the direction. From there, most updates happen asynchronously so we can stay focused. Whenever a conversation would help us move forward, we can arrange a call.</p>', 'format' => 'basic_html'],
+        ['summary' => 'How do you run projects?', 'value' => '<p>I begin by getting to know your goals, then turn them into a design plan with weekly milestones. Regular progress notes, async check-ins, and timely replies keep you involved without having to manage every detail. Explore my <a href="/cookbook">Cookbook</a> for a closer look at the process.</p>', 'format' => 'full_html'],
+        ['summary' => 'Can we hop on calls?', 'value' => '<p>Absolutely. We begin with a strategy call to agree on the direction. From there, most updates happen asynchronously so we can stay focused. Whenever a conversation would help us move forward, we can arrange a call.</p>', 'format' => 'full_html'],
       ],
     ]);
     if (\Drupal::languageManager()->getLanguage('ru')) {
@@ -78,8 +78,8 @@ function jurenites_faq_install(): void {
         'field_faq_heading' => 'Есть вопросы?',
         'field_faq_subheading' => 'Вот ответы.',
         'field_faq_items' => [
-          ['summary' => 'Как вы ведёте проекты?', 'value' => '<p>Сначала я разбираюсь в ваших целях, затем составляю план дизайна с еженедельными этапами. Регулярные сообщения о прогрессе, асинхронные обсуждения и своевременные ответы помогают вам следить за работой без постоянного контроля. Подробнее о процессе — в моём <a href="/cookbook">Cookbook</a>.</p>', 'format' => 'basic_html'],
-          ['summary' => 'Можно ли созваниваться?', 'value' => '<p>Конечно. Начинаем со стратегического звонка, чтобы договориться о направлении работы. Дальше большинство вопросов обсуждаем асинхронно, сохраняя время для сосредоточенной работы. Если разговор поможет быстрее продвинуться, договоримся о звонке.</p>', 'format' => 'basic_html'],
+          ['summary' => 'Как вы ведёте проекты?', 'value' => '<p>Сначала я разбираюсь в ваших целях, затем составляю план дизайна с еженедельными этапами. Регулярные сообщения о прогрессе, асинхронные обсуждения и своевременные ответы помогают вам следить за работой без постоянного контроля. Подробнее о процессе — в моём <a href="/cookbook">Cookbook</a>.</p>', 'format' => 'full_html'],
+          ['summary' => 'Можно ли созваниваться?', 'value' => '<p>Конечно. Начинаем со стратегического звонка, чтобы договориться о направлении работы. Дальше большинство вопросов обсуждаем асинхронно, сохраняя время для сосредоточенной работы. Если разговор поможет быстрее продвинуться, договоримся о звонке.</p>', 'format' => 'full_html'],
         ],
       ]);
     }

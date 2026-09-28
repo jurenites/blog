@@ -10,13 +10,13 @@
       {{ image_frame }}
     </div>
   {% endfor %}
-  <div class="jurenites-two-image-crossfade__pagination" aria-label="Image pagination">
+  <div class="jurenites-two-image-crossfade__pagination" aria-label="{{ 'Image pagination'|t }}">
     {% for image_frame in image_frames %}
       <button
         class="crossfade-dot jurenites-two-image-crossfade__dot{% if loop.first %} is-active{% endif %}"
         type="button"
         data-crossfade-dot="{{ loop.index0 }}"
-        aria-label="Show image {{ loop.index }} of {{ image_frames|length }}"
+        aria-label="{{ 'Show image @number of @total'|t({'@number': loop.index, '@total': image_frames|length}) }}"
         aria-pressed="{% if loop.first %}true{% else %}false{% endif %}"
       ></button>
     {% endfor %}

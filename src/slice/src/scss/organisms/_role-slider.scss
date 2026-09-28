@@ -11,7 +11,7 @@
 
 .role-slider__tile {
   min-width: 0;
-  border-block-end: calc(var(--shape-border-width-hairline-default) * 2) solid var(--theme-dark-border-divider-default);
+  border-block-end: calc(var(--shape-border-width-hairline-default) * 1) solid var(--theme-dark-border-divider-default);
   cursor: pointer;
 
   &.is-active {
@@ -21,6 +21,18 @@
   &:has(.role-slider__tab:focus-visible) {
     outline: var(--shape-border-width-hairline-default) solid var(--theme-dark-action-primary-default);
     outline-offset: calc(var(--shape-border-width-hairline-default) * -1);
+  }
+
+  &:is(:hover, :focus-within) > .numeric-values__tile-content {
+    background-color: var(--theme-dark-surface-background-elevation-level-1);
+  }
+}
+
+body.jurenites-theme .role-slider__tile .numeric-values__caption-link[rel~="external"] {
+  color: var(--theme-dark-text-light);
+
+  &:is(:hover, :focus-visible) {
+    color: var(--color-palette-brand-primary);
   }
 }
 

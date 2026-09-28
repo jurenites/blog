@@ -18,6 +18,7 @@ use Drupal\language\Entity\ContentLanguageSettings;
  * Implements hook_install().
  */
 function jurenites_website_audit_install(): void {
+  _jurenites_website_audit_configure_offer_html();
   if (\Drupal::state()->get('jurenites_website_audit.initialized')) {
     return;
   }
@@ -32,7 +33,6 @@ function jurenites_website_audit_install(): void {
   FieldConfig::loadByName('block_content', 'website_audit', 'body')->setTranslatable(TRUE)->save();
   $field_definitions = [
     'field_audit_offer' => ['text_long', 'Offer', [], 'text_textarea'],
-    'field_audit_days' => ['integer', 'Turnaround (business days)', ['min' => 1], 'number'],
     'field_audit_link' => ['link', 'Order button', ['link_type' => 1, 'title' => 2], 'link_default'],
   ];
   $form_display = EntityFormDisplay::load('block_content.website_audit.default');
@@ -67,9 +67,8 @@ function jurenites_website_audit_install(): void {
     BlockContent::create([
       'uuid' => $audit_uuid, 'type' => 'website_audit', 'langcode' => 'en',
       'info' => 'Portfolio website audit', 'reusable' => TRUE, 'status' => TRUE,
-      'body' => ['format' => 'basic_html', 'value' => '<h2>Website audit.</h2><p>We will analyze all technical and UX weaknesses of your current site and prepare a clear report with an action plan.</p><h3>What the report includes:</h3><ul><li>Analysis of load speed and performance</li><li>Check of responsiveness and mobile version</li><li>SEO audit: meta tags, structure, indexing</li><li>Usability and user experience analysis</li><li>Assessment of code quality and architecture</li><li>Recommendations for improving conversion rates</li></ul>'],
-      'field_audit_offer' => ['format' => 'basic_html', 'value' => '<h3>Free</h3><p>A website audit is completely free for all new clients.</p>'],
-      'field_audit_days' => 3,
+      'body' => ['format' => 'full_html', 'value' => '<h2>Website audit.</h2><p>We will analyze all technical and UX weaknesses of your current site and prepare a clear report with an action plan.</p><h3>What the report includes:</h3><ul><li>Analysis of load speed and performance</li><li>Check of responsiveness and mobile version</li><li>SEO audit: meta tags, structure, indexing</li><li>Usability and user experience analysis</li><li>Assessment of code quality and architecture</li><li>Recommendations for improving conversion rates</li></ul>'],
+      'field_audit_offer' => ['format' => 'full_html', 'value' => '<h3>Free</h3><p>A website audit is completely free for all new clients.</p><p class="website-audit__turnaround">Turnaround time: <time class="website-audit__duration" datetime="P3D">3 business days</time></p>'],
       'field_audit_link' => ['uri' => 'internal:/contact', 'title' => 'Order'],
     ])->save();
   }
@@ -106,4 +105,65 @@ function jurenites_website_audit_update_11001(): void {
   $audit_placement->setVisibilityConfig('request_path', [
     'id' => 'request_path', 'negate' => FALSE, 'pages' => '/portfolio',
   ])->save();
+}
+
+/**
+ * Moves turnaround into Offer HTML in every translation and saved revision.
+ */
+function jurenites_website_audit_update_11002(): void {
+  _jurenites_website_audit_configure_offer_html();
+  $days_storage = FieldStorageConfig::loadByName('block_content', 'field_audit_days');
+  if (!$days_storage) {
+    return;
+  }
+  if (!\Drupal\filter\Entity\FilterFormat::load('full_html')) {
+    throw new \RuntimeException('The Full HTML text format is required before migrating audit offers.');
+  }
+  $block_storage = \Drupal::entityTypeManager()->getStorage('block_content');
+  $revision_identifiers = $block_storage->getQuery()->accessCheck(FALSE)
+    ->condition('type', 'website_audit')->allRevisions()->execute();
+  foreach (array_keys($revision_identifiers) as $revision_identifier) {
+    $audit_revision = $block_storage->loadRevision($revision_identifier);
+    foreach ($audit_revision->getTranslationLanguages() as $language_code => $language_object) {
+      $audit_translation = $audit_revision->getTranslation($language_code);
+      $offer_value = $audit_translation->get('field_audit_offer')->value ?? '';
+      $business_days = $audit_translation->get('field_audit_days')->value;
+      if ($business_days && !str_contains($offer_value, 'website-audit__duration')) {
+        $turnaround_label = (string) t('Turnaround time:', [], ['langcode' => $language_code]);
+        $duration_label = (string) t('@count business days', ['@count' => (int) $business_days], ['langcode' => $language_code]);
+        if ($language_code === 'ru') {
+          $turnaround_label = 'Срок выполнения:';
+          $duration_label = 'Рабочих дней: ' . (int) $business_days;
+        }
+        $offer_value .= '<p class="website-audit__turnaround">' . \Drupal\Component\Utility\Html::escape($turnaround_label)
+          . ' <time class="website-audit__duration" datetime="P' . (int) $business_days . 'D">'
+          . \Drupal\Component\Utility\Html::escape($duration_label) . '</time></p>';
+      }
+      $audit_translation->set('field_audit_offer', ['value' => $offer_value, 'format' => 'full_html']);
+    }
+    $audit_revision->setNewRevision(FALSE);
+    $audit_revision->save();
+  }
+  // Delete storage only after all revision and translation values are preserved.
+  $days_storage->delete();
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+}
+
+/**
+ * Keeps semantic duration markup editable through Full HTML source editing.
+ */
+function _jurenites_website_audit_configure_offer_html(): void {
+  $editor_config = \Drupal\editor\Entity\Editor::load('full_html');
+  if (!$editor_config || $editor_config->getEditor() !== 'ckeditor5') {
+    return;
+  }
+  $editor_settings = $editor_config->getSettings();
+  $allowed_tags = $editor_settings['plugins']['ckeditor5_sourceEditing']['allowed_tags'] ?? [];
+  foreach (['<time class="website-audit__duration" datetime>', '<p class="website-audit__turnaround">'] as $allowed_tag) {
+    if (!in_array($allowed_tag, $allowed_tags, TRUE)) {
+      $allowed_tags[] = $allowed_tag;
+    }
+  }
+  $editor_settings['plugins']['ckeditor5_sourceEditing']['allowed_tags'] = $allowed_tags;
+  $editor_config->setSettings($editor_settings)->save();
 }

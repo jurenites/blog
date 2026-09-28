@@ -1,0 +1,37 @@
+<span class="card__phone card__phone--{{screen_preset}} card__phone--{{iphone_era}}" data-card-phone>
+  {{depth_markup}}
+  <svg class="card__device-frame" viewBox="0 0 {{device_width}} {{device_height}}" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="{{metal_identifier}}" x1="0" y1="0" x2="1" y2="1">
+        <stop class="card__metal-light"></stop>
+        <stop class="card__metal-dark" offset="0.24"></stop>
+        <stop class="card__metal-mid" offset="0.5"></stop>
+        <stop class="card__metal-dark" offset="0.76"></stop>
+        <stop class="card__metal-light" offset="1"></stop>
+      </linearGradient>
+      <filter id="{{shadow_identifier}}" x="-50%" y="-25%" width="200%" height="160%">
+        <feDropShadow class="card__device-shadow" dx="0" dy="18" stdDeviation="18"></feDropShadow>
+      </filter>
+      <radialGradient id="{{reflection_identifier}}" cx="0.5" cy="0" r="0.7" data-card-reflection>
+        <stop class="card__reflection-start"></stop>
+        <stop class="card__reflection-end" offset="1"></stop>
+      </radialGradient>
+    </defs>
+    <g fill="url(#{{metal_identifier}})">
+      <rect x="0" y="92" width="6" height="26" rx="2"></rect>
+      <rect x="0" y="145" width="6" height="49" rx="2"></rect>
+      <rect x="0" y="213" width="6" height="49" rx="2"></rect>
+      <rect x="{{button_right}}" y="145" width="5" height="58" rx="2"></rect>
+      <rect x="4" y="2" width="{{body_width}}" height="{{body_height}}" rx="58" filter="url(#{{shadow_identifier}})"></rect>
+    </g>
+    <rect class="card__device-body" x="8" y="8" width="{{glass_width}}" height="{{glass_height}}" rx="48"></rect>
+    <rect class="card__device-reflection" x="5" y="3" width="{{body_width}}" height="{{body_height}}" rx="57" stroke="url(#{{reflection_identifier}})"></rect>
+  </svg>
+  <span class="card__screen {{poster_class}}" data-screen-sequence data-fade-duration="{{fade_duration_ms}}" data-sequence-playing="{{is_playing}}">
+    {{poster_markup}}
+    {{screen_frames}}
+  </span>
+  <svg class="card__screen-hardware" viewBox="0 0 {{device_width}} {{device_height}}" aria-hidden="true" focusable="false">
+    {{hardware_markup}}
+  </svg>
+</span>

@@ -52,7 +52,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: "Organisms/Footer Navigation",
+  title: "Organisms/Footer/Footer Navigation",
   tags: ["autodocs"],
   render: render_story,
   parameters: {

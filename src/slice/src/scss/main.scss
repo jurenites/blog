@@ -35,6 +35,9 @@
 @use "atoms/two-tone-heading";
 
 @use "molecules/project-card";
+@use "molecules/dynamic-thumbnail";
+@use "molecules/card";
+@use "organisms/project-case-preview";
 @use "molecules/audit-comparison";
 @use "molecules/contact-me-widget";
 @use "molecules/article-teaser";

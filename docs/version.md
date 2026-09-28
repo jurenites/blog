@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 1.140.7
+Version: 1.156.2
 Reviewed: 2026-09-22
 
 This checkpoint covers a repository-source review of `/docs`: source paths,
@@ -41,7 +41,7 @@ history here. Git retains superseded documentation.
 - [Cookbook](cookbook-product-design-process.md): the English editorial draft;
   changing it does not publish a Drupal revision.
 - [Game of Life](game-of-life.md), [QR Studio](qr-pixel-studio.md), and
-  [thumbnail studio](thumbnail-studio.md): feature and artwork workflows.
+  [dynamic thumbnails](dynamic-thumbnails.md), [thumbnail studio](thumbnail-studio.md): feature and artwork workflows.
 
 Documentation prose is English. Keep language codes, route aliases, entity
 identifiers, and translation filenames unchanged when they identify actual

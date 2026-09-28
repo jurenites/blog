@@ -99,13 +99,13 @@ on disk does not establish module enablement or environment configuration.
 
 The local stack's upload ceilings are defined in source:
 
-- `docker/php-upload.ini`: 200 MB file and 210 MB POST limits, with 512 MB memory.
-- `docker/apache-upload.conf`: 210 MiB request-body limit.
-- `docker/local-proxy.conf`: 210 MiB body limit and 300-second timeouts.
+- `docker/php-upload.ini`: 500 MB file and 510 MB POST limits, with 512 MB memory.
+- `docker/apache-upload.conf`: 510 MiB request-body limit.
+- `docker/local-proxy.conf`: 510 MiB body limit and 300-second timeouts.
 - `recipes/jurenites_media/recipe.yml`: 200 MB Image media validation.
 
 Drupal fields impose their own limits below the server ceiling. Inline GIFs and
-images use 5 MB; inline MP4/WebM media use 20 MB. See the content-model document.
+images use 5 MB; inline MP4/WebM/MOV media use 500 MB. See the content-model document.
 Production PHP and web-server limits must be verified separately.
 
 ## Dependencies and local artifacts

@@ -1,0 +1,364 @@
+@use "../tools";
+
+// Native screenshot widths plus the fixed SVG case geometry.
+$phone-modern-compact-width: 399px;
+$phone-modern-large-width: 438px;
+$phone-classic-compact-width: 419px;
+$phone-classic-large-width: 458px;
+
+.card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  isolation: isolate;
+  perspective: calc(var(--space-scale-base-gap) * 80);
+  background: var(--theme-dark-surface-background-elevation-level-0);
+  @include tools.motion-transition(background-color);
+
+  &:hover,
+  &:focus-visible {
+    background: var(--theme-dark-surface-background-elevation-level-1);
+  }
+
+  &--transparent,
+  &--transparent:hover,
+  &--transparent:focus-visible {
+    background: transparent;
+  }
+
+  &--transparent:hover &__device-body,
+  &--transparent:focus-visible &__device-body {
+    stroke: var(--theme-dark-text-primary-default);
+  }
+
+  // Device dimensions are artwork geometry; spacing stays token-based.
+  &--native-screen {
+    box-sizing: border-box;
+    width: min(100%, calc(#{$phone-modern-compact-width} + var(--space-scale-base-gap) * 8));
+    padding: calc(var(--space-scale-base-gap) * 4);
+    aspect-ratio: auto;
+    perspective: calc(var(--space-scale-base-gap) * 320);
+  }
+
+  &--native-screen.card--large-screen {
+    width: min(100%, calc(#{$phone-modern-large-width} + var(--space-scale-base-gap) * 8));
+  }
+
+  &--native-screen.card--classic {
+    width: min(100%, calc(#{$phone-classic-compact-width} + var(--space-scale-base-gap) * 8));
+  }
+
+  &--native-screen.card--classic.card--large-screen {
+    width: min(100%, calc(#{$phone-classic-large-width} + var(--space-scale-base-gap) * 8));
+  }
+
+  &__background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    @include tools.motion-transition(filter);
+  }
+
+  &:hover &__background,
+  &:focus-visible &__background {
+    filter: brightness(1.1);
+  }
+
+  &:focus-visible {
+    outline: var(--shape-border-width-thick-default) solid var(--theme-dark-action-primary-default);
+    outline-offset: calc(var(--shape-border-width-thick-default) * -1);
+  }
+
+  &__phone {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 12fr 375fr 12fr;
+    grid-template-rows: 12fr 812fr 12fr;
+    width: 39%;
+    aspect-ratio: 399 / 836;
+    transform-style: preserve-3d;
+    pointer-events: none;
+  }
+
+  &__phone--large-screen {
+    width: 39%;
+    aspect-ratio: 438 / 920;
+    grid-template-columns: 12fr 414fr 12fr;
+    grid-template-rows: 12fr 896fr 12fr;
+  }
+
+  &__device-frame,
+  &__screen-hardware {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  &__screen-hardware {
+    z-index: 2;
+    transform: translateZ(calc(var(--space-scale-base-gap) * 0.125));
+  }
+
+  // Closely spaced rounded slices give the chassis thickness at shallow angles.
+  &__device-depth {
+    position: absolute;
+    inset: 0;
+    border-radius: 14.5% / 6.94%;
+    background: linear-gradient(120deg,
+      var(--theme-dark-border-outline-default),
+      var(--theme-dark-surface-background-elevation-level-1) 35%,
+      var(--theme-dark-surface-background-elevation-level-2) 70%,
+      var(--theme-dark-border-outline-default));
+    border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-outline-default);
+  }
+
+  &__device-depth--back {
+    @include tools.elevation("level-4");
+  }
+
+  // Eight chassis slices scale thickness with the phone's presentation size.
+  @for $depth-index from 1 through 8 {
+    &__device-depth--slice-#{$depth-index} {
+      transform: translateZ(calc(var(--space-scale-base-gap) * -0.1875 * #{$depth-index}));
+    }
+
+    &--native-screen &__device-depth--slice-#{$depth-index} {
+      transform: translateZ(calc(var(--space-scale-base-gap) * -0.5 * #{$depth-index}));
+    }
+  }
+
+  &[data-follow-cursor="false"] &__phone {
+    transform-style: flat;
+  }
+
+  &[data-follow-cursor="false"] {
+    perspective: none;
+  }
+
+  &[data-follow-cursor="false"] &__screen,
+  &[data-follow-cursor="false"] &__screen-hardware {
+    transform: none;
+  }
+
+  &__phone--large-screen &__device-depth {
+    border-radius: 13.24% / 6.3%;
+  }
+
+  &__device-body {
+    fill: var(--theme-dark-surface-background-page);
+    stroke: var(--theme-dark-border-outline-default);
+    stroke-width: 1;
+  }
+
+  &__metal-light {
+    stop-color: var(--theme-dark-text-secondary-default);
+  }
+
+  &__metal-mid {
+    stop-color: var(--theme-dark-border-outline-default);
+  }
+
+  &__metal-dark {
+    stop-color: var(--theme-dark-surface-background-elevation-level-1);
+  }
+
+  &__device-shadow {
+    flood-color: var(--theme-dark-surface-background-page);
+  }
+
+  &__camera-island,
+  &__camera-ring {
+    fill: var(--theme-dark-surface-background-page);
+    stroke: var(--theme-dark-surface-background-elevation-level-2);
+    stroke-width: 2;
+  }
+
+  &__camera-lens {
+    fill: var(--theme-dark-surface-background-elevation-level-2);
+  }
+
+  &__device-reflection {
+    fill: none;
+    stroke-width: 3;
+  }
+
+  &__reflection-start {
+    stop-color: var(--theme-dark-text-primary-default);
+  }
+
+  &__reflection-end {
+    stop-color: var(--component-pulse-indicator-radius-color-end);
+  }
+
+  &__gesture-bar {
+    fill: var(--theme-dark-surface-background-page);
+  }
+
+  &__screen {
+    position: relative;
+    z-index: 1;
+    grid-area: 2 / 2;
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--theme-dark-surface-background-page);
+    // Rounded display geometry follows the SVG device, not the square card UI.
+    border-radius: 11.7333% / 5.419%;
+    transform: translateZ(calc(var(--space-scale-base-gap) * 0.0625));
+  }
+
+  &__phone--large-screen &__screen {
+    border-radius: 10.628% / 4.911%;
+  }
+
+  &__phone--classic {
+    width: 43%;
+    grid-template-columns: 22fr 375fr 22fr;
+    grid-template-rows: 70fr 667fr 70fr;
+    aspect-ratio: 419 / 807;
+  }
+
+  &__phone--classic.card__phone--large-screen {
+    grid-template-columns: 22fr 414fr 22fr;
+    grid-template-rows: 70fr 736fr 70fr;
+    aspect-ratio: 458 / 876;
+  }
+
+  &--native-screen &__phone {
+    width: 100%;
+  }
+
+  &__phone--classic &__screen {
+    border-radius: 0;
+  }
+
+  &__home-button {
+    fill: var(--theme-dark-surface-background-page);
+    stroke-width: 2;
+  }
+
+  &__frame {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+  }
+
+  &__frame[data-frame-active] {
+    visibility: visible;
+  }
+
+  &__frame-media {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &__frame--island-inset &__frame-media {
+    top: calc(100% * 56 / 812);
+  }
+
+  &__phone--large-screen &__frame--island-inset &__frame-media {
+    top: calc(100% * 56 / 896);
+  }
+
+  &__frame--island-inset &__image {
+    max-height: 100%;
+    object-fit: contain;
+    object-position: top;
+  }
+
+  &__screen--with-poster:not([data-sequence-ready]) &__frame {
+    visibility: hidden;
+  }
+
+  &__poster {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__poster-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top;
+  }
+
+  &__island-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  &__island-surface {
+    fill: var(--color-palette-full-white);
+  }
+
+  &__screen[data-sequence-ready] &__poster {
+    display: none;
+  }
+
+  &__image,
+  &__gif {
+    display: block;
+    flex: none;
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+
+  &__gif {
+    overflow: hidden;
+  }
+
+  &__edge-fill {
+    display: block;
+    flex: 1 1 0;
+    width: 100%;
+    height: 0;
+    min-height: 0;
+    overflow: hidden;
+    image-rendering: pixelated;
+    pointer-events: none;
+  }
+
+  &__video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  &__video--cover {
+    object-fit: cover;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card__background {
+    transition: none;
+  }
+}

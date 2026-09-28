@@ -33,11 +33,12 @@ final class QrStudioController extends ControllerBase {
     $page_document = [
       '#theme' => 'jurenites_qr_studio_document',
       '#placeholder_token' => $placeholder_token,
+      '#language_code' => $this->languageManager()->getCurrentLanguage()->getId(),
       '#studio_url' => Url::fromRoute('jurenites_qr_studio.workspace')->toString(),
       '#website_url' => Url::fromRoute('<front>')->toString(),
       '#favicon_url' => base_path() . $module_path . '/ui/favicon.svg',
       '#attached' => ['library' => ['jurenites_qr_studio/workspace']],
-      '#cache' => ['contexts' => ['url.site', 'languages:language_url']],
+      '#cache' => ['contexts' => ['url.site', 'languages:language_url', 'languages:language_interface', 'languages:language_content']],
     ];
     foreach (['styles' => 'css', 'scripts' => 'js', 'scripts_bottom' => 'js-bottom'] as $attachment_name => $placeholder_name) {
       $page_document['#attached']['html_response_attachment_placeholders'][$attachment_name] = '<' . $placeholder_name . '-placeholder token="' . $placeholder_token . '">';

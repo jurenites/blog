@@ -15,8 +15,9 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
 }
 
 .timeline__header {
-  max-width: calc(var(--space-scale-base-gap) * 90);
+  max-width: calc(var(--space-scale-base-gap) * 96);
   margin-bottom: calc(var(--space-scale-base-gap) * 6);
+  margin-left: calc(var(--space-scale-base-gap) * 26);
 }
 
 .timeline__eyebrow,

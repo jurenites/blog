@@ -14,6 +14,16 @@ and helper functions. Avoid lone generic names like `label`, `variant`, `title`,
 
 Example: use `eyebrow_heading`, not `eyebrow`.
 
+## CMS Copy and Translation
+
+Editorial headings, descriptions and other authored copy belong in translatable
+Drupal fields or reusable Page copy blocks, even when used only once. Prefer an
+existing Body field with its rich text editor for prose. Templates provide
+structure and render content; do not hide editorial copy behind `|t` or hardcoded
+fallback text. Seed starter values once and preserve later CMS edits and clears.
+Use Twig `|t` or `{% trans %}` for interface labels and accessibility messages.
+Storybook HTML templates use argument placeholders, not Twig translation filters.
+
 ## Storybook Examples
 
 Keep each visible Storybook example in its own folder under its type group, such

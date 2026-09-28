@@ -143,6 +143,16 @@ samp {
   box-sizing: border-box;
 }
 
+.storybook-shell--cookie-policy-notice-preview {
+  min-height: 0;
+  padding: 0;
+
+  > .cookie-policy-notice {
+    position: relative;
+    inset: auto;
+  }
+}
+
 .storybook-shell--version-watermark-preview {
   position: relative;
   width: 100%;

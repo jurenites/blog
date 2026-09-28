@@ -44,7 +44,7 @@ function jurenites_cookbook_ensure_content(): array {
       'title' => 'Cookbook',
       'body' => [
         'value' => jurenites_cookbook_initial_body(),
-        'format' => 'basic_html',
+        'format' => 'full_html',
       ],
       'status' => TRUE,
       'path' => [

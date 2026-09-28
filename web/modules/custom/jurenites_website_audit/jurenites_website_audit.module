@@ -14,7 +14,7 @@ use Drupal\Core\Entity\EntityInterface;
  */
 function jurenites_website_audit_theme(): array {
   return ['jurenites_website_audit' => ['variables' => [
-    'report_content' => [], 'offer_content' => [], 'business_days' => NULL, 'order_button' => [],
+    'report_content' => [], 'offer_content' => [], 'order_button' => [],
   ]]];
 }
 
@@ -28,17 +28,14 @@ function jurenites_website_audit_block_content_view(array &$build_output, Entity
   $audit_build = ['#theme' => 'jurenites_website_audit'];
   $cache_metadata = CacheableMetadata::createFromObject($block_entity)
     ->addCacheContexts(['languages:language_content']);
-  foreach (['body' => 'report_content', 'field_audit_offer' => 'offer_content', 'field_audit_days' => 'business_days', 'field_audit_link' => 'order_button'] as $field_name => $theme_variable) {
+  foreach (['body' => 'report_content', 'field_audit_offer' => 'offer_content', 'field_audit_link' => 'order_button'] as $field_name => $theme_variable) {
     $field_items = $block_entity->get($field_name);
     $field_access = $field_items->access('view', NULL, TRUE);
     $cache_metadata->addCacheableDependency($field_access);
     if (!$field_access->isAllowed() || $field_items->isEmpty()) {
       continue;
     }
-    if ($field_name === 'field_audit_days') {
-      $audit_build['#business_days'] = (int) $field_items->value;
-    }
-    elseif ($field_name === 'field_audit_link') {
+    if ($field_name === 'field_audit_link') {
       $audit_build['#order_button'] = [
         '#type' => 'link', '#title' => $field_items->title,
         '#url' => $field_items->first()->getUrl(),

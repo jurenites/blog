@@ -10,7 +10,7 @@ function technology_item_markup(technology_data, category_name, group_name) {
     : `<span class="technology-stack__text-mark">${escape_html(technology_data.text_mark)}</span>`;
   return `<li class="technology-stack__item">
     <div class="technology-stack__tile" tabindex="0" role="group" aria-label="${escape_html(technology_data.technology_name)}">
-      <span class="technology-stack__artwork" aria-hidden="true">${logo_content}</span>
+      <span class="technology-stack__artwork technology-stack__artwork--${escape_html(technology_data.technology_key)}" aria-hidden="true">${logo_content}</span>
       <span class="tooltip technology-stack__tooltip">
         <span class="technology-stack__category-name">${escape_html(category_name)}${group_name ? ` / ${escape_html(group_name)}` : ''}</span>
         <a class="technology-stack__link" href="${escape_html(technology_data.official_url)}" rel="external"><span class="technology-stack__name">${escape_html(technology_data.technology_name)}${icon_markup({ icon_name: 'external-link', class_name: 'technology-stack__external-mark' })}</span></a>

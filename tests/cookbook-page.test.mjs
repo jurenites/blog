@@ -18,7 +18,7 @@ const FONT_PROJECT_SOURCE = readFileSync(
 test("Cookbook is an editable published Basic Page with a stable alias", () => {
   assert.match(COOKBOOK_INSTALL_SOURCE, /'type' => 'page'/);
   assert.match(COOKBOOK_INSTALL_SOURCE, /'title' => 'Cookbook'/);
-  assert.match(COOKBOOK_INSTALL_SOURCE, /'format' => 'basic_html'/);
+  assert.match(COOKBOOK_INSTALL_SOURCE, /'format' => 'full_html'/);
   assert.match(COOKBOOK_INSTALL_SOURCE, /'alias' => '\/cookbook'/);
   assert.match(COOKBOOK_INSTALL_SOURCE, /'status' => TRUE/);
 });

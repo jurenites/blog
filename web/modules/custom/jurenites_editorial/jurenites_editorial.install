@@ -19,6 +19,7 @@ use Drupal\views\Entity\View;
  */
 function jurenites_editorial_install(): void {
   jurenites_editorial_migrate_content();
+  jurenites_editorial_migrate_template_copy();
 }
 
 /**
@@ -121,7 +122,7 @@ function jurenites_editorial_migrate_content(): void {
 /**
  * Creates one named block; interrupted migrations reuse previously saved copy.
  */
-function jurenites_editorial_create_copy(string $block_label, string $body_text, string $body_format = 'basic_html'): BlockContent {
+function jurenites_editorial_create_copy(string $block_label, string $body_text, string $body_format = 'full_html'): BlockContent {
   $block_storage = \Drupal::entityTypeManager()->getStorage('block_content');
   $matching_blocks = $block_storage->loadByProperties(['type' => 'editorial_copy', 'info' => $block_label]);
   if ($matching_blocks !== []) {
@@ -159,19 +160,24 @@ function jurenites_editorial_area_options(string $area_key, BlockContent $copy_b
 /**
  * Adds an optional translated text field and backfills existing records once.
  */
-function jurenites_editorial_add_text_field(string $entity_type, string $bundle_name, string $field_name, string $field_label, string $starter_text, int $field_weight): void {
+function jurenites_editorial_add_text_field(string $entity_type, string $bundle_name, string $field_name, string $field_label, string $starter_text, int $field_weight, ?callable $starter_resolver = NULL): void {
+  $pending_key = "jurenites_editorial.pending_seed.$entity_type.$bundle_name.$field_name";
   $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
   if ($field_storage === NULL) {
     $field_storage = FieldStorageConfig::create(['entity_type' => $entity_type, 'field_name' => $field_name, 'type' => 'string_long', 'translatable' => TRUE]);
     $field_storage->save();
   }
-  if (FieldConfig::loadByName($entity_type, $bundle_name, $field_name) !== NULL) {
+  $field_config = FieldConfig::loadByName($entity_type, $bundle_name, $field_name);
+  if ($field_config !== NULL && !\Drupal::state()->get($pending_key, FALSE)) {
     return;
   }
-  FieldConfig::create([
-    'field_storage' => $field_storage, 'bundle' => $bundle_name, 'label' => $field_label,
-    'translatable' => TRUE, 'default_value' => [['value' => $starter_text]],
-  ])->save();
+  \Drupal::state()->set($pending_key, TRUE);
+  if ($field_config === NULL) {
+    FieldConfig::create([
+      'field_storage' => $field_storage, 'bundle' => $bundle_name, 'label' => $field_label,
+      'translatable' => TRUE, 'default_value' => [['value' => $starter_text]],
+    ])->save();
+  }
   EntityFormDisplay::load("$entity_type.$bundle_name.default")
     ->setComponent($field_name, ['type' => 'string_textarea', 'weight' => $field_weight])->save();
   $view_display = EntityViewDisplay::load("$entity_type.$bundle_name.default");
@@ -182,14 +188,60 @@ function jurenites_editorial_add_text_field(string $entity_type, string $bundle_
     $view_display->removeComponent($field_name)->save();
   }
   $entity_storage = \Drupal::entityTypeManager()->getStorage($entity_type);
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+  $entity_storage->resetCache();
   $bundle_key = $entity_storage->getEntityType()->getKey('bundle');
   foreach ($entity_storage->loadByProperties([$bundle_key => $bundle_name]) as $content_entity) {
+    $entity_starter = $starter_resolver ? $starter_resolver($content_entity) : $starter_text;
     foreach ($content_entity->getTranslationLanguages() as $language_id => $language_entity) {
       $translated_entity = $content_entity->getTranslation($language_id);
-      $translated_entity->set($field_name, (string) \Drupal::translation()->translate($starter_text, [], ['langcode' => $language_id]));
+      if ($translated_entity->get($field_name)->isEmpty()) {
+        $translated_entity->set($field_name, $entity_starter === '' ? '' : (string) \Drupal::translation()->translate($entity_starter, [], ['langcode' => $language_id]));
+      }
     }
-    // Keep embedded Paragraph revision references valid; only this new field is filled.
-    $content_entity->setNewRevision(FALSE);
+    // Embedded Paragraph revision references must remain valid. Nodes get a
+    // normal revision so their editorial history remains recoverable.
+    $content_entity->setNewRevision($entity_type !== 'paragraph');
     $content_entity->save();
   }
+  \Drupal::state()->delete($pending_key);
+}
+
+/**
+ * Moves remaining editorial template copy to its owning entity or copy block.
+ */
+function jurenites_editorial_migrate_template_copy(): void {
+  if (\Drupal::state()->get('jurenites_editorial.template_copy_migrated', FALSE)) {
+    return;
+  }
+  $field_records = [
+    ['node', 'timeline', 'field_timeline_eyebrow', 'Eyebrow heading', 'Commercial work', 1],
+    ['node', 'timeline', 'field_timeline_count_label', 'Project count label', 'Commercial projects', 2],
+    ['node', 'project', 'field_comparison_heading', 'Image comparison heading', 'Before and after', 20],
+    ['paragraph', 'pixel_glyph_editor', 'field_editor_heading', 'Editor heading', 'Draw a 4×4 glyph', -1],
+  ];
+  foreach ($field_records as $field_record) {
+    if (isset(\Drupal::service('entity_type.bundle.info')->getBundleInfo($field_record[0])[$field_record[1]])) {
+      jurenites_editorial_add_text_field(...$field_record);
+    }
+  }
+  jurenites_editorial_add_text_field('node', 'guideline', 'field_specimen_heading', 'Specimen heading', '', 2,
+    static fn ($content_entity): string => match ($content_entity->get('field_guideline_section')->value) {
+      'logo_icon' => 'Current icon', 'color' => 'Token palette', default => '',
+    });
+  jurenites_editorial_add_text_field('node', 'guideline', 'field_specimen_description', 'Specimen description', '', 3,
+    static fn ($content_entity): string => match ($content_entity->get('field_guideline_section')->value) {
+      'logo_icon' => 'The rendered examples below use the same SVG file as the website header.',
+      'color' => 'These values are read from the generated record of src/token/tokens.yaml.', default => '',
+    });
+
+  $copy_records = require __DIR__ . '/data/template-copy.php';
+  foreach ($copy_records as $copy_record) {
+    $copy_block = \Drupal::service('entity.repository')->loadEntityByUuid('block_content', $copy_record['uuid']);
+    if ($copy_block === NULL) {
+      $copy_block = jurenites_editorial_create_copy($copy_record['label'], $copy_record['body']);
+      $copy_block->set('uuid', $copy_record['uuid'])->save();
+    }
+  }
+  \Drupal::state()->set('jurenites_editorial.template_copy_migrated', TRUE);
 }

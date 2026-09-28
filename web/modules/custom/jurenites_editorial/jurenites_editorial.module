@@ -23,5 +23,73 @@ function jurenites_editorial_preprocess_paragraph(array &$paragraph_variables): 
   $paragraph_entity = $paragraph_variables['paragraph'];
   if ($paragraph_entity->bundle() === 'pixel_glyph_editor') {
     $paragraph_variables['editor_instructions'] = $paragraph_variables['content']['field_editor_instructions'] ?? [];
+    $paragraph_variables['editor_heading'] = $paragraph_entity->hasField('field_editor_heading')
+      ? $paragraph_entity->get('field_editor_heading')->value : '';
+  }
+}
+
+/**
+ * Reads a translated, access-checked copy block and bubbles its cache metadata.
+ */
+function jurenites_editorial_template_copy(string $copy_key, array &$cache_build, bool $plain_text = FALSE): array|string {
+  $copy_records = require __DIR__ . '/data/template-copy.php';
+  $cache_metadata = \Drupal\Core\Cache\CacheableMetadata::createFromRenderArray($cache_build)
+    ->addCacheTags(['block_content_list'])->addCacheContexts(['languages:language_content']);
+  $copy_block = isset($copy_records[$copy_key])
+    ? \Drupal::service('entity.repository')->loadEntityByUuid('block_content', $copy_records[$copy_key]['uuid']) : NULL;
+  $copy_output = $plain_text ? '' : [];
+  if ($copy_block !== NULL) {
+    $copy_block = \Drupal::service('entity.repository')->getTranslationFromContext($copy_block);
+    $access_result = $copy_block->access('view', NULL, TRUE);
+    $cache_metadata->addCacheableDependency($copy_block)->addCacheableDependency($access_result);
+    if ($access_result->isAllowed()) {
+      $body_item = $copy_block->get('body')->first();
+      $copy_output = $plain_text
+        ? trim(\Drupal\Component\Utility\Html::decodeEntities(strip_tags((string) ($body_item?->value ?? ''))))
+        : ['#type' => 'processed_text', '#text' => $body_item?->value ?? '', '#format' => $body_item?->format ?? 'full_html'];
+    }
+  }
+  $cache_metadata->applyTo($cache_build);
+  return $copy_output;
+}
+
+/**
+ * Supplies the editable header name while retaining its letter animation.
+ */
+function jurenites_editorial_preprocess_block(array &$block_variables): void {
+  if (($block_variables['base_plugin_id'] ?? '') !== 'system_branding_block') {
+    return;
+  }
+  $block_variables['editorial_copy_cache'] = [];
+  $display_name = jurenites_editorial_template_copy('header_name', $block_variables['editorial_copy_cache'], TRUE);
+  $block_variables['brand_display_name'] = $display_name;
+  $block_variables['brand_name_words'] = [];
+  foreach (preg_split('/\s+/u', $display_name, -1, PREG_SPLIT_NO_EMPTY) as $word_text) {
+    $word_letters = preg_split('//u', $word_text, -1, PREG_SPLIT_NO_EMPTY);
+    $block_variables['brand_name_words'][] = ['initial' => array_shift($word_letters), 'letters' => $word_letters];
+  }
+}
+
+/**
+ * Supplies the editable footer statement, retaining the generated year.
+ */
+function jurenites_editorial_preprocess_menu(array &$menu_variables): void {
+  if (($menu_variables['menu_name'] ?? '') === 'footer') {
+    $menu_variables['editorial_copy_cache'] = [];
+    $menu_variables['footer_rights_copy'] = jurenites_editorial_template_copy('footer_rights', $menu_variables['editorial_copy_cache'], TRUE);
+  }
+}
+
+/**
+ * Supplies standalone rich text while QR controls use interface translation.
+ */
+function jurenites_editorial_preprocess_jurenites_qr_studio_document(array &$studio_variables): void {
+  $studio_variables['editorial_copy_cache'] = [];
+  $studio_variables['studio_copy'] = [];
+  $copy_records = require __DIR__ . '/data/template-copy.php';
+  foreach ($copy_records as $copy_key => $copy_record) {
+    if (str_starts_with($copy_key, 'qr_')) {
+      $studio_variables['studio_copy'][substr($copy_key, 3)] = jurenites_editorial_template_copy($copy_key, $studio_variables['editorial_copy_cache']);
+    }
   }
 }

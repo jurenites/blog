@@ -1,0 +1,44 @@
+.dynamic-thumbnail {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--theme-dark-surface-background-elevation-level-0);
+
+  &__artwork {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+
+  [data-thumbnail-depth] {
+    transform-box: view-box;
+    transform-origin: center;
+  }
+
+  &__highlight-start {
+    stop-color: var(--component-pulse-indicator-radius-color-start);
+  }
+
+  &__highlight-end {
+    stop-color: var(--component-pulse-indicator-radius-color-end);
+  }
+}
+
+.has-dynamic-thumbnail > .project-card__media,
+.has-dynamic-thumbnail > .article-teaser__media,
+.has-dynamic-thumbnail > .article-list-item__media {
+  aspect-ratio: auto;
+  align-self: start;
+}
+
+.has-dynamic-thumbnail .dynamic-thumbnail {
+  height: auto;
+}
+
+// Inset the ring so the media wrapper cannot clip keyboard or hover feedback.
+a.dynamic-thumbnail--linked:is(:hover, :focus-visible) {
+  outline: var(--shape-border-width-thick-default) solid var(--theme-dark-action-primary-default);
+  outline-offset: calc(var(--shape-border-width-thick-default) * -1);
+}

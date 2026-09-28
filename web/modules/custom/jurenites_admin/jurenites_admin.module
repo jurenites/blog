@@ -45,7 +45,7 @@ function jurenites_admin_field_widget_single_element_form_alter(array &$widget_e
   $summary_element['#element_validate'][] = 'jurenites_admin_validate_article_summary';
   // Keep the rich editor visible, including when a new Article has no summary.
   $summary_element['#attributes']['class'] = ['text-summary'];
-  $summary_element['#description'] = t('Format the summary with Full HTML. Leave blank to use trimmed Body text. The saved summary shares the Body text format. Select Full HTML for Body to preserve the same formatting.');
+  $summary_element['#description'] = t('Format the summary with Full HTML. Leave blank to use trimmed Body text. The saved summary shares the Body text format.');
 }
 
 /**
@@ -112,7 +112,7 @@ function jurenites_admin_configure_editor_typography(): int {
   );
   $updated_editor_count = 0;
 
-  foreach (['basic_html', 'full_html'] as $editor_format_id) {
+  foreach (['full_html'] as $editor_format_id) {
     $text_editor = Editor::load($editor_format_id);
     if ($text_editor === NULL || $text_editor->getEditor() !== 'ckeditor5') {
       continue;
@@ -292,7 +292,7 @@ function jurenites_admin_configure_article_comments(): int {
   $comment_body_field = FieldConfig::loadByName('comment', 'comment', 'comment_body');
   if ($comment_body_field !== NULL) {
     $comment_body_field
-      ->setSetting('allowed_formats', ['restricted_html'])
+      ->setSetting('allowed_formats', ['full_html'])
       ->save();
   }
 
@@ -318,7 +318,7 @@ function jurenites_admin_configure_article_comments(): int {
       'skip comment approval',
       'edit own comments',
       'delete own article comments',
-      'use text format restricted_html',
+      'use text format full_html',
     ] as $editor_permission) {
       $content_editor_role->grantPermission($editor_permission);
     }
@@ -479,7 +479,7 @@ function jurenites_admin_set_article_comment_language(CommentInterface $comment_
  */
 function jurenites_admin_hide_comment_format_help(array $comment_form, FormStateInterface $form_state): array {
   if (isset($comment_form['comment_body']['widget'][0]['format'])) {
-    $comment_form['comment_body']['widget'][0]['format']['#access'] = FALSE;
+    $comment_form['comment_body']['widget'][0]['format']['guidelines']['#access'] = FALSE;
   }
 
   return $comment_form;
@@ -517,4 +517,35 @@ function jurenites_admin_page_attachments(array &$page_attachments): void {
   }
 
   $page_attachments['#attached']['library'][] = 'jurenites_admin/gin-branding';
+}
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function jurenites_admin_element_info_alter(array &$element_types): void {
+  array_unshift($element_types['text_format']['#process'], 'jurenites_admin_force_full_html');
+  $element_types['text_format']['#process'][] = 'jurenites_admin_hide_format_controls';
+}
+
+/**
+ * Uses one format for rich-text authoring while retaining core access checks.
+ */
+function jurenites_admin_force_full_html(array $text_element, FormStateInterface $form_state, array &$complete_form): array {
+  if (\Drupal::currentUser()->hasPermission('use text format full_html')) {
+    $text_element['#format'] = 'full_html';
+    $text_element['#allowed_formats'] = ['full_html'];
+  }
+  return $text_element;
+}
+
+/**
+ * Hides help and choices, retaining the hidden input required by CKEditor.
+ */
+function jurenites_admin_hide_format_controls(array $text_element, FormStateInterface $form_state, array &$complete_form): array {
+  if (($text_element['#allowed_formats'] ?? []) === ['full_html']) {
+    $text_element['format']['format']['#access'] = FALSE;
+    $text_element['format']['guidelines']['#access'] = FALSE;
+    $text_element['format']['help']['#access'] = FALSE;
+  }
+  return $text_element;
 }

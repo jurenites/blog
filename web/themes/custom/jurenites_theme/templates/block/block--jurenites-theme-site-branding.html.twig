@@ -1,16 +1,15 @@
+{{ editorial_copy_cache }}
 <div{{ attributes.addClass('site-header__branding') }}>
 {{ title_prefix }}
-  <a class="site-header__brand" href="{{ path('<front>') }}" rel="home" aria-label="{{ 'Alexander Ilivanov — home'|t }}">
+  <a class="site-header__brand" href="{{ path('<front>') }}" rel="home" aria-label="{{ '@name home'|t({'@name': brand_display_name}) }}">
     <span class="site-header__brand-name" aria-hidden="true">
       <span class="site-header__brand-name-short">
-        <span class="site-header__brand-name-word site-header__brand-name-word--first">
-          <span class="site-header__brand-name-initial">A</span>
-          <span class="site-header__brand-name-remainder"><span class="site-header__brand-name-letter">l</span><span class="site-header__brand-name-letter">e</span><span class="site-header__brand-name-letter">x</span><span class="site-header__brand-name-letter">a</span><span class="site-header__brand-name-letter">n</span><span class="site-header__brand-name-letter">d</span><span class="site-header__brand-name-letter">e</span><span class="site-header__brand-name-letter">r</span></span>
-        </span>
-        <span class="site-header__brand-name-word site-header__brand-name-word--last">
-          <span class="site-header__brand-name-initial">I</span>
-          <span class="site-header__brand-name-remainder"><span class="site-header__brand-name-letter">l</span><span class="site-header__brand-name-letter">i</span><span class="site-header__brand-name-letter">v</span><span class="site-header__brand-name-letter">a</span><span class="site-header__brand-name-letter">n</span><span class="site-header__brand-name-letter">o</span><span class="site-header__brand-name-letter">v</span></span>
-        </span>
+        {% for name_word in brand_name_words %}
+          <span class="site-header__brand-name-word site-header__brand-name-word--{{ loop.first ? 'first' : 'last' }}">
+            <span class="site-header__brand-name-initial">{{ name_word.initial }}</span>
+            <span class="site-header__brand-name-remainder">{% for name_letter in name_word.letters %}<span class="site-header__brand-name-letter">{{ name_letter }}</span>{% endfor %}</span>
+          </span>
+        {% endfor %}
       </span>
     </span>
   </a>
