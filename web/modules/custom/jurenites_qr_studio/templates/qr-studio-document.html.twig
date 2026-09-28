@@ -111,10 +111,6 @@
           <span id="capacity-detail">{{ 'Alphanumeric capacity · includes HTTPS://'|t }}
           </span>
         </div>
-        <button id="generate-button" class="primary-button wide-button">{{ 'Generate around locks'|t }}
-          <span aria-hidden="true">↻
-          </span>
-        </button>
         <button id="cancel-search" class="quiet-button wide-button" hidden>{{ 'Stop search'|t }}
         </button>
         <p id="generation-message" class="field-help" aria-live="polite">{{ 'Paint a cell to lock it. Regeneration keeps your artwork.'|t }}
@@ -146,12 +142,6 @@
         <div class="field-help">{{ studio_copy.stencil_help }}</div>
         <div class="panel-divider">
         </div>
-        <label class="check-row">
-          <input id="protect-structure" type="checkbox" checked>
-          <span>{{ 'Protect QR structure'|t }}
-          </span>
-        </label>
-        <div class="field-help">{{ studio_copy.structure_help }}</div>
         <button id="clear-locks" class="text-button muted-button">{{ 'Release all locks'|t }}
         </button>
       </aside>
@@ -202,8 +192,12 @@
             <label class="check-row">
               <input id="show-structure" type="checkbox">{{ 'Structure'|t }}
             </label>
+            <label class="check-row">
+              <input id="protect-structure" type="checkbox" checked aria-describedby="structure-help">{{ 'Protect QR structure'|t }}
+            </label>
           </div>
         </div>
+        <div id="structure-help" class="field-help">{{ studio_copy.structure_help }}</div>
         <div class="drawing-toolbar" role="toolbar" aria-label="{{ 'Painting tools'|t }}">
           <button data-tool="paint" aria-pressed="true" title="{{ 'Invert pixel color · B or W'|t }}">
             <span class="toggle-swatch" aria-hidden="true">

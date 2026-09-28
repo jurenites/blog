@@ -1170,5 +1170,28 @@ mobile-only preview. Source filenames and dimensions are recorded in
 For a standalone development preview, run `node scripts/preview-accountia.mjs`
 and open `http://127.0.0.1:6011/previews/accountia/`. Port 6010 can continue serving
 the built Storybook. The prototype does not change Drupal content, routes, or
-Blog listings. Article text and other project presentation blocks are deferred
-until the basic card composition has been reviewed.
+Blog listings. The local Drupal case study now has its own editable presentation, described below.
+
+### Accountia Drupal presentation
+
+Project 105 (`/portfolio/accountia`) keeps its authored case study and preview
+markup in the translatable Body field. The one-time seed script
+`scripts/update-accountia-previews.php` creates a revision and refuses to replace
+existing previews, preserving subsequent CMS edits. Generated section markup and
+the supplied-image manifest are under `generated/content/accountia/`.
+
+Three shared phone cards show the two landing-page exports and the exact 360px
+application exports, split between two application sequences. Long screens scroll
+before advancing; the shared runtime respects reduced motion. Four image viewers
+provide the original/later invoice comparison, all 23 desktop screens, the original
+style guide, and 44 guideline sheets. Galleries with more than two images advance
+every five seconds while visible, pause on hover/focus, and offer explicit playback
+and navigation controls. Reduced motion starts them paused. Images fit the viewport;
+Open original allows detailed inspection without cropping the preview.
+
+The supplied MOV is converted to a browser-compatible MP4 in the local public
+files directory. Its shared Media Loader resolves on actual video readiness and
+reveals an error link on failure. The player defaults to 800px (100 base gaps),
+can expand to the content width, and retains native fullscreen controls.
+Optimized WebP images and the MP4 live in `public://projects/accountia/`; deployment
+must carry those public files alongside the database revision and theme build.

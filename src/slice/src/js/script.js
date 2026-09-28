@@ -1,3 +1,4 @@
+import { initialize_accountia_showcases } from './accountia-showcase.js';
 import { initialize_dynamic_thumbnails, detach_dynamic_thumbnails } from './dynamic-thumbnail.js';
 import { initialize_cursor_cards, detach_cursor_cards } from './cursor-card.js';
 import { initialize_elapsed_times, detach_elapsed_times } from './elapsed-time.js';
@@ -1028,7 +1029,7 @@ if (typeof Drupal !== 'undefined') {
     },
   };
   Drupal.behaviors.jurenites_screen_slider = {
-    attach(page_context) { initialize_screen_sliders(page_context); },
+    attach(page_context) { initialize_screen_sliders(page_context); initialize_accountia_showcases(page_context); },
     detach(page_context, drupal_settings, detach_trigger) {
       if (detach_trigger === 'unload') detach_screen_sliders(page_context);
     },
