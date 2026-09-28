@@ -186,3 +186,27 @@ function jurenites_admin_post_update_full_html_only(): string {
   $updated_row_count = jurenites_admin_configure_full_html();
   return t('Migrated @count content rows to Full HTML and removed Basic HTML and Restricted HTML.', ['@count' => $updated_row_count]);
 }
+
+/**
+ * Adds named corporate text colors to CKEditor.
+ */
+function jurenites_admin_post_update_corporate_text_colors(): string {
+  $updated_editor_count = jurenites_admin_configure_editor_colors();
+  return t('Enabled corporate text colors for @count editors.', ['@count' => $updated_editor_count]);
+}
+
+/**
+ * Allows the existing grayscale palette in class-based editor colors.
+ */
+function jurenites_admin_post_update_grayscale_text_colors(): string {
+  jurenites_admin_configure_editor_colors();
+  return t('Enabled all thirteen grayscale text colors in CKEditor.');
+}
+
+/**
+ * Adds left, center and right alignment controls to rich-text editors.
+ */
+function jurenites_admin_post_update_editor_alignment(): string {
+  jurenites_admin_configure_editor_alignment();
+  return t('Enabled left, center and right alignment controls for text and phone previews.');
+}

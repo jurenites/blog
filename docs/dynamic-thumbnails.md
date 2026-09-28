@@ -2,16 +2,39 @@
 
 ## Preview Mobile Screen Card
 
+The component’s Storybook Docs page includes a Project integration guide, raw HTML
+nesting example, control-to-attribute table and complete generated ScatchApp markup.
+Its explanation is maintained in `src/stories/molecules/card/card.docs.md`; it
+documents the protected rich text editing workflow. Wrap cards in
+`<div data-phone-preview>...</div>` when embedding them in rich text. The
+`jurenites_admin` PhonePreview plugin treats that wrapper (and the existing
+`data-scatchapp-sequence` wrapper) as a CKEditor block object with raw contents.
+It displays a safe text placeholder in the visual editor and preserves the
+phone markup through ordinary saves and source-mode toggles. The whole block can
+be moved or deleted; deliberate source edits remain possible. Unwrapped card
+HTML is not protected, and the plugin does not repair already-damaged markup.
+
+The local regression check `tests/phone-preview-editor.browser.mjs` performs two
+real ScatchApp node saves with changed revision notes, checks source toggles and
+intentional removal, then verifies both videos play in sequence after each save.
+It creates Drupal revisions and requires the local Docker site.
+
 Storybook **Molecules / Preview Mobile Screen Card / Phone Preview** provides a standalone, square,
-fully clickable image card inspired by the ICU preview at
+optionally clickable image card inspired by the ICU preview at
 <https://fintech.auxility.ca/#cases>. The demo uses four unmodified AMI PNGs in
 `src/public/assets/images/projects/ami/`. The accessible link label and destination
 are editable story args; the demo links to the funded-accounts screenshot.
 
+`card_url` is optional. A non-empty URL renders an accessible anchor. An empty,
+omitted or whitespace-only URL renders a regular `div`, without link attributes,
+keyboard focus, pointer cursor or hover feedback. This mode disables phone tilt,
+background tracking and hover-to-pause regardless of `follow_cursor`, while
+preserving normal media playback and reduced-motion behavior.
+
 The phone and background tile are separate renderers and templates:
 `phone-preview.markup.js` renders the device, screen sequence and static poster;
 `background-tile.markup.js` renders only the radial-gradient SVG. `card.markup.js`
-composes them into the clickable wrapper. The phone can be reused without the tile
+composes them into the card wrapper. The phone can be reused without the tile
 inside a wrapper with `data-cursor-card` for its existing interaction lifecycle.
 Pass `data-follow-cursor="false"` on that wrapper for the fixed mode; the composed
 card handles this attribute automatically.

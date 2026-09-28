@@ -4,10 +4,25 @@ Keep the first content model universal. Do not overfit each project into many cu
 
 Rule: create fields only when Drupal needs to sort, filter, reference, render, or query the value. If the value is mostly storytelling, keep it in `Body`.
 
+CKEditor Source mode keeps its native textarea with lightweight HTML syntax colours
+for tags, attributes, values, entities, and comments. The `jurenites_admin`
+SourceCode plugin follows the existing Source toolbar item, including editors
+created in paragraph subforms. CKEditor's own HTML formatter runs when Source
+opens and after a paste; **Format HTML** also formats manual edits. Typing does
+not trigger reformatting. The highlight layer is decorative and never parses
+or executes the entered HTML. Existing CKEditor filtering still applies when
+returning to visual editing or saving.
+
 ## Rich-text authoring
 
-Body, article summaries, comments, and other formatted text fields use Full HTML
-with CKEditor. The format chooser and format help are hidden while the editor's
+The toolbar exposes **Align left**, **Align center**, and **Align right**. Select
+a protected Phone preview block to align its complete card, or place the cursor
+in a text block to align that text. Alignment is saved as CSS classes and survives
+Source mode and later saves; the preview artwork and media remain protected.
+
+Body, article summaries, and other formatted text fields use Full HTML
+with CKEditor. Article and Video comments use a plain textarea with CKEditor
+disabled, retaining their existing storage format and content. The format chooser and format help are hidden while the editor's
 hidden format input is retained. Plain string textareas remain plain fields.
 Basic HTML and Restricted HTML are removed after their content references,
 including translations and historical revisions, migrate to Full HTML without
@@ -16,6 +31,21 @@ HTML so they survive the change. Starter content also uses Full HTML. Content ed
 Full HTML permission; public roles do not gain editorial permissions. Drupal's
 Plain text fallback and Webform's internal format remain available to their
 respective systems, outside the editorial format chooser.
+
+The **Text color** dropdown starts with all 13 existing grayscale tokens in order:
+Full black, Dark black, Black, Light black, Deep gray, Dark gray, Gray, Light gray,
+Pale gray, Dark white, Light white, White, and Full white. It also offers
+Primary, Secondary, and Tertiary, each with
+Accent and Soft variants, plus **Default** to remove the color. Each choice shows
+a named square swatch from the existing corporate palette, without hex codes or
+a custom color picker. The scrollable menu keeps every choice reachable. Selected text stores `u-text-*`
+classes on spans;
+choosing another color replaces the previous color. Typography and other inline
+formatting remain independent. Shared token-backed rules compile into both the
+public theme and CKEditor minified CSS. Changing a palette token therefore updates
+existing colored content on the next theme build. The `jurenites_admin` install
+hook and `corporate_text_colors` and `grayscale_text_colors` post-updates enable the toolbar and allow the
+specific span classes in HTML-filtered CKEditor formats.
 
 ## Editable page copy and contextual menus
 
@@ -125,6 +155,11 @@ labels. QR Studio's server-rendered labels now use translation filters and its
 document language follows Drupal; its client-side JavaScript messages still
 need a separate localization pass. Technical glyphs, numbers and generated
 asset paths are not editorial copy.
+
+Theme JavaScript uses `Drupal.t()` for generated cookie-dismiss controls and
+file-input validation messages, including the accepted-types placeholder.
+The Storybook timeline renderer also translates its heart emphasis and link-group
+labels when Drupal is available, with English fallbacks for standalone previews.
 
 Run `node --test tests/template-copy.test.mjs` to check production Twig templates
 for untranslated literal text, and the integration check below for editing,
@@ -334,6 +369,14 @@ Every duration button focuses that project's single card and scrolls to its
 description by mapping its text position back to the calendar's page position,
 with a 900–1600ms ease-in/ease-out animation, depending on distance. Direct project
 links and keyboard focus into clipped project links use the same mapping.
+Browser Find uses a natively scrollable description viewport. When the browser
+reveals a match, calendar synchronization waits for the description viewport's
+native `scrollend`, then maps its final text offset back to the calendar. It must
+not assign either scroll position during the browser's animated reveal: doing so
+cancels a long Find jump after its first few pixels and requires repeated clicks.
+The browser retains its exact match and highlight.
+Wheel input over descriptions forwards to page travel to retain the calendar's
+scroll speed. The viewport scrollbar remains hidden.
 Wheel, touch, pointer and navigation-key input can interrupt the animation;
 reduced-motion preferences use immediate navigation.
 Without JavaScript the complete grouped chronology remains readable.
@@ -347,9 +390,12 @@ between text and icon; the SVG has a 1px downward optical adjustment that does
 not change the row height. These styles apply only to product websites.
 App stores
 appear as separate named links (Google Play, App Store, or another authored store).
-Evidence stays in a separate link row with an accessible Sources label and no
-visible heading; a wireframe, PDF, third-party profile or reference article never
-becomes a product website by its position.
+Sources remain editable in the CMS but are omitted from the public Timeline
+and Storybook markup. Links inside project descriptions render as plain text,
+with their authored text and CMS URLs preserved. Only the dedicated Product
+websites and App stores rows render project destination links. A wireframe, PDF,
+third-party profile or reference article never becomes a product website by its
+position. This display policy does not revoke access to externally hosted files.
 These links do not claim a current reachability check. Existing sites run
 `jurenites_timeline_post_update_separate_product_links` through `drush updatedb`.
 It moves only reviewed, exact product URLs from Sources, adds the supplied Scatch
@@ -361,6 +407,8 @@ of the footer Information menu, not from the primary navigation.
 
 Gin Paragraphs subforms use zero bottom margin on `.form-item`, supplied by
 `jurenites_admin/css/gin-branding.css` so contributed theme files stay intact.
+The same stylesheet keeps enabled Gin dialog danger-button labels white in
+default, hover, and focus states, preserving Gin's disabled-button styles.
 
 The current Paragraph editor exposes repeatable Start and End date inputs. Its
 drag-and-drop mode changes item order only; it does not change dates or resolve
@@ -1076,11 +1124,20 @@ markup from the existing Preview Mobile Screen Card helper. The modern phone
 plays the supplied list recording and then the filter recording, both muted,
 and links to the Project. The map screenshot supplies the static fallback.
 The shared runtime retains hover pause, keyboard feedback, offscreen pause and
-reduced-motion behavior. Detail-page recordings expose native playback controls and still frames extracted from the supplied videos.
+reduced-motion behavior. The detail page uses one native-size, transparent phone
+with `follow_cursor: true`, containing those same two recordings in order (list,
+then filter). It replaces the separate inline video players in the Project story
+paragraphs while preserving their surrounding copy. The modern frame uses
+`island_overlay: false` because the recordings contain their own interface chrome.
+The phone links to the original list recording for native playback controls.
 
 Seed once with `node scripts/build-scatchapp-preview.mjs`, `npm run build:theme`,
 then `drush php:script scripts/create-scatchapp-project.php` and `drush cr`.
-The generator writes `generated/content/scatchapp-preview.html`; the seeder
+The generator writes `generated/content/scatchapp-preview.html` for Home and
+`generated/content/scatchapp-detail-preview.html` for the detail page. Apply the
+detail replacement with `drush php:script scripts/update-scatchapp-video-preview.php`;
+it checks for exactly the two known players, saves new paragraph and node revisions,
+and preserves an already-converted page on reruns. The seeder
 preserves an existing Project and block, including editorial clears and placement.
 Source copy lives in `scripts/content/scatchapp.json`. Assets are under
 `src/public/assets/images/projects/scatchapp/` and

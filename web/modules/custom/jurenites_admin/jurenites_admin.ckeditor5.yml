@@ -1,0 +1,34 @@
+jurenites_admin_corporate_text_color:
+  ckeditor5:
+    plugins:
+      - corporateTextColor.CorporateTextColor
+  drupal:
+    label: Corporate text color
+    library: jurenites_admin/corporate-text-color
+    toolbar_items:
+      corporateTextColor:
+        label: Text color
+    elements:
+      - <span class="u-text-full-black u-text-dark-black u-text-black u-text-light-black u-text-deep-gray u-text-dark-gray u-text-gray u-text-light-gray u-text-pale-gray u-text-dark-white u-text-light-white u-text-white u-text-full-white u-text-brand-primary u-text-brand-primary-accent u-text-brand-primary-soft u-text-brand-secondary u-text-brand-secondary-accent u-text-brand-secondary-soft u-text-brand-tertiary u-text-brand-tertiary-accent u-text-brand-tertiary-soft">
+
+jurenites_admin_source_code:
+  ckeditor5:
+    plugins:
+      - sourceCode.SourceCode
+  drupal:
+    label: Source code highlighting
+    library: jurenites_admin/source-code
+    elements: false
+    conditions:
+      toolbarItem: sourceEditing
+
+jurenites_admin_phone_preview:
+  ckeditor5:
+    plugins:
+      - phonePreview.PhonePreview
+  drupal:
+    label: Protected phone preview
+    library: jurenites_admin/phone-preview
+    elements: false
+    conditions:
+      toolbarItem: sourceEditing

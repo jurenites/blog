@@ -39,7 +39,7 @@ function emphasis_markup(emphasis_kind) {
         icon_name: "star-outline",
         class_name: "timeline__star-icon",
       })
-      + "Featured</span>";
+      + "</span>";
   }
   if (emphasis_kind === "heart") {
     return '<span class="timeline__emphasis timeline__emphasis--heart">'
@@ -47,7 +47,8 @@ function emphasis_markup(emphasis_kind) {
         icon_name: "heart-outline",
         class_name: "timeline__heart-icon",
       })
-      + "Special place in my heart</span>";
+      + escape_html(typeof Drupal !== "undefined"
+        ? Drupal.t("Special place in my heart") : "Special place in my heart") + "</span>";
   }
 
   return "";
@@ -81,7 +82,7 @@ function project_links_markup(project_links, group_class, group_label, domain_la
   if (!project_links?.length) {
     return "";
   }
-  return '<ul class="timeline__' + group_class + '" aria-label="' + group_label + '">'
+  return '<ul class="timeline__' + group_class + '" aria-label="' + escape_html(group_label) + '">'
     + project_links.map((project_link) => {
       const link_label = domain_label ? new URL(project_link.url).hostname : project_link.label;
       const link_class = domain_label ? ' class="timeline__website-link"' : "";
@@ -90,7 +91,7 @@ function project_links_markup(project_links, group_class, group_label, domain_la
         class_name: "timeline__website-external-mark",
       }) : "";
       const label_markup = domain_label ? "<span>" + escape_html(link_label) + "</span>" : escape_html(link_label);
-      return '<li><a' + link_class + ' href="' + escape_html(project_link.url) + '">'
+      return '<li><a' + link_class + ' href="' + escape_html(project_link.url) + '" target="_blank" rel="external">'
         + label_markup + external_icon + "</a></li>";
     }).join("")
     + "</ul>";
@@ -104,13 +105,12 @@ function item_content_markup(timeline_fragment) {
   const summary_markup = timeline_fragment.period_index === 0 && timeline_item.item_summary
     ? '<div class="timeline__summary"><p>' + escape_html(timeline_item.item_summary) + "</p></div>"
     : "";
-  const project_proof_links = timeline_fragment.period_index === 0
-    ? timeline_item.proof_links ?? []
-    : [];
   const item_title_markup = escape_html(timeline_item.item_name);
   const destination_markup = timeline_fragment.period_index === 0
-    ? project_links_markup(timeline_item.website_links, "website-links", "Product websites", true)
-      + project_links_markup(timeline_item.store_links, "store-links", "App stores")
+    ? project_links_markup(timeline_item.website_links, "website-links",
+      typeof Drupal !== "undefined" ? Drupal.t("Product websites") : "Product websites", true)
+      + project_links_markup(timeline_item.store_links, "store-links",
+        typeof Drupal !== "undefined" ? Drupal.t("App stores") : "App stores")
     : "";
 
   return '<article class="timeline__item-content">'
@@ -122,7 +122,6 @@ function item_content_markup(timeline_fragment) {
     + "</div>"
     + summary_markup
     + destination_markup
-    + project_links_markup(project_proof_links, "proof-links", "Sources")
     + "</article>";
 }
 

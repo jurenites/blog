@@ -1,0 +1,16 @@
+// Authored rich text stores approved classes, never literal color values.
+@each $brand-role in primary, secondary, tertiary {
+  @each $brand-shade in "", "-accent", "-soft" {
+    .u-text-brand-#{$brand-role}#{$brand-shade} {
+      color: var(--color-palette-brand-#{$brand-role}#{$brand-shade});
+    }
+  }
+}
+
+$grayscale-shades: "full-black", "dark-black", "black", "light-black", "deep-gray", "dark-gray", "gray", "light-gray", "pale-gray", "dark-white", "light-white", "white", "full-white";
+
+@each $color-shade in $grayscale-shades {
+  .u-text-#{$color-shade} {
+    color: var(--color-palette-#{$color-shade});
+  }
+}

@@ -1,3 +1,6 @@
+import CARD_DOCUMENTATION from './card.docs.md?raw';
+import { create as create_storybook_theme } from '@storybook/theming/create';
+import SCATCHAPP_HTML from '../../../../generated/content/scatchapp-detail-preview.html?raw';
 import { card_markup } from './card.markup.js';
 import { initialize_cursor_cards, detach_cursor_cards } from '../../../slice/src/js/cursor-card.js';
 import { initialize_dynamic_thumbnails, detach_dynamic_thumbnails } from '../../../slice/src/js/dynamic-thumbnail.js';
@@ -50,6 +53,13 @@ function render_phone_story(story_arguments) {
 export default {
   title: 'Molecules/Preview Mobile Screen Card',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      theme: create_storybook_theme({ base: 'dark' }),
+      description: { component: `${CARD_DOCUMENTATION}\n\n\`\`\`html\n${SCATCHAPP_HTML}\n\`\`\`` },
+      source: { transform: (source_text, story_context) => card_markup(story_context.args) },
+    },
+  },
   args: {
     card_label: CARD_LABEL,
     card_url: CARD_URL,
@@ -66,11 +76,11 @@ export default {
   },
   argTypes: {
     card_label: { control: 'text' },
-    card_url: { control: 'text' },
+    card_url: { control: 'text', description: 'Optional destination. Clear it to render a non-clickable preview without hover effects or cursor tracking; media playback continues.' },
     fallback_source: { control: 'text', description: 'Static screen poster shown before JavaScript initializes or when scripts are unavailable. Required for a video-only sequence without a poster.' },
     display_size: { control: 'select', options: DISPLAY_OPTIONS, description: 'Thumbnail: square tile. Native screen: 375px or 414px display plus the case and 32px tilt clearance on each side, shrinking only to fit smaller containers.' },
     background_mode: { control: 'select', options: BACKGROUND_OPTIONS, description: 'The background tile is optional and independent of phone size and playback.' },
-    follow_cursor: { control: 'boolean', description: 'Follow the pointer with perspective and light, or keep the phone facing straight ahead. False avoids pointer-tracking work and extra depth layers.' },
+    follow_cursor: { control: 'boolean', description: 'When a destination URL is set, follow the pointer with perspective and light, or keep the phone facing straight ahead. False avoids pointer-tracking work and extra depth layers.' },
     island_overlay: { control: 'boolean', description: 'Modern phones: reserve the top 56 screen pixels for the Dynamic Island. Still images fit below it; scrolling images pass behind it. The first image pixel row fills the band. Each frame may override island_overlay; disable it for screenshots with their own status bar or cutout.' },
     frame_list: { control: 'object', description: 'Frames: still, scroll, video, or gif. GIF uses generated sprite source, width, height and original frame durations. hold_ms controls visible duration; video 0 plays to the end.' },
     fade_duration_ms: { control: { type: 'number', min: 0, max: 3000 } },

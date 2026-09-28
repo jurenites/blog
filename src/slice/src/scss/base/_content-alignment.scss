@@ -1,0 +1,21 @@
+// Class-based CKEditor alignment is shared by published and editable content.
+.text-align-left { text-align: left; }
+.text-align-center { text-align: center; }
+.text-align-right { text-align: right; }
+
+[data-phone-preview],
+[data-scatchapp-sequence] {
+  &.text-align-center > .card {
+    margin-inline: auto;
+  }
+
+  &.text-align-right > .card {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  &.text-align-left > .card {
+    margin-left: 0;
+    margin-right: auto;
+  }
+}

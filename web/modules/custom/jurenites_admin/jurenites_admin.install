@@ -14,4 +14,6 @@ function jurenites_admin_install(): void {
   \Drupal::service('module_installer')->install(['jurenites_inline_media']);
   \Drupal::moduleHandler()->loadInclude('jurenites_admin', 'inc', 'jurenites_admin.formats');
   jurenites_admin_configure_full_html();
+  jurenites_admin_configure_editor_colors();
+  jurenites_admin_configure_editor_alignment();
 }

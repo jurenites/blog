@@ -28,9 +28,6 @@ const TIMELINE_ITEMS = [
     emphasis_kind: "featured",
     item_summary: "Led product design and frontend development for an accounting platform, its Angular interface, and its Storybook design system.",
     website_links: [{ url: "https://accountia.no/" }],
-    proof_links: [
-      { label: "Figma design", url: "https://www.figma.com/file/4K0S1h3hmZxDLHEXZpaYzU/Accountia" },
-    ],
   },
   {
     item_name: "ScatchApp",
@@ -46,10 +43,6 @@ const TIMELINE_ITEMS = [
     store_links: [
       { label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.scatch&hl=en" },
       { label: "App Store", url: "https://apps.apple.com/pl/app/scatch-app/id6747970607" },
-    ],
-    proof_links: [
-      { label: "Interactive wireframes", url: "https://app.moqups.com/ilFBpzYixG/view/page/a83744219" },
-      { label: "Wireframes PDF", url: "https://www.dropbox.com/s/7692ic3zpm6u2bk/Scatch_app.pdf?dl=0" },
     ],
   },
   {

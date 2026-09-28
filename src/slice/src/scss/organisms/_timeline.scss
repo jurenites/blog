@@ -278,7 +278,7 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
   top: calc(var(--space-scale-base-gap) * 8);
   height: calc(100dvh - (var(--space-scale-base-gap) * 8));
   min-width: 0;
-  overflow: hidden;
+  overflow: auto;
   overflow-anchor: none;
   scrollbar-width: none;
 }

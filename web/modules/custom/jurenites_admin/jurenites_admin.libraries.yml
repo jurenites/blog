@@ -13,3 +13,23 @@ contextual-editing:
     - core/jquery
     - contextual/drupal.contextual-links
 
+corporate-text-color:
+  js:
+    js/corporate-text-color.js: {}
+  dependencies:
+    - core/ckeditor5
+
+source-code:
+  js:
+    js/source-code.js: {}
+  css:
+    theme:
+      css/source-code.css: {}
+  dependencies:
+    - core/ckeditor5
+
+phone-preview:
+  js:
+    js/phone-preview.js: {}
+  dependencies:
+    - core/ckeditor5

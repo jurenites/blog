@@ -135,6 +135,10 @@ Exception: Technology Stack logo colors are fixed component artwork constants
 in `src/brand/technology-stack/brand-colors.js`. Keep them out of the token file
 and shared palette; do not expose them as design-token variables.
 
+QR Studio is an isolated application: its editable color values belong directly
+in `web/modules/custom/jurenites_qr_studio/ui/palette.css` as page-local CSS
+variables. Do not add them to shared theme tokens or regenerate this stylesheet.
+
 Footer brand colors are also outside the design-token inventory: fixed logo
 fills belong in the reviewed SVG assets, and editable hover colors/gradients
 belong in Drupal menu fields. Literal colors in the footer's isolated Storybook

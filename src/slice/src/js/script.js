@@ -851,7 +851,6 @@ export function initialize_tooltips(tooltip_context) {
 }
 
 const COOKIE_NOTICE_DISMISSED_KEY = 'jurenites-cookie-notice-dismissed-v2';
-const COOKIE_NOTICE_DISMISS_LABEL = 'Whatever';
 let cookie_notice_sequence = 0;
 
 export function initialize_cookie_policy_notice(cookie_policy_notice) {
@@ -869,7 +868,8 @@ export function initialize_cookie_policy_notice(cookie_policy_notice) {
     dismiss_button.className = 'button button--secondary cookie-policy-notice__dismiss';
     dismiss_button.type = 'button';
     dismiss_button.dataset.jurenitesCookiePolicyDismiss = '';
-    dismiss_button.textContent = COOKIE_NOTICE_DISMISS_LABEL;
+    dismiss_button.textContent = typeof Drupal !== 'undefined'
+      ? Drupal.t('Whatever') : 'Whatever';
     cookie_policy_notice.appendChild(dismiss_button);
   }
 

@@ -16,6 +16,11 @@ body .shortcut-action {
   display: none !important;
 }
 
+/* Gin's red dialog buttons need readable text before hover, too. */
+body .ui-dialog .button.button--danger:not(:disabled):not(.is-disabled) {
+  color: white !important;
+}
+
 /* Remove Gin's bottom spacing inside Paragraphs editing subforms. */
 body .paragraphs-subform .form-item {
   margin-block-end: 0 !important;

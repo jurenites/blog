@@ -68,7 +68,7 @@ test("Timeline rendering provides calendar years, exact duration lanes, and offi
   assert.match(timeline_template, /timeline__organization-link/);
   assert.match(timeline_template, /data-jurenites-timeline-organization-sticky/);
   assert.match(timeline_template, /timeline__organization-transition/);
-  assert.match(timeline_template, /timeline__proof-links/);
+  assert.doesNotMatch(timeline_template, /timeline__proof-links/);
   assert.match(timeline_template, /timeline__year-details/);
   assert.doesNotMatch(timeline_template, /primary_project_url|timeline__item-details-link/);
   assert.doesNotMatch(timeline_template, /timeline-project-vincofy/);

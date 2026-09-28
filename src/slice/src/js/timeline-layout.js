@@ -88,6 +88,9 @@ export function initialize_timeline_layout(timeline_element) {
   let scroll_anchors = [];
   let animation_frame = 0;
   let navigation_frame = 0;
+  let synchronized_text_offset = details_window.scrollTop;
+  let native_reveal_active = false;
+  let native_reveal_page_offset = null;
   let hovered_key = '';
   let focused_key = '';
   const reduced_motion = timeline_window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -98,6 +101,9 @@ export function initialize_timeline_layout(timeline_element) {
   const reveal_project_card = (project_card, immediate_scroll = false, focus_target = project_card) => {
     cancel_navigation();
     focus_target.focus({ preventScroll: true });
+    native_reveal_active = false;
+    native_reveal_page_offset = null;
+    synchronized_text_offset = details_window.scrollTop;
     const starting_offset = timeline_window.scrollY;
     const scroll_margin = Number.parseFloat(timeline_window.getComputedStyle(project_card).scrollMarginTop) || 0;
     const maximum_offset = Math.max(0, timeline_document.documentElement.scrollHeight - timeline_window.innerHeight);
@@ -138,14 +144,57 @@ export function initialize_timeline_layout(timeline_element) {
   const synchronize_calendar = () => {
     animation_frame = 0;
     const sticky_offset = Number.parseFloat(timeline_window.getComputedStyle(details_window).top) || 0;
+    // Find in page can scroll this clipped viewport without focusing a link.
+    // Its reveal may animate across several frames. Do not write to either
+    // scroller until scrollend: even assigning the current scrollTop cancels
+    // the browser's journey and makes Find advance only a little per click.
+    if (details_window.scrollTop !== synchronized_text_offset) {
+      cancel_navigation();
+      native_reveal_active = true;
+    }
+    if (native_reveal_active) return;
+    // The page rounds its offset to CSS pixels; dense text can map that back
+    // to several pixels of drift. Preserve the exact reveal until page travel
+    // actually resumes, including the scroll event from our own alignment.
+    if (timeline_window.scrollY === native_reveal_page_offset) return;
+    native_reveal_page_offset = null;
     const rail_offset = sticky_offset - layout_container.getBoundingClientRect().top;
     details_window.scrollTop = interpolate_project_offset(scroll_anchors, rail_offset);
+    synchronized_text_offset = details_window.scrollTop;
     timeline_element.dispatchEvent(new timeline_window.Event('timeline:calendar-scroll'));
   };
   const schedule_synchronization = () => {
     if (!animation_frame) animation_frame = timeline_window.requestAnimationFrame(synchronize_calendar);
   };
+  const finish_native_reveal = () => {
+    if (!native_reveal_active
+      && details_window.scrollTop === synchronized_text_offset) return;
+    cancel_navigation();
+    native_reveal_active = false;
+    synchronized_text_offset = details_window.scrollTop;
+    const sticky_offset = Number.parseFloat(timeline_window.getComputedStyle(details_window).top) || 0;
+    timeline_window.scrollTo({
+      top: timeline_window.scrollY + layout_container.getBoundingClientRect().top - sticky_offset
+        + interpolate_calendar_offset(scroll_anchors, synchronized_text_offset),
+      behavior: 'instant',
+    });
+    native_reveal_page_offset = timeline_window.scrollY;
+    timeline_element.dispatchEvent(new timeline_window.Event('timeline:calendar-scroll'));
+    schedule_synchronization();
+  };
+  // This viewport must be natively scrollable for browser Find. Keep wheel
+  // travel at the same calendar speed as scrolling over the year column.
+  details_window.addEventListener('wheel', (wheel_event) => {
+    if (wheel_event.ctrlKey || !wheel_event.deltaY || !wheel_event.cancelable) return;
+    const line_height = Number.parseFloat(timeline_window.getComputedStyle(details_column).lineHeight)
+      || Number.parseFloat(timeline_window.getComputedStyle(details_column).fontSize);
+    const delta_scale = wheel_event.deltaMode === 1 ? line_height
+      : wheel_event.deltaMode === 2 ? timeline_window.innerHeight : 1;
+    wheel_event.preventDefault();
+    timeline_window.scrollBy({ top: wheel_event.deltaY * delta_scale, behavior: 'instant' });
+  }, { ...event_options, passive: false });
   const measure_calendar = () => {
+    native_reveal_page_offset = null;
     const text_top = details_column.getBoundingClientRect().top;
     const rail_top = calendar_rail.getBoundingClientRect().top;
     const date_anchors = [];
@@ -165,6 +214,7 @@ export function initialize_timeline_layout(timeline_element) {
     });
     scroll_anchors = create_scroll_anchors(date_anchors, calendar_rail.offsetHeight,
       details_column.offsetHeight, details_window.clientHeight);
+    synchronized_text_offset = details_window.scrollTop;
     synchronize_calendar();
   };
   const highlight_projects = () => {
@@ -228,6 +278,8 @@ export function initialize_timeline_layout(timeline_element) {
     }
   }, event_options);
   timeline_window.addEventListener('hashchange', reveal_linked_project, event_options);
+  details_window.addEventListener('scroll', schedule_synchronization, { ...event_options, passive: true });
+  details_window.addEventListener('scrollend', finish_native_reveal, event_options);
   timeline_window.addEventListener('scroll', schedule_synchronization, { ...event_options, passive: true });
   timeline_window.addEventListener('resize', measure_calendar, event_options);
   const resize_observer = new timeline_window.ResizeObserver(measure_calendar);

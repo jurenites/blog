@@ -10,6 +10,8 @@ declare(strict_types=1);
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Component\Utility\Unicode;
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Render\Markup;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
 
@@ -148,17 +150,17 @@ function jurenites_timeline_build_item(ParagraphInterface $timeline_paragraph): 
     $organization_url = $timeline_paragraph->get('field_timeline_organization_url')->first()->getUrl()->toString();
   }
 
-  $proof_links = [];
-  if ($timeline_paragraph->hasField('field_timeline_proof_links')) {
-    foreach ($timeline_paragraph->get('field_timeline_proof_links') as $proof_delta => $proof_item) {
-      if ($proof_item->isEmpty()) {
-        continue;
+  // Keep authored links in the CMS, but expose description text without URLs.
+  if ($timeline_summary !== NULL) {
+    $summary_document = Html::load((string) $timeline_summary);
+    $summary_links = iterator_to_array($summary_document->getElementsByTagName('a'));
+    foreach ($summary_links as $summary_link) {
+      while ($summary_link->firstChild) {
+        $summary_link->parentNode->insertBefore($summary_link->firstChild, $summary_link);
       }
-      $proof_links[] = [
-        'url' => $proof_item->getUrl()->toString(),
-        'label' => (string) ($proof_item->title ?: t('Proof @number', ['@number' => $proof_delta + 1])),
-      ];
+      $summary_link->parentNode->removeChild($summary_link);
     }
+    $timeline_summary = Markup::create(Html::serialize($summary_document));
   }
 
   return [
@@ -170,7 +172,6 @@ function jurenites_timeline_build_item(ParagraphInterface $timeline_paragraph): 
     'periods' => $timeline_periods,
     'hours_label' => $timeline_hours === NULL ? '' : (string) t('@hours h', ['@hours' => number_format((int) $timeline_hours)]),
     'summary_markup' => $timeline_summary,
-    'proof_links' => $proof_links,
     'website_links' => jurenites_timeline_destination_links($timeline_paragraph, 'field_timeline_website_links', TRUE),
     'store_links' => jurenites_timeline_destination_links($timeline_paragraph, 'field_timeline_store_links'),
     'emphasis_kind' => (string) ($timeline_paragraph->get('field_timeline_emphasis')->value ?: 'standard'),
@@ -288,7 +289,6 @@ function jurenites_timeline_build_year_groups(
           'item_kind' => $timeline_item['item_kind'],
           'hours_label' => $timeline_item['hours_label'],
           'summary_markup' => $period_index === 0 ? $timeline_item['summary_markup'] : NULL,
-          'proof_links' => $period_index === 0 ? $timeline_item['proof_links'] : [],
           'website_links' => $period_index === 0 ? $timeline_item['website_links'] : [],
           'store_links' => $period_index === 0 ? $timeline_item['store_links'] : [],
           'emphasis_kind' => $timeline_item['emphasis_kind'],

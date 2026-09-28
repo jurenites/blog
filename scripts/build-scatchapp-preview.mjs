@@ -6,7 +6,7 @@ const vite_server = await create_vite_server({ configFile: false, server: { midd
 try {
   const { card_markup } = await vite_server.ssrLoadModule('/src/stories/molecules/card/card.markup.js');
   const asset_root = '/themes/custom/jurenites_theme/assets';
-  const preview_markup = card_markup({
+  const preview_arguments = {
     card_label: 'Read the ScatchApp project note',
     card_url: '/portfolio/scatchapp',
     display_size: 'thumbnail',
@@ -22,9 +22,18 @@ try {
       { frame_mode: 'video', video_source: `${asset_root}/videos/scatchapp/list.mp4`, image_description: 'ScatchApp map and event list design recording', video_fit: 'cover', hold_ms: 0 },
       { frame_mode: 'video', video_source: `${asset_root}/videos/scatchapp/filter.mp4`, image_description: 'ScatchApp event filter design recording', video_fit: 'cover', hold_ms: 0 },
     ],
+  };
+  const preview_markup = card_markup(preview_arguments);
+  const detail_markup = card_markup({
+    ...preview_arguments,
+    card_label: 'ScatchApp map, list and filter recordings',
+    card_url: '',
+    display_size: 'native-screen',
+    background_mode: 'transparent',
   });
   await make_directory(new URL('../generated/content/', import.meta.url), { recursive: true });
   await write_file(new URL('../generated/content/scatchapp-preview.html', import.meta.url), preview_markup);
+  await write_file(new URL('../generated/content/scatchapp-detail-preview.html', import.meta.url), detail_markup);
 } finally {
   await vite_server.close();
 }

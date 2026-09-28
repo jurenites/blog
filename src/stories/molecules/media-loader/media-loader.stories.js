@@ -8,8 +8,8 @@ import { media_loader_markup } from "./media-loader.markup.js";
 const IMAGE_LOADING_PROGRESS_LABEL = "Loading portfolio thumbnail";
 const VIDEO_LOADING_PROGRESS_LABEL = "Loading external video";
 const SIMULATED_LOAD_DURATION = 8000;
-const PORTFOLIO_THUMBNAIL_ALT = "Abstract landscape portfolio thumbnail";
-const PORTFOLIO_THUMBNAIL_URL = "/assets/images/article-teaser-sample.svg";
+const PORTFOLIO_THUMBNAIL_ALT = "Portfolio photograph";
+const PORTFOLIO_THUMBNAIL_URL = "http://jurenites.local/sites/default/files/styles/medium/public/2026-08/DSC_0001.JPG.webp?itok=3HPjYrtX";
 const DEFAULT_IMAGE_AVERAGE_COLOR = TOKEN_VALUES["color-palette-deep-gray"];
 
 function image_loading_surface_markup() {

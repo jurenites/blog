@@ -4,7 +4,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_ROOT = PROJECT_ROOT / 'output/thumbnail-studio'
-PALETTE_VALUES = dict(re.findall(r'^    ([a-z-]+): "(#[0-9a-fA-F]{6})"', (PROJECT_ROOT/'src/token/tokens.yaml').read_text(), re.M))
+PALETTE_VALUES = dict(re.findall(r'^color\.palette\.([a-z-]+): "(#[0-9a-fA-F]{6})"', (PROJECT_ROOT/'src/token/tokens.yaml').read_text(), re.M))
 OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
 for output_name, include_background in [('signal-stripes.svg', False), ('signal-background.svg', True)]:
     background_markup = '<rect width="1600" height="1000" fill="%s"/>' % PALETTE_VALUES['dark-black'] if include_background else ''

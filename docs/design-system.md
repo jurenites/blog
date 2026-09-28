@@ -49,6 +49,49 @@ motion tokens and become instant with reduced motion.
 
 ### Dimension ownership
 
+The source uses one `dot.path: value` per token, grouped by section comments:
+colors (palette and theme/component mappings), typography, sizing,
+spacing (gaps, padding, offsets), shape, effects, motion, and layers.
+Section headings are comments, not namespaces. The builder expands dot paths
+into the existing token tree, preserving CSS variable names, JS records, Figma
+paths, aliases, and typography/breakpoint mixins. Inline comments explain only
+non-obvious decisions. Workflow and naming policy belong here and in `AGENTS.md`,
+not in token metadata.
+
+### Token simplification candidates
+
+Keep the theme contract to concrete visual values and meaningful aliases:
+palette values, semantic surface/text/action colors, font roles, shared sizes,
+spacing, borders, shadows, and motion. An alias is useful when it represents an
+independently adjustable design role, even if its current value matches another.
+Use the existing `space.scale.base-gap` with CSS `calc()` for grid multiples;
+do not add separate gap, margin, and padding scales with identical values.
+
+The final configuration section is retained for compatibility, not recommended
+as part of a minimal theme. Candidates for a separate migration:
+
+| Existing entries | Better owner |
+| --- | --- |
+| `component.date-time-value.*` locale, kind and format options | Date formatter configuration and Drupal language context |
+| Button style names and default; default variant/size/width selections | Component defaults and Storybook args |
+| `component.game-of-life.example-*` | Storybook demo constants |
+| Status/guideline preview dimensions and demonstration-only fonts | Local demo styling, after checking public guideline consumers |
+| Fixed SVG viewport values | Artwork contract, after updating the dimension checker and consumers |
+
+QR Studio owns its editable colors in
+`web/modules/custom/jurenites_qr_studio/ui/palette.css`. Its isolated document
+loads those CSS variables locally; they are not shared theme tokens.
+Layer ordering is visual infrastructure; consider a separate layer map only
+if it does not need theme overrides.
+
+Do not remove tokens solely because values match. For example, subtitle,
+caption, and compact body roles currently share metrics but express different
+uses. Likewise equal surface and component colors may need independent theming.
+Removal requires migrating every consumer, including dynamically constructed
+token names and Figma exports. The shared inventory excludes the 27 QR Studio colors; their local values remain unchanged.
+
+### Dimension usage
+
 Reuse existing tokens for reusable absolute dimensions in shared theme SCSS.
 The user defines the token inventory; additions require an explicit request.
 The editable values live in
@@ -1161,6 +1204,10 @@ Single Directory Components library. See [Repository structure](repository-struc
 
 The `theme.scss` entrypoint configures relative font URLs. `npm run build:theme`
 builds public and CKEditor CSS, JavaScript, and deployable source assets.
+
+Timeline product website and app-store links open in a new tab with
+`target="_blank" rel="external"`. App-store links use the shared cyan external-link
+color and its hover/focus feedback.
 
 ## Button hover states
 

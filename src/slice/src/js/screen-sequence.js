@@ -11,7 +11,8 @@ export function install_screen_sequence(card_element, abort_signal) {
   let is_visible = true;
   let images_ready = false;
   let playback_controller = new AbortController();
-  let is_hovered = card_element.matches(':hover');
+  const hover_enabled = card_element.matches('a[href]');
+  let is_hovered = hover_enabled && card_element.matches(':hover');
   let active_video = null;
   const gif_controllers = new Map();
 
@@ -208,8 +209,10 @@ export function install_screen_sequence(card_element, abort_signal) {
   }
 
   const event_options = { signal: abort_signal };
-  card_element.addEventListener('pointerenter', set_hover_pause, event_options);
-  card_element.addEventListener('pointerleave', set_hover_pause, event_options);
+  if (hover_enabled) {
+    card_element.addEventListener('pointerenter', set_hover_pause, event_options);
+    card_element.addEventListener('pointerleave', set_hover_pause, event_options);
+  }
   motion_query.addEventListener('change', restart_sequence, event_options);
   document.addEventListener('visibilitychange', restart_sequence, event_options);
   const resize_observer = new ResizeObserver(restart_sequence);

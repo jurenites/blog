@@ -17,6 +17,12 @@ export function initialize_file_inputs(input_context) {
     const error_message = file_control.querySelector('.file-input__error');
     let drag_depth = 0;
 
+    function file_type_error() {
+      return typeof Drupal !== 'undefined'
+        ? Drupal.t('Choose a file matching @types.', { '@types': native_input.accept })
+        : `Choose a file matching ${native_input.accept}.`;
+    }
+
     function show_error(error_text = '') {
       error_message.textContent = error_text;
       error_message.hidden = !error_text;
@@ -29,7 +35,7 @@ export function initialize_file_inputs(input_context) {
       filename_text.textContent = selected_file?.name ?? drop_zone.dataset.dropLabel;
       filename_text.title = selected_file?.name ?? '';
       filename_text.classList.toggle('file-input__filename--selected', Boolean(selected_file));
-      show_error(selected_file && !accepts_file(selected_file, native_input.accept) ? `Choose a file matching ${native_input.accept}.` : '');
+      show_error(selected_file && !accepts_file(selected_file, native_input.accept) ? file_type_error() : '');
     }
     function reset_drag_state() {
       drag_depth = 0;
@@ -60,8 +66,12 @@ export function initialize_file_inputs(input_context) {
       if (native_input.disabled) return;
       const dropped_files = [...(drop_event.dataTransfer?.files ?? [])];
       if (!dropped_files.length) return;
-      if (dropped_files.length !== 1) { show_error('Choose one file at a time.'); return; }
-      if (!accepts_file(dropped_files[0], native_input.accept)) { show_error(`Choose a file matching ${native_input.accept}.`); return; }
+      if (dropped_files.length !== 1) {
+        show_error(typeof Drupal !== 'undefined'
+          ? Drupal.t('Choose one file at a time.') : 'Choose one file at a time.');
+        return;
+      }
+      if (!accepts_file(dropped_files[0], native_input.accept)) { show_error(file_type_error()); return; }
       native_input.files = drop_event.dataTransfer.files;
       native_input.dispatchEvent(new Event('input', { bubbles: true }));
       native_input.dispatchEvent(new Event('change', { bubbles: true }));
