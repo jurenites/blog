@@ -110,7 +110,7 @@
 }
 
 .article-list.news-list {
-  max-width: calc(var(--layout-content-max-wide-default) / 2);
+  max-width: calc(var(--layout-content-max-wide-default) / 1.5);
 }
 
 @media (prefers-reduced-motion: reduce) {
