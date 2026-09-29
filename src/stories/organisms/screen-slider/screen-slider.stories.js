@@ -48,7 +48,7 @@ const SCREEN_NAMES = [
 const SCREEN_IMAGES = SCREEN_NAMES.map((file_name) => ({ image_url: `/assets/images/projects/smep/screens/${encodeURIComponent(file_name)}`, image_alt: `SMEP interface — ${file_name}` }));
 
 export default {
-  title: 'Organisms/Screen Slider',
+  title: 'Organisms/Pofolio/Screen Slider',
   tags: ['autodocs'],
   args: { screen_images: SCREEN_IMAGES },
   render: screen_slider_markup,

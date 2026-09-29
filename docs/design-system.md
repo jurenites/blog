@@ -184,6 +184,10 @@ Components are organised by Atomic Design and ITCSS layers:
 Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
 `Organisms`, `Components`. Each component owns its story file; named exports cover useful scenarios and
 Controls expose property combinations. Navigation titles may add nested groups.
+Folder labels show the total number of descendant story components in darker
+parentheses, including nested groups. Each component counts once, regardless of
+its scenario variants or generated Docs page.
+Counts come from the Storybook manager index and remain visible when folders are collapsed.
 
 `Organisms/Cookie Policy Notice` uses a content-height Storybook preview with
 the notice in normal flow so the dialog is visible without a viewport-sized gap.
@@ -343,6 +347,14 @@ Portfolio Project Card thumbnails use the same 105% zoom and 375ms transition
 on card hover or keyboard focus, with a smooth return on exit. The image stays
 clipped inside its 16:9 media frame, preserves the loader fade, and remains
 unscaled when reduced motion is enabled.
+The homepage's Latest articles cards stack one per row at 960px and below,
+using `system.breakpoint.article-grid-stack-max`. Each card fills the section's
+available width within the existing page gutters.
+Below 960px, teaser media has no maximum width and fills the card content width.
+At this breakpoint, the author identity and timing share a row when both fit.
+Otherwise the entire timing group moves to the next row, keeping its author-text
+indent; timing content can wrap only when it exceeds a full row on its own.
+
 The homepage's Latest articles and News block H2 headings use the dedicated
 `.homepage-block__heading` class, with `layout.content.max.wide.default` as their
 maximum width and automatic inline margins to align with the block content.
@@ -1124,7 +1136,12 @@ an image-derived average color with a restrained gradient skeleton, then
 crossfades to the completed image. The progressive-image behavior calculates
 the color automatically from Drupal's cached 20px inline derivative, so editors
 do not need to enter a HEX value for every upload. The default Storybook story
-also exposes the average color as a color control for visual tuning.
+also exposes the average color as a color control for visual tuning. Its image,
+GIF, and video examples use bundled assets, so they work without a Drupal host.
+The simulated delay and successful media load must both finish before reveal.
+Storybook retains an animated shadow placeholder for failed images and videos,
+restores the original media after a successful source change, and freezes the
+animation under reduced motion. Video examples use the bundled MP4 recording.
 
 If the final image fails to load, its frame retains the same average-color
 placeholder without the skeleton animation or loading line. Images without a
@@ -1220,3 +1237,5 @@ Flattened token names are dash-separated and descriptive. Never use a lone
 generic word (`orange`, `size`, `card`). Pattern:
 `{layer}-{scope}-{part}-{property}-{state}`, e.g.
 `component-timeline-marker-size-active`, `theme-dark-action-primary-default`.
+
+Square Pagination is a reusable molecule built from Crossfade Dot markers. Its bottom-aligned squares use 8px for the active page, then 4px, 3px, and 2px with increasing distance; hover and keyboard focus add a 1px solid outline. Marker dimensions change immediately to retain whole-pixel square geometry. Screen Slider and the homepage project previews share its sizing, distance-based marker states, and bounded pagination window. The homepage replaces its legacy previous/count/next controls during enhancement, preserving CMS copy; scrolling, swiping, and track keyboard navigation synchronize the active marker. The homepage paginator is absolutely positioned outside the scrolling track, beneath the text column on desktop and mobile. Project copy reserves space for the controls; the paginator stays stationary while slides swipe. Ghost buttons with the shared chevron artwork sit at the left and right edges, vertically centered outside the scrolling track; their gutters protect the slide content on desktop and mobile. Its standalone Storybook example is under Molecules/Square Pagination.

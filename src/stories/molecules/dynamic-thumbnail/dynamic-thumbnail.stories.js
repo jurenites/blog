@@ -5,7 +5,7 @@ const ARTWORK_NAME = 'roundabout';
 const ARTWORK_OPTIONS = ['roundabout', '4pixel', 'smep', 'oksenate'];
 
 export default {
-  title: 'Molecules/Dynamic Thumbnail',
+  title: 'Molecules/Porfolio/Dynamic Thumbnail',
   tags: ['autodocs'],
   args: { artwork_name: ARTWORK_NAME },
   argTypes: { artwork_name: { control: 'select', options: ARTWORK_OPTIONS } },

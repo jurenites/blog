@@ -57,6 +57,13 @@
                       <h3 class="timeline__item-title">
                         {{ timeline_item.item_name }}
                       </h3>
+                    {% if timeline_item.details_links %}
+                      <ul class="timeline__details-links" aria-label="{{ 'Project details'|t }}">
+                        {% for project_link in timeline_item.details_links %}
+                          <li>{{ project_link }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
                       {% if timeline_item.emphasis_kind == 'featured' %}
                         <span class="timeline__emphasis timeline__emphasis--featured">
                           {% include '@jurenites_theme/components/icon.html.twig' with {

@@ -11,25 +11,30 @@
       const editor_instance = this.editor;
       editor_instance.model.schema.register('phonePreview', {
         inheritAllFrom: '$blockObject',
-        allowAttributes: ['preview_html', 'wrapper_marker', 'alignment'],
+        allowAttributes: ['preview_html', 'wrapper_attributes', 'alignment'],
       });
-      for (const wrapper_marker of ['data-phone-preview', 'data-scatchapp-sequence']) {
-        const preview_matcher = { name: 'div', attributes: { [wrapper_marker]: true } };
+      const preview_matchers = [
+        { name: 'div', attributes: { 'data-phone-preview': true } },
+        { name: 'div', attributes: { 'data-scatchapp-sequence': true } },
+        { name: 'div', classes: 'accountia-preview__phones' },
+        { name: 'div', attributes: { 'data-accountia-gallery': true } },
+        { name: 'div', attributes: { 'data-accountia-video': true } },
+      ];
+      for (const preview_matcher of preview_matchers) {
         editor_instance.data.processor.registerRawContentMatcher(preview_matcher);
         editor_instance.conversion.for('upcast').elementToElement({
           view: preview_matcher,
           model: (view_element, { writer: model_writer }) => model_writer.createElement('phonePreview', {
             preview_html: view_element.getCustomProperty('$rawContent') || '',
-            wrapper_marker,
+            wrapper_attributes: JSON.stringify(Object.fromEntries(view_element.getAttributes())),
           }),
           converterPriority: 'high',
         });
       }
       editor_instance.conversion.for('dataDowncast').elementToElement({
         model: 'phonePreview',
-        view: (model_element, { writer: view_writer }) => view_writer.createRawElement('div', {
-          [model_element.getAttribute('wrapper_marker')]: '',
-        }, (dom_element) => {
+        view: (model_element, { writer: view_writer }) => view_writer.createRawElement('div',
+          JSON.parse(model_element.getAttribute('wrapper_attributes')), (dom_element) => {
           dom_element.innerHTML = model_element.getAttribute('preview_html');
         }),
       });
@@ -38,9 +43,9 @@
         view: (_model_element, { writer: view_writer }) => {
           const preview_element = view_writer.createContainerElement('div', { class: 'phone-preview-editor' });
           view_writer.insert(view_writer.createPositionAt(preview_element, 0), view_writer.createText(
-            editor_instance.t('Phone preview. Its videos and phone artwork are preserved when you save. Use Source to edit its HTML.'),
+            editor_instance.t('Interactive preview. Its artwork, media and controls are preserved when you save. Use Source to edit its HTML.'),
           ));
-          return to_widget(preview_element, view_writer, { label: editor_instance.t('Phone preview') });
+          return to_widget(preview_element, view_writer, { label: editor_instance.t('Interactive preview') });
         },
       });
     }

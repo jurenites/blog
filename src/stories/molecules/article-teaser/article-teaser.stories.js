@@ -9,12 +9,12 @@ const TAG_URL = "/blog?tag=writing";
 const TEASER_TITLE = "Rewinding an Interface Through Time";
 const TEASER_EXCERPT = "How a time-slider concept turned into a repeatable design process.";
 const ARTICLE_URL = "#";
-const THUMBNAIL_URL = "http://jurenites.local/sites/default/files/styles/medium/public/2026-08/DSC_0001.JPG.webp?itok=3HPjYrtX";
+const THUMBNAIL_URL = "/assets/images/storybook/dsc_0001.webp";
 const THUMBNAIL_ALT = "Uploaded article photograph";
 const AUTHOR_NAME = "Alexander Ilivanov";
 const AUTHOR_PREFIX_TEXT = "Written by";
 const AVATAR_INITIALS = "AI";
-const AVATAR_IMAGE_URL = "http://jurenites.local/sites/default/files/styles/thumbnail/public/pictures/2026-08/Alexander_ilivanpov_avatar_512.jpeg.webp?itok=666UO5aR";
+const AVATAR_IMAGE_URL = "/assets/images/storybook/alexander-avatar.jpeg";
 const PUBLISHED_DATE = "2026-06-15";
 const DATE_DISPLAY_VARIANT = token_value("component-date-time-value-default-date-display");
 const READING_TIME_MINUTES = 6;
@@ -25,7 +25,7 @@ const ARTICLE_GRID_ITEMS = [
     tag_url: "/blog?tag=process",
     teaser_title: "Rewinding an Interface Through Time",
     teaser_excerpt: "How a time-slider concept turned into a repeatable design process.",
-    thumbnail_url: "http://jurenites.local/sites/default/files/styles/medium/public/2026-08/DSC_0001.JPG.webp?itok=3HPjYrtX",
+    thumbnail_url: "/assets/images/storybook/dsc_0001.webp",
     thumbnail_alt: "Uploaded article photograph",
     published_date: "2026-06-15",
     reading_time_minutes: 6,
@@ -36,7 +36,7 @@ const ARTICLE_GRID_ITEMS = [
     tag_url: "/blog?tag=design",
     teaser_title: "Building a Material-First Visual Language",
     teaser_excerpt: "Notes on turning a small set of shapes, surfaces, and shadows into a coherent interface.",
-    thumbnail_url: "http://jurenites.local/sites/default/files/styles/medium/public/2026-08/DSC_0029.JPG.webp",
+    thumbnail_url: "/assets/images/storybook/dsc_0029.webp",
     thumbnail_alt: "Uploaded design process photograph",
     published_date: "2026-07-04",
     reading_time_minutes: 8,
@@ -47,7 +47,7 @@ const ARTICLE_GRID_ITEMS = [
     tag_url: "/blog?tag=development",
     teaser_title: "Keeping Storybook and Drupal in Lockstep",
     teaser_excerpt: "A shared component contract keeps authored examples and rendered content visually consistent.",
-    thumbnail_url: "http://jurenites.local/sites/default/files/styles/medium/public/2026-08/DSC_0025.JPG.webp",
+    thumbnail_url: "/assets/images/storybook/dsc_0025.webp",
     thumbnail_alt: "Uploaded development workspace photograph",
     published_date: "2026-08-12",
     reading_time_minutes: 5,

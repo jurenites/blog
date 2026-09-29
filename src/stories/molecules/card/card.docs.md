@@ -75,3 +75,5 @@ With a destination URL, hover pauses media playback, but an in-progress crossfad
 The following HTML contains both supplied recordings, a native-size modern phone, a transparent background and a non-clickable wrapper without hover effects. Its asset URLs target this Drupal theme; they are not portable video URLs for another website. The SVG IDs and every corresponding `url(#...)` reference must be unique if you place multiple copies on one page.
 
 The maintained source is `generated/content/scatchapp-detail-preview.html`, produced by `node scripts/build-scatchapp-preview.mjs` using the shared `card_markup()` renderer. For developer integration, the existing `scripts/update-scatchapp-video-preview.php` demonstrates a targeted revision-preserving content update; it is not a general repair command and deliberately leaves an already-marked preview alone.
+
+The classic phone casing uses neutral black glass with grayscale polished-metal highlights, independent of the corporate dark-theme colors. Screen content retains its original colors.

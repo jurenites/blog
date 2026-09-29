@@ -9,6 +9,8 @@ documents the protected rich text editing workflow. Wrap cards in
 `<div data-phone-preview>...</div>` when embedding them in rich text. The
 `jurenites_admin` PhonePreview plugin treats that wrapper (and the existing
 `data-scatchapp-sequence` wrapper) as a CKEditor block object with raw contents.
+Accountia's `.accountia-preview__phones`, `[data-accountia-gallery]`, and
+`[data-accountia-video]` containers receive the same protection without extra wrappers.
 It displays a safe text placeholder in the visual editor and preserves the
 phone markup through ordinary saves and source-mode toggles. The whole block can
 be moved or deleted; deliberate source edits remain possible. Unwrapped card
@@ -139,6 +141,13 @@ is a JavaScript application, so no-script verification uses exported card markup
   frame for the remainder of a configured duration.
 - `scroll_speed`: original image pixels per second, independent of preview scale.
 - `bottom_hold_ms`: pause at the bottom before returning to the top.
+- `scroll_behavior`: `continuous` keeps the existing constant-speed motion;
+  `swipe` uses alternating eased swipes and short pauses, a small white bottom
+  overscroll with a 360ms snap-back, and a 900ms eased return to the top.
+- `scroll_start`: `bottom` starts swipe frames at their lower edge, returns to
+  the top first, then swipes down. `top` is the default. Swipe timing is based
+  on viewport-sized gestures rather than `scroll_speed`. Reduced motion still
+  shows the static first frame without scrolling.
 
 `fade_duration_ms` controls the crossfade between frames, separate from hold time.
 `is_playing: false` stops playback and shows the first frame. The default order
@@ -307,3 +316,26 @@ Storybook initializes each rendered phone after mounting, including replacements
 created by control changes. Removing a preview detaches only its own cursor,
 sequence and background runtimes. Switching size or toggling `follow_cursor`
 therefore does not require a remount or reload.
+
+## SMEP project description previews
+
+The local English and Russian SMEP descriptions include four independent classic iPhone thumbnail
+sequences, distributed after the element-card inspiration, interface beginnings,
+learning-through-interaction, and ongoing-development sections. They use the
+shared phone card renderer, gradient background, hover tilt, and reduced
+motion fallback. Playback pauses only while the pointer is over the phone itself,
+not the surrounding thumbnail. These phones are not links because the screens
+are already shown in the page. The original screen slider and authored prose remain intact.
+
+`scripts/build-smep-previews.mjs [source-directory]` imports the four supplied
+folders (`real_screens`, `abstract_screens`, `details_orbitals`, `Guideline`) in
+natural filename order. All 63 images remain unchanged in their respective
+`src/public/assets/images/projects/smep/` subfolders. Generated CMS markup is in
+`generated/content/smep/previews.json`; rebuild theme assets before insertion.
+`scripts/update-smep-previews.php` checks the project and four section UUIDs,
+backs up existing content, and creates new paragraph/node revisions in a
+transaction. It skips a project that already contains SMEP previews, preserving
+later CMS edits. The `data-phone-preview` wrappers protect the embedded markup
+in CKEditor. `scripts/add-smep-translated-previews.php` adds missing previews to
+the matching Russian sections while preserving translated prose and existing previews.
+These are explicit local content operations, not deployment hooks.

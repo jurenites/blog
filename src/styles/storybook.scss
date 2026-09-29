@@ -654,3 +654,31 @@ $storybook-color-block-size-compact: 40px;
     grid-template-columns: 1fr;
   }
 }
+
+// Failed media retain their component class and a token-based shadow sheen.
+.storybook-media-unavailable {
+  display: none !important;
+}
+
+.storybook-media-fallback {
+  display: block;
+  min-height: calc(var(--space-scale-base-gap) * 8);
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(
+    100deg,
+    var(--theme-dark-surface-background-elevation-level-1) 20%,
+    var(--theme-dark-surface-background-elevation-level-2) 50%,
+    var(--theme-dark-surface-background-elevation-level-1) 80%
+  );
+  background-size: 200% 100%;
+  animation: storybook-media-shadow var(--component-progressive-image-skeleton-cycle-default) infinite;
+}
+
+@keyframes storybook-media-shadow {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .storybook-media-fallback { animation: none; }
+}

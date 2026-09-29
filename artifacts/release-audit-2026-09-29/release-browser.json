@@ -1,0 +1,2077 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "language": "en",
+    "title": "Home | jurenites",
+    "image_count": 53,
+    "broken_images": [],
+    "pending_images": 3,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/contact",
+    "status": 200,
+    "language": "en",
+    "title": "Contact | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/contact",
+    "status": 200,
+    "language": "ru",
+    "title": "Контакты | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/citizen-sleeper-interface-review",
+    "status": 200,
+    "language": "en",
+    "title": "Citizen Sleeper Interface review | jurenites",
+    "image_count": 11,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru",
+    "status": 200,
+    "language": "ru",
+    "title": "Главная | jurenites",
+    "image_count": 53,
+    "broken_images": [],
+    "pending_images": 3,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/obzor-interfeysa-citizen-sleeper",
+    "status": 200,
+    "language": "ru",
+    "title": "Обзор интерфейса Citizen Sleeper | jurenites",
+    "image_count": 11,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/comare-two-fonts",
+    "status": 200,
+    "language": "en",
+    "title": "Comare two fonts | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/sravnenie-dvukh-shriftov",
+    "status": 200,
+    "language": "ru",
+    "title": "Сравнение двух шрифтов | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/about",
+    "status": 200,
+    "language": "en",
+    "title": "About | jurenites",
+    "image_count": 33,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/about",
+    "status": 200,
+    "language": "ru",
+    "title": "Обо мне | jurenites",
+    "image_count": 33,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/happy-path-design",
+    "status": 200,
+    "language": "en",
+    "title": "The Happy Path design | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/proektirovanie-schastlivogo-puti",
+    "status": 200,
+    "language": "ru",
+    "title": "Проектирование «счастливого пути» | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/notification-design",
+    "status": 200,
+    "language": "en",
+    "title": "Notification Design | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/dizayn-uvedomleniy",
+    "status": 200,
+    "language": "ru",
+    "title": "Дизайн уведомлений | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/learn-design",
+    "status": 200,
+    "language": "en",
+    "title": "Learn design | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/kak-uchitsya-dizaynu",
+    "status": 200,
+    "language": "ru",
+    "title": "Как учиться дизайну | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/art-direction",
+    "status": 200,
+    "language": "en",
+    "title": "Art direction | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/art-direkshn",
+    "status": 200,
+    "language": "ru",
+    "title": "Арт-дирекшн | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/marapthon",
+    "status": 200,
+    "language": "en",
+    "title": "Marapthon | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/marathon",
+    "status": 200,
+    "language": "ru",
+    "title": "Marathon | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/how-industry-called-profession-wrongly",
+    "status": 200,
+    "language": "en",
+    "title": "How industry called the profession wrongly | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/kak-industriya-nepravilno-nazvala-professiyu",
+    "status": 200,
+    "language": "ru",
+    "title": "Как индустрия неправильно назвала профессию | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/see-patterns-and-bigger-picture",
+    "status": 200,
+    "language": "en",
+    "title": "See the patterns and bigger picture | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/videt-zakonomernosti-i-obshchuyu-kartinu",
+    "status": 200,
+    "language": "ru",
+    "title": "Видеть закономерности и общую картину | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/test-driven-development",
+    "status": 200,
+    "language": "en",
+    "title": "Test Driven Development | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/razrabotka-cherez-testirovanie",
+    "status": 200,
+    "language": "ru",
+    "title": "Разработка через тестирование | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/makin-radio",
+    "status": 200,
+    "language": "en",
+    "title": "Makin a radio | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/sozdanie-radio",
+    "status": 200,
+    "language": "ru",
+    "title": "Создание радио | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/eyegasm-eargasm",
+    "status": 200,
+    "language": "en",
+    "title": "Eyegasm & Eargasm | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/naslazhdenie-dlya-glaz-i-ushey",
+    "status": 200,
+    "language": "ru",
+    "title": "Наслаждение для глаз и ушей | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/privacy-policy",
+    "status": 200,
+    "language": "en",
+    "title": "Privacy Policy | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/politika-konfidencialnosti",
+    "status": 200,
+    "language": "ru",
+    "title": "Политика конфиденциальности | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/portfolio/my-second-font",
+    "status": 200,
+    "language": "en",
+    "title": "my Second font | jurenites",
+    "image_count": 3,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/portfolio/roundabout",
+    "status": 200,
+    "language": "ru",
+    "title": "Roundabout | jurenites",
+    "image_count": 3,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/news/astra-here-gpt-6-released",
+    "status": 200,
+    "language": "en",
+    "title": "ASTRA IS HERE (GPT-6 RELEASED) | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/news/astra-uzhe-zdes-vyshel-gpt-6",
+    "status": 200,
+    "language": "ru",
+    "title": "ASTRA УЖЕ ЗДЕСЬ: ВЫШЕЛ GPT-6 | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/portfolio/4pixel",
+    "status": 200,
+    "language": "ru",
+    "title": "4pixel | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/portfolio/my-first-font",
+    "status": 200,
+    "language": "en",
+    "title": "my first font | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/news/new-york-city-bans-ai-elementary-and-middle-schools",
+    "status": 200,
+    "language": "en",
+    "title": "New York City Bans A.I. in Elementary and Middle Schools | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/news/nyu-york-zapreshchaet-ii-v-nachalnoy-i-sredney-shkole",
+    "status": 200,
+    "language": "ru",
+    "title": "Нью-Йорк запрещает ИИ в начальной и средней школе | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/news/i-made-bet-tesla",
+    "status": 200,
+    "language": "en",
+    "title": "I Made a Bet with Tesla | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/news/ya-zaklyuchil-pari-s-tesla",
+    "status": 200,
+    "language": "ru",
+    "title": "Я заключил пари с Tesla | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/space-heaven-hud-revivew",
+    "status": 200,
+    "language": "en",
+    "title": "Space heaven HUD revivew | jurenites",
+    "image_count": 4,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/obzor-hud-v-space-haven",
+    "status": 200,
+    "language": "ru",
+    "title": "Обзор HUD в Space Haven | jurenites",
+    "image_count": 3,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/cookbook",
+    "status": 200,
+    "language": "ru",
+    "title": "Об | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/cookbook",
+    "status": 200,
+    "language": "en",
+    "title": "Cookbook | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/brandbook/logo-icon",
+    "status": 200,
+    "language": "en",
+    "title": "Logo Icon | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/guidelines/logo-icon",
+    "status": 200,
+    "language": "ru",
+    "title": "Значок логотипа | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/brandbook/color",
+    "status": 200,
+    "language": "en",
+    "title": "Color | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/guidelines/color",
+    "status": 200,
+    "language": "ru",
+    "title": "Цвет | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/lego-friends-42602-space-research-rover",
+    "status": 200,
+    "language": "en",
+    "title": "LEGO Friends 42602 Space Research Rover | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/timeline",
+    "status": 200,
+    "language": "en",
+    "title": "Timeline | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/portfolio/oksenate",
+    "status": 200,
+    "language": "en",
+    "title": "latest .gov site | jurenites",
+    "image_count": 3,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/timeline",
+    "status": 200,
+    "language": "ru",
+    "title": "Хронология | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/portfolio/oksenate",
+    "status": 200,
+    "language": "ru",
+    "title": "Государственный Сайт сенаторов Штата | jurenites",
+    "image_count": 3,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/portfolio/smep",
+    "status": 200,
+    "language": "en",
+    "title": "SMEP, game | jurenites",
+    "image_count": 119,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/portfolio/smep",
+    "status": 200,
+    "language": "ru",
+    "title": "SMEP, игра | jurenites",
+    "image_count": 119,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/no-mans-sky-inventory-design",
+    "status": 200,
+    "language": "en",
+    "title": "No Man’s Sky | jurenites",
+    "image_count": 34,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/spaceplan",
+    "status": 200,
+    "language": "en",
+    "title": "SPACEPLAN | jurenites",
+    "image_count": 6,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/no-mans-sky-inventory-design",
+    "status": 200,
+    "language": "ru",
+    "title": "No Man’s Sky | jurenites",
+    "image_count": 34,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/spaceplan",
+    "status": 200,
+    "language": "ru",
+    "title": "SPACEPLAN | jurenites",
+    "image_count": 6,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/why-some-designs-are-impossible-improve-quintessence",
+    "status": 200,
+    "language": "en",
+    "title": "Why Some Designs Are Impossible to Improve: Quintessence | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/conways-game-of-life",
+    "status": 200,
+    "language": "en",
+    "title": "Conway’s Game of Life | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/conways-game-of-life",
+    "status": 200,
+    "language": "ru",
+    "title": "Игра «Жизнь» Конвея | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/make-your-own-designmd",
+    "status": 200,
+    "language": "en",
+    "title": "Make your own DESIGN.md | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/same-ui-desktop-forever",
+    "status": 200,
+    "language": "en",
+    "title": "Same UI for Desktop forever? | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/3-dashboard-ui-flaws",
+    "status": 200,
+    "language": "en",
+    "title": "3 dashboard UI flaws | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/only-web-design-video-you-will-ever-need",
+    "status": 200,
+    "language": "en",
+    "title": "The Only Web Design Video You Will Ever Need | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/are-we-last-generation-3d-artists",
+    "status": 200,
+    "language": "en",
+    "title": "Are We the Last Generation of 3D Artists? | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/constructing-lines-and-curves-pixel-art-tutorial",
+    "status": 200,
+    "language": "en",
+    "title": "Constructing Lines and Curves in Pixel Art (Tutorial) | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/what-canvas-size-should-you-use-pixel-art",
+    "status": 200,
+    "language": "en",
+    "title": "What Canvas Size Should you use for Pixel Art? | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/death-ui-why-language-final-interface",
+    "status": 200,
+    "language": "en",
+    "title": "The Death of UI: Why Language Is the Final Interface | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/new-code-sean-grove",
+    "status": 200,
+    "language": "en",
+    "title": "The New Code — Sean Grove | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/every-uiux-concept-explained-under-10-minutes",
+    "status": 200,
+    "language": "en",
+    "title": "Every UI/UX Concept Explained in Under 10 Minutes | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/weird-future-user-interfaces",
+    "status": 200,
+    "language": "en",
+    "title": "The Weird Future Of User Interfaces | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/how-did-world-get-so-ugly",
+    "status": 200,
+    "language": "en",
+    "title": "How Did The World Get So Ugly? | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/system-punishes-beautiful-design",
+    "status": 200,
+    "language": "en",
+    "title": "The System That Punishes Beautiful Design | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/intro-svg-filters",
+    "status": 200,
+    "language": "en",
+    "title": "Intro to SVG Filters | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/emergent-complexity",
+    "status": 200,
+    "language": "en",
+    "title": "Emergent Complexity | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/4-levels-uiux-design",
+    "status": 200,
+    "language": "en",
+    "title": "4 levels of UI/UX design | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/twenty-pixels-changed-design-forever",
+    "status": 200,
+    "language": "en",
+    "title": "The twenty pixels that changed design forever | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/5-design-principles",
+    "status": 200,
+    "language": "en",
+    "title": "The 5 Design Principles | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/what-did-you-do",
+    "status": 200,
+    "language": "en",
+    "title": "what did you do | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/beauty-bezier-curves",
+    "status": 200,
+    "language": "en",
+    "title": "The Beauty of Bézier Curves | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/how-do-computer-fonts-work",
+    "status": 200,
+    "language": "en",
+    "title": "How do computer fonts work? | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/6-ui-hacks-i-wish-i-knew-beginner",
+    "status": 200,
+    "language": "en",
+    "title": "6 UI Hacks I Wish I Knew As A Beginner | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/xiaolin-wus-line-algorithm-rasterizing-lines-anti-aliasing",
+    "status": 200,
+    "language": "en",
+    "title": "Xiaolin Wu's Line Algorithm - Rasterizing Lines with Anti-Aliasing | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/typography-critique-week-1",
+    "status": 200,
+    "language": "en",
+    "title": "Typography Critique Week 1 | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/i-finally-get-how-svgs-work",
+    "status": 200,
+    "language": "en",
+    "title": "I finally get how SVGs work | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/human-readable-qr",
+    "status": 200,
+    "language": "en",
+    "title": "Human readable QR | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/psychology-behind-streaks",
+    "status": 200,
+    "language": "en",
+    "title": "The Psychology Behind Streaks | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog/why-design-1980s-looked-so-weird-why-its-relevant-today",
+    "status": 200,
+    "language": "en",
+    "title": "Why Design in the 1980s Looked So Weird & Why It’s Relevant Today | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog/qr-kod-kotoryy-mozhet-prochitat-chelovek",
+    "status": 200,
+    "language": "ru",
+    "title": "QR-код, который может прочитать человек | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/gave-local-ai-and-cloud-exact-same-job",
+    "status": 200,
+    "language": "en",
+    "title": "Gave Local AI and the Cloud the Exact Same Job | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/psychology-trick-makes-any-app-feel-10x-better",
+    "status": 200,
+    "language": "en",
+    "title": "The psychology trick that makes any app feel 10x better | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/news/openai-just-solved-math",
+    "status": 200,
+    "language": "en",
+    "title": "OpenAI JUST solved math | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/evolution-ancient-letters-modern-fonts",
+    "status": 200,
+    "language": "en",
+    "title": "The Evolution Of Ancient Letters To Modern Fonts | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/news/iphone-18-pro-review",
+    "status": 200,
+    "language": "en",
+    "title": "iPhone 18 Pro Review | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/news/opening-act-singularity",
+    "status": 200,
+    "language": "en",
+    "title": "Opening act of the Singularity | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/interview-big-data-engineer-2026",
+    "status": 200,
+    "language": "en",
+    "title": "Interview with Big Data engineer in 2026. | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/hidden-mechanic-behind-apps-users-wont-leave",
+    "status": 200,
+    "language": "en",
+    "title": "The Hidden Mechanic Behind Apps Users Won’t Leave | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/dear-game-developers-stop-messing",
+    "status": 200,
+    "language": "en",
+    "title": "Dear Game Developers, Stop Messing This Up! | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/best-code-architectures-indie-games",
+    "status": 200,
+    "language": "en",
+    "title": "Best Code Architectures For Indie Games | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/news/frontier-labs-want-slow-down-openai-delays-its-2026-ipo-anthropic-flags-5-bioweapon-cases",
+    "status": 200,
+    "language": "en",
+    "title": "Frontier Labs Want to Slow Down, OpenAI Delays Its 2026 IPO, Anthropic Flags 5 Bioweapon Cases | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/you-need-be-extreme-if-you-want-your-life-change",
+    "status": 200,
+    "language": "en",
+    "title": "You Need To Be Extreme If You Want Your Life To Change | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/news/we-need-talk-about-jev",
+    "status": 200,
+    "language": "en",
+    "title": "We need to talk about Jev | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/studied-100s-web-design-legends-they-all-do-these-6-things",
+    "status": 200,
+    "language": "en",
+    "title": "Studied 100's of web design legends. They all do these 6 things | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/hardest-time-ever-run-business",
+    "status": 200,
+    "language": "en",
+    "title": "This is the hardest time ever to run a business | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 1,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/secret-behind-weirdly-perfect-ui-designs",
+    "status": 200,
+    "language": "en",
+    "title": "The secret behind weirdly perfect UI designs | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/news/acceleration-100-inevitable",
+    "status": 200,
+    "language": "en",
+    "title": "Acceleration is 100% inevitable | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/how-game-designers-solved-these-11-problems",
+    "status": 200,
+    "language": "en",
+    "title": "How Game Designers Solved These 11 Problems | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/hidden-math-behind-3d-eye-tracking",
+    "status": 200,
+    "language": "en",
+    "title": "The Hidden Math Behind 3D Eye Tracking | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/turning-images-dots-magic-dithering",
+    "status": 200,
+    "language": "en",
+    "title": "Turning Images into Dots: The Magic of Dithering | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/whats-point-prototyping",
+    "status": 200,
+    "language": "en",
+    "title": "What's the Point of Prototyping? | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/portfolio/scatchapp",
+    "status": 200,
+    "language": "en",
+    "title": "ScatchApp | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/portfolio/accountia",
+    "status": 200,
+    "language": "ru",
+    "title": "Accountia | jurenites",
+    "image_count": 105,
+    "broken_images": [],
+    "pending_images": 59,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/portfolio/accountia",
+    "status": 200,
+    "language": "en",
+    "title": "Accountia | jurenites",
+    "image_count": 104,
+    "broken_images": [],
+    "pending_images": 31,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/try-retro-effect-instant-dither-after-effects",
+    "status": 200,
+    "language": "en",
+    "title": "Try This Retro Effect! Instant Dither in After Effects | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/fluid-simulation-flipdots",
+    "status": 200,
+    "language": "en",
+    "title": "Fluid Simulation on Flipdots | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/portfolio/scatchapp",
+    "status": 200,
+    "language": "ru",
+    "title": "ScatchApp | jurenites",
+    "image_count": 2,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/only-formula-behind-truly-great-apps",
+    "status": 200,
+    "language": "en",
+    "title": "The Only Formula Behind Truly Great Apps | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos/built-own-motion-graphics-app",
+    "status": 200,
+    "language": "en",
+    "title": "built own motion graphics app | jurenites",
+    "image_count": 1,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/portfolio/dzing-finance",
+    "status": 200,
+    "language": "ru",
+    "title": "Dzing Finance | jurenites",
+    "image_count": 27,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/news/introducing-eleven-v4-and-eleven-v4-turbo",
+    "status": 200,
+    "language": "en",
+    "title": "Introducing Eleven v4 and Eleven v4 Turbo | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/news/introducing-manus-20",
+    "status": 200,
+    "language": "en",
+    "title": "Introducing Manus 2.0 | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/news/openai-should-be-scared-one",
+    "status": 200,
+    "language": "en",
+    "title": "OpenAI should be scared of this one | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/portfolio/dzing-finance",
+    "status": 200,
+    "language": "en",
+    "title": "Dzing Finance | jurenites",
+    "image_count": 27,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/blog",
+    "status": 200,
+    "language": "en",
+    "title": "Blog | jurenites",
+    "image_count": 11,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/portfolio",
+    "status": 200,
+    "language": "en",
+    "title": "Portfolio | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/blog",
+    "status": 200,
+    "language": "ru",
+    "title": "Блог | jurenites",
+    "image_count": 11,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/portfolio",
+    "status": 200,
+    "language": "ru",
+    "title": "Портфолио | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/videos",
+    "status": 200,
+    "language": "en",
+    "title": "Videos | jurenites",
+    "image_count": 50,
+    "broken_images": [],
+    "pending_images": 26,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/videos",
+    "status": 200,
+    "language": "ru",
+    "title": "Видео | jurenites",
+    "image_count": 72,
+    "broken_images": [
+      {
+        "src": "http://jurenites.local/sites/default/files/styles/max_325x325/public/youtube-thumbnails/aZzOWnEWgww.jpg.webp?itok=63GAOppV",
+        "alt": "Fluid Simulation on Flipdots"
+      },
+      {
+        "src": "http://jurenites.local/sites/default/files/styles/max_325x325/public/youtube-thumbnails/YS7uOXjmJTA.jpg.webp?itok=UAITOUxE",
+        "alt": "The Only Formula Behind Truly Great Apps"
+      }
+    ],
+    "pending_images": 42,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": [
+      {
+        "url": "http://jurenites.local/sites/default/files/styles/max_325x325/public/youtube-thumbnails/aZzOWnEWgww.jpg.webp?itok=63GAOppV",
+        "status": 503
+      }
+    ]
+  },
+  {
+    "path": "/guidelines",
+    "status": 404,
+    "language": "en",
+    "title": "Page not found | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": [
+      {
+        "url": "http://jurenites.local/guidelines",
+        "status": 404
+      }
+    ]
+  },
+  {
+    "path": "/qr-studio",
+    "status": 200,
+    "language": "en",
+    "title": "QR Pixel Studio",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "path": "/ru/guidelines",
+    "status": 404,
+    "language": "ru",
+    "title": "Страница не найдена | jurenites",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [
+      "http://test.jurenites.local/"
+    ],
+    "errors": [],
+    "failures": [
+      {
+        "url": "http://jurenites.local/ru/guidelines",
+        "status": 404
+      }
+    ]
+  },
+  {
+    "path": "/ru/qr-studio",
+    "status": 200,
+    "language": "ru",
+    "title": "QR Pixel Studio",
+    "image_count": 0,
+    "broken_images": [],
+    "pending_images": 0,
+    "overflow": false,
+    "local_links": [],
+    "errors": [],
+    "failures": []
+  }
+]

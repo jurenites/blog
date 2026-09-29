@@ -1,7 +1,11 @@
-@use "../tools";
+@use "../molecules/card";
 
 .layout-content:has(.accountia-showcase) {
-  max-width: var(--layout-content-max-wide-default);
+  max-width: calc(var(--space-scale-base-gap) * 160);
+}
+
+.layout-container > main:has(.accountia-showcase) {
+  padding-inline: calc(var(--space-scale-base-gap) * 3);
 }
 
 .project-detail__introduction:has(.accountia-showcase) > div > :is(p, h2, h3, h4) {
@@ -12,6 +16,8 @@
 
 .accountia-showcase {
   margin-block: calc(var(--space-scale-base-gap) * 6);
+
+  figcaption { display: none; }
 
   h3 { margin-block: calc(var(--space-scale-base-gap) * 3); }
 
@@ -34,20 +40,41 @@
   margin-block: calc(var(--space-scale-base-gap) * 3);
 
   &__stage {
-    background: var(--theme-dark-surface-background-elevation-level-1);
-    padding: calc(var(--space-scale-base-gap) * 2);
+    background: var(--color-palette-full-white);
+    max-height: 75dvh;
+    overflow: auto;
+    overscroll-behavior: auto;
+
+    &:focus-visible {
+      outline: var(--shape-border-width-hairline-default) solid var(--theme-dark-action-primary-default);
+      outline-offset: var(--space-scale-base-gap);
+    }
   }
 
   &__stage figure { margin: 0; }
   &__stage figure[hidden] { display: none; }
 
+  // The original style guide is a single figure and expands with the page.
+  &__stage:has(> figure:only-child) {
+    max-height: none;
+    overflow: visible;
+  }
+
   &__stage img {
     display: block;
     width: 100%;
-    height: min(65vh, calc(var(--space-scale-base-gap) * 100));
+    height: auto;
     object-fit: contain;
     object-position: center;
   }
+
+  &--guidelines &__stage {
+    aspect-ratio: 8 / 7;
+    max-height: none;
+    overflow: hidden;
+  }
+
+  &__controls :is([data-gallery-original], [data-gallery-play]) { display: none; }
 
   &__controls {
     display: flex;
@@ -58,23 +85,33 @@
   }
 
   &__phones {
+    margin-inline: auto;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    // 375px screen plus the modern phone's two 12px case edges.
+    grid-template-columns: repeat(auto-fit, minmax(0, min(100%, card.$phone-modern-compact-width)));
+    justify-content: center;
     gap: calc(var(--space-scale-base-gap) * 3);
   }
 
   &__phone { margin: 0; min-width: 0; }
-  &__phone .card { width: 100%; max-width: 100%; }
-  &__phone figcaption { margin-top: calc(var(--space-scale-base-gap) * 2); }
+  &__phone > .card {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    cursor: grab;
+    user-select: none;
+
+    &[data-screen-dragging] { cursor: grabbing; }
+  }
 
   &__recording { width: 100%; max-width: calc(var(--space-scale-base-gap) * 100); margin-inline: auto; }
-  &__recording--expanded { max-width: none; }
   &__loader { max-width: none; border-radius: 0; }
   &__loader video { display: block; width: 100%; height: 100%; object-fit: contain; }
 
-  @include tools.breakpoint-down("mobile-max") {
-    &__phones { grid-template-columns: minmax(0, 1fr); }
-    &__phone { max-width: calc(var(--space-scale-base-gap) * 40); margin-inline: auto; }
-    &__stage { padding: var(--space-scale-base-gap); }
-  }
+}
+
+// Explicit scroll compensation keeps controls anchored during gallery resizing.
+html:has([data-gallery-transition]) {
+  overflow-anchor: none;
+  scroll-behavior: auto;
 }

@@ -8,7 +8,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: "Molecules/Pagination",
+  title: "Molecules/Blog/Pagination",
   tags: ["autodocs"],
   render: render_story,
   argTypes: {

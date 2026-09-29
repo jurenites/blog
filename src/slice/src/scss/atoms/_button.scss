@@ -9,6 +9,7 @@
   justify-content: center;
   gap: var(--space-scale-base-gap);
   min-height: calc(var(--space-scale-base-gap) * 5);
+  min-width: calc(var(--space-scale-base-gap) * 5);
   padding: 0 calc(var(--space-scale-base-gap) * 2);
   border: var(--shape-border-width-thick-default) solid transparent;
   border-radius: var(--shape-corner-radius-base);

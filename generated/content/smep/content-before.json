@@ -1,0 +1,1100 @@
+{
+    "node_revision": "581",
+    "sections": [
+        {
+            "id": [
+                {
+                    "value": "146"
+                }
+            ],
+            "uuid": [
+                {
+                    "value": "6d644483-4650-491f-84e4-2769c8508a87"
+                }
+            ],
+            "revision_id": [
+                {
+                    "value": "5529"
+                }
+            ],
+            "langcode": [
+                {
+                    "value": "en"
+                }
+            ],
+            "type": [
+                {
+                    "target_id": "screen_slider"
+                }
+            ],
+            "status": [
+                {
+                    "value": "1"
+                }
+            ],
+            "created": [
+                {
+                    "value": "1789408550"
+                }
+            ],
+            "parent_id": [
+                {
+                    "value": "28"
+                }
+            ],
+            "parent_type": [
+                {
+                    "value": "node"
+                }
+            ],
+            "parent_field_name": [
+                {
+                    "value": "field_content_sections"
+                }
+            ],
+            "behavior_settings": [
+                {
+                    "value": "a:0:{}"
+                }
+            ],
+            "default_langcode": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_default": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_translation_affected": [],
+            "content_translation_source": [
+                {
+                    "value": "und"
+                }
+            ],
+            "content_translation_outdated": [
+                {
+                    "value": "0"
+                }
+            ],
+            "content_translation_changed": [
+                {
+                    "value": "1790523961"
+                }
+            ],
+            "field_screen_images": [
+                {
+                    "target_id": "124",
+                    "alt": "SMEP interface v0.2_Main_Play_Screens 3",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "125",
+                    "alt": "SMEP interface v0.2_Main_Play_Screens 5-1",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "126",
+                    "alt": "SMEP interface v0.2_Main_Play_Screens 5",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "127",
+                    "alt": "SMEP interface v0.2_Main_Play_Screens 6-1",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "128",
+                    "alt": "SMEP interface v0.2_Main_Play_Screens 6",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "129",
+                    "alt": "SMEP interface v0.2_Main_Play_Screens 8",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "130",
+                    "alt": "SMEP interface v0.2_Main_Play_Screens 9",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "131",
+                    "alt": "SMEP interface v0.2_Main_Play_Screens 10",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "132",
+                    "alt": "SMEP interface v0.2_Main_Play_Screens 11",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "133",
+                    "alt": "SMEP interface v0.2_Main_Play_Screens 12",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "134",
+                    "alt": "SMEP interface v0.3_Other_project_Samples 2",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "135",
+                    "alt": "SMEP interface v0.4_Screens 3",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "136",
+                    "alt": "SMEP interface v0.4_Screens 4",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "137",
+                    "alt": "SMEP interface v0.4_Screens 23",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "138",
+                    "alt": "SMEP interface v0.5_Screens 2-1",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "139",
+                    "alt": "SMEP interface v0.5_Screens 2-2",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "142",
+                    "alt": "SMEP interface v0.5_Screens 6",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "143",
+                    "alt": "SMEP interface v0.8_Screens 1-1",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "144",
+                    "alt": "SMEP interface v0.8_Screens 1",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "145",
+                    "alt": "SMEP interface v0.8_Screens 2",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "146",
+                    "alt": "SMEP interface v0.8_Screens 15",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "147",
+                    "alt": "SMEP interface v0.8_Screens 16",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "148",
+                    "alt": "SMEP interface v0.8_Screens 17",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "149",
+                    "alt": "SMEP interface v0.8_Screens 18",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "150",
+                    "alt": "SMEP interface v0.8_Screens 19",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "151",
+                    "alt": "SMEP interface v0.8_Screens 20",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "152",
+                    "alt": "SMEP interface v0.8_Screens 21",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "153",
+                    "alt": "SMEP interface v0.8_Screens 22",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "154",
+                    "alt": "SMEP interface v0.9_Screens 1-1",
+                    "title": "",
+                    "width": "376",
+                    "height": "667"
+                },
+                {
+                    "target_id": "155",
+                    "alt": "SMEP interface v0.9_Screens 1",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "156",
+                    "alt": "SMEP interface v0.9_Screens 2",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "157",
+                    "alt": "SMEP interface v0.9_Screens 3-1",
+                    "title": "",
+                    "width": "376",
+                    "height": "667"
+                },
+                {
+                    "target_id": "158",
+                    "alt": "SMEP interface v0.9_Screens 3",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "159",
+                    "alt": "SMEP interface v0.9_Screens 4-1",
+                    "title": "",
+                    "width": "376",
+                    "height": "667"
+                },
+                {
+                    "target_id": "160",
+                    "alt": "SMEP interface v0.9_Screens 4",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "161",
+                    "alt": "SMEP interface v0.9_Screens 5-1",
+                    "title": "",
+                    "width": "376",
+                    "height": "667"
+                },
+                {
+                    "target_id": "162",
+                    "alt": "SMEP interface v0.9_Screens 5-2",
+                    "title": "",
+                    "width": "376",
+                    "height": "667"
+                },
+                {
+                    "target_id": "163",
+                    "alt": "SMEP interface v0.9_Screens 5",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "164",
+                    "alt": "SMEP interface v0.9_Screens 6-1",
+                    "title": "",
+                    "width": "376",
+                    "height": "667"
+                },
+                {
+                    "target_id": "165",
+                    "alt": "SMEP interface v0.9_Screens 6",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "166",
+                    "alt": "SMEP interface v0.5_Screens 2.png",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                },
+                {
+                    "target_id": "167",
+                    "alt": "SMEP interface v0.5_Screens 3.png",
+                    "title": "",
+                    "width": "375",
+                    "height": "667"
+                }
+            ]
+        },
+        {
+            "id": [
+                {
+                    "value": "138"
+                }
+            ],
+            "uuid": [
+                {
+                    "value": "5707f77c-2904-4cc9-b018-898cea1bf289"
+                }
+            ],
+            "revision_id": [
+                {
+                    "value": "5530"
+                }
+            ],
+            "langcode": [
+                {
+                    "value": "en"
+                }
+            ],
+            "type": [
+                {
+                    "target_id": "project_story"
+                }
+            ],
+            "status": [
+                {
+                    "value": "1"
+                }
+            ],
+            "created": [
+                {
+                    "value": "1789116094"
+                }
+            ],
+            "parent_id": [
+                {
+                    "value": "28"
+                }
+            ],
+            "parent_type": [
+                {
+                    "value": "node"
+                }
+            ],
+            "parent_field_name": [
+                {
+                    "value": "field_content_sections"
+                }
+            ],
+            "behavior_settings": [
+                {
+                    "value": "a:0:{}"
+                }
+            ],
+            "default_langcode": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_default": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_translation_affected": [],
+            "content_translation_source": [
+                {
+                    "value": "und"
+                }
+            ],
+            "content_translation_outdated": [
+                {
+                    "value": "0"
+                }
+            ],
+            "content_translation_changed": [
+                {
+                    "value": "1790523916"
+                }
+            ],
+            "field_project_story_body": [
+                {
+                    "value": "<h2>Where the inspiration began</h2><p><a href=\"https://jhollands.co.uk/spaceplan/\" target=\"_blank\" rel=\"external\">Spaceplan</a> was the first incremental game I played, before I discovered <a href=\"https://orteil.dashnet.org/cookieclicker/\" target=\"_blank\" rel=\"external\">Cookie Clicker</a>. It was my introduction to a genre where a small action can grow into a much larger system. That became a starting point for my own project. With SMEP, I wanted to explore a different subject: particles, the formation of matter, and the possibility of learning something about physics and chemistry by playing with their ideas.</p>",
+                    "format": "full_html"
+                }
+            ]
+        },
+        {
+            "id": [
+                {
+                    "value": "144"
+                }
+            ],
+            "uuid": [
+                {
+                    "value": "3285d847-e0a4-49da-85fe-6b1024310696"
+                }
+            ],
+            "revision_id": [
+                {
+                    "value": "5531"
+                }
+            ],
+            "langcode": [
+                {
+                    "value": "en"
+                }
+            ],
+            "type": [
+                {
+                    "target_id": "project_story"
+                }
+            ],
+            "status": [
+                {
+                    "value": "1"
+                }
+            ],
+            "created": [
+                {
+                    "value": "1789116408"
+                }
+            ],
+            "parent_id": [
+                {
+                    "value": "28"
+                }
+            ],
+            "parent_type": [
+                {
+                    "value": "node"
+                }
+            ],
+            "parent_field_name": [
+                {
+                    "value": "field_content_sections"
+                }
+            ],
+            "behavior_settings": [
+                {
+                    "value": "a:0:{}"
+                }
+            ],
+            "default_langcode": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_default": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_translation_affected": [],
+            "content_translation_source": [
+                {
+                    "value": "und"
+                }
+            ],
+            "content_translation_outdated": [
+                {
+                    "value": "0"
+                }
+            ],
+            "content_translation_changed": [
+                {
+                    "value": "1789119823"
+                }
+            ],
+            "field_project_story_body": [
+                {
+                    "value": "<h2>No Man\u2019s Sky and the element cards</h2>\r\nWhen I first saw the inventory management in No Man\u2019s Sky, I was immediately fascinated by the cards for its individual elements. My first reaction was that this was one of the best things I had ever seen in a game interface. It set me thinking about what I could do with that idea in my own incremental game.\r\n\r\nI wanted to use that sense of discovery to help players learn about real chemical elements, atoms, molecules and subatomic particles. The cards could become a way to explore and understand matter through play. This was one of the starting points for SMEP, and the idea has continued to evolve as I have worked on the project.",
+                    "format": "full_html"
+                }
+            ]
+        },
+        {
+            "id": [
+                {
+                    "value": "145"
+                }
+            ],
+            "uuid": [
+                {
+                    "value": "12387af7-6c34-4529-9482-c65544044b68"
+                }
+            ],
+            "revision_id": [
+                {
+                    "value": "5532"
+                }
+            ],
+            "langcode": [
+                {
+                    "value": "en"
+                }
+            ],
+            "type": [
+                {
+                    "target_id": "project_story"
+                }
+            ],
+            "status": [
+                {
+                    "value": "1"
+                }
+            ],
+            "created": [
+                {
+                    "value": "1789116408"
+                }
+            ],
+            "parent_id": [
+                {
+                    "value": "28"
+                }
+            ],
+            "parent_type": [
+                {
+                    "value": "node"
+                }
+            ],
+            "parent_field_name": [
+                {
+                    "value": "field_content_sections"
+                }
+            ],
+            "behavior_settings": [
+                {
+                    "value": "a:0:{}"
+                }
+            ],
+            "default_langcode": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_default": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_translation_affected": [],
+            "content_translation_source": [
+                {
+                    "value": "und"
+                }
+            ],
+            "content_translation_outdated": [
+                {
+                    "value": "0"
+                }
+            ],
+            "content_translation_changed": [
+                {
+                    "value": "1789119823"
+                }
+            ],
+            "field_project_story_body": [
+                {
+                    "value": "<h2>Starting with the interface</h2>\r\nI started working on the user interface first. In its early form, the whole game consisted of a graphical user interface: there was no actual game world yet. The interface was where I began exploring what the game could be.\r\n\r\nThe concept of a Petri dish grew out of that beginning: a world shown inside a circle. It gave me a way to imagine a contained space for the game within an experience that had started entirely as GUI. Spaceplan was another strong influence as I worked through these ideas.",
+                    "format": "full_html"
+                }
+            ]
+        },
+        {
+            "id": [
+                {
+                    "value": "139"
+                }
+            ],
+            "uuid": [
+                {
+                    "value": "14a9469e-7602-4f13-89b7-f975990edd9b"
+                }
+            ],
+            "revision_id": [
+                {
+                    "value": "5533"
+                }
+            ],
+            "langcode": [
+                {
+                    "value": "en"
+                }
+            ],
+            "type": [
+                {
+                    "target_id": "project_story"
+                }
+            ],
+            "status": [
+                {
+                    "value": "1"
+                }
+            ],
+            "created": [
+                {
+                    "value": "1789116094"
+                }
+            ],
+            "parent_id": [
+                {
+                    "value": "28"
+                }
+            ],
+            "parent_type": [
+                {
+                    "value": "node"
+                }
+            ],
+            "parent_field_name": [
+                {
+                    "value": "field_content_sections"
+                }
+            ],
+            "behavior_settings": [
+                {
+                    "value": "a:0:{}"
+                }
+            ],
+            "default_langcode": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_default": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_translation_affected": [],
+            "content_translation_source": [
+                {
+                    "value": "und"
+                }
+            ],
+            "content_translation_outdated": [
+                {
+                    "value": "0"
+                }
+            ],
+            "content_translation_changed": [
+                {
+                    "value": "1789119823"
+                }
+            ],
+            "field_project_story_body": [
+                {
+                    "value": "<h2>From a first click to a universe</h2>The opening I imagine is almost empty: a black screen, a point of light, and a first click that sets things in motion. The interface would reveal itself gradually as the player discovers what they can do.\r\n\r\nAt the heart of the concept is a loop of creating, combining and discovering. Players would generate particles, bring ingredients together, unlock new possibilities and eventually automate familiar actions. The broader progression would move from particles towards atoms, elements and more complex structures, with stars forming part of that journey.\r\n\r\nI want the next discovery to matter as much as the next upgrade. A new element should open a question: what can I make with this, and what conditions would I need?",
+                    "format": "full_html"
+                }
+            ]
+        },
+        {
+            "id": [
+                {
+                    "value": "140"
+                }
+            ],
+            "uuid": [
+                {
+                    "value": "57d43c49-0e58-4b91-a7c6-6dda19425177"
+                }
+            ],
+            "revision_id": [
+                {
+                    "value": "5534"
+                }
+            ],
+            "langcode": [
+                {
+                    "value": "en"
+                }
+            ],
+            "type": [
+                {
+                    "target_id": "project_story"
+                }
+            ],
+            "status": [
+                {
+                    "value": "1"
+                }
+            ],
+            "created": [
+                {
+                    "value": "1789116094"
+                }
+            ],
+            "parent_id": [
+                {
+                    "value": "28"
+                }
+            ],
+            "parent_type": [
+                {
+                    "value": "node"
+                }
+            ],
+            "parent_field_name": [
+                {
+                    "value": "field_content_sections"
+                }
+            ],
+            "behavior_settings": [
+                {
+                    "value": "a:0:{}"
+                }
+            ],
+            "default_langcode": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_default": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_translation_affected": [],
+            "content_translation_source": [
+                {
+                    "value": "und"
+                }
+            ],
+            "content_translation_outdated": [
+                {
+                    "value": "0"
+                }
+            ],
+            "content_translation_changed": [
+                {
+                    "value": "1789119823"
+                }
+            ],
+            "field_project_story_body": [
+                {
+                    "value": "<h2>Learning through interaction</h2>The design notes explore a central playground of moving particles, alongside cards for inspecting and combining what the player has discovered. Clicking, selecting and connecting would give abstract ideas something visible and tangible.\r\n\r\nThe educational aim is to make the basics of particle physics and chemistry approachable through experimentation. The notes include simplified mechanics, open questions and ideas that still need scientific checking. Working out how to keep the game understandable while respecting its subject is part of the design work ahead.",
+                    "format": "full_html"
+                }
+            ]
+        },
+        {
+            "id": [
+                {
+                    "value": "141"
+                }
+            ],
+            "uuid": [
+                {
+                    "value": "23ab2412-a8d8-40c0-83e0-c3f9c74ce1aa"
+                }
+            ],
+            "revision_id": [
+                {
+                    "value": "5535"
+                }
+            ],
+            "langcode": [
+                {
+                    "value": "en"
+                }
+            ],
+            "type": [
+                {
+                    "target_id": "project_story"
+                }
+            ],
+            "status": [
+                {
+                    "value": "1"
+                }
+            ],
+            "created": [
+                {
+                    "value": "1789116094"
+                }
+            ],
+            "parent_id": [
+                {
+                    "value": "28"
+                }
+            ],
+            "parent_type": [
+                {
+                    "value": "node"
+                }
+            ],
+            "parent_field_name": [
+                {
+                    "value": "field_content_sections"
+                }
+            ],
+            "behavior_settings": [
+                {
+                    "value": "a:0:{}"
+                }
+            ],
+            "default_langcode": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_default": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_translation_affected": [],
+            "content_translation_source": [
+                {
+                    "value": "und"
+                }
+            ],
+            "content_translation_outdated": [
+                {
+                    "value": "0"
+                }
+            ],
+            "content_translation_changed": [
+                {
+                    "value": "1789119823"
+                }
+            ],
+            "field_project_story_body": [
+                {
+                    "value": "<h2>An idea I have kept building on since 2019</h2>Since August 2019, I have been putting my thoughts into SMEP: gameplay possibilities, interface sketches, progression ideas and references that help me think through the experience. The document has become a place to collect those thoughts and return to them over time.\r\n\r\nThe scope of those notes is deliberately broad. Some ideas describe the opening moments; others imagine much later stages. They are a record of the project's development and possibilities, rather than a promise that every feature will appear in the finished game.",
+                    "format": "full_html"
+                }
+            ]
+        },
+        {
+            "id": [
+                {
+                    "value": "142"
+                }
+            ],
+            "uuid": [
+                {
+                    "value": "7f2bd2ed-63d5-40a5-a897-4ccc11d7485e"
+                }
+            ],
+            "revision_id": [
+                {
+                    "value": "5536"
+                }
+            ],
+            "langcode": [
+                {
+                    "value": "en"
+                }
+            ],
+            "type": [
+                {
+                    "target_id": "project_story"
+                }
+            ],
+            "status": [
+                {
+                    "value": "1"
+                }
+            ],
+            "created": [
+                {
+                    "value": "1789116094"
+                }
+            ],
+            "parent_id": [
+                {
+                    "value": "28"
+                }
+            ],
+            "parent_type": [
+                {
+                    "value": "node"
+                }
+            ],
+            "parent_field_name": [
+                {
+                    "value": "field_content_sections"
+                }
+            ],
+            "behavior_settings": [
+                {
+                    "value": "a:0:{}"
+                }
+            ],
+            "default_langcode": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_default": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_translation_affected": [],
+            "content_translation_source": [
+                {
+                    "value": "und"
+                }
+            ],
+            "content_translation_outdated": [
+                {
+                    "value": "0"
+                }
+            ],
+            "content_translation_changed": [
+                {
+                    "value": "1789119823"
+                }
+            ],
+            "field_project_story_body": [
+                {
+                    "value": "<h2>Why now feels like the right time</h2>I expect to have more spare time to devote to SMEP, and modern technologies make it easier to turn the ideas I have collected into something I can try, evaluate and improve.\r\n\r\nThat makes this feel like a good moment to return to the project with renewed focus. I want to bring those years of thinking into a playable experience, starting with the interactions that make discovery enjoyable and building from there.\r\n\r\nThis is the first article about SMEP in my portfolio: an introduction to the project, where it came from, and the direction I want to take it.",
+                    "format": "full_html"
+                }
+            ]
+        },
+        {
+            "id": [
+                {
+                    "value": "143"
+                }
+            ],
+            "uuid": [
+                {
+                    "value": "3766a58d-cf70-4140-9bc1-75b6d9da83e0"
+                }
+            ],
+            "revision_id": [
+                {
+                    "value": "5537"
+                }
+            ],
+            "langcode": [
+                {
+                    "value": "en"
+                }
+            ],
+            "type": [
+                {
+                    "target_id": "project_story"
+                }
+            ],
+            "status": [
+                {
+                    "value": "1"
+                }
+            ],
+            "created": [
+                {
+                    "value": "1789116094"
+                }
+            ],
+            "parent_id": [
+                {
+                    "value": "28"
+                }
+            ],
+            "parent_type": [
+                {
+                    "value": "node"
+                }
+            ],
+            "parent_field_name": [
+                {
+                    "value": "field_content_sections"
+                }
+            ],
+            "behavior_settings": [
+                {
+                    "value": "a:0:{}"
+                }
+            ],
+            "default_langcode": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_default": [
+                {
+                    "value": "1"
+                }
+            ],
+            "revision_translation_affected": [
+                {
+                    "value": "1"
+                }
+            ],
+            "content_translation_source": [
+                {
+                    "value": "und"
+                }
+            ],
+            "content_translation_outdated": [
+                {
+                    "value": "0"
+                }
+            ],
+            "content_translation_changed": [
+                {
+                    "value": "1790523961"
+                }
+            ],
+            "field_project_story_body": [
+                {
+                    "value": "<h2>Project files</h2><p>The working materials show the ideas behind SMEP and the interface explorations that accompany them.</p><ul><li data-list-item-id=\"e0387930057ae4ce47c5998e523f44cf0\"><a href=\"https://docs.google.com/document/d/1EUQXYyDMzqc4jOmuLILrwc33uNubBlAOJo1P4xmbJjU/edit?tab=t.0\" target=\"_blank\" rel=\"external\">SMEP game design document \u2014 original notes and concepts</a></li><li data-list-item-id=\"e9a4e91c941aac35fa28aba40e154e845\"><a href=\"https://www.figma.com/design/CDKvikFQtlPhZLUKnRu8F5/SMEP?node-id=0-1\" target=\"_blank\" rel=\"external\">SMEP in Figma \u2014 interface design</a></li></ul>",
+                    "format": "full_html"
+                }
+            ]
+        }
+    ]
+}

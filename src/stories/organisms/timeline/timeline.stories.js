@@ -14,6 +14,7 @@ const TIMELINE_ITEMS = [
     hours_worked: 160,
     item_summary: "Worked on SCSS accessibility, refined the mobile presentation, and upgraded Drupal core and contributed modules.",
     website_links: [{ url: "https://oksenate.gov/" }],
+    details_links: [{ url: "/portfolio/oksenate", label: "Read more" }],
   },
   {
     item_name: "Accountia",
@@ -28,9 +29,11 @@ const TIMELINE_ITEMS = [
     emphasis_kind: "featured",
     item_summary: "Led product design and frontend development for an accounting platform, its Angular interface, and its Storybook design system.",
     website_links: [{ url: "https://accountia.no/" }],
+    details_links: [{ url: "/portfolio/accountia", label: "Read more" }],
   },
   {
     item_name: "ScatchApp",
+    details_links: [{ url: "/portfolio/scatchapp", label: "Read more" }],
     item_kind: "project",
     organization_name: "Thrive.io",
     organization_url: "https://thrive.io/",
@@ -95,7 +98,7 @@ function render_timeline_story(story_arguments) {
 }
 
 export default {
-  title: "Organisms/Timeline",
+  title: "Pages/Timeline",
   tags: ["autodocs"],
   render: render_timeline_story,
   args: {

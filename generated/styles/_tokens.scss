@@ -156,7 +156,7 @@
   --component-article-teaser-list-media-min-width-default: 180px;
   --component-article-teaser-list-media-max-width-default: 280px;
   --component-article-teaser-shadow-hover-default: 0px 1px 3px 0px #0000001A, 0px 4px 6px -1px #0000001A;
-  --component-news-list-item-media-width-default: 160px;
+  --component-news-list-item-media-width-default: 304px;
   --component-news-list-item-media-width-compact: 120px;
   --component-site-branding-logo-size-default: 64px;
   --component-text-input-minimum-width-default: var(--component-text-input-width-quarter);
@@ -223,6 +223,7 @@
   --system-breakpoint-site-header-inline-min: 1440px;
   --system-breakpoint-article-sidebar-min: 1184px;
   --system-breakpoint-content-gutter-max: 1008px;
+  --system-breakpoint-article-grid-stack-max: 960px;
   --layout-container-max-tablet-default: 640px;
   --layout-container-max-desktop-default: 1440px;
   --layout-content-max-blog-default: 800px;
@@ -272,6 +273,7 @@ $system-breakpoint-desktop-max: 1920px;
 $system-breakpoint-site-header-inline-min: 1440px;
 $system-breakpoint-article-sidebar-min: 1184px;
 $system-breakpoint-content-gutter-max: 1008px;
+$system-breakpoint-article-grid-stack-max: 960px;
 
 $breakpoints: (
   "mobile-min": 360px,
@@ -283,6 +285,7 @@ $breakpoints: (
   "site-header-inline-min": 1440px,
   "article-sidebar-min": 1184px,
   "content-gutter-max": 1008px,
+  "article-grid-stack-max": 960px,
 );
 
 @mixin breakpoint-up($name) {

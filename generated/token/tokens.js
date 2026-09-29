@@ -2516,11 +2516,11 @@ export const TOKEN_RECORDS = [
       "media-width-default"
     ],
     "type": "dimension",
-    "description": "News stays denser than the standard Article list item.",
-    "source_value": "160px",
-    "value": "160px",
-    "css_value": "160px",
-    "resolved_css_value": "160px",
+    "description": "News preview width; source images retain their original aspect ratio.",
+    "source_value": "304px",
+    "value": "304px",
+    "css_value": "304px",
+    "resolved_css_value": "304px",
     "is_reference": false,
     "reference_name": null
   },
@@ -3613,6 +3613,22 @@ export const TOKEN_RECORDS = [
     "value": "1008px",
     "css_value": "1008px",
     "resolved_css_value": "1008px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "system-breakpoint-article-grid-stack-max",
+    "path": [
+      "system",
+      "breakpoint",
+      "article-grid-stack-max"
+    ],
+    "type": "dimension",
+    "description": "Latest articles cards fill one row each at this width and below.",
+    "source_value": "960px",
+    "value": "960px",
+    "css_value": "960px",
+    "resolved_css_value": "960px",
     "is_reference": false,
     "reference_name": null
   },

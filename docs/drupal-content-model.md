@@ -8,10 +8,18 @@ CKEditor Source mode keeps its native textarea with lightweight HTML syntax colo
 for tags, attributes, values, entities, and comments. The `jurenites_admin`
 SourceCode plugin follows the existing Source toolbar item, including editors
 created in paragraph subforms. CKEditor's own HTML formatter runs when Source
-opens and after a paste; **Format HTML** also formats manual edits. Typing does
-not trigger reformatting. The highlight layer is decorative and never parses
+opens; **Format HTML** formats manual edits. Leading blank lines and empty formatting lines between elements (including figures)
+are removed on opening Source and explicit formatting. Literal whitespace inside
+preformatted blocks and multiline attributes is preserved. Typing and pasting do not reformat
+the document, preserving native clipboard selection and scroll behavior. The highlight layer is decorative and never parses
 or executes the entered HTML. Existing CKEditor filtering still applies when
 returning to visual editing or saving.
+Long source stays inside a bounded, scrollable textarea. Its decorative highlight
+layer follows both scroll axes and uses the same text metrics and scrollbar gutter;
+the Format HTML control remains below the scroll area. Drag the bottom-right
+resize handle vertically to expand the source editor for longer texts. Native browser
+Find searches the textarea once (the decorative mirror is inert); selected matches
+scroll into view inside the editor, with highlighting kept aligned.
 
 ## Rich-text authoring
 
@@ -19,6 +27,10 @@ The toolbar exposes **Align left**, **Align center**, and **Align right**. Selec
 a protected Phone preview block to align its complete card, or place the cursor
 in a text block to align that text. Alignment is saved as CSS classes and survives
 Source mode and later saves; the preview artwork and media remain protected.
+Accountia's phone grid, galleries, and recording are also protected raw-content
+blocks, including their wrapper classes and attributes. Their surrounding headings
+and case-study prose remain editable in the visual editor. Use Source for preview
+internals; removing a preview remains intentional and is not automatically undone.
 
 Body, article summaries, and other formatted text fields use Full HTML
 with CKEditor. Article and Video comments use a plain textarea with CKEditor
@@ -390,10 +402,20 @@ between text and icon; the SVG has a 1px downward optical adjustment that does
 not change the row height. These styles apply only to product websites.
 App stores
 appear as separate named links (Google Play, App Store, or another authored store).
-Sources remain editable in the CMS but are omitted from the public Timeline
-and Storybook markup. Links inside project descriptions render as plain text,
-with their authored text and CMS URLs preserved. Only the dedicated Product
-websites and App stores rows render project destination links. A wireframe, PDF,
+External Sources remain editable in the CMS but are omitted from the public
+Timeline and Storybook markup. Sources authored as internal node references
+render a same-tab case-study link directly after the project title in its header,
+with their translated CMS link text. These links use the Link typography role
+and share the title’s text baseline. The icon-only Featured marker centers its
+24px box vertically within that header row instead of participating in text
+baseline alignment. The four
+Oklahoma Senate, ScatchApp, Accountia and Dzing Finance App entries use “Read more”
+(“Подробнее” in Russian), linking to their Portfolio nodes. Run
+`drush php:script scripts/update-timeline-project-links.php` once to seed these
+references. The script resolves aliases to node IDs and preserves subsequent
+CMS edits and clears; rendering follows current node aliases and view access. Links inside project descriptions render as plain text,
+with their authored text and CMS URLs preserved. Dedicated Product websites, App stores and internal case-study rows render
+project destination links. A wireframe, PDF,
 third-party profile or reference article never becomes a product website by its
 position. This display policy does not revoke access to externally hosted files.
 These links do not claim a current reachability check. Existing sites run
@@ -527,6 +549,13 @@ The available Project sections are:
   outcomes.
 
 The Oksenate case study lives at `/portfolio/oksenate`. It uses the existing
+scrollable desktop preview after the accessibility story section, using the
+supplied `anonymous-home-stage.png` capture. The preview is up to 1280px wide,
+fits narrower screens, and scrolls internally within 75% of the viewport height.
+Its markup remains editable in that section's Body field; the surrounding prose
+keeps its readable width. Run `drush php:script scripts/update-oksenate-preview.php`
+once after building the theme to add it; reruns preserve existing previews.
+The case study also uses the existing
 Project Image for the user-supplied homepage hero screenshot dated 11 September
 2026 (preserved without cropping), an authored
 introduction, Numeric Values, and six editable Project story paragraphs. The
@@ -569,6 +598,14 @@ Run `drush php:script scripts/create-smep-project.php` after the existing
 font-project recipe to create the article from `scripts/content/smep.json`.
 Reruns preserve the existing node and its editorial changes. Initial creation
 and verification are local; production publishing is a separate operation.
+
+SMEP's element-card preview uses 750 × 1334px retina artwork for card views 1–5.
+The orbital preview uses the same retina dimensions for Hydrogen, Carbon, Boron,
+Silicon, Phosphorus, Copper, and Oganesson, stored under
+`assets/images/projects/smep/orbitals/`.
+The classic phone screen displays these at 375px wide, shrinking to fit narrower
+containers. Source and theme assets retain matching numbered filenames under
+`assets/images/projects/smep/element-cards/`.
 
 SMEP includes an editable **Screen slider** Paragraph from `jurenites_screen_slider`.
 Enable the module, then run `drush php:script scripts/add-smep-screen-slider.php`
@@ -979,7 +1016,10 @@ existing values. Administrators can correct managed values.
 
 The recipe's homepage-only News block shows up to three published records,
 ordered by source publication time, newest first. Its News List Item thumbnail
-and title link to the original external URL. The recipe adds no News listing
+and title link to the original external URL. Thumbnails use a 304px desktop
+width (120px on compact layouts) and preserve the source image aspect ratio
+without stretching to the text height. The shared theme token controls width;
+Drupal supplies the original image. The recipe adds no News listing
 page or main-menu item.
 
 Source names use the shared Author Identity component with its small (16px)
@@ -1118,11 +1158,25 @@ describes Alexander's collaboration with the co-founder: translating ideas into
 Figma screens which the co-founder brought to the development team. It makes no
 claim about measured outcomes or implementation parity with the current app.
 
-The Home-only **ScatchApp interactive case preview** basic Content Block is
-placed at weight 3. Its Full HTML Body contains editable copy and generated
-markup from the existing Preview Mobile Screen Card helper. The modern phone
-plays the supplied list recording and then the filter recording, both muted,
-and links to the Project. The map screenshot supplies the static fallback.
+The Home-only **Home project previews** basic Content Block (34) is placed at
+weight 3. Its Full HTML Body contains four slides: Accountia, ScatchApp, Dzing,
+and SMEP. The phone appears on the left and its description on the right on
+desktop; narrow screens stack the phone above the description. The track hides
+its horizontal scrollbar while preserving touch and keyboard navigation.
+The block has editable English and Russian translations, including descriptions,
+project links, controls and preview accessibility labels. Apply the revision-backed
+layout and translation update once with
+`drush php:script scripts/translate-home-project-previews.php`; subsequent runs
+preserve CMS edits. Each pairs a short description copied from the Project Summary with
+a transparent Preview Mobile Screen Card linking to its project. The seeded
+copy remains editable in the block; later Summary edits are not automatically
+synchronized. Previous/Next buttons, horizontal touch scrolling and arrow/Home/End
+keys on the focused track navigate the slides, with reduced-motion support.
+ScatchApp retains its list and filter recordings; the other slides reuse their
+existing project phone sequences. Apply once with
+`drush php:script scripts/update-home-project-previews.php`, which retains the
+previous block revision and leaves an existing slider untouched. The ScatchApp
+map screenshot supplies its static fallback.
 The shared runtime retains hover pause, keyboard feedback, offscreen pause and
 reduced-motion behavior. The detail page uses one native-size, transparent phone
 with `follow_cursor: true`, containing those same two recordings in order (list,
@@ -1181,17 +1235,45 @@ existing previews, preserving subsequent CMS edits. Generated section markup and
 the supplied-image manifest are under `generated/content/accountia/`.
 
 Three shared phone cards show the two landing-page exports and the exact 360px
-application exports, split between two application sequences. Long screens scroll
-before advancing; the shared runtime respects reduced motion. Four image viewers
+application exports, split between two application sequences. The presentation uses
+375px screen areas inside 399px phone frames, wrapping into fewer columns when
+needed and scaling down only when a single frame cannot fit the viewport. Long screens scroll
+before advancing using eased, viewport-sized swipes with brief pauses. The three
+previews have different initial holds (850/1450/2050ms); the middle application
+preview begins at the bottom and returns quickly to the top before swiping down.
+Bottom overscroll reveals white and settles back; upward motion stops exactly at
+the top. Hovering an individual phone pauses its screen playback and leaving resumes
+it; the other phones continue independently. A crossfade already in progress finishes
+before the incoming frame pauses. Touch input does not trigger hover pausing.
+Visitors can hold the left mouse button and drag a phone screen vertically, using
+grab/grabbing cursors. Manual scrolling stays within the image bounds, remains at
+the chosen position while hovered, and autoplay resumes from that position on exit.
+Reduced motion still permits manual dragging without starting autoplay.
+The shared runtime respects reduced motion. Existing CMS settings can be
+updated with `scripts/update-accountia-scroll.php` without replacing copy.
+Four image viewers
 provide the original/later invoice comparison, all 23 desktop screens, the original
-style guide, and 44 guideline sheets. Galleries with more than two images advance
-every five seconds while visible, pause on hover/focus, and offer explicit playback
-and navigation controls. Reduced motion starts them paused. Images fit the viewport;
-Open original allows detailed inspection without cropping the preview.
+style guide, and 44 guideline sheets. Galleries advance only with Previous/Next; the Play sequence control is hidden.
+Slides fade out and in against the full-white palette background while the viewport
+height eases to the next image. Page
+scroll compensation anchors the controls in place so height growth moves upward.
+User scrolling interrupts that compensation. Reduced motion switches immediately. Galleries use up to
+1280px of width with 24px page gutters on narrower viewports. Desktop screenshots
+retain their natural proportions and scroll inside a keyboard-focusable viewport
+when taller than 75dvh; scrolling continues to the page at either edge rather
+than being trapped inside the preview. Switching slides resets that viewport to the top.
+The original style guide's single figure expands to its full natural height and
+scrolls with the page, without an internal vertical scrollbar.
+The 1920×1680 Guidelines and components images use a stable 8:7 frame without
+internal scrolling. Accountia figure captions and Open original links are hidden. Existing markup is updated by
+`scripts/update-accountia-gallery-layout.php` in a recoverable content revision.
 
 The supplied MOV is converted to a browser-compatible MP4 in the local public
 files directory. Its shared Media Loader resolves on actual video readiness and
-reveals an error link on failure. The player defaults to 800px (100 base gaps),
-can expand to the content width, and retains native fullscreen controls.
+reveals an error link on failure. Decorative loading layers ignore pointer input,
+so the native play, seek and fullscreen controls remain reachable. The recording
+is the first preview in the case study, uses an 800px maximum width (100 base gaps),
+and has no separate expand button. `scripts/fix-accountia-video.php` updates existing
+content in a new revision while preserving authored text and other previews.
 Optimized WebP images and the MP4 live in `public://projects/accountia/`; deployment
 must carry those public files alongside the database revision and theme build.

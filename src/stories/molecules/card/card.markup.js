@@ -9,7 +9,7 @@ export function card_markup(card_arguments) {
   const screen_preset = card_arguments.screen_preset === 'large-screen' ? 'large-screen' : 'compact-screen';
   const iphone_era = card_arguments.iphone_era === 'classic' ? 'classic' : 'modern';
   const card_url = String(card_arguments.card_url ?? '').trim();
-  const follow_cursor = Boolean(card_url) && card_arguments.follow_cursor !== false;
+  const follow_cursor = card_arguments.follow_cursor === true || (Boolean(card_url) && card_arguments.follow_cursor !== false);
   const card_classes = `card card--${display_size} card--${background_mode} card--${screen_preset} card--${iphone_era}`;
   const card_attributes = `class="${card_classes}" data-cursor-card data-follow-cursor="${follow_cursor}"`;
   return render_template(card_template, {

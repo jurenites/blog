@@ -1,6 +1,14 @@
-.ck-source-editing-area.source-code {
+.ck .ck-source-editing-area.source-code {
   background: var(--color-palette-dark-black, var(--ck-color-base-background));
-  padding-bottom: calc(var(--ck-spacing-large) * 4);
+  display: block;
+  height: clamp(16em, 60vh, 40em);
+  min-height: 16em;
+  max-height: none;
+  resize: vertical;
+  overflow: hidden;
+}
+.ck-source-editing-area.source-code::after {
+  display: none;
 }
 .ck-source-editing-area.source-code textarea,
 .ck-source-editing-area.source-code::after,
@@ -13,10 +21,12 @@
   white-space: pre-wrap;
   overflow-wrap: break-word;
   word-break: normal;
+  hyphens: none;
   padding: var(--ck-spacing-large);
   border: 1px solid transparent;
   margin: 0;
   box-sizing: border-box;
+  scrollbar-gutter: stable;
 }
 .ck-source-editing-area.source-code textarea {
   color: transparent;
@@ -24,10 +34,12 @@
   caret-color: var(--color-palette-white, var(--ck-color-text));
   z-index: 1;
   height: calc(100% - var(--ck-spacing-large) * 4);
+  overflow: auto;
 }
 .ck-source-editing-area.source-code .source-code__highlight {
   position: absolute;
-  inset: 0;
+  inset: 0 0 calc(var(--ck-spacing-large) * 4);
+  overflow: hidden;
   pointer-events: none;
   color: var(--color-palette-white, var(--ck-color-text));
 }

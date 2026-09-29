@@ -10,7 +10,7 @@ const BOUNDARY_ITEMS = [
 ];
 
 export default {
-  title: "Organisms/Skills Profile",
+  title: "Organisms/About/Skills Profile",
   tags: ["autodocs"],
   render: skills_profile_markup,
   parameters: { docs: { description: { component: "Editable CV-backed technology profile. Decimal ratings are provisional suggestions until personally reviewed, never inferred test results. Missing ratings stay unassessed. Uses the Drupal starter content and shared theme SCSS." } } },

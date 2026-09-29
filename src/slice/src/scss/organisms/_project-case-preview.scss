@@ -28,3 +28,69 @@
     padding-inline: var(--layout-gutter-mobile-default);
   }
 }
+
+.project-case-slider {
+  position: relative;
+  box-sizing: border-box;
+  padding-inline: calc(var(--space-scale-base-gap) * 5);
+  max-width: var(--layout-content-max-wide-default);
+  margin-inline: auto;
+
+  &__track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  &__track > .project-case-preview {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  &__track > .project-case-preview > .project-case-preview__copy {
+    align-self: start;
+    padding-block-start: calc(var(--space-scale-base-gap) * 6);
+
+    @include tools.breakpoint-down("mobile-max") {
+      padding-block-end: calc(var(--space-scale-base-gap) * 7);
+    }
+  }
+
+  &__pagination {
+    position: absolute;
+    inset-block-end: calc(var(--space-scale-base-gap) * 10);
+    inset-inline-start: calc(50% + var(--space-scale-base-gap) * 2);
+    inset-inline-end: calc(var(--layout-gutter-desktop-default) + var(--space-scale-base-gap) * 5);
+    justify-content: flex-start;
+    margin-top: 0;
+
+    @include tools.breakpoint-down("mobile-max") {
+      inset-block-end: calc(var(--space-scale-base-gap) * 4);
+      inset-inline-start: calc(var(--layout-gutter-mobile-default) + var(--space-scale-base-gap) * 5);
+      inset-inline-end: calc(var(--layout-gutter-mobile-default) + var(--space-scale-base-gap) * 5);
+    }
+  }
+
+  &__arrow {
+    position: absolute;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    inline-size: calc(var(--space-scale-base-gap) * 5);
+    padding: 0;
+  }
+
+  &__arrow[hidden] { display: none; }
+  &__arrow--previous { inset-inline-start: 0; }
+  &__arrow--next { inset-inline-end: 0; }
+  &__arrow--previous > .project-case-slider__arrow-icon { transform: rotate(90deg); }
+  &__arrow--next > .project-case-slider__arrow-icon { transform: rotate(-90deg); }
+
+  &__track:focus-visible {
+    outline: var(--shape-border-width-hairline-default) solid var(--theme-dark-action-primary-default);
+    outline-offset: var(--space-scale-base-gap);
+  }
+}

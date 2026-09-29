@@ -8,7 +8,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: "Molecules/Pull Quote",
+  title: "Molecules/Blog/Pull Quote",
   tags: ["autodocs"],
   render: render_story,
   argTypes: {

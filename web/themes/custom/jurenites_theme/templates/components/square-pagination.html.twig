@@ -1,0 +1,7 @@
+{% if page_count > 0 %}
+<div class="square-pagination" data-slider-pagination role="group" aria-label="{{ pagination_label }}">
+  {% for page_number in 1..page_count %}
+    <button class="crossfade-dot square-pagination__dot{% if loop.first %} is-active{% endif %}" type="button" data-slider-dot="{{ loop.index0 }}" data-dot-distance="{{ min(4, loop.index0) }}" aria-label="{{ page_label|replace({'@number': page_number, '@total': page_count}) }}" aria-pressed="{{ loop.first ? 'true' : 'false' }}"{% if page_count > 10 and loop.index0 >= 9 %} hidden{% endif %}></button>
+  {% endfor %}
+</div>
+{% endif %}

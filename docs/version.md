@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 1.164.1
+Version: 1.177.0
 Reviewed: 2026-09-22
 
 This checkpoint covers a repository-source review of `/docs`: source paths,

@@ -1,0 +1,2172 @@
+{
+    "languages": [
+        "en",
+        "ru"
+    ],
+    "routes": [
+        "/",
+        "/ru",
+        "/contact",
+        "/ru/contact",
+        "/blog/citizen-sleeper-interface-review",
+        "/ru/blog/obzor-interfeysa-citizen-sleeper",
+        "/comare-two-fonts",
+        "/ru/sravnenie-dvukh-shriftov",
+        "/about",
+        "/ru/about",
+        "/blog/happy-path-design",
+        "/ru/blog/proektirovanie-schastlivogo-puti",
+        "/blog/notification-design",
+        "/ru/blog/dizayn-uvedomleniy",
+        "/blog/learn-design",
+        "/ru/blog/kak-uchitsya-dizaynu",
+        "/blog/art-direction",
+        "/ru/blog/art-direkshn",
+        "/blog/marapthon",
+        "/ru/blog/marathon",
+        "/blog/how-industry-called-profession-wrongly",
+        "/ru/blog/kak-industriya-nepravilno-nazvala-professiyu",
+        "/blog/see-patterns-and-bigger-picture",
+        "/ru/blog/videt-zakonomernosti-i-obshchuyu-kartinu",
+        "/blog/test-driven-development",
+        "/ru/blog/razrabotka-cherez-testirovanie",
+        "/blog/makin-radio",
+        "/ru/blog/sozdanie-radio",
+        "/blog/eyegasm-eargasm",
+        "/ru/blog/naslazhdenie-dlya-glaz-i-ushey",
+        "/privacy-policy",
+        "/ru/politika-konfidencialnosti",
+        "/portfolio/my-second-font",
+        "/ru/portfolio/roundabout",
+        "/portfolio/my-first-font",
+        "/ru/portfolio/4pixel",
+        "/news/astra-here-gpt-6-released",
+        "/ru/news/astra-uzhe-zdes-vyshel-gpt-6",
+        "/news/new-york-city-bans-ai-elementary-and-middle-schools",
+        "/ru/news/nyu-york-zapreshchaet-ii-v-nachalnoy-i-sredney-shkole",
+        "/news/i-made-bet-tesla",
+        "/ru/news/ya-zaklyuchil-pari-s-tesla",
+        "/blog/space-heaven-hud-revivew",
+        "/ru/blog/obzor-hud-v-space-haven",
+        "/cookbook",
+        "/ru/cookbook",
+        "/brandbook/logo-icon",
+        "/ru/guidelines/logo-icon",
+        "/brandbook/color",
+        "/ru/guidelines/color",
+        "/timeline",
+        "/ru/timeline",
+        "/blog/lego-friends-42602-space-research-rover",
+        "/portfolio/oksenate",
+        "/ru/portfolio/oksenate",
+        "/portfolio/smep",
+        "/ru/portfolio/smep",
+        "/blog/no-mans-sky-inventory-design",
+        "/ru/blog/no-mans-sky-inventory-design",
+        "/blog/spaceplan",
+        "/ru/blog/spaceplan",
+        "/blog/conways-game-of-life",
+        "/ru/blog/conways-game-of-life",
+        "/blog/why-some-designs-are-impossible-improve-quintessence",
+        "/blog/make-your-own-designmd",
+        "/blog/same-ui-desktop-forever",
+        "/blog/3-dashboard-ui-flaws",
+        "/blog/only-web-design-video-you-will-ever-need",
+        "/blog/are-we-last-generation-3d-artists",
+        "/blog/constructing-lines-and-curves-pixel-art-tutorial",
+        "/blog/what-canvas-size-should-you-use-pixel-art",
+        "/blog/death-ui-why-language-final-interface",
+        "/blog/new-code-sean-grove",
+        "/blog/every-uiux-concept-explained-under-10-minutes",
+        "/blog/weird-future-user-interfaces",
+        "/blog/how-did-world-get-so-ugly",
+        "/blog/system-punishes-beautiful-design",
+        "/blog/emergent-complexity",
+        "/blog/intro-svg-filters",
+        "/blog/4-levels-uiux-design",
+        "/blog/twenty-pixels-changed-design-forever",
+        "/blog/what-did-you-do",
+        "/blog/5-design-principles",
+        "/blog/beauty-bezier-curves",
+        "/blog/how-do-computer-fonts-work",
+        "/blog/i-finally-get-how-svgs-work",
+        "/blog/xiaolin-wus-line-algorithm-rasterizing-lines-anti-aliasing",
+        "/blog/6-ui-hacks-i-wish-i-knew-beginner",
+        "/blog/why-design-1980s-looked-so-weird-why-its-relevant-today",
+        "/blog/typography-critique-week-1",
+        "/blog/human-readable-qr",
+        "/ru/blog/qr-kod-kotoryy-mozhet-prochitat-chelovek",
+        "/videos/psychology-behind-streaks",
+        "/videos/gave-local-ai-and-cloud-exact-same-job",
+        "/videos/psychology-trick-makes-any-app-feel-10x-better",
+        "/videos/evolution-ancient-letters-modern-fonts",
+        "/news/openai-just-solved-math",
+        "/news/iphone-18-pro-review",
+        "/news/opening-act-singularity",
+        "/videos/interview-big-data-engineer-2026",
+        "/videos/hidden-mechanic-behind-apps-users-wont-leave",
+        "/videos/best-code-architectures-indie-games",
+        "/videos/dear-game-developers-stop-messing",
+        "/videos/you-need-be-extreme-if-you-want-your-life-change",
+        "/news/frontier-labs-want-slow-down-openai-delays-its-2026-ipo-anthropic-flags-5-bioweapon-cases",
+        "/videos/hardest-time-ever-run-business",
+        "/news/we-need-talk-about-jev",
+        "/videos/studied-100s-web-design-legends-they-all-do-these-6-things",
+        "/videos/secret-behind-weirdly-perfect-ui-designs",
+        "/videos/hidden-math-behind-3d-eye-tracking",
+        "/videos/how-game-designers-solved-these-11-problems",
+        "/videos/turning-images-dots-magic-dithering",
+        "/news/acceleration-100-inevitable",
+        "/videos/whats-point-prototyping",
+        "/portfolio/accountia",
+        "/ru/portfolio/accountia",
+        "/portfolio/scatchapp",
+        "/ru/portfolio/scatchapp",
+        "/videos/try-retro-effect-instant-dither-after-effects",
+        "/videos/fluid-simulation-flipdots",
+        "/videos/only-formula-behind-truly-great-apps",
+        "/videos/built-own-motion-graphics-app",
+        "/portfolio/dzing-finance",
+        "/ru/portfolio/dzing-finance",
+        "/news/introducing-eleven-v4-and-eleven-v4-turbo",
+        "/news/introducing-manus-20",
+        "/news/openai-should-be-scared-one"
+    ],
+    "missing_ru": [
+        {
+            "type": "node",
+            "id": "26",
+            "label": "LEGO Friends 42602 Space Research Rover",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "32",
+            "label": "Why Some Designs Are Impossible to Improve: Quintessence",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "33",
+            "label": "Make your own DESIGN.md",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "36",
+            "label": "Same UI for Desktop forever?",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "37",
+            "label": "3 dashboard UI flaws",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "41",
+            "label": "The Only Web Design Video You Will Ever Need",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "42",
+            "label": "Are We the Last Generation of 3D Artists?",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "43",
+            "label": "Constructing Lines and Curves in Pixel Art (Tutorial)",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "44",
+            "label": "What Canvas Size Should you use for Pixel Art?",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "45",
+            "label": "The Death of UI: Why Language Is the Final Interface",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "46",
+            "label": "The New Code — Sean Grove",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "47",
+            "label": "Every UI/UX Concept Explained in Under 10 Minutes",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "48",
+            "label": "The Weird Future Of User Interfaces",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "49",
+            "label": "How Did The World Get So Ugly?",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "50",
+            "label": "The System That Punishes Beautiful Design",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "51",
+            "label": "Emergent Complexity",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "52",
+            "label": " Intro to SVG Filters",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "53",
+            "label": "4 levels of UI/UX design",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "54",
+            "label": "The twenty pixels that changed design forever",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "55",
+            "label": "what did you do",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "56",
+            "label": "The 5 Design Principles",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "57",
+            "label": "The Beauty of Bézier Curves",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "58",
+            "label": "How do computer fonts work?",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "59",
+            "label": "I finally get how SVGs work",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "60",
+            "label": "Xiaolin Wu's Line Algorithm - Rasterizing Lines with Anti-Aliasing",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "61",
+            "label": "6 UI Hacks I Wish I Knew As A Beginner",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "62",
+            "label": "Why Design in the 1980s Looked So Weird & Why It’s Relevant Today",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "63",
+            "label": "Typography Critique Week 1",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "69",
+            "label": "The Psychology Behind Streaks",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "70",
+            "label": "Gave Local AI and the Cloud the Exact Same Job",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "71",
+            "label": "The psychology trick that makes any app feel 10x better",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "72",
+            "label": "The Evolution Of Ancient Letters To Modern Fonts",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "73",
+            "label": "OpenAI JUST solved math",
+            "bundle": "news"
+        },
+        {
+            "type": "node",
+            "id": "74",
+            "label": "iPhone 18 Pro Review",
+            "bundle": "news"
+        },
+        {
+            "type": "node",
+            "id": "75",
+            "label": "Opening act of the Singularity",
+            "bundle": "news"
+        },
+        {
+            "type": "node",
+            "id": "76",
+            "label": "Interview with Big Data engineer in 2026.",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "77",
+            "label": "The Hidden Mechanic Behind Apps Users Won’t Leave",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "78",
+            "label": "Best Code Architectures For Indie Games",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "84",
+            "label": "Dear Game Developers, Stop Messing This Up!",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "87",
+            "label": "You Need To Be Extreme If You Want Your Life To Change",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "91",
+            "label": "Frontier Labs Want to Slow Down, OpenAI Delays Its 2026 IPO, Anthropic Flags 5 Bioweapon Cases",
+            "bundle": "news"
+        },
+        {
+            "type": "node",
+            "id": "92",
+            "label": "This is the hardest time ever to run a business ",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "93",
+            "label": "We need to talk about Jev",
+            "bundle": "news"
+        },
+        {
+            "type": "node",
+            "id": "98",
+            "label": "Studied 100's of web design legends. They all do these 6 things",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "99",
+            "label": "The secret behind weirdly perfect UI designs",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "100",
+            "label": "The Hidden Math Behind 3D Eye Tracking",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "101",
+            "label": "How Game Designers Solved These 11 Problems",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "102",
+            "label": "Turning Images into Dots: The Magic of Dithering",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "103",
+            "label": "Acceleration is 100% inevitable",
+            "bundle": "news"
+        },
+        {
+            "type": "node",
+            "id": "104",
+            "label": "What's the Point of Prototyping?",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "107",
+            "label": "Try This Retro Effect! Instant Dither in After Effects",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "108",
+            "label": "Fluid Simulation on Flipdots",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "109",
+            "label": "The Only Formula Behind Truly Great Apps",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "110",
+            "label": "built own motion graphics app",
+            "bundle": "video"
+        },
+        {
+            "type": "node",
+            "id": "112",
+            "label": "Introducing Eleven v4 and Eleven v4 Turbo",
+            "bundle": "news"
+        },
+        {
+            "type": "node",
+            "id": "113",
+            "label": "Introducing Manus 2.0",
+            "bundle": "news"
+        },
+        {
+            "type": "node",
+            "id": "114",
+            "label": "OpenAI should be scared of this one",
+            "bundle": "news"
+        },
+        {
+            "type": "block_content",
+            "id": "7",
+            "label": "As a Web develoeper",
+            "bundle": "skills_profile"
+        },
+        {
+            "type": "block_content",
+            "id": "24",
+            "label": "Header display name",
+            "bundle": "editorial_copy"
+        },
+        {
+            "type": "block_content",
+            "id": "26",
+            "label": "QR Studio encoding tip",
+            "bundle": "editorial_copy"
+        },
+        {
+            "type": "block_content",
+            "id": "27",
+            "label": "QR Studio stencil help",
+            "bundle": "editorial_copy"
+        },
+        {
+            "type": "block_content",
+            "id": "28",
+            "label": "QR Studio structure help",
+            "bundle": "editorial_copy"
+        },
+        {
+            "type": "block_content",
+            "id": "29",
+            "label": "QR Studio expected legend",
+            "bundle": "editorial_copy"
+        },
+        {
+            "type": "block_content",
+            "id": "30",
+            "label": "QR Studio saved matches help",
+            "bundle": "editorial_copy"
+        },
+        {
+            "type": "block_content",
+            "id": "31",
+            "label": "QR Studio domain notice",
+            "bundle": "editorial_copy"
+        },
+        {
+            "type": "block_content",
+            "id": "32",
+            "label": "QR Studio tagline",
+            "bundle": "editorial_copy"
+        },
+        {
+            "type": "menu_link_content",
+            "id": "36",
+            "label": "hh.ru",
+            "bundle": "menu_link_content"
+        },
+        {
+            "type": "taxonomy_term",
+            "id": "16",
+            "label": "#lego",
+            "bundle": "tags"
+        },
+        {
+            "type": "paragraph",
+            "id": "1",
+            "label": "Comare two fonts > Content sections",
+            "bundle": "two_image_crossfade"
+        },
+        {
+            "type": "paragraph",
+            "id": "116",
+            "label": "Timeline > Timeline items (previous revision)",
+            "bundle": "timeline_item"
+        },
+        {
+            "type": "paragraph",
+            "id": "124",
+            "label": "As a Web develoeper > Technologies (previous revision)",
+            "bundle": "technology_skill"
+        },
+        {
+            "type": "paragraph",
+            "id": "125",
+            "label": "As a Web develoeper > Technologies (previous revision)",
+            "bundle": "technology_skill"
+        },
+        {
+            "type": "paragraph",
+            "id": "127",
+            "label": "As a Web develoeper > Technologies (previous revision)",
+            "bundle": "technology_skill"
+        },
+        {
+            "type": "paragraph",
+            "id": "155",
+            "label": "Timeline > Timeline items",
+            "bundle": "timeline_item"
+        },
+        {
+            "type": "paragraph",
+            "id": "156",
+            "label": "Timeline > Timeline items",
+            "bundle": "timeline_item"
+        }
+    ],
+    "missing_files": [],
+    "catalogue_mismatches": [
+        {
+            "type": "node",
+            "id": "1",
+            "label": "Citizen Sleeper Interface review",
+            "lang": "en",
+            "field": "title"
+        },
+        {
+            "type": "node",
+            "id": "1",
+            "label": "Citizen Sleeper Interface review",
+            "lang": "ru",
+            "field": "title"
+        },
+        {
+            "type": "node",
+            "id": "1",
+            "label": "Citizen Sleeper Interface review",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "1",
+            "label": "Citizen Sleeper Interface review",
+            "lang": "ru",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "1",
+            "label": "Citizen Sleeper Interface review",
+            "lang": "en",
+            "field": "field_image"
+        },
+        {
+            "type": "node",
+            "id": "1",
+            "label": "Citizen Sleeper Interface review",
+            "lang": "ru",
+            "field": "field_image"
+        },
+        {
+            "type": "node",
+            "id": "4",
+            "label": "About",
+            "lang": "ru",
+            "field": "title"
+        },
+        {
+            "type": "node",
+            "id": "4",
+            "label": "About",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "4",
+            "label": "About",
+            "lang": "ru",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "5",
+            "label": "The Happy Path design",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "5",
+            "label": "The Happy Path design",
+            "lang": "ru",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "10",
+            "label": "How industry called the profession wrongly",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "10",
+            "label": "How industry called the profession wrongly",
+            "lang": "ru",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "12",
+            "label": "Test Driven Development",
+            "lang": "en",
+            "field": "title"
+        },
+        {
+            "type": "node",
+            "id": "12",
+            "label": "Test Driven Development",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "12",
+            "label": "Test Driven Development",
+            "lang": "ru",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "13",
+            "label": "Makin a radio",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "13",
+            "label": "Makin a radio",
+            "lang": "ru",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "15",
+            "label": "Privacy Policy",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "15",
+            "label": "Privacy Policy",
+            "lang": "ru",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "16",
+            "label": "my Second font",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "17",
+            "label": "my first font",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "17",
+            "label": "my first font",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "21",
+            "label": "Space heaven HUD revivew",
+            "lang": "en",
+            "field": "title"
+        },
+        {
+            "type": "node",
+            "id": "21",
+            "label": "Space heaven HUD revivew",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "22",
+            "label": "Cookbook ",
+            "lang": "en",
+            "field": "title"
+        },
+        {
+            "type": "node",
+            "id": "22",
+            "label": "Cookbook ",
+            "lang": "ru",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "23",
+            "label": "Logo Icon",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "24",
+            "label": "Color",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "block_content",
+            "id": "1",
+            "label": "Cookie Policy Notice",
+            "lang": "ru",
+            "field": "body"
+        },
+        {
+            "type": "block_content",
+            "id": "4",
+            "label": "About hero",
+            "lang": "en",
+            "field": "info"
+        },
+        {
+            "type": "block_content",
+            "id": "4",
+            "label": "About hero",
+            "lang": "ru",
+            "field": "info"
+        },
+        {
+            "type": "block_content",
+            "id": "4",
+            "label": "About hero",
+            "lang": "en",
+            "field": "field_hero_eyebrow"
+        },
+        {
+            "type": "block_content",
+            "id": "4",
+            "label": "About hero",
+            "lang": "ru",
+            "field": "field_hero_eyebrow"
+        },
+        {
+            "type": "menu_link_content",
+            "id": "6",
+            "label": "No Privacy Policy",
+            "lang": "en",
+            "field": "title"
+        },
+        {
+            "type": "menu_link_content",
+            "id": "8",
+            "label": "Cookbook",
+            "lang": "ru",
+            "field": "title"
+        },
+        {
+            "type": "menu_link_content",
+            "id": "9",
+            "label": "Brandbook",
+            "lang": "en",
+            "field": "title"
+        },
+        {
+            "type": "menu_link_content",
+            "id": "9",
+            "label": "Brandbook",
+            "lang": "ru",
+            "field": "title"
+        },
+        {
+            "type": "taxonomy_term",
+            "id": null,
+            "label": null,
+            "lang": "en",
+            "field": "name"
+        },
+        {
+            "type": "taxonomy_term",
+            "id": null,
+            "label": null,
+            "lang": "ru",
+            "field": "name"
+        },
+        {
+            "type": "paragraph",
+            "id": "2",
+            "label": "my Second font > Content sections",
+            "lang": "en",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "12",
+            "label": "About hero > Hero slides",
+            "lang": "en",
+            "field": "field_hero_description"
+        },
+        {
+            "type": "paragraph",
+            "id": "12",
+            "label": "About hero > Hero slides",
+            "lang": "en",
+            "field": "field_hero_heading"
+        },
+        {
+            "type": "paragraph",
+            "id": "12",
+            "label": "About hero > Hero slides",
+            "lang": "en",
+            "field": "field_hero_secondary"
+        },
+        {
+            "type": "node",
+            "id": "4",
+            "label": "About",
+            "lang": "ru",
+            "field": "field_two_tone_heading"
+        },
+        {
+            "type": "menu_link_content",
+            "id": "10",
+            "label": "Timeline",
+            "lang": "ru",
+            "field": "title"
+        },
+        {
+            "type": "paragraph",
+            "id": "15",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_name"
+        },
+        {
+            "type": "paragraph",
+            "id": "15",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_summary"
+        },
+        {
+            "type": "paragraph",
+            "id": "15",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "15",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "16",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_name"
+        },
+        {
+            "type": "paragraph",
+            "id": "16",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_summary"
+        },
+        {
+            "type": "paragraph",
+            "id": "16",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "16",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "17",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_summary"
+        },
+        {
+            "type": "paragraph",
+            "id": "17",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "17",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "17",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "17",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "18",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "18",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "20",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "20",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "22",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "22",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "23",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_summary"
+        },
+        {
+            "type": "paragraph",
+            "id": "24",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_summary"
+        },
+        {
+            "type": "paragraph",
+            "id": "24",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "24",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "25",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_summary"
+        },
+        {
+            "type": "paragraph",
+            "id": "26",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "26",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "28",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "28",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "30",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "30",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "30",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "30",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "30",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "30",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "32",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "32",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "32",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "32",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "32",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "32",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "34",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "34",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "34",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "34",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "35",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "35",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "35",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "35",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "36",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "36",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "36",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "36",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "40",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "40",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "40",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "40",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "41",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "41",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "41",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "41",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "42",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "42",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "42",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "42",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "43",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "43",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "43",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "43",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "44",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "44",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "44",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "44",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "47",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "47",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "47",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "47",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "48",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "48",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "50",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "50",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "51",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "51",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "51",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "51",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "53",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "53",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "54",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "54",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "55",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "55",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "56",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "56",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "57",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "57",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "60",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "60",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "61",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "61",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "62",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "62",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "63",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "63",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "64",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "64",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "65",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "65",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "66",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "66",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "67",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "67",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "68",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "68",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "69",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "69",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "70",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "70",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "71",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "71",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "72",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "72",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "73",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "73",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "75",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "75",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "76",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "76",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "77",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "77",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "77",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "77",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "77",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "77",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "78",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "78",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "79",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "79",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "80",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "80",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "81",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "81",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "117",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_summary"
+        },
+        {
+            "type": "paragraph",
+            "id": "117",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "83",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "83",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "84",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "paragraph",
+            "id": "84",
+            "label": "Timeline > Timeline items",
+            "lang": "ru",
+            "field": "field_timeline_proof_links"
+        },
+        {
+            "type": "node",
+            "id": "25",
+            "label": "Timeline",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "27",
+            "label": "latest .gov site",
+            "lang": "ru",
+            "field": "title"
+        },
+        {
+            "type": "node",
+            "id": "27",
+            "label": "latest .gov site",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "28",
+            "label": "SMEP, game",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "28",
+            "label": "SMEP, game",
+            "lang": "ru",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "30",
+            "label": "SPACEPLAN",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "30",
+            "label": "SPACEPLAN",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "31",
+            "label": "Conway’s Game of Life",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "31",
+            "label": "Conway’s Game of Life",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "64",
+            "label": "Human readable QR",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "64",
+            "label": "Human readable QR",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "block_content",
+            "id": "17",
+            "label": "Portfolio website audit",
+            "lang": "en",
+            "field": "field_audit_offer"
+        },
+        {
+            "type": "block_content",
+            "id": "17",
+            "label": "Portfolio website audit",
+            "lang": "ru",
+            "field": "field_audit_offer"
+        },
+        {
+            "type": "paragraph",
+            "id": "118",
+            "label": "Timeline > Timeline items",
+            "lang": "en",
+            "field": "field_timeline_summary"
+        },
+        {
+            "type": "paragraph",
+            "id": "134",
+            "label": "latest .gov site > Content sections",
+            "lang": "en",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "134",
+            "label": "latest .gov site > Content sections",
+            "lang": "ru",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "138",
+            "label": "SMEP, game > Content sections",
+            "lang": "en",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "138",
+            "label": "SMEP, game > Content sections",
+            "lang": "ru",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "139",
+            "label": "SMEP, game > Content sections",
+            "lang": "en",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "139",
+            "label": "SMEP, game > Content sections",
+            "lang": "ru",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "140",
+            "label": "SMEP, game > Content sections",
+            "lang": "en",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "140",
+            "label": "SMEP, game > Content sections",
+            "lang": "ru",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "141",
+            "label": "SMEP, game > Content sections",
+            "lang": "en",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "141",
+            "label": "SMEP, game > Content sections",
+            "lang": "ru",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "142",
+            "label": "SMEP, game > Content sections",
+            "lang": "en",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "142",
+            "label": "SMEP, game > Content sections",
+            "lang": "ru",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "143",
+            "label": "SMEP, game > Content sections",
+            "lang": "en",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "143",
+            "label": "SMEP, game > Content sections",
+            "lang": "ru",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "144",
+            "label": "SMEP, game > Content sections",
+            "lang": "en",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "144",
+            "label": "SMEP, game > Content sections",
+            "lang": "ru",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "145",
+            "label": "SMEP, game > Content sections",
+            "lang": "en",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "paragraph",
+            "id": "145",
+            "label": "SMEP, game > Content sections",
+            "lang": "ru",
+            "field": "field_project_story_body"
+        },
+        {
+            "type": "node",
+            "id": "105",
+            "label": "Accountia",
+            "lang": "en",
+            "field": "body"
+        },
+        {
+            "type": "node",
+            "id": "105",
+            "label": "Accountia",
+            "lang": "ru",
+            "field": "body"
+        }
+    ]
+}

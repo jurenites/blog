@@ -133,6 +133,7 @@ system.breakpoint.desktop-max: 1920px # Maximum tested desktop viewport. Wider s
 system.breakpoint.site-header-inline-min: 1440px # Visible navigation moves to a second row below this width; the compact menu starts at mobile-max.
 system.breakpoint.article-sidebar-min: 1184px # Centered 800px Body + two equal side tracks, each with a 32px gap and 160px minimum width.
 system.breakpoint.content-gutter-max: 1008px # 960px wide content plus 24px of space on each side.
+system.breakpoint.article-grid-stack-max: 960px # Latest articles cards fill one row each at this width and below.
 layout.container-max.tablet-default: 640px
 layout.container-max.desktop-default: 1440px # Maximum centered content width for desktop and larger screens.
 layout.content-max.blog-default: 800px # Blog listing frame for article teasers and pagination.
@@ -164,7 +165,7 @@ component.message-toast.width-default: 420px # Readable notifications on wide sc
 component.article-teaser.grid-card-min-width-default: 240px # Smallest card width before the responsive grid adds another column.
 component.article-teaser.list-media-min-width-default: 180px # Lower bound for list-item media beside its text content.
 component.article-teaser.list-media-max-width-default: 280px # Upper bound for list-item media beside its text content.
-component.news-list-item.media-width-default: 160px # News stays denser than the standard Article list item.
+component.news-list-item.media-width-default: 304px # News preview width; source images retain their original aspect ratio.
 component.news-list-item.media-width-compact: 120px # Keep the thumbnail left-aligned without crowding compact layouts.
 component.site-branding.logo-size-default: 64px # Maximum rendered width and height of the site logo.
 component.text-input.minimum-width-default: component.text-input.width.quarter # Text inputs never shrink below the quarter-width option.

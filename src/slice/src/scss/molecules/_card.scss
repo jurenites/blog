@@ -228,6 +228,60 @@ $phone-classic-large-width: 458px;
     aspect-ratio: 419 / 807;
   }
 
+  // Classic phone artwork uses neutral black glass and polished metal.
+  &__phone--classic &__device-body,
+  &__phone--classic &__home-button {
+    fill: var(--color-palette-full-black);
+    stroke: color-mix(in srgb, var(--color-palette-full-white) 18%, var(--color-palette-full-black));
+  }
+
+  &__phone--classic &__home-button {
+    stroke: color-mix(in srgb, var(--color-palette-full-white) 58%, var(--color-palette-full-black));
+  }
+
+  &__phone--classic &__metal-light {
+    stop-color: color-mix(in srgb, var(--color-palette-full-white) 58%, var(--color-palette-full-black));
+  }
+
+  &__phone--classic &__metal-mid {
+    stop-color: color-mix(in srgb, var(--color-palette-full-white) 18%, var(--color-palette-full-black));
+  }
+
+  &__phone--classic &__metal-dark {
+    stop-color: color-mix(in srgb, var(--color-palette-full-white) 4%, var(--color-palette-full-black));
+  }
+
+  &__phone--classic &__device-shadow {
+    flood-color: var(--color-palette-full-black);
+  }
+
+  &__phone--classic &__camera-island,
+  &__phone--classic &__camera-ring {
+    fill: var(--color-palette-full-black);
+    stroke: color-mix(in srgb, var(--color-palette-full-white) 18%, var(--color-palette-full-black));
+  }
+
+  &__phone--classic &__camera-lens {
+    fill: color-mix(in srgb, var(--color-palette-full-white) 18%, var(--color-palette-full-black));
+  }
+
+  &__phone--classic &__reflection-start {
+    stop-color: var(--color-palette-full-white);
+  }
+
+  &__phone--classic &__reflection-end {
+    stop-color: color-mix(in srgb, var(--color-palette-full-white) 0%, transparent);
+  }
+
+  &__phone--classic &__device-depth {
+    background: linear-gradient(120deg,
+      color-mix(in srgb, var(--color-palette-full-white) 18%, var(--color-palette-full-black)),
+      color-mix(in srgb, var(--color-palette-full-white) 4%, var(--color-palette-full-black)) 35%,
+      color-mix(in srgb, var(--color-palette-full-white) 18%, var(--color-palette-full-black)) 70%,
+      color-mix(in srgb, var(--color-palette-full-white) 58%, var(--color-palette-full-black)));
+    border-color: color-mix(in srgb, var(--color-palette-full-white) 18%, var(--color-palette-full-black));
+  }
+
   &__phone--classic.card__phone--large-screen {
     grid-template-columns: 22fr 414fr 22fr;
     grid-template-rows: 70fr 736fr 70fr;
@@ -265,6 +319,10 @@ $phone-classic-large-width: 458px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+  }
+
+  &__frame[data-scroll-behavior="swipe"] &__frame-media {
+    background: var(--color-palette-full-white);
   }
 
   &__frame--island-inset &__frame-media {
@@ -361,4 +419,15 @@ $phone-classic-large-width: 458px;
   .card__background {
     transition: none;
   }
+}
+
+// SMEP previews pause only over the visible device, leaving the tile animated.
+[data-smep-preview] .card__phone {
+  pointer-events: auto;
+}
+
+// Keep the 2x SMEP artwork in a 375px screen plus its classic case.
+[data-smep-preview="element-cards"] .card__phone--classic,
+[data-smep-preview="orbitals"] .card__phone--classic {
+  width: min(100%, #{$phone-classic-compact-width});
 }

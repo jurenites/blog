@@ -51,7 +51,7 @@ function render_phone_story(story_arguments) {
 }
 
 export default {
-  title: 'Molecules/Preview Mobile Screen Card',
+  title: 'Molecules/Porfolio/Preview Mobile Screen Card',
   tags: ['autodocs'],
   parameters: {
     docs: {

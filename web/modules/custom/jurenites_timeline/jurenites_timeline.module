@@ -173,6 +173,7 @@ function jurenites_timeline_build_item(ParagraphInterface $timeline_paragraph): 
     'hours_label' => $timeline_hours === NULL ? '' : (string) t('@hours h', ['@hours' => number_format((int) $timeline_hours)]),
     'summary_markup' => $timeline_summary,
     'website_links' => jurenites_timeline_destination_links($timeline_paragraph, 'field_timeline_website_links', TRUE),
+    'details_links' => jurenites_timeline_details_links($timeline_paragraph),
     'store_links' => jurenites_timeline_destination_links($timeline_paragraph, 'field_timeline_store_links'),
     'emphasis_kind' => (string) ($timeline_paragraph->get('field_timeline_emphasis')->value ?: 'standard'),
     'sort_date' => $primary_start_date ?: '0000-01-01',
@@ -290,6 +291,7 @@ function jurenites_timeline_build_year_groups(
           'hours_label' => $timeline_item['hours_label'],
           'summary_markup' => $period_index === 0 ? $timeline_item['summary_markup'] : NULL,
           'website_links' => $period_index === 0 ? $timeline_item['website_links'] : [],
+          'details_links' => $period_index === 0 ? $timeline_item['details_links'] : [],
           'store_links' => $period_index === 0 ? $timeline_item['store_links'] : [],
           'emphasis_kind' => $timeline_item['emphasis_kind'],
           'organization_heading' => $period_index === 0 ? $timeline_item['organization_heading'] : NULL,
@@ -385,4 +387,33 @@ function jurenites_timeline_destination_links(ParagraphInterface $timeline_parag
     ];
   }
   return $destination_links;
+}
+
+/**
+ * Exposes authored internal node sources as case-study links with cache metadata.
+ */
+function jurenites_timeline_details_links(ParagraphInterface $timeline_paragraph): array {
+  $details_links = [];
+  foreach ($timeline_paragraph->get('field_timeline_proof_links') as $source_link) {
+    if (!preg_match('@^entity:node/(\d+)$@', $source_link->uri ?? '', $node_matches)) {
+      continue;
+    }
+    $project_node = \Drupal::entityTypeManager()->getStorage('node')->load($node_matches[1]);
+    if (!$project_node) {
+      continue;
+    }
+    $project_node = \Drupal::service('entity.repository')->getTranslationFromContext($project_node);
+    $access_result = $project_node->access('view', NULL, TRUE);
+    $link_element = [
+      '#type' => 'link',
+      '#title' => (string) $source_link->title,
+      '#url' => $project_node->toUrl(),
+      '#access' => $access_result,
+    ];
+    \Drupal\Core\Cache\CacheableMetadata::createFromObject($project_node)
+      ->addCacheableDependency($access_result)
+      ->applyTo($link_element);
+    $details_links[] = $link_element;
+  }
+  return $details_links;
 }

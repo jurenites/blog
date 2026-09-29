@@ -59,6 +59,8 @@ export function phone_preview_markup(card_arguments) {
     <span class="card__frame${!is_classic && (frame_item.island_overlay ?? default_overlay) && !['scroll', 'video', 'gif'].includes(frame_item.frame_mode) ? ' card__frame--island-inset' : ''}" data-screen-frame ${frame_index === 0 ? 'data-frame-active' : ''}
       data-hold-duration="${escape_html(frame_item.hold_ms ?? (frame_item.frame_mode === 'video' ? 0 : 2000))}"
       data-frame-mode="${['scroll', 'video', 'gif'].includes(frame_item.frame_mode) ? frame_item.frame_mode : 'still'}"
+      data-scroll-behavior="${frame_item.scroll_behavior === 'swipe' ? 'swipe' : 'continuous'}"
+      data-scroll-start="${frame_item.scroll_start === 'bottom' ? 'bottom' : 'top'}"
       data-scroll-speed="${escape_html(frame_item.scroll_speed ?? 70)}"
       data-bottom-duration="${escape_html(frame_item.bottom_hold_ms ?? 800)}"><span class="card__frame-media">${frame_media_markup(frame_item)}</span>${island_overlay_markup(screen_width, screen_height, !is_classic && (frame_item.island_overlay ?? default_overlay), frame_item.image_source || frame_item.poster_source)}</span>`).join('');
   const hardware_markup = is_classic

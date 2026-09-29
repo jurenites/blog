@@ -78,7 +78,7 @@ function organization_transition_markup(organization_heading) {
     + escape_html(organization_heading.url ?? "") + '" aria-hidden="true"></span>';
 }
 
-function project_links_markup(project_links, group_class, group_label, domain_label = false) {
+function project_links_markup(project_links, group_class, group_label, domain_label = false, internal_links = false) {
   if (!project_links?.length) {
     return "";
   }
@@ -91,7 +91,7 @@ function project_links_markup(project_links, group_class, group_label, domain_la
         class_name: "timeline__website-external-mark",
       }) : "";
       const label_markup = domain_label ? "<span>" + escape_html(link_label) + "</span>" : escape_html(link_label);
-      return '<li><a' + link_class + ' href="' + escape_html(project_link.url) + '" target="_blank" rel="external">'
+      return '<li><a' + link_class + ' href="' + escape_html(project_link.url) + '"' + (internal_links ? "" : ' target="_blank" rel="external"') + '>'
         + label_markup + external_icon + "</a></li>";
     }).join("")
     + "</ul>";
@@ -106,6 +106,10 @@ function item_content_markup(timeline_fragment) {
     ? '<div class="timeline__summary"><p>' + escape_html(timeline_item.item_summary) + "</p></div>"
     : "";
   const item_title_markup = escape_html(timeline_item.item_name);
+  const details_markup = timeline_fragment.period_index === 0
+    ? project_links_markup(timeline_item.details_links, "details-links",
+      typeof Drupal !== "undefined" ? Drupal.t("Project details") : "Project details", false, true)
+    : "";
   const destination_markup = timeline_fragment.period_index === 0
     ? project_links_markup(timeline_item.website_links, "website-links",
       typeof Drupal !== "undefined" ? Drupal.t("Product websites") : "Product websites", true)
@@ -116,6 +120,7 @@ function item_content_markup(timeline_fragment) {
   return '<article class="timeline__item-content">'
     + '<header class="timeline__item-header"><h3 class="timeline__item-title">'
     + item_title_markup + "</h3>"
+    + details_markup
     + emphasis_markup(timeline_item.emphasis_kind) + "</header>"
     + '<div class="timeline__metadata">'
     + timeline_item.periods.map(period_markup).join("")

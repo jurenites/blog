@@ -9,11 +9,11 @@
       {% endfor %}
     </div>
   </div>
-  <div class="screen-slider__pagination" data-slider-pagination aria-label="{{ 'Screen pagination'|t }}">
-    {% for screen_image in screen_images %}
-      <button class="crossfade-dot screen-slider__dot{% if loop.first %} is-active{% endif %}" type="button" data-slider-dot="{{ loop.index0 }}" aria-label="{{ 'Show screen @number of @total'|t({'@number': loop.index, '@total': screen_images|length}) }}" aria-pressed="{{ loop.first ? 'true' : 'false' }}"></button>
-    {% endfor %}
-  </div>
+  {% include '@jurenites_theme/components/square-pagination.html.twig' with {
+    page_count: screen_images|length,
+    pagination_label: 'Screen pagination'|t,
+    page_label: 'Show screen @number of @total'|t({'@number': '@number', '@total': '@total'})
+  } only %}
   <div class="screen-slider__controls">
     <button class="screen-slider__control" type="button" data-slider-previous aria-label="{{ 'Previous screen'|t }}">
       {% include '@jurenites_theme/components/icon.html.twig' with {

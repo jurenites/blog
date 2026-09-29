@@ -1,7 +1,7 @@
 importScripts('./vendor/qrcodegen.js','./vendor/jsQR.js');
 const core_promise=import('./core.js');
 const tld_promise=import('./tld-data.js');
-const domain_promise=import('./domain-pattern.js');
+const domain_promise=import('./domain-pattern.js?scope=1');
 const solver_promise=import('./solver.js');
 self.onmessage=async({data:search_options})=>{
   const core_tools=await core_promise;
@@ -31,7 +31,7 @@ self.onmessage=async({data:search_options})=>{
   };
   try{
     if(!pattern_text.includes('?')&&!pattern_text.includes('*')||!Number.isFinite(time_limit)||time_limit<1||time_limit>180)throw new Error('Invalid search pattern or time limit.');
-    search_patterns=candidate_patterns(pattern_text).filter(candidate_pattern=>{try{core_tools.encode_text(candidate_pattern.replaceAll('?','A'),version_number,error_level,0,alpha_only);return true;}catch{return false;}});
+    search_patterns=candidate_patterns(pattern_text,search_options.domain_scope).filter(candidate_pattern=>{try{core_tools.encode_text(candidate_pattern.replaceAll('?','A'),version_number,error_level,0,alpha_only);return true;}catch{return false;}});
     if(!search_patterns.length)throw new Error('No matching domain ending fits this QR size and correction level. Shorten the name or choose a larger grid.');
     let pattern_index=Math.floor(Math.random()*search_patterns.length);
     const sample_payload=()=>search_patterns[pattern_index++%search_patterns.length].replaceAll('?',()=>alphabet_text[Math.floor(Math.random()*alphabet_text.length)]);

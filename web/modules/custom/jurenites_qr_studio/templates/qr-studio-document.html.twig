@@ -47,7 +47,7 @@
           <div class="pattern-field">
             <div id="pattern-highlights" aria-hidden="true">
             </div>
-            <input id="address-pattern" maxlength="4096" value="HTTPS://?????.??" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="pattern-caption pattern-error" aria-invalid="false">
+            <input id="address-pattern" maxlength="4096" value="HTTPS://?????.*" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="pattern-caption pattern-error" aria-invalid="false">
           </div>
           <p id="pattern-error" class="field-help pattern-error" aria-live="polite" hidden>
           </p>
@@ -58,6 +58,11 @@
           <p id="character-detail" class="field-help" aria-live="polite">{{ 'Hover a character or move the text cursor to highlight its QR data cells.'|t }}
           </p>
           <p class="field-help">{{ 'For website endings: <code>.??</code> = 2 characters, <code>.???</code> = 3, <code>.*</code> = any existing ending that fits.'|t }}</p>
+          <label for="domain-scope">{{ 'Domain endings'|t }}</label>
+          <select id="domain-scope">
+            <option value="common" selected>{{ 'Common registrar zones'|t }}</option>
+            <option value="all">{{ 'All IANA zones'|t }}</option>
+          </select>
           <p id="tld-status" class="field-help" aria-live="polite">
           </p>
           <details class="tld-details">

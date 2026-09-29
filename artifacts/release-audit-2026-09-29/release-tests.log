@@ -1,0 +1,211 @@
+✔ Footer Navigation composes the shared gray Badge for the font count (1.138416ms)
+✔ Portfolio View resolves the readable tag argument and fails invalid terms closed (0.185583ms)
+✔ Project assignments append the Font term and the count queries current published content (0.10075ms)
+✔ Footer item detection requires both Portfolio and the font tag query (0.075ms)
+✔ Portfolio exposes every accessible published Project tag as a persistent Chip choice (0.334ms)
+✔ Main navigation uses Drupal's route active trail instead of an exact query-string match (0.118958ms)
+✔ Global link defaults leave main navigation active colors to the header (0.068916ms)
+✔ Brand hover uses the same elevated header surface as menu items (0.122667ms)
+✖ Brand initials expand into separate names without moving navigation (1.926208ms)
+✖ failed progressive images retain their color and frame, then recover on successful loads (19.574ms)
+✔ Resuming after a manual drag starts at the chosen position and completes the remaining scroll (1.05625ms)
+✔ Swipe motion from top settles within the screen and pauses between gestures (0.227666ms)
+✔ Swipe motion from bottom settles within the screen and pauses between gestures (0.068083ms)
+✔ organization rail keeps the first company before its transition reaches the rail (1.155541ms)
+✔ organization rail selects the latest company transition above the rail (0.226833ms)
+✔ Timeline uses one node with repeatable non-node item records (12.834292ms)
+✔ Starter timeline contains only the complete CV commercial-project list (1.706542ms)
+✖ Timeline rendering provides calendar years, exact duration lanes, and official emphasis icons (3.759208ms)
+✔ Timeline editor provides short descriptions and repeatable proof links (3.016208ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 16
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 499.902958
+
+✖ failing tests:
+
+test at tests/portfolio-tag-filtering.test.mjs:125:1
+✖ Brand initials expand into separate names without moving navigation (1.926208ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /site-header__brand-name-initial">A</. Input:
+  
+  '{{ editorial_copy_cache }}\n' +
+    "<div{{ attributes.addClass('site-header__branding') }}>\n" +
+    '{{ title_prefix }}\n' +
+    `  <a class="site-header__brand" href="{{ path('<front>') }}" rel="home" aria-label="{{ '@name home'|t({'@name': brand_display_name}) }}">\n` +
+    '    <span class="site-header__brand-name" aria-hidden="true">\n' +
+    '      <span class="site-header__brand-name-short">\n' +
+    '        {% for name_word in brand_name_words %}\n' +
+    `          <span class="site-header__brand-name-word site-header__brand-name-word--{{ loop.first ? 'first' : 'last' }}">\n` +
+    '            <span class="site-header__brand-name-initial">{{ name_word.initial }}</span>\n' +
+    '            <span class="site-header__brand-name-remainder">{% for name_letter in name_word.letters %}<span class="site-header__brand-name-letter">{{ name_letter }}</span>{% endfor %}</span>\n' +
+    '          </span>\n' +
+    '        {% endfor %}\n' +
+    '      </span>\n' +
+    '    </span>\n' +
+    '  </a>\n' +
+    '{{ title_suffix }}\n' +
+    '</div>\n'
+  
+      at TestContext.<anonymous> (file:///Users/alexanderilivanov/Projects/blog_jurenites/tests/portfolio-tag-filtering.test.mjs:132:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: `{{ editorial_copy_cache }}\n<div{{ attributes.addClass('site-header__branding') }}>\n{{ title_prefix }}\n  <a class="site-header__brand" href="{{ path('<front>') }}" rel="home" aria-label="{{ '@name home'|t({'@name': brand_display_name}) }}">\n    <span class="site-header__brand-name" aria-hidden="true">\n      <span class="site-header__brand-name-short">\n        {% for name_word in brand_name_words %}\n          <span class="site-header__brand-name-word site-header__brand-name-word--{{ loop.first ? 'first' : 'last' }}">\n            <span class="site-header__brand-name-initial">{{ name_word.initial }}</span>\n            <span class="site-header__brand-name-remainder">{% for name_letter in name_word.letters %}<span class="site-header__brand-name-letter">{{ name_letter }}</span>{% endfor %}</span>\n          </span>\n        {% endfor %}\n      </span>\n    </span>\n  </a>\n{{ title_suffix }}\n</div>\n`,
+    expected: /site-header__brand-name-initial">A</,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/progressive-image.test.mjs:12:1
+✖ failed progressive images retain their color and frame, then recover on successful loads (19.574ms)
+  browserType.launch: Executable doesn't exist at /Users/alexanderilivanov/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell
+  ╔════════════════════════════════════════════════════════════╗
+  ║ Looks like Playwright was just installed or updated.       ║
+  ║ Please run the following command to download new browsers: ║
+  ║                                                            ║
+  ║     npx playwright install                                 ║
+  ║                                                            ║
+  ║ <3 Playwright Team                                         ║
+  ╚════════════════════════════════════════════════════════════╝
+      at TestContext.<anonymous> (/Users/alexanderilivanov/Projects/blog_jurenites/tests/progressive-image.test.mjs:13:51) {
+    name: 'Error',
+    log: []
+  }
+
+test at tests/timeline-page.test.mjs:52:1
+✖ Timeline rendering provides calendar years, exact duration lanes, and official emphasis icons (3.759208ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Organisms\/Timeline/. Input:
+  
+  'import { timeline_markup } from "./timeline.markup.js";\n' +
+    '\n' +
+    'const TIMELINE_HEADING = "Timeline";\n' +
+    'const TIMELINE_COUNT_LABEL = "Commercial projects";\n' +
+    'const TIMELINE_INTRODUCTION = "Commercial projects ordered by when each engagement began.";\n' +
+    'const TIMELINE_CURRENT_DATE = "2026-09-07";\n' +
+    'const TIMELINE_ITEMS = [\n' +
+    '  {\n' +
+    '    item_name: "oksenate.gov",\n' +
+    '    item_kind: "project",\n' +
+    '    organization_name: "Thrive.io",\n' +
+    '    organization_url: "https://thrive.io/",\n' +
+    '    periods: [{ start_date: "2026-07-01", end_date: "2026-07-01" }],\n' +
+    '    hours_worked: 160,\n' +
+    '    item_summary: "Worked on SCSS accessibility, refined the mobile presentation, and upgraded Drupal core and contributed modules.",\n' +
+    '    website_links: [{ url: "https://oksenate.gov/" }],\n' +
+    '    details_links: [{ url: "/portfolio/oksenate", label: "Read more" }],\n' +
+    '  },\n' +
+    '  {\n' +
+    '    item_name: "Accountia",\n' +
+    '    item_kind: "project",\n' +
+    '    organization_name: "Thrive.io",\n' +
+    '    organization_url: "https://thrive.io/",\n' +
+    '    periods: [\n' +
+    '      { start_date: "2021-10-01", end_date: "2026-08-01" },\n' +
+    '      { start_date: "2020-03-01", end_date: "2020-10-01" },\n' +
+    '    ],\n' +
+    '    hours_worked: 5500,\n' +
+    '    emphasis_kind: "featured",\n' +
+    '    item_summary: "Led product design and frontend development for an accounting platform, its Angular interface, and its Storybook design system.",\n' +
+    '    website_links: [{ url: "https://accountia.no/" }],\n' +
+    '    details_links: [{ url: "/portfolio/accountia", label: "Read more" }],\n' +
+    '  },\n' +
+    '  {\n' +
+    '    item_name: "ScatchApp",\n' +
+    '    details_links: [{ url: "/portfolio/scatchapp", label: "Read more" }],\n' +
+    '    item_kind: "project",\n' +
+    '    organization_name: "Thrive.io",\n' +
+    '    organization_url: "https://thrive.io/",\n' +
+    '    periods: [\n' +
+    '      { start_date: "2019-11-01", end_date: "2019-12-01" },\n' +
+    '      { start_date: "2021-05-01", end_date: "2021-11-01" },\n' +
+    '      { start_date: "2022-06-01", end_date: "2022-07-01" },\n' +
+    '    ],\n' +
+    '    item_summary: "Designed a new navigation system for an event-ticket application.",\n' +
+    '    store_links: [\n' +
+    '      { label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.scatch&hl=en" },\n' +
+    '      { label: "App Store", url: "https://apps.apple.com/pl/app/scatch-app/id6747970607" },\n' +
+    '    ],\n' +
+    '  },\n' +
+    '  {\n' +
+    '    item_name: "Nokia",\n' +
+    '    item_kind: "project",\n' +
+    '    organization_name: "Thrive.io",\n' +
+    '    organization_url: "https://thrive.io/",\n' +
+    '    periods: [{ start_date: "2018-11-01", end_date: "2018-12-01" }],\n' +
+    '    hours_worked: 260,\n' +
+    '    emphasis_kind: "featured",\n' +
+    '  },\n' +
+    '  {\n' +
+    '    item_name: "Program DB Novo Ministries",\n' +
+    '    item_kind: "project",\n' +
+    '    organization_name: "Thrive.io",\n' +
+    '    organization_url: "https://thrive.io/",\n' +
+    '    periods: [{ start_date: "2017-07-01", end_date: "2018-09-01" }],\n' +
+    '    hours_worked: 650,\n' +
+    '  },\n' +
+    '  {\n' +
+    '    item_name: "Mullikin Law",\n' +
+    '    item_kind: "project",\n' +
+    '    organization_name: "VolcanoIdeas.ae",\n' +
+    '    organization_url: "https://volcanoideas.ae/",\n' +
+    '    periods: [{ start_date: "2011-06-01", end_date: "2011-08-01" }],\n' +
+    '    hours_worked: 50,\n' +
+    '    emphasis_kind: "heart",\n' +
+    '  },\n' +
+    '  {\n' +
+    `    item_name: "Oklahoma Children's Theatre",\n` +
+    '    item_kind: "project",\n' +
+    '    organization_name: "VolcanoIdeas.ae",\n' +
+    '    organization_url: "https://volcanoideas.ae/",\n' +
+    '    periods: [{ start_date: "2011-06-01", end_date: "2012-12-01" }],\n' +
+    '    hours_worked: 600,\n' +
+    '    emphasis_kind: "featured",\n' +
+    '  },\n' +
+    '  {\n' +
+    '    item_name: "HIPAA Security Assessment Toolkit",\n' +
+    '    item_kind: "project",\n' +
+    '    organization_name: "VolcanoIdeas.ae",\n' +
+    '    organization_url: "https://volcanoideas.ae/",\n' +
+    '    periods: [{ start_date: "2010-11-01", end_date: "2010-12-01" }],\n' +
+    '    hours_worked: 100,\n' +
+    '  },\n' +
+    '];\n' +
+    '\n' +
+    'function render_timeline_story(story_arguments) {\n' +
+    '  return timeline_markup(story_arguments);\n' +
+    '}\n' +
+    '\n' +
+    'export default {\n' +
+    '  title: "Pages/Timeline",\n' +
+    '  tags: ["autodocs"],\n' +
+    '  render: render_timeline_story,\n' +
+    '  args: {\n' +
+    '    timeline_heading: TIMELINE_HEADING,\n' +
+    '    timeline_count_label: TIMELINE_COUNT_LABEL,\n' +
+    '    timeline_introduction: TIMELINE_INTRODUCTION,\n' +
+    '    timeline_items: TIMELINE_ITEMS,\n' +
+    '    timeline_current_date: TIMELINE_CURRENT_DATE,\n' +
+    '  },\n' +
+    '};\n' +
+    '\n' +
+    'export const commercial_projects_timeline = {};\n'
+  
+      at TestContext.<anonymous> (file:///Users/alexanderilivanov/Projects/blog_jurenites/tests/timeline-page.test.mjs:100:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: `import { timeline_markup } from "./timeline.markup.js";\n\nconst TIMELINE_HEADING = "Timeline";\nconst TIMELINE_COUNT_LABEL = "Commercial projects";\nconst TIMELINE_INTRODUCTION = "Commercial projects ordered by when each engagement began.";\nconst TIMELINE_CURRENT_DATE = "2026-09-07";\nconst TIMELINE_ITEMS = [\n  {\n    item_name: "oksenate.gov",\n    item_kind: "project",\n    organization_name: "Thrive.io",\n    organization_url: "https://thrive.io/",\n    periods: [{ start_date: "2026-07-01", end_date: "2026-07-01" }],\n    hours_worked: 160,\n    item_summary: "Worked on SCSS accessibility, refined the mobile presentation, and upgraded Drupal core and contributed modules.",\n    website_links: [{ url: "https://oksenate.gov/" }],\n    details_links: [{ url: "/portfolio/oksenate", label: "Read more" }],\n  },\n  {\n    item_name: "Accountia",\n    item_kind: "project",\n    organization_name: "Thrive.io",\n    organization_url: "https://thrive.io/",\n    periods: [\n      { start_date: "2021-10-01", end_date: "2026-08-01" },\n      { start_date: "2020-03-01", end_date: "2020-10-01" },\n    ],\n    hours_worked: 5500,\n    emphasis_kind: "featured",\n    item_summary: "Led product design and frontend development for an accounting platform, its Angular interface, and its Storybook design system.",\n    website_links: [{ url: "https://accountia.no/" }],\n    details_links: [{ url: "/portfolio/accountia", label: "Read more" }],\n  },\n  {\n    item_name: "ScatchApp",\n    details_links: [{ url: "/portfolio/scatchapp", label: "Read more" }],\n    item_kind: "project",\n    organization_name: "Thrive.io",\n    organization_url: "https://thrive.io/",\n    periods: [\n      { start_date: "2019-11-01", end_date: "2019-12-01" },\n      { start_date: "2021-05-01", end_date: "2021-11-01" },\n      { start_date: "2022-06-01", end_date: "2022-07-01" },\n    ],\n    item_summary: "Designed a new navigation system for an event-ticket application.",\n    store_links: [\n      { label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.scatch&hl=en" },\n      { label: "App Store", url: "https://apps.apple.com/pl/app/scatch-app/id6747970607" },\n    ],\n  },\n  {\n    item_name: "Nokia",\n    item_kind: "project",\n    organization_name: "Thrive.io",\n    organization_url: "https://thrive.io/",\n    periods: [{ start_date: "2018-11-01", end_date: "2018-12-01" }],\n    hours_worked: 260,\n    emphasis_kind: "featured",\n  },\n  {\n    item_name: "Program DB Novo Ministries",\n    item_kind: "project",\n    organization_name: "Thrive.io",\n    organization_url: "https://thrive.io/",\n    periods: [{ start_date: "2017-07-01", end_date: "2018-09-01" }],\n    hours_worked: 650,\n  },\n  {\n    item_name: "Mullikin Law",\n    item_kind: "project",\n    organization_name: "VolcanoIdeas.ae",\n    organization_url: "https://volcanoideas.ae/",\n    periods: [{ start_date: "2011-06-01", end_date: "2011-08-01" }],\n    hours_worked: 50,\n    emphasis_kind: "heart",\n  },\n  {\n    item_name: "Oklahoma Children's Theatre",\n    item_kind: "project",\n    organization_name: "VolcanoIdeas.ae",\n    organization_url: "https://volcanoideas.ae/",\n    periods: [{ start_date: "2011-06-01", end_date: "2012-12-01" }],\n    hours_worked: 600,\n    emphasis_kind: "featured",\n  },\n  {\n    item_name: "HIPAA Security Assessment Toolkit",\n    item_kind: "project",\n    organization_name: "VolcanoIdeas.ae",\n    organization_url: "https://volcanoideas.ae/",\n    periods: [{ start_date: "2010-11-01", end_date: "2010-12-01" }],\n    hours_worked: 100,\n  },\n];\n\nfunction render_timeline_story(story_arguments) {\n  return timeline_markup(story_arguments);\n}\n\nexport default {\n  title: "Pages/Timeline",\n  tags: ["autodocs"],\n  render: render_timeline_story,\n  args: {\n    timeline_heading: TIMELINE_HEADING,\n    timeline_count_label: TIMELINE_COUNT_LABEL,\n    timeline_introduction: TIMELINE_INTRODUCTION,\n    timeline_items: TIMELINE_ITEMS,\n    timeline_current_date: TIMELINE_CURRENT_DATE,\n  },\n};\n\nexport const commercial_projects_timeline = {};\n`,
+    expected: /Organisms\/Timeline/,
+    operator: 'match',
+    diff: 'simple'
+  }
