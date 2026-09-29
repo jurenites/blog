@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
-import {candidate_patterns,domain_choices,has_search_slots,valid_domain_candidate} from '../ui/domain-pattern.js';
+import {COMMON_TLDS,candidate_patterns,domain_choices,has_search_slots,valid_domain_candidate} from '../ui/domain-pattern.js';
 import {TLD_LIST} from '../ui/tld-data.js';
 import '../ui/vendor/qrcodegen.js';
 vm.runInThisContext(await readFile(new URL('../ui/vendor/jsQR.js',import.meta.url),'utf8'));
@@ -28,18 +28,31 @@ test('real TLD matching preserves positions, supports lengths and rejects invent
  assert.ok(candidate_patterns('http://?.t??').includes('http://?.tOP'));
 });
 
+test('common registrar scope limits wildcard endings and preserves explicit choices',()=>{
+ assert.deepEqual(domain_choices('HTTPS://?????.??','common').matching_tlds,['CO','ME','CC']);
+ assert.deepEqual(domain_choices('HTTPS://?????.*','common').matching_tlds,COMMON_TLDS);
+ assert.ok(COMMON_TLDS.every(ending_text=>TLD_LIST.includes(ending_text)));
+ assert.ok(!domain_choices('HTTPS://?????.??','common').matching_tlds.includes('AL'));
+ assert.ok(!domain_choices('HTTPS://?????.??','common').matching_tlds.includes('NE'));
+ assert.ok(domain_choices('HTTPS://?????.??','all').matching_tlds.includes('NE'));
+ assert.throws(()=>candidate_patterns('http://?.n?','common'),/No common ending/);
+ assert.deepEqual(candidate_patterns('http://?.al','common'),['http://?.al']);
+ assert.deepEqual(candidate_patterns('HTTP://?.C?','common'),['HTTP://?.CO','HTTP://?.CC']);
+});
+
 test('actual worker uses real TLDs with digits-only name settings, any-length suffixes, and exclusions',async()=>{
- const worker_source=(await readFile(new URL('../ui/search-worker.js',import.meta.url),'utf8')).replace(/import\('\.\/(core|solver|domain-pattern|tld-data)\.js'\)/g,(_,module_name)=>`import(${JSON.stringify(new URL(`../ui/${module_name}.js`,import.meta.url).href)})`);
+ const worker_source=(await readFile(new URL('../ui/search-worker.js',import.meta.url),'utf8')).replace(/import\('\.\/(core|solver|domain-pattern|tld-data)\.js(?:\?scope=1)?'\)/g,(_,module_name)=>`import(${JSON.stringify(new URL(`../ui/${module_name}.js`,import.meta.url).href)})`);
  const message_rows=[];
  globalThis.self={postMessage:message_data=>message_rows.push(message_data)};
  globalThis.importScripts=()=>{};
  await import('data:text/javascript,'+encodeURIComponent(worker_source));
- const search_options={pattern_text:'HTTP://?????.???',version_number:1,error_level:'Q',lock_values:new Array(441).fill(-1),alphabet_name:'digits',time_limit:1,protect_structure:true};
+ const search_options={domain_scope:'common',pattern_text:'HTTP://?????.???',version_number:1,error_level:'Q',lock_values:new Array(441).fill(-1),alphabet_name:'digits',time_limit:1,protect_structure:true};
  await self.onmessage({data:search_options});
  const first_result=message_rows.find(message_data=>message_data.type==='result');
  assert.ok(first_result,JSON.stringify(message_rows));
  assert.match(first_result.payload_text,/^HTTP:\/\/\d{5}\.[A-Z]{3}$/);
  assert.equal(valid_domain_candidate(first_result.payload_text),true);
+ assert.ok(COMMON_TLDS.includes(first_result.payload_text.split('.').at(-1)));
  message_rows.length=0;
  await self.onmessage({data:{...search_options,pattern_text:'HTTP://BBO17.*',excluded_payloads:[first_result.payload_text]}});
  const next_result=message_rows.find(message_data=>message_data.type==='result');
@@ -51,5 +64,5 @@ test('actual worker uses real TLDs with digits-only name settings, any-length su
  message_rows.length=0;
  await self.onmessage({data:{...search_options,pattern_text:'HTTP://?????.P1H'}});
  assert.equal(message_rows.some(message_data=>message_data.type==='result'),false);
- assert.match(message_rows.find(message_data=>message_data.type==='error').message_text,/No IANA/);
+ assert.match(message_rows.find(message_data=>message_data.type==='error').message_text,/No common ending/);
 });

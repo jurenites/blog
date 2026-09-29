@@ -83,7 +83,7 @@ body:has(.company-slider) {
   flex-direction: column;
   gap: calc(var(--space-scale-base-gap) * 3);
   max-width: 100%;
-  color: var(--theme-dark-text-primary-default);
+  color: var(--theme-dark-text-light);
   text-decoration: none;
 }
 

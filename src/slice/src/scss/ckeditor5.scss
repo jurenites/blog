@@ -6,6 +6,8 @@
   $font-assets-path: "../assets/fonts"
 );
 @use "base/typography";
+@use "base/text-colors";
+@use "base/content-alignment";
 @use "atoms/inline-code";
 @use "atoms/blockquote";
 @use "atoms/inline-media";
@@ -14,4 +16,37 @@
 
 .ck-content {
   --ck-color-widget-editable-focus-background: var(--color-palette-dark-black);
+}
+
+.ck.ck-button.corporate-text-color__option {
+  &::before {
+    content: "";
+    display: inline-block;
+    width: calc(var(--space-scale-base-gap) * 2);
+    height: calc(var(--space-scale-base-gap) * 2);
+    margin-inline-end: var(--space-scale-base-gap);
+    border: var(--space-scale-one) solid currentcolor;
+    border-radius: 0;
+    flex-shrink: 0;
+  }
+
+  @each $brand-role in primary, secondary, tertiary {
+    @each $brand-shade in "", "-accent", "-soft" {
+      &--brand-#{$brand-role}#{$brand-shade}::before {
+        background-color: var(--color-palette-brand-#{$brand-role}#{$brand-shade});
+      }
+    }
+  }
+}
+
+
+.ck.ck-dropdown.corporate-text-color .ck-list {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+@each $color-shade in text-colors.$grayscale-shades {
+  .ck.ck-button.corporate-text-color__option--#{$color-shade}::before {
+    background-color: var(--color-palette-#{$color-shade});
+  }
 }

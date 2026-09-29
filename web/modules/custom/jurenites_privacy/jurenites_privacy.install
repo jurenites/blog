@@ -48,7 +48,7 @@ HTML;
   $privacy_policy_node->setTitle('Privacy Policy');
   $privacy_policy_node->set('body', [
     'value' => $privacy_policy_body,
-    'format' => 'basic_html',
+    'format' => 'full_html',
   ]);
   $privacy_policy_node->set('status', TRUE);
   $privacy_policy_node->set('path', [
@@ -78,7 +78,7 @@ HTML;
   $cookie_policy_block->set('info', 'Cookie Policy Notice');
   $cookie_policy_block->set('body', [
     'value' => $cookie_notice_body,
-    'format' => 'basic_html',
+    'format' => 'full_html',
   ]);
   $cookie_policy_block->save();
 

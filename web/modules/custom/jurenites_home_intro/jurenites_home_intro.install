@@ -67,14 +67,14 @@ function jurenites_home_intro_install(): void {
       'info' => 'Home introduction', 'reusable' => TRUE, 'status' => TRUE,
       'field_intro_heading' => 'Personal Blog',
       'field_two_tone_heading' => ['soft_text' => '& Showcase projects', 'soft_text_placement' => 'new-line', 'trailing_text_placement' => 'inline'],
-      'body' => ['value' => '<p>Articles, videos I’ve liked on YouTube, and my own thoughts on various topics. A place to share my projects and take a closer look at the interfaces of others.</p>', 'format' => 'basic_html'],
+      'body' => ['value' => '<p>Articles, videos I’ve liked on YouTube, and my own thoughts on various topics. A place to share my projects and take a closer look at the interfaces of others.</p>', 'format' => 'full_html'],
     ]);
     if (\Drupal::languageManager()->getLanguage('ru')) {
       $intro_block->addTranslation('ru', [
         'info' => 'Введение на главной',
         'field_intro_heading' => 'Личный блог',
         'field_two_tone_heading' => ['soft_text' => 'и мои проекты', 'soft_text_placement' => 'new-line', 'trailing_text_placement' => 'inline'],
-        'body' => ['value' => '<p>Статьи, понравившиеся видео с YouTube и мои мысли на разные темы. Здесь я делюсь своими проектами и разбираю интерфейсы других.</p>', 'format' => 'basic_html'],
+        'body' => ['value' => '<p>Статьи, понравившиеся видео с YouTube и мои мысли на разные темы. Здесь я делюсь своими проектами и разбираю интерфейсы других.</p>', 'format' => 'full_html'],
       ]);
     }
     $intro_block->save();

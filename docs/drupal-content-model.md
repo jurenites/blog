@@ -4,6 +4,61 @@ Keep the first content model universal. Do not overfit each project into many cu
 
 Rule: create fields only when Drupal needs to sort, filter, reference, render, or query the value. If the value is mostly storytelling, keep it in `Body`.
 
+CKEditor Source mode keeps its native textarea with lightweight HTML syntax colours
+for tags, attributes, values, entities, and comments. The `jurenites_admin`
+SourceCode plugin follows the existing Source toolbar item, including editors
+created in paragraph subforms. CKEditor's own HTML formatter runs when Source
+opens; **Format HTML** formats manual edits. Leading blank lines and empty formatting lines between elements (including figures)
+are removed on opening Source and explicit formatting. Literal whitespace inside
+preformatted blocks and multiline attributes is preserved. Typing and pasting do not reformat
+the document, preserving native clipboard selection and scroll behavior. The highlight layer is decorative and never parses
+or executes the entered HTML. Existing CKEditor filtering still applies when
+returning to visual editing or saving.
+Long source stays inside a bounded, scrollable textarea. Its decorative highlight
+layer follows both scroll axes and uses the same text metrics and scrollbar gutter;
+the Format HTML control remains below the scroll area. Drag the bottom-right
+resize handle vertically to expand the source editor for longer texts. Native browser
+Find searches the textarea once (the decorative mirror is inert); selected matches
+scroll into view inside the editor, with highlighting kept aligned.
+
+## Rich-text authoring
+
+The toolbar exposes **Align left**, **Align center**, and **Align right**. Select
+a protected Phone preview block to align its complete card, or place the cursor
+in a text block to align that text. Alignment is saved as CSS classes and survives
+Source mode and later saves; the preview artwork and media remain protected.
+Accountia's phone grid, galleries, and recording are also protected raw-content
+blocks, including their wrapper classes and attributes. Their surrounding headings
+and case-study prose remain editable in the visual editor. Use Source for preview
+internals; removing a preview remains intentional and is not automatically undone.
+
+Body, article summaries, and other formatted text fields use Full HTML
+with CKEditor. Article and Video comments use a plain textarea with CKEditor
+disabled, retaining their existing storage format and content. The format chooser and format help are hidden while the editor's
+hidden format input is retained. Plain string textareas remain plain fields.
+Basic HTML and Restricted HTML are removed after their content references,
+including translations and historical revisions, migrate to Full HTML without
+changing authored prose. Restricted HTML paragraph breaks are stored as explicit
+HTML so they survive the change. Starter content also uses Full HTML. Content editors have
+Full HTML permission; public roles do not gain editorial permissions. Drupal's
+Plain text fallback and Webform's internal format remain available to their
+respective systems, outside the editorial format chooser.
+
+The **Text color** dropdown starts with all 13 existing grayscale tokens in order:
+Full black, Dark black, Black, Light black, Deep gray, Dark gray, Gray, Light gray,
+Pale gray, Dark white, Light white, White, and Full white. It also offers
+Primary, Secondary, and Tertiary, each with
+Accent and Soft variants, plus **Default** to remove the color. Each choice shows
+a named square swatch from the existing corporate palette, without hex codes or
+a custom color picker. The scrollable menu keeps every choice reachable. Selected text stores `u-text-*`
+classes on spans;
+choosing another color replaces the previous color. Typography and other inline
+formatting remain independent. Shared token-backed rules compile into both the
+public theme and CKEditor minified CSS. Changing a palette token therefore updates
+existing colored content on the next theme build. The `jurenites_admin` install
+hook and `corporate_text_colors` and `grayscale_text_colors` post-updates enable the toolbar and allow the
+specific span classes in HTML-filtered CKEditor formats.
+
 ## Editable page copy and contextual menus
 
 Public editorial paragraphs belong to Drupal content, including copy around
@@ -80,6 +135,48 @@ reset subsequent CMS edits or recreate deliberately deleted content on reruns.
 Starter copy belongs only in installation/migration code. Do not use theme
 fallback paragraphs that make a cleared CMS field reappear.
 
+The `jurenites_editorial_post_update_template_copy` update extends this model:
+
+| Copy | Editing location |
+| --- | --- |
+| Timeline eyebrow and project-count label | Timeline node edit/translation form |
+| Project image comparison heading | Project node edit/translation form |
+| Guideline specimen heading and description | Guideline node edit/translation form |
+| Pixel editor heading and instructions | Pixel Glyph Editor Paragraph in the parent Project |
+| Header display name and footer rights message | Named Page copy blocks under Content → Blocks |
+| QR Studio tagline, encoding tip, stencil help, structure help, expected legend, saved-match help and domain notice | Named QR Studio Page copy blocks under Content → Blocks |
+
+Standalone copy uses stable block UUIDs, content-language selection, access checks
+and entity/list cache tags. Header and footer use plain text extracted from Body;
+QR help renders Body through its selected text format. Keep header/footer Body
+to a single text line. The header derives animated initials and letters from the
+authored name. Deleting, unpublishing or clearing a block does not restore seed
+copy. Edit these standalone blocks through Content → Blocks; they are embedded
+directly in the templates rather than placed as separate layout blocks.
+
+The update adds six translatable, single-value fields and nine reusable blocks.
+It seeds existing records once, keeps Paragraph revision references intact and
+creates revisions for updated nodes. New Guideline records require their own
+specimen copy. The migration preserves existing interface translations where
+available; new phrases retain English until an editor supplies a translation.
+No content permissions change.
+
+Interface labels remain in Drupal's interface translation system. The template
+audit includes control titles, placeholders, alternate text and accessible
+labels. QR Studio's server-rendered labels now use translation filters and its
+document language follows Drupal; its client-side JavaScript messages still
+need a separate localization pass. Technical glyphs, numbers and generated
+asset paths are not editorial copy.
+
+Theme JavaScript uses `Drupal.t()` for generated cookie-dismiss controls and
+file-input validation messages, including the accepted-types placeholder.
+The Storybook timeline renderer also translates its heart emphasis and link-group
+labels when Drupal is available, with English fallbacks for standalone previews.
+
+Run `node --test tests/template-copy.test.mjs` to check production Twig templates
+for untranslated literal text, and the integration check below for editing,
+clearing, access and migration behavior.
+
 The local integration check is:
 
 ```bash
@@ -128,7 +225,7 @@ Purpose: stable authored pages such as About, Cookbook, and Privacy Policy.
 The `/contact` route belongs to Webform; see [Contact form](contact-form.md).
 
 The published `/cookbook` Basic Page is the editor-owned working manual for the
-project. Its `basic_html` Body explains the idea, token, Storybook, Drupal,
+project. Its `full_html` Body explains the idea, token, Storybook, Drupal,
 verification, and release loop and includes explicit image and GIF placeholders.
 The `jurenites_cookbook` module writes that starter Body only when the stable
 node is first created; later CKEditor revisions are not reset by setup code.
@@ -284,6 +381,14 @@ Every duration button focuses that project's single card and scrolls to its
 description by mapping its text position back to the calendar's page position,
 with a 900–1600ms ease-in/ease-out animation, depending on distance. Direct project
 links and keyboard focus into clipped project links use the same mapping.
+Browser Find uses a natively scrollable description viewport. When the browser
+reveals a match, calendar synchronization waits for the description viewport's
+native `scrollend`, then maps its final text offset back to the calendar. It must
+not assign either scroll position during the browser's animated reveal: doing so
+cancels a long Find jump after its first few pixels and requires repeated clicks.
+The browser retains its exact match and highlight.
+Wheel input over descriptions forwards to page travel to retain the calendar's
+scroll speed. The viewport scrollbar remains hidden.
 Wheel, touch, pointer and navigation-key input can interrupt the animation;
 reduced-motion preferences use immediate navigation.
 Without JavaScript the complete grouped chronology remains readable.
@@ -297,9 +402,22 @@ between text and icon; the SVG has a 1px downward optical adjustment that does
 not change the row height. These styles apply only to product websites.
 App stores
 appear as separate named links (Google Play, App Store, or another authored store).
-Evidence stays in a separate link row with an accessible Sources label and no
-visible heading; a wireframe, PDF, third-party profile or reference article never
-becomes a product website by its position.
+External Sources remain editable in the CMS but are omitted from the public
+Timeline and Storybook markup. Sources authored as internal node references
+render a same-tab case-study link directly after the project title in its header,
+with their translated CMS link text. These links use the Link typography role
+and share the title’s text baseline. The icon-only Featured marker centers its
+24px box vertically within that header row instead of participating in text
+baseline alignment. The four
+Oklahoma Senate, ScatchApp, Accountia and Dzing Finance App entries use “Read more”
+(“Подробнее” in Russian), linking to their Portfolio nodes. Run
+`drush php:script scripts/update-timeline-project-links.php` once to seed these
+references. The script resolves aliases to node IDs and preserves subsequent
+CMS edits and clears; rendering follows current node aliases and view access. Links inside project descriptions render as plain text,
+with their authored text and CMS URLs preserved. Dedicated Product websites, App stores and internal case-study rows render
+project destination links. A wireframe, PDF,
+third-party profile or reference article never becomes a product website by its
+position. This display policy does not revoke access to externally hosted files.
 These links do not claim a current reachability check. Existing sites run
 `jurenites_timeline_post_update_separate_product_links` through `drush updatedb`.
 It moves only reviewed, exact product URLs from Sources, adds the supplied Scatch
@@ -311,6 +429,8 @@ of the footer Information menu, not from the primary navigation.
 
 Gin Paragraphs subforms use zero bottom margin on `.form-item`, supplied by
 `jurenites_admin/css/gin-branding.css` so contributed theme files stay intact.
+The same stylesheet keeps enabled Gin dialog danger-button labels white in
+default, hover, and focus states, preserving Gin's disabled-button styles.
 
 The current Paragraph editor exposes repeatable Start and End date inputs. Its
 drag-and-drop mode changes item order only; it does not change dates or resolve
@@ -374,12 +494,18 @@ temporary Project is rolled back after form, save and render checks.
 The Portfolio listing ends with a separate **Website audit** Content Block,
 placed in the Content region after the gallery on `/portfolio`, including tag
 filters. `jurenites_website_audit` seeds the supplied report checklist and free
-new-client offer. Body and Offer are formatted, translatable content; Turnaround
-stores the number of business days (initially 3), and Order button owns its label
+new-client offer. Body and Offer are formatted, translatable content. Offer uses
+Full HTML and owns the turnaround paragraph and semantic `time` element
+(initially 3 business days); there is no separate Turnaround field. Order button owns its label
 and internal link (initially `/contact`). Edit **Portfolio website audit** under
 Content → Blocks or through its contextual pencil. The block supports revisions,
 translation, unpublishing and deletion; setup never restores removed content or
 resets edits. No new taxonomy terms are created.
+
+Update `jurenites_website_audit_update_11002()` moves the existing turnaround into
+Offer HTML in every translation and saved revision before deleting the old field
+storage. Subsequent edits and clears remain CMS-owned. Apply with `drush updatedb`
+and `drush cr`.
 
 Update `jurenites_website_audit_update_11001()` restores the missing placement
 of the existing audit block at Content weight 90, after the Portfolio timeline
@@ -423,6 +549,13 @@ The available Project sections are:
   outcomes.
 
 The Oksenate case study lives at `/portfolio/oksenate`. It uses the existing
+scrollable desktop preview after the accessibility story section, using the
+supplied `anonymous-home-stage.png` capture. The preview is up to 1280px wide,
+fits narrower screens, and scrolls internally within 75% of the viewport height.
+Its markup remains editable in that section's Body field; the surrounding prose
+keeps its readable width. Run `drush php:script scripts/update-oksenate-preview.php`
+once after building the theme to add it; reruns preserve existing previews.
+The case study also uses the existing
 Project Image for the user-supplied homepage hero screenshot dated 11 September
 2026 (preserved without cropping), an authored
 introduction, Numeric Values, and six editable Project story paragraphs. The
@@ -449,8 +582,8 @@ stable UUID. Rerunning it preserves existing editorial content. Initial copy
 lives in `scripts/content/oksenate.json`; subsequent edits belong in Drupal.
 Rebuild the token-derived graphic with `node scripts/build-oksenate-graphic.mjs`
 after `npm run build:tokens`, then run `npm run build:theme` to copy the image
-assets into the theme. The matching Storybook example is
-`Molecules/Audit Comparison`. Content was prepared and checked locally; this
+assets into the theme. This graphic is project content and has no standalone
+Storybook example. Content was prepared and checked locally; this
 does not deploy the new page to PROD.
 
 SMEP's first personal-project article lives at `/portfolio/smep`, authored by
@@ -465,6 +598,14 @@ Run `drush php:script scripts/create-smep-project.php` after the existing
 font-project recipe to create the article from `scripts/content/smep.json`.
 Reruns preserve the existing node and its editorial changes. Initial creation
 and verification are local; production publishing is a separate operation.
+
+SMEP's element-card preview uses 750 × 1334px retina artwork for card views 1–5.
+The orbital preview uses the same retina dimensions for Hydrogen, Carbon, Boron,
+Silicon, Phosphorus, Copper, and Oganesson, stored under
+`assets/images/projects/smep/orbitals/`.
+The classic phone screen displays these at 375px wide, shrinking to fit narrower
+containers. Source and theme assets retain matching numbered filenames under
+`assets/images/projects/smep/element-cards/`.
 
 SMEP includes an editable **Screen slider** Paragraph from `jurenites_screen_slider`.
 Enable the module, then run `drush php:script scripts/add-smep-screen-slider.php`
@@ -510,7 +651,7 @@ has its own canonical detail page.
 
 Guideline uses the native Title plus three deliberate values:
 
-- Guidance: a required `basic_html` Body with a required summary. The summary
+- Guidance: a required `full_html` Body with a required summary. The summary
   is the overview-tile description; the Body is editor-owned detail copy.
 - Guideline section: selects the project-owned Logo Icon or Color specimen.
 - Overview order: a whole number used by the Guidelines View so new topics can
@@ -604,11 +745,11 @@ video creation/validation still require provider connectivity. The DEV check
 and Video views with outbound HTTP and YouTube oEmbed calls disabled, and checks
 that other providers retain their renderer.
 
-### Small media inside rich text
+### Media inside rich text
 
-Basic HTML and Full HTML expose **Insert Media** next to the image-upload
-button. Choose **Animated GIF** (GIF, up to 5 MB) or **Video** (MP4/WebM, up to
-20 MB), add a file, complete its media details, and insert the selected item
+Full HTML and Full HTML expose **Insert Media** next to the image-upload
+button. Choose **Animated GIF** (GIF, up to 5 MB) or **Video** (MP4/WebM/MOV, up to
+500 MB), add a file, complete its media details, and insert the selected item
 at the cursor. Use H.264 MP4 for broad browser playback support. Uploads are
 reusable Media records; their presence does not change an Article into a Video.
 
@@ -622,7 +763,7 @@ normal dimensions come from CSS, with no width/height/style HTML attributes.
 
 The existing direct image-upload button now has a 5 MB limit for all inline
 images, including GIFs. Hero images and the existing Image Media type keep
-their separate upload settings. Content editors can use Basic HTML, open the
+their separate upload settings. Content editors can use Full HTML, open the
 media library, create these two media types and edit their own uploads.
 Anonymous visitors can view published embeds but cannot upload media.
 
@@ -631,8 +772,9 @@ For existing installations, apply
 then rebuild caches. No existing article body or uploaded file is rewritten.
 Verify limits, access, editor configuration and public rendering with
 `drush php:script tests/inline-media.php`. PHP and web-server request limits
-must accommodate the 20 MB video limit; local PHP allows 200 MB uploads and
-210 MB requests. Production limits must be checked during deployment.
+must accommodate the 500 MB video limit; local PHP allows 500 MB uploads and
+510 MB requests. Existing sites receive the updated Video field through
+`jurenites_inline_media_post_update_expand_video_uploads`. Production limits must be checked during deployment.
 
 Shared fields and Video-specific source metadata:
 
@@ -874,7 +1016,10 @@ existing values. Administrators can correct managed values.
 
 The recipe's homepage-only News block shows up to three published records,
 ordered by source publication time, newest first. Its News List Item thumbnail
-and title link to the original external URL. The recipe adds no News listing
+and title link to the original external URL. Thumbnails use a 304px desktop
+width (120px on compact layouts) and preserve the source image aspect ratio
+without stretching to the text height. The shared theme token controls width;
+Drupal supplies the original image. The recipe adds no News listing
 page or main-menu item.
 
 Source names use the shared Author Identity component with its small (16px)
@@ -967,7 +1112,7 @@ Authors use the normal visual editor; Source Editing is not required.
 
 The saved format is nested spans with the classes `expandable-term`,
 `expandable-term__label`, and `expandable-term__explanation`. No scripts, inline
-styles, arbitrary attributes or buttons are permitted by the new Basic HTML
+styles, arbitrary attributes or buttons are permitted by the new Full HTML
 allowlist. Frontend enhancement creates real buttons at runtime. Clicking or
 pressing Enter/Space keeps the original yellow phrase in place and adds its
 explanation in square brackets. The shared tooltip reads “Expand” when closed and
@@ -996,3 +1141,139 @@ palette token through `--ck-color-widget-editable-focus-background`, scoped to
 
 The initial local implementation includes placeholder role stories only; the
 owner's longer About and Home copy remains under review.
+
+## Dynamic preview artwork
+
+Project and Article previews support an optional translatable **Dynamic thumbnail**
+SVG upload. It overrides the preview Image without replacing the full-page image.
+See [Dynamic thumbnails](dynamic-thumbnails.md) for the four-group SVG format,
+editorial workflow, cursor behavior, and validation.
+
+### ScatchApp project note and Home preview
+
+`/portfolio/scatchapp` is an editable Project with a Body introduction and
+summary, four Project story paragraphs, the existing `#UI/UX Design` tag,
+the supplied PNG hero, and the unmodified SVG Dynamic thumbnail. The copy
+describes Alexander's collaboration with the co-founder: translating ideas into
+Figma screens which the co-founder brought to the development team. It makes no
+claim about measured outcomes or implementation parity with the current app.
+
+The Home-only **Home project previews** basic Content Block (34) is placed at
+weight 3. Its Full HTML Body contains four slides: Accountia, ScatchApp, Dzing,
+and SMEP. The phone appears on the left and its description on the right on
+desktop; narrow screens stack the phone above the description. The track hides
+its horizontal scrollbar while preserving touch and keyboard navigation.
+The block has editable English and Russian translations, including descriptions,
+project links, controls and preview accessibility labels. Apply the revision-backed
+layout and translation update once with
+`drush php:script scripts/translate-home-project-previews.php`; subsequent runs
+preserve CMS edits. Each pairs a short description copied from the Project Summary with
+a transparent Preview Mobile Screen Card linking to its project. The seeded
+copy remains editable in the block; later Summary edits are not automatically
+synchronized. Previous/Next buttons, horizontal touch scrolling and arrow/Home/End
+keys on the focused track navigate the slides, with reduced-motion support.
+ScatchApp retains its list and filter recordings; the other slides reuse their
+existing project phone sequences. Apply once with
+`drush php:script scripts/update-home-project-previews.php`, which retains the
+previous block revision and leaves an existing slider untouched. The ScatchApp
+map screenshot supplies its static fallback.
+The shared runtime retains hover pause, keyboard feedback, offscreen pause and
+reduced-motion behavior. The detail page uses one native-size, transparent phone
+with `follow_cursor: true`, containing those same two recordings in order (list,
+then filter). It replaces the separate inline video players in the Project story
+paragraphs while preserving their surrounding copy. The modern frame uses
+`island_overlay: false` because the recordings contain their own interface chrome.
+The phone links to the original list recording for native playback controls.
+
+Seed once with `node scripts/build-scatchapp-preview.mjs`, `npm run build:theme`,
+then `drush php:script scripts/create-scatchapp-project.php` and `drush cr`.
+The generator writes `generated/content/scatchapp-preview.html` for Home and
+`generated/content/scatchapp-detail-preview.html` for the detail page. Apply the
+detail replacement with `drush php:script scripts/update-scatchapp-video-preview.php`;
+it checks for exactly the two known players, saves new paragraph and node revisions,
+and preserves an already-converted page on reruns. The seeder
+preserves an existing Project and block, including editorial clears and placement.
+Source copy lives in `scripts/content/scatchapp.json`. Assets are under
+`src/public/assets/images/projects/scatchapp/` and
+`src/public/assets/videos/scatchapp/`; the theme build copies these to theme assets.
+
+Product context was checked against the [Scatch website](https://getscatch.app/)
+and the [indexed Google Play description](https://chrome-stats.com/d/com.scatch).
+The timeline's App Store and Google Play URLs are retained as project references;
+direct store-page fetching was unavailable during authoring. No screenshot is
+labelled as a before state until its source is identified by the author.
+
+### Accountia case-study HTML prototype
+
+Accountia currently has a minimal six-card mobile preview in Storybook under
+**Pages / Accountia Case Study / Project Overview**. Each item reuses the exact
+**Molecules / Preview Mobile Screen Card** renderer and its existing phone,
+background, cursor interaction, and screen-sequence runtime. The page adds only
+a responsive three/two/one-column grid and short screen captions. Storybook args
+control the screen selection, playback, phone era, display size, and background.
+The previous composed case-study layout is no longer rendered.
+
+The selected screens are Dashboard, Products, Product details, Suppliers,
+Employees, and Fees. All six source exports are exactly 360px wide; other widths
+are excluded by the page renderer. Clicking a card opens its original PNG.
+The desktop and mobile dashboard assets were refreshed from the supplied
+replacements. The desktop asset remains available but is not shown in this
+mobile-only preview. Source filenames and dimensions are recorded in
+`src/stories/pages/accountia-case-study/accountia-assets.json`.
+
+For a standalone development preview, run `node scripts/preview-accountia.mjs`
+and open `http://127.0.0.1:6011/previews/accountia/`. Port 6010 can continue serving
+the built Storybook. The prototype does not change Drupal content, routes, or
+Blog listings. The local Drupal case study now has its own editable presentation, described below.
+
+### Accountia Drupal presentation
+
+Project 105 (`/portfolio/accountia`) keeps its authored case study and preview
+markup in the translatable Body field. The one-time seed script
+`scripts/update-accountia-previews.php` creates a revision and refuses to replace
+existing previews, preserving subsequent CMS edits. Generated section markup and
+the supplied-image manifest are under `generated/content/accountia/`.
+
+Three shared phone cards show the two landing-page exports and the exact 360px
+application exports, split between two application sequences. The presentation uses
+375px screen areas inside 399px phone frames, wrapping into fewer columns when
+needed and scaling down only when a single frame cannot fit the viewport. Long screens scroll
+before advancing using eased, viewport-sized swipes with brief pauses. The three
+previews have different initial holds (850/1450/2050ms); the middle application
+preview begins at the bottom and returns quickly to the top before swiping down.
+Bottom overscroll reveals white and settles back; upward motion stops exactly at
+the top. Hovering an individual phone pauses its screen playback and leaving resumes
+it; the other phones continue independently. A crossfade already in progress finishes
+before the incoming frame pauses. Touch input does not trigger hover pausing.
+Visitors can hold the left mouse button and drag a phone screen vertically, using
+grab/grabbing cursors. Manual scrolling stays within the image bounds, remains at
+the chosen position while hovered, and autoplay resumes from that position on exit.
+Reduced motion still permits manual dragging without starting autoplay.
+The shared runtime respects reduced motion. Existing CMS settings can be
+updated with `scripts/update-accountia-scroll.php` without replacing copy.
+Four image viewers
+provide the original/later invoice comparison, all 23 desktop screens, the original
+style guide, and 44 guideline sheets. Galleries advance only with Previous/Next; the Play sequence control is hidden.
+Slides fade out and in against the full-white palette background while the viewport
+height eases to the next image. Page
+scroll compensation anchors the controls in place so height growth moves upward.
+User scrolling interrupts that compensation. Reduced motion switches immediately. Galleries use up to
+1280px of width with 24px page gutters on narrower viewports. Desktop screenshots
+retain their natural proportions and scroll inside a keyboard-focusable viewport
+when taller than 75dvh; scrolling continues to the page at either edge rather
+than being trapped inside the preview. Switching slides resets that viewport to the top.
+The original style guide's single figure expands to its full natural height and
+scrolls with the page, without an internal vertical scrollbar.
+The 1920×1680 Guidelines and components images use a stable 8:7 frame without
+internal scrolling. Accountia figure captions and Open original links are hidden. Existing markup is updated by
+`scripts/update-accountia-gallery-layout.php` in a recoverable content revision.
+
+The supplied MOV is converted to a browser-compatible MP4 in the local public
+files directory. Its shared Media Loader resolves on actual video readiness and
+reveals an error link on failure. Decorative loading layers ignore pointer input,
+so the native play, seek and fullscreen controls remain reachable. The recording
+is the first preview in the case study, uses an 800px maximum width (100 base gaps),
+and has no separate expand button. `scripts/fix-accountia-video.php` updates existing
+content in a new revision while preserving authored text and other previews.
+Optimized WebP images and the MP4 live in `public://projects/accountia/`; deployment
+must carry those public files alongside the database revision and theme build.

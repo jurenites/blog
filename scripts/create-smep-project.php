@@ -12,9 +12,9 @@ use Drupal\node\Entity\Node;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\taxonomy\Entity\Term;
 
-// Restricted HTML supplies paragraphs from blank lines after filtering tags.
+// Full HTML stores the authored paragraph markup directly.
 function smep_story_markup(string $story_html): string {
-  return trim(str_replace(['<p>', '</p>'], ['', "\n\n"], $story_html));
+  return trim($story_html);
 }
 
 $project_uuid = '9dcf5017-82ef-477c-8d99-dcaa26896516';
@@ -57,7 +57,7 @@ try {
   foreach ($project_data['story_sections'] as $story_section) {
     $section_references[] = ['entity' => Paragraph::create([
       'type' => 'project_story',
-      'field_project_story_body' => ['value' => smep_story_markup($story_section['story_html']), 'format' => 'restricted_html'],
+      'field_project_story_body' => ['value' => smep_story_markup($story_section['story_html']), 'format' => 'full_html'],
     ])];
   }
   $project_node = Node::create([
@@ -67,7 +67,7 @@ try {
     'langcode' => 'en',
     'title' => $project_data['project_title'],
     'status' => TRUE,
-    'body' => ['value' => smep_story_markup($project_data['project_intro']), 'summary' => $project_data['project_summary'], 'format' => 'restricted_html'],
+    'body' => ['value' => smep_story_markup($project_data['project_intro']), 'summary' => $project_data['project_summary'], 'format' => 'full_html'],
     'path' => ['alias' => $project_alias, 'pathauto' => FALSE],
     'field_tags' => $tag_references,
     'field_content_sections' => $section_references,

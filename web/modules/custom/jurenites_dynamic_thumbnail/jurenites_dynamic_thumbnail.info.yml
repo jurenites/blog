@@ -1,0 +1,8 @@
+name: 'jurenites dynamic thumbnail'
+type: module
+description: 'Layered SVG thumbnails for Project and Article previews.'
+package: jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:file
+  - drupal:node

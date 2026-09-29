@@ -1,0 +1,16 @@
+.loading-name {
+  min-block-size: 100svh;
+  background: var(--component-hero-section-background-edge-color);
+
+  &__branding {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  &__controls {
+    position: fixed;
+    inset-inline-end: calc(var(--space-scale-base-gap) * 2);
+    inset-block-end: calc(var(--space-scale-base-gap) * 8);
+    z-index: calc(var(--component-watermark-layer-default) + 3);
+  }
+}

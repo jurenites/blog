@@ -14,7 +14,7 @@ OUTPUT_ROOT = PROJECT_ROOT / 'output' / 'thumbnail-studio'
 TOKEN_SOURCE = PROJECT_ROOT / 'src/token/tokens.yaml'
 SCREEN_SOURCE = PROJECT_ROOT / 'src/public/assets/images/projects/oksenate/homepage-2026-09-11.png'
 FONT_SOURCE = PROJECT_ROOT / 'src/public/assets/fonts/ubuntu-sans-mono-regular.ttf'
-PALETTE_VALUES = dict(re.findall(r'^    ([a-z-]+): "(#[0-9a-fA-F]{6})"', TOKEN_SOURCE.read_text(), re.M))
+PALETTE_VALUES = dict(re.findall(r'^color\.palette\.([a-z-]+): "(#[0-9a-fA-F]{6})"', TOKEN_SOURCE.read_text(), re.M))
 FRAME_COUNT = 192
 OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
 (OUTPUT_ROOT / 'renders').mkdir(exist_ok=True)

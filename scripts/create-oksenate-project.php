@@ -118,7 +118,7 @@ $project_values = [
   'langcode' => 'en',
   'title' => $project_data['project_title'],
   'status' => TRUE,
-  'body' => ['value' => $project_data['project_intro'], 'summary' => $project_data['project_summary'], 'format' => 'basic_html'],
+  'body' => ['value' => $project_data['project_intro'], 'summary' => $project_data['project_summary'], 'format' => 'full_html'],
   'path' => ['alias' => '/portfolio/oksenate', 'pathauto' => FALSE],
   'field_image' => ['target_id' => $thumbnail_file->id(), 'alt' => 'Oklahoma Senate homepage hero with the Capitol building, Senate seal and welcome heading. Captured 11 September 2026.'],
   'field_tags' => $tag_references,

@@ -1,4 +1,4 @@
-/* Generated from src/token/tokens.yaml by build-qr-studio-palette.mjs. */
+/* Editable QR Studio palette. Loaded only by the standalone /qr-studio document. */
 :root {
   --qr-studio-color-surface-page: #141618;
   --qr-studio-color-surface-panel: #1B1D20;

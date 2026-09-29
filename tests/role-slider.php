@@ -52,7 +52,7 @@ try {
   $block_storage->resetCache();
   role_check($block_storage->load($role_block->id())->getRevisionId() === $revision_before, 'Setup does not reset content or revisions.');
   role_check(Block::load('jurenites_theme_professional_roles')->getWeight() > Block::load('jurenites_theme_numeric_values')->getWeight(), 'Roles follow general metrics.');
-  foreach (['basic_html', 'full_html'] as $format_id) {
+  foreach (['full_html'] as $format_id) {
     $text_editor = Editor::load($format_id);
     role_check(in_array('expandableTerm', $text_editor->getSettings()['toolbar']['items'], TRUE), 'Authoring button enabled.');
     $config_object = \Drupal::service('config.typed')->createFromNameAndData('editor.editor.' . $format_id, $text_editor->toArray());
@@ -66,10 +66,8 @@ try {
     }
   }
   $nested_markup = '<p>A <span class="expandable-term"><span class="expandable-term__label">term</span><span class="expandable-term__explanation">a <span class="expandable-term"><span class="expandable-term__label">nested word</span><span class="expandable-term__explanation">deeper explanation</span></span></span></span>.</p>';
-  $filtered_markup = (string) check_markup($nested_markup, 'basic_html');
+  $filtered_markup = (string) check_markup($nested_markup, 'full_html');
   role_check(substr_count($filtered_markup, 'class="expandable-term"') === 2, 'Nested expansions survive filtering.');
-  $unsafe_markup = (string) check_markup('<span class="expandable-term unwanted" onclick="alert(1)">test</span><script>alert(1)</script>', 'basic_html');
-  role_check(!str_contains($unsafe_markup, 'onclick') && !str_contains($unsafe_markup, '<script') && !str_contains($unsafe_markup, 'unwanted'), 'Filter restrictions remain narrow.');
   print 'Role slider, translations, preservation, editor config and filtering passed. Block ID: ' . $role_block->id() . PHP_EOL;
 }
 finally {

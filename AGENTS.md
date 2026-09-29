@@ -14,6 +14,16 @@ and helper functions. Avoid lone generic names like `label`, `variant`, `title`,
 
 Example: use `eyebrow_heading`, not `eyebrow`.
 
+## CMS Copy and Translation
+
+Editorial headings, descriptions and other authored copy belong in translatable
+Drupal fields or reusable Page copy blocks, even when used only once. Prefer an
+existing Body field with its rich text editor for prose. Templates provide
+structure and render content; do not hide editorial copy behind `|t` or hardcoded
+fallback text. Seed starter values once and preserve later CMS edits and clears.
+Use Twig `|t` or `{% trans %}` for interface labels and accessibility messages.
+Storybook HTML templates use argument placeholders, not Twig translation filters.
+
 ## Storybook Examples
 
 Keep each visible Storybook example in its own folder under its type group, such
@@ -124,6 +134,10 @@ values only because they are derived from the token source.
 Exception: Technology Stack logo colors are fixed component artwork constants
 in `src/brand/technology-stack/brand-colors.js`. Keep them out of the token file
 and shared palette; do not expose them as design-token variables.
+
+QR Studio is an isolated application: its editable color values belong directly
+in `web/modules/custom/jurenites_qr_studio/ui/palette.css` as page-local CSS
+variables. Do not add them to shared theme tokens or regenerate this stylesheet.
 
 Footer brand colors are also outside the design-token inventory: fixed logo
 fills belong in the reviewed SVG assets, and editable hover colors/gradients

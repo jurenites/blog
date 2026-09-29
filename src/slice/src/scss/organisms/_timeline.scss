@@ -15,8 +15,9 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
 }
 
 .timeline__header {
-  max-width: calc(var(--space-scale-base-gap) * 90);
+  max-width: calc(var(--space-scale-base-gap) * 96);
   margin-bottom: calc(var(--space-scale-base-gap) * 6);
+  margin-left: calc(var(--space-scale-base-gap) * 26);
 }
 
 .timeline__eyebrow,
@@ -277,7 +278,7 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
   top: calc(var(--space-scale-base-gap) * 8);
   height: calc(100dvh - (var(--space-scale-base-gap) * 8));
   min-width: 0;
-  overflow: hidden;
+  overflow: auto;
   overflow-anchor: none;
   scrollbar-width: none;
 }
@@ -389,7 +390,7 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
 .timeline__item-header {
   display: flex;
   flex-wrap: wrap;
-  align-items: end;
+  align-items: baseline;
   gap: calc(var(--space-scale-base-gap) * 0.5) var(--space-scale-base-gap);
 }
 
@@ -405,6 +406,11 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
   gap: calc(var(--space-scale-base-gap) * 0.5);
   color: var(--theme-dark-action-primary-default);
   @include tools.typography-caption;
+}
+
+// Icon-only emphasis has no text baseline; center its box in the title row.
+.timeline__emphasis--featured {
+  align-self: center;
 }
 
 .timeline__star-icon,
@@ -443,7 +449,8 @@ $timeline-label-column-width: calc(var(--space-scale-base-gap) * 8);
 
 .timeline__website-links,
 .timeline__store-links,
-.timeline__proof-links {
+.timeline__proof-links,
+.timeline__details-links {
   display: flex;
   flex-wrap: wrap;
   gap: calc(var(--space-scale-base-gap) * 0.5) var(--space-scale-base-gap);
@@ -564,4 +571,22 @@ body.jurenites-theme .timeline .timeline__website-links a.timeline__website-link
 .timeline__year-detail:target {
   outline: var(--shape-border-width-hairline-default) solid var(--theme-dark-action-primary-default);
   outline-offset: var(--space-scale-base-gap);
+}
+
+.timeline__details-links {
+  margin: 0;
+  @include tools.typography-link;
+}
+
+.timeline__details-links a {
+  &:hover,
+  &:focus-visible {
+    color: var(--theme-dark-text-primary-default);
+    text-decoration-thickness: var(--shape-border-width-hairline-default);
+  }
+
+  &:focus-visible {
+    outline: var(--shape-border-width-hairline-default) solid currentcolor;
+    outline-offset: var(--space-scale-two);
+  }
 }

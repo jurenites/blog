@@ -78,8 +78,22 @@
   place-items: center;
   width: 48%;
   height: 48%;
-  max-width: calc(var(--space-scale-base-gap) * 10);
-  max-height: calc(var(--space-scale-base-gap) * 10);
+  max-width: calc(var(--space-scale-base-gap) * 6);
+  max-height: calc(var(--space-scale-base-gap) * 6);
+}
+.technology-stack__artwork.technology-stack__artwork--vue,
+.technology-stack__artwork.technology-stack__artwork--react,
+.technology-stack__artwork.technology-stack__artwork--laravel,
+.technology-stack__artwork.technology-stack__artwork--figma,
+.technology-stack__artwork.technology-stack__artwork--unity,
+.technology-stack__artwork.technology-stack__artwork--capcut {
+  max-width: calc(var(--space-scale-base-gap) * 5);
+  max-height: calc(var(--space-scale-base-gap) * 5);
+}
+.technology-stack__artwork.technology-stack__artwork--sql,
+.technology-stack__artwork.technology-stack__artwork--php {
+  max-width: calc(var(--space-scale-base-gap) * 8);
+  max-height: calc(var(--space-scale-base-gap) * 8);
 }
 
 .technology-stack__logo {

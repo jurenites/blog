@@ -1,4 +1,5 @@
 {{ footer_navigation_cache }}
+{{ editorial_copy_cache }}
 {% if items %}
   <div class="footer-navigation">
     <div class="footer-navigation__columns">
@@ -10,7 +11,7 @@
       {% endfor %}
     </div>
     <div class="footer-navigation__bottom-row">
-      <p class="footer-navigation__rights-message">{{ 'No rights reserved'|t }} {{ 'now'|date('Y') }}</p>
+      <p class="footer-navigation__rights-message">{{ footer_rights_copy }} {{ 'now'|date('Y') }}</p>
       {{ footer_legal_menu }}
       {% for footer_group in footer_bottom_groups %}
         <nav class="footer-navigation__legal-navigation" aria-label="{{ footer_group.title }}">

@@ -18,6 +18,8 @@ const BUILD_PATHS = {
   icons_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/assets/icons'),
   images_source: resolve(ROOT_DIRECTORY, 'src/public/assets/images'),
   images_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/assets/images'),
+  videos_source: resolve(ROOT_DIRECTORY, 'src/public/assets/videos'),
+  videos_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/assets/videos'),
   brand_logo_source: resolve(ROOT_DIRECTORY, 'src/public/assets/brand/jurenites-logo.svg'),
   brand_logo_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/logo.svg'),
   css_output: resolve(ROOT_DIRECTORY, 'web/themes/custom/jurenites_theme/css/style.min.css'),
@@ -46,6 +48,7 @@ await mkdir(dirname(BUILD_PATHS.js_output), { recursive: true });
 await cp(BUILD_PATHS.fonts_source, BUILD_PATHS.fonts_output, { recursive: true, force: true });
 await cp(BUILD_PATHS.icons_source, BUILD_PATHS.icons_output, { recursive: true, force: true });
 await cp(BUILD_PATHS.images_source, BUILD_PATHS.images_output, { recursive: true, force: true });
+await cp(BUILD_PATHS.videos_source, BUILD_PATHS.videos_output, { recursive: true, force: true });
 await cp(BUILD_PATHS.brand_logo_source, BUILD_PATHS.brand_logo_output, { force: true });
 
 const css_result = sass.compile(BUILD_PATHS.scss_entry, {

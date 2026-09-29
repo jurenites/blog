@@ -70,7 +70,7 @@ function inlineDescriptionValues(source_content) {
   const description_entries = [];
 
   for (const source_line of source_content.split('\n')) {
-    const key_match = source_line.match(/^(\s*)([a-zA-Z0-9-]+):(?:\s+.*?)?\s+#\s+(.+)$/);
+    const key_match = source_line.match(/^(\s*)([a-zA-Z0-9.-]+):(?:\s+.*?)?\s+#\s+(.+)$/);
     const group_match = source_line.match(/^(\s*)([a-zA-Z0-9-]+):\s*$/);
     const matched_line = key_match || group_match;
     if (!matched_line) {
@@ -221,10 +221,45 @@ STDOUT.write(JSON.generate(data))
     throw new Error(result.stderr || `Failed to read token YAML at ${sourcePath}.`);
   }
 
-  return normalizeSourceSchema(JSON.parse(result.stdout), {
+  return normalizeSourceSchema(expand_token_paths(JSON.parse(result.stdout)), {
     source_content,
     inline_descriptions: inlineDescriptionValues(source_content),
   });
+}
+
+// Dot-path source keys keep related values together without renaming consumers.
+// Nested maps remain supported for existing tooling and migration comparisons.
+export function expand_token_paths(source_tree) {
+  const expanded_tree = {};
+  function insert_value(path_parts, source_value) {
+    if (source_value && typeof source_value === 'object' && !Array.isArray(source_value)) {
+      for (const [child_key, child_value] of Object.entries(source_value)) {
+        insert_value([...path_parts, ...child_key.split('.')], child_value);
+      }
+      return;
+    }
+    let parent_node = expanded_tree;
+    for (const path_part of path_parts.slice(0, -1)) {
+      if (!Object.hasOwn(parent_node, path_part)) {
+        parent_node[path_part] = {};
+      }
+      if (!parent_node[path_part] || typeof parent_node[path_part] !== 'object' || Array.isArray(parent_node[path_part])) {
+        throw new Error(`Conflicting token path: ${path_parts.join('.')}`);
+      }
+      parent_node = parent_node[path_part];
+    }
+    const leaf_key = path_parts.at(-1);
+    if (Object.hasOwn(parent_node, leaf_key)) {
+      throw new Error(`Duplicate or conflicting token path: ${path_parts.join('.')}`);
+    }
+    Object.defineProperty(parent_node, leaf_key, {
+      value: source_value, enumerable: true, configurable: true, writable: true,
+    });
+  }
+  for (const [source_key, source_value] of Object.entries(source_tree)) {
+    insert_value(source_key.split('.'), source_value);
+  }
+  return expanded_tree;
 }
 
 /**

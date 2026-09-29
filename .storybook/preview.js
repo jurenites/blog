@@ -1,3 +1,4 @@
+import { install_media_fallback } from './media-fallback.js';
 import { initialize_elapsed_times } from '../src/slice/src/js/elapsed-time.js';
 import { install_card_loading } from '../src/slice/src/js/card-loading.js';
 import { install_icon_sprite } from '../src/slice/src/js/icon-sprite.js';
@@ -27,6 +28,7 @@ import { initialize_game_of_life } from "../src/slice/src/js/game-of-life.js";
 
 void install_icon_sprite();
 install_card_loading();
+install_media_fallback();
 
 const PREVIEW_WATERMARK_ID = "storybook-preview-watermark";
 

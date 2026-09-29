@@ -13,16 +13,14 @@ const REPORT_ITEMS = [
   "Assessment of code quality and architecture",
   "Recommendations for improving conversion rates",
 ];
-const OFFER_HEADING = "Free";
-const OFFER_DESCRIPTION = "A website audit is completely free for all new clients.";
-const TURNAROUND_LABEL = "Turnaround time:";
-const BUSINESS_DAYS = 3;
+const OFFER_DESCRIPTION = '<h3>Free</h3><p>A website audit is completely free for all new clients.</p><p class="website-audit__turnaround">Turnaround time: <time class="website-audit__duration" datetime="P3D">3 business days</time></p>';
 const BUTTON_LABEL = "Order";
 const CONTACT_URL = "/contact";
 
 function render_story(story_args) {
   return render_template(audit_template, {
     ...Object.fromEntries(Object.entries(story_args).map(([argument_name, argument_value]) => [argument_name, escape_html(argument_value)])),
+    offer_description: story_args.offer_description,
     report_items: story_args.report_items.map((report_item) => `<li>${escape_html(report_item)}</li>`).join(""),
     order_button: button_link_markup({
       button_label: story_args.button_label,
@@ -42,10 +40,7 @@ export default {
     report_description: { control: "text" },
     report_heading: { control: "text" },
     report_items: { control: "object" },
-    offer_heading: { control: "text" },
     offer_description: { control: "text" },
-    turnaround_label: { control: "text" },
-    business_days: { control: { type: "number", min: 1, step: 1 } },
     button_label: { control: "text" },
     contact_url: { control: "text" },
   },
@@ -54,10 +49,7 @@ export default {
     report_description: REPORT_DESCRIPTION,
     report_heading: REPORT_HEADING,
     report_items: REPORT_ITEMS,
-    offer_heading: OFFER_HEADING,
     offer_description: OFFER_DESCRIPTION,
-    turnaround_label: TURNAROUND_LABEL,
-    business_days: BUSINESS_DAYS,
     button_label: BUTTON_LABEL,
     contact_url: CONTACT_URL,
   },

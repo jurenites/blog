@@ -113,13 +113,13 @@ function jurenites_roles_install(): void {
         $role_tile->set('parent_id', NULL)->set('parent_type', NULL)->set('parent_field_name', NULL);
         $role_tile->set('field_role_heading', $heading_values[0]);
         $role_tile->set('field_role_story', [
-          'value' => '<p>Your story as a ' . htmlspecialchars($heading_values[0]) . ' goes here.</p>', 'format' => 'basic_html',
+          'value' => '<p>Your story as a ' . htmlspecialchars($heading_values[0]) . ' goes here.</p>', 'format' => 'full_html',
         ]);
         if (\Drupal::languageManager()->getLanguage('ru')) {
           $translated_tile = $role_tile->hasTranslation('ru') ? $role_tile->getTranslation('ru') : $role_tile->addTranslation('ru');
           $translated_tile->set('field_role_heading', $heading_values[1]);
           $translated_tile->set('field_role_story', [
-            'value' => '<p>Здесь будет история об этой роли.</p>', 'format' => 'basic_html',
+            'value' => '<p>Здесь будет история об этой роли.</p>', 'format' => 'full_html',
           ]);
         }
         $role_tiles[] = $role_tile;

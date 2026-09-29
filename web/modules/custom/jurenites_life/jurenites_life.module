@@ -11,11 +11,11 @@ use Drupal\Core\Entity\EntityInterface;
 const JURENITES_LIFE_ARTICLE_UUID = 'b52ac74b-fd4b-4c2a-9225-84646d785adb';
 
 /**
- * Adds native table editing and the scoped live-example table to Basic HTML.
+ * Adds native table editing and the scoped live-example table to Full HTML.
  */
 function jurenites_life_configure_example_tables(): void {
-  $text_editor = \Drupal\editor\Entity\Editor::load('basic_html');
-  $text_format = \Drupal\filter\Entity\FilterFormat::load('basic_html');
+  $text_editor = \Drupal\editor\Entity\Editor::load('full_html');
+  $text_format = \Drupal\filter\Entity\FilterFormat::load('full_html');
   if (!$text_editor || $text_editor->getEditor() !== 'ckeditor5' || !$text_format) return;
   $editor_settings = $text_editor->getSettings();
   if (!in_array('insertTable', $editor_settings['toolbar']['items'], TRUE)) {
@@ -40,12 +40,12 @@ function jurenites_life_configure_example_tables(): void {
 }
 
 /**
- * Allows the reusable canvas in Basic HTML source editing, preserving settings.
+ * Allows the reusable canvas in Full HTML source editing, preserving settings.
  */
 function jurenites_life_configure_examples(): void {
   $canvas_markup = '<canvas class="game-of-life__canvas" data-user role="img" aria-label>';
-  $text_editor = \Drupal\editor\Entity\Editor::load('basic_html');
-  $text_format = \Drupal\filter\Entity\FilterFormat::load('basic_html');
+  $text_editor = \Drupal\editor\Entity\Editor::load('full_html');
+  $text_format = \Drupal\filter\Entity\FilterFormat::load('full_html');
   if (!$text_editor || $text_editor->getEditor() !== 'ckeditor5' || !$text_format) return;
 
   $editor_settings = $text_editor->getSettings();

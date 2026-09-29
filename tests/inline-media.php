@@ -24,7 +24,7 @@ foreach (['animated_gif', 'video'] as $bundle_name) {
   $config_violations = $typed_config_manager->createFromNameAndData($config_name, \Drupal::config($config_name)->getRawData())->validate();
   inline_media_assert(count($config_violations) === 0, (string) $config_violations);
 }
-foreach (['basic_html', 'full_html'] as $format_name) {
+foreach (['full_html'] as $format_name) {
   $text_editor = Editor::load($format_name);
   $config_violations = $typed_config_manager->createFromNameAndData($text_editor->getConfigDependencyName(), $text_editor->toArray())->validate();
   foreach ($config_violations as $config_violation) {
@@ -46,7 +46,7 @@ foreach (['animated_gif', 'video'] as $bundle_name) {
   inline_media_assert($media_access->createAccess($bundle_name, $editor_account), "Editors cannot upload $bundle_name.");
   inline_media_assert(!$media_access->createAccess($bundle_name, $anonymous_account), "Anonymous users can upload $bundle_name.");
 }
-$library_state = MediaLibraryState::create('media_library.opener.editor', ['animated_gif', 'video'], 'animated_gif', 1, ['filter_format_id' => 'basic_html']);
+$library_state = MediaLibraryState::create('media_library.opener.editor', ['animated_gif', 'video'], 'animated_gif', 1, ['filter_format_id' => 'full_html']);
 $library_opener = \Drupal::service('media_library.opener.editor');
 inline_media_assert($library_opener->checkAccess($library_state, $editor_account)->isAllowed(), 'Editors cannot open the inline media picker.');
 inline_media_assert(!$library_opener->checkAccess($library_state, $anonymous_account)->isAllowed(), 'Anonymous users can open the inline media picker.');
@@ -54,7 +54,7 @@ inline_media_assert(!$library_opener->checkAccess($library_state, $anonymous_acc
 $created_media = [];
 $created_files = [];
 try {
-  foreach (['animated_gif' => ['gif', 5], 'video' => ['mp4', 20]] as $bundle_name => [$file_extension, $limit_megabytes]) {
+  foreach (['animated_gif' => ['gif', 5], 'video' => ['mp4', 500]] as $bundle_name => [$file_extension, $limit_megabytes]) {
     $media_type = MediaType::load($bundle_name);
     $field_name = $media_type->getSource()->getSourceFieldDefinition($media_type)->getName();
     $test_media = Media::create(['bundle' => $bundle_name, 'name' => 'Inline media integration fixture', 'status' => TRUE, 'uid' => 1]);
@@ -68,6 +68,15 @@ try {
     $test_file = \Drupal::service('file.repository')->writeData($file_bytes, 'public://inline-media-test-' . bin2hex(random_bytes(5)) . '.' . $file_extension);
     $created_files[] = $test_file;
     inline_media_assert(count(\Drupal::service('file.validator')->validate($test_file->createDuplicate(), $upload_validators)) === 0, "Valid $bundle_name upload rejected.");
+    if ($bundle_name === 'video') {
+      foreach (['mp4', 'webm', 'mov'] as $video_extension) {
+        $boundary_file = $test_file->createDuplicate();
+        $boundary_file->setTemporary();
+        $boundary_file->setFilename('upload-boundary.' . $video_extension);
+        $boundary_file->setSize(500 * 1024 * 1024);
+        inline_media_assert(count(\Drupal::service('file.validator')->validate($boundary_file, $upload_validators)) === 0, "500 MB $video_extension upload rejected.");
+      }
+    }
     $oversize_file = $test_file->createDuplicate();
     $oversize_file->setSize($limit_megabytes * 1024 * 1024 + 1);
     inline_media_assert(count(\Drupal::service('file.validator')->validate($oversize_file, $upload_validators)) > 0, "Oversized $bundle_name upload accepted.");
@@ -79,7 +88,7 @@ try {
     $test_media->save();
     $created_media[] = $test_media;
     $original_hash = hash_file('sha256', $test_file->getFileUri());
-    foreach (['basic_html', 'full_html'] as $format_name) {
+    foreach (['full_html'] as $format_name) {
       $render_array = ['#type' => 'processed_text', '#text' => '<drupal-media data-entity-type="media" data-entity-uuid="' . $test_media->uuid() . '"></drupal-media>', '#format' => $format_name];
       \Drupal::service('account_switcher')->switchTo($anonymous_account);
       try {

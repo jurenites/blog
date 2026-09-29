@@ -33,7 +33,13 @@ export function template_tokens(source_text){
    if(source_text[source_index-1]!=='>')throw new Error('Unclosed HTML tag.');
    token_rows.push({token_type:'tag',token_text:source_text.slice(start_index,source_index)});continue;
   }
-  while(source_index<source_text.length&&source_text[source_index]!=='<'&&!source_text.startsWith('{#',source_index))source_index++;
+  while(source_index<source_text.length&&source_text[source_index]!=='<'&&!source_text.startsWith('{#',source_index)){
+   if(source_text.startsWith('{{',source_index)){
+    const expression_end=source_text.indexOf('}}',source_index+2);
+    if(expression_end<0)throw new Error('Unclosed Twig expression.');
+    source_index=expression_end+2;
+   }else source_index++;
+  }
   token_rows.push({token_type:'text',token_text:source_text.slice(start_index,source_index)});
  }
  return token_rows;

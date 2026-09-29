@@ -36,7 +36,7 @@ function jurenites_inline_media_configure(): void {
 
   foreach ([
     'animated_gif' => ['Animated GIF', 'image', 'gif', '5 MB'],
-    'video' => ['Video', 'video_file', 'mp4 webm', '20 MB'],
+    'video' => ['Video', 'video_file', 'mp4 webm mov', '500 MB'],
   ] as $bundle_name => [$media_label, $source_plugin, $file_extensions, $upload_limit]) {
     $media_type = MediaType::load($bundle_name);
     $new_media_type = $media_type === NULL;
@@ -46,7 +46,7 @@ function jurenites_inline_media_configure(): void {
         'label' => $media_label,
         'description' => $bundle_name === 'animated_gif'
           ? 'An animated GIF up to 5 MB, displayed without resizing the file.'
-          : 'An MP4 or WebM video up to 20 MB. Use H.264 MP4 for broad playback support.',
+          : 'An MP4, WebM or MOV video up to 500 MB. Use H.264 MP4 for broad playback support.',
         'source' => $source_plugin,
         'new_revision' => TRUE,
         'field_map' => ['name' => 'name'],
@@ -95,7 +95,7 @@ function jurenites_inline_media_configure(): void {
     }
   }
 
-  foreach (['basic_html', 'full_html'] as $format_name) {
+  foreach (['full_html'] as $format_name) {
     $text_editor = Editor::load($format_name);
     $text_format = FilterFormat::load($format_name);
     if ($text_editor === NULL || $text_format === NULL || $text_editor->getEditor() !== 'ckeditor5') {
@@ -132,7 +132,7 @@ function jurenites_inline_media_configure(): void {
 
   $editor_role = Role::load('content_editor');
   if ($editor_role !== NULL) {
-    foreach (['use text format basic_html', 'access media overview', 'view media', 'create animated_gif media', 'create video media', 'edit own animated_gif media', 'edit own video media'] as $permission_name) {
+    foreach (['use text format full_html', 'access media overview', 'view media', 'create animated_gif media', 'create video media', 'edit own animated_gif media', 'edit own video media'] as $permission_name) {
       $editor_role->grantPermission($permission_name);
     }
     $editor_role->save();

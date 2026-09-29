@@ -44,6 +44,10 @@ samp {
   font: var(--typography-machine-readable) !important;
 }
 
+.storybook-folder-label__count {
+  color: var(--theme-dark-text-gray);
+}
+
 input:not([role="switch"]),
 textarea,
 select {

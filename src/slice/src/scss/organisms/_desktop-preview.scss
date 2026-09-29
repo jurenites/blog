@@ -1,0 +1,39 @@
+// Wide desktop captures within otherwise readable project narratives.
+.layout-content:has(.desktop-preview) {
+  max-width: calc(var(--space-scale-base-gap) * 160);
+}
+
+.layout-container > main:has(.desktop-preview) {
+  padding-inline: calc(var(--space-scale-base-gap) * 3);
+}
+
+.project-detail:has(.desktop-preview) {
+  > :not(.project-detail__sections),
+  .project-story > div > :not(.desktop-preview),
+  .project-detail__sections > div > :not(.project-story, :has(.project-story)) {
+    width: 100%;
+    max-width: var(--layout-content-max-blog-default);
+    margin-inline: auto;
+  }
+}
+
+.desktop-preview {
+  margin: calc(var(--space-scale-base-gap) * 6) 0;
+
+  &__stage {
+    max-height: 75dvh;
+    overflow: auto;
+    background: var(--theme-dark-surface-background-elevation-level-1);
+
+    &:focus-visible {
+      outline: var(--shape-border-width-hairline-default) solid var(--theme-dark-action-primary-default);
+      outline-offset: var(--space-scale-base-gap);
+    }
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}

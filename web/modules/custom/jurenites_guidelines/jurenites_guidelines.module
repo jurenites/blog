@@ -24,13 +24,14 @@ function jurenites_guidelines_preprocess_node(array &$node_variables): void {
   $theme_path = \Drupal::service('extension.list.theme')->getPath('jurenites_theme');
 
   $node_variables['guideline_section'] = $guideline_section;
+  $node_variables['guideline_logo_source'] = 'web/' . $theme_path . '/logo.svg';
   $node_variables['guideline_logo_url'] = base_path() . $theme_path . '/logo.svg';
   $node_variables['guideline_summary'] = $guideline_summary_text === ''
     ? []
     : [
       '#type' => 'processed_text',
       '#text' => $guideline_summary_text,
-      '#format' => (string) ($body_item?->format ?? 'basic_html'),
+      '#format' => (string) ($body_item?->format ?? 'full_html'),
     ];
 
   if ($guideline_section === 'color') {

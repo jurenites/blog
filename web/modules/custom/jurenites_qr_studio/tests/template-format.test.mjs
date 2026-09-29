@@ -17,6 +17,13 @@ test('the QR Studio template survives both formatting directions',async()=>{
  const source_text=await readFile(new URL('../templates/qr-studio-document.html.twig',import.meta.url),'utf8');
  const compact_text=format_studio_template(source_text,'compact');
  assert.equal(format_studio_template(format_studio_template(compact_text,'expand'),'compact'),compact_text);
- assert.match(compact_text,/<span>QR <strong>/);
+ assert.match(compact_text,/<span>\{\{ 'QR'\|t \}\} <strong>/);
  for(const template_variable of ['favicon_url','placeholder_token','studio_url','website_url'])assert.ok(compact_text.includes(`{{ ${template_variable} }}`));
+});
+
+test('translated inline markup remains one intact Twig expression',()=>{
+ const source_text=`<p>{{ 'Each <code>?</code> is a character.'|t }}</p>\n`;
+ const expanded_text=format_studio_template(source_text,'expand');
+ assert.ok(expanded_text.includes("{{ 'Each <code>?</code> is a character.'|t }}"));
+ assert.equal(format_studio_template(expanded_text,'compact'),source_text);
 });

@@ -5,7 +5,7 @@ const SECTION_HEADING = 'Technology stack';
 const TECHNOLOGY_CATEGORIES = technology_categories;
 
 export default {
-  title: 'Organisms/Technology Stack',
+  title: 'Organisms/About/Technology Stack',
   tags: ['autodocs'],
   render: technology_stack_markup,
   args: { section_heading: SECTION_HEADING, technology_categories: TECHNOLOGY_CATEGORIES },

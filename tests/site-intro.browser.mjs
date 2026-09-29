@@ -37,7 +37,8 @@ try {
   await wait_for_intro();
   const intro_snapshot = await page_instance.evaluate(() => {
     const intro_animations = document.getAnimations().filter((animation_item) =>
-      animation_item.animationName?.startsWith('site-intro-'));
+      animation_item.animationName?.startsWith('site-intro-')
+      || animation_item.effect?.target?.matches?.('.site-header__brand-name-initial, .site-header__brand-name-letter'));
     for (const animation_item of intro_animations) {
       animation_item.pause();
       animation_item.currentTime = 700;
@@ -105,7 +106,8 @@ try {
   await mobile_page.waitForFunction(() => document.documentElement.dataset.siteIntro === 'running');
   await mobile_page.evaluate(() => {
     for (const animation_item of document.getAnimations()) {
-      if (animation_item.animationName?.startsWith('site-intro-')) {
+      if (animation_item.animationName?.startsWith('site-intro-')
+        || animation_item.effect?.target?.matches?.('.site-header__brand-name-initial, .site-header__brand-name-letter')) {
         animation_item.pause();
         animation_item.currentTime = 700;
       }
@@ -128,7 +130,8 @@ try {
   await mobile_page.waitForFunction(() => document.documentElement.dataset.siteIntro === 'running');
   await mobile_page.evaluate(() => {
     for (const animation_item of document.getAnimations()) {
-      if (animation_item.animationName?.startsWith('site-intro-')) {
+      if (animation_item.animationName?.startsWith('site-intro-')
+        || animation_item.effect?.target?.matches?.('.site-header__brand-name-initial, .site-header__brand-name-letter')) {
         animation_item.pause();
         animation_item.currentTime = 1900;
       }

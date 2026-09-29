@@ -11,6 +11,8 @@
 @use "base/global";
 @use "base/gin-navigation";
 @use "base/typography";
+@use "base/text-colors";
+@use "base/content-alignment";
 @use "atoms/heading-typing";
 
 @use "atoms/button";
@@ -30,11 +32,15 @@
 @use "atoms/select-input";
 @use "atoms/checkbox";
 @use "atoms/crossfade-dot";
+@use "molecules/square-pagination";
 @use "atoms/pulse-indicator";
 @use "atoms/icon";
 @use "atoms/two-tone-heading";
 
 @use "molecules/project-card";
+@use "molecules/dynamic-thumbnail";
+@use "molecules/card";
+@use "organisms/project-case-preview";
 @use "molecules/audit-comparison";
 @use "molecules/contact-me-widget";
 @use "molecules/article-teaser";
@@ -90,3 +96,6 @@
 
 @use "atoms/horizontal-scrollbar";
 @use "atoms/last-word-not-wrap";
+
+@use "organisms/accountia-showcase";
+@use "organisms/desktop-preview";

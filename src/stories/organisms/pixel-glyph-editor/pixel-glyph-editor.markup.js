@@ -18,8 +18,11 @@ function preview_cell_markup() {
   ).join("");
 }
 
-export function pixel_glyph_editor_markup({ component_id }) {
+export function pixel_glyph_editor_markup({ component_id, editor_heading, editor_instructions, grid_accessible_label }) {
   return render_template(pixel_glyph_editor_template, {
+    editor_heading: escape_html(editor_heading),
+    editor_instructions: escape_html(editor_instructions),
+    grid_accessible_label: escape_html(grid_accessible_label),
     cell_buttons: cell_button_markup(),
     component_id: escape_html(component_id),
     preview_cells: preview_cell_markup(),

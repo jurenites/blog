@@ -9,12 +9,12 @@
     {% for faq_item in faq_items %}
       <details class="faq__item"{% if loop.first %} open{% endif %}>
         <summary class="faq__question">
-          <span class="faq__question-number">Q.{{ loop.index }}?</span>
+          <span class="faq__question-number">{{ 'Q.@number?'|t({'@number': loop.index}) }}</span>
           <span class="faq__question-text">{{ faq_item.question_text }}</span>
           <span class="faq__toggle" aria-hidden="true"></span>
         </summary>
         <div class="faq__answer">
-          <span class="faq__answer-number">A.{{ loop.index }}!</span>
+          <span class="faq__answer-number">{{ 'A.@number!'|t({'@number': loop.index}) }}</span>
           <div class="faq__answer-body">{{ faq_item.answer_body }}</div>
         </div>
       </details>

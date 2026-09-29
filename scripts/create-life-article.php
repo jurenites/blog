@@ -60,14 +60,14 @@ try {
   $article_node = Node::create([
     'type' => 'article', 'uuid' => JURENITES_LIFE_ARTICLE_UUID, 'uid' => $author_account->id(),
     'langcode' => 'en', 'title' => $article_data['article_title'], 'status' => TRUE, 'promote' => FALSE,
-    'body' => ['value' => $article_body, 'summary' => $article_data['article_summary'], 'format' => 'basic_html'],
+    'body' => ['value' => $article_body, 'summary' => $article_data['article_summary'], 'format' => 'full_html'],
     'field_consumption_time_minutes' => (int) ceil(str_word_count(strip_tags($article_body)) / 200),
     'field_tags' => $tag_references, 'field_supporting_videos' => $video_references,
     'path' => ['alias' => $article_alias, 'pathauto' => FALSE],
   ]);
   $account_switcher = \Drupal::service('account_switcher');
   // Provision as the site administrator, while retaining Alexander's authorship.
-  // The author's restricted comment role does not grant Basic HTML editing.
+  // The author's restricted comment role does not grant Full HTML editing.
   $account_switcher->switchTo(User::load(1));
   try {
     $validation_errors = $article_node->validate();

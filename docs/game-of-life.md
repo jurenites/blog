@@ -16,7 +16,7 @@ node across alias changes and does not appear on unrelated Articles. It is a nod
 there is no separately placed site-wide block.
 
 Edit the Article Body through Drupal using an administrative account with
-Basic HTML or Full HTML access. The `alexander` account supplies the public attribution;
+Full HTML access. The `alexander` account supplies the public attribution;
 its existing restricted content-editor permissions are unchanged. The optional,
 repeatable **Supporting videos** field uses native Remote video Media and Media
 Library. Supporting videos do not change the Article content type. It remains
@@ -71,7 +71,7 @@ runs Conway's rules, with the currently hovered cell sustained by visitor input.
 
 ## Reusable live examples
 
-Place a standalone canvas in a template or in the Article Body using Basic HTML's
+Place a standalone canvas in a template or in the Article Body using Full HTML's
 **Source** button. No wrapper, pause button, or counter is required:
 
 ```html
@@ -113,7 +113,7 @@ own all displayed sizing, using the existing cell/border tokens and example
 defaults in `src/token/tokens.yaml`; JavaScript only sets intrinsic bitmap size.
 
 The module's `jurenites_life_update_11001()` update enables this exact canvas class,
-`data-user`, `role="img"`, and `aria-label` in Basic HTML and CKEditor source editing.
+`data-user`, `role="img"`, and `aria-label` in Full HTML and CKEditor source editing.
 Fresh installations configure the same support. Other editor settings and article
 copy are preserved. The editor is for authoring; the saved page runs the simulation.
 
@@ -129,7 +129,7 @@ Pattern terminology follows [Paul Callahan's introduction](https://www.math.com/
 the engine tests verify every authored preset's cycle on the finite wrapping board.
 
 The current local body uses Full HTML, which already supports native tables.
-`jurenites_life_update_11002()` also enables native table editing in Basic HTML,
+`jurenites_life_update_11002()` also enables native table editing in Full HTML,
 preserving the `game-of-life-examples` table class and row/column header scope.
 The reusable fragment works in either format.
 
@@ -158,7 +158,7 @@ the adjacent JSON file. Existing Drupal content is authoritative after creation.
 The generation command `node scripts/build-life-graphics.mjs` creates the SVG
 diagram masters from exact cell coordinates and generated design tokens. Pass
 an absolute `package.json` path for an existing Node runtime containing Sharp as
-its first argument to also regenerate the PNGs. PNGs are used in Basic HTML
+its first argument to also regenerate the PNGs. PNGs are used in Full HTML
 because Drupal's secure-image filter verifies raster dimensions with PHP.
 Run `npm run build:theme` afterwards to copy the image assets into the theme.
 

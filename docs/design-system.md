@@ -49,6 +49,49 @@ motion tokens and become instant with reduced motion.
 
 ### Dimension ownership
 
+The source uses one `dot.path: value` per token, grouped by section comments:
+colors (palette and theme/component mappings), typography, sizing,
+spacing (gaps, padding, offsets), shape, effects, motion, and layers.
+Section headings are comments, not namespaces. The builder expands dot paths
+into the existing token tree, preserving CSS variable names, JS records, Figma
+paths, aliases, and typography/breakpoint mixins. Inline comments explain only
+non-obvious decisions. Workflow and naming policy belong here and in `AGENTS.md`,
+not in token metadata.
+
+### Token simplification candidates
+
+Keep the theme contract to concrete visual values and meaningful aliases:
+palette values, semantic surface/text/action colors, font roles, shared sizes,
+spacing, borders, shadows, and motion. An alias is useful when it represents an
+independently adjustable design role, even if its current value matches another.
+Use the existing `space.scale.base-gap` with CSS `calc()` for grid multiples;
+do not add separate gap, margin, and padding scales with identical values.
+
+The final configuration section is retained for compatibility, not recommended
+as part of a minimal theme. Candidates for a separate migration:
+
+| Existing entries | Better owner |
+| --- | --- |
+| `component.date-time-value.*` locale, kind and format options | Date formatter configuration and Drupal language context |
+| Button style names and default; default variant/size/width selections | Component defaults and Storybook args |
+| `component.game-of-life.example-*` | Storybook demo constants |
+| Status/guideline preview dimensions and demonstration-only fonts | Local demo styling, after checking public guideline consumers |
+| Fixed SVG viewport values | Artwork contract, after updating the dimension checker and consumers |
+
+QR Studio owns its editable colors in
+`web/modules/custom/jurenites_qr_studio/ui/palette.css`. Its isolated document
+loads those CSS variables locally; they are not shared theme tokens.
+Layer ordering is visual infrastructure; consider a separate layer map only
+if it does not need theme overrides.
+
+Do not remove tokens solely because values match. For example, subtitle,
+caption, and compact body roles currently share metrics but express different
+uses. Likewise equal surface and component colors may need independent theming.
+Removal requires migrating every consumer, including dynamically constructed
+token names and Figma exports. The shared inventory excludes the 27 QR Studio colors; their local values remain unchanged.
+
+### Dimension usage
+
 Reuse existing tokens for reusable absolute dimensions in shared theme SCSS.
 The user defines the token inventory; additions require an explicit request.
 The editable values live in
@@ -141,6 +184,14 @@ Components are organised by Atomic Design and ITCSS layers:
 Storybook mirrors these levels: `Foundations`, `Atoms`, `Molecules`,
 `Organisms`, `Components`. Each component owns its story file; named exports cover useful scenarios and
 Controls expose property combinations. Navigation titles may add nested groups.
+Folder labels show the total number of descendant story components in darker
+parentheses, including nested groups. Each component counts once, regardless of
+its scenario variants or generated Docs page.
+Counts come from the Storybook manager index and remain visible when folders are collapsed.
+
+`Organisms/Cookie Policy Notice` uses a content-height Storybook preview with
+the notice in normal flow so the dialog is visible without a viewport-sized gap.
+The public site's fixed notice positioning is unchanged.
 
 Font Preview is a shared Storybook/Drupal organism selected through an
 allowlisted font identifier. Its initial HTML contains one editable preview input
@@ -180,6 +231,8 @@ same blank in-memory state; each button exposes its current state through
 vertically centered, and mirrors that state as a 16px 4×4 miniature after every
 change. The component has no separately titled Preview section or filled-cell
 counter. It does not persist, upload, or generate a font file.
+Storybook includes the editor inside the 4pixel Interactive Preview; it has no
+separate story.
 Both organisms keep normal geometry in SCSS and tokens, with no presentational
 sizing attributes in their initial markup.
 
@@ -294,6 +347,14 @@ Portfolio Project Card thumbnails use the same 105% zoom and 375ms transition
 on card hover or keyboard focus, with a smooth return on exit. The image stays
 clipped inside its 16:9 media frame, preserves the loader fade, and remains
 unscaled when reduced motion is enabled.
+The homepage's Latest articles cards stack one per row at 960px and below,
+using `system.breakpoint.article-grid-stack-max`. Each card fills the section's
+available width within the existing page gutters.
+Below 960px, teaser media has no maximum width and fills the card content width.
+At this breakpoint, the author identity and timing share a row when both fit.
+Otherwise the entire timing group moves to the next row, keeping its author-text
+indent; timing content can wrap only when it exceeds a full row on its own.
+
 The homepage's Latest articles and News block H2 headings use the dedicated
 `.homepage-block__heading` class, with `layout.content.max.wide.default` as their
 maximum width and automatic inline margins to align with the block content.
@@ -414,6 +475,14 @@ editable files in `src/public/assets/icons/`; the shared Twig Icon component
 renders only the requested icon branch, including one shared Figma geometry for all states.
 The whole icon catalog is not embedded in the HTML shell. Internal SVG IDs are
 scoped per instance so repeated icons cannot clash with the deferred sprite.
+
+The fixed cookie notice reserves its measured height at the end of the site
+footer, below the navigation bottom row. A resize observer keeps this space in
+sync with wrapping text and viewport changes. Both dismissal buttons slide the
+notice down while collapsing the reserved space with the existing medium motion
+duration; reduced-motion preferences close it immediately. Saved dismissals
+reserve no space. Runtime measurements live in a scoped stylesheet, without
+inline presentation attributes.
 
 The cookie notice close button is server-rendered with its cross geometry before
 the notice is revealed. Enhanced Select chevrons and the JavaScript fallback for
@@ -560,11 +629,19 @@ Drupal also reuses `#block-jurenites-theme-site-branding` for a first-visit intr
 on every themed entry route, including `/videos` and translated pages. A viewport
 canvas using the homepage's `component.hero-section.background-edge-color` reveals
 the existing white full name at 96px, vertically centered
-and aligned with the header's left text edge. Over two seconds, CSS fades the name
-in, moves it into the header, reduces it to 40px, collapses it to “AI,” and fades
+and aligned with the header's left text edge. Over two seconds, each character appears blurred and sharpens in sequence, then CSS
+moves the name into the header, reduces it to 40px, collapses it to “AI,” and fades
 the canvas away. The text keeps a stable 48px line box; narrow viewports fit the
 name with a viewport-relative font size before returning to the existing mobile
 menu. No text clone, new token, or inline presentation style is introduced.
+
+Storybook **Organisms/Loading Name** previews this same opening sequence without
+the daily storage gate. First name, last name, total duration, character duration,
+character stagger, and blur radius are editable, with a Replay animation button.
+The shared `loading-name.js` reveal uses Web Animations without inline styles,
+reusing the header blur and brand timing tokens in Drupal. Longer names or slower
+preview settings fit the reveal into the first 40% of the sequence so all letters
+sharpen before movement and collapse. Reduced motion skips the reveal.
 
 The independent head library makes the repeat-visit decision before first paint.
 `localStorage['jurenites.site-intro']` stores `{ loading: true, shown_at }`;
@@ -1059,7 +1136,12 @@ an image-derived average color with a restrained gradient skeleton, then
 crossfades to the completed image. The progressive-image behavior calculates
 the color automatically from Drupal's cached 20px inline derivative, so editors
 do not need to enter a HEX value for every upload. The default Storybook story
-also exposes the average color as a color control for visual tuning.
+also exposes the average color as a color control for visual tuning. Its image,
+GIF, and video examples use bundled assets, so they work without a Drupal host.
+The simulated delay and successful media load must both finish before reveal.
+Storybook retains an animated shadow placeholder for failed images and videos,
+restores the original media after a successful source change, and freezes the
+animation under reduced motion. Video examples use the bundled MP4 recording.
 
 If the final image fails to load, its frame retains the same average-color
 placeholder without the skeleton animation or loading line. Images without a
@@ -1140,6 +1222,10 @@ Single Directory Components library. See [Repository structure](repository-struc
 The `theme.scss` entrypoint configures relative font URLs. `npm run build:theme`
 builds public and CKEditor CSS, JavaScript, and deployable source assets.
 
+Timeline product website and app-store links open in a new tab with
+`target="_blank" rel="external"`. App-store links use the shared cyan external-link
+color and its hover/focus feedback.
+
 ## Button hover states
 
 Ghost buttons use the same gray hover background token as secondary buttons
@@ -1151,3 +1237,5 @@ Flattened token names are dash-separated and descriptive. Never use a lone
 generic word (`orange`, `size`, `card`). Pattern:
 `{layer}-{scope}-{part}-{property}-{state}`, e.g.
 `component-timeline-marker-size-active`, `theme-dark-action-primary-default`.
+
+Square Pagination is a reusable molecule built from Crossfade Dot markers. Its bottom-aligned squares use 8px for the active page, then 4px, 3px, and 2px with increasing distance; hover and keyboard focus add a 1px solid outline. Marker dimensions change immediately to retain whole-pixel square geometry. Screen Slider and the homepage project previews share its sizing, distance-based marker states, and bounded pagination window. The homepage replaces its legacy previous/count/next controls during enhancement, preserving CMS copy; scrolling, swiping, and track keyboard navigation synchronize the active marker. The homepage paginator is absolutely positioned outside the scrolling track, beneath the text column on desktop and mobile. Project copy reserves space for the controls; the paginator stays stationary while slides swipe. Ghost buttons with the shared chevron artwork sit at the left and right edges, vertically centered outside the scrolling track; their gutters protect the slide content on desktop and mobile. Its standalone Storybook example is under Molecules/Square Pagination.

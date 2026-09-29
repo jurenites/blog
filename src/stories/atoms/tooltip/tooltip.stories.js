@@ -2,8 +2,8 @@
 import { button_markup } from "../button/button.markup.js";
 import { token_value } from "../../foundations/token-values.js";
 
-const TOOLTIP_LABEL = "Additional information appears here when the text needs to wrap.";
-const BUTTON_LABEL = "Hover me";
+const TOOLTIP_LABEL = "Tooltip dispaly: Additional information appears here when the text needs to wrap.";
+const BUTTON_LABEL = "  ";
 const COLOR_VARIANT = token_value("component-tooltip-default-variant");
 const COLOR_VARIANT_OPTIONS = ["full-black", "black", "light-black"];
 

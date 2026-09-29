@@ -18,7 +18,7 @@ const EXPANDED_STORY = `<p>I care about ${expandable_term_markup({
 })}.</p>`;
 
 export default {
-  title: 'Organisms/Role Slider', tags: ['autodocs'],
+  title: 'Organisms/Section/Role Slider', tags: ['autodocs'],
   args: { role_items: ROLE_ITEMS, metric_items: METRIC_ITEMS },
   argTypes: { role_items: { control: 'object' }, metric_items: { control: 'object' } },
   render: (story_args) => numeric_values_markup({ numeric_items: story_args.metric_items, section_label: 'Experience in numbers' }) + role_slider_markup(story_args),

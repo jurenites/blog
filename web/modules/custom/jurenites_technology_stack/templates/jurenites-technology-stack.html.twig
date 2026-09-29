@@ -7,7 +7,7 @@
           {% for technology_data in group_data.technology_items %}
             <li class="technology-stack__item">
               <div class="technology-stack__tile" tabindex="0" role="group" aria-label="{{ technology_data.technology_name }}">
-                <span class="technology-stack__artwork" aria-hidden="true">
+                <span class="technology-stack__artwork technology-stack__artwork--{{ technology_data.technology_key }}" aria-hidden="true">
                   {% if technology_data.logo_file %}
                     <img class="technology-stack__logo technology-stack__logo--white" src="{{ asset_directory }}{{ technology_data.white_logo_file ?: technology_data.logo_file }}" alt="" loading="lazy" decoding="async">
                     <img class="technology-stack__logo technology-stack__logo--color" src="{{ asset_directory }}{{ technology_data.logo_file }}" alt="" loading="lazy" decoding="async">

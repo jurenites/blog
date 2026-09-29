@@ -5,7 +5,7 @@ const COMMENT_BODY = "This video made me think about how a small interface decis
 const COMMENT_CREATED_DATE = new Date(Date.now() - (40 * 60 * 1000)).toISOString();
 const COMMENT_PERMALINK_URL = "#comment-example";
 const AVATAR_INITIALS = "AI";
-const AVATAR_IMAGE_URL = "http://jurenites.local/sites/default/files/styles/thumbnail/public/pictures/2026-08/Alexander_ilivanpov_avatar_512.jpeg.webp?itok=666UO5aR";
+const AVATAR_IMAGE_URL = "/assets/images/storybook/alexander-avatar.jpeg";
 
 function render_story(story_args) {
   return comment_message_markup(story_args);

@@ -44,7 +44,7 @@ function render_numeric_values(story_args) {
 }
 
 export default {
-  title: "Molecules/Numeric Values",
+  title: "Molecules/About/Numeric Values",
   tags: ["autodocs"],
   render: render_numeric_values,
   parameters: {

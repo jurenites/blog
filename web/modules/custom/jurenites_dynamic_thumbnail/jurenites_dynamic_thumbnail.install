@@ -1,0 +1,33 @@
+<?php
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_dynamic_thumbnail_install(): void {
+  if (!FieldStorageConfig::loadByName('node', 'field_dynamic_thumbnail')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_dynamic_thumbnail', 'entity_type' => 'node',
+      'type' => 'file', 'cardinality' => 1,
+      'settings' => ['target_type' => 'file', 'uri_scheme' => 'public'],
+    ])->save();
+  }
+  foreach (['project', 'article'] as $bundle_name) {
+    if (!FieldConfig::loadByName('node', $bundle_name, 'field_dynamic_thumbnail')) {
+      FieldConfig::create([
+        'field_name' => 'field_dynamic_thumbnail', 'entity_type' => 'node',
+        'bundle' => $bundle_name, 'label' => 'Dynamic thumbnail',
+        'description' => \Drupal\jurenites_dynamic_thumbnail\ThumbnailSvg::UPLOAD_HELP,
+        'translatable' => TRUE,
+        'settings' => ['file_extensions' => 'svg', 'file_directory' => 'dynamic-thumbnails', 'max_filesize' => '5 MB', 'description_field' => FALSE],
+      ])->save();
+    }
+    $form_display = EntityFormDisplay::load('node.' . $bundle_name . '.default');
+    if ($form_display) {
+      $form_display->setComponent('field_dynamic_thumbnail', ['type' => 'file_generic', 'weight' => 2])->save();
+    }
+  }
+}

@@ -47,11 +47,6 @@
   padding: calc(var(--space-scale-base-gap) * 3);
   background: var(--theme-dark-surface-background-elevation-level-0);
   @include tools.motion-transition(background-color);
-
-  &:hover,
-  &:focus-within {
-    background-color: var(--theme-dark-surface-background-elevation-level-1);
-  }
   //border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
 }
 

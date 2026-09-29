@@ -1,3 +1,7 @@
+import { initialize_project_case_sliders } from './project-case-slider.js';
+import { initialize_accountia_showcases } from './accountia-showcase.js';
+import { initialize_dynamic_thumbnails, detach_dynamic_thumbnails } from './dynamic-thumbnail.js';
+import { initialize_cursor_cards, detach_cursor_cards } from './cursor-card.js';
 import { initialize_elapsed_times, detach_elapsed_times } from './elapsed-time.js';
 import { initialize_expandable_terms } from './expandable-term.js';
 import { initialize_checkboxes } from './checkbox.js';
@@ -849,7 +853,7 @@ export function initialize_tooltips(tooltip_context) {
 }
 
 const COOKIE_NOTICE_DISMISSED_KEY = 'jurenites-cookie-notice-dismissed-v2';
-const COOKIE_NOTICE_DISMISS_LABEL = 'Whatever';
+let cookie_notice_sequence = 0;
 
 export function initialize_cookie_policy_notice(cookie_policy_notice) {
   if (cookie_policy_notice.jurenites_cookie_policy_notice_initialized) {
@@ -866,7 +870,8 @@ export function initialize_cookie_policy_notice(cookie_policy_notice) {
     dismiss_button.className = 'button button--secondary cookie-policy-notice__dismiss';
     dismiss_button.type = 'button';
     dismiss_button.dataset.jurenitesCookiePolicyDismiss = '';
-    dismiss_button.textContent = COOKIE_NOTICE_DISMISS_LABEL;
+    dismiss_button.textContent = typeof Drupal !== 'undefined'
+      ? Drupal.t('Whatever') : 'Whatever';
     cookie_policy_notice.appendChild(dismiss_button);
   }
 
@@ -891,14 +896,52 @@ export function initialize_cookie_policy_notice(cookie_policy_notice) {
 
   cookie_policy_notice.hidden = false;
 
+  const notice_space = document.createElement('div');
+  notice_space.className = 'cookie-policy-notice-space';
+  notice_space.id = `cookie-policy-notice-space-${++cookie_notice_sequence}`;
+  notice_space.setAttribute('aria-hidden', 'true');
+  const notice_footer = cookie_policy_notice.closest('.site-footer');
+  (notice_footer || cookie_policy_notice.parentElement).appendChild(notice_space);
+
+  // Keep measured geometry in a stylesheet, never in presentation attributes.
+  const notice_stylesheet = document.createElement('style');
+  document.head.appendChild(notice_stylesheet);
+  notice_stylesheet.sheet.insertRule(`#${notice_space.id} {}`);
+  const notice_size_rule = notice_stylesheet.sheet.cssRules[0];
+  const update_notice_space = () => {
+    notice_size_rule.style.setProperty(
+      '--cookie-notice-measured-height',
+      `${cookie_policy_notice.getBoundingClientRect().height}px`,
+    );
+  };
+  update_notice_space();
+  const notice_observer = new ResizeObserver(update_notice_space);
+  notice_observer.observe(cookie_policy_notice);
+  let notice_closing = false;
+
   const dismiss_notice = () => {
+    if (notice_closing) return;
+    notice_closing = true;
+    notice_observer.disconnect();
     try {
       window.localStorage.setItem(COOKIE_NOTICE_DISMISSED_KEY, 'true');
     } catch (_storage_error) {
       // Dismiss for this page view even when the preference cannot be saved.
     }
 
-    cookie_policy_notice.hidden = true;
+    cookie_policy_notice.inert = true;
+    cookie_policy_notice.classList.add('cookie-policy-notice--closing');
+    notice_space.classList.add('cookie-policy-notice-space--closing');
+    const closing_animations = [
+      ...cookie_policy_notice.getAnimations(),
+      ...notice_space.getAnimations(),
+    ];
+    Promise.allSettled(closing_animations.map((notice_animation) => notice_animation.finished))
+      .then(() => {
+        cookie_policy_notice.hidden = true;
+        notice_space.remove();
+        notice_stylesheet.remove();
+      });
   };
 
   dismiss_button.addEventListener('click', dismiss_notice);
@@ -987,9 +1030,21 @@ if (typeof Drupal !== 'undefined') {
     },
   };
   Drupal.behaviors.jurenites_screen_slider = {
-    attach(page_context) { initialize_screen_sliders(page_context); },
+    attach(page_context) { initialize_screen_sliders(page_context); initialize_project_case_sliders(page_context); initialize_accountia_showcases(page_context); },
     detach(page_context, drupal_settings, detach_trigger) {
       if (detach_trigger === 'unload') detach_screen_sliders(page_context);
+    },
+  };
+  Drupal.behaviors.jurenites_dynamic_thumbnail = {
+    attach(thumbnail_context) { initialize_dynamic_thumbnails(thumbnail_context); },
+    detach(thumbnail_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_dynamic_thumbnails(thumbnail_context);
+    },
+  };
+  Drupal.behaviors.jurenites_cursor_card = {
+    attach(card_context) { initialize_cursor_cards(card_context); },
+    detach(card_context, drupal_settings, detach_trigger) {
+      if (detach_trigger === 'unload') detach_cursor_cards(card_context);
     },
   };
   Drupal.behaviors.jurenites_layered_scene = {

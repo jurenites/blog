@@ -120,7 +120,7 @@ function render_gallery_story() {
 }
 
 export default {
-  title: "Molecules/Project Card",
+  title: "Molecules/Porfolio/Project Card",
   tags: ["autodocs"],
   render: render_story,
   argTypes: {

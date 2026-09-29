@@ -203,6 +203,10 @@ for (const scan_directory of SCAN_DIRECTORIES) {
           .replace(relative_path === "src/slice/src/scss/organisms/_screen-slider.scss"
             ? /^\$screen-(?:width: 375|height: 667)px;/gm : /$^/g,
           (source_match) => " ".repeat(source_match.length))
+          // Owner-requested native screenshot widths plus the SVG phone case.
+          .replace(relative_path === "src/slice/src/scss/molecules/_card.scss"
+            ? /^\$phone-(?:modern-compact-width: 399|modern-large-width: 438|classic-compact-width: 419|classic-large-width: 458)px;/gm : /$^/g,
+          (source_match) => " ".repeat(source_match.length))
           // Two author-adjusted photograph coordinates, explicitly kept local.
           .replace(relative_path === "src/slice/src/scss/organisms/_hero-section.scss"
             ? /^\$hero-photo-(?:top|right)-offset:\s*\d+(?:\.\d+)?px;/gm : /$^/g,
@@ -220,7 +224,10 @@ for (const scan_directory of SCAN_DIRECTORIES) {
       for (const variable_match of source_content.matchAll(CSS_VARIABLE_PATTERN)) {
         const is_footer_paint = relative_path === 'src/slice/src/scss/organisms/_footer-navigation.scss'
           && footer_paint_variables.has(variable_match[1]);
-        if (!defined_variables.has(variable_match[1]) && !external_css_variables.has(variable_match[1]) && !is_footer_paint) {
+        // The cookie notice supplies measured geometry, not a design token.
+        const is_notice_measurement = relative_path === 'src/slice/src/scss/molecules/_cookie-policy-notice.scss'
+          && variable_match[1] === '--cookie-notice-measured-height';
+        if (!is_notice_measurement && !defined_variables.has(variable_match[1]) && !external_css_variables.has(variable_match[1]) && !is_footer_paint) {
           contract_errors.push(`${relative_path}: undefined token variable ${variable_match[1]}`);
         }
       }

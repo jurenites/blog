@@ -1,6 +1,7 @@
 import { timeline_markup } from "./timeline.markup.js";
 
 const TIMELINE_HEADING = "Timeline";
+const TIMELINE_COUNT_LABEL = "Commercial projects";
 const TIMELINE_INTRODUCTION = "Commercial projects ordered by when each engagement began.";
 const TIMELINE_CURRENT_DATE = "2026-09-07";
 const TIMELINE_ITEMS = [
@@ -13,6 +14,7 @@ const TIMELINE_ITEMS = [
     hours_worked: 160,
     item_summary: "Worked on SCSS accessibility, refined the mobile presentation, and upgraded Drupal core and contributed modules.",
     website_links: [{ url: "https://oksenate.gov/" }],
+    details_links: [{ url: "/portfolio/oksenate", label: "Read more" }],
   },
   {
     item_name: "Accountia",
@@ -27,12 +29,11 @@ const TIMELINE_ITEMS = [
     emphasis_kind: "featured",
     item_summary: "Led product design and frontend development for an accounting platform, its Angular interface, and its Storybook design system.",
     website_links: [{ url: "https://accountia.no/" }],
-    proof_links: [
-      { label: "Figma design", url: "https://www.figma.com/file/4K0S1h3hmZxDLHEXZpaYzU/Accountia" },
-    ],
+    details_links: [{ url: "/portfolio/accountia", label: "Read more" }],
   },
   {
     item_name: "ScatchApp",
+    details_links: [{ url: "/portfolio/scatchapp", label: "Read more" }],
     item_kind: "project",
     organization_name: "Thrive.io",
     organization_url: "https://thrive.io/",
@@ -45,10 +46,6 @@ const TIMELINE_ITEMS = [
     store_links: [
       { label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.scatch&hl=en" },
       { label: "App Store", url: "https://apps.apple.com/pl/app/scatch-app/id6747970607" },
-    ],
-    proof_links: [
-      { label: "Interactive wireframes", url: "https://app.moqups.com/ilFBpzYixG/view/page/a83744219" },
-      { label: "Wireframes PDF", url: "https://www.dropbox.com/s/7692ic3zpm6u2bk/Scatch_app.pdf?dl=0" },
     ],
   },
   {
@@ -101,11 +98,12 @@ function render_timeline_story(story_arguments) {
 }
 
 export default {
-  title: "Organisms/Timeline",
+  title: "Pages/Timeline",
   tags: ["autodocs"],
   render: render_timeline_story,
   args: {
     timeline_heading: TIMELINE_HEADING,
+    timeline_count_label: TIMELINE_COUNT_LABEL,
     timeline_introduction: TIMELINE_INTRODUCTION,
     timeline_items: TIMELINE_ITEMS,
     timeline_current_date: TIMELINE_CURRENT_DATE,

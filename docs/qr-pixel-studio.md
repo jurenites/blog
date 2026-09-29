@@ -6,12 +6,14 @@ The maintained application source is `web/modules/custom/jurenites_qr_studio/ui/
 
 ## Behavior
 
-- Fresh workspaces start with `HTTPS://?????.??` in Encoded Text, ready to search five name characters and a two-letter domain ending. The initial QR is a temporary preview, not a saved match. Existing saved projects retain their stored input.
+- Fresh workspaces start with `HTTPS://?????.*` in Encoded Text, ready to search five name characters and any ending from the selected domain set that fits the QR. The initial QR is a temporary preview, not a saved match. Existing saved projects retain their stored input.
 
 - Dropdown chevrons have a 12px right inset and reserved text padding, including the compact QR size selector.
 - One Encoded Text input updates fixed text immediately. Resizing/changing correction retries a differing draft, and reopening an outdated preview rebuilds it from the stored input when it fits, keeping hover mappings aligned with the workspace. Lowercase is accepted in complete text and search patterns, with exact fixed case preserved (including domain endings). Lowercase patterns use byte encoding and bounded random search; uppercase patterns retain the alphanumeric constraint solver. The caption explains that capitals use less QR space. `?` marks search positions; temporary preview values remain distinct from found matches.
+- Protect QR structure sits beside Expected, Grid, Locks, and Structure above the canvas, with its CMS-authored help below. Find next address in Check the result is the only generation button; for fixed text it becomes Update QR code. Fixed text still updates immediately as it is typed.
 - The toolbar labels are Draw (invert the touched pixel) and Lock (toggle its lock). The canvas title is hidden; the QR size selector remains visible.
 - Lock outlines are green when the actual cell matches the unpainted QR at the current mask, and red when it differs. This applies to both black and white locks, updates on regeneration, and works independently of the Expected overlay. Unlocked cells have no lock outline.
+- Domain endings defaults to Common registrar zones: COM, NET, ORG, INFO, BIZ, CO, ME, CC. This curated shortlist was checked against [Namecheap’s catalog](https://www.namecheap.com/domains/full-tld-list/) on 2026-09-28; it is not an official popularity ranking or an availability/price guarantee. Wildcard endings use only this set, so `.??` selects CO, ME, or CC and `.*` allows all eight, subject to QR capacity. All IANA zones restores the full list. Explicit endings remain unchanged. The selection is saved in browser storage and project JSON; older projects default to Common registrar zones without deleting saved matches. Previews, worker searches, and result acceptance use the selected set.
 - Website searches select the final hostname label from the bundled IANA delegated TLD list: `.??` matches two characters, `.???` three, `.????` four, and `.*` any length that fits the QR. Fixed endings and fixed characters in partial endings are preserved. The Name characters setting applies to free name positions, not the TLD. Preview values also use real endings. Browse matching domain endings lists candidates grouped by length, with the source version. Existing invalid saved website strings remain visible with a warning.
 - The editor preserves painted locks, scans the result locally, saves matching strings, and excludes them from subsequent searches. Search runs in a Web Worker.
 - Character inspection maps QR data groups to cells. Missing black cells appear gray in the Expected guide; altered cells are counted separately from successful error correction.
@@ -30,7 +32,7 @@ Browser storage belongs to each origin. To move work from `http://127.0.0.1:4179
 
 The app entry point is an unaggregated ES module. Its worker and logo URLs resolve against `import.meta.url`, so language prefixes, aliases, and installation subdirectories do not change their asset locations. Worker imports remain relative to the worker file. QR encoder and decoder libraries are bundled locally with their license notices. ESLint excludes `ui/vendor/` to preserve these upstream libraries; maintained application code remains covered by `npm run lint:js`.
 
-Editable colors are under `qr-studio.color` in `src/token/tokens.yaml`. Run `npm run build:qr-studio` to regenerate the module's `ui/palette.css`; the normal `build:tokens` script also runs this step. The module's stylesheet consumes these values without requiring the blog theme styles.
+Editable colors live directly in the module's `ui/palette.css` as local CSS custom properties. This stylesheet is attached only to the standalone `/qr-studio` document, before `ui/styles.css`. These values are excluded from the shared token source, generated theme variables, and Figma token exports. No palette build is needed; `npm run build:qr-studio` builds only the font asset.
 
 ## TLD snapshot
 

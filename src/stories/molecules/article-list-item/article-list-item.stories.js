@@ -1,7 +1,7 @@
 import { article_list_item_markup } from "./article-list-item.markup.js";
 
 const ARTICLE_URL = "#";
-const THUMBNAIL_URL = "http://jurenites.local/sites/default/files/styles/medium/public/2026-08/DSC_0001.JPG.webp?itok=3HPjYrtX";
+const THUMBNAIL_URL = "/assets/images/storybook/dsc_0001.webp";
 const THUMBNAIL_ALT = "Uploaded article photograph";
 const TEASER_TITLE = "Rewinding an Interface Through Time";
 const TEASER_EXCERPT = "How a time-slider concept turned into a repeatable design process.";

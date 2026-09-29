@@ -1,3 +1,5 @@
+import { update_square_pagination } from './square-pagination.js';
+
 const SLIDER_INSTANCES = new WeakMap();
 const SCREEN_DURATION = 8000;
 
@@ -52,14 +54,7 @@ export function initialize_screen_sliders(page_context = document) {
       const next_index = Math.floor(normalized_time(Number(track_animation.currentTime) || 0) / SCREEN_DURATION + 0.5) % screen_count;
       if (next_index === current_index) return;
       current_index = next_index;
-      // Keep a bounded filename-ordered window, including at both ends of the sequence.
-      const first_index = Math.max(0, Math.min(current_index - 4, screen_count - 9));
-      dot_elements.forEach((dot_element, dot_index) => {
-        dot_element.hidden = screen_count > 10 && (dot_index < first_index || dot_index >= first_index + 9);
-        dot_element.dataset.dotDistance = String(Math.min(4, Math.abs(dot_index - current_index)));
-        dot_element.classList.toggle('is-active', dot_index === current_index);
-        dot_element.setAttribute('aria-pressed', String(dot_index === current_index));
-      });
+      update_square_pagination(dot_elements, current_index);
       count_element.textContent = `${current_index + 1} / ${screen_count}`;
       // Warm the next screens before they enter the continuously moving viewport.
       for (let ahead_index = 0; ahead_index < Math.ceil(viewport_element.clientWidth / screen_stride) + 2; ahead_index += 1) {

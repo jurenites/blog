@@ -142,14 +142,14 @@ form/view display configuration are deliberately introduced.
 
 ## Media Upload Limit
 
-Drupal Image media accepts files up to 200 MB. The runtime allows 210 MB for the
-complete multipart request so a 200 MB file still has room for form overhead:
+Drupal Image media accepts files up to 200 MB. Video media accepts MP4, WebM and MOV files up to 500 MB. The runtime allows
+510 MB for the complete multipart request, including form overhead:
 
 - Drupal Image field: `200 MB`.
-- PHP `upload_max_filesize`: `200M`.
-- PHP `post_max_size`: `210M`.
-- Nginx `client_max_body_size`: `210m`.
-- Apache `LimitRequestBody`: `220200960` bytes (210 MiB).
+- PHP `upload_max_filesize`: `500M`.
+- PHP `post_max_size`: `510M`.
+- Nginx `client_max_body_size`: `510m`.
+- Apache `LimitRequestBody`: `534773760` bytes (510 MiB).
 
 These values are defined in the media recipe and under `docker/`. Rebuild and
 restart the web/proxy containers after changing them. Remote YouTube media stores

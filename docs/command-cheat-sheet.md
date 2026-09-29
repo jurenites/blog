@@ -25,9 +25,7 @@ curl --fail -I http://jurenites.local/
 curl --fail -I http://storybook.jurenites.local/
 ```
 
-If the local proxy is unavailable, check Drupal from inside its container with
-`curl --fail -I -H 'Host: jurenites.local' http://127.0.0.1/` through `docker exec`.
-That checks Drupal separately from host routing.
+If the local proxy is unavailable, check Drupal from inside its container with `curl --fail -I -H 'Host: jurenites.local' http://127.0.0.1/` through `docker exec`. That checks Drupal separately from host routing.
 
 Useful independent commands:
 
@@ -41,22 +39,13 @@ npm run version:check
 ```
 
 `npm run version:bump` increments the minor version. Use
-`npm run version:bump -- patch` for a correction or `-- major` for an incompatible
-change. Rebuild Storybook after a version change before checking its embedded
-identity. `npm run build:info` refreshes metadata only; it does not rebuild stale
-application code.
+`npm run version:bump -- patch` for a correction or `-- major` for an incompatible change. Rebuild Storybook after a version change before checking its embedded identity. `npm run build:info` refreshes metadata only; it does not rebuild stale application code.
 
 ### Dependency and database updates
 
-Resolve dependency changes in DEV and deploy the reviewed `composer.lock` with
-`composer install` in PROD. `composer.lock` records resolved versions; do not
-use an old update report in this runbook as evidence of current patch status.
-The local Dockerfile uses Drupal's PHP 8.4 Apache image; the documented shared
-host commands explicitly select PHP 8.3.
+Resolve dependency changes in DEV and deploy the reviewed `composer.lock` with `composer install` in PROD. `composer.lock` records resolved versions; do not use an old update report in this runbook as evidence of current patch status. The local Dockerfile uses Drupal's PHP 8.4 Apache image; the documented shared host commands explicitly select PHP 8.3.
 
-Save `composer.json`, `composer.lock`, and a compressed database backup outside
-`web/` before updating. Check pending hooks first because `updatedb` also applies
-custom-module content and configuration migrations.
+Save `composer.json`, `composer.lock`, and a compressed database backup outside `web/` before updating. Check pending hooks first because `updatedb` also applies custom-module content and configuration migrations.
 
 ```bash
 docker exec blog_jurenites_web ./vendor/bin/drush updatedb:status
@@ -83,44 +72,41 @@ For example:
 docker exec blog_jurenites_web ./vendor/bin/drush recipe /opt/drupal/recipes/jurenites_media
 ```
 
+
+
 ### Artwork and Git
 
-`output/ceramic-logo/.gitignore` keeps generated renders, reports, Blender
-backups, and Python caches local. Preserve editable scenes and source artwork.
-For already tracked generated files, a reviewed `git rm --cached` removes only
-the index entry and keeps the working file. Review the staged diff before
-committing. A cleanup commit does not remove historical blobs; rewriting
-published history is a separate coordinated operation.
+`output/ceramic-logo/.gitignore` keeps generated renders, reports, Blender backups, and Python caches local. Preserve editable scenes and source artwork. For already tracked generated files, a reviewed `git rm --cached` removes only the index entry and keeps the working file. Review the staged diff before committing. A cleanup commit does not remove historical blobs; rewriting published history is a separate coordinated operation.
 
 ## DEV to PROD content restore
 
-Use this procedure only for an intentional replacement of PROD content with a
-DEV snapshot. Ordinary production code updates do not require a database import.
-A restore replaces content, users, submissions, and active configuration; public
-files transfer separately. Keep the target environment's settings and secrets.
+Use this procedure only for an intentional replacement of PROD content with a DEV snapshot. Ordinary production code updates do not require a database import. A restore replaces content, users, submissions, and active configuration; public files transfer separately. Keep the target environment's settings and secrets.
 
 Before starting:
 
 1. Review and commit the intended code and generated assets. Push the chosen
-   branch, review its pull request and CI results, and merge to `main` through
+  branch, review its pull request and CI results, and merge to `main` through
    the project's normal review process. Do not stage unrelated work blindly.
 2. Record the intended release commit and confirm the exported DEV database
-   matches that code's schema. Reconcile divergent branches before deployment;
+  matches that code's schema. Reconcile divergent branches before deployment;
    do not force-reset an existing production checkout to resolve them.
 3. Back up the current PROD database and public files outside the public web
-   root, and retain the matching old code for rollback.
+  root, and retain the matching old code for rollback.
 4. Put PROD in maintenance mode for the restore window. Deploy the matching
-   code and install locked dependencies before importing the database. An
+  code and install locked dependencies before importing the database. An
    imported DEV database can replace maintenance configuration, so retain
    maintenance access control through the complete restore.
 5. Export and validate the DEV archives below, import the database, restore
-   public files, run database updates, clear cache, and verify the site before
+  public files, run database updates, clear cache, and verify the site before
    reopening it. Roll back code, database, and files together if needed.
+
+
 
 ### Step 1: Export DEV database and public files
 
 Run on local macOS from the project root. Each timestamp creates a new export
-folder. Keep the original MariaDB dump as well as the MySQL-compatible copy.
+folder containing the MySQL-compatible database dump and public-files archive
+used by this procedure.
 
 ```bash
 cd /Users/alexanderilivanov/Projects/blog_jurenites
@@ -128,7 +114,6 @@ set -o pipefail
 
 EXPORT_TIMESTAMP="$(date +%Y-%m-%d-%H%M%S)"
 EXPORT_DIRECTORY_PATH="$HOME/Downloads/blog_jurenites-export-${EXPORT_TIMESTAMP}"
-SOURCE_SQL_ARCHIVE_PATH="$EXPORT_DIRECTORY_PATH/blog_jurenites-dev-original-${EXPORT_TIMESTAMP}.sql.gz"
 SQL_ARCHIVE_PATH="$EXPORT_DIRECTORY_PATH/blog_jurenites-dev-mysql8-${EXPORT_TIMESTAMP}.sql.gz"
 PUBLIC_FILES_ARCHIVE_PATH="$EXPORT_DIRECTORY_PATH/blog_jurenites-public-files-dev-${EXPORT_TIMESTAMP}.tar.gz"
 
@@ -143,10 +128,6 @@ docker exec -e MYSQL_PWD=drupal blog_jurenites_db mariadb-dump \
   --default-character-set=utf8mb4 \
   --no-tablespaces \
   drupal \
-  | gzip -9 > "$SOURCE_SQL_ARCHIVE_PATH"
-
-gzip -t "$SOURCE_SQL_ARCHIVE_PATH"
-gzip -dc "$SOURCE_SQL_ARCHIVE_PATH" \
   | LC_ALL=C sed 's/utf8mb4_uca1400_ai_ci/utf8mb4_unicode_ci/g' \
   | gzip -9 > "$SQL_ARCHIVE_PATH"
 
@@ -173,7 +154,7 @@ gzip -t "$PUBLIC_FILES_ARCHIVE_PATH"
 gzip -dc "$SQL_ARCHIVE_PATH" | rg -c '^CREATE TABLE'
 gzip -dc "$SQL_ARCHIVE_PATH" | rg 'utf8mb4_uca1400_ai_ci|^CREATE DATABASE|^USE '
 tar -tzf "$PUBLIC_FILES_ARCHIVE_PATH" | sed -n '1,30p'
-shasum -a 256 "$SOURCE_SQL_ARCHIVE_PATH" "$SQL_ARCHIVE_PATH" "$PUBLIC_FILES_ARCHIVE_PATH"
+shasum -a 256 "$SQL_ARCHIVE_PATH" "$PUBLIC_FILES_ARCHIVE_PATH"
 open "$EXPORT_DIRECTORY_PATH"
 ```
 
@@ -181,11 +162,12 @@ The collation/database search must print nothing. The archive listing must start
 
 ### Step 2: Prepare PROD code and upload archives
 
-Sign in to [ISPmanager](https://server290.hosting.reg.ru:1500) using private
-credentials and the account's second factor. In its shell, verify the checkout:
+Sign in to [ISPmanager](https://server290.hosting.reg.ru:1500) using private credentials and the account's second factor. In its shell, verify the checkout:
 
 ```bash
-cd /var/www/u3614358/data/apps/blog_jurenites
+PROD_DOCUMENT_ROOT="/var/www/u3614358/data/www/jurenites.com"
+cd "$PROD_DOCUMENT_ROOT"
+test "$(pwd -P)" = "$PROD_DOCUMENT_ROOT" || exit 1
 pwd -P
 git status --short
 git branch --show-current
@@ -200,49 +182,68 @@ git pull --ff-only origin main
 /opt/php/8.3/bin/php /var/www/u3614358/data/bin/composer install --no-dev --optimize-autoloader
 ```
 
-Use File Manager to upload the verified public-files archive to
-`/var/www/u3614358/data/backups/incoming/`. Never place database dumps or backup
-archives below a public website directory.
+Use File Manager to upload the verified public-files archive to `/var/www/u3614358/data/backups/incoming/`. Never place database dumps or backup archives below a public website directory.
 
 ### Step 3: Import the database
 
-Open phpMyAdmin through ISPmanager. Select the target database and verify its
-name against the target Drupal configuration. Confirm the current compressed
-backup has been exported and downloaded, then use Import to load the
-`blog_jurenites-dev-mysql8-<timestamp>.sql.gz` file created in Step 1.
-Keep the original MariaDB archive for rollback or investigation.
+Open phpMyAdmin through ISPmanager. Select the target database and verify its name against the target Drupal configuration. Confirm the current compressed backup has been exported and downloaded, then use Import to load the `blog_jurenites-dev-mysql8-<timestamp>.sql.gz` file created in Step 1.
 
 ### Step 4: Restore public files
 
-Set the exact uploaded filename below. The placeholder intentionally names no
-real release. Extraction happens in staging; the current files are retained as
-rollback data. If a move fails, restore the saved directory before continuing.
+Set the exact uploaded filename below. Extraction runs into staging with a byte-based progress bar when `pv` is installed; archive names are not printed. A rollback copy is kept under the account-writable `data/apps` directory. The live `default` directory may be read-only, so the command saves and restores its mode while swapping the files directory.
 
 ```bash
-cd /var/www/u3614358/data/apps/blog_jurenites
+PROD_DOCUMENT_ROOT="/var/www/u3614358/data/www/jurenites.com"
+cd "$PROD_DOCUMENT_ROOT"
+test "$(pwd -P)" = "$PROD_DOCUMENT_ROOT" || exit 1
 
 RESTORE_TIMESTAMP="$(date +%Y-%m-%d-%H%M%S)"
-PUBLIC_FILES_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/REPLACE-WITH-UPLOADED-PUBLIC-FILES.tar.gz"
-FILES_BACKUP_DIRECTORY="/var/www/u3614358/data/backups/files-before-dev-restore-${RESTORE_TIMESTAMP}"
+PUBLIC_FILES_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/blog_jurenites-public-files-dev-2026-09-23-231205.tar.gz"
+FILES_BACKUP_DIRECTORY="/var/www/u3614358/data/apps/files-before-dev-restore-${RESTORE_TIMESTAMP}"
 FILES_STAGING_DIRECTORY="/var/www/u3614358/data/apps/files-restore-${RESTORE_TIMESTAMP}"
+LIVE_FILES_DIRECTORY="$PROD_DOCUMENT_ROOT/web/sites/default/files"
+LIVE_FILES_PARENT="$PROD_DOCUMENT_ROOT/web/sites/default"
+LIVE_FILES_PARENT_MODE="$(stat -c '%a' "$LIVE_FILES_PARENT")"
 
 if test -f "$PUBLIC_FILES_ARCHIVE_PATH" && \
-  tar -tzf "$PUBLIC_FILES_ARCHIVE_PATH" | sed -n '1,30p' && \
   mkdir -p "$FILES_BACKUP_DIRECTORY" "$FILES_STAGING_DIRECTORY" && \
-  tar --no-same-owner --exclude='._*' --exclude='*/._*' \
-    -xzf "$PUBLIC_FILES_ARCHIVE_PATH" \
-    -C "$FILES_STAGING_DIRECTORY" && \
-  test -f "$FILES_STAGING_DIRECTORY/files/.htaccess"; then
-  mv web/sites/default/files "$FILES_BACKUP_DIRECTORY/files" && \
-  mv "$FILES_STAGING_DIRECTORY/files" web/sites/default/files && \
-  find web/sites/default/files -type d -exec chmod 755 {} + && \
-  find web/sites/default/files -type f -exec chmod 644 {} + && \
-  /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr && \
-  find web/sites/default/files -type f | wc -l
+  tar --warning=no-unknown-keyword -tzf "$PUBLIC_FILES_ARCHIVE_PATH" >/dev/null && \
+  { if command -v pv >/dev/null 2>&1; then
+      pv --progress --timer --eta --rate --bytes "$PUBLIC_FILES_ARCHIVE_PATH" \
+        | tar --warning=no-unknown-keyword --no-same-owner -xzf - -C "$FILES_STAGING_DIRECTORY"
+    else
+      echo "Extracting public files (install pv to show percentage progress)..."
+      tar --warning=no-unknown-keyword --no-same-owner -xzf "$PUBLIC_FILES_ARCHIVE_PATH" -C "$FILES_STAGING_DIRECTORY"
+    fi; } && \
+  test -f "$FILES_STAGING_DIRECTORY/files/.htaccess" && \
+  test -d "$FILES_STAGING_DIRECTORY/files/youtube-thumbnails" && \
+  test -f "$FILES_STAGING_DIRECTORY/files/youtube-thumbnails/neE6wOuBIP8.jpg"; then
+  chmod u+w "$LIVE_FILES_PARENT" && \
+  if mv "$LIVE_FILES_DIRECTORY" "$FILES_BACKUP_DIRECTORY/files"; then
+    if mv "$FILES_STAGING_DIRECTORY/files" "$LIVE_FILES_DIRECTORY"; then
+      chmod "$LIVE_FILES_PARENT_MODE" "$LIVE_FILES_PARENT" && \
+      find "$LIVE_FILES_DIRECTORY" -type d -exec chmod 755 {} + && \
+      find "$LIVE_FILES_DIRECTORY" -type f -exec chmod 644 {} + && \
+      test -f "$LIVE_FILES_DIRECTORY/.htaccess" && \
+      test -f "$LIVE_FILES_DIRECTORY/youtube-thumbnails/neE6wOuBIP8.jpg" && \
+      echo "Public files restored. Verifying Drupal cache..." && \
+      /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com cr && \
+      echo "Restored file count:" && find "$LIVE_FILES_DIRECTORY" -type f | wc -l
+    else
+      mv "$FILES_BACKUP_DIRECTORY/files" "$LIVE_FILES_DIRECTORY"
+      chmod "$LIVE_FILES_PARENT_MODE" "$LIVE_FILES_PARENT"
+      echo "ABORTED: new files could not be installed; the previous files directory was restored."
+    fi
+  else
+    chmod "$LIVE_FILES_PARENT_MODE" "$LIVE_FILES_PARENT"
+    echo "ABORTED: could not move the existing files directory; it was left in place."
+  fi
 else
-  echo "ABORTED: archive or staged files failed validation; live files were not moved."
+  echo "ABORTED: archive or staged files failed validation; live files were not changed."
 fi
 ```
+
+
 
 ### Step 5: Update, verify, and reopen PROD
 
@@ -252,11 +253,7 @@ fi
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com status
 ```
 
-Confirm database connectivity and successful Drupal bootstrap. Check English
-and translated routes, login, images, avatars, thumbnails, release identity,
-mail settings, and environment-specific menu destinations. Drupal regenerates
-excluded CSS, JS, and image-style derivatives on demand. Disable maintenance
-mode after verification and retain rollback data for the agreed review period.
+Confirm database connectivity and successful Drupal bootstrap. Check English and translated routes, login, images, avatars, thumbnails, release identity, mail settings, and environment-specific menu destinations. Drupal regenerates excluded CSS, JS, and image-style derivatives on demand when their original files are present. Disable maintenance mode after verification and retain rollback data for the agreed review period.
 
 ## Deploy static Storybook to PROD
 
@@ -372,13 +369,7 @@ test -f /var/www/u3614358/data/apps/blog_jurenites/storybook-static/index.html \
 
 ## PROD checks and code-only updates
 
-The documented real checkout is `/var/www/u3614358/data/www/jurenites.com`, with
-`/var/www/u3614358/data/apps/blog_jurenites` as a compatibility symlink. The
-Drupal public root must resolve to the checkout's `web/`, not the repository
-root. Verify `pwd -P` and ISPmanager's document-root configuration before relying
-on either path. The Storybook subdomain must serve the installed
-`storybook-static/` directory; installing an archive alone does not configure
-its DNS, HTTPS, or document root.
+The documented real checkout is `/var/www/u3614358/data/www/jurenites.com`, with `/var/www/u3614358/data/apps/blog_jurenites` as a compatibility symlink. The Drupal public root must resolve to the checkout's `web/`, not the repository root. Verify `pwd -P` and ISPmanager's document-root configuration before relying on either path. The Storybook subdomain must serve the installed `storybook-static/` directory; installing an archive alone does not configure its DNS, HTTPS, or document root.
 
 For a code-only update, retain PROD's database, uploaded files, `.env`, and
 `settings.php`. Back up before pending database migrations. From a clean,
@@ -411,29 +402,15 @@ certificate status separately; local files cannot establish TLS health.
 
 ### Analytics and environment configuration
 
-Google Tag configuration lives in the environment's Drupal database. A complete
-database restore transfers it; a code-only deployment does not. Inspect the
-container and actual measurement destination before and after a restore rather
-than relying on an old identifier copied into documentation. Preserve DEV's
-local tracking suppression and PROD's own settings overrides. Do not copy
-settings files or secrets between environments.
+Google Tag configuration lives in the environment's Drupal database. A complete database restore transfers it; a code-only deployment does not. Inspect the container and actual measurement destination before and after a restore rather than relying on an old identifier copied into documentation. Preserve DEV's local tracking suppression and PROD's own settings overrides. Do not copy settings files or secrets between environments.
 
-Verify public tag output and Analytics reception in a browser profile whose
-extensions do not block the intended test. Tag presence alone does not establish
-reception. Google Tag gateway configuration is not established by this runbook.
+Verify public tag output and Analytics reception in a browser profile whose extensions do not block the intended test. Tag presence alone does not establish reception. Google Tag gateway configuration is not established by this runbook.
 
 #### Microsoft Clarity
 
-`drupal/ms_clarity` provides the editable Clarity project ID, page exclusions,
-and role selection at **Configuration → Web services → Microsoft Clarity**
-(`/admin/config/services/microsoft_clarity`). It inserts the asynchronous Clarity
-snippet into the HTML head. Do not add a second copy in Twig or Google Tag Manager.
+`drupal/ms_clarity` provides the editable Clarity project ID, page exclusions, and role selection at **Configuration → Web services → Microsoft Clarity** (`/admin/config/services/microsoft_clarity`). It inserts the asynchronous Clarity snippet into the HTML head. Do not add a second copy in Twig or Google Tag Manager.
 
-The local installation tracks anonymous visitors only, excluding `/admin`,
-`/admin/*`, `/user`, `/user/*`, `/node/add`, `/node/add/*`, and `/node/*/edit`.
-The ID and visibility settings are stored in `ms_clarity.settings` in each
-environment's database. A code-only deployment requires enabling and configuring
-the module in that environment:
+The local installation tracks anonymous visitors only, excluding `/admin`, `/admin/*`, `/user`, `/user/*`, `/node/add`, `/node/add/*`, and `/node/*/edit`. The ID and visibility settings are stored in `ms_clarity.settings` in each environment's database. A code-only deployment requires enabling and configuring the module in that environment:
 
 ```bash
 composer install
@@ -443,34 +420,23 @@ vendor/bin/drush cr
 ```
 
 Version 2.0.1 needs the tracked
-`patches/ms-clarity-drupal-11-settings-cache.patch`: it fixes the Drupal 11
-settings-form constructor and removed role-list function, and adds cache metadata
-for configuration changes and page/role visibility. Composer Patches applies the locked patch during install;
-ship `patches/` and `patches.lock.json` with the Composer manifests. Reassess the
-patch when upgrading the module.
+`patches/ms-clarity-drupal-11-settings-cache.patch`: it fixes the Drupal 11 settings-form constructor and removed role-list function, and adds cache metadata for configuration changes and page/role visibility. Composer Patches applies the locked patch during install; ship `patches/` and `patches.lock.json` with the Composer manifests. Reassess the patch when upgrading the module.
 
-Verify the local settings form, anonymous-only role selection, cache metadata,
-and English/Russian HTML head output without sending browser telemetry:
+Verify the local settings form, anonymous-only role selection, cache metadata, and English/Russian HTML head output without sending browser telemetry:
 
 ```bash
 docker exec blog_jurenites_web vendor/bin/drush php:script tests/clarity-integration.php
 ```
 
-The existing privacy module's starter copy claims there is no analytics. Review
-the editable privacy page and cookie notice before production activation. This
-module supplies tracking configuration, not a visitor consent interface.
+The existing privacy module's starter copy claims there is no analytics. Review the editable privacy page and cookie notice before production activation. This module supplies tracking configuration, not a visitor consent interface.
 
 ### Release identity
 
-Drupal reads its checked-out commit and the tracked release record without
-writing host metadata:
+Drupal reads its checked-out commit and the tracked release record without writing host metadata:
 
 ```bash
 git rev-parse --short=7 HEAD
 cat web/themes/custom/jurenites_theme/release-info.json
 ```
 
-Compare these with the visible watermark and the public non-secret
-`/themes/custom/jurenites_theme/release-info.json`. Storybook embeds identity at
-build time and must be checked against its own deployed artifact. Local checks,
-a branch push, or archive creation do not establish remote deployment.
+Compare these with the visible watermark and the public non-secret `/themes/custom/jurenites_theme/release-info.json`. Storybook embeds identity at build time and must be checked against its own deployed artifact. Local checks, a branch push, or archive creation do not establish remote deployment.

@@ -1,0 +1,142 @@
+{
+  "desktop-dashboard": {
+    "image_url": "/assets/images/projects/accountia/desktop-dashboard.png",
+    "image_title": "Dashboard overview",
+    "pixel_width": 1920,
+    "pixel_height": 1284,
+    "source_file": "accountia_screens/Dashboard, Desktop page.png"
+  },
+  "desktop-ledger": {
+    "image_url": "/assets/images/projects/accountia/desktop-ledger.png",
+    "image_title": "General ledger with expanded subledgers",
+    "pixel_width": 1920,
+    "pixel_height": 4514,
+    "source_file": "accountia_screens/General Ledger list, Show Subledgers, Desktop page.png"
+  },
+  "desktop-products": {
+    "image_url": "/assets/images/projects/accountia/desktop-products.png",
+    "image_title": "Product catalogue",
+    "pixel_width": 1920,
+    "pixel_height": 1596,
+    "source_file": "accountia_screens/Products list, Desktop page.png"
+  },
+  "desktop-invoice": {
+    "image_url": "/assets/images/projects/accountia/desktop-invoice.png",
+    "image_title": "Invoice detail and payment history",
+    "pixel_width": 1920,
+    "pixel_height": 3022,
+    "source_file": "accountia_screens/Invoice details 1021, without VAT, Overrefunded, Overdeud, Creditnoted, Desktop page.png"
+  },
+  "mobile-dashboard": {
+    "image_url": "/assets/images/projects/accountia/mobile-dashboard.png",
+    "image_title": "Dashboard",
+    "pixel_width": 360,
+    "pixel_height": 3485,
+    "source_file": "accountia_mobile_screens/Dashboard Mobile.png"
+  },
+  "mobile-products": {
+    "image_url": "/assets/images/projects/accountia/mobile-products.png",
+    "image_title": "Product catalogue on mobile",
+    "pixel_width": 360,
+    "pixel_height": 976,
+    "source_file": "accountia_mobile_screens/Products list, Mobile page.png"
+  },
+  "mobile-product": {
+    "image_url": "/assets/images/projects/accountia/mobile-product.png",
+    "image_title": "Product form on mobile",
+    "pixel_width": 360,
+    "pixel_height": 3150,
+    "source_file": "accountia_mobile_screens/Product form filled, Prodcut Tab, Mobile page.png"
+  },
+  "guideline-colors": {
+    "image_url": "/assets/images/projects/accountia/guideline-colors.png",
+    "image_title": "Colour foundations",
+    "pixel_width": 1920,
+    "pixel_height": 1680,
+    "source_file": "accoutnia_guidelines/Guideline Colors.png"
+  },
+  "guideline-typography": {
+    "image_url": "/assets/images/projects/accountia/guideline-typography.png",
+    "image_title": "Typography hierarchy",
+    "pixel_width": 1920,
+    "pixel_height": 1680,
+    "source_file": "accoutnia_guidelines/Guideline Typography.png"
+  },
+  "guideline-inputs": {
+    "image_url": "/assets/images/projects/accountia/guideline-inputs.png",
+    "image_title": "Input anatomy and states",
+    "pixel_width": 1920,
+    "pixel_height": 1680,
+    "source_file": "accoutnia_guidelines/Guidelie Inputs.png"
+  },
+  "guideline-buttons": {
+    "image_url": "/assets/images/projects/accountia/guideline-buttons.png",
+    "image_title": "Primary button behaviour",
+    "pixel_width": 1920,
+    "pixel_height": 1680,
+    "source_file": "accoutnia_guidelines/Guidelie Button, Filled Primary.png"
+  },
+  "guideline-currency": {
+    "image_url": "/assets/images/projects/accountia/guideline-currency.png",
+    "image_title": "Currency display rules",
+    "pixel_width": 1920,
+    "pixel_height": 1680,
+    "source_file": "accoutnia_guidelines/Guidelie Currecny display rules.png"
+  },
+  "guideline-dialogs": {
+    "image_url": "/assets/images/projects/accountia/guideline-dialogs.png",
+    "image_title": "Dialog composition",
+    "pixel_width": 1920,
+    "pixel_height": 1680,
+    "source_file": "accoutnia_guidelines/Guidelie Dialog box.png"
+  },
+  "dialog-credit": {
+    "image_url": "/assets/images/projects/accountia/dialog-credit.png",
+    "image_title": "Create credit invoice number",
+    "pixel_width": 652,
+    "pixel_height": 340,
+    "source_file": "accountia_dialogbox_screens/Dialog box-1.png"
+  },
+  "dialog-confirm": {
+    "image_url": "/assets/images/projects/accountia/dialog-confirm.png",
+    "image_title": "Confirm invoice amount",
+    "pixel_width": 412,
+    "pixel_height": 276,
+    "source_file": "accountia_dialogbox_screens/Popup (new)-8.png"
+  },
+  "dialog-information": {
+    "image_url": "/assets/images/projects/accountia/dialog-information.png",
+    "image_title": "Settled invoice status information",
+    "pixel_width": 652,
+    "pixel_height": 348,
+    "source_file": "accountia_dialogbox_screens/Popup (new)-3.png"
+  },
+  "dialog-remove": {
+    "image_url": "/assets/images/projects/accountia/dialog-remove.png",
+    "image_title": "Confirm draft removal",
+    "pixel_width": 412,
+    "pixel_height": 236,
+    "source_file": "accountia_dialogbox_screens/Popup (new)-6.png"
+  },
+  "mobile-employees": {
+    "image_url": "/assets/images/projects/accountia/mobile-employees.png",
+    "image_title": "Employees",
+    "pixel_width": 360,
+    "pixel_height": 738,
+    "source_file": "accountia_mobile_screens/Employee list, Mobile page.png"
+  },
+  "mobile-suppliers": {
+    "image_url": "/assets/images/projects/accountia/mobile-suppliers.png",
+    "image_title": "Suppliers",
+    "pixel_width": 360,
+    "pixel_height": 756,
+    "source_file": "accountia_mobile_screens/Suppliers full list, Mobile page.png"
+  },
+  "mobile-fees": {
+    "image_url": "/assets/images/projects/accountia/mobile-fees.png",
+    "image_title": "Fees",
+    "pixel_width": 360,
+    "pixel_height": 740,
+    "source_file": "accountia_mobile_screens/Fees list, Mobile page.png"
+  }
+}

@@ -45,7 +45,7 @@ function jurenites_admin_field_widget_single_element_form_alter(array &$widget_e
   $summary_element['#element_validate'][] = 'jurenites_admin_validate_article_summary';
   // Keep the rich editor visible, including when a new Article has no summary.
   $summary_element['#attributes']['class'] = ['text-summary'];
-  $summary_element['#description'] = t('Format the summary with Full HTML. Leave blank to use trimmed Body text. The saved summary shares the Body text format. Select Full HTML for Body to preserve the same formatting.');
+  $summary_element['#description'] = t('Format the summary with Full HTML. Leave blank to use trimmed Body text. The saved summary shares the Body text format.');
 }
 
 /**
@@ -112,7 +112,7 @@ function jurenites_admin_configure_editor_typography(): int {
   );
   $updated_editor_count = 0;
 
-  foreach (['basic_html', 'full_html'] as $editor_format_id) {
+  foreach (['full_html'] as $editor_format_id) {
     $text_editor = Editor::load($editor_format_id);
     if ($text_editor === NULL || $text_editor->getEditor() !== 'ckeditor5') {
       continue;
@@ -292,7 +292,7 @@ function jurenites_admin_configure_article_comments(): int {
   $comment_body_field = FieldConfig::loadByName('comment', 'comment', 'comment_body');
   if ($comment_body_field !== NULL) {
     $comment_body_field
-      ->setSetting('allowed_formats', ['restricted_html'])
+      ->setSetting('allowed_formats', ['full_html'])
       ->save();
   }
 
@@ -318,7 +318,7 @@ function jurenites_admin_configure_article_comments(): int {
       'skip comment approval',
       'edit own comments',
       'delete own article comments',
-      'use text format restricted_html',
+      'use text format full_html',
     ] as $editor_permission) {
       $content_editor_role->grantPermission($editor_permission);
     }
@@ -419,6 +419,9 @@ function jurenites_admin_form_comment_form_alter(array &$comment_form, FormState
   if (isset($comment_form['author']) && !$can_reassign_comment) {
     $comment_form['author']['#access'] = FALSE;
   }
+  if (isset($comment_form['comment_body']['widget'][0])) {
+    $comment_form['comment_body']['widget'][0]['#editor'] = FALSE;
+  }
   if (isset($comment_form['comment_body']['widget'][0]['value'])) {
     $comment_form['comment_body']['widget'][0]['value']['#title'] = t('Comment');
     $comment_form['comment_body']['widget'][0]['value']['#maxlength'] = 5000;
@@ -479,7 +482,7 @@ function jurenites_admin_set_article_comment_language(CommentInterface $comment_
  */
 function jurenites_admin_hide_comment_format_help(array $comment_form, FormStateInterface $form_state): array {
   if (isset($comment_form['comment_body']['widget'][0]['format'])) {
-    $comment_form['comment_body']['widget'][0]['format']['#access'] = FALSE;
+    $comment_form['comment_body']['widget'][0]['format']['guidelines']['#access'] = FALSE;
   }
 
   return $comment_form;
@@ -517,4 +520,109 @@ function jurenites_admin_page_attachments(array &$page_attachments): void {
   }
 
   $page_attachments['#attached']['library'][] = 'jurenites_admin/gin-branding';
+}
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function jurenites_admin_element_info_alter(array &$element_types): void {
+  array_unshift($element_types['text_format']['#process'], 'jurenites_admin_force_full_html');
+  $element_types['text_format']['#process'][] = 'jurenites_admin_hide_format_controls';
+}
+
+/**
+ * Uses one format for rich-text authoring while retaining core access checks.
+ */
+function jurenites_admin_force_full_html(array $text_element, FormStateInterface $form_state, array &$complete_form): array {
+  if (\Drupal::currentUser()->hasPermission('use text format full_html')) {
+    $text_element['#format'] = 'full_html';
+    $text_element['#allowed_formats'] = ['full_html'];
+  }
+  return $text_element;
+}
+
+/**
+ * Hides help and choices, retaining the hidden input required by CKEditor.
+ */
+function jurenites_admin_hide_format_controls(array $text_element, FormStateInterface $form_state, array &$complete_form): array {
+  if (($text_element['#allowed_formats'] ?? []) === ['full_html']) {
+    $text_element['format']['format']['#access'] = FALSE;
+    $text_element['format']['guidelines']['#access'] = FALSE;
+    $text_element['format']['help']['#access'] = FALSE;
+  }
+  return $text_element;
+}
+
+/**
+ * Enables class-based corporate text colors without changing authored content.
+ */
+function jurenites_admin_configure_editor_colors(): int {
+  $updated_editor_count = 0;
+  foreach (Editor::loadMultiple() as $text_editor) {
+    if ($text_editor->getEditor() !== 'ckeditor5') {
+      continue;
+    }
+    $editor_settings = $text_editor->getSettings();
+    $toolbar_items = $editor_settings['toolbar']['items'] ?? [];
+    if (!in_array('corporateTextColor', $toolbar_items, TRUE)) {
+      $style_position = array_search('style', $toolbar_items, TRUE);
+      array_splice($toolbar_items, $style_position === FALSE ? count($toolbar_items) : $style_position + 1, 0, ['corporateTextColor']);
+      $editor_settings['toolbar']['items'] = $toolbar_items;
+      $text_editor->setSettings($editor_settings)->save();
+      $updated_editor_count++;
+    }
+    $text_format = $text_editor->getFilterFormat();
+    if (!$text_format->filters('filter_html')->status) {
+      continue;
+    }
+    $color_classes = array_map(
+      static fn(string $color_shade): string => 'u-text-' . $color_shade,
+      ['full-black', 'dark-black', 'black', 'light-black', 'deep-gray', 'dark-gray', 'gray', 'light-gray', 'pale-gray', 'dark-white', 'light-white', 'white', 'full-white'],
+    );
+    foreach (['primary', 'secondary', 'tertiary'] as $brand_role) {
+      foreach (['', '-accent', '-soft'] as $brand_shade) {
+        $color_classes[] = 'u-text-brand-' . $brand_role . $brand_shade;
+      }
+    }
+    $filter_configuration = $text_format->filters('filter_html')->getConfiguration();
+    $filter_configuration['settings']['allowed_html'] = HTMLRestrictions::fromString($filter_configuration['settings']['allowed_html'])
+      ->merge(HTMLRestrictions::fromString('<span class="' . implode(' ', $color_classes) . '">'))
+      ->toFilterHtmlAllowedTagsString();
+    $text_format->setFilterConfig('filter_html', $filter_configuration)->save();
+  }
+  return $updated_editor_count;
+}
+
+/**
+ * Implements hook_ckeditor5_plugin_info_alter().
+ */
+function jurenites_admin_ckeditor5_plugin_info_alter(array &$plugin_definitions): void {
+  $alignment_definition = $plugin_definitions['ckeditor5_alignment']->toArray();
+  foreach (['left', 'center', 'right'] as $alignment_name) {
+    $alignment_definition['drupal']['toolbar_items']['alignment:' . $alignment_name] = [
+      'label' => t('Align @direction', ['@direction' => $alignment_name]),
+    ];
+  }
+  $plugin_definitions['ckeditor5_alignment'] = new \Drupal\ckeditor5\Plugin\CKEditor5PluginDefinition($alignment_definition);
+}
+
+/**
+ * Enables the native class-based left, center and right alignment buttons.
+ */
+function jurenites_admin_configure_editor_alignment(): int {
+  $updated_editor_count = 0;
+  foreach (Editor::loadMultiple() as $text_editor) {
+    if ($text_editor->getEditor() !== 'ckeditor5') {
+      continue;
+    }
+    $editor_settings = $text_editor->getSettings();
+    $toolbar_items = array_values(array_diff($editor_settings['toolbar']['items'] ?? [], ['alignment', 'alignment:left', 'alignment:center', 'alignment:right']));
+    $heading_position = array_search('heading', $toolbar_items, TRUE);
+    array_splice($toolbar_items, $heading_position === FALSE ? count($toolbar_items) : $heading_position + 1, 0, ['alignment:left', 'alignment:center', 'alignment:right']);
+    $editor_settings['toolbar']['items'] = $toolbar_items;
+    $editor_settings['plugins']['ckeditor5_alignment']['enabled_alignments'] = ['left', 'center', 'right'];
+    $text_editor->setSettings($editor_settings)->save();
+    $updated_editor_count++;
+  }
+  return $updated_editor_count;
 }

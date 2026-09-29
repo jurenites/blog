@@ -1,0 +1,71 @@
+<?php
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Render\Markup;
+use Drupal\Component\Utility\Html;
+use Drupal\jurenites_dynamic_thumbnail\ThumbnailSvg;
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function jurenites_dynamic_thumbnail_node_view(array &$build_output, EntityInterface $node_entity, EntityViewDisplayInterface $view_display, $view_mode): void {
+  unset($build_output['field_dynamic_thumbnail']);
+  if (!in_array($node_entity->bundle(), ['project', 'article'], TRUE) || !in_array($view_mode, ['teaser', 'blog_list'], TRUE) || !$node_entity->hasField('field_dynamic_thumbnail')) return;
+  $thumbnail_field = $node_entity->get('field_dynamic_thumbnail');
+  $access_result = $thumbnail_field->access('view', NULL, TRUE);
+  $cache_metadata = \Drupal\Core\Cache\CacheableMetadata::createFromObject($node_entity)->addCacheableDependency($access_result);
+  if (!$access_result->isAllowed() || $thumbnail_field->isEmpty()) return;
+  $file_entity = $thumbnail_field->entity;
+  if (!$file_entity || !is_readable($file_entity->getFileUri())) return;
+  $cache_metadata->addCacheableDependency($file_entity);
+  $svg_markup = ThumbnailSvg::prepare(file_get_contents($file_entity->getFileUri()), Html::getUniqueId('thumbnail-' . $node_entity->id() . '-' . $view_mode));
+  if ($svg_markup === NULL) return;
+  $build_output['field_image'] = [
+    '#type' => 'container',
+    '#attributes' => ['class' => ['dynamic-thumbnail'], 'data-dynamic-thumbnail' => ''],
+    'artwork' => ['#markup' => Markup::create($svg_markup)],
+  ];
+  if (!$node_entity->isNew()) {
+    $build_output['field_image'] = [
+      '#type' => 'link',
+      '#title' => Markup::create($svg_markup),
+      '#url' => $node_entity->toUrl('canonical'),
+      '#attributes' => [
+        'class' => ['dynamic-thumbnail', 'dynamic-thumbnail--linked'],
+        'data-dynamic-thumbnail' => '',
+        'aria-label' => $node_entity->label(),
+      ],
+    ];
+  }
+  $cache_metadata->applyTo($build_output['field_image']);
+  $build_output['#attributes']['class'][] = 'has-dynamic-thumbnail';
+}
+
+/**
+ * Implements hook_field_widget_single_element_form_alter().
+ */
+function jurenites_dynamic_thumbnail_field_widget_single_element_form_alter(array &$form_element, \Drupal\Core\Form\FormStateInterface $form_state, array $widget_context): void {
+  if ($widget_context['items']->getFieldDefinition()->getName() === 'field_dynamic_thumbnail') {
+    $form_element['#upload_validators']['DynamicThumbnailSvg'] = [];
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for node_form.
+ */
+function jurenites_dynamic_thumbnail_form_node_form_alter(array &$form_build, \Drupal\Core\Form\FormStateInterface $form_state, string $form_id): void {
+  $node_entity = $form_state->getFormObject()->getEntity();
+  if ($node_entity->bundle() !== 'project' || !isset($form_build['field_image'], $form_build['field_dynamic_thumbnail'])) return;
+  $form_build['hero_image_section'] = [
+    '#type' => 'details',
+    '#title' => $node_entity->getFieldDefinition('field_image')->getLabel(),
+    '#open' => TRUE,
+    '#weight' => $form_build['field_image']['#weight'] ?? 1,
+  ];
+  // Visual grouping preserves widget parents and their upload/AJAX callbacks.
+  $form_build['field_image']['#group'] = 'hero_image_section';
+  $form_build['field_dynamic_thumbnail']['#group'] = 'hero_image_section';
+  $form_build['field_image']['widget'][0]['#title'] = t('Raster image for the detail page');
+  $form_build['field_dynamic_thumbnail']['widget'][0]['#description'] = t('SVG preview for project cards. The detail page uses the raster image above.') . ' ' . ($form_build['field_dynamic_thumbnail']['widget'][0]['#description'] ?? '');
+}
