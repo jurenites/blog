@@ -16,7 +16,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: "Organisms/Top Nav Menu Site Header",
+  title: "Organisms/Top/Nav Menu Site Header",
   tags: ["autodocs"],
   render: render_story,
   argTypes: {

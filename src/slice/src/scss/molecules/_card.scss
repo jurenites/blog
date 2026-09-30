@@ -400,6 +400,17 @@ $phone-classic-large-width: 458px;
     pointer-events: none;
   }
 
+  // Cover fractional screen widths without a top-left rounding seam. Keep
+  // overflow symmetric and clipped by the existing device screen.
+  &__image,
+  &__gif,
+  &__edge-fill,
+  &__poster-image {
+    align-self: center;
+    width: round(up, calc(100% + var(--shape-border-width-hairline-default) * 2), var(--shape-border-width-hairline-default));
+    max-width: none;
+  }
+
   &__video {
     display: block;
     width: 100%;

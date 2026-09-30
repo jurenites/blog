@@ -559,7 +559,8 @@ local capture; it does not write website content or change CI settings.
 - [x] Compare all three pairs when a Figma PNG is supplied.
 - [ ] Add approved browser regression baselines.
 - [x] Add generic per-component mappings and the real 4pixel page example.
-- [ ] Run the mapped cases in native Windows browsers on a virtual machine.
+- [ ] Gather screens from Windows: automate Edge captures in the local Parallels
+  VM and import their evidence into Testing without AI-driven execution.
 - [ ] Connect CI producers, artifact retention, and review before delivery gating.
 - [ ] Add focused functional and accessibility coverage alongside visual checks.
 - [ ] Compare the repository Cookbook draft with the editor-owned page and its
@@ -568,7 +569,36 @@ local capture; it does not write website content or change CI settings.
 
 ## TODO: Windows Virtual Machine and Pipeline Integration
 
-Use a GitHub Actions `windows-2022` runner for the first automated Windows job.
+### Gather screens from Windows
+
+Status: planned. Start with the existing local Parallels Windows VM and installed
+Microsoft Edge. Extend the JavaScript/Playwright testing tools with a deterministic
+runner inside Windows using the `msedge` channel. Routine capture and comparison
+must not depend on Codex, computer-use reasoning, or AI token usage.
+
+1. Configure each case's page URL, optional component/section selector, viewport,
+   language, content identity, and interaction steps. Use the existing pixel
+   comparison contract for readiness, scale, state, and capture bounds.
+2. Launch Edge in a fresh test context, open the configured local site, wait for
+   fonts and images, and reproduce the specified state. Capture page content,
+   excluding browser chrome and the surrounding Parallels desktop.
+3. Save the PNGs with case, build/content, Windows, Edge, viewport, and device-scale
+   metadata. Preserve capture errors as blocked or failed results.
+4. Import the saved evidence into Testing and reuse `pixelmatch` to show the
+   reference, actual image, highlighted differences, and differing-pixel count.
+   Compare matching Figma PNGs for design parity and separately approved Windows
+   Edge screenshots for regressions. Never update references automatically.
+5. Expose an ordinary command or Windows shortcut for repeat runs. A Testing
+   button or Windows Task Scheduler may invoke the same runner after its launch
+   and result-transfer integration is implemented.
+
+Acceptance: rerunning a configured case captures and compares it without an AI
+session, and Testing identifies the result as native Windows Edge evidence.
+Interactive computer use remains available for diagnosis but is not the runner.
+
+### Later CI integration
+
+Use a GitHub Actions `windows-2022` runner for the first Windows CI job.
 [GitHub-hosted Windows runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
 are virtual machines; this checks browser rendering on Windows itself. If later
 findings need Windows 11 desktop-specific behavior, reproduce them in a Windows

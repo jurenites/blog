@@ -93,23 +93,29 @@
     align-items: center;
     gap: calc(var(--space-scale-base-gap) * 2);
     padding: calc(var(--space-scale-base-gap) * 2);
+    // Leave a separate bottom strip for the fixed version watermark on phones.
+    padding-block-end: calc(var(--space-scale-base-gap) * 6);
   }
 
   .cookie-policy-notice__content {
     grid-column: 1 / -1;
   }
 
+  .cookie-policy-notice__heading {
+    padding-inline-end: calc(var(--space-scale-base-gap) * 7);
+    min-block-size: calc(var(--space-scale-base-gap) * 5);
+  }
+
   .cookie-policy-notice__close {
-    position: static;
+    inset-inline-end: calc(var(--space-scale-base-gap) * 2);
+    inset-block-start: calc(var(--space-scale-base-gap) * 2);
     transform: none;
-    grid-column: 2;
-    grid-row: 2;
   }
 
   .cookie-policy-notice__dismiss {
     grid-column: 1;
     grid-row: 2;
-    justify-self: center;
+    justify-self: start;
   }
 }
 

@@ -339,3 +339,10 @@ later CMS edits. The `data-phone-preview` wrappers protect the embedded markup
 in CKEditor. `scripts/add-smep-translated-previews.php` adds missing previews to
 the matching Russian sections while preserving translated prose and existing previews.
 These are explicit local content operations, not deployment hooks.
+
+Phone screenshots, poster images and their edge fills round fractional widths up
+to whole CSS pixels with a hairline of overscan per side, centered inside the
+clipped screen. Cursor tilt
+coalesces pointer events into animation frames, caches geometry until resize,
+scroll or pointer exit, and reuses one animation effect. Tracking stops when
+settled; exit returns to rest, and reduced motion disables tracking.

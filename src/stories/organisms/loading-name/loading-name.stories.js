@@ -56,7 +56,7 @@ function render_story(story_args) {
 }
 
 export default {
-  title: 'Organisms/Loading Name',
+  title: 'Organisms/Top/Loading Name',
   render: render_story,
   parameters: {
     layout: 'fullscreen',

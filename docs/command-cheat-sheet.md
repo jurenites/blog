@@ -84,21 +84,11 @@ Use this procedure only for an intentional replacement of PROD content with a DE
 
 Before starting:
 
-1. Review and commit the intended code and generated assets. Push the chosen
-  branch, review its pull request and CI results, and merge to `main` through
-   the project's normal review process. Do not stage unrelated work blindly.
-2. Record the intended release commit and confirm the exported DEV database
-  matches that code's schema. Reconcile divergent branches before deployment;
-   do not force-reset an existing production checkout to resolve them.
-3. Back up the current PROD database and public files outside the public web
-  root, and retain the matching old code for rollback.
-4. Put PROD in maintenance mode for the restore window. Deploy the matching
-  code and install locked dependencies before importing the database. An
-   imported DEV database can replace maintenance configuration, so retain
-   maintenance access control through the complete restore.
-5. Export and validate the DEV archives below, import the database, restore
-  public files, run database updates, clear cache, and verify the site before
-   reopening it. Roll back code, database, and files together if needed.
+1. Review and commit the intended code and generated assets. Push the chosen branch, review its pull request and CI results, and merge to `main` through the project's normal review process. Do not stage unrelated work blindly.
+2. Record the intended release commit and confirm the exported DEV database matches that code's schema. Reconcile divergent branches before deployment; do not force-reset an existing production checkout to resolve them.
+3. Back up the current PROD database and public files outside the public web root, and retain the matching old code for rollback.
+4. Put PROD in maintenance mode for the restore window. Deploy the matching code and install locked dependencies before importing the database. An imported DEV database can replace maintenance configuration, so retain maintenance access control through the complete restore.
+5. Export and validate the DEV archives below, import the database, restore public files, run database updates, clear cache, and verify the site before reopening it. Roll back code, database, and files together if needed.
 
 
 
@@ -198,7 +188,7 @@ cd "$PROD_DOCUMENT_ROOT"
 test "$(pwd -P)" = "$PROD_DOCUMENT_ROOT" || exit 1
 
 RESTORE_TIMESTAMP="$(date +%Y-%m-%d-%H%M%S)"
-PUBLIC_FILES_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/blog_jurenites-public-files-dev-2026-09-23-231205.tar.gz"
+PUBLIC_FILES_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/blog_jurenites-public-files-dev-2026-09-29-150612.tar.gz"
 FILES_BACKUP_DIRECTORY="/var/www/u3614358/data/apps/files-before-dev-restore-${RESTORE_TIMESTAMP}"
 FILES_STAGING_DIRECTORY="/var/www/u3614358/data/apps/files-restore-${RESTORE_TIMESTAMP}"
 LIVE_FILES_DIRECTORY="$PROD_DOCUMENT_ROOT/web/sites/default/files"
@@ -326,7 +316,7 @@ In the PROD shell, set `STORYBOOK_ARCHIVE_PATH` to the actual uploaded filename.
 cd /var/www/u3614358/data/apps/blog_jurenites
 
 STORYBOOK_DEPLOY_TIMESTAMP="$(date +%Y-%m-%d-%H%M%S)"
-STORYBOOK_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/REPLACE-WITH-UPLOADED-STORYBOOK.tar.gz"
+STORYBOOK_ARCHIVE_PATH="/var/www/u3614358/data/backups/incoming/blog_jurenites-storybook-9a6d103-2026-09-29.tar.gz"
 STORYBOOK_STAGING_DIRECTORY="/var/www/u3614358/data/apps/storybook-restore-${STORYBOOK_DEPLOY_TIMESTAMP}"
 STORYBOOK_LIVE_DIRECTORY="/var/www/u3614358/data/apps/blog_jurenites/storybook-static"
 STORYBOOK_BACKUP_DIRECTORY="/var/www/u3614358/data/backups/storybook-before-${STORYBOOK_DEPLOY_TIMESTAMP}"

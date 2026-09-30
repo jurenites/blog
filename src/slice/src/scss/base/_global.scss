@@ -9,7 +9,7 @@ html {
 
 ::selection {
   color: var(--color-palette-full-black);
-  background-color: color-mix(in srgb, var(--color-palette-brand-tertiary) 100%, transparent);
+  background-color: var(--color-palette-brand-tertiary);
 }
 
 body.jurenites-theme {

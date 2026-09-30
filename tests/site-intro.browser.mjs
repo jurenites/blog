@@ -77,7 +77,7 @@ try {
   });
   assert.equal(arrival_snapshot.name_size, '40px');
   assert.equal(arrival_snapshot.letter_width, 0);
-  assert(arrival_snapshot.canvas_opacity > 0 && arrival_snapshot.canvas_opacity < 1);
+  assert.equal(arrival_snapshot.canvas_opacity, 1, 'Keep the canvas opaque until the intro completes.');
   await page_instance.screenshot({ path: `${artifact_directory}/desktop-reveal.png` });
   await finish_intro();
   await page_instance.screenshot({ path: `${artifact_directory}/videos-ready.png` });
@@ -102,7 +102,7 @@ try {
 
   const mobile_context = await browser_instance.newContext({ viewport: { width: 375, height: 812 } });
   const mobile_page = await mobile_context.newPage();
-  await mobile_page.goto(`${site_origin}/videos`, { waitUntil: 'domcontentloaded' });
+  await mobile_page.goto(`${site_origin}/`, { waitUntil: 'domcontentloaded' });
   await mobile_page.waitForFunction(() => document.documentElement.dataset.siteIntro === 'running');
   await mobile_page.evaluate(() => {
     for (const animation_item of document.getAnimations()) {
@@ -118,7 +118,38 @@ try {
   assert(mobile_bounds.x + mobile_bounds.width <= 375);
   await mobile_page.screenshot({ path: `${artifact_directory}/mobile-name.png` });
   await assert_name_painted(`${artifact_directory}/mobile-name.png`);
+  assert(await mobile_page.locator('.hero-section--glow').count() > 0, 'Exercise the real hero photo.');
+  for (const intro_phase of ['pending', 'running', 'fallback']) {
+    const coverage_snapshot = await mobile_page.evaluate((intro_phase) => {
+      document.documentElement.dataset.siteIntro = intro_phase;
+      const branding_selector = '#block-jurenites-theme-site-branding';
+      const visible_content = [...document.body.querySelectorAll('*')].filter((page_element) => {
+        if (page_element.closest(branding_selector)) return false;
+        return page_element.getClientRects().length > 0
+          && getComputedStyle(page_element).visibility === 'visible';
+      });
+      const cover_style = getComputedStyle(document.body, '::after');
+      return {
+        visible_content: visible_content.map((page_element) => page_element.className),
+        root_color: getComputedStyle(document.documentElement).backgroundColor,
+        body_color: getComputedStyle(document.body).backgroundColor,
+        cover_color: cover_style.backgroundColor,
+        cover_opacity: cover_style.opacity,
+        cover_height: parseFloat(cover_style.height),
+        viewport_height: innerHeight,
+        photo_visibility: getComputedStyle(document.querySelector('.hero-section__image')).visibility,
+      };
+    }, intro_phase);
+    assert.deepEqual(coverage_snapshot.visible_content, [], `${intro_phase}: only branding may paint.`);
+    assert.equal(coverage_snapshot.photo_visibility, 'hidden');
+    assert.equal(coverage_snapshot.root_color, coverage_snapshot.cover_color);
+    assert.equal(coverage_snapshot.body_color, coverage_snapshot.cover_color);
+    assert.equal(coverage_snapshot.cover_opacity, '1');
+    assert(coverage_snapshot.cover_height >= coverage_snapshot.viewport_height);
+  }
+  await mobile_page.evaluate(() => { document.documentElement.dataset.siteIntro = 'running'; });
   await mobile_page.waitForFunction(() => !document.documentElement.hasAttribute('data-site-intro'));
+  assert.equal(await mobile_page.locator('.hero-section__image').isVisible(), true);
   assert.equal(await mobile_page.locator('.site-header__menu-toggle').isVisible(), true);
   // A wide homepage must land in the centered header, without a final sideways jump.
   await mobile_page.setViewportSize({ width: 1920, height: 1080 });
@@ -160,7 +191,7 @@ try {
   await assert_name_painted(`${artifact_directory}/no-javascript.png`);
   await fallback_context.close();
   assert.deepEqual(runtime_errors, []);
-  console.log('Site intro passed: Videos entry, 96px → 40px → AI, canvas fade, daily expiry, cross-route skip, session fallback, mobile, reduced motion, and no JS.');
+  console.log('Site intro passed: Videos entry, 96px → 40px → AI, opaque canvas, hero suppression, daily expiry, cross-route skip, session fallback, mobile, reduced motion, and no JS.');
   console.log(`Screenshots: ${artifact_directory}`);
 } finally {
   await browser_instance.close();
