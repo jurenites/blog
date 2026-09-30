@@ -142,8 +142,8 @@ after changing the generated macro or templates.
 ### Page canvas and browser color
 
 Native text selection uses the existing `color.palette.brand-tertiary` corporate
-yellow at 10% opacity, mixed with transparent in the shared Drupal and Storybook
-global stylesheet.
+yellow directly as an opaque background with `color.palette.full-black` text in
+the shared Drupal and Storybook global stylesheet, without a color-mix function.
 
 The Call to Action and Website Audit promotional backgrounds both reference
 the existing `color.palette.dark-black` token.
@@ -484,6 +484,11 @@ duration; reduced-motion preferences close it immediately. Saved dismissals
 reserve no space. Runtime measurements live in a scoped stylesheet, without
 inline presentation attributes.
 
+On mobile, the cookie notice's dismissal button aligns left and its close button
+sits in the top-right corner. The heading reserves space for the close control;
+bottom padding keeps both controls clear of the fixed version watermark on
+narrow phones.
+
 The cookie notice close button is server-rendered with its cross geometry before
 the notice is revealed. Enhanced Select chevrons and the JavaScript fallback for
 the cookie close button use a generated two-icon module, shipped inside the
@@ -630,8 +635,8 @@ on every themed entry route, including `/videos` and translated pages. A viewpor
 canvas using the homepage's `component.hero-section.background-edge-color` reveals
 the existing white full name at 96px, vertically centered
 and aligned with the header's left text edge. Over two seconds, each character appears blurred and sharpens in sequence, then CSS
-moves the name into the header, reduces it to 40px, collapses it to “AI,” and fades
-the canvas away. The text keeps a stable 48px line box; narrow viewports fit the
+moves the name into the header, reduces it to 40px, collapses it to “AI,” and releases
+the canvas when the animation completes. The text keeps a stable 48px line box; narrow viewports fit the
 name with a viewport-relative font size before returning to the existing mobile
 menu. No text clone, new token, or inline presentation style is introduced.
 
@@ -660,7 +665,12 @@ or milliseconds and adds a 150ms completion allowance, with a two-second default
 when the duration is unavailable or zero. Ordinary hover/focus branding resumes afterward.
 While branding is fixed for the intro, a CSS pseudo-element reserves its original
 grid cell and 48px line box. Navigation and the language picker retain their final
-positions throughout the canvas fade; the enhanced mobile menu needs no spacer.
+positions throughout the intro; the enhanced mobile menu needs no spacer.
+The root and body use the same opaque dark canvas during the intro. All page
+descendants except the branding are hidden until completion, including composited
+hero photos and glows. The fixed cover extends through safe-area insets and the
+large viewport height so changing mobile browser controls cannot expose an edge.
+Native browser chrome remains browser-controlled and needs physical-device QA.
 Run `PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/site-intro.browser.mjs`
 against local Drupal to verify animation geometry, Videos entry, daily expiry,
 cross-route persistence, mobile, reduced motion, and the no-JavaScript canvas.

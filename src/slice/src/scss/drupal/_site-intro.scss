@@ -3,14 +3,23 @@
 
 :is(html, .loading-name)[data-site-intro] {
   overflow: hidden;
+  background: var(--component-hero-section-background-edge-color);
 
   :is(body, .loading-name__stage) {
     overflow: hidden;
+    background: var(--component-hero-section-background-edge-color);
+
+    // Suppress the actual page paint, including composited photos and glows.
+    // A fixed cover alone can leave them visible behind mobile browser chrome.
+    // Override visibility keyframes used by the page's typing animations too.
+    * { visibility: hidden !important; }
 
     &::after {
       content: "";
       position: fixed;
-      inset: 0;
+      inset: calc(-1 * env(safe-area-inset-top, var(--space-scale-zero))) calc(-1 * env(safe-area-inset-right, var(--space-scale-zero))) calc(-1 * env(safe-area-inset-bottom, var(--space-scale-zero))) calc(-1 * env(safe-area-inset-left, var(--space-scale-zero)));
+      min-block-size: 100lvh;
+      visibility: visible;
       z-index: calc(var(--component-watermark-layer-default) + 1);
       background: var(--component-hero-section-background-edge-color);
     }
@@ -21,7 +30,7 @@
     z-index: auto;
 
     // Fixed branding leaves the grid. Keep its cell and 48px line box occupied
-    // so the navigation and language picker never move beneath the fading canvas.
+    // so the navigation and language picker never move beneath the canvas.
     &::after {
       content: "";
       grid-column: 1;
@@ -44,6 +53,8 @@
   }
 
   :is(#block-jurenites-theme-site-branding, .loading-name__branding) {
+    &, * { visibility: visible !important; }
+
     position: fixed;
     z-index: calc(var(--component-watermark-layer-default) + 2);
     inset-block-start: var(--space-scale-base-gap);
@@ -85,22 +96,11 @@
   }
 }
 
-:is(html, .loading-name)[data-site-intro="fallback"] {
-  body * { visibility: hidden; }
-
-  :is(#block-jurenites-theme-site-branding, .loading-name__branding),
-  :is(#block-jurenites-theme-site-branding, .loading-name__branding) * { visibility: visible; }
-}
-
 :is(html, .loading-name)[data-site-intro="pending"] :is(#block-jurenites-theme-site-branding, .loading-name__branding) {
-  visibility: hidden;
+  &, * { visibility: hidden !important; }
 }
 
 :is(html, .loading-name)[data-site-intro="running"] {
-  :is(body, .loading-name__stage)::after {
-    animation: site-intro-unveil var(--component-site-header-brand-name-hold-duration-default) linear both;
-  }
-
   :is(#block-jurenites-theme-site-branding, .loading-name__branding) {
     animation: site-intro-arrive var(--component-site-header-brand-name-hold-duration-default) var(--motion-easing-standard-default) both;
 
@@ -157,15 +157,9 @@
   85%, 100% { gap: var(--space-scale-two); }
 }
 
-@keyframes site-intro-unveil {
-  0%, 80% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
 // Covers a preference change while an intro is already running.
 @media (prefers-reduced-motion: reduce) {
   :is(html, .loading-name)[data-site-intro="running"] {
-    :is(body, .loading-name__stage)::after,
     :is(#block-jurenites-theme-site-branding, .loading-name__branding),
     :is(#block-jurenites-theme-site-branding, .loading-name__branding) .site-header__brand-name,
     :is(#block-jurenites-theme-site-branding, .loading-name__branding) .site-header__brand-name-short,

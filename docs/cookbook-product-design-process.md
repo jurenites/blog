@@ -152,6 +152,15 @@ Pixel-perfect layout is the goal, with narrowly documented tolerances only where
 
 Technical references: [Figma file embeds](https://developers.figma.com/docs/embeds/embed-figma-file/), [Figma frame exports](https://developers.figma.com/docs/rest-api/file-endpoints/#get-images-endpoint), and [Playwright visual comparisons](https://playwright.dev/docs/test-snapshots).
 
+**Planned step: Gather screens from Windows.** Run a deterministic Playwright
+script inside the local Parallels Windows VM to capture configured pages and
+states in Microsoft Edge. Save page-content screenshots and capture metadata,
+then compare them with matching Figma PNGs and separately approved Windows Edge
+baselines in Testing. Routine runs must require no AI model or token usage.
+The capture runner and result import are not implemented yet; the detailed
+[Windows capture step](visual-testing-plan.md#gather-screens-from-windows)
+defines the intended workflow.
+
 **Remaining work:** pin the Drupal content used by repeatable cases, add approved
 browser regression baselines, and connect CI report producers. The local
 dashboard already uses Playwright, `pixelmatch`, and `pngjs` for captured-image
