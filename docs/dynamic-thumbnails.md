@@ -342,7 +342,11 @@ These are explicit local content operations, not deployment hooks.
 
 Phone screenshots, poster images and their edge fills round fractional widths up
 to whole CSS pixels with a hairline of overscan per side, centered inside the
-clipped screen. Cursor tilt
+clipped screen. The screen sequence compares the source image ratio with the
+phone viewport before starting a scroll, so this visual overscan does not move
+a screenshot that already fills the display. Classic phone glass stays on the
+same rendering plane as its screenshots; a fractional Z offset exposed a pale
+right and bottom seam during 3D compositing. Cursor tilt
 coalesces pointer events into animation frames, caches geometry until resize,
 scroll or pointer exit, and reuses one animation effect. Tracking stops when
 settled; exit returns to rest, and reduced motion disables tracking.

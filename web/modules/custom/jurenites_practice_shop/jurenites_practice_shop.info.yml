@@ -1,0 +1,11 @@
+name: 'jurenites Practice Shop'
+type: module
+description: 'A test-only shopping journey with private Power BI exports.'
+package: jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:block_content
+  - drupal:field
+  - drupal:text
+  - drupal:options
+  - drupal:content_translation

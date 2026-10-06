@@ -43,6 +43,34 @@ services:
       timeout: 5s
       retries: 10
 
+  # Optional local evaluation service. Start explicitly with `up -d clickhouse`.
+  clickhouse:
+    image: clickhouse/clickhouse-server:26.8
+    platform: linux/arm64
+    container_name: blog_jurenites_clickhouse
+    profiles: [analytics]
+    ports:
+      - "127.0.0.1:8123:8123"
+    env_file:
+      - path: ./docker/clickhouse/.env.local
+        required: false
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+      - ./docker/clickhouse/local-server.xml:/etc/clickhouse-server/config.d/local-server.xml:ro
+      - ./docker/clickhouse/local-users.xml:/etc/clickhouse-server/users.d/local-users.xml:ro
+    mem_limit: 2g
+    cpus: 2.0
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "--quiet", "http://127.0.0.1:8123/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
   storybook:
     build:
       context: .
@@ -61,3 +89,4 @@ services:
 
 volumes:
   db-data:
+  clickhouse-data:

@@ -1,0 +1,60 @@
+@use "../tools";
+
+.practice-shop {
+  display: grid;
+  gap: calc(var(--space-scale-base-gap) * 3);
+  max-width: calc(var(--space-scale-base-gap) * 144);
+  margin-inline: auto;
+  padding: calc(var(--space-scale-base-gap) * 4) calc(var(--space-scale-base-gap) * 2);
+  @include tools.typography-body;
+}
+
+.practice-shop__notice,
+.practice-shop__panel,
+.practice-shop__product {
+  padding: calc(var(--space-scale-base-gap) * 3);
+  border: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+  border-radius: 0;
+  background: var(--theme-dark-surface-background-elevation-level-0);
+}
+
+.practice-shop__notice {
+  border-color: var(--theme-dark-border-outline-default);
+}
+
+.practice-shop__products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--space-scale-base-gap) * 40)), 1fr));
+  gap: calc(var(--space-scale-base-gap) * 3);
+}
+
+.practice-shop__product {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(var(--space-scale-base-gap) * 2);
+  @include tools.motion-transition(background-color);
+
+  &:hover,
+  &:focus-within {
+    background: var(--theme-dark-surface-background-elevation-level-1);
+  }
+}
+
+.practice-shop__actions,
+.practice-shop__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--space-scale-base-gap) * 2);
+}
+
+.practice-shop__line {
+  justify-content: space-between;
+  padding-block: calc(var(--space-scale-base-gap) * 2);
+  border-bottom: var(--shape-border-width-hairline-default) solid var(--theme-dark-border-divider-default);
+}
+
+.practice-shop__panel {
+  overflow-wrap: anywhere;
+}

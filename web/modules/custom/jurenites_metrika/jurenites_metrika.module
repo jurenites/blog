@@ -1,0 +1,81 @@
+<?php
+
+/**
+ * @file
+ * Production-only Yandex.Metrika tracking.
+ */
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Render\Markup;
+
+/**
+ * Adds visibility cache metadata and returns the eligible counter ID.
+ */
+function jurenites_metrika_tracking_counter(array &$page_elements): ?string {
+  $tracking_config = \Drupal::config('jurenites_metrika.settings');
+  CacheableMetadata::createFromRenderArray($page_elements)
+    ->addCacheableDependency($tracking_config)
+    ->addCacheContexts(['url.site', 'url.path', 'route', 'user.roles:authenticated'])
+    ->applyTo($page_elements);
+
+  $counter_id = (string) $tracking_config->get('counter_id');
+  if (!$tracking_config->get('tracking_enabled')
+    || !preg_match('/^[1-9][0-9]{0,14}$/D', $counter_id)
+    || !in_array(\Drupal::request()->getHost(), ['jurenites.com', 'www.jurenites.com'], TRUE)
+    || \Drupal::currentUser()->isAuthenticated()
+    || \Drupal::service('router.admin_context')->isAdminRoute()) {
+    return NULL;
+  }
+
+  // The current internal path also covers aliases and language prefixes.
+  $request_path = \Drupal::service('path.current')->getPath();
+  $internal_path = \Drupal::service('path_alias.manager')->getPathByAlias($request_path);
+  $excluded_paths = "/admin\n/admin/*\n/user\n/user/*\n/node/add\n/node/add/*\n/node/*/edit\n/node/*/delete\n/node/*/revisions\n/node/*/revisions/*";
+  if (\Drupal::service('path.matcher')->matchPath($internal_path, $excluded_paths)) {
+    return NULL;
+  }
+  return $counter_id;
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function jurenites_metrika_page_attachments(array &$page_attachments): void {
+  $counter_id = jurenites_metrika_tracking_counter($page_attachments);
+  if ($counter_id === NULL) {
+    return;
+  }
+
+  $module_path = \Drupal::service('extension.list.module')->getPath('jurenites_metrika');
+  $tracking_script = str_replace('METRIKA_COUNTER_ID', $counter_id, file_get_contents($module_path . '/js/metrika-counter.js'));
+  $page_attachments['#attached']['html_head'][] = [
+    [
+      '#type' => 'html_tag',
+      '#tag' => 'script',
+      '#value' => Markup::create($tracking_script),
+    ],
+    'jurenites_metrika_counter',
+  ];
+}
+
+/**
+ * Implements hook_page_bottom().
+ */
+function jurenites_metrika_page_bottom(array &$page_bottom): void {
+  $counter_id = jurenites_metrika_tracking_counter($page_bottom);
+  if ($counter_id === NULL) {
+    return;
+  }
+
+  // Native hidden markup keeps the fallback beacon out of the layout.
+  $page_bottom['jurenites_metrika_beacon'] = [
+    '#type' => 'html_tag',
+    '#tag' => 'img',
+    '#noscript' => TRUE,
+    '#attributes' => [
+      'src' => 'https://mc.yandex.ru/watch/' . $counter_id,
+      'alt' => '',
+      'hidden' => TRUE,
+    ],
+  ];
+}

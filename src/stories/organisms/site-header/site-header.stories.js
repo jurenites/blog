@@ -3,7 +3,7 @@ import { hero_section_markup } from "../hero-section/hero-section.markup.js";
 
 const BRAND_NAME = "Alexander Ilivanov — home";
 const BRAND_FULL_NAME = "Alexander Ilivanov";
-const NAVIGATION_LABELS = "Home, About, Portfolio, Blog, Contact";
+const NAVIGATION_LABELS = "Alexander Ilivanov, About, Portfolio, Blog, Contact";
 const LANGUAGE_LABELS = "Eng, Rus";
 const MENU_EXPANDED = false;
 const BACKGROUND_IMAGE_URL = "/assets/images/hero-night.jpg";

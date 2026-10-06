@@ -1,5 +1,5 @@
 importScripts('./vendor/qrcodegen.js','./vendor/jsQR.js');
-const core_promise=import('./core.js');
+const core_promise=import('./core.js?match-quality=1');
 const tld_promise=import('./tld-data.js');
 const domain_promise=import('./domain-pattern.js?scope=1');
 const solver_promise=import('./solver.js');
@@ -15,7 +15,23 @@ self.onmessage=async({data:search_options})=>{
   const checked_candidates=new Set();
   let attempt_count=0;
   const start_time=performance.now(),stop_time=start_time+time_limit*1000;
-  const report_progress=(solver_count,phase_name)=>self.postMessage({type:'progress',attempt_count:attempt_count+solver_count,phase_name});
+  const structure_deadline=start_time+time_limit*450;
+  let best_candidate=null;
+  let last_progress_at=-Infinity;
+  const send_best_match=()=>{
+    if(!best_candidate)return false;
+    const {payload_text,mask_index,structure_conflicts,other_conflicts}=best_candidate;
+    self.postMessage({type:'result',payload_text,mask_index,attempt_count,structure_conflicts,other_conflicts,tld_version:TLD_VERSION});
+    return true;
+  };
+  const report_progress=(_solver_count,phase_name)=>{
+    const current_time=performance.now();
+    if(current_time-last_progress_at<100)return;
+    last_progress_at=current_time;
+    const search_stage=!best_candidate?'finding a decodable match':!protect_structure&&best_candidate.structure_conflicts&&current_time<structure_deadline?'reducing structure conflicts':'reducing other pixel conflicts';
+    const best_text=best_candidate?` · best ${best_candidate.structure_conflicts} structure / ${best_candidate.other_conflicts} other red`:'';
+    self.postMessage({type:'progress',attempt_count,phase_name:`${search_stage} · ${phase_name}${best_text}`});
+  };
   const check_candidate=(payload_text,mask_index)=>{
     if(excluded_payloads.has(payload_text)||!valid_domain_candidate(payload_text))return false;
     const candidate_key=payload_text+'\u0000'+mask_index;
@@ -25,9 +41,10 @@ self.onmessage=async({data:search_options})=>{
     const qr_code=core_tools.encode_text(payload_text,version_number,error_level,mask_index,alpha_only);
     const result_grid=core_tools.apply_locks(qr_code,lock_values);
     const audit_info=core_tools.audit_grid(qr_code,result_grid);attempt_count++;
-    if(audit_info.overflow_count||protect_structure&&audit_info.structure_cells.length)return false;
+    if(audit_info.overflow_count||protect_structure&&audit_info.structure_cells.length||core_tools.compare_lock_conflicts(audit_info,best_candidate?.audit_info)>=0)return false;
     if(core_tools.decode_grid(result_grid,qr_code.size)!==payload_text)return false;
-    self.postMessage({type:'result',payload_text,mask_index,attempt_count,tld_version:TLD_VERSION});return true;
+    best_candidate={payload_text,mask_index,audit_info,structure_conflicts:audit_info.structure_cells.length,other_conflicts:audit_info.changed_count-audit_info.structure_cells.length};
+    return best_candidate.structure_conflicts===0&&best_candidate.other_conflicts===0&&send_best_match();
   };
   try{
     if(!pattern_text.includes('?')&&!pattern_text.includes('*')||!Number.isFinite(time_limit)||time_limit<1||time_limit>180)throw new Error('Invalid search pattern or time limit.');
@@ -53,6 +70,7 @@ self.onmessage=async({data:search_options})=>{
       }
       report_progress(0,'trying more addresses and masks');await new Promise(resolve_task=>{setTimeout(resolve_task,0);});
     }
+    if(send_best_match())return;
     self.postMessage({type:'done',message_text:`No new decoded match found in ${time_limit} seconds. ${excluded_payloads.size} saved addresses were excluded. This is a bounded search, not proof of impossibility. Try more free characters, fewer locks, or a larger grid.`});
   }catch(error_info){self.postMessage({type:'error',message_text:error_info.message});}
 };

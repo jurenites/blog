@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {readFile} from 'node:fs/promises';
+import {validate_matches} from '../ui/matches.js';
 import '../ui/vendor/qrcodegen.js';
 vm.runInThisContext(await readFile(new URL('../ui/vendor/jsQR.js',import.meta.url),'utf8'));
 
@@ -63,12 +64,13 @@ test('live input replaces exact text, retains locks/rotation, and leaves rejecte
  const before_hover=[...app_state.result_grid];app_tools.highlight_character(1);assert.deepEqual(app_state.result_grid,before_hover);
  element_map.get('address-pattern').selectionStart=2;for(const event_handler of element_map.get('address-pattern').events.keyup)event_handler({});assert.equal(app_state.highlight_index,2);
  assert.equal(element_map.has('payload-text'),false);assert.equal(element_map.has('encode-tab'),false);
+ assert.equal(element_map.has('candidate-text'),false);assert.equal(element_map.has('copy-payload'),false);
  clearTimeout(app_state.decode_timer);
 });
 
 test('rotation animates clockwise, handles repeated clicks, and respects reduced motion',()=>{
  const animation_calls=[];
- for(const element_id of ['qr-canvas','preview-canvas'])element_map.get(element_id).animate=(key_frames,animation_options)=>{
+ element_map.get('qr-canvas').animate=(key_frames,animation_options)=>{
   const animation_info={cancelled:false,cancel(){this.cancelled=true;},onfinish:null};
   animation_calls.push({key_frames,animation_options,animation_info});return animation_info;
  };
@@ -80,15 +82,15 @@ test('rotation animates clockwise, handles repeated clicks, and respects reduced
   rotate_handler();
   assert.equal(app_tools.APP_STATE.quarter_turns,(initial_turns+turn_index)%4);
  }
- assert.equal(animation_calls.length,8);
+ assert.equal(animation_calls.length,4);
  assert.deepEqual(animation_calls[0].key_frames,[{transform:'rotate(-90deg)'},{transform:'rotate(0deg)'}]);
  assert.equal(animation_calls[0].animation_options.duration,180);
  assert.equal(animation_calls[0].animation_info.cancelled,true);
- animation_calls[6].animation_info.onfinish();
+ animation_calls[3].animation_info.onfinish();
  assert.equal(element_map.get('qr-canvas').attributes['data-rotating'],undefined);
  assert.deepEqual(app_tools.APP_STATE.result_grid,initial_grid);
  globalThis.matchMedia=()=>({matches:true});
- rotate_handler();assert.equal(animation_calls.length,8);
+ rotate_handler();assert.equal(animation_calls.length,4);
  clearTimeout(app_tools.APP_STATE.decode_timer);
 });
 
@@ -148,8 +150,13 @@ test('page rejects the reported .4AG result and outdated workers before changing
  globalThis.Worker=class {constructor(){this.onmessage=null;}postMessage(){}terminate(){this.stopped=true;}};
  element_map.get('address-pattern').value='HTTP://?????.???';
  app_tools.start_search();let active_worker=app_state.search_worker;
+ active_worker.onmessage({data:{type:'progress',attempt_count:618141,phase_name:'reducing structure conflicts'}});
+ assert.equal(element_map.get('generation-count').textContent,'618,141');
+ assert.equal(element_map.get('generation-count').hidden,false);
+ assert.equal(element_map.get('generation-message').textContent,'candidates checked · reducing structure conflicts');
  active_worker.onmessage({data:{type:'result',payload_text:'HTTP://XFY60.4AG',mask_index:3,attempt_count:1,tld_version:TLD_VERSION}});
  assert.equal(active_worker.stopped,true);assert.equal(app_state.payload_text,before_payload);assert.deepEqual(app_state.result_grid,before_grid);assert.equal(app_state.found_matches.length,before_matches);
+ assert.equal(element_map.get('generation-count').hidden,true);
  assert.match(element_map.get('generation-message').textContent,/Rejected/);
  app_tools.start_search();active_worker=app_state.search_worker;
  active_worker.onmessage({data:{type:'result',payload_text:'HTTP://XFY60.TOP',mask_index:3,attempt_count:1}});
@@ -370,5 +377,56 @@ test('Text toggles the actual layer, controls and outline while retaining edits 
  text_button.events.click[0]();assert.equal(app_state.tool_name,'paint');assert.deepEqual(app_state.result_grid,base_grid);
  element_map.get('undo-button').events.click[0]();assert.deepEqual(app_state.result_grid,original_grid);assert.equal(element_map.get('pixel-text-controls').hidden,false);
  assert.equal(element_map.has('apply-pixel-text'),false);assert.equal(element_map.has('remove-pixel-text'),false);
+ clearTimeout(app_state.decode_timer);
+});
+
+test('saved match cards load from the card body while SVG previews download separately',()=>{
+ const app_state=app_tools.APP_STATE;
+ app_state.found_matches=[];
+ app_tools.restore_snapshot({address_pattern:'HTTPS://A.CO',payload_text:'HTTPS://A.CO',version_number:1,error_level:'Q',mask_index:0,lock_values:new Array(441).fill(-1),quarter_turns:0,protect_structure:true});
+ const saved_locks=new Array(441).fill(-1);const structure_indices=[];const other_indices=[];
+ for(let cell_index=0;cell_index<441;cell_index++)(app_state.qr_code.function_grid[Math.floor(cell_index/21)][cell_index%21]?structure_indices:other_indices).push(cell_index);
+ for(const cell_rows of [structure_indices,other_indices]){
+  const conflict_index=cell_rows[0];const match_index=cell_rows[1];
+  saved_locks[conflict_index]=Number(!app_state.qr_code.modules[Math.floor(conflict_index/21)][conflict_index%21]);
+  saved_locks[match_index]=Number(app_state.qr_code.modules[Math.floor(match_index/21)][match_index%21]);
+ }
+ const saved_match=validate_matches([{...app_tools.snapshot_state(),lock_values:saved_locks,protect_structure:false}])[0];
+ app_tools.restore_snapshot({address_pattern:'HELLO',payload_text:'HELLO',version_number:1,error_level:'Q',mask_index:0,lock_values:new Array(441).fill(-1),quarter_turns:0,protect_structure:true});
+ app_state.found_matches=[saved_match];app_tools.refresh_workspace(false);
+ const match_card=element_map.get('matches-list').children[0];
+ const [preview_link,load_link,active_button]=match_card.children[0].children;
+ assert.equal(match_card.children[0].children.length,3);
+ assert.equal(active_button.textContent,'×');
+ assert.equal(active_button.attributes['aria-label'],'Archive saved match HTTPS://A.CO');
+ assert.match(preview_link.innerHTML,/<svg aria-hidden="true"/);
+ assert.match(preview_link.innerHTML,/viewBox="0 0 29 29"/);
+ assert.equal(preview_link.attributes['aria-label'],'Download SVG for HTTPS://A.CO');
+ assert.equal(preview_link.download,'A.CO.svg');
+ assert.match(decodeURIComponent(preview_link.href),/^data:image\/svg\+xml;charset=utf-8,<svg /);
+ const [summary_element,count_row]=match_card.children[1].children;
+ assert.equal(summary_element.textContent,'21 · Q');
+ assert.deepEqual(count_row.children.map(pair_element=>pair_element.children.map(value_element=>value_element.textContent)),[['Structure',1,'/',1],['Other',1,'/',1]]);
+ globalThis.window={getSelection:()=>({isCollapsed:true})};
+ match_card.events.click[0]({target:{closest:()=>null}});
+ assert.equal(app_state.payload_text,'HTTPS://A.CO');
+ app_tools.restore_snapshot({address_pattern:'HELLO',payload_text:'HELLO',version_number:1,error_level:'Q',mask_index:0,lock_values:new Array(441).fill(-1),quarter_turns:0,protect_structure:true});
+ window.getSelection=()=>({isCollapsed:false,containsNode:()=>true});
+ load_link.events.click[0]({preventDefault(){}});
+ assert.equal(app_state.payload_text,'HELLO');
+ window.getSelection=()=>({isCollapsed:true});
+ let click_stopped=false;preview_link.events.click[0]({stopPropagation(){click_stopped=true;}});assert.equal(click_stopped,true);
+ match_card.events.click[0]({target:{closest:()=>preview_link}});
+ assert.equal(app_state.payload_text,'HELLO');
+ active_button.events.click[0]();
+ assert.equal(active_button.textContent,'+');
+ assert.equal(active_button.attributes['aria-label'],'Reactivate saved match HTTPS://A.CO');
+ assert.equal(match_card.dataset.active,'false');
+ assert.equal(app_state.found_matches.length,1);
+ match_card.events.click[0]({target:{closest:()=>null}});
+ assert.equal(app_state.payload_text,'HELLO');
+ active_button.events.click[0]();
+ assert.equal(active_button.textContent,'×');
+ assert.equal(match_card.dataset.active,'true');
  clearTimeout(app_state.decode_timer);
 });

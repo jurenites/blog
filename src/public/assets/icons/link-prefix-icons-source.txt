@@ -21,3 +21,9 @@ vkontakte.svg -> social-vk.svg
 yandex.svg -> brand-yandex-mail.svg
 yandex-mail-active.svg -> brand-yandex-mail-active.svg
 youtube.svg -> social-youtube.svg
+
+brand-chatgpt.svg was added on 2026-10-04 from the official OpenAI logo package:
+https://cdn.openai.com/brand/OpenAI-Logos-2025.zip
+Source member: OpenAI-logos(new)/SVGs/OpenAI-white-monoblossom.svg
+Its white Blossom path was uniformly scaled into the site's 16 by 16 prefix
+viewport with one pixel of clear space. No path shapes or colors were redesigned.

@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * Creates practice data tables and seeds editable content once.
+ */
+
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\language\Entity\ContentLanguageSettings;
+
+/**
+ * Implements hook_schema().
+ */
+function jurenites_practice_shop_schema(): array {
+  $shared_fields = [
+    'session_id' => ['type' => 'varchar', 'length' => 36, 'not null' => TRUE],
+    'created_at' => ['type' => 'int', 'not null' => TRUE],
+    'item_value_minor' => ['type' => 'int', 'not null' => TRUE, 'default' => 0],
+    'shipping_value_minor' => ['type' => 'int', 'not null' => TRUE, 'default' => 0],
+  ];
+  return [
+    'jurenites_practice_event' => [
+      'description' => 'Server-recorded practice actions. Never real purchases.',
+      'fields' => $shared_fields + [
+        'event_id' => ['type' => 'serial', 'not null' => TRUE],
+        'event_name' => ['type' => 'varchar', 'length' => 40, 'not null' => TRUE],
+        'product_id' => ['type' => 'int', 'not null' => TRUE, 'default' => 0],
+        'quantity_value' => ['type' => 'int', 'not null' => TRUE, 'default' => 0],
+        'order_id' => ['type' => 'varchar', 'length' => 36, 'not null' => TRUE, 'default' => ''],
+      ],
+      'primary key' => ['event_id'],
+      'indexes' => ['created_at' => ['created_at'], 'session_id' => ['session_id']],
+    ],
+    'jurenites_practice_order' => [
+      'description' => 'Immutable test order snapshots, without customer details.',
+      'fields' => $shared_fields + [
+        'order_id' => ['type' => 'varchar', 'length' => 36, 'not null' => TRUE],
+        'product_lines' => ['type' => 'text', 'size' => 'normal', 'not null' => TRUE],
+      ],
+      'primary key' => ['order_id'],
+      'indexes' => ['created_at' => ['created_at']],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_install().
+ */
+function jurenites_practice_shop_install(): void {
+  if (!BlockContentType::load('practice_product')) {
+    BlockContentType::create(['id' => 'practice_product', 'label' => 'Practice product', 'revision' => TRUE])->save();
+  }
+  \Drupal::moduleHandler()->loadInclude('block_content', 'install');
+  block_content_add_body_field('practice_product');
+  FieldConfig::loadByName('block_content', 'practice_product', 'body')->setTranslatable(TRUE)->save();
+  $field_definitions = [
+    'field_practice_heading' => ['string', 'Product heading', [], [], 'string_textfield', TRUE],
+    'field_practice_price' => ['integer', 'Price in hundredths of a test credit', [], ['min' => 0, 'max' => 1000000], 'number', FALSE],
+    'field_practice_kind' => ['list_string', 'Delivery type', ['allowed_values' => ['digital' => 'Digital', 'physical' => 'Physical']], [], 'options_select', FALSE],
+  ];
+  $form_display = EntityFormDisplay::load('block_content.practice_product.default');
+  foreach ($field_definitions as $field_name => [$field_type, $field_label, $storage_settings, $field_settings, $widget_type, $translatable_field]) {
+    if (!FieldStorageConfig::loadByName('block_content', $field_name)) {
+      FieldStorageConfig::create(['entity_type' => 'block_content', 'field_name' => $field_name, 'type' => $field_type, 'settings' => $storage_settings])->save();
+    }
+    if (!FieldConfig::loadByName('block_content', 'practice_product', $field_name)) {
+      FieldConfig::create(['entity_type' => 'block_content', 'bundle' => 'practice_product', 'field_name' => $field_name, 'label' => $field_label, 'settings' => $field_settings, 'required' => TRUE, 'translatable' => $translatable_field])->save();
+    }
+    $form_display->setComponent($field_name, ['type' => $widget_type]);
+  }
+  $form_display->setComponent('status', ['type' => 'boolean_checkbox'])->save();
+  ContentLanguageSettings::loadByEntityTypeBundle('block_content', 'practice_product')
+    ->setLanguageAlterable(TRUE)->setThirdPartySetting('content_translation', 'enabled', TRUE)->save();
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+
+  $starter_products = [
+    ['d8a1fbb0-7855-41b4-981f-e27862c27fa1', 'PDF book', 'digital', 300, '<p>A digital book for the practice checkout. Digital delivery is simulated; no book is supplied.</p>'],
+    ['d8a1fbb0-7855-41b4-981f-e27862c27fa2', 'Sparkling water', 'physical', 100, '<p>A brandless can for the practice checkout. Shipping is simulated; nothing will be dispatched.</p>'],
+  ];
+  $block_storage = \Drupal::entityTypeManager()->getStorage('block_content');
+  foreach ($starter_products as [$product_uuid, $product_heading, $product_kind, $product_price, $product_body]) {
+    if (!$block_storage->loadByProperties(['uuid' => $product_uuid])) {
+      BlockContent::create([
+        'uuid' => $product_uuid, 'type' => 'practice_product', 'langcode' => 'en',
+        'info' => 'Practice shop: ' . $product_heading, 'status' => TRUE, 'reusable' => TRUE,
+        'field_practice_heading' => $product_heading, 'field_practice_price' => $product_price,
+        'field_practice_kind' => $product_kind, 'body' => ['value' => $product_body, 'format' => 'basic_html'],
+      ])->save();
+    }
+  }
+  if (!$block_storage->loadByProperties(['uuid' => 'd8a1fbb0-7855-41b4-981f-e27862c27fa3'])) {
+    BlockContent::create([
+      'uuid' => 'd8a1fbb0-7855-41b4-981f-e27862c27fa3', 'type' => 'basic', 'langcode' => 'en',
+      'info' => 'Practice shop introduction', 'status' => TRUE, 'reusable' => TRUE,
+      'body' => ['format' => 'basic_html', 'value' => '<h2>A small shop. A place to learn.</h2><p>Explore a digital product and a physical product, then try the checkout. This experiment helps me learn how to analyse shopping journeys with Power BI.</p>'],
+    ])->save();
+  }
+}

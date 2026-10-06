@@ -1,0 +1,6 @@
+name: jurenites Yandex.Metrika
+type: module
+description: Adds the Yandex.Metrika counter to anonymous public visits on the production website.
+package: jurenites
+core_version_requirement: ^11
+configure: jurenites_metrika.settings

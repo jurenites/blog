@@ -30,6 +30,8 @@ If the local proxy is unavailable, check Drupal from inside its container with `
 Useful independent commands:
 
 ```bash
+npm run build:theme
+
 npm run build:tokens
 npm run build-storybook
 npm run build:info:check
@@ -74,9 +76,103 @@ docker exec blog_jurenites_web ./vendor/bin/drush recipe /opt/drupal/recipes/jur
 
 
 
+### ClickHouse integration
+
+Composer includes `drupal/clickhouse:^1.0@alpha`, locked to `1.0.0-alpha1`.
+This prerelease supports Drupal 11/12 and provides a PHP query and bulk-insert
+API for a separate ClickHouse server. Drupal continues to use MariaDB locally.
+
+The integration is for local evaluation on the M1 Mac. Enable the module and
+rebuild caches in local DEV:
+
+```bash
+docker exec blog_jurenites_web ./vendor/bin/drush pm:enable clickhouse --yes
+docker exec blog_jurenites_web ./vendor/bin/drush cache:rebuild
+docker exec blog_jurenites_web ./vendor/bin/drush pm:list --filter=clickhouse --fields=name,status,version
+```
+
+Connections belong in environment-owned `$settings['clickhouse']` entries in
+`settings.php`, with credentials kept outside version control. There is no
+connection configuration form. Supply the server host, database, username,
+password, scheme, and HTTP port (normally 8123, not native-protocol port 9000).
+Connections are read-only unless explicitly configured with `write => TRUE`.
+See `web/modules/contrib/clickhouse/README.md` for the connection and API contract.
+
+#### Local ClickHouse server
+
+The optional `clickhouse` Compose service uses the native ARM64 `26.8` LTS
+image, with a 2 GB container memory limit and settings for small datasets in
+`docker/clickhouse/`. It shares the local Drupal Docker network, but publishes
+only `127.0.0.1:8123` on the Mac. The native database port is not published.
+The `analytics` profile keeps it out of ordinary `docker compose up -d` startup.
+
+```bash
+docker compose up -d clickhouse
+docker compose ps clickhouse
+docker compose stop clickhouse
+```
+
+Run these commands from the repository root. The named `clickhouse-data` volume
+preserves data when the container stops or is recreated. `docker compose down -v`
+deletes project database volumes, including MariaDB; do not use it to stop this
+experiment. There is no automatic restart policy: explicitly start ClickHouse
+again when needed after restarting Docker.
+
+Open <http://localhost:8123/play> for the built-in SQL interface. The local
+database is `local_analytics`, and the user is `local_analyst`. Its generated
+password is stored in ignored `docker/clickhouse/.env.local`. This file contains
+`CLICKHOUSE_DB`, `CLICKHOUSE_USER`, and `CLICKHOUSE_PASSWORD`; recreate it with a
+new password on a new machine before starting this service. Never publish it.
+The browser interface uses these database credentials, not a ClickHouse Cloud
+account. For example, query generated rows without storing any visitor data:
+
+```sql
+SELECT number % 10 AS event_bucket, count() AS event_count
+FROM numbers(1000000)
+GROUP BY event_bucket
+ORDER BY event_bucket;
+```
+
+For an authenticated terminal session using the container's local credentials:
+
+```bash
+docker compose exec clickhouse sh -c 'exec clickhouse-client --user "$CLICKHOUSE_USER" --password "$CLICKHOUSE_PASSWORD" --database "$CLICKHOUSE_DB"'
+```
+
+The ignored local Drupal `settings.php` defines a read-only `default` connection
+to host `clickhouse`, database `local_analytics`, using the same credentials.
+The local SQL console account permits creating tables for experiments; Drupal's
+connection requests read-only queries. Verify it through the installed module:
+
+```bash
+docker exec blog_jurenites_web ./vendor/bin/drush php:eval 'echo \Drupal::service("clickhouse")->get()->queryScalar("SELECT version()") . PHP_EOL;'
+```
+
+This setup collects no visitor events automatically and has no Cloud subscription.
+Keep it on the Mac. Do not copy local settings or provision ClickHouse on Hosting-0.
+
 ### Artwork and Git
 
 `output/ceramic-logo/.gitignore` keeps generated renders, reports, Blender backups, and Python caches local. Preserve editable scenes and source artwork. For already tracked generated files, a reviewed `git rm --cached` removes only the index entry and keeps the working file. Review the staged diff before committing. A cleanup commit does not remove historical blobs; rewriting published history is a separate coordinated operation.
+
+## Upload missing public files to PROD over SSH
+
+Run this single `rsync` command in the **local macOS Terminal** after confirming
+that `u3614358@server290.hosting.reg.ru` is the SSH login you use for this
+hosting account. The source and destination trailing slashes copy the contents
+of `files/` into the existing PROD `files/` directory. The command skips
+generated caches and the configuration directory, uploads missing
+files, and does not overwrite or delete files already on PROD.
+
+```bash
+rsync -rltv --progress --ignore-existing -e ssh --exclude='.DS_Store' --exclude='._*' --exclude='/css/' --exclude='/js/' --exclude='/php/' --exclude='/styles/' --exclude='/translations/' --exclude='/tmp/' --exclude='/config_*/' /Users/alexanderilivanov/Projects/blog_jurenites/web/sites/default/files/ u3614358@server290.hosting.reg.ru:/var/www/u3614358/data/www/jurenites.com/web/sites/default/files/
+```
+
+This is an additive upload for missing originals, not the full DEV-to-PROD
+content restore below. An existing file with the same path is left as it is,
+even if the local copy differs. Run the command again if the SSH connection
+is interrupted; check the `rsync` exit status and transfer summary before
+assuming the upload finished.
 
 ## DEV to PROD content restore
 
@@ -419,6 +515,63 @@ docker exec blog_jurenites_web vendor/bin/drush php:script tests/clarity-integra
 ```
 
 The existing privacy module's starter copy claims there is no analytics. Review the editable privacy page and cookie notice before production activation. This module supplies tracking configuration, not a visitor consent interface.
+
+#### Yandex.Metrika
+
+`jurenites_metrika` adds counter `113437271` with the supplied Webvisor, click-map,
+link-tracking, accurate-bounce, SSR, referrer/URL, and `dataLayer` ecommerce
+options. The counter ID and enabled switch are editable under **Configuration →
+Web services → Yandex.Metrika** (`/admin/config/services/yandex-metrika`). Clearing
+the ID or disabling tracking stops both the script and the no-JavaScript beacon.
+The ecommerce option names the container; it does not create purchase events.
+
+The module uses Drupal page attachments and a body-level `noscript` beacon.
+Only anonymous public requests on `jurenites.com` and `www.jurenites.com` qualify.
+Local/preview hosts, signed-in users, administrative routes, account pages, and
+content editing/revision paths are excluded. Visibility carries host, path,
+route, and authentication cache contexts plus the configuration cache tag.
+The isolated QR Studio document bypasses Drupal's page hooks and is not tracked
+by this integration.
+
+The contributed [Yandex.Metrics project](https://www.drupal.org/project/yandex_metrics)
+listed no supported stable release when reviewed on 2026-10-05, so this small
+Drupal 11 module owns the integration. Do not also paste the counter into Twig
+or Google Tag Manager.
+
+For local Docker development, run Drush inside the web container:
+
+```bash
+docker exec blog_jurenites_web vendor/bin/drush pm:enable jurenites_metrika --yes
+docker exec blog_jurenites_web vendor/bin/drush cr
+```
+
+The local database hostname `db` resolves inside Docker. Running the local
+`vendor/bin/drush` directly from macOS cannot connect to that hostname.
+
+After deploying the module files to production, run these commands from the
+production project directory in its PHP/database environment:
+
+```bash
+vendor/bin/drush pm:enable jurenites_metrika --yes
+vendor/bin/drush cr
+```
+
+Installation seeds the supplied ID once. Later configuration edits and clears
+are preserved. Local installation is enabled but emits no Yandex requests.
+Code-only deployment does not enable the module in an existing production database.
+Review the existing editable privacy copy, which was originally seeded with a
+no-analytics claim, when activating production tracking.
+
+Verify locally without sending analytics traffic:
+
+```bash
+node --test tests/metrika-counter.test.mjs
+docker exec blog_jurenites_web vendor/bin/drush php:script tests/metrika-integration.php
+```
+
+These checks cover the routed settings form, initialization options, script reuse, visibility, cache
+metadata, fallback markup, disabled/invalid IDs, and local HTTP suppression.
+They do not establish production deployment or reception in Yandex.Metrika.
 
 ### Release identity
 

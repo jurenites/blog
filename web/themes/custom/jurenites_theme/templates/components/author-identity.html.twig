@@ -36,7 +36,7 @@
       <span class="author-identity__coauthor-separator">&amp;</span>
       <span class="author-identity__name author-identity__name--secondary">
         {% if coauthor_url %}
-          <a href="{{ coauthor_url }}" rel="external noopener">{{ coauthor_name_text }}</a>
+          <a href="{{ coauthor_url }}"{% if coauthor_link_target_blank %} target="_blank"{% endif %} rel="external noopener">{{ coauthor_name_text }}</a>
         {% else %}
           {{ coauthor_name_text }}
         {% endif %}

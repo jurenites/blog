@@ -294,6 +294,9 @@ $phone-classic-large-width: 458px;
 
   &__phone--classic &__screen {
     border-radius: 0;
+    // The flat classic glass needs no Z offset; fractional 3D compositing
+    // exposes the white frame backing along its right and bottom edges.
+    transform: none;
   }
 
   &__home-button {

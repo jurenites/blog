@@ -1038,6 +1038,39 @@ function jurenites_blog_post_update_restore_page_title_block(): TranslatableMark
 }
 
 /**
+ * Names the mobile front-page item, preserving other editorial menu labels.
+ */
+function jurenites_blog_post_update_restore_home_navigation(): TranslatableMarkup {
+  $menu_link_storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
+  $menu_link_ids = $menu_link_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('menu_name', 'main')
+    ->execute();
+
+  foreach ($menu_link_storage->loadMultiple($menu_link_ids) as $menu_link_item) {
+    if (in_array($menu_link_item->get('link')->uri, ['internal:/', 'route:<front>'], TRUE)) {
+      if ($menu_link_item->label() === 'Home') {
+        $menu_link_item->set('title', 'Alexander Ilivanov');
+        $menu_link_item->save();
+        return t('Renamed the mobile front-page link to Alexander Ilivanov.');
+      }
+      return t('The Main navigation already has a front-page link.');
+    }
+  }
+
+  MenuLinkContent::create([
+    'title' => 'Alexander Ilivanov',
+    'link' => ['uri' => 'internal:/'],
+    'menu_name' => 'main',
+    'enabled' => TRUE,
+    'expanded' => FALSE,
+    'weight' => 0,
+  ])->save();
+
+  return t('Added Alexander Ilivanov to the mobile Main navigation.');
+}
+
+/**
  * Creates Video and preserves existing YouTube nodes, revisions and URLs.
  *
  * Runs alphabetically after the earlier youtube_* Article field updates.

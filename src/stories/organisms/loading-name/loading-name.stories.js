@@ -19,7 +19,7 @@ function render_story(story_args) {
   story_element.innerHTML = `<div class="loading-name__stage">${site_header_markup({
     brand_name: full_name,
     brand_full_name: full_name,
-    navigation_labels: 'Home, About, Portfolio, Blog, Contact',
+    navigation_labels: `${full_name}, About, Portfolio, Blog, Contact`,
     language_labels: 'Eng, Rus',
   })}</div><div class="loading-name__controls">${button_markup({ button_label: REPLAY_LABEL })}</div>`;
   const brand_link = story_element.querySelector('.site-header__brand');

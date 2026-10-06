@@ -1,0 +1,4 @@
+services:
+  jurenites_practice_shop.data:
+    class: Drupal\jurenites_practice_shop\PracticeShopData
+    arguments: ['@database', '@uuid', '@datetime.time', '@entity_type.manager', '@entity.repository']

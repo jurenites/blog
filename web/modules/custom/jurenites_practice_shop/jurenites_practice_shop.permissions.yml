@@ -1,0 +1,4 @@
+export practice shop data:
+  title: 'Export practice shop data'
+  description: 'Download pseudonymous practice sessions and test orders.'
+  restrict access: TRUE

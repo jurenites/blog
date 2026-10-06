@@ -1,0 +1,27 @@
+jurenites_practice_shop.catalog:
+  path: '/shop'
+  defaults:
+    _form: '\Drupal\jurenites_practice_shop\Form\PracticeShopForm'
+    _title: 'Practice shop'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+jurenites_practice_shop.reports:
+  path: '/admin/reports/practice-shop'
+  defaults:
+    _controller: '\Drupal\jurenites_practice_shop\Controller\PracticeExportController::reportLinks'
+    _title: 'Practice shop data'
+  requirements:
+    _permission: 'export practice shop data'
+  options:
+    _admin_route: TRUE
+jurenites_practice_shop.export:
+  path: '/admin/reports/practice-shop/{dataset_name}.csv'
+  defaults:
+    _controller: '\Drupal\jurenites_practice_shop\Controller\PracticeExportController::exportData'
+  requirements:
+    _permission: 'export practice shop data'
+    dataset_name: 'events|orders'
+  options:
+    no_cache: TRUE

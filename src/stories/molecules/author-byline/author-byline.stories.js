@@ -21,6 +21,7 @@ const COAUTHOR_AVATAR_IMAGE_URL = "";
 
 const VIDEO_AUTHOR_NAME = "Jake The Alright";
 const VIDEO_AUTHOR_URL = "https://www.youtube.com/@jakethealright";
+const VIDEO_AUTHOR_LINK_TARGET_BLANK = true;
 const VIDEO_BYLINE_LABEL = "Video creator";
 const VIDEO_AVATAR_INITIALS = "JT";
 const VIDEO_AVATAR_SIZE = "small";
@@ -34,6 +35,7 @@ const COLLABORATION_AUTHOR_URL = "https://www.youtube.com/@first-channel";
 const COLLABORATION_AVATAR_INITIALS = "FC";
 const COLLABORATION_COAUTHOR_NAME = "Second Channel";
 const COLLABORATION_COAUTHOR_URL = "https://www.youtube.com/@second-channel";
+const COLLABORATION_COAUTHOR_LINK_TARGET_BLANK = true;
 const COLLABORATION_COAUTHOR_INITIALS = "SC";
 
 function render_story(story_args) {
@@ -48,8 +50,10 @@ export default {
     byline_label: { control: "text" },
     author_name: { control: "text" },
     author_url: { control: "text" },
+    author_link_target_blank: { control: "boolean" },
     coauthor_name: { control: "text" },
     coauthor_url: { control: "text" },
+    coauthor_link_target_blank: { control: "boolean" },
     coauthor_avatar_initials: { control: "text" },
     coauthor_avatar_image_url: { control: "text" },
     author_prefix_text: { control: "text" },
@@ -115,6 +119,7 @@ export const youtube_reference = {
     byline_label: VIDEO_BYLINE_LABEL,
     author_name: VIDEO_AUTHOR_NAME,
     author_url: VIDEO_AUTHOR_URL,
+    author_link_target_blank: VIDEO_AUTHOR_LINK_TARGET_BLANK,
     avatar_initials: VIDEO_AVATAR_INITIALS,
     avatar_size: VIDEO_AVATAR_SIZE,
     published_date: VIDEO_PUBLISHED_DATE,
@@ -134,6 +139,7 @@ export const youtube_collaboration = {
     avatar_initials: COLLABORATION_AVATAR_INITIALS,
     coauthor_name: COLLABORATION_COAUTHOR_NAME,
     coauthor_url: COLLABORATION_COAUTHOR_URL,
+    coauthor_link_target_blank: COLLABORATION_COAUTHOR_LINK_TARGET_BLANK,
     coauthor_avatar_initials: COLLABORATION_COAUTHOR_INITIALS,
   },
 };
