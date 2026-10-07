@@ -178,6 +178,136 @@ assuming the upload finished.
 
 Use this procedure only for an intentional replacement of PROD content with a DEV snapshot. Ordinary production code updates do not require a database import. A restore replaces content, users, submissions, and active configuration; public files transfer separately. Keep the target environment's settings and secrets.
 
+### SSH shortcut: database and public files only
+
+From the local Mac, run [the content deployment script](../scripts/deploy-content.sh).
+It does not commit, push, pull, install dependencies, or copy application code.
+PROD must already contain code and dependencies compatible with the current DEV
+database, including all enabled modules. Existing backups are managed separately;
+the script does not make another PROD backup or automatically roll back.
+
+(optional) Start the local database if it is stopped, then check the SSH destination:
+```bash
+docker compose up -d db
+```
+(optional) check
+```bash
+bash scripts/deploy-content.sh --check u3614358@server290.hosting.reg.ru
+```
+
+The script retries the local database connection 30 times with two-second pauses
+while MariaDB starts. A running container can briefly have no database socket;
+this startup delay is handled before any SSH connection. If the container is
+stopped or never becomes ready, the script exits without contacting PROD and
+prints a local diagnostic command.
+
+The check tests database connectivity, Drush availability, public-directory write
+access, an existing configuration sync directory, and presence on PROD of every
+module/theme enabled in DEV, without replacing content. It reports the destination
+database and Drupal status. Presence alone does not prove matching code versions
+or schema compatibility. Drush child processes inherit the selected PHP directory
+through PATH, so they use the same PHP version as the parent command.
+Use your actual SSH alias/login if it differs from this hosting example.
+
+Run the restore with one command:
+```bash
+bash scripts/deploy-content.sh u3614358@server290.hosting.reg.ru
+```
+
+The default project directory is `/var/www/u3614358/data/apps/blog_jurenites`,
+PHP is `/opt/php/8.3/bin/php`, and the site URI is `https://jurenites.com`.
+Override these with `PROD_PROJECT`, `PROD_PHP`, `PROD_URI`, and `SSH_PORT` environment
+variables if needed. SSH keys and connection settings can live in your normal SSH
+config. `PROD_SSH` can supply the destination when the argument is omitted.
+
+Each invocation opens one shared SSH connection. Enter the hosting password once
+when that connection opens; all subsequent SSH commands and `scp` uploads reuse
+it. Passwords are not saved. The connection closes on completion, failure, or
+Ctrl+C. Later commands use batch mode so a lost connection cannot trigger another
+password prompt. Key-based authentication continues to work normally.
+
+The script compares SHA-256 file hashes for DEV and PROD public files, prints the
+number and size of missing/changed files, and uses `scp -r` to transfer only those
+files in their original directory structure. Identical files are skipped even
+when timestamps differ; changed contents are detected even when sizes match.
+There is no public-files tar archive. `.htaccess` participates in the comparison;
+the same generated directories as the manual export below are excluded. Python 3
+is required on the Mac; the existing PHP CLI computes hashes on PROD. Public-file
+symlinks are unsupported and stop the export.
+
+The Docker `blog_jurenites_db` database is still exported in full and compressed,
+with the known MariaDB-only collation converted in table definitions for MySQL
+compatibility. The database and changed public files are uploaded into a private
+staging directory outside `web/`. Uploaded file hashes are verified before the
+database restore starts. Avoid editing DEV/PROD files or running cron during the
+comparison and restore. This skips identical files but does not resume a partially
+uploaded individual file; a new run compares against the installed PROD files.
+
+On PROD it enables Drupal maintenance mode, drops the target database's tables,
+and imports the DEV dump. Drush `sql:query` runs the MySQL/MariaDB terminal client
+using PROD's existing `settings.php` credentials. No password needs to be put in
+the script, a command argument, or chat. This is a full database replacement,
+including users, passwords, submissions, and configuration, not a content merge.
+
+After import, it copies the staged public files into PROD, overwriting matching
+paths and retaining PROD-only files. It runs `updatedb`, rebuilds caches, checks
+Drupal database access, then disables maintenance mode. Review the public pages,
+login, images, and environment-specific settings after completion. This script
+copies only public files, not private-file storage.
+
+The import is not transactional. Drupal maintenance state itself is replaced by
+the imported database and reapplied afterwards; it is not a continuous traffic
+lock during import. Run during a quiet window with external cron paused. If a
+command fails, the script stops and does not intentionally reopen the site;
+inspect its actual state before recovering with your backups or rerunning.
+Failure after import can leave the new database with old or partially copied
+files. Remote staging is retained on failure and removed on success; the local
+DEV export location is printed and retained in a private temporary directory.
+
+### Finish an imported snapshot after missing-code errors
+
+If database import and public-file installation succeeded but updates stopped on
+missing `clickhouse`, `devel`, `jurenites_metrika`, `jurenites_practice_shop`, or
+`ms_clarity` code, the site remains in maintenance mode. After approving the
+additional module-code deployment, run:
+
+```bash
+bash scripts/finish-content-deployment.sh u3614358@server290.hosting.reg.ru
+```
+
+This repair does not import the database again or resend public files. It adds
+the three contributed modules at the versions in DEV's Composer lock using a
+targeted Composer update, and copies the two missing custom modules with scp.
+Devel becomes a production Composer requirement because the imported database
+marks it installed. The project's Clarity compatibility patch is reapplied when
+needed. No ClickHouse server or local ClickHouse credentials are provisioned.
+Other Composer root requirements and existing custom module directories are
+preserved. Dependencies needed by the three packages may be installed or updated.
+
+The repair uses PHP 8.3 for Drush and its child processes, creates the existing
+configuration sync directory if needed, or adds a setting for project-local
+`config/sync` outside `web/` when unset. It preserves PROD credentials and the
+settings file's permissions. Composer/settings backups remain in a private
+`.content-repair.*` directory. It checks extension availability, runs updates,
+clears caches, and disables maintenance mode only after the update steps succeed.
+`PROD_COMPOSER` overrides the default account-local Composer executable path.
+There are no Git commits, pushes, or pulls. A completed local test does not prove
+the remote repair succeeded; check its terminal completion and the public site.
+
+For this Drupal 11.4.7 deployment, PROD explicitly requires `twig/twig:3.29.0`,
+matching DEV's locked version. Twig 3.30 produced a homepage HTTP 500 even though
+Drush bootstrap and database updates succeeded: the compiled escape call passes
+the environment into the wrong argument position. See the
+[Drupal issue for the Twig 3.30 rendering regression](https://www.drupal.org/project/drupal/issues/3625969).
+Preserve the PROD constraint during module installation until a compatible update
+has been verified. Always request the public homepage after a dependency change;
+a successful cache rebuild alone does not establish successful page rendering.
+
+### Manual restore including a separate code release
+
+The remaining procedure covers a full release through ISPmanager/phpMyAdmin.
+Its Git steps are not part of the SSH content-only shortcut above.
+
 Before starting:
 
 1. Review and commit the intended code and generated assets. Push the chosen branch, review its pull request and CI results, and merge to `main` through the project's normal review process. Do not stage unrelated work blindly.

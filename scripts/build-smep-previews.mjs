@@ -20,7 +20,14 @@ try {
     for (const [source_index, source_name] of source_names.entries()) {
       const asset_name = `${String(source_index + 1).padStart(2, '0')}-${source_name.replace(/\.png$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '')}.png`;
       await copy_file(`${source_root}/${preview_group.source_folder}/${source_name}`, `${asset_folder}/${asset_name}`);
-      frame_list.push({ image_source: `/themes/custom/jurenites_theme/assets/images/projects/smep/${preview_group.group_name}/${asset_name}`, image_description: `SMEP: ${source_name.replace(/\.png$/, '')}`, frame_mode: 'scroll', hold_ms: 2400, scroll_behavior: 'swipe', bottom_hold_ms: 1000 });
+      const frame_settings = {
+        image_source: `/themes/custom/jurenites_theme/assets/images/projects/smep/${preview_group.group_name}/${asset_name}`,
+        image_description: `SMEP: ${source_name.replace(/\.png$/, '')}`,
+        frame_mode: preview_group.group_name === 'element-cards' ? 'still' : 'scroll',
+        hold_ms: 2400,
+        ...(preview_group.group_name === 'element-cards' ? {} : { scroll_behavior: 'swipe', bottom_hold_ms: 1000 }),
+      };
+      frame_list.push(frame_settings);
     }
     preview_group.frame_count = frame_list.length;
     preview_group.preview_markup = `<div data-phone-preview data-smep-preview="${preview_group.group_name}">${card_markup({ display_size: 'thumbnail', background_mode: 'gradient', screen_preset: 'compact-screen', iphone_era: 'classic', follow_cursor: true, island_overlay: false, is_playing: true, fade_duration_ms: 450, fallback_source: frame_list[0].image_source, frame_list })}</div>`;

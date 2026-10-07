@@ -6,6 +6,26 @@ export function install_screen_sequence(card_element, abort_signal) {
   if (!screen_element) return;
   const frame_elements = [...screen_element.querySelectorAll('[data-screen-frame]')];
   if (!frame_elements.length) return;
+  const poster_element = screen_element.querySelector('.card__poster');
+  const poster_image = poster_element?.querySelector('.card__poster-image');
+  if (poster_image) {
+    const finish_poster_loading = () => {
+      poster_element.removeAttribute('data-poster-loading');
+      poster_element.setAttribute('data-poster-ready', '');
+    };
+    if (poster_image.complete && poster_image.naturalWidth > 0) {
+      finish_poster_loading();
+    } else if (poster_image.complete) {
+      poster_element.setAttribute('data-poster-error', '');
+    } else {
+      poster_element.setAttribute('data-poster-loading', '');
+      poster_image.addEventListener('load', finish_poster_loading, { once: true, signal: abort_signal });
+      poster_image.addEventListener('error', () => {
+        poster_element.removeAttribute('data-poster-loading');
+        poster_element.setAttribute('data-poster-error', '');
+      }, { once: true, signal: abort_signal });
+    }
+  }
   const motion_query = matchMedia('(prefers-reduced-motion: reduce)');
   const live_animations = new Set();
   const crossfade_animations = new Set();

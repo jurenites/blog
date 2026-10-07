@@ -1,5 +1,7 @@
 // Molecule: Contact Form. The Webform recipe adds this class to native markup.
 
+@use "../tools";
+
 .contact-form {
   max-width: var(--layout-content-max-blog-default);
 }
@@ -10,4 +12,13 @@
 
 .contact-form .form-actions {
   margin: 0;
+}
+
+@media (width >= tools.$system-breakpoint-desktop-min) {
+  .contact-form {
+    width: 100%;
+    max-width: var(--component-text-input-width-full);
+    margin-inline: auto 0;
+    text-align: left;
+  }
 }

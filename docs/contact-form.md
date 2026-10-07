@@ -3,6 +3,10 @@
 The public `/contact` route is owned by Webform's `contact` configuration entity.
 The theme gives its main content block 40px of top padding and hides the
 breadcrumb block on Contact, including language-prefixed routes.
+At desktop widths (1280px and above), the main content block has a minimum
+width of 960px and minimum height of 640px. The 400px form aligns to the right
+edge of that content frame, with labels left-aligned above their inputs.
+Smaller viewports retain the fluid layout.
 Apply the project recipe after installing Composer dependencies:
 
 ```bash

@@ -337,8 +337,9 @@ $phone-classic-large-width: 458px;
   }
 
   &__frame--island-inset &__image {
+    height: 100%;
     max-height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: top;
   }
 
@@ -354,12 +355,46 @@ $phone-classic-large-width: 458px;
     height: 100%;
   }
 
+  &__poster &__frame-media {
+    background: var(--theme-dark-surface-background-elevation-level-1);
+  }
+
+  &__poster &__frame-media::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: linear-gradient(100deg,
+      transparent 20%,
+      color-mix(in srgb, var(--theme-dark-text-primary-default) 12%, transparent) 50%,
+      transparent 80%);
+    transform: translateX(-100%);
+    animation: card-poster-shimmer var(--component-progressive-image-skeleton-cycle-default)
+      var(--motion-easing-standard-default) infinite;
+  }
+
+  &__poster[data-poster-ready] &__frame-media::before,
+  &__poster[data-poster-error] &__frame-media::before {
+    display: none;
+  }
+
   &__poster-image {
+    position: relative;
+    z-index: 1;
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: top;
+  }
+
+  &__poster[data-poster-loading] &__poster-image,
+  &__poster[data-poster-error] &__poster-image {
+    visibility: hidden;
+  }
+
+  &__poster[data-poster-ready] &__poster-image {
+    animation: card-poster-reveal var(--motion-duration-media-reveal-default)
+      var(--motion-easing-standard-default) both;
   }
 
   &__island-overlay {
@@ -428,10 +463,32 @@ $phone-classic-large-width: 458px;
   }
 }
 
+@keyframes card-poster-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes card-poster-reveal {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card,
   .card__background {
     transition: none;
+  }
+
+  .card__poster[data-poster-ready] .card__poster-image,
+  .card__poster .card__frame-media::before {
+    animation: none;
+    transform: none;
   }
 }
 

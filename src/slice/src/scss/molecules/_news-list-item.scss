@@ -53,6 +53,8 @@
     flex-direction: column;
     gap: var(--space-scale-base-gap);
     min-width: 0;
+    padding-top: calc(var(--space-scale-base-gap) * 1);
+    padding-bottom: calc(var(--space-scale-base-gap) * 1);
   }
 
   &__meta {
@@ -72,9 +74,6 @@
   }
 
   &__title-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-scale-zero);
     text-decoration: none;
     @include tools.motion-transition(color);
   }
@@ -104,7 +103,7 @@
 
   &__external-mark {
     visibility: hidden;
-    flex-shrink: 0;
+    vertical-align: -0.15em;
     color: inherit;
   }
 }

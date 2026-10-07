@@ -940,7 +940,8 @@ and keyboard focus turn the name cyan and reveal an external-link SVG suffix
 whose space stays reserved. Company logos retain their white artwork treatment.
 News title links retain their suffix external-link icon, hidden at rest
 and revealed on hover or keyboard focus, with its space reserved to prevent
-layout shifts. Drupal and Storybook share the News List Item stylesheet.
+layout shifts. The icon follows the last character on the final wrapped line
+as inline content. Drupal and Storybook share the News List Item stylesheet.
 External Numeric Values caption links use the same blue external-link colors
 and reveal their external-link SVG suffix on hover and keyboard focus, with
 its space reserved at rest.
