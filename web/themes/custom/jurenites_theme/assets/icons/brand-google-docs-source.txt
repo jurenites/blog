@@ -1,0 +1,5 @@
+Google Docs 2026 artwork, retrieved 2026-09-23.
+Official source: https://www.gstatic.com/images/branding/productlogos/docs_2026/v2/web/192px.svg
+Referenced by: https://workspace.google.com/products/docs/
+Active artwork: all geometry uniformly converted from the 192-unit source to a 16-unit viewport; original fills, gradient, mask, and blur preserved. No CSS offsets or transforms.
+Default artwork: matching white silhouette with document lines cut out and a translucent fold.

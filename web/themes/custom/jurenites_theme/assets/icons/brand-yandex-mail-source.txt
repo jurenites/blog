@@ -1,0 +1,6 @@
+Current artwork: designer-supplied yandex.svg and yandex-mail-active.svg,
+imported unchanged on 2026-09-18. See link-prefix-icons-source.txt.
+Both source files have viewBox="0 0 16 16". Path placement is authored in SVG;
+there are no application-level transforms or per-state sizing adjustments.
+Default artwork preserves 0.81 side-panel and 0.5 top-flap opacity.
+Earlier color artwork provenance: https://upload.wikimedia.org/wikipedia/commons/5/55/Yandex_Mail_icon.svg
