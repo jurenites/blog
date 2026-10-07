@@ -5,6 +5,10 @@
   --footer-hover-color: #FF0033;
 }
 
+.footer-navigation--demo [data-social-icon="brand-chatgpt"] {
+  --footer-hover-color: var(--theme-dark-text-primary-default);
+}
+
 .footer-navigation--demo [data-social-icon="messenger-brand-telegram"] {
   --footer-hover-color: #2AABEE;
 }

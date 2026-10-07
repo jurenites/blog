@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Retention for test-only shop data.
+ */
+
+/**
+ * Implements hook_cron().
+ */
+function jurenites_practice_shop_cron(): void {
+  $cutoff_time = \Drupal::time()->getCurrentTime() - 90 * 86400;
+  foreach (['jurenites_practice_event', 'jurenites_practice_order'] as $table_name) {
+    \Drupal::database()->delete($table_name)->condition('created_at', $cutoff_time, '<')->execute();
+  }
+}

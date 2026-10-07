@@ -23,13 +23,22 @@ export function install_screen_sequence(card_element, abort_signal) {
   const drag_enabled = card_element.matches('.accountia-preview__phone > .card');
   let drag_state = null;
 
+  function screen_scroll_overflow(image_element) {
+    if (!image_element?.naturalWidth || !image_element.naturalHeight) return 0;
+    // The image is two pixels wider than the screen to hide edge seams. That
+    // visual overscan must not turn a full-height screenshot into a scroll.
+    const source_height = image_element.naturalHeight * screen_element.clientWidth / image_element.naturalWidth;
+    if (source_height <= screen_element.clientHeight + 1) return 0;
+    return Math.max(0, image_element.offsetHeight - screen_element.clientHeight);
+  }
+
   function start_screen_drag(pointer_event) {
     if (pointer_event.pointerType !== 'mouse' || pointer_event.button !== 0 || drag_state
       || !images_ready || crossfade_animations.size) return;
     const frame_element = screen_element.querySelector('[data-frame-active][aria-hidden="false"]');
     const image_element = frame_element?.querySelector('img');
     if (!image_element || frame_element.dataset.scrollBehavior !== 'swipe') return;
-    const overflow_height = Math.max(0, image_element.offsetHeight - screen_element.clientHeight);
+    const overflow_height = screen_scroll_overflow(image_element);
     if (overflow_height <= 1) return;
     const image_transform = new DOMMatrixReadOnly(getComputedStyle(image_element).transform);
     const scroll_position = Math.min(overflow_height, Math.max(0, -image_transform.m42));
@@ -234,7 +243,8 @@ export function install_screen_sequence(card_element, abort_signal) {
   function prepare_scroll_start(frame_element) {
     const image_element = frame_element.querySelector('img');
     if (!image_element || frame_element.dataset.scrollBehavior !== 'swipe' || frame_element.dataset.scrollStart !== 'bottom') return null;
-    const overflow_height = Math.max(0, image_element.offsetHeight - screen_element.clientHeight);
+    const overflow_height = screen_scroll_overflow(image_element);
+    if (overflow_height <= 1) return null;
     const start_animation = image_element.animate([{ transform: `translateY(-${overflow_height}px)` }], { duration: 0, fill: 'forwards' });
     live_animations.add(start_animation);
     return start_animation;
@@ -254,7 +264,7 @@ export function install_screen_sequence(card_element, abort_signal) {
         await hold_frame(frame_element, numeric_value(frame_element.dataset.holdDuration, 2000, 100), run_revision);
       }
       // Measure untransformed layout: cursor tilt must not alter scroll distance.
-      const overflow_height = image_element ? Math.max(0, image_element.offsetHeight - screen_element.clientHeight) : 0;
+      const overflow_height = screen_scroll_overflow(image_element);
       if (uses_swipes && overflow_height > 1 && image_element.naturalWidth) {
         const swipe_motion = create_swipe_motion(overflow_height, screen_element.clientHeight,
           frame_element.dataset.scrollStart, numeric_value(frame_element.dataset.holdDuration, 900, 100),

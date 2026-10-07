@@ -1,0 +1,10 @@
+jurenites_metrika.settings:
+  type: config_object
+  label: 'Yandex.Metrika settings'
+  mapping:
+    tracking_enabled:
+      type: boolean
+      label: 'Enable tracking'
+    counter_id:
+      type: string
+      label: 'Counter ID'

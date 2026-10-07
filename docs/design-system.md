@@ -612,7 +612,7 @@ The transition uses the 900ms header underline duration and
 color without a persistent underline, keyboard focus keeps its outline, and
 reduced motion makes the underline change immediate. Drupal and Storybook share
 the same text wrapper and SCSS treatment.
-The Home menu item is hidden in the inline desktop header;
+The front-page menu item is hidden in the inline desktop header;
 the interactive name links to the front page. Separate “A” and “I” initials
 expand into “Alexander Ilivanov” letter by letter on hover or keyboard focus.
 Added letters grow and loosen their spacing as they appear. The gap between the
@@ -677,8 +677,9 @@ cross-route persistence, mobile, reduced motion, and the no-JavaScript canvas.
 `tests/site-intro-navigation.browser.mjs` also checks unchanged header geometry
 throughout the animation on Home and Videos at mobile, tablet, and desktop widths.
 
-Home remains in the compact menu, identified in Drupal by its front-page route
-rather than its translated label.
+The editable Main navigation front-page link reads Alexander Ilivanov in the
+compact menu. The update renames an existing Home link or seeds this label when
+the link is missing; Drupal identifies it by its front-page route.
 At the token-defined 640px mobile maximum and below, the
 24px three-line menu icon replaces the interactive name on the left while the language
 selector remains on the right. The icon stays white in every state. Activating
@@ -686,7 +687,11 @@ it turns it into a cross and opens the one-level Main navigation
 as a vertical, full-viewport header surface without a separate overlay. Menu
 items and the menu-toggle background move one grayscale surface level lighter
 on hover or keyboard focus. Escape,
-selecting a menu link, or widening beyond 640px closes it. From 641px up to the
+selecting a menu link, or widening beyond 640px closes it.
+The root reserves the browser's own scrollbar gutter at mobile widths so the
+language selector stays in place while the menu locks page scrolling; overlay
+scrollbars do not need a reserved gutter.
+From 641px up to the
 header-specific 1440px inline minimum (`system.breakpoint.site-header-inline-min`),
 the brand and language selector occupy the first row with visible navigation on
 the second row. At 1440px and above, the
@@ -987,6 +992,8 @@ The asset build discovers these companions automatically and emits both states
 inside the same prefix box, so the switch works without JavaScript and never
 changes layout. The three active files keep their original multicolor fills,
 gradients, geometry, and internal artwork positioning.
+ChatGPT adds a separate white Blossom prefix in the same box. Its menu link
+uses white hover paint, so its text and icon stay white on hover and focus.
 
 The menu's Leading icon field selects the base asset; companion assets are not
 separate menu choices. Hover text and colors remain editable menu content.

@@ -428,6 +428,13 @@ body.has-open-site-menu {
   overflow: hidden;
 }
 
+@include tools.breakpoint-down("mobile-max") {
+  // Keep the viewport width stable when opening the menu hides page scrolling.
+  html {
+    scrollbar-gutter: stable;
+  }
+}
+
 .jurenites-front-page .site-header {
   position: sticky;
   inset-block-start: 0;

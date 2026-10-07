@@ -41,7 +41,7 @@ test('common registrar scope limits wildcard endings and preserves explicit choi
 });
 
 test('actual worker uses real TLDs with digits-only name settings, any-length suffixes, and exclusions',async()=>{
- const worker_source=(await readFile(new URL('../ui/search-worker.js',import.meta.url),'utf8')).replace(/import\('\.\/(core|solver|domain-pattern|tld-data)\.js(?:\?scope=1)?'\)/g,(_,module_name)=>`import(${JSON.stringify(new URL(`../ui/${module_name}.js`,import.meta.url).href)})`);
+ const worker_source=(await readFile(new URL('../ui/search-worker.js',import.meta.url),'utf8')).replace(/import\('\.\/(core|solver|domain-pattern|tld-data)\.js(?:\?[^']+)?'\)/g,(_,module_name)=>`import(${JSON.stringify(new URL(`../ui/${module_name}.js`,import.meta.url).href)})`);
  const message_rows=[];
  globalThis.self={postMessage:message_data=>message_rows.push(message_data)};
  globalThis.importScripts=()=>{};
@@ -50,6 +50,8 @@ test('actual worker uses real TLDs with digits-only name settings, any-length su
  await self.onmessage({data:search_options});
  const first_result=message_rows.find(message_data=>message_data.type==='result');
  assert.ok(first_result,JSON.stringify(message_rows));
+ assert.equal(first_result.structure_conflicts,0);
+ assert.equal(first_result.other_conflicts,0);
  assert.match(first_result.payload_text,/^HTTP:\/\/\d{5}\.[A-Z]{3}$/);
  assert.equal(valid_domain_candidate(first_result.payload_text),true);
  assert.ok(COMMON_TLDS.includes(first_result.payload_text.split('.').at(-1)));

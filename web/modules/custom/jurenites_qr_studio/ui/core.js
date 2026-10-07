@@ -68,6 +68,12 @@ export function audit_grid(qr_code, result_grid) {
   const overflow_count=damaged_counts.reduce((count_sum,word_count)=>count_sum+Math.max(0,word_count-block_info.repair_limit),0);
   return {changed_count,structure_cells,damaged_counts,repair_limit:block_info.repair_limit,overflow_count,total_damaged:damaged_counts.reduce((count_sum,word_count)=>count_sum+word_count,0),remaining_words:Math.min(...damaged_counts.map(word_count=>block_info.repair_limit-word_count))};
 }
+export function compare_lock_conflicts(candidate_audit,current_audit) {
+  if(!current_audit)return -1;
+  const structure_difference=candidate_audit.structure_cells.length-current_audit.structure_cells.length;
+  if(structure_difference)return structure_difference;
+  return (candidate_audit.changed_count-candidate_audit.structure_cells.length)-(current_audit.changed_count-current_audit.structure_cells.length);
+}
 export function rank_masks(payload_text,version_number,error_level,lock_values,protect_structure=false,alpha_only=false) {
   let best_result=null;
   for(let mask_index=0;mask_index<8;mask_index++) {

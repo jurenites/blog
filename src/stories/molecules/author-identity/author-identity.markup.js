@@ -14,6 +14,7 @@ export function author_identity_markup({
   avatar_size = "medium",
   coauthor_name = "",
   coauthor_url = "",
+  coauthor_link_target_blank = false,
   coauthor_avatar_initials = "",
   coauthor_avatar_image_url = "",
 }) {
@@ -27,7 +28,7 @@ export function author_identity_markup({
     image_url: avatar_image_url,
   });
   const coauthor_name_markup = coauthor_url
-    ? `<a href="${escape_html(coauthor_url)}">${escape_html(coauthor_name)}</a>`
+    ? `<a href="${escape_html(coauthor_url)}"${coauthor_link_target_blank ? ' target="_blank" rel="noopener"' : ""}>${escape_html(coauthor_name)}</a>`
     : escape_html(coauthor_name);
 
   return render_template(author_identity_template, {

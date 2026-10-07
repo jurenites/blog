@@ -1,0 +1,5 @@
+jurenites_practice_shop.reports:
+  title: 'Practice shop data'
+  description: 'Export test events and orders for Power BI.'
+  route_name: jurenites_practice_shop.reports
+  parent: system.admin_reports

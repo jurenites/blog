@@ -1,0 +1,5 @@
+jurenites_metrika.settings:
+  title: 'Yandex.Metrika'
+  description: 'Configure the production website counter.'
+  parent: system.admin_config_services
+  route_name: jurenites_metrika.settings

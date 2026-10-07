@@ -1,0 +1,7 @@
+jurenites_metrika.settings:
+  path: '/admin/config/services/yandex-metrika'
+  defaults:
+    _form: '\Drupal\jurenites_metrika\Form\MetrikaSettingsForm'
+    _title: 'Yandex.Metrika'
+  requirements:
+    _permission: 'administer site configuration'

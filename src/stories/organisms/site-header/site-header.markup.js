@@ -32,8 +32,8 @@ export function site_header_markup({
     .filter(Boolean)
     .map((navigation_label, navigation_index) => {
       const current_attribute = navigation_index === 0 ? ' aria-current="page"' : "";
-      const navigation_slug = navigation_label.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      const home_item_class = navigation_slug === "home" ? " site-header__item--home" : "";
+      const navigation_slug = navigation_index === 0 ? "home" : navigation_label.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      const home_item_class = navigation_index === 0 ? " site-header__item--home" : "";
       return `<li class="site-header__item${home_item_class}"><a class="site-header__link" href="#${escape_html(navigation_slug)}"${current_attribute}><span class="site-header__link-text">${escape_html(navigation_label)}</span></a></li>`;
     })
     .join("");

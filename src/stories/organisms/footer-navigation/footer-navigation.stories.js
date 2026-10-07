@@ -26,6 +26,7 @@ const GUIDELINE_PAGE_STATE = "page";
 // Isolated demonstration data; live footer content belongs to Drupal's menu.
 const SOCIAL_LINKS = [
   { link_label: "YouTube", hover_label: "Example channel", link_url: "https://example.com/channel", icon_name: "social-youtube" },
+  { link_label: "ChatGPT", hover_label: "jurenites", link_url: "https://chatgpt.com/u/jurenites", icon_name: "brand-chatgpt" },
 ];
 const MESSENGER_LINKS = [
   { link_label: "Telegram", hover_label: "@jurenites", link_url: "https://t.me/jurenites", icon_name: "brand-telegram" },
@@ -58,7 +59,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: "Social profiles and Telegram open in a new window; Gmail and Yandex.Mail open your email app. Hover and keyboard focus reveal each account name, its brand color, and, for web links, the shared External Link icon. Information links and the rights message appear alongside them.",
+        component: "Social profiles, ChatGPT, and Telegram open in a new window; Gmail and Yandex.Mail open your email app. Hover and keyboard focus reveal each account name and link color. ChatGPT stays white instead of yellow. Web links use the shared External Link icon. Information links and the rights message appear alongside them.",
       },
     },
   },

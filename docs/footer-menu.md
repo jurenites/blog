@@ -18,6 +18,19 @@ Use **Parent link** or the menu overview's drag handles to move links between
 columns and to reorder them. **Show as expanded** is not required: the footer
 block expands its menu tree. Additional nested links remain visible as lists.
 
+**ChatGPT** is the last item in **Social networks**, linking to
+`https://chatgpt.com/u/jurenites`. It uses the white ChatGPT prefix artwork;
+hover and keyboard focus show `jurenites` in white rather than the default
+yellow. The title, hover text, destination, order, and paint remain editable
+menu content. To add it once to this local menu after building the theme:
+
+```bash
+docker exec blog_jurenites_web vendor/bin/drush php:script scripts/footer/chatgpt-link.php
+docker exec blog_jurenites_web vendor/bin/drush cr
+```
+
+The script preserves an existing ChatGPT link and later menu edits on reruns.
+
 **Testing** belongs in **How I work**, immediately after
 **Cookbook** and before **Brandbook**. Its destination is ordinary editable menu
 content: `http://test.jurenites.local/` in DEV and `https://test.jurenites.com/`
@@ -96,6 +109,9 @@ viewport. Artwork provenance is recorded beside the SVG assets.
 The supplied default SVG files retain white fills, with CSS applying the menu's
 hover color to unpaired white artwork. Active companions retain their own colors.
 Existing menu icon names are unchanged, so no content migration is needed.
+The ChatGPT prefix uses the official white OpenAI Blossom artwork, fitted into
+the shared 16 by 16 box. Its source is recorded in
+`src/public/assets/icons/link-prefix-icons-source.txt`.
 The supplied hh.ru logo is available as **Brand Hh**. Its color is the existing
 menu link hover paint (`#FF0002`), including keyboard focus. The icon selector uses existing assets.
 Hover paint is editable menu content, stored as literal colors/gradients for

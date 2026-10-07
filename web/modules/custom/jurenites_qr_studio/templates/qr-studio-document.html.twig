@@ -116,10 +116,6 @@
           <span id="capacity-detail">{{ 'Alphanumeric capacity · includes HTTPS://'|t }}
           </span>
         </div>
-        <button id="cancel-search" class="quiet-button wide-button" hidden>{{ 'Stop search'|t }}
-        </button>
-        <p id="generation-message" class="field-help" aria-live="polite">{{ 'Paint a cell to lock it. Regeneration keeps your artwork.'|t }}
-        </p>
         <div class="panel-divider">
         </div>
         <div class="subheading-row">
@@ -267,33 +263,23 @@
           <span id="matches-count" class="small-caption">{{ '0 SAVED'|t }}
           </span>
         </div>
-        <button id="find-next" class="primary-button wide-button">{{ 'Find next address →'|t }}
-        </button>
-        <div class="field-help">{{ studio_copy.saved_matches_help }}</div>
+        <div class="search-actions">
+          <button id="find-next" class="primary-button wide-button">{{ 'Find next address →'|t }}
+          </button>
+          <button id="cancel-search" class="quiet-button wide-button" hidden>{{ 'Stop search'|t }}
+          </button>
+          <div class="generation-progress" aria-live="polite">
+            <span id="generation-count" class="generation-count" hidden>
+            </span>
+            <p id="generation-message" class="field-help">{{ 'Paint a cell to lock it. Regeneration keeps your artwork.'|t }}
+            </p>
+          </div>
+          <div class="field-help">{{ studio_copy.saved_matches_help }}</div>
+        </div>
         <div id="matches-list" class="matches-list" aria-label="{{ 'Saved matching addresses'|t }}">
         </div>
         <div class="panel-divider">
         </div>
-        <div id="scan-card" class="scan-card" data-state="pending">
-          <div class="status-heading">
-            <span id="status-icon">◇
-            </span>
-            <strong id="scan-status">{{ 'Checking code'|t }}
-            </strong>
-          </div>
-          <p id="scan-description">{{ 'The finished grid is decoded here.'|t }}
-          </p>
-          <code id="decoded-text">
-          </code>
-        </div>
-        <div class="mini-preview">
-          <canvas id="preview-canvas" aria-label="{{ 'Clean QR preview'|t }}">
-          </canvas>
-          <span>{{ 'Actual export · no editor guides'|t }}
-          </span>
-        </div>
-        <button id="verify-button" class="quiet-button wide-button">{{ 'Decode current grid'|t }}
-        </button>
         <dl class="metrics-list">
           <div>
             <dt>{{ 'Locked cells'|t }}
@@ -328,14 +314,6 @@
         </dl>
         <p id="risk-message" class="field-help">{{ 'Correction capacity is counted per block, not as a percentage of painted pixels.'|t }}
         </p>
-        <div class="panel-divider">
-        </div>
-        <h2>{{ 'Candidate address'|t }}
-        </h2>
-        <p id="candidate-text" class="candidate-text">{{ 'Generate an address to fit your locked artwork.'|t }}
-        </p>
-        <button id="copy-payload" class="quiet-button wide-button">{{ 'Copy decoded text'|t }}
-        </button>
         <div class="field-help">{{ studio_copy.domain_notice }}</div>
       </aside>
     </main>
