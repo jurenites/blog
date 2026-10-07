@@ -98,6 +98,16 @@ directory was ignored, allowing the CSS to arrive while font requests returned
 If deployed fonts are missing, build from the intended release checkout and
 deploy the generated font directory together with its matching theme CSS.
 
+## Drupal Icon Assets
+
+The editable SVG icons live in `src/public/assets/icons/`. `npm run build:theme`
+copies them to `web/themes/custom/jurenites_theme/assets/icons/`; the SVG copies
+and their source notes are tracked in Git. The Footer menu's **Leading icon**
+selector scans this deployed directory, so a Git-based PROD update must include
+the built copies. Confirm that `brand-chatgpt.svg` is present there after a
+deployment, then rebuild Drupal caches. A missing icon directory leaves only
+the code-defined Pulse Indicator option in the selector.
+
 ## Deployment Identity
 
 The watermark is visible in DEV and PROD. Its semantic version, release time,

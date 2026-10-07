@@ -101,7 +101,9 @@ four headings as the top-level column structure; their wording is freely editabl
 
 An ordinary link needs only its title, URL, and parent. No new palette tokens or
 uploaded icon processing are introduced. To add a new SVG, place a reviewed asset
-in `src/public/assets/icons/`, run `npm run build:theme`, and clear Drupal cache.
+in `src/public/assets/icons/`, run `npm run build:theme`, commit the generated
+copy in `web/themes/custom/jurenites_theme/assets/icons/`, and clear Drupal cache
+after deploying it.
 It then appears in **Leading icon**; SVG uploading is not available in this form.
 Link prefixes have a fixed 16 by 16 CSS-pixel box. Prepare artwork with
 `viewBox="0 0 16 16"`; path placement belongs to the designer, with no per-icon

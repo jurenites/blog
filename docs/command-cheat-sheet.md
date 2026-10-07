@@ -600,8 +600,11 @@ git pull --ff-only origin main
 /opt/php/8.3/bin/php ./vendor/bin/drush.php --uri=https://jurenites.com status
 ```
 
-Confirm dependencies before database updates. Deploy built theme assets and
-fonts from the same release; production does not need to rebuild them.
+Confirm dependencies before database updates. Deploy built theme assets, including
+the tracked SVG icons and fonts, from the same release; production does not need
+to rebuild them. If **Leading icon** offers only Pulse Indicator, verify that
+`web/themes/custom/jurenites_theme/assets/icons/brand-chatgpt.svg` exists in the
+PROD checkout before editing menu content or considering a database restore.
 
 Check public HTTPS and HTTP redirects without bypassing certificate validation:
 
