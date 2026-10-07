@@ -70,6 +70,8 @@ Use the generator when changing the background, device era, screen preset, islan
 
 With a destination URL, hover pauses media playback, but an in-progress crossfade finishes before pausing. Cursor tilt continues while hovered when enabled. Reduced motion disables the sequence and cursor movement. The poster provides a static fallback when JavaScript is unavailable. Clear `card_url` for a regular preview without link semantics, pointer cursor, hover effects or cursor tracking. Media playback continues without pausing on hover.
 
+While the poster image loads, the phone screen shows a token-colored shimmer. The poster and still screenshots crop tall sources from the top to fill the screen rather than squeezing the entire page into the phone. Scrolling frames keep their full image height and existing playback behavior.
+
 ### Complete ScatchApp example
 
 The following HTML contains both supplied recordings, a native-size modern phone, a transparent background and a non-clickable wrapper without hover effects. Its asset URLs target this Drupal theme; they are not portable video URLs for another website. The SVG IDs and every corresponding `url(#...)` reference must be unique if you place multiple copies on one page.

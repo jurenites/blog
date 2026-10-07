@@ -188,6 +188,23 @@ body.jurenites-theme .footer-navigation a.footer-navigation__social-link {
   }
 }
 
+@media (width < 50rem) {
+  .footer-navigation__columns {
+    display: block;
+    column-count: 2;
+    column-gap: calc(var(--space-scale-base-gap) * 4);
+  }
+
+  .footer-navigation__columns > nav {
+    break-inside: avoid;
+    margin-bottom: calc(var(--space-scale-base-gap) * 4);
+  }
+
+  .footer-navigation__columns > nav:last-child {
+    margin-bottom: 0;
+  }
+}
+
 @include tools.breakpoint-down("mobile-max") {
   .footer-navigation {
     width: calc(100% - (var(--layout-gutter-mobile-default) * 2));
@@ -195,7 +212,7 @@ body.jurenites-theme .footer-navigation a.footer-navigation__social-link {
   }
 
   .footer-navigation__columns {
-    grid-template-columns: 1fr;
+    column-gap: calc(var(--space-scale-base-gap) * 2);
   }
 }
 

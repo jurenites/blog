@@ -9,8 +9,14 @@ content and never feed the live website.
 
 ## Columns and placement
 
-The four top-level items marked **Column heading** provide the four desktop
-columns, stacked on mobile. Their **Menu link title** is the displayed heading.
+The four top-level items marked **Column heading** provide four columns at 800px
+and above and two flowing columns below 800px, including mobile.
+Their **Menu link title** is the displayed heading.
+The compact layout stacks complete heading-and-list groups down each
+column at their natural heights, with 32px between groups, instead of aligning
+them to shared grid rows. The horizontal column gap is 16px on mobile and 32px
+from 641px through 799px. Reading and keyboard order follow the first column
+from top to bottom, then the second; each navigation group stays together.
 Desktop columns fit their content and share equal gaps across the footer width.
 Text stays left-aligned, with the final column ending at the footer's right edge.
 Use `<nolink>` for their Link field. Their child menu items are the visible links.

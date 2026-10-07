@@ -1177,6 +1177,12 @@ existing project phone sequences. Apply once with
 `drush php:script scripts/update-home-project-previews.php`, which retains the
 previous block revision and leaves an existing slider untouched. The ScatchApp
 map screenshot supplies its static fallback.
+The Home SMEP element-card screens use still frames and crossfade without swipe
+movement. On an already seeded site, run
+`drush php:script scripts/stop-home-smep-preview-scroll.php` to update only the
+SMEP frames in the English and Russian Home block translations. The script saves
+a new block revision and is safe to rerun. A code-only release cannot change
+the existing Full HTML block body stored in Drupal.
 The shared runtime retains hover pause, keyboard feedback, offscreen pause and
 reduced-motion behavior. The detail page uses one native-size, transparent phone
 with `follow_cursor: true`, containing those same two recordings in order (list,

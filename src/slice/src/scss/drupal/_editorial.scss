@@ -13,6 +13,13 @@
   padding-top: calc(var(--space-scale-base-gap) * 5);
 }
 
+@media (width >= tools.$system-breakpoint-desktop-min) {
+  .path-contact #block-jurenites-theme-content {
+    min-height: calc(var(--space-scale-base-gap) * 80);
+    min-width: var(--layout-content-max-wide-default);
+  }
+}
+
 .path-contact #block-jurenites-theme-breadcrumbs {
   display: none;
 }

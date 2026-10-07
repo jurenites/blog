@@ -1,3 +1,9 @@
+#block-jurenites-theme-contact-photo {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+}
+
 .contact-photo {
   width: 100%;
   margin: calc(var(--space-scale-base-gap) * 6) 0 0;
@@ -54,5 +60,6 @@ html:has(.jurenites-theme .contact-photo),
     max-width: var(--layout-container-max-desktop-default);
     margin-inline: auto;
     background: var(--component-contact-photo-background-color);
+    z-index: 2;
   }
 }

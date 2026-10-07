@@ -23,7 +23,7 @@ await page_instance.waitForURL('**/portfolio/scatchapp');
 console.log('Keyboard link opens Project');
 for (const [video_index,video_name] of ['list','filter'].entries()) {
   const video_element=page_instance.locator('.project-detail video').nth(video_index);
-  await video_element.evaluate(async video_item=>{if(video_item.readyState<2)await new Promise(resolve_ready=>video_item.addEventListener('loadeddata',resolve_ready,{once:true}));video_item.currentTime=0.25;await new Promise(resolve_seek=>video_item.addEventListener('seeked',resolve_seek,{once:true}));});
+  await video_element.evaluate(async video_item=>{if(video_item.readyState<2)await new Promise(resolve_ready=>{video_item.addEventListener('loadeddata',resolve_ready,{once:true});});video_item.currentTime=0.25;await new Promise(resolve_seek=>{video_item.addEventListener('seeked',resolve_seek,{once:true});});});
   const frame_data=await video_element.evaluate(video_item=>{const frame_canvas=document.createElement('canvas');frame_canvas.width=video_item.videoWidth;frame_canvas.height=video_item.videoHeight;frame_canvas.getContext('2d').drawImage(video_item,0,0);return frame_canvas.toDataURL('image/png').split(',')[1];});
   await write_file(`src/public/assets/images/projects/scatchapp/${video_name}-poster.png`,Buffer.from(frame_data,'base64'));
 }

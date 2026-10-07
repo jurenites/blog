@@ -23,7 +23,9 @@ try {
       const frame_states = [];
       pagination_node.querySelectorAll('button')[3].click();
       for (let frame_index = 0; frame_index < 80; frame_index += 1) {
-        await new Promise(resolve_frame => requestAnimationFrame(resolve_frame));
+        await new Promise(resolve_frame => {
+          requestAnimationFrame(resolve_frame);
+        });
         const page_rect = pagination_node.getBoundingClientRect();
         frame_states.push({ left_shift: page_rect.left - start_rect.left, top_shift: page_rect.top - start_rect.top, scroll_left: track_node.scrollLeft });
       }

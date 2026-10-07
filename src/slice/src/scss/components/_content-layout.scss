@@ -2,6 +2,9 @@
 
 @use "../tools";
 
+#block-jurenites-theme-content {
+  z-index: 1;
+}
 .content-layout {
   display: grid;
   grid-template-columns: minmax(0, var(--layout-content-max-blog-default));
