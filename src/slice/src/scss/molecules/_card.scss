@@ -328,15 +328,16 @@ $phone-classic-large-width: 458px;
     background: var(--color-palette-full-white);
   }
 
-  &__frame--island-inset &__frame-media {
+  // Reserve 56 screen-coordinate pixels at every display scale.
+  &__frame--island-inset:not(.card__frame--island-scroll) &__frame-media {
     top: calc(100% * 56 / 812);
   }
 
-  &__phone--large-screen &__frame--island-inset &__frame-media {
+  &__phone--large-screen &__frame--island-inset:not(.card__frame--island-scroll) &__frame-media {
     top: calc(100% * 56 / 896);
   }
 
-  &__frame--island-inset &__image {
+  &__frame--island-inset[data-frame-mode="still"] &__image {
     height: 100%;
     max-height: 100%;
     object-fit: cover;
@@ -397,17 +398,68 @@ $phone-classic-large-width: 458px;
       var(--motion-easing-standard-default) both;
   }
 
+  &__scroll-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__scroll-content > &__island-pixels {
+    flex: none;
+    height: calc(100% * 56 / 812 + var(--shape-border-width-hairline-default));
+    margin-bottom: calc(var(--shape-border-width-hairline-default) * -1);
+  }
+
+  &__phone--large-screen &__scroll-content > &__island-pixels {
+    height: calc(100% * 56 / 896 + var(--shape-border-width-hairline-default));
+  }
+
+  &__frame--island-scroll &__island-overlay {
+    background: transparent;
+  }
+
   &__island-overlay {
     position: absolute;
     inset: 0;
     z-index: 1;
     width: 100%;
-    height: 100%;
+    height: calc(100% * 56 / 812);
+    background: var(--color-palette-full-white);
     pointer-events: none;
   }
 
-  &__island-surface {
-    fill: var(--color-palette-full-white);
+  &__phone--large-screen &__island-overlay {
+    height: calc(100% * 56 / 896);
+  }
+
+  &__island-pixels {
+    display: block;
+    width: 100%;
+    // Overlap the screenshot by one hairline to hide fractional raster seams.
+    height: calc(100% + var(--shape-border-width-hairline-default));
+    overflow: hidden;
+    image-rendering: pixelated;
+  }
+
+  &__island-camera {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(100% * 110 / 375);
+    height: auto;
+    aspect-ratio: 110 / 30;
+    transform: translate(-50%, -50%);
+  }
+
+  &__phone--large-screen &__island-camera {
+    width: calc(100% * 110 / 414);
+  }
+
+  &__island-camera &__camera-island {
+    fill: var(--color-palette-full-black);
+    stroke: none;
   }
 
   &__screen[data-sequence-ready] &__poster {
@@ -440,6 +492,7 @@ $phone-classic-large-width: 458px;
 
   // Cover fractional screen widths without a top-left rounding seam. Keep
   // overflow symmetric and clipped by the existing device screen.
+  &__scroll-content > &__island-pixels,
   &__image,
   &__gif,
   &__edge-fill,

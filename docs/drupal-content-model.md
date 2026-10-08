@@ -1149,6 +1149,28 @@ SVG upload. It overrides the preview Image without replacing the full-page image
 See [Dynamic thumbnails](dynamic-thumbnails.md) for the four-group SVG format,
 editorial workflow, cursor behavior, and validation.
 
+### Saved phone-preview locations
+
+Phone markup is stored independently in each translated rich-text field. Updating
+Storybook or generated HTML does not replace an existing Drupal Body value.
+The current content inventory covers both English and Russian:
+
+| Location | Field | Preview types |
+| --- | --- | --- |
+| Home project previews, block 34 | Body | Modern Accountia and ScatchApp; classic Dzing and SMEP |
+| Accountia, Project 105 | Body | Three modern phones |
+| ScatchApp, Project 106, paragraph 158 | Project story Body | One modern video phone |
+| Dzing Finance, Project 111, paragraphs 164, 165, 166 | Project story Body | Two classic phones and one modern AMI phone |
+| SMEP, Project 28, paragraphs 140, 141, 144, 145 | Project story Body | Four classic phones |
+
+The local audit synchronized missing island markup in seven translated fields:
+11 phone instances were updated, bringing all 14 modern instances into alignment.
+All 16 classic instances retain their original markup. Updates saved new content
+revisions and refreshed paragraph revision references; source copy, media tags,
+playback settings and unrelated Body content were preserved. Prior revisions are
+available through Drupal. This records local content updates, not a production
+content deployment.
+
 ### ScatchApp project note and Home preview
 
 `/portfolio/scatchapp` is an editable Project with a Body introduction and
@@ -1188,7 +1210,10 @@ reduced-motion behavior. The detail page uses one native-size, transparent phone
 with `follow_cursor: true`, containing those same two recordings in order (list,
 then filter). It replaces the separate inline video players in the Project story
 paragraphs while preserving their surrounding copy. The modern frame uses
-`island_overlay: false` because the recordings contain their own interface chrome.
+`island_overlay: true`; the fixed camera band uses the existing map poster's
+first row above the video. The recording itself and its interface chrome remain
+unchanged. Video previews retain a fixed inset, while raster scroll previews
+move their initial fill with the screenshot.
 The phone links to the original list recording for native playback controls.
 
 Seed once with `node scripts/build-scatchapp-preview.mjs`, `npm run build:theme`,
@@ -1242,7 +1267,11 @@ the supplied-image manifest are under `generated/content/accountia/`.
 
 Three shared phone cards show the two landing-page exports and the exact 360px
 application exports, split between two application sequences. The presentation uses
-375px screen areas inside 399px phone frames, wrapping into fewer columns when
+375px screen areas inside 399px phone frames. Their modern phone overlays reserve
+56 screen-coordinate pixels for a black Dynamic Island pill, scaling with the
+phone. The first screenshot row fills the initial band, which then scrolls
+away together with the image beneath the fixed camera pill. Both the content generator
+and saved phone frames/posters include this overlay. The cards wrap into fewer columns when
 needed and scaling down only when a single frame cannot fit the viewport. Long screens scroll
 before advancing using eased, viewport-sized swipes with brief pauses. The three
 previews have different initial holds (850/1450/2050ms); the middle application

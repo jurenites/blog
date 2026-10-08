@@ -14,13 +14,13 @@ try {
     screen_preset: 'compact-screen',
     iphone_era: 'modern',
     follow_cursor: true,
-    island_overlay: false,
+    island_overlay: true,
     fallback_source: `${asset_root}/images/projects/scatchapp/map-poster.png`,
     is_playing: true,
     fade_duration_ms: 450,
     frame_list: [
-      { frame_mode: 'video', video_source: `${asset_root}/videos/scatchapp/list.mp4`, image_description: 'ScatchApp map and event list design recording', video_fit: 'cover', hold_ms: 0 },
-      { frame_mode: 'video', video_source: `${asset_root}/videos/scatchapp/filter.mp4`, image_description: 'ScatchApp event filter design recording', video_fit: 'cover', hold_ms: 0 },
+      { frame_mode: 'video', video_source: `${asset_root}/videos/scatchapp/list.mp4`, poster_source: `${asset_root}/images/projects/scatchapp/map-poster.png`, image_description: 'ScatchApp map and event list design recording', video_fit: 'cover', hold_ms: 0 },
+      { frame_mode: 'video', video_source: `${asset_root}/videos/scatchapp/filter.mp4`, poster_source: `${asset_root}/images/projects/scatchapp/map-poster.png`, image_description: 'ScatchApp event filter design recording', video_fit: 'cover', hold_ms: 0 },
     ],
   };
   const preview_markup = card_markup(preview_arguments);

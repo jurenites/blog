@@ -62,13 +62,15 @@ Each video must remain inside its own `card__frame-media`, inside its frame, ins
 | Play the entire recording | Frame `hold_ms: 0` | `data-hold-duration="0"` |
 | Timed frame | Frame `hold_ms: 3000` | `data-hold-duration="3000"` in milliseconds |
 | Static fallback | `fallback_source` | The `card__poster-image` source |
-| Island and top band | `island_overlay`, with per-frame overrides | Generated island SVG and static-image inset |
+| Island and top band | `island_overlay`, with per-frame overrides | Generated black pill, top pixel-row fill and media inset |
 
 Use the generator when changing the background, device era, screen preset, island or cursor-following mode: these options change artwork and nested markup as well as classes. A gradient background needs its SVG; changing a class alone will not create it. Screen presets and eras must keep the screen proportions, case geometry and hardware consistent.
 
 `compact-screen` gives a 375px screen; `large-screen` gives a 414px screen at native size. Modern heights are 812px and 896px; classic heights are 667px and 736px. Smaller containers scale the phone proportionally.
 
 With a destination URL, hover pauses media playback, but an in-progress crossfade finishes before pausing. Cursor tilt continues while hovered when enabled. Reduced motion disables the sequence and cursor movement. The poster provides a static fallback when JavaScript is unavailable. Clear `card_url` for a regular preview without link semantics, pointer cursor, hover effects or cursor tracking. Media playback continues without pausing on hover.
+
+Modern previews with `island_overlay` enabled start with a 56px top band at native size, scaled proportionally in smaller containers. The first screenshot row fills this band. For scrolling screenshots, the band and image scroll away together beneath the fixed black camera pill and return together to the starting position. A one-hairline overlap prevents a seam. Still images, posters and video retain the fixed inset. Disable the overlay for screenshots with their own status bar. Existing saved previews are adapted at runtime without rewriting their CMS content.
 
 While the poster image loads, the phone screen shows a token-colored shimmer. The poster and still screenshots crop tall sources from the top to fill the screen rather than squeezing the entire page into the phone. Scrolling frames keep their full image height and existing playback behavior.
 
