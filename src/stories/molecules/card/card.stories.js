@@ -27,6 +27,10 @@ const FRAME_LIST = [
   { video_source: '/assets/videos/skatch-app-list.mp4', image_description: 'Skatch app list recording.', frame_mode: 'video', video_fit: 'cover', hold_ms: 0 },
   { ...GIF_RECORDING, image_description: 'Skatch map and list animation.', frame_mode: 'gif', hold_ms: 4000 },
 ];
+const TOP_BAR_IMAGE_SOURCE = '/assets/images/projects/accountia/mobile-dashboard.png';
+const TOP_BAR_FRAME_LIST = [
+  { image_source: TOP_BAR_IMAGE_SOURCE, image_description: 'Accountia dashboard with a purple menu above the white page body.', frame_mode: 'scroll', scroll_behavior: 'swipe', hold_ms: 1800, bottom_hold_ms: 1000 },
+];
 const SCREEN_PRESET = 'compact-screen';
 const SCREEN_OPTIONS = ['compact-screen', 'large-screen'];
 
@@ -81,7 +85,7 @@ export default {
     display_size: { control: 'select', options: DISPLAY_OPTIONS, description: 'Thumbnail: square tile. Native screen: 375px or 414px display plus the case and 32px tilt clearance on each side, shrinking only to fit smaller containers.' },
     background_mode: { control: 'select', options: BACKGROUND_OPTIONS, description: 'The background tile is optional and independent of phone size and playback.' },
     follow_cursor: { control: 'boolean', description: 'When a destination URL is set, follow the pointer with perspective and light, or keep the phone facing straight ahead. False avoids pointer-tracking work and extra depth layers.' },
-    island_overlay: { control: 'boolean', description: 'Modern phones: reserve the top 56 screen pixels for the Dynamic Island. Still images fit below it; scrolling images pass behind it. The first image pixel row fills the band. Each frame may override island_overlay; disable it for screenshots with their own status bar or cutout.' },
+    island_overlay: { control: 'boolean', description: 'Modern phones: reserve 56 screen-coordinate pixels at the top, scaling proportionally with the phone in thumbnails and smaller containers for a black Dynamic Island pill. The first image row fills the initial band. The fill and screenshot scroll away together beneath the fixed pill. Each frame may override island_overlay; disable it for screenshots with their own status bar or cutout.' },
     frame_list: { control: 'object', description: 'Frames: still, scroll, video, or gif. GIF uses generated sprite source, width, height and original frame durations. hold_ms controls visible duration; video 0 plays to the end.' },
     fade_duration_ms: { control: { type: 'number', min: 0, max: 3000 } },
     is_playing: { control: 'boolean' },
@@ -92,3 +96,11 @@ export default {
 };
 
 export const phone_preview = {};
+
+export const scrolling_top_bar = {
+  args: {
+    card_url: TOP_BAR_IMAGE_SOURCE,
+    fallback_source: TOP_BAR_IMAGE_SOURCE,
+    frame_list: TOP_BAR_FRAME_LIST,
+  },
+};

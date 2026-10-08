@@ -6,6 +6,21 @@ export function install_screen_sequence(card_element, abort_signal) {
   if (!screen_element) return;
   const frame_elements = [...screen_element.querySelectorAll('[data-screen-frame]')];
   if (!frame_elements.length) return;
+  // Adapt existing CMS markup while new previews render this nesting directly.
+  const upgraded_frames = [];
+  frame_elements.forEach((frame_element) => {
+    if (frame_element.dataset.frameMode !== 'scroll' || frame_element.querySelector('.card__scroll-content')) return;
+    const top_element = frame_element.querySelector('[data-screen-top-fill]');
+    const media_element = frame_element.querySelector('.card__frame-media');
+    if (!top_element || !media_element) return;
+    const overlay_element = top_element.parentElement;
+    const scroll_element = document.createElement('span');
+    scroll_element.className = 'card__scroll-content';
+    scroll_element.append(top_element, ...media_element.childNodes);
+    media_element.append(scroll_element);
+    frame_element.classList.add('card__frame--island-scroll');
+    upgraded_frames.push({ frame_element, top_element, overlay_element, scroll_element, media_element });
+  });
   const poster_element = screen_element.querySelector('.card__poster');
   const poster_image = poster_element?.querySelector('.card__poster-image');
   if (poster_image) {
@@ -43,13 +58,19 @@ export function install_screen_sequence(card_element, abort_signal) {
   const drag_enabled = card_element.matches('.accountia-preview__phone > .card');
   let drag_state = null;
 
+  function scroll_target(image_element) {
+    return image_element.closest('.card__scroll-content') || image_element;
+  }
+
   function screen_scroll_overflow(image_element) {
     if (!image_element?.naturalWidth || !image_element.naturalHeight) return 0;
     // The image is two pixels wider than the screen to hide edge seams. That
     // visual overscan must not turn a full-height screenshot into a scroll.
     const source_height = image_element.naturalHeight * screen_element.clientWidth / image_element.naturalWidth;
-    if (source_height <= screen_element.clientHeight + 1) return 0;
-    return Math.max(0, image_element.offsetHeight - screen_element.clientHeight);
+    const viewport_height = image_element.closest('.card__frame-media')?.clientHeight ?? screen_element.clientHeight;
+    const image_inset = scroll_target(image_element) === image_element ? 0 : image_element.offsetTop;
+    if (source_height + image_inset <= viewport_height + 1) return 0;
+    return Math.max(0, image_inset + image_element.offsetHeight - viewport_height);
   }
 
   function start_screen_drag(pointer_event) {
@@ -60,17 +81,18 @@ export function install_screen_sequence(card_element, abort_signal) {
     if (!image_element || frame_element.dataset.scrollBehavior !== 'swipe') return;
     const overflow_height = screen_scroll_overflow(image_element);
     if (overflow_height <= 1) return;
-    const image_transform = new DOMMatrixReadOnly(getComputedStyle(image_element).transform);
+    const scroll_element = scroll_target(image_element);
+    const image_transform = new DOMMatrixReadOnly(getComputedStyle(scroll_element).transform);
     const scroll_position = Math.min(overflow_height, Math.max(0, -image_transform.m42));
     const scroll_animation = [...live_animations].reverse().find(frame_animation =>
-      frame_animation.effect.target === image_element
+      frame_animation.effect.target === scroll_element
       && (frame_animation.playState !== 'finished' || motion_query.matches
         || screen_element.dataset.sequencePlaying === 'false'));
     drag_state = {
       pointer_id: pointer_event.pointerId, start_y: pointer_event.clientY,
       start_position: scroll_position, scroll_position, overflow_height,
       display_scale: screen_element.getBoundingClientRect().height / screen_element.clientHeight,
-      image_element, scroll_animation, has_moved: false,
+      image_element, scroll_element, scroll_animation, has_moved: false,
     };
     card_element.setPointerCapture(pointer_event.pointerId);
     card_element.setAttribute('data-screen-dragging', '');
@@ -84,7 +106,7 @@ export function install_screen_sequence(card_element, abort_signal) {
     const drag_transform = `translateY(${-drag_state.scroll_position}px)`;
     const key_frames = [{ transform: drag_transform }, { transform: drag_transform }];
     if (!drag_state.scroll_animation) {
-      drag_state.scroll_animation = drag_state.image_element.animate(key_frames, { duration: 1, fill: 'forwards' });
+      drag_state.scroll_animation = drag_state.scroll_element.animate(key_frames, { duration: 1, fill: 'forwards' });
       live_animations.add(drag_state.scroll_animation);
     }
     drag_state.scroll_animation.pause();
@@ -103,7 +125,7 @@ export function install_screen_sequence(card_element, abort_signal) {
       card_element.releasePointerCapture(completed_drag.pointer_id);
     }
     if (completed_drag.has_moved && !motion_query.matches && screen_element.dataset.sequencePlaying !== 'false') {
-      const remaining_motion = create_swipe_motion(completed_drag.overflow_height, screen_element.clientHeight,
+      const remaining_motion = create_swipe_motion(completed_drag.overflow_height, completed_drag.image_element.closest('.card__frame-media').clientHeight,
         completed_drag.scroll_position, 400, 800);
       completed_drag.scroll_animation.effect.setKeyframes(remaining_motion.key_frames);
       completed_drag.scroll_animation.effect.updateTiming({ duration: remaining_motion.duration_ms });
@@ -265,7 +287,7 @@ export function install_screen_sequence(card_element, abort_signal) {
     if (!image_element || frame_element.dataset.scrollBehavior !== 'swipe' || frame_element.dataset.scrollStart !== 'bottom') return null;
     const overflow_height = screen_scroll_overflow(image_element);
     if (overflow_height <= 1) return null;
-    const start_animation = image_element.animate([{ transform: `translateY(-${overflow_height}px)` }], { duration: 0, fill: 'forwards' });
+    const start_animation = scroll_target(image_element).animate([{ transform: `translateY(-${overflow_height}px)` }], { duration: 0, fill: 'forwards' });
     live_animations.add(start_animation);
     return start_animation;
   }
@@ -286,10 +308,10 @@ export function install_screen_sequence(card_element, abort_signal) {
       // Measure untransformed layout: cursor tilt must not alter scroll distance.
       const overflow_height = screen_scroll_overflow(image_element);
       if (uses_swipes && overflow_height > 1 && image_element.naturalWidth) {
-        const swipe_motion = create_swipe_motion(overflow_height, screen_element.clientHeight,
+        const swipe_motion = create_swipe_motion(overflow_height, image_element.closest('.card__frame-media').clientHeight,
           frame_element.dataset.scrollStart, numeric_value(frame_element.dataset.holdDuration, 900, 100),
           numeric_value(frame_element.dataset.bottomDuration, 800));
-        const swipe_animation = await animate_element(image_element, swipe_motion.key_frames, swipe_motion.duration_ms, run_revision);
+        const swipe_animation = await animate_element(scroll_target(image_element), swipe_motion.key_frames, swipe_motion.duration_ms, run_revision);
         // Keep the final position through the crossfade; release it once hidden.
         if (start_animation) release_animation(start_animation);
         start_animation = swipe_animation;
@@ -299,10 +321,10 @@ export function install_screen_sequence(card_element, abort_signal) {
         const image_scale = image_element.clientWidth / image_element.naturalWidth;
         const scroll_speed = numeric_value(frame_element.dataset.scrollSpeed, 70, 1) * image_scale;
         const travel_duration = overflow_height / scroll_speed * 1000;
-        const scroll_animation = await animate_element(image_element,
+        const scroll_animation = await animate_element(scroll_target(image_element),
           [{ transform: 'translateY(0)' }, { transform: `translateY(-${overflow_height}px)` }], travel_duration, run_revision);
         await hold_frame(frame_element, numeric_value(frame_element.dataset.bottomDuration, 800), run_revision);
-        const return_animation = await animate_element(image_element,
+        const return_animation = await animate_element(scroll_target(image_element),
           [{ transform: `translateY(-${overflow_height}px)` }, { transform: 'translateY(0)' }], travel_duration, run_revision);
         release_animation(scroll_animation);
         release_animation(return_animation);
@@ -366,6 +388,11 @@ export function install_screen_sequence(card_element, abort_signal) {
   visibility_observer.observe(card_element);
   abort_signal.addEventListener('abort', () => {
     reset_sequence();
+    upgraded_frames.forEach(({ frame_element, top_element, overlay_element, scroll_element, media_element }) => {
+      overlay_element.prepend(top_element);
+      media_element.replaceChildren(...scroll_element.childNodes);
+      frame_element.classList.remove('card__frame--island-scroll');
+    });
     screen_element.removeAttribute('data-sequence-ready');
     resize_observer.disconnect();
     visibility_observer.disconnect();
@@ -392,7 +419,7 @@ export function install_screen_sequence(card_element, abort_signal) {
         edge_image.setAttribute('width', String(image_element.naturalWidth));
         edge_image.setAttribute('height', String(image_element.naturalHeight));
       });
-      // Reuse the original first pixel row, preserving horizontal color variation.
+      // Extend only the first row; the strip and screenshot scroll as one surface.
       screen_element.querySelectorAll('[data-screen-top-fill]').forEach((top_element) => {
         const top_image = top_element.querySelector('image');
         const source_image = new Image();

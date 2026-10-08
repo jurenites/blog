@@ -20,16 +20,18 @@ function frame_media_markup(frame_item) {
     <svg class="card__edge-fill" preserveAspectRatio="none" aria-hidden="true" focusable="false" data-screen-edge-fill><image href="${escape_html(frame_item.image_source)}"></image></svg>`;
 }
 
-function island_overlay_markup(screen_width, screen_height, overlay_enabled, image_source = '') {
+function island_pixels_markup(screen_width, image_source) {
+  return image_source ? `<svg class="card__island-pixels" viewBox="0 0 ${screen_width} 1" preserveAspectRatio="none" aria-hidden="true" focusable="false" data-screen-top-fill><image href="${escape_html(image_source)}"></image></svg>` : '';
+}
+
+function island_overlay_markup(screen_width, overlay_enabled, image_source = '') {
   if (!overlay_enabled) return '';
-  const screen_center = screen_width / 2;
-  return `<svg class="card__island-overlay" viewBox="0 0 ${screen_width} ${screen_height}" aria-hidden="true" focusable="false">
-    <rect class="card__island-surface" width="${screen_width}" height="56"></rect>
-    ${image_source ? `<svg class="card__island-pixels" width="${screen_width}" height="56" viewBox="0 0 ${screen_width} 1" preserveAspectRatio="none" data-screen-top-fill><image href="${escape_html(image_source)}"></image></svg>` : ''}
-    <rect class="card__camera-island" x="${screen_center - 55}" y="12" width="110" height="30" rx="15"></rect>
-    <circle class="card__camera-ring" cx="${screen_center + 37}" cy="27" r="6"></circle>
-    <circle class="card__camera-lens" cx="${screen_center + 37}" cy="27" r="3"></circle>
-  </svg>`;
+  return `<span class="card__island-overlay" aria-hidden="true">
+    ${island_pixels_markup(screen_width, image_source)}
+    <svg class="card__island-camera" viewBox="0 0 110 30" focusable="false">
+      <rect class="card__camera-island" width="110" height="30" rx="15"></rect>
+    </svg>
+  </span>`;
 }
 
 export function phone_preview_markup(card_arguments) {
@@ -52,17 +54,24 @@ export function phone_preview_markup(card_arguments) {
   const poster_frame = frame_items.find((frame_item) => frame_item.image_source === fallback_source || frame_item.poster_source === fallback_source);
   const poster_overlay = !is_classic && (poster_frame?.island_overlay ?? default_overlay);
   const poster_markup = fallback_source
-    ? `<span class="card__poster${poster_overlay ? ' card__frame--island-inset' : ''}"><span class="card__frame-media"><img class="card__poster-image" src="${escape_html(fallback_source)}" alt="" loading="eager" draggable="false"></span>${island_overlay_markup(screen_width, screen_height, poster_overlay, fallback_source)}</span>` : '';
+    ? `<span class="card__poster${poster_overlay ? ' card__frame--island-inset' : ''}"><span class="card__frame-media"><img class="card__poster-image" src="${escape_html(fallback_source)}" alt="" loading="eager" draggable="false"></span>${island_overlay_markup(screen_width, poster_overlay, fallback_source)}</span>` : '';
   const depth_markup = card_arguments.follow_cursor === false ? '' : Array.from({ length: 8 }, (unused_value, depth_index) =>
     `<span class="card__device-depth card__device-depth--slice-${depth_index + 1}${depth_index === 7 ? ' card__device-depth--back' : ''}" aria-hidden="true"></span>`).join('');
-  const screen_frames = frame_items.map((frame_item, frame_index) => `
-    <span class="card__frame${!is_classic && (frame_item.island_overlay ?? default_overlay) && !['scroll', 'video', 'gif'].includes(frame_item.frame_mode) ? ' card__frame--island-inset' : ''}" data-screen-frame ${frame_index === 0 ? 'data-frame-active' : ''}
+  const screen_frames = frame_items.map((frame_item, frame_index) => {
+    const overlay_enabled = !is_classic && (frame_item.island_overlay ?? default_overlay);
+    const scrolling_inset = overlay_enabled && frame_item.frame_mode === 'scroll';
+    const media_markup = scrolling_inset
+      ? `<span class="card__scroll-content">${island_pixels_markup(screen_width, frame_item.image_source)}${frame_media_markup(frame_item)}</span>`
+      : frame_media_markup(frame_item);
+    return `
+    <span class="card__frame${overlay_enabled ? ' card__frame--island-inset' : ''}${scrolling_inset ? ' card__frame--island-scroll' : ''}" data-screen-frame${frame_index === 0 ? ' data-frame-active' : ''}
       data-hold-duration="${escape_html(frame_item.hold_ms ?? (frame_item.frame_mode === 'video' ? 0 : 2000))}"
       data-frame-mode="${['scroll', 'video', 'gif'].includes(frame_item.frame_mode) ? frame_item.frame_mode : 'still'}"
       data-scroll-behavior="${frame_item.scroll_behavior === 'swipe' ? 'swipe' : 'continuous'}"
       data-scroll-start="${frame_item.scroll_start === 'bottom' ? 'bottom' : 'top'}"
       data-scroll-speed="${escape_html(frame_item.scroll_speed ?? 70)}"
-      data-bottom-duration="${escape_html(frame_item.bottom_hold_ms ?? 800)}"><span class="card__frame-media">${frame_media_markup(frame_item)}</span>${island_overlay_markup(screen_width, screen_height, !is_classic && (frame_item.island_overlay ?? default_overlay), frame_item.image_source || frame_item.poster_source)}</span>`).join('');
+      data-bottom-duration="${escape_html(frame_item.bottom_hold_ms ?? 800)}"><span class="card__frame-media">${media_markup}</span>${island_overlay_markup(screen_width, overlay_enabled, scrolling_inset ? '' : frame_item.image_source || frame_item.poster_source)}</span>`;
+  }).join('');
   const hardware_markup = is_classic
     ? `<rect class="card__camera-island" x="${device_center - 24}" y="34" width="48" height="6" rx="3"></rect>
        <circle class="card__camera-ring" cx="${device_center - 44}" cy="37" r="5"></circle>

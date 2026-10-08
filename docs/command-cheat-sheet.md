@@ -118,7 +118,7 @@ deletes project database volumes, including MariaDB; do not use it to stop this
 experiment. There is no automatic restart policy: explicitly start ClickHouse
 again when needed after restarting Docker.
 
-Open <http://localhost:8123/play> for the built-in SQL interface. The local
+Open [http://localhost:8123/play](http://localhost:8123/play) for the built-in SQL interface. The local
 database is `local_analytics`, and the user is `local_analyst`. Its generated
 password is stored in ignored `docker/clickhouse/.env.local`. This file contains
 `CLICKHOUSE_DB`, `CLICKHOUSE_USER`, and `CLICKHOUSE_PASSWORD`; recreate it with a
@@ -187,10 +187,13 @@ database, including all enabled modules. Existing backups are managed separately
 the script does not make another PROD backup or automatically roll back.
 
 (optional) Start the local database if it is stopped, then check the SSH destination:
+
 ```bash
 docker compose up -d db
 ```
+
 (optional) check
+
 ```bash
 bash scripts/deploy-content.sh --check u3614358@server290.hosting.reg.ru
 ```
@@ -210,6 +213,7 @@ through PATH, so they use the same PHP version as the parent command.
 Use your actual SSH alias/login if it differs from this hosting example.
 
 Run the restore with one command:
+
 ```bash
 bash scripts/deploy-content.sh u3614358@server290.hosting.reg.ru
 ```

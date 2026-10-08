@@ -82,18 +82,27 @@ has rounded corners that follow the device outline.
 Both eras are stylized phone frames rather than exact model replicas.
 These curves describe device artwork; the outer card
 remains square. The raster screen sits above the frame, with the camera island
-and gesture bar above the image. `island_overlay` is a boolean control for modern phones. When enabled, a fixed
-band covers the top 56 screen-coordinate pixels, with the Dynamic Island above
-it. Still images and the fallback poster fit proportionally below this band;
-tall stills shrink uniformly to keep their bottom visible. Scrollable images
-continue beneath the fixed band. For raster frames, its fill repeats the first
-source pixel row, preserving horizontal color variation without extrapolating
-a vertical gradient. Video frames can use `poster_source` for this fill; media
-without a raster source retain the white fallback. This uses SVG cropping, not
-canvas pixel readback, so cross-origin raster sources do not require CORS. Each `frame_list` entry can override `island_overlay`;
-set it to false for images with their own status bar or camera cutout. The overlay
-fades with its frame, stays fixed during scrolling, and also applies to video/GIF
-frames. Classic phones ignore it. The fallback poster inherits a matching frame's
+and gesture bar above the image. `island_overlay` is a boolean control for modern
+phones. The initial band is 56 screen-coordinate pixels, scaling with the phone.
+Its fill repeats only the screenshot's first pixel row. For scrolling screenshots,
+the fill and image share one scrolling surface: the band scrolls out of view and
+returns when the screenshot returns to its starting position. The black camera
+pill remains fixed above the moving content. The fill overlaps the image by one
+hairline to prevent a seam at fractional preview sizes. Both move together during
+autoplay, manual dragging, hover pauses and return motion, without sampling new
+rows or running a separate animation loop. Existing saved CMS previews receive
+this nesting at runtime; newly generated previews include it directly.
+Still images and posters retain the fixed inset and crop from the top to fill
+the remaining area. Video frames can use `poster_source` for their fixed fill;
+media without a raster source retain the white fallback. SVG cropping avoids
+canvas pixel readback and works with cross-origin raster sources without CORS.
+Each `frame_list` entry can override `island_overlay`; disable it for screenshots
+with their own status bar or camera cutout. The overlay fades with its frame.
+Classic phones ignore it. The **Scrolling Top Bar** Storybook example demonstrates
+the initial fill scrolling away beneath the fixed pill. Run
+`PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/screen-top-fill.browser.mjs`
+after building the theme to verify the seam, scrolling, camera position, hover,
+manual dragging, reset and detach behavior. The fallback poster inherits a matching frame's
 override, or otherwise uses the main control. AMI account frames disable the
 overlay because they already include a status bar. A radial reflection
 tracks the pointer along the frame outline without covering the screenshot.
