@@ -76,7 +76,6 @@ export PATH="$(dirname "$prod_php"):$PATH"
 cd "$prod_project"
 drush_command() { "$prod_php" ./vendor/bin/drush.php --uri="$prod_uri" "$@"; }
 trap 'echo "Repair stopped; inspect PROD before reopening it. Repair files: $remote_directory" >&2' ERR
-drush_command state:set system.maintenance_mode 1 --input-format=integer
 cp composer.json "$remote_directory/composer.before.json"
 cp composer.lock "$remote_directory/composer.before.lock"
 echo 'Installing the three contributed modules and their required dependencies...'
@@ -92,6 +91,7 @@ echo 'Installing the three contributed modules and their required dependencies..
   file_put_contents($composer_path, json_encode($composer_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) . "\n", LOCK_EX);
 ' "$remote_directory/packages.json"
 # This targets only the three named packages and dependencies, not a full update.
+drush_command state:set system.maintenance_mode 1 --input-format=integer
 umask 022
 "$prod_php" "$prod_composer" update drupal/clickhouse drupal/devel drupal/ms_clarity \
   --with-dependencies --no-dev --no-interaction --no-progress

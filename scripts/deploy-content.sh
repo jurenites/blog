@@ -185,8 +185,28 @@ case "$remote_action" in
     test -f "$remote_directory/files/.htaccess" || test -f web/sites/default/files/.htaccess
     gzip -dc "$remote_directory/database.sql.gz" > "$remote_directory/database.sql"
     grep -q '^CREATE TABLE' "$remote_directory/database.sql"
-    trap 'echo "Restore stopped. Inspect PROD before reopening it. Uploaded data retained at: $remote_directory" >&2' ERR
+    # Prepare uploaded files while the public site is still available.
+    find "$remote_directory/files" -type d -exec chmod 755 {} +
+    find "$remote_directory/files" -type f -exec chmod 644 {} +
+    maintenance_started=0
+    report_restore_failure() {
+      local exit_status=$?
+      trap - ERR
+      if [[ "$maintenance_started" == 1 ]]; then
+        # The imported database can replace the maintenance state. Keep a
+        # partially restored site closed when Drupal can still bootstrap.
+        if drush_command state:set system.maintenance_mode 1 --input-format=integer; then
+          drush_command cache:rebuild || echo 'Could not rebuild PROD cache after restore failure.' >&2
+        else
+          echo 'Could not confirm PROD maintenance mode after restore failure.' >&2
+        fi
+      fi
+      echo "Restore stopped. Inspect PROD before reopening it. Uploaded data retained at: $remote_directory" >&2
+      exit "$exit_status"
+    }
+    trap report_restore_failure ERR
     echo '1/3 Replacing PROD database with DEV data...'
+    maintenance_started=1
     drush_command state:set system.maintenance_mode 1 --input-format=integer
     drush_command cache:rebuild
     # sql:query invokes the mysql/mariadb terminal client with credentials
@@ -198,9 +218,6 @@ case "$remote_action" in
     drush_command state:set system.maintenance_mode 1 --input-format=integer
     echo '2/3 Installing the public files transferred with scp...'
     # Overlay: overwrite matching files; retain PROD-only files.
-    # Set public modes explicitly because the staging directory is private.
-    find "$remote_directory/files" -type d -exec chmod 755 {} +
-    find "$remote_directory/files" -type f -exec chmod 644 {} +
     cp -R "$remote_directory/files/." web/sites/default/files/
     echo '3/3 Running Drupal updates and rebuilding cache...'
     drush_command updatedb --yes
@@ -208,6 +225,9 @@ case "$remote_action" in
     drush_command php:eval 'if (!\Drupal::database()->query("SELECT 1")->fetchField()) { throw new \RuntimeException("Database verification failed"); }'
     drush_command state:set system.maintenance_mode 0 --input-format=integer
     drush_command cache:rebuild
+    maintenance_started=0
+    trap - ERR
+    echo 'PROD maintenance mode disabled after restore verification.'
     drush_command status --fields=drupal-version,bootstrap,db-status,root,uri
     rm -rf -- "$remote_directory"
     ;;

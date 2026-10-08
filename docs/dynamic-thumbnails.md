@@ -14,7 +14,17 @@ Accountia's `.accountia-preview__phones`, `[data-accountia-gallery]`, and
 It displays a safe text placeholder in the visual editor and preserves the
 phone markup through ordinary saves and source-mode toggles. The whole block can
 be moved or deleted; deliberate source edits remain possible. Unwrapped card
-HTML is not protected, and the plugin does not repair already-damaged markup.
+HTML without a recognized preview/card marker is not protected, and the plugin
+does not repair already-damaged markup. Standalone `a[data-cursor-card]` and
+`div[data-cursor-card]` cards are protected automatically, including the linked
+phones in Home block 34. Their original wrapper tag, link attributes, SVG and
+media nesting survive Body edits and Source toggles; the adjacent project copy
+stays editable in the visual editor.
+
+`node --test tests/phone-preview-plugin.test.mjs` checks the raw conversion
+contract for linked and unlinked cards. On the local block editor, also verify
+four protected objects, type and undo a character, toggle Source, save a revision,
+and reload: the nested frame counts must remain 14, 2, 8 and 15.
 
 The local regression check `tests/phone-preview-editor.browser.mjs` performs two
 real ScatchApp node saves with changed revision notes, checks source toggles and

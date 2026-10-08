@@ -72,6 +72,10 @@ elif command_name == "scp":
                 (Path(target_path) / "files/photo.txt").write_text("corrupted transfer")
         else:
             shutil.copy(source_path, target_path)
+elif command_name == "find":
+    if os.environ.get("FAIL_PHASE") == "prepare":
+        sys.exit(4)
+    sys.exit(subprocess.run(["/usr/bin/find", *argument_list]).returncode)
 elif command_name == "php-fixture":
     if os.environ["PATH"].split(":")[0] != str(Path(sys.argv[0]).parent):
         sys.exit("PHP executable directory must be inherited by child commands")
@@ -87,6 +91,8 @@ elif command_name == "php-fixture":
                 shutil.copy(argument_value.split("=", 1)[1], os.environ["IMPORTED_SQL"])
     if "updatedb" in argument_list and os.environ.get("FAIL_PHASE") == "updates":
         sys.exit(6)
+    if "status" in argument_list and os.environ.get("FAIL_PHASE") == "final_status" and Path(os.environ["IMPORTED_SQL"]).exists():
+        sys.exit(5)
 '''
 
 
@@ -102,7 +108,7 @@ class DeploymentWorkflowTests(unittest.TestCase):
         self.prod_root = self.test_root / "prod"
         self.mock_root = self.test_root / "bin"
         self.mock_root.mkdir()
-        for command_name in ("docker", "ssh", "scp", "mysql", "php-fixture", "sleep"):
+        for command_name in ("docker", "ssh", "scp", "mysql", "php-fixture", "sleep", "find"):
             command_path = self.mock_root / command_name
             command_path.write_text(MOCK_COMMAND)
             command_path.chmod(0o755)
@@ -167,8 +173,11 @@ class DeploymentWorkflowTests(unittest.TestCase):
         self.assertIn("2 missing/changed", run_result.stdout)
         self.assertIn("2 identical files skipped", run_result.stdout)
         self.assertLess(log_text.index("scp "), log_text.index("sql:drop"))
+        self.assertLess(log_text.index("find "), log_text.index("system.maintenance_mode 1"))
+        self.assertLess(log_text.index("system.maintenance_mode 1"), log_text.index("sql:drop"))
         self.assertLess(log_text.index("sql:drop"), log_text.index("--file="))
         self.assertLess(log_text.index("updatedb"), log_text.index("system.maintenance_mode 0"))
+        self.assertEqual(log_text.count("system.maintenance_mode 0"), 1)
         self.assertEqual(list(self.prod_root.glob(".content-deploy.*")), [])
         archive_path = next(self.test_root.glob("blog-content-deploy.*/database.sql.gz"))
         with gzip.open(archive_path, "rt") as archive_file:
@@ -215,6 +224,7 @@ class DeploymentWorkflowTests(unittest.TestCase):
         log_text = self.call_log.read_text()
         self.assertNotIn("updatedb", log_text)
         self.assertNotIn("system.maintenance_mode 0", log_text)
+        self.assertGreaterEqual(log_text.count("system.maintenance_mode 1"), 2)
         self.assertEqual((self.prod_files / "photo.txt").read_text(), "old photo")
         self.assertIn("Restore stopped", run_result.stderr)
         self.assertTrue(list(self.prod_root.glob(".content-deploy.*/database.sql")))
@@ -224,6 +234,14 @@ class DeploymentWorkflowTests(unittest.TestCase):
         self.assertNotEqual(run_result.returncode, 0)
         self.assertNotIn("system.maintenance_mode 0", self.call_log.read_text())
         self.assertTrue(list(self.prod_root.glob(".content-deploy.*/database.sql")))
+
+    def test_reporting_failure_after_restore_does_not_reenable_maintenance(self):
+        run_result = self.run_script(fail_phase="final_status")
+        self.assertNotEqual(run_result.returncode, 0)
+        log_text = self.call_log.read_text()
+        self.assertIn("system.maintenance_mode 0", log_text)
+        self.assertNotIn("system.maintenance_mode 1", log_text.split("system.maintenance_mode 0", 1)[1])
+        self.assertIn("maintenance mode disabled", run_result.stdout)
 
     def test_identical_public_files_transfer_no_file_contents(self):
         shutil.copytree(self.dev_files, self.prod_files, dirs_exist_ok=True)
@@ -237,6 +255,15 @@ class DeploymentWorkflowTests(unittest.TestCase):
         self.assertNotEqual(run_result.returncode, 0)
         self.assertNotIn("sql:drop", self.call_log.read_text())
         self.assertIn("Uploaded file failed verification", run_result.stderr)
+
+    def test_staging_failure_never_enables_maintenance(self):
+        run_result = self.run_script(fail_phase="prepare")
+        self.assertNotEqual(run_result.returncode, 0)
+        log_text = self.call_log.read_text()
+        self.assertIn("find ", log_text)
+        self.assertNotIn("system.maintenance_mode", log_text)
+        self.assertNotIn("sql:drop", log_text)
+        self.assertEqual((self.prod_files / "photo.txt").read_text(), "old photo")
 
     def test_shared_connection_is_opened_once_and_closed(self):
         for fail_phase in ("", "upload", "authentication"):
