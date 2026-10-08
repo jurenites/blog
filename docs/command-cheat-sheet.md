@@ -239,9 +239,12 @@ The Docker `blog_jurenites_db` database is still exported in full and compressed
 with the known MariaDB-only collation converted in table definitions for MySQL
 compatibility. The database and changed public files are uploaded into a private
 staging directory outside `web/`. Uploaded file hashes are verified before the
-database restore starts. Avoid editing DEV/PROD files or running cron during the
-comparison and restore. This skips identical files but does not resume a partially
-uploaded individual file; a new run compares against the installed PROD files.
+database restore starts. PROD also decompresses the dump and prepares staged
+file permissions before enabling maintenance mode. The script leaves PROD's
+public state unchanged during export, comparison, upload, and staging checks.
+Avoid editing DEV/PROD files or running cron during the comparison and restore.
+Identical files are skipped. A partially uploaded individual file is not
+resumed; a new run compares against the installed PROD files.
 
 On PROD it enables Drupal maintenance mode, drops the target database's tables,
 and imports the DEV dump. Drush `sql:query` runs the MySQL/MariaDB terminal client
@@ -251,15 +254,19 @@ including users, passwords, submissions, and configuration, not a content merge.
 
 After import, it copies the staged public files into PROD, overwriting matching
 paths and retaining PROD-only files. It runs `updatedb`, rebuilds caches, checks
-Drupal database access, then disables maintenance mode. Review the public pages,
-login, images, and environment-specific settings after completion. This script
-copies only public files, not private-file storage.
+Drupal database access, then disables maintenance mode and rebuilds caches.
+Remote status reporting and staging cleanup happen after the site is reopened.
+Review the public pages, login, images, and environment-specific settings after
+completion. This script copies only public files, not private-file storage.
 
 The import is not transactional. Drupal maintenance state itself is replaced by
 the imported database and reapplied afterwards; it is not a continuous traffic
 lock during import. Run during a quiet window with external cron paused. If a
-command fails, the script stops and does not intentionally reopen the site;
-inspect its actual state before recovering with your backups or rerunning.
+command fails during the restore, the script tries to keep maintenance mode on
+and stops rather than exposing a partial import. If Drupal cannot bootstrap,
+the maintenance state cannot be confirmed; inspect the actual public response
+before recovering with backups or rerunning. A failure before maintenance
+starts leaves the site available.
 Failure after import can leave the new database with old or partially copied
 files. Remote staging is retained on failure and removed on success; the local
 DEV export location is printed and retained in a private temporary directory.
@@ -290,18 +297,32 @@ configuration sync directory if needed, or adds a setting for project-local
 settings file's permissions. Composer/settings backups remain in a private
 `.content-repair.*` directory. It checks extension availability, runs updates,
 clears caches, and disables maintenance mode only after the update steps succeed.
-`PROD_COMPOSER` overrides the default account-local Composer executable path.
+Its custom-module upload, Composer backups, and Composer manifest edit finish
+before maintenance mode starts; the mode starts immediately before Composer
+changes the installed code. `PROD_COMPOSER` overrides the default account-local
+Composer executable path.
 There are no Git commits, pushes, or pulls. A completed local test does not prove
 the remote repair succeeded; check its terminal completion and the public site.
 
-For this Drupal 11.4.7 deployment, PROD explicitly requires `twig/twig:3.29.0`,
-matching DEV's locked version. Twig 3.30 produced a homepage HTTP 500 even though
+For the Drupal 11.4.7 deployment, PROD explicitly required `twig/twig:3.29.0`,
+matching DEV's locked version at that time. Twig 3.30 produced a homepage HTTP 500 even though
 Drush bootstrap and database updates succeeded: the compiled escape call passes
 the environment into the wrong argument position. See the
 [Drupal issue for the Twig 3.30 rendering regression](https://www.drupal.org/project/drupal/issues/3625969).
 Preserve the PROD constraint during module installation until a compatible update
 has been verified. Always request the public homepage after a dependency change;
 a successful cache rebuild alone does not establish successful page rendering.
+
+The 2026-10-07 local dependency update locks Drupal core to `11.4.8`, Tagify to
+`2.0.4`, and Twig to `3.30.0`, with compatible dependency updates.
+[Drupal 11.4.8](https://www.drupal.org/project/drupal/releases/11.4.8) includes the
+Twig rendering fix. Local homepage, Blog, Videos, Portfolio, Contact, and login
+requests returned HTTP 200 after database updates and cache rebuild. Composer
+validation, platform requirements, and the advisory audit passed; no Drupal
+package updates remained in the Composer report. The pending custom
+`jurenites_admin_post_update_editor_alignment` update was also applied locally.
+This verification does not deploy or remove any constraint on PROD; check the
+target manifest and PHP 8.3 platform requirements before a separate code release.
 
 ### Manual restore including a separate code release
 
