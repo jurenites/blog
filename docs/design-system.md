@@ -433,7 +433,9 @@ the Article's listing, such as `/blog?tag=ui-ux-design` or
 label, lowercases it, replaces
 non-alphanumeric runs with one hyphen, and resolves that readable value to
 Drupal's internal term ID. Blog and Videos display the selected tag with a clear
-action. Portfolio instead keeps all tags used by accessible published Projects
+action and two base gaps of space before the listing below. The clear Chip uses
+4px of right padding beside its close icon. Portfolio instead
+keeps all tags used by accessible published Projects
 visible as Chip choices, marks the active Chip with yellow text using
 `--color-palette-brand-tertiary` and no close icon, and clears
 it when that selected Chip is activated again. Every listing keeps filtering
@@ -692,9 +694,9 @@ The root reserves the browser's own scrollbar gutter at mobile widths so the
 language selector stays in place while the menu locks page scrolling; overlay
 scrollbars do not need a reserved gutter.
 From 641px up to the
-header-specific 1440px inline minimum (`system.breakpoint.site-header-inline-min`),
+header-specific 1280px inline minimum (`system.breakpoint.site-header-inline-min`),
 the brand and language selector occupy the first row with visible navigation on
-the second row. At 1440px and above, the
+the second row. At 1280px and above, the
 header stays in one row with equal side columns centering navigation and leaving
 room for the revealed name in both languages. Authenticated pages hide Gin's secondary toolbar to keep the public header
 visually unambiguous; Gin's primary administration navigation remains available.
@@ -964,6 +966,12 @@ Badge and Chip atoms have no text underline in Storybook or the Drupal theme,
 including linked chips on hover and keyboard focus. The global link treatment
 excludes both atoms. Linked chips keep their surface and text color feedback
 and visible keyboard focus outline.
+Ordinary chips use surface level 1. Inside Article Teaser, Project Card, and
+News List Item, they move to level 0 when the card rises to level 1 on hover or
+keyboard focus; the raised Surface variant uses the same darker chip color.
+Highlighted chips (`chip--accent` or `aria-current="true"`) use level 2 and
+remain lighter than the raised card. A linked chip's own hover or keyboard focus
+uses level 2, or the next lighter palette gray when highlighted.
 
 Footer Navigation uses four titled columns of vertically stacked list links:
 Social networks, Get in touch, How I work, and Information. The recruiter

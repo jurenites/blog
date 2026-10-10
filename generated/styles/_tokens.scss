@@ -220,7 +220,7 @@
   --system-breakpoint-tablet-max: 1279px;
   --system-breakpoint-desktop-min: 1280px;
   --system-breakpoint-desktop-max: 1920px;
-  --system-breakpoint-site-header-inline-min: 1440px;
+  --system-breakpoint-site-header-inline-min: 1080px;
   --system-breakpoint-article-sidebar-min: 1184px;
   --system-breakpoint-content-gutter-max: 1008px;
   --system-breakpoint-article-grid-stack-max: 960px;
@@ -270,7 +270,7 @@ $system-breakpoint-tablet-min: 641px;
 $system-breakpoint-tablet-max: 1279px;
 $system-breakpoint-desktop-min: 1280px;
 $system-breakpoint-desktop-max: 1920px;
-$system-breakpoint-site-header-inline-min: 1440px;
+$system-breakpoint-site-header-inline-min: 1080px;
 $system-breakpoint-article-sidebar-min: 1184px;
 $system-breakpoint-content-gutter-max: 1008px;
 $system-breakpoint-article-grid-stack-max: 960px;
@@ -282,7 +282,7 @@ $breakpoints: (
   "tablet-max": 1279px,
   "desktop-min": 1280px,
   "desktop-max": 1920px,
-  "site-header-inline-min": 1440px,
+  "site-header-inline-min": 1080px,
   "article-sidebar-min": 1184px,
   "content-gutter-max": 1008px,
   "article-grid-stack-max": 960px,

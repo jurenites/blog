@@ -95,11 +95,15 @@ export async function run_visual_review({ project_root, report_directory, status
         const content_data = await component_locator.evaluate((component_element) => ({ text_content: component_element.innerText, input_values: [...component_element.querySelectorAll('input, textarea, select')].map((input_element) => input_element.value), image_sources: [...component_element.querySelectorAll('img')].map((image_element) => image_element.currentSrc), enhancement_errors: [component_element, ...component_element.querySelectorAll('[data-enhancement-state]')].filter((child_element) => child_element.dataset.enhancementState === 'error').length }));
         const component_bounds = await component_locator.boundingBox();
         if (component_bounds.width * component_bounds.height > 16000000) throw new Error('Region is too large. Choose a smaller component selector.');
-        const image_buffer = await component_locator.screenshot({ animations: 'disabled', timeout: 15000 });
+        const capture_bounds = {
+          x: Math.round(component_bounds.x), y: Math.round(component_bounds.y),
+          width: Math.round(component_bounds.width), height: Math.round(component_bounds.height),
+        };
+        const image_buffer = await page_instance.screenshot({ clip: capture_bounds, animations: 'disabled', timeout: 15000 });
         await writeFile(resolve(artifact_directory, `${view_key}.png`), image_buffer);
         await writeFile(resolve(artifact_directory, `${view_key}-content.json`), JSON.stringify(content_data, null, 2));
         captured_views[view_key] = image_buffer;
-        check_results.push({ check_key: view_key, check_label: view_key === 'drupal' ? 'Actual website rendering' : 'Storybook rendering', status: page_errors.length || content_data.enhancement_errors ? 'failed' : 'passed', message: `Captured the selected region on the complete ${view_key === 'drupal' ? 'website page, with its inherited CSS and surrounding layout' : 'Storybook page'}.${page_errors.length || content_data.enhancement_errors ? ' Browser or enhancement errors need review.' : ''}`, details: { ...capture_details, actual_url: page_instance.url(), component_bounds, page_errors, content_data, frame_policy: page_response.headers()['x-frame-options'] ?? '' }, artifacts: [artifact_item(`${view_key}.png`, view_key === 'drupal' ? 'Actual website' : 'Storybook')] });
+        check_results.push({ check_key: view_key, check_label: view_key === 'drupal' ? 'Actual website rendering' : 'Storybook rendering', status: page_errors.length || content_data.enhancement_errors ? 'failed' : 'passed', message: `Captured the selected region on the complete ${view_key === 'drupal' ? 'website page, with its inherited CSS and surrounding layout' : 'Storybook page'}.${page_errors.length || content_data.enhancement_errors ? ' Browser or enhancement errors need review.' : ''}`, details: { ...capture_details, actual_url: page_instance.url(), component_bounds, capture_bounds, page_errors, content_data, frame_policy: page_response.headers()['x-frame-options'] ?? '' }, artifacts: [artifact_item(`${view_key}.png`, view_key === 'drupal' ? 'Actual website' : 'Storybook')] });
       } catch (capture_error) {
         check_results.push({ check_key: view_key, check_label: view_key === 'drupal' ? 'Actual website rendering' : 'Storybook rendering', status: 'blocked', message: capture_error.message, details: capture_details });
       } finally { clearTimeout(capture_timer); await browser_context.close(); }

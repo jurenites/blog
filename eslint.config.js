@@ -7,6 +7,8 @@ export default defineConfig([
   {
     ignores: [
       "generated/**",
+      // Bundled SMEP game source is checked in its originating repository.
+      "web/modules/custom/jurenites_smep_periodic/ui/**",
       "storybook-static/**",
       "vendor/**",
       "web/core/**",

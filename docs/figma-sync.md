@@ -49,3 +49,6 @@ states. Iframes support review; exported, versioned frames supply screenshot
 references. The dashboard accepts manually exported Figma PNGs and compares all three
 pairs. The language-picker suite has pinned Figma exports; the default Article
 Blog List Item case still has no Figma baseline. Automatic exports remain pending.
+
+The [Atom traceability inventory](atom-traceability.md) records the editable AI v1
+Figma component families and the first matched Badge case in the testing dashboard.

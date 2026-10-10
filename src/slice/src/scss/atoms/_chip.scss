@@ -12,6 +12,7 @@
   color: var(--theme-dark-text-secondary-default);
   text-decoration: none;
   user-select: none;
+  transition: background-color var(--motion-duration-short-default) var(--motion-easing-standard-default);
 
   &[href] {
     font: var(--typography-badge);
@@ -29,8 +30,29 @@
     }
   }
 
-  &--accent {
+  &--accent,
+  &[aria-current="true"] {
+    background: var(--theme-dark-surface-background-elevation-level-2);
     border-color: var(--theme-dark-border-outline-default);
     color: var(--theme-dark-text-primary-default);
+  }
+
+  &--accent[href]:is(:hover, :focus-visible),
+  &[aria-current="true"][href]:is(:hover, :focus-visible) {
+    background: var(--color-palette-dark-gray);
+  }
+}
+
+// These surfaces rise to level 1 on hover/focus, matching a resting chip.
+// An ordinary chip moves one palette step darker; highlighted chips stay lighter.
+:is(.article-teaser, .project-card, .news-list-item):is(:hover, :focus-within)
+  .chip:not(.chip--accent, [aria-current="true"], [href]:is(:hover, :focus-visible)),
+.surface--raised .chip:not(.chip--accent, [aria-current="true"], [href]:is(:hover, :focus-visible)) {
+  background: var(--theme-dark-surface-background-elevation-level-0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip {
+    transition: none;
   }
 }

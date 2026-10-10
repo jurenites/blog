@@ -1,0 +1,9 @@
+block.settings.jurenites_smep_periodic_table:
+  type: block_settings
+  label: 'SMEP periodic table settings'
+  mapping:
+    initial_mode:
+      type: string
+      label: 'Initial card size'
+      constraints:
+        Choice: [normal, small, micro]

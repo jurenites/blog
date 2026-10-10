@@ -1,5 +1,15 @@
 {
   "components": {
+    "atoms-badge": {
+      "drupal_url": "http://jurenites.local/",
+      "drupal_selector": ".footer-navigation__link--with-badge .badge",
+      "story_url": "/storybook/iframe.html?id=atoms-badge--numeric-badge&viewMode=story&args=color_variant:gray",
+      "story_selector": ".badge",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1708-32",
+      "viewport_widths": [1280],
+      "viewport_height": 900,
+      "inputs_matched": true
+    },
     "molecules-video-article-blog-list-item": {
       "drupal_url": "http://jurenites.local/blog",
       "drupal_selector": ".article-list-item[data-article-id=\"1\"]",

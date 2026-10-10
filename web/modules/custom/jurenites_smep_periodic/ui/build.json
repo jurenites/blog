@@ -1,0 +1,5 @@
+{
+  "source": "SMEP periodic table",
+  "build": "97ec7456edd7",
+  "generatedBy": "scripts/build-drupal-periodic.mjs"
+}

@@ -130,7 +130,7 @@ system.breakpoint.tablet-min: 641px # Lower bound of the tablet range.
 system.breakpoint.tablet-max: 1279px # Upper bound of the tablet range.
 system.breakpoint.desktop-min: 1280px # Lower bound of the desktop range and the primary design width.
 system.breakpoint.desktop-max: 1920px # Maximum tested desktop viewport. Wider screens keep desktop behavior and show additional page background outside centered content.
-system.breakpoint.site-header-inline-min: 1440px # Visible navigation moves to a second row below this width; the compact menu starts at mobile-max.
+system.breakpoint.site-header-inline-min: 1080px # Visible navigation moves to a second row below this width; the compact menu starts at mobile-max.
 system.breakpoint.article-sidebar-min: 1184px # Centered 800px Body + two equal side tracks, each with a 32px gap and 160px minimum width.
 system.breakpoint.content-gutter-max: 1008px # 960px wide content plus 24px of space on each side.
 system.breakpoint.article-grid-stack-max: 960px # Latest articles cards fill one row each at this width and below.
