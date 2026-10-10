@@ -1,0 +1,9 @@
+embed:
+  css:
+    component:
+      css/smep-periodic-block.css: {}
+  js:
+    js/smep-periodic-block.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

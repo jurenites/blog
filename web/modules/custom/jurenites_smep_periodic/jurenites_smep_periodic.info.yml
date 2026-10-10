@@ -1,0 +1,7 @@
+name: SMEP Periodic Table
+type: module
+description: 'Reusable interactive SMEP periodic table with an isolated, bundled application.'
+core_version_requirement: ^11
+package: jurenites
+dependencies:
+  - drupal:block

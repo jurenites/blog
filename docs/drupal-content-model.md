@@ -603,8 +603,9 @@ SMEP's element-card preview uses 750 Ã— 1334px retina artwork for card views 1â€
 The orbital preview uses the same retina dimensions for Hydrogen, Carbon, Boron,
 Silicon, Phosphorus, Copper, and Oganesson, stored under
 `assets/images/projects/smep/orbitals/`.
-The classic phone screen displays these at 375px wide, shrinking to fit narrower
-containers. Source and theme assets retain matching numbered filenames under
+The classic phone screen displays these at up to 375px wide on larger layouts. On
+mobile, the complete phone scales down to fit its square preview tile. Source
+and theme assets retain matching numbered filenames under
 `assets/images/projects/smep/element-cards/`.
 
 SMEP includes an editable **Screen slider** Paragraph from `jurenites_screen_slider`.

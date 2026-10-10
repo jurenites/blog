@@ -550,8 +550,10 @@ $phone-classic-large-width: 458px;
   pointer-events: auto;
 }
 
-// Keep the 2x SMEP artwork in a 375px screen plus its classic case.
+// Show the complete phone on mobile; larger layouts crop the 2x artwork.
 [data-smep-preview="element-cards"] .card__phone--classic,
 [data-smep-preview="orbitals"] .card__phone--classic {
-  width: min(100%, #{$phone-classic-compact-width});
+  @include tools.breakpoint-up("tablet-min") {
+    width: min(100%, #{$phone-classic-compact-width});
+  }
 }

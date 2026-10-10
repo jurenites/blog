@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Theme integration for the reusable SMEP periodic table block.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function jurenites_smep_periodic_theme($existing_hooks, $theme_type, $active_theme, $module_path): array {
+  return [
+    'jurenites_smep_periodic_block' => [
+      'variables' => ['application_url' => NULL, 'frame_title' => NULL],
+      'template' => 'smep-periodic-block',
+    ],
+  ];
+}

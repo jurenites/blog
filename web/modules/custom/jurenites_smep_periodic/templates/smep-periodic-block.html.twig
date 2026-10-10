@@ -1,0 +1,7 @@
+<div class="smep-periodic-block" data-smep-periodic-block>
+  <div class="smep-periodic-block__toolbar">
+    <button type="button" class="button button--secondary smep-periodic-block__expand" data-expand-label="{{ 'Expand table'|t }}" data-collapse-label="{{ 'Exit full screen'|t }}" hidden>{{ 'Expand table'|t }}</button>
+    <a class="button button--secondary smep-periodic-block__open" href="{{ application_url }}" target="_blank" rel="noopener">{{ 'Open separately'|t }}</a>
+  </div>
+  <iframe class="smep-periodic-block__frame" src="{{ application_url }}" title="{{ frame_title }}" loading="lazy" allow="fullscreen" referrerpolicy="same-origin"></iframe>
+</div>

@@ -581,6 +581,14 @@
   gap: var(--space-scale-base-gap);
 }
 
+.blog-filter {
+  margin-block-end: calc(var(--space-scale-base-gap) * 2);
+}
+
+.blog-filter__clear {
+  padding-right: calc(var(--space-scale-base-gap) * 0.5);
+}
+
 .blog-filter__label,
 .portfolio-filter__label {
   color: var(--theme-dark-text-gray);

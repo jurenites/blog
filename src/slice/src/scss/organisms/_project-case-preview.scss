@@ -75,6 +75,19 @@
     }
   }
 
+  &__pagination > .square-pagination__dot {
+    flex: 0 0 calc(var(--space-scale-base-gap) * 3);
+    inline-size: calc(var(--space-scale-base-gap) * 3);
+    block-size: calc(var(--space-scale-base-gap) * 3);
+    padding: 0;
+    place-items: center;
+    @include tools.motion-transition(background-color);
+
+    &:is(:hover, :focus-visible) {
+      background: var(--theme-dark-action-secondary-hover);
+    }
+  }
+
   &__arrow {
     position: absolute;
     inset-block-start: 50%;

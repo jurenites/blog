@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#080909" />
+  <title>SMEP | Periodic elements</title>
+  
+  
+  
+  
+  
+  
+  
+  
+<link rel="stylesheet" href="./styles.css?v=97ec7456edd7">
+<script type="module" src="./app.js?v=97ec7456edd7"></script>
+</head>
+
+<body>
+  <main class="atlas">
+    <header class="masthead">
+      
+      <div class="masthead-actions">
+        <nav aria-label="Main navigation"><a href="/">← </a>
+        
+        </nav>
+      </div>
+    </header>
+    
+    
+    <section aria-label="Element collection">
+      <div class="toolbar"><label class="search"><span aria-hidden="true">⌕</span><input id="element-search"
+            type="search" placeholder="Find an element, symbol or number"
+            aria-label="Find an element by name, symbol or atomic number" /></label><button id="motion-toggle"
+          class="motion-toggle" hidden aria-pressed="false">Pause motion</button>
+        <div class="view-switch" hidden role="group" aria-label="Collection layout"><button data-view="table"
+            aria-pressed="true">Table</button><button data-view="cards" aria-pressed="false">Cards</button></div>
+      </div>
+      <div class="filters" role="group" aria-label="Filter by element family" hidden></div>
+      
+
+      <div class="table-scroll" tabindex="0" role="region"
+        aria-label="Periodic table, scroll horizontally to see all groups">
+        <div id="element-grid" class="element-grid" data-card-mode="small"></div>
+      </div>
+      <p id="empty-state" hidden>No elements found. Try another name or choose All elements.</p>
+    </section>
+    
+  </main>
+  <dialog id="element-dialog" aria-labelledby="detail-title" aria-describedby="deck-instructions">
+    <span class="deck-status" aria-live="polite"></span>
+    <span class="deck-status" id="deck-instructions">Swipe left or right, or use the arrow keys to explore the deck. Escape returns to the periodic table.</span>
+    <div class="deck-stage">
+      <div id="detail-card"></div>
+      <button class="close-dialog deck-icon" aria-label="Close element details">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8"/></svg>
+        <span class="deck-label" aria-hidden="true">Close</span>
+      </button>
+      
+      <button id="previous-element" class="deck-icon" aria-label="Previous element">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M13 8H3m5-5L3 8l5 5"/></svg>
+        <span class="deck-label" aria-hidden="true">Previous</span>
+      </button>
+      <button id="next-element" class="deck-icon" aria-label="Next element">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8h10M8 3l5 5-5 5"/></svg>
+        <span class="deck-label" aria-hidden="true">Next</span>
+      </button>
+    </div>
+  </dialog>
+</body>
+
+</html>

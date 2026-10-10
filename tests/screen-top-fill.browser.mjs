@@ -46,6 +46,11 @@ try {
     return { top_offset: camera_bounds.y - screen_bounds.y, left_offset: camera_bounds.x - screen_bounds.x, width: camera_bounds.width, height: camera_bounds.height };
   }
   const initial_camera = await camera_position();
+  const initial_screen_bounds = await screen_locator.boundingBox();
+  assert.ok(Math.abs(initial_camera.width / initial_screen_bounds.width - 110 / 375) < 0.01,
+    'The Dynamic Island pill must remain 110 screen-coordinate pixels wide, not fill the display');
+  assert.ok(Math.abs(initial_camera.height / initial_screen_bounds.height - 30 / 812) < 0.01,
+    'The Dynamic Island pill must remain 30 screen-coordinate pixels high');
   async function screen_color() {
     const screen_image = PNG.sync.read(await screen_locator.screenshot());
     const pixel_offset = (28 * screen_image.width + Math.floor(screen_image.width * 0.15)) * 4;
