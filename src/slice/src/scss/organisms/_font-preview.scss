@@ -265,13 +265,6 @@
   @include tools.typography-caption;
 }
 
-.font-preview__path-toggle {
-  justify-content: center;
-  width: var(--shape-basic-tile);
-  min-height: var(--shape-basic-tile);
-  padding: 0;
-}
-
 .font-preview__path-icon {
   transition: transform var(--motion-duration-short-default) var(--motion-easing-standard-default);
 }

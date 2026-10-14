@@ -14,14 +14,16 @@ export function button_markup({
   tooltip_color_variant = "",
   button_icon_markup = "",
 }) {
-  const prefix_icon_class_name = button_icon_markup ? " button--with-prefix-icon" : "";
+  const button_icon_class = button_icon_markup
+    ? (button_label ? " button--with-prefix-icon" : " icon-button")
+    : "";
   const tooltip_attributes = tooltip_label
     ? ` data-tooltip-trigger data-tooltip-label="${escape_html(tooltip_label)}" data-tooltip-color-variant="${escape_html(tooltip_color_variant)}"`
     : "";
 
   return render_template(button_template, {
     button_type_attribute: ["button", "submit", "reset"].includes(button_type) ? ` type="${button_type}"` : "",
-    additional_classes: `${prefix_icon_class_name}${
+    additional_classes: `${button_icon_class}${
       additional_class_names ? ` ${escape_html(additional_class_names)}` : ""
     }`,
     accessible_label_attribute: button_accessible_label
@@ -43,10 +45,12 @@ export function button_link_markup({
   additional_class_names = "",
   button_icon_markup = "",
 }) {
-  const prefix_icon_class_name = button_icon_markup ? " button--with-prefix-icon" : "";
+  const button_icon_class = button_icon_markup
+    ? (button_label ? " button--with-prefix-icon" : " icon-button")
+    : "";
 
   return render_template(button_link_template, {
-    additional_classes: `${prefix_icon_class_name}${
+    additional_classes: `${button_icon_class}${
       additional_class_names ? ` ${escape_html(additional_class_names)}` : ""
     }`,
     download_attribute: download_filename

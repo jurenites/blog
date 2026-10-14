@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - responsive_image
+name: project_thumbnail_1216
+label: 'Project thumbnail 1216'
+effects:
+  bb22e4b8-9a01-51a9-8826-9fe0aa5b40a4:
+    uuid: bb22e4b8-9a01-51a9-8826-9fe0aa5b40a4
+    id: image_scale
+    weight: 1
+    data:
+      width: 1216
+      height: 1216
+      upscale: false
+  535428c5-0297-54ee-aaec-6df805aa7ff6:
+    uuid: 535428c5-0297-54ee-aaec-6df805aa7ff6
+    id: image_convert_avif
+    weight: 2
+    data:
+      extension: webp

@@ -1,3 +1,4 @@
+import chip_button_template from "./chip-button.template.html?raw";
 import chip_template from "./chip.template.html?raw";
 import chip_link_template from "./chip-link.template.html?raw";
 import { escape_html, render_template } from "../../template.js";
@@ -6,12 +7,15 @@ export function chip_markup({
   chip_label,
   chip_url = "",
   is_accent = false,
+  is_selectable = false,
+  is_selected = false,
   is_current = false,
   accessible_label = "",
 }) {
-  const selected_template = chip_url ? chip_link_template : chip_template;
+  const selected_template = is_selectable ? chip_button_template : chip_url ? chip_link_template : chip_template;
 
   return render_template(selected_template, {
+    pressed_value: String(is_selected),
     class_name: is_accent ? " chip--accent" : "",
     chip_label_text: escape_html(chip_label),
     chip_url_text: escape_html(chip_url),

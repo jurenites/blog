@@ -227,7 +227,7 @@ Add these names to `/etc/hosts` on the host machine once:
 Run Storybook through Docker:
 
 ```bash
-docker compose up storybook
+docker compose up -d storybook
 curl -I http://storybook.jurenites.local/
 ```
 

@@ -2,8 +2,11 @@
 
 The complete rear-view desk photograph is placed after the form in the DOM on
 `/contact`, before the site footer. Its Drupal block is absolutely positioned
-at `top: 0` with `z-index: 0`; the main content block uses `z-index: 1` to sit
-above it. It uses a single image, with no cutout or animation.
+at `top: 0` with `z-index: 0` and an explicit full container width; the main
+content block uses `z-index: 1` to sit
+above it. At mobile widths (640px and below), the photograph block uses relative
+positioning and occupies its place after the form in the normal document flow.
+It uses a single image, with no cutout or animation.
 The older Desk arrival block stays disabled.
 
 Edit **Contact desk photograph** under **Content > Content blocks** to replace

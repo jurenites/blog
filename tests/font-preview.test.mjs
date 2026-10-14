@@ -315,14 +315,8 @@ test("glyph dialogs use typed metadata and the shared Path data disclosure", () 
   assert.match(behavior_source, /path_data_region\.hidden = !is_visible/);
   assert.match(styles_source, /\.font-preview__glyph-data dt[\s\S]*typography-caption/);
   assert.match(styles_source, /\.font-preview__glyph-data dd[\s\S]*typography-machine-readable/);
-  assert.match(
-    styles_source,
-    /\.font-preview__path-toggle[\s\S]*width: var\(--shape-basic-tile\)/,
-  );
-  assert.match(
-    styles_source,
-    /\.font-preview__path-toggle[\s\S]*justify-content: center/,
-  );
+  assert.match(markup_sources[0], /path_data_toggle: icon_button_markup/);
+  assert.match(markup_sources[1], /icon-button font-preview__path-toggle/);
   assert.match(
     styles_source,
     /\.font-preview__path-details pre[\s\S]*background-color: var\(--color-palette-dark-black\)/,

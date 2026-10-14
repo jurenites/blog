@@ -3,9 +3,27 @@ import assert from 'node:assert/strict';
 import { PNG } from 'pngjs';
 import { component_catalogue, merge_reports, validate_report } from '../scripts/component-status/report.mjs';
 import { compare_images } from '../scripts/component-status/images.mjs';
+import { component_variant_count, component_source_states } from '../src/stories/organisms/component-status/component-status.data.js';
 const CHECKED_AT = '2026-09-11T12:00:00Z';
 const CURRENT_TIME = Date.parse(CHECKED_AT);
 const COMPONENT_ROWS = [{ component_id: 'molecules-test-item', component_name: 'Test Item', story_ids: ['test-item--default'] }];
+
+test('sidebar counts Button combinations independently of its single story and deduplicates registered examples', () => {
+  assert.equal(component_variant_count({ component_id: 'atoms-button', story_ids: ['atoms-button--default-story'] }), 6);
+  assert.equal(component_variant_count({ story_ids: ['example--one', 'example--two', 'example--one'] }), 2);
+  assert.equal(component_variant_count({}), 0);
+});
+
+test('sidebar source statuses stay independent of unrelated failures and preserve missing evidence', () => {
+  const source_states = component_source_states({ overall_status: 'failed', checks: [
+    { check_key: 'drupal', status: 'passed' },
+    { check_key: 'storybook', status: 'failed', is_stale: true },
+    { check_key: 'figma', status: 'missing', is_stale: true },
+    { check_key: 'naming', status: 'failed' },
+  ] });
+  assert.deepEqual(source_states.map(source_state => [source_state.source_label, source_state.status_key]), [['Web', 'passed'], ['Storybook', 'stale'], ['Figma', 'missing']]);
+  assert.deepEqual(component_source_states({}).map(source_state => source_state.status_key), ['not_checked', 'not_checked', 'not_checked']);
+});
 function report_fixture(check_status = 'passed') {
   return { schema_version: 1, source_name: 'unit-test', checked_at: CHECKED_AT, source_fingerprint: 'current-source', components: [{ component_id: 'molecules-test-item', checks: ['storybook', 'drupal', 'integration', 'figma'].map((check_key) => ({ check_key, check_label: check_key, status: check_status, message: 'Evidence' })) }] };
 }

@@ -68,22 +68,25 @@ when their corresponding BEM element is simply `__title` or `__tags`.
 
 ## Figma mapping convention
 
-When maintaining matching Figma components, use the BEM block as the component
-name and BEM selectors as names for layers that correspond to markup:
+The public library name follows the Storybook title, for example `Atoms/Button`.
+Source folders and BEM blocks retain kebab-case (`button`). Layers that represent
+markup may use BEM names; layout scaffolding may retain descriptive names.
+Existing singular `Atom/` names and different vocabulary are audit findings,
+not automatically accepted aliases. Preserved AI v1 components are historical
+references; their differences do not authorize replacing designer v2 assets.
 
-```text
-project-card
-  project-card__media
-  project-card__body
-    project-card__title
-    project-card__tag-list
-      chip
-```
+| Surface | Agreed Button contract |
+| --- | --- |
+| Figma and Storybook | `Atoms/Button` |
+| Public style dimension | `button_style`: `primary`, `secondary`, `text` |
+| Storybook disabled control | `is_disabled`: BOOLEAN (`control: 'boolean'`) |
+| Figma reference dimension | `button_state`: `default`, `hover`, `disabled` |
+| Theme adapter | Public `text` maps explicitly to `style_variant: ghost` / `.button--ghost` |
+| Interaction | Native disabled attribute; natural enabled CSS hover and keyboard focus |
 
-Pure layout scaffolding can retain descriptive Figma names. Match relevant
-variant vocabulary to code, such as `Variant=Primary` and `style_variant`, or
-`Size=Medium` and `component_size`. Define hover/focus/disabled Figma states only
-where the component supports them.
+`button_state` is a visual-reference dimension only. It must not replace the
+Storybook disabled boolean or become a hover prop. Different platform property
+types need an explicit mapping, rather than matching names by guesswork.
 
 A mapping tag such as shared plugin data `jrn.componentKey` or `jrn.bemBlock`
 can help tools resolve a renamed layer. This is a convention for authored Figma
@@ -110,3 +113,53 @@ Naming rules currently report warnings; syntax and correctness rules can fail
 the command. The actual severities live in `eslint.config.js` and
 `stylelint.config.js`. Passing lint does not replace review of naming, semantic
 markup, selector scope, or Figma correspondence.
+
+## Recorded naming audit
+
+Run `node scripts/audit-component-names.mjs --output artifacts/naming-audit/report.json`.
+Run `node --test tests/component-naming-audit.test.mjs` for contract regression
+checks. Add `--strict` to exit 1 for either mismatches or missing evidence; default
+mode records findings without failing. No services or build steps are involved.
+
+The distinct `component-naming` check covers every discovered story title and
+public args/argTypes, theme Twig BEM occurrences, explicit documentation mapping,
+and candidate Figma names/properties. It does not replace lint or certify runtime
+behavior. Theme occurrences establish source correspondence only; components in
+custom modules may require additional evidence. Dynamic Storybook metadata is
+reported as missing evidence. Literal titles establish availability, not a
+complete semantic name review. Generic property mappings stay incomplete until
+reviewed; only the Button dimensions currently have a strict shared contract.
+
+`config/naming-figma-evidence.json` records a read-only live Figma capture of the
+manual, preserved AI, and Guideline libraries, with node IDs, property definitions,
+capture time and read errors. Cover and Pages are excluded compositions. The CLI
+uses that snapshot offline: refresh it with the figma-use skill after Figma edits,
+retaining the schema and capture provenance. It never treats an image, URL, or an
+older visual inventory as proof of current naming. A recorded verified result is
+valid for its capture time, not a claim of live synchronization.
+
+The 2026-10-13 capture confirms manual Button node `1394:1177`. It also records
+`Atom/Checkox`, singular `Atom/` groups, and Avatar node `1730:1343` failing its
+property-definition read. The earlier naming doc's blanket BEM-as-Figma-name
+rule has been replaced by the public title mapping above. No assets are renamed.
+
+### Dashboard integration interface
+
+Consume the JSON report as an independent naming check, separate from appearance
+and interaction checks. `schema_version: 1`, `audit_kind`, `generated_at`,
+`evidence_captured_at`, `summary_counts`, `component_rows`, and `audit_rows` form
+its interface. Component IDs derive from the story folder path (for example
+`atoms-button`); use the generated Storybook index to reconcile IDs when titles
+or nested groups differ. Do not silently attach a finding to another component.
+
+Each audit row includes a stable `check_id`, `component_id`, `surface_name`,
+`check_name`, `check_status`, expected and observed values, `source_paths`, and a
+copyable `correction_prompt`. Statuses are `verified`, `mismatch`, and
+`missing_evidence`; missing evidence must never display as a pass. Display
+snapshot age and scope alongside results. Consumers may persist the entire report
+in their existing review store; this CLI does not write dashboard persistence.
+
+Copy a finding's correction prompt to an AI agent for a scoped fix. Re-run the
+CLI after code/doc edits and refresh Figma evidence after design edits. Inspect
+the resulting diff before accepting the correction. Do not blanket-rename
+production classes, Drupal API names, artwork or historical libraries.

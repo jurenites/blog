@@ -17,6 +17,7 @@
   .path-contact #block-jurenites-theme-content {
     min-height: calc(var(--space-scale-base-gap) * 80);
     min-width: var(--layout-content-max-wide-default);
+    position: relative;
   }
 }
 

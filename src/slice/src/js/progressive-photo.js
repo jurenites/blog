@@ -18,6 +18,10 @@ export function initialize_progressive_photos(page_context = document) {
       return;
     }
     if (!Array.isArray(image_candidates) || !image_candidates.length) return;
+    const stage_ratios = (initial_image.dataset.photoStageRatios || '')
+      .split(',')
+      .map((stage_fraction) => Number(stage_fraction))
+      .filter((stage_fraction) => stage_fraction > 0 && stage_fraction < 1);
 
     let visible_image = initial_image;
     let loaded_index = -1;
@@ -37,13 +41,35 @@ export function initialize_progressive_photos(page_context = document) {
       return matching_index < 0 ? image_candidates.length - 1 : matching_index;
     }
 
+    function remaining_stage_indices() {
+      if (!stage_ratios.length) {
+        return image_candidates
+          .map((image_candidate, candidate_index) => candidate_index)
+          .filter((candidate_index) => candidate_index > attempted_index && candidate_index <= target_index());
+      }
+
+      const final_index = target_index();
+      const final_width = image_candidates[final_index].image_width;
+      const stage_indices = [...stage_ratios, 1].map((stage_fraction) => {
+        const stage_width = Math.ceil(final_width * stage_fraction);
+        const matching_index = image_candidates.findIndex(
+          (image_candidate) => image_candidate.image_width >= stage_width,
+        );
+        return matching_index < 0 ? final_index : Math.min(matching_index, final_index);
+      });
+      return [...new Set(stage_indices)]
+        .filter((candidate_index) => candidate_index > attempted_index);
+    }
+
     async function refine_photo() {
       if (request_active || !photo_visible || photo_disposed || !visible_image.isConnected) return;
       request_active = true;
       visible_image.dataset.photoLoading = 'true';
       visible_image.ownerDocument.dispatchEvent(new CustomEvent('jurenites:media-activity'));
       while (!photo_disposed && visible_image.isConnected && attempted_index < target_index()) {
-        const request_index = Math.min(attempted_index + next_stride, target_index());
+        const available_stages = remaining_stage_indices();
+        if (!available_stages.length) break;
+        const request_index = available_stages[Math.min(next_stride - 1, available_stages.length - 1)];
         const next_image = new Image();
         // Copy semantics and component styling before decoding, but never copy
         // the preview URL or allow lazy loading on a detached preload image.

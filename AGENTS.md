@@ -95,6 +95,11 @@ focus feedback. Tile and card backgrounds should become lighter on hover and
 when their controls receive keyboard focus, using existing surface tokens.
 Preserve disabled states and reduced-motion behavior.
 
+Icon-only controls must use the shared Storybook `Atoms/Icon-button` atom and
+its 40 × 40px layout with a centered 24 × 24px Icon. Composed components must
+reuse its markup helper and styling; do not recreate sizing or alignment locally.
+Dashboard controls must be represented by shared Storybook components.
+
 ## Selector Scope
 
 Target the exact semantic element or component role being styled. When a

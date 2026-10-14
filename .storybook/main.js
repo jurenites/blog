@@ -10,7 +10,7 @@ const config = {
     { from: "../src/styles", to: "/styles" },
     { from: "../generated/storybook", to: "/" },
   ],
-  addons: ["@storybook/addon-essentials"],
+  addons: ["@storybook/addon-essentials", "storybook-addon-pseudo-states"],
   framework: {
     name: "@storybook/html-vite",
     options: {}

@@ -1,0 +1,125 @@
+{
+  "file_key": "UMshUcV87SZqsg1aDaDpnZ",
+  "page_id": "1730:1342",
+  "exported_on": "2026-10-11",
+  "export_method": "Read-only Figma Plugin API exportAsync, PNG at scale 1. No resizing, recoloring, or baseline replacement from Storybook.",
+  "reference_scope": "One representative state for each of 13 manual atom families. Icon Button and Link have no standalone Storybook pair. Other variants are inventory only.",
+  "references": [
+    {
+      "atom_key": "avatar",
+      "node_id": "1730:1346",
+      "file_name": "avatar.png",
+      "width": 24,
+      "height": 24,
+      "sha256": "ea66760064ad86400c2ba53c86c215a3b3ec739fe93dfe65cc530d8fba3fd4a2"
+    },
+    {
+      "atom_key": "badge",
+      "node_id": "1394:1164",
+      "file_name": "badge.png",
+      "width": 24,
+      "height": 24,
+      "sha256": "c78c91d2c0fbb446368f8ab38b591fe51194189ef239f1cd4706f5de9adae2cd"
+    },
+    {
+      "atom_key": "chip",
+      "node_id": "1738:2428",
+      "file_name": "chip.png",
+      "width": 46,
+      "height": 24,
+      "sha256": "3e120112cf7a615803b2c005ec3b40ab85f49d2d7a13c8847a15cced312b438a"
+    },
+    {
+      "atom_key": "tooltip",
+      "node_id": "1739:2935",
+      "file_name": "tooltip.png",
+      "width": 53,
+      "height": 24,
+      "sha256": "3a3fbcb2f05a9ccc64027e8235fda90a817dc259d965268faa9785378ecbe52f"
+    },
+    {
+      "atom_key": "inline-code",
+      "node_id": "1739:2920",
+      "file_name": "inline-code.png",
+      "width": 153,
+      "height": 24,
+      "sha256": "2cefb8984a4f8eef10e69099f301e45adfab061fa51813c4689d05b6693d783a"
+    },
+    {
+      "atom_key": "button-icon",
+      "node_id": "1072:904",
+      "file_name": "button-icon.png",
+      "width": 40,
+      "height": 40,
+      "sha256": "fbf7f7088741b73595c1a2ee5b50f14b7caf23c3d745b62ce2a52ea8866ee645"
+    },
+    {
+      "atom_key": "paginator",
+      "node_id": "1793:2260",
+      "file_name": "paginator.png",
+      "width": 96,
+      "height": 24,
+      "sha256": "a9656fdf97207ef874202dc86f4d9ec7a057066f6f01dcd5bf9aef816f1adba7"
+    },
+    {
+      "atom_key": "checkbox",
+      "node_id": "1738:2370",
+      "file_name": "checkbox.png",
+      "width": 131,
+      "height": 24,
+      "sha256": "f04c103e21e78475cdcf58782384b7d733c19b6ba1da44089014dd1e02cf5b98"
+    },
+    {
+      "atom_key": "button",
+      "node_id": "1196:889",
+      "file_name": "button.png",
+      "width": 127,
+      "height": 40,
+      "sha256": "d441eeced69caa3c02600e4f69ceb7ff5afa0ad42851d7595c0a0a5a5d122758"
+    },
+    {
+      "atom_key": "two-tone-heading",
+      "node_id": "1739:3084",
+      "file_name": "two-tone-heading.png",
+      "width": 511,
+      "height": 108,
+      "sha256": "97d153c0de3d45b3979e44309058ab9629487d54cc27f0c897e949dd4bfcc701"
+    },
+    {
+      "atom_key": "version-watermark",
+      "node_id": "1739:3088",
+      "file_name": "version-watermark.png",
+      "width": 218,
+      "height": 20,
+      "sha256": "e6067f631fb5517482f533722d51df067fe71ab18c13059af903359119fa239a"
+    },
+    {
+      "atom_key": "date-time-value",
+      "node_id": "1738:2535",
+      "file_name": "date-time-value.png",
+      "width": 102,
+      "height": 16,
+      "sha256": "b525606a472c72b7fdfb257c7803587bb2428513ed5dfa56ac3cb6b3bf5b5e51"
+    },
+    {
+      "atom_key": "link",
+      "node_id": "1394:1614",
+      "file_name": "link.png",
+      "width": 93,
+      "height": 24,
+      "sha256": "cf399fe5a138f6e225606c3be9632ae5559034e2f023e67b4080d6f5ee70cc8e"
+    }
+  ],
+  "state_references": [
+    {
+      "atom_key": "chip",
+      "state_key": "hover",
+      "node_id": "1738:2437",
+      "file_name": "chip-hover.png",
+      "width": 46,
+      "height": 24,
+      "sha256": "036b0196b5b90f7a4c7bffeded2a9711d81dc84998a164a68f44dd038fa861d0",
+      "export_scale": 1
+    }
+  ]
+}

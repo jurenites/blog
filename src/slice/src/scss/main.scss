@@ -16,6 +16,7 @@
 @use "atoms/heading-typing";
 
 @use "atoms/button";
+@use "atoms/icon-button";
 @use "atoms/surface";
 @use "atoms/inline-code";
 @use "atoms/blockquote";
@@ -31,6 +32,7 @@
 @use "atoms/text-input";
 @use "atoms/select-input";
 @use "atoms/checkbox";
+@use "atoms/range-slider";
 @use "atoms/crossfade-dot";
 @use "molecules/square-pagination";
 @use "atoms/pulse-indicator";

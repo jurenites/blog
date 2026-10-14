@@ -80,11 +80,6 @@
   inset-inline-end: calc(var(--space-scale-base-gap) * 3);
   inset-block-start: 50%;
   transform: translateY(-50%);
-  justify-content: center;
-  width: calc(var(--space-scale-base-gap) * 5);
-  height: calc(var(--space-scale-base-gap) * 5);
-  padding: 0;
-  border-radius: 0;
 }
 
 @include tools.breakpoint-down("mobile-max") {

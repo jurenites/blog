@@ -20,11 +20,11 @@ try {
   const capture_images = page_instance.locator('.visual-review__three-up img');
   assert.equal(await capture_images.count(), 2, await page_instance.locator('#component-details').innerText());
   assert.match(await page_instance.locator('.visual-review__empty').innerText(), /Missing/);
-  await page_instance.getByText('Overlay and differences', { exact: true }).click();
-  await page_instance.locator('#comparison-mode').selectOption('wipe');
-  await page_instance.getByRole('button', { name: 'Toggle layer' }).click();
-  await page_instance.locator('#comparison-mode').selectOption('difference');
-  assert.match(await page_instance.locator('#comparison-message').innerText(), /pixels|dimensions/);
+  await page_instance.locator('#preview-overlay-toggle').click();
+  assert.equal(await page_instance.locator('[data-preview-source="figma"]').isDisabled(), true);
+  assert.match(await page_instance.locator('#preview-source-status').innerText(), /50% opacity each/);
+  await page_instance.locator('[data-preview-source="drupal"]').click();
+  assert.match(await page_instance.locator('#preview-source-status').innerText(), /100% opacity each/);
   await page_instance.locator('.visual-review__three-up').scrollIntoViewIfNeeded();
   await mkdir(`${REPORT_DIRECTORY}/artifacts/browser-qa`, { recursive: true });
   await page_instance.screenshot({ path: `${REPORT_DIRECTORY}/artifacts/browser-qa/three-way-review.png` });

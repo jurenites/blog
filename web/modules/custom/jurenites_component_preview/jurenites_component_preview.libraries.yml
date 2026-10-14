@@ -1,0 +1,6 @@
+component-preview:
+  css:
+    theme:
+      ui/component-preview.css: {}
+  js:
+    ui/component-preview.js: {}

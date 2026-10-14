@@ -1,79 +1,67 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
-import { PNG } from 'pngjs';
-
-const dashboard_origin = process.env.STATUS_DASHBOARD_URL ?? 'http://127.0.0.1:7779';
-const browser_instance = await chromium.launch({ headless: true });
+import { create_status_server } from '../scripts/component-status/server.mjs';
+const status_server = create_status_server();
+await new Promise((resolve_ready) => { status_server.listen(0, '127.0.0.1', resolve_ready); });
+const status_origin = `http://127.0.0.1:${status_server.address().port}`;
+const browser_instance = await chromium.launch();
 try {
-  const page_instance = await browser_instance.newPage({ viewport: { width: 1920, height: 1080 } });
+  const page_instance = await browser_instance.newPage({ viewport: { width: 1440, height: 1000 } });
   const page_errors = [];
-  page_instance.on('pageerror', (page_error) => page_errors.push(page_error.message));
-  await page_instance.goto(`${dashboard_origin}/#organisms-top-nav-menu-site-header`);
-  await page_instance.locator('#review-state').waitFor();
-  assert.equal(await page_instance.locator('[data-component-id]').count(), 66);
-  assert.equal(await page_instance.locator('#catalogue-count').textContent(), '66 of 66 components');
-  assert.equal(await page_instance.locator('[data-component-id^="foundations-"]').count(), 0);
-  assert.equal(await page_instance.locator('[aria-current="page"]').getAttribute('data-component-id'), 'organisms-top-nav-menu-site-header');
-  await page_instance.locator('#component-search').fill('top nav');
-  assert.equal(await page_instance.locator('[data-component-id]').count(), 1);
-  await page_instance.getByRole('button', { name: 'Show all', exact: true }).click();
-  assert.equal(await page_instance.locator('[data-component-id]').count(), 66);
-  await page_instance.locator('#component-search').fill('no matching component');
+  page_instance.on('pageerror', (error_value) => page_errors.push(error_value.message));
+  await page_instance.goto(`${status_origin}/#atoms-button`);
+  await page_instance.locator('#visual-review-form').waitFor();
+  assert.equal(await page_instance.locator('header').count(), 0);
+  assert.equal(await page_instance.locator('#history-link').count(), 0);
+  assert.equal(await page_instance.locator('#detail-history-link a').count(), 0);
+  for (const selector_id of ['status-summary', 'updated-time', 'catalogue-count', 'component-search', 'status-filter', 'report-errors', 'component-catalogue', 'empty-results', 'selection-placeholder', 'component-details']) assert.equal(await page_instance.locator(`#${selector_id}`).count(), 1, `${selector_id} stays uniquely connected`);
+  await page_instance.locator('#component-search').fill('Hero Section');
+  await page_instance.locator('[data-component-id="organisms-section-hero-section"]').click();
+  const detail_link = page_instance.locator('#detail-history-link a.button');
+  await detail_link.waitFor();
+  assert.equal(new URL(await detail_link.getAttribute('href'), status_origin).searchParams.get('target'), 'organisms-section-hero-section');
+  await detail_link.click();
+  await page_instance.waitForFunction(() => document.querySelector('#history-status')?.textContent.includes('matched pair'));
+  assert.equal(await page_instance.locator('header').count(), 0);
+  assert.equal(await page_instance.locator('#history-target').inputValue(), 'organisms-section-hero-section');
+  assert.equal(await page_instance.locator('#history-target option').count(), 1);
+  assert.equal(await page_instance.locator('#version-toggle').isDisabled(), true, 'No unrelated homepage evidence substituted for an uncaptured organism');
+  await page_instance.locator('#capture-open').click();
+  assert.equal(await page_instance.locator('#capture-form [name="target_id"]').inputValue(), 'organisms-section-hero-section');
+  assert.equal(await page_instance.locator('#capture-form [name="target_scope"]').inputValue(), 'organism');
+  assert.equal(await page_instance.locator('#capture-form [name="page_url"]').inputValue(), '');
+  assert.equal(await page_instance.locator('#capture-form [name="root_selector"]').inputValue(), '');
+  await page_instance.locator('#capture-dialog [data-close-dialog]').click();
+  await page_instance.locator('#history-back a').click();
+  await page_instance.locator('#detail-heading').waitFor();
+  assert.match(await page_instance.locator('#detail-heading').innerText(), /Hero Section/);
+  await page_instance.locator('#component-search').fill('Homepage');
+  await page_instance.locator('[data-component-id="history-homepage"]').click();
+  await page_instance.locator('#detail-history-link a').click();
+  await page_instance.locator('#version-toggle:enabled').waitFor();
+  assert.equal(await page_instance.locator('#history-target').inputValue(), 'homepage');
+  await page_instance.locator('#history-back a').click();
+  await page_instance.locator('#detail-heading').waitFor();
+  assert.equal(await page_instance.locator('#refresh-results').count(), 0);
+  const refresh_response = page_instance.waitForResponse(response_data => response_data.url().endsWith('/api/status'));
+  await page_instance.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+  await refresh_response;
+  assert.match(await page_instance.locator('#detail-heading').innerText(), /Homepage/);
+  await page_instance.locator('#component-search').fill('no-such-component');
   assert.equal(await page_instance.locator('#empty-results').isVisible(), true);
-  await page_instance.getByRole('button', { name: 'Show all', exact: true }).click();
-  await page_instance.locator('[data-component-id="atoms-badge"]').click();
-  await page_instance.getByRole('heading', { name: 'Badge', exact: true }).waitFor();
-  assert.match(await page_instance.locator('[data-image-source="figma"]').textContent(), /Missing reference/);
-  assert.match(await page_instance.locator('[data-image-source="drupal"]').textContent(), /Missing page mapping/);
-  assert.equal(await page_instance.locator('#visual-review-form').isVisible(), true);
-
-  // Controlled image widths exercise layout independently of real capture dimensions.
-  const response_data = await page_instance.request.get(`${dashboard_origin}/api/status`);
-  const fixture_report = await response_data.json();
-  const header_component = fixture_report.components.find((component_item) => component_item.component_id === 'organisms-top-nav-menu-site-header');
-  const integration_check = header_component.checks.find((check_item) => check_item.check_key === 'integration');
-  const first_state = integration_check.details.visual_states[0];
-  integration_check.details.visual_states = [80, 360, 1920].map((capture_width) => ({
-    ...first_state, state_label: `Layout fixture ${capture_width}px`,
-    images: Object.fromEntries(['figma', 'storybook', 'drupal'].map((source_name) => [source_name, `layout-fixture/${capture_width}.png`])),
-  }));
-  await page_instance.route('**/api/status', (route_request) => route_request.fulfill({ json: fixture_report }));
-  await page_instance.route('**/layout-fixture/*.png', (route_request) => {
-    const capture_width = Number(new URL(route_request.request().url()).pathname.match(/(\d+)\.png$/)[1]);
-    const image_data = new PNG({ width: capture_width, height: 130 });
-    return route_request.fulfill({ contentType: 'image/png', body: PNG.sync.write(image_data) });
-  });
-  await page_instance.goto(`${dashboard_origin}/#organisms-top-nav-menu-site-header`);
-  await page_instance.locator('#review-state').waitFor();
-  await page_instance.reload();
-  await page_instance.locator('#review-state').waitFor();
-  for (const [viewport_width, state_value, expected_width, expected_layout] of [
-    [1920, '0', 80, 'Side by side'], [1920, '1', 360, 'Side by side'],
-    [1920, '2', 1920, 'Stacked rows'], [390, '0', 80, 'Side by side'],
-    [390, '1', 360, 'Stacked rows'], [390, '2', 1920, 'Stacked rows'],
-    [1920, '0', 80, 'Side by side'],
-  ]) {
-    await page_instance.setViewportSize({ width: viewport_width, height: 1080 });
-    await page_instance.locator('#review-state').selectOption(state_value);
-    await page_instance.locator('.visual-review__three-up img').evaluateAll((image_items) => Promise.all(image_items.map((image_item) => image_item.decode())));
-    await page_instance.waitForFunction((layout_label) => document.querySelector('#capture-layout-label').textContent === layout_label, expected_layout);
-    const image_bounds = await page_instance.locator('.visual-review__three-up img').evaluateAll((image_items) => image_items.map((image_item) => ({
-      image_width: image_item.getBoundingClientRect().width,
-      image_top: image_item.getBoundingClientRect().top,
-      image_left: image_item.getBoundingClientRect().left,
-    })));
-    assert.deepEqual(image_bounds.map((image_item) => image_item.image_width), [expected_width, expected_width, expected_width]);
-    if (expected_layout === 'Side by side') {
-      assert.equal(new Set(image_bounds.map((image_item) => image_item.image_top)).size, 1);
-      assert.ok(image_bounds[0].image_left < image_bounds[1].image_left && image_bounds[1].image_left < image_bounds[2].image_left);
-    } else {
-      assert.equal(new Set(image_bounds.map((image_item) => image_item.image_left)).size, 1);
-      assert.ok(image_bounds[0].image_top < image_bounds[1].image_top && image_bounds[1].image_top < image_bounds[2].image_top);
-    }
+  assert.equal(await page_instance.locator('#show-all-components').count(), 0);
+  await page_instance.locator('#component-search').fill('');
+  assert.equal(await page_instance.locator('#empty-results').isVisible(), false);
+  await page_instance.locator('#status-filter').selectOption('failed');
+  await page_instance.locator('#status-filter').selectOption('all');
+  assert.equal(await page_instance.locator('#status-filter').inputValue(), 'all');
+  for (const viewport_width of [1440, 390]) {
+    await page_instance.setViewportSize({ width: viewport_width, height: 900 });
     assert.equal(await page_instance.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
   }
   assert.deepEqual(page_errors, []);
-  console.log('66 components, filtering/reset, selected component, missing references, 80/360/1920px native sizing, automatic columns/rows and mobile overflow passed.');
+  console.log('PASS: relocated template selectors, header removal, scoped detail links, empty organism context, saved Homepage detail, back navigation, automatic refresh, search, filters and mobile layout.');
 } finally {
   await browser_instance.close();
+  await new Promise((resolve_closed) => { status_server.close(resolve_closed); });
 }

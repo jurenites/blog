@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - responsive_image
+name: project_thumbnail_1824
+label: 'Project thumbnail 1824'
+effects:
+  254fac04-c3c8-5eea-bc73-d258f1308031:
+    uuid: 254fac04-c3c8-5eea-bc73-d258f1308031
+    id: image_scale
+    weight: 1
+    data:
+      width: 1824
+      height: 1824
+      upscale: false
+  63abe4c1-ded5-5e5e-b50d-783349cdcdd0:
+    uuid: 63abe4c1-ded5-5e5e-b50d-783349cdcdd0
+    id: image_convert_avif
+    weight: 2
+    data:
+      extension: webp

@@ -121,12 +121,7 @@
   position: absolute;
   inset-block-end: var(--space-scale-base-gap);
   inset-inline-end: var(--space-scale-base-gap);
-  width: var(--component-game-of-life-control-size-default);
-  min-height: var(--component-game-of-life-control-size-default);
-  padding: 0;
-  border-radius: 0;
   background: var(--color-palette-full-black);
-  justify-content: center;
 }
 
 .game-of-life__pause-button[hidden],

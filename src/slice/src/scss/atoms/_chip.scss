@@ -14,7 +14,7 @@
   user-select: none;
   transition: background-color var(--motion-duration-short-default) var(--motion-easing-standard-default);
 
-  &[href] {
+  &:is(a, button) {
     font: var(--typography-badge);
     text-decoration: none;
 
@@ -31,12 +31,14 @@
   }
 
   &--accent,
+  &[aria-pressed="true"],
   &[aria-current="true"] {
     background: var(--theme-dark-surface-background-elevation-level-2);
     border-color: var(--theme-dark-border-outline-default);
     color: var(--theme-dark-text-primary-default);
   }
 
+  &[aria-pressed="true"]:is(:hover, :focus-visible),
   &--accent[href]:is(:hover, :focus-visible),
   &[aria-current="true"][href]:is(:hover, :focus-visible) {
     background: var(--color-palette-dark-gray);
@@ -56,3 +58,5 @@
     transition: none;
   }
 }
+
+button.chip { border: 0; cursor: pointer; }

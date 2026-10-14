@@ -1,0 +1,901 @@
+{
+  "inspected_on": "2026-10-13",
+  "file_key": "UMshUcV87SZqsg1aDaDpnZ",
+  "node_properties": [
+    {
+      "node_id": "1730:1346",
+      "node_name": "Size=medium, Content=Initials",
+      "width": 24,
+      "height": 24,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "opacity": 1,
+          "blendMode": "NORMAL",
+          "color": {
+            "r": 0.11372549086809158,
+            "g": 0.16078431904315948,
+            "b": 0.239215686917305
+          },
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:902:42"
+            }
+          }
+        }
+      ],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 9999,
+      "layout_mode": "HORIZONTAL",
+      "padding": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "item_spacing": 0,
+      "text_styles": [
+        {
+          "text": "AI",
+          "font": {
+            "family": "Open Sans",
+            "style": "Light",
+            "variationSettings": {
+              "wght": 300,
+              "wdth": 100
+            }
+          },
+          "font_size": 16,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "blendMode": "NORMAL",
+              "color": {
+                "r": 0.9725490212440491,
+                "g": 0.9803921580314636,
+                "b": 0.9882352948188782
+              },
+              "boundVariables": {
+                "color": {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:902:44"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_id": "1394:1164",
+      "node_name": "Property=Numeric, Type=Default, State=Deault",
+      "width": 24,
+      "height": 24,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "opacity": 1,
+          "blendMode": "NORMAL",
+          "color": {
+            "r": 0.3843137323856354,
+            "g": 0.45490196347236633,
+            "b": 0.5568627715110779
+          },
+          "boundVariables": {}
+        }
+      ],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 0,
+      "layout_mode": "HORIZONTAL",
+      "padding": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "item_spacing": 0,
+      "text_styles": [
+        {
+          "text": "2",
+          "font": {
+            "family": "Ubuntu Sans Mono",
+            "style": "Regular",
+            "variationSettings": {
+              "wght": 400
+            }
+          },
+          "font_size": 14,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "blendMode": "NORMAL",
+              "color": {
+                "r": 0.9725490212440491,
+                "g": 0.95686274766922,
+                "b": 0.9372549057006836
+              },
+              "boundVariables": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_id": "1738:2428",
+      "node_name": "Property=Chip, Type=Default, State=Deault",
+      "width": 46,
+      "height": 24,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "opacity": 1,
+          "blendMode": "NORMAL",
+          "color": {
+            "r": 0.11372549086809158,
+            "g": 0.16078431904315948,
+            "b": 0.239215686917305
+          },
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:903:53"
+            }
+          }
+        }
+      ],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 0,
+      "layout_mode": "HORIZONTAL",
+      "padding": [
+        0,
+        8,
+        0,
+        8
+      ],
+      "item_spacing": 0,
+      "text_styles": [
+        {
+          "text": "#tag",
+          "font": {
+            "family": "Open Sans",
+            "style": "Regular",
+            "variationSettings": {
+              "wght": 400,
+              "wdth": 100
+            }
+          },
+          "font_size": 14,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "blendMode": "NORMAL",
+              "color": {
+                "r": 0.9725490212440491,
+                "g": 0.95686274766922,
+                "b": 0.9372549057006836
+              },
+              "boundVariables": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_id": "1739:2935",
+      "node_name": "Atom/Tooltip",
+      "width": 53,
+      "height": 24,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "opacity": 1,
+          "blendMode": "NORMAL",
+          "color": {
+            "r": 0,
+            "g": 0.007843137718737125,
+            "b": 0.027450980618596077
+          },
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:903:15"
+            }
+          }
+        }
+      ],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 0,
+      "layout_mode": "HORIZONTAL",
+      "padding": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "item_spacing": 0,
+      "text_styles": [
+        {
+          "text": "Expand",
+          "font": {
+            "family": "Open Sans",
+            "style": "Regular",
+            "variationSettings": {
+              "wght": 400,
+              "wdth": 100
+            }
+          },
+          "font_size": 14,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "blendMode": "NORMAL",
+              "color": {
+                "r": 0.9725490212440491,
+                "g": 0.9803921580314636,
+                "b": 0.9882352948188782
+              },
+              "boundVariables": {
+                "color": {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:902:44"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_id": "1739:2920",
+      "node_name": "Property=Snippet",
+      "width": 153,
+      "height": 24,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "opacity": 1,
+          "blendMode": "NORMAL",
+          "color": {
+            "r": 0.1921568661928177,
+            "g": 0.2549019753932953,
+            "b": 0.3450980484485626
+          },
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:902:43"
+            }
+          }
+        }
+      ],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 0,
+      "layout_mode": "HORIZONTAL",
+      "padding": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "item_spacing": 0,
+      "text_styles": [
+        {
+          "text": "npm run build:theme",
+          "font": {
+            "family": "Ubuntu Sans Mono",
+            "style": "Regular",
+            "variationSettings": {
+              "wght": 400
+            }
+          },
+          "font_size": 14,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "blendMode": "NORMAL",
+              "color": {
+                "r": 0.9725490212440491,
+                "g": 0.95686274766922,
+                "b": 0.9372549057006836
+              },
+              "boundVariables": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_id": "1793:2260",
+      "node_name": "Paginator",
+      "width": 96,
+      "height": 24,
+      "fills": [],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 0,
+      "layout_mode": "HORIZONTAL",
+      "padding": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "item_spacing": 0,
+      "text_styles": []
+    },
+    {
+      "node_id": "1738:2370",
+      "node_name": "Atom/Checkox",
+      "width": 131,
+      "height": 24,
+      "fills": [],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 0,
+      "layout_mode": "HORIZONTAL",
+      "padding": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "item_spacing": 0,
+      "text_styles": [
+        {
+          "text": "checkbox label",
+          "font": {
+            "family": "Open Sans",
+            "style": "Light",
+            "variationSettings": {
+              "wght": 300,
+              "wdth": 100
+            }
+          },
+          "font_size": 16,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "blendMode": "NORMAL",
+              "color": {
+                "r": 0.9725490212440491,
+                "g": 0.9803921580314636,
+                "b": 0.9882352948188782
+              },
+              "boundVariables": {
+                "color": {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:903:63"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_id": "1196:889",
+      "node_name": "Property 1=Default",
+      "width": 127,
+      "height": 40,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "opacity": 1,
+          "blendMode": "NORMAL",
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 0.4000000059604645
+          },
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:902:50"
+            }
+          }
+        }
+      ],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 0,
+      "layout_mode": "HORIZONTAL",
+      "padding": [
+        0,
+        8,
+        0,
+        8
+      ],
+      "item_spacing": 0,
+      "text_styles": [
+        {
+          "text": "Button Submit",
+          "font": {
+            "family": "Open Sans",
+            "style": "Regular",
+            "variationSettings": {
+              "wght": 400,
+              "wdth": 100
+            }
+          },
+          "font_size": 14,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "UPPER",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "blendMode": "NORMAL",
+              "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0
+              },
+              "boundVariables": {
+                "color": {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:902:48"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_id": "1739:3084",
+      "node_name": "Atom/Two-tone Heading",
+      "width": 511,
+      "height": 108,
+      "fills": [],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 0,
+      "layout_mode": "VERTICAL",
+      "padding": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "item_spacing": 0,
+      "text_styles": [
+        {
+          "text": "I design digital systems",
+          "font": {
+            "family": "Open Sans",
+            "style": "Light",
+            "variationSettings": {
+              "wght": 300,
+              "wdth": 100
+            }
+          },
+          "font_size": 40,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "blendMode": "NORMAL",
+              "color": {
+                "r": 0.9450980424880981,
+                "g": 0.9607843160629272,
+                "b": 0.9764705896377563
+              },
+              "boundVariables": {
+                "color": {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:902:46"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "text": "that stay useful as they grow",
+          "font": {
+            "family": "Open Sans",
+            "style": "Light",
+            "variationSettings": {
+              "wght": 300,
+              "wdth": 100
+            }
+          },
+          "font_size": 40,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "blendMode": "NORMAL",
+              "color": {
+                "r": 0.3843137323856354,
+                "g": 0.45490196347236633,
+                "b": 0.5568627715110779
+              },
+              "boundVariables": {
+                "color": {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:902:47"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_id": "1739:3088",
+      "node_name": "Atom/Version Watermark",
+      "width": 218,
+      "height": 20,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "opacity": 1,
+          "blendMode": "NORMAL",
+          "color": {
+            "r": 0.007843137718737125,
+            "g": 0.0235294122248888,
+            "b": 0.0941176488995552
+          },
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:902:40"
+            }
+          }
+        }
+      ],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 0,
+      "layout_mode": "VERTICAL",
+      "padding": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "item_spacing": 2,
+      "text_styles": [
+        {
+          "text": "version 1.199.0 · 2026-10-09 14:10:17 GMT+0 · 8012f14",
+          "font": {
+            "family": "4pixel",
+            "style": "Regular"
+          },
+          "font_size": 5,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL"
+        },
+        {
+          "text": "made by Alexander Ilivanov & AI",
+          "font": {
+            "family": "4pixel",
+            "style": "Regular"
+          },
+          "font_size": 5,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL"
+        }
+      ]
+    },
+    {
+      "node_id": "1738:2535",
+      "node_name": "value_kind=duration",
+      "width": 102,
+      "height": 16,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": false,
+          "opacity": 1,
+          "blendMode": "NORMAL",
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 1
+          },
+          "boundVariables": {}
+        }
+      ],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 0,
+      "layout_mode": "HORIZONTAL",
+      "padding": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "item_spacing": 0,
+      "text_styles": [
+        {
+          "text": "1 min to read",
+          "font": {
+            "family": "Ubuntu Sans Mono",
+            "style": "Regular",
+            "variationSettings": {
+              "wght": 400
+            }
+          },
+          "font_size": 14,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "blendMode": "NORMAL",
+              "color": {
+                "r": 0.9725490212440491,
+                "g": 0.9803921580314636,
+                "b": 0.9882352948188782
+              },
+              "boundVariables": {
+                "color": {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:902:44"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_id": "1068:569",
+      "node_name": "Property=Numeric, Type=Active, State=Hover",
+      "width": 24,
+      "height": 24,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "opacity": 1,
+          "blendMode": "NORMAL",
+          "color": {
+            "r": 0.3843137323856354,
+            "g": 0.45490196347236633,
+            "b": 0.5568627715110779
+          },
+          "boundVariables": {}
+        }
+      ],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 0,
+      "layout_mode": "HORIZONTAL",
+      "padding": [
+        2,
+        4,
+        2,
+        4
+      ],
+      "item_spacing": 0,
+      "text_styles": [
+        {
+          "text": "4",
+          "font": {
+            "family": "Ubuntu Sans Mono",
+            "style": "Regular",
+            "variationSettings": {
+              "wght": 400
+            }
+          },
+          "font_size": 14,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "blendMode": "NORMAL",
+              "color": {
+                "r": 0.9725490212440491,
+                "g": 0.95686274766922,
+                "b": 0.9372549057006836
+              },
+              "boundVariables": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_id": "1738:2437",
+      "node_name": "Property=Chip, Type=Default, State=Hover",
+      "width": 46,
+      "height": 24,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "opacity": 1,
+          "blendMode": "NORMAL",
+          "color": {
+            "r": 0.1921568661928177,
+            "g": 0.2549019753932953,
+            "b": 0.3450980484485626
+          },
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:902:43"
+            }
+          }
+        }
+      ],
+      "strokes": [],
+      "stroke_weight": 1,
+      "corner_radius": 0,
+      "layout_mode": "HORIZONTAL",
+      "padding": [
+        0,
+        8,
+        0,
+        8
+      ],
+      "item_spacing": 0,
+      "text_styles": [
+        {
+          "text": "#tag",
+          "font": {
+            "family": "Open Sans",
+            "style": "Regular",
+            "variationSettings": {
+              "wght": 400,
+              "wdth": 100
+            }
+          },
+          "font_size": 14,
+          "line_height": {
+            "unit": "AUTO"
+          },
+          "letter_spacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "text_case": "ORIGINAL",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "blendMode": "NORMAL",
+              "color": {
+                "r": 0.9725490212440491,
+                "g": 0.95686274766922,
+                "b": 0.9372549057006836
+              },
+              "boundVariables": {}
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

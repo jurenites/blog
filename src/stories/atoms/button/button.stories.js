@@ -1,32 +1,42 @@
+import { BUTTON_PREVIEW_STATE, BUTTON_COMPONENT_PREVIEW, BUTTON_COMBINATION_PREVIEW, initialize_button_preview } from '../../../../.storybook/button-preview.js';
 // Atom: Button. One story; use the Controls tab for every variant combination.
-import { button_markup } from "./button.markup.js";
-import { token_default_option, token_option_names } from "../../foundations/token-values.js";
+import { button_markup } from './button.markup.js';
+import { button_style_args, BUTTON_STYLE_OPTIONS } from './button.states.js';
 
-const BUTTON_LABEL = "Contact me";
-const STYLE_VARIANT = token_default_option("component-button-default-style", "component-button-style-");
+const BUTTON_LABEL = 'Contact me';
+const BUTTON_STYLE = 'primary';
 const IS_DISABLED = false;
 
-const STYLE_VARIANT_OPTIONS = token_option_names("component-button-style-");
-
 function render_story(story_args) {
-  return button_markup(story_args);
+  window.requestAnimationFrame(initialize_button_preview);
+  if (BUTTON_COMBINATION_PREVIEW) return `<div class="button-combination-preview" role="list" aria-label="Button combinations">${BUTTON_STYLE_OPTIONS.flatMap(button_style => [false, true].map(is_disabled => `<div class="button-combination-preview__item" role="listitem" aria-label="${button_style} · ${is_disabled ? 'disabled' : 'enabled'}">${button_markup(button_style_args({ ...story_args, button_style, is_disabled }))}</div>`)).join('')}</div>`;
+  return button_markup(button_style_args(story_args));
 }
 
 export default {
-  title: "Atoms/Button",
-  tags: ["autodocs"],
+  title: 'Atoms/Button',
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'fullscreen',
+    pseudo: { hover: BUTTON_PREVIEW_STATE === 'hover' ? '.button' : false, focusVisible: BUTTON_PREVIEW_STATE === 'focus' ? '.button' : false, focus: BUTTON_PREVIEW_STATE === 'focus' ? '.button' : false, active: BUTTON_PREVIEW_STATE === 'active' ? '.button' : false },
+    preview_watermark: { disabled: BUTTON_COMPONENT_PREVIEW },
+  },
   render: render_story,
   argTypes: {
-    button_label: { control: "text" },
-    style_variant: {
-      control: { type: "inline-radio" },
-      options: STYLE_VARIANT_OPTIONS,
+    button_label: { control: 'text' },
+    button_style: {
+      description: 'Matches the Figma button_style variant property. All styles are borderless.',
+      control: { type: 'inline-radio' },
+      options: BUTTON_STYLE_OPTIONS,
     },
-    is_disabled: { control: "boolean" },
+    is_disabled: {
+      description: 'Native disabled state. Disabled buttons do not respond to hover.',
+      control: 'boolean',
+    },
   },
   args: {
     button_label: BUTTON_LABEL,
-    style_variant: STYLE_VARIANT,
+    button_style: BUTTON_STYLE,
     is_disabled: IS_DISABLED,
   },
 };

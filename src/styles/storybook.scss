@@ -682,3 +682,19 @@ $storybook-color-block-size-compact: 40px;
 @media (prefers-reduced-motion: reduce) {
   .storybook-media-fallback { animation: none; }
 }
+
+// The dashboard crops this fullscreen canvas to the atom and its focus outline.
+body.button-component-preview {
+  margin: 0;
+  padding: 0 !important;
+  #storybook-root { padding: var(--space-scale-base-gap); }
+}
+
+.button-combination-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-scale-base-gap);
+  width: max-content;
+}
+.button-combination-preview__item { display: flex; }

@@ -1,0 +1,5 @@
+services:
+  jurenites_component_preview.response_subscriber:
+    class: Drupal\jurenites_component_preview\EventSubscriber\ComponentPreviewSubscriber
+    tags:
+      - { name: event_subscriber }

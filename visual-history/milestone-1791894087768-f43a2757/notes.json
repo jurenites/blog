@@ -1,0 +1,19 @@
+{
+  "milestone_id": "milestone-1791894087768-f43a2757",
+  "revision_number": 1,
+  "milestone_title": "Navigation and homepage spacing",
+  "what_changed": "Navigation occupies the top header row. The hero and following content sit 48px higher than in the production reference at this viewport.",
+  "why_changed": "",
+  "layer_notes": {
+    "site-brand": "",
+    "main-navigation": "",
+    "hero-section": "",
+    "hero-heading": "",
+    "hero-description": "",
+    "contact-action": "",
+    "secondary-action": "",
+    "project-slider": "",
+    "site-footer": ""
+  },
+  "edited_at": "2026-10-13T12:21:45.877Z"
+}

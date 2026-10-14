@@ -8,7 +8,7 @@ const THEME_STYLES = await readFile('web/themes/custom/jurenites_theme/css/style
 const PREVIEW_SOURCE = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="14"><path fill="rgb(40,80,120)" d="M0 0h24v14H0z"/></svg>')}`;
 const PHOTO_WIDTHS = [96, 320, 640, 1280, 1672];
 
-async function create_fixture(test_context, { slow_loading = false, failed_widths = [], lazy_loading = false, display_width = 1000 } = {}) {
+async function create_fixture(test_context, { slow_loading = false, failed_widths = [], lazy_loading = false, display_width = 1000, candidate_widths = PHOTO_WIDTHS, ratio_stages = false } = {}) {
   const browser_instance = await chromium_browser.launch({ headless: true });
   test_context.after(() => browser_instance.close());
   const browser_page = await browser_instance.newPage({ viewport: { width: 1800, height: 900 } });
@@ -23,17 +23,30 @@ async function create_fixture(test_context, { slow_loading = false, failed_width
     }
     await route_request.fulfill({ contentType: 'image/svg+xml', body: `<svg xmlns="http://www.w3.org/2000/svg" width="${image_width}" height="${image_width * 9 / 16}"><path fill="rgb(40,80,120)" d="M0 0h${image_width}v${image_width}H0z"/></svg>` });
   });
-  const image_candidates = PHOTO_WIDTHS.map((image_width) => ({ image_width, image_url: `https://photo-fixture.test/${image_width}` }));
+  const image_candidates = candidate_widths.map((image_width) => ({ image_width, image_url: `https://photo-fixture.test/${image_width}` }));
   await browser_page.setContent(`<html class="js"><head><style>${THEME_STYLES}
     .contact-photo { width: ${display_width}px; margin: 0; }
     .offscreen-spacer { height: ${lazy_loading ? 2500 : 0}px; }
     </style></head><body><div class="offscreen-spacer"></div><figure class="contact-photo">
     <img class="contact-photo__image" src="${PREVIEW_SOURCE}" alt="Portrait description"
-    data-photo-stages='${JSON.stringify(image_candidates)}' data-photo-state="preview" data-photo-lazy="${lazy_loading}">
+    data-photo-stages='${JSON.stringify(image_candidates)}' ${ratio_stages ? 'data-photo-stage-ratios="0.1,0.2,0.5"' : ''} data-photo-state="preview" data-photo-lazy="${lazy_loading}">
     </figure></body></html>`);
   await browser_page.addScriptTag({ content: PHOTO_SOURCE });
   return { browser_page, requested_widths };
 }
+
+test('photo ratios request the 10%, 20%, and 50% Drupal derivatives only when loading warrants them', async (test_context) => {
+  const candidate_widths = [160, 320, 800, 1600];
+  const slow_fixture = await create_fixture(test_context, { slow_loading: true, display_width: 1600, candidate_widths, ratio_stages: true });
+  await slow_fixture.browser_page.evaluate(() => initialize_progressive_photos());
+  await slow_fixture.browser_page.waitForFunction(() => document.querySelector('img').dataset.photoState === 'complete');
+  assert.deepEqual(slow_fixture.requested_widths, candidate_widths);
+
+  const fast_fixture = await create_fixture(test_context, { display_width: 1600, candidate_widths, ratio_stages: true });
+  await fast_fixture.browser_page.evaluate(() => initialize_progressive_photos());
+  await fast_fixture.browser_page.waitForFunction(() => document.querySelector('img').dataset.photoState === 'complete');
+  assert.deepEqual(fast_fixture.requested_widths, [160, 800, 1600]);
+});
 
 test('slow photos retain complete pixelated frames until decode, without layout shifts', async (test_context) => {
   const { browser_page, requested_widths } = await create_fixture(test_context, { slow_loading: true });

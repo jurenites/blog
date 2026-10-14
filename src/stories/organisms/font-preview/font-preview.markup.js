@@ -1,3 +1,4 @@
+import { icon_button_markup } from '../../atoms/icon-button/icon-button.markup.js';
 import font_preview_template from "./font-preview.template.html?raw";
 import { button_link_markup, button_markup } from "../../atoms/button/button.markup.js";
 import { icon_markup } from "../../atoms/icon/icon.markup.js";
@@ -45,8 +46,8 @@ export function font_preview_markup({
       "<button ",
       `<button type="button" id="${safe_component_id}-additional-glyphs-toggle" data-font-preview-additional-toggle aria-expanded="false" aria-controls="${safe_component_id}-additional-glyphs" hidden `,
     ),
-    path_data_toggle: button_markup({
-      button_label: "",
+    path_data_toggle: icon_button_markup({
+      button_accessible_label: "Show path data",
       style_variant: "ghost",
       additional_class_names: "font-preview__path-toggle",
       button_icon_markup: icon_markup({
@@ -55,7 +56,7 @@ export function font_preview_markup({
       }),
     }).replace(
       "<button ",
-      `<button type="button" data-font-preview-path-toggle aria-expanded="false" aria-controls="${safe_component_id}-glyph-path" aria-label="Show path data" data-path-show-label="Show path data" data-path-hide-label="Hide path data" `,
+      `<button data-font-preview-path-toggle aria-expanded="false" aria-controls="${safe_component_id}-glyph-path" data-path-show-label="Show path data" data-path-hide-label="Hide path data" `,
     ),
     text_input: text_input_markup({
       input_id: `${component_id}-input`,

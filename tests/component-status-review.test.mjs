@@ -3,8 +3,36 @@ import assert from 'node:assert/strict';
 import { PNG } from 'pngjs';
 import { validate_review_case, decode_baseline } from '../scripts/component-status/review.mjs';
 import { create_status_server } from '../scripts/component-status/server.mjs';
+import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { run_visual_review } from '../scripts/component-status/review.mjs';
+import { run_state_review } from '../scripts/component-status/state-review.mjs';
 const COMPONENT_ROWS = [{ component_id: 'font-preview', story_ids: ['font-preview--default'] }];
 const REVIEW_CASE = { component_id: 'font-preview', drupal_url: '/portfolio/my-first-font', drupal_selector: '.font-preview', story_url: '/storybook/iframe.html?id=font-preview--default&args=sample_text:Example', story_selector: '.font-preview', viewport_width: 1280, viewport_height: 900, figma_url: '', inputs_matched: false };
+
+test('missing, unreadable and stale builds preserve saved reports and mappings before capture', async () => {
+  const project_root = await mkdtemp(join(tmpdir(), 'review-build-preflight-'));
+  try {
+    for (const folder_name of ['src', '.storybook', 'scripts/component-status', 'web/themes/custom/jurenites_theme/templates', 'tests/visual-baselines', 'config', 'storybook-static', 'reports']) await mkdir(join(project_root, folder_name), { recursive: true });
+    await writeFile(join(project_root, 'config/component-status.json'), '{}');
+    const report_directory = join(project_root, 'reports');
+    const report_path = join(report_directory, 'report-review-font-preview.json');
+    const mapping_path = join(report_directory, 'review-cases.json');
+    const previous_report = JSON.stringify({ evidence: 'previous captured images' });
+    const previous_mapping = JSON.stringify({ 'font-preview': REVIEW_CASE });
+    await writeFile(report_path, previous_report);
+    await writeFile(mapping_path, previous_mapping);
+    for (const build_contents of [null, '{invalid', JSON.stringify({ source_fingerprint: 'old-source' })]) {
+      if (build_contents !== null) await writeFile(join(project_root, 'storybook-static/component-status-build.json'), build_contents);
+      for (const capture_runner of [run_visual_review, run_state_review]) {
+        await assert.rejects(capture_runner({ project_root, report_directory, status_origin: 'http://localhost', review_case: { ...REVIEW_CASE } }), /Run npm run status:build.*Previous captures have been kept/);
+        assert.equal(await readFile(report_path, 'utf8'), previous_report);
+        assert.equal(await readFile(mapping_path, 'utf8'), previous_mapping);
+      }
+    }
+  } finally { await rm(project_root, { recursive: true, force: true }); }
+});
 
 test('review accepts a real website path, story args, and missing Figma', () => {
   const review_case = validate_review_case(REVIEW_CASE, COMPONENT_ROWS);
@@ -12,6 +40,14 @@ test('review accepts a real website path, story args, and missing Figma', () => 
   assert.ok(review_case.story_url.includes('sample_text:Example'));
   assert.equal(review_case.figma_url, '');
   assert.equal(review_case.inputs_matched, false);
+});
+
+test('Figma / Storybook review allows no website but rejects a partial website mapping', () => {
+  const review_case = validate_review_case({ ...REVIEW_CASE, drupal_url: '', drupal_selector: '', story_hover_selector: '[data-tooltip-trigger]' }, COMPONENT_ROWS);
+  assert.equal(review_case.drupal_url, '');
+  assert.equal(review_case.drupal_selector, '');
+  assert.equal(review_case.story_hover_selector, '[data-tooltip-trigger]');
+  assert.throws(() => validate_review_case({ ...REVIEW_CASE, drupal_url: '' }, COMPONENT_ROWS), /both empty/);
 });
 
 test('review rejects non-web URLs, credentials, unrelated stories, and invalid viewports', () => {
@@ -35,7 +71,7 @@ test('review endpoint rejects requests without same-origin authorization', async
   await new Promise((resolve_listen) => { status_server.listen(0, '127.0.0.1', resolve_listen); });
   try {
     const status_origin = `http://127.0.0.1:${status_server.address().port}`;
-    for (const endpoint_path of ['/api/review', '/api/language-picker']) {
+    for (const endpoint_path of ['/api/review', '/api/language-picker', '/api/history/capture', '/api/history/notes']) {
       const response_data = await fetch(`${status_origin}${endpoint_path}`, { method: 'POST', headers: { origin: 'https://example.com', 'content-type': 'application/json' }, body: '{}' });
       assert.equal(response_data.status, 403);
     }

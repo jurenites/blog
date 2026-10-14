@@ -3,16 +3,19 @@ import { resolve } from 'node:path';
 import { randomUUID, createHash } from 'node:crypto';
 import { PNG } from 'pngjs';
 import { compare_images } from './images.mjs';
-import { source_fingerprint, validate_report } from './report.mjs';
+import { current_build_fingerprint, validate_report } from './report.mjs';
 
 export function validate_review_case(input_data, component_rows) {
   const component_row = component_rows.find((row_item) => row_item.component_id === input_data.component_id);
   if (!component_row) throw new Error('Choose a component from the catalogue.');
-  const website_url = new URL(input_data.drupal_url, 'http://jurenites.local');
-  if (!['http:', 'https:'].includes(website_url.protocol) || website_url.username || website_url.password) throw new Error('Use an HTTP(S) website URL without credentials.');
+  const website_value = String(input_data.drupal_url ?? '').trim();
+  const website_url = website_value ? new URL(website_value, 'http://jurenites.local') : null;
+  if (website_url && (!['http:', 'https:'].includes(website_url.protocol) || website_url.username || website_url.password)) throw new Error('Use an HTTP(S) website URL without credentials.');
+  if (!website_url && input_data.drupal_selector?.trim()) throw new Error('Enter a website URL with its selector, or leave both empty.');
   const story_url = new URL(input_data.story_url, 'http://localhost');
   if (story_url.origin !== 'http://localhost' || story_url.pathname !== '/storybook/iframe.html' || !component_row.story_ids.includes(story_url.searchParams.get('id'))) throw new Error('Use this component’s local Storybook iframe URL.');
   for (const selector_key of ['drupal_selector', 'story_selector']) {
+    if (selector_key === 'drupal_selector' && !website_url) continue;
     if (typeof input_data[selector_key] !== 'string' || !input_data[selector_key].trim() || input_data[selector_key].length > 1000) throw new Error('Enter a CSS selector for each component region.');
   }
   const viewport_width = Number(input_data.viewport_width);
@@ -23,7 +26,28 @@ export function validate_review_case(input_data, component_rows) {
     const parsed_figma = new URL(figma_url);
     if (parsed_figma.protocol !== 'https:' || !['figma.com', 'www.figma.com'].includes(parsed_figma.hostname)) throw new Error('Use an HTTPS Figma file/frame link.');
   }
-  return { component_id: component_row.component_id, drupal_url: website_url.href, drupal_selector: input_data.drupal_selector.trim(), story_url: `${story_url.pathname}${story_url.search}`, story_selector: input_data.story_selector.trim(), viewport_width, viewport_height, figma_url, inputs_matched: input_data.inputs_matched === true };
+  const story_hover_selector = String(input_data.story_hover_selector ?? '').trim();
+  if (story_hover_selector.length > 1000) throw new Error('Hover selector is too long.');
+  const comparison_mode = input_data.comparison_mode ?? 'exact';
+  if (!['component', 'exact'].includes(comparison_mode)) throw new Error('Choose appearance or exact-pixel comparison.');
+  const capture_states = input_data.capture_states ?? ['default'];
+  if (!Array.isArray(capture_states) || !capture_states.length || capture_states.length > 5 || capture_states.some((state_key) => !['default', 'hover', 'focus', 'active', 'checked'].includes(state_key))) throw new Error('Choose supported interaction states.');
+  const website_examples = input_data.website_examples ?? [];
+  if (!Array.isArray(website_examples) || website_examples.length > 8) throw new Error('Use up to eight website examples per run.');
+  const example_ids = new Set();
+  const normalized_examples = website_examples.map((example_row) => {
+    const page_url = new URL(example_row.page_url, 'http://jurenites.local');
+    if (!['http:', 'https:'].includes(page_url.protocol) || page_url.username || page_url.password) throw new Error('Website examples require HTTP(S) URLs without credentials.');
+    if (!/^[a-z0-9][a-z0-9-]{0,60}$/.test(example_row.example_id) || ['storybook', 'none'].includes(example_row.example_id) || example_ids.has(example_row.example_id)) throw new Error('Website example IDs must be unique.');
+    example_ids.add(example_row.example_id);
+    if (typeof example_row.component_selector !== 'string' || !example_row.component_selector.trim() || example_row.component_selector.length > 1000) throw new Error('Each website example needs a unique CSS selector.');
+    if (String(example_row.interaction_selector ?? '').length > 1000) throw new Error('Interaction selector is too long.');
+    if (String(example_row.reveal_selector ?? '').length > 1000) throw new Error('Reveal selector is too long.');
+    return { reveal_selector: String(example_row.reveal_selector ?? '').trim(), example_id: example_row.example_id, example_label: String(example_row.example_label ?? example_row.example_id).slice(0, 160), page_url: page_url.href, component_selector: example_row.component_selector.trim(), interaction_selector: String(example_row.interaction_selector ?? '').trim() };
+  });
+  const story_interaction_selector = String(input_data.story_interaction_selector ?? '').trim();
+  if (story_interaction_selector.length > 1000) throw new Error('Interaction selector is too long.');
+  return { component_id: component_row.component_id, drupal_url: website_url?.href ?? '', drupal_selector: website_url ? input_data.drupal_selector.trim() : '', story_url: `${story_url.pathname}${story_url.search}`, story_selector: input_data.story_selector.trim(), story_hover_selector, story_interaction_selector, viewport_width, viewport_height, figma_url, inputs_matched: input_data.inputs_matched === true, comparison_mode, capture_states: [...new Set(['default', ...capture_states])], website_examples: normalized_examples };
 }
 
 export function decode_baseline(png_data) {
@@ -41,13 +65,24 @@ export async function read_review_cases(report_directory) {
   catch (read_error) { if (read_error.code === 'ENOENT') return {}; throw read_error; }
 }
 
+export async function configured_baseline(project_root, case_config, review_case) {
+  if (!case_config?.figma_reference_path || case_config.figma_url !== review_case.figma_url) return undefined;
+  const baseline_buffer = await readFile(resolve(project_root, case_config.figma_reference_path));
+  return `data:image/png;base64,${baseline_buffer.toString('base64')}`;
+}
+
 export async function run_visual_review({ project_root, report_directory, status_origin, review_case, png_data, remove_baseline }) {
+  if (review_case.comparison_mode === 'component' || review_case.capture_states?.length > 1 || review_case.website_examples?.length) {
+    const { run_state_review } = await import('./state-review.mjs');
+    return run_state_review({ project_root, report_directory, status_origin, review_case, png_data, remove_baseline });
+  }
   const run_id = `review-${Date.now()}-${randomUUID().slice(0, 8)}`;
+  const current_fingerprint = await current_build_fingerprint(project_root);
   const artifact_directory = resolve(report_directory, 'artifacts', run_id);
   await mkdir(artifact_directory, { recursive: true });
   const saved_cases = await read_review_cases(report_directory);
   const previous_case = saved_cases[review_case.component_id];
-  if (!remove_baseline && previous_case?.figma_baseline) review_case.figma_baseline = previous_case.figma_baseline;
+  if (!remove_baseline && previous_case?.figma_baseline && previous_case.figma_url === review_case.figma_url) review_case.figma_baseline = previous_case.figma_baseline;
   if (png_data) {
     const image_buffer = decode_baseline(png_data);
     const image_name = `${createHash('sha256').update(image_buffer).digest('hex')}.png`;
@@ -58,7 +93,6 @@ export async function run_visual_review({ project_root, report_directory, status
   saved_cases[review_case.component_id] = review_case;
   await writeFile(resolve(report_directory, 'review-cases.json.tmp'), JSON.stringify(saved_cases, null, 2));
   await rename(resolve(report_directory, 'review-cases.json.tmp'), resolve(report_directory, 'review-cases.json'));
-  const current_fingerprint = await source_fingerprint(project_root);
   const check_results = [];
   const captured_views = {};
   const capture_details = { ...review_case, device_scale: 1, platform_name: process.platform, locale_name: 'en-US', timezone_name: 'UTC', color_scheme: 'dark', data_mode: 'Live page; content and form values recorded in artifacts' };
@@ -66,8 +100,6 @@ export async function run_visual_review({ project_root, report_directory, status
   const artifact_item = (file_name, artifact_label) => ({ artifact_path: `artifacts/${run_id}/${file_name}`, artifact_label });
   let browser_instance;
   try {
-    const build_info = JSON.parse(await readFile(resolve(project_root, 'storybook-static/component-status-build.json'), 'utf8'));
-    if (build_info.source_fingerprint !== current_fingerprint) throw new Error('Source changed since Storybook was built. Run npm run status:build, then capture again.');
     process.env.PLAYWRIGHT_BROWSERS_PATH ??= resolve(project_root, '.cache/ms-playwright');
     const { chromium } = await import('playwright');
     browser_instance = await chromium.launch({ headless: true });
@@ -76,15 +108,21 @@ export async function run_visual_review({ project_root, report_directory, status
       ['drupal', review_case.drupal_url, review_case.drupal_selector],
       ['storybook', `${status_origin}${review_case.story_url}`, review_case.story_selector],
     ]) {
+      if (!page_url) {
+        check_results.push({ check_key: view_key, check_label: 'Actual website rendering', status: 'not_checked', message: 'No website mapping selected. This case compares Figma with Storybook only.' });
+        continue;
+      }
       const browser_context = await browser_instance.newContext({ viewport: { width: review_case.viewport_width, height: review_case.viewport_height }, deviceScaleFactor: 1, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'dark', reducedMotion: 'reduce', serviceWorkers: 'block' });
       const capture_timer = setTimeout(() => { browser_context.close().catch(() => {}); }, 60000);
       try {
         const page_instance = await browser_context.newPage();
+        await page_instance.addInitScript(() => { document.addEventListener('play', (play_event) => { if (play_event.target instanceof HTMLMediaElement) play_event.target.muted = true; }, true); });
         page_instance.setDefaultTimeout(15000);
         const page_errors = [];
         page_instance.on('pageerror', (page_error) => page_errors.push(page_error.message));
         const page_response = await page_instance.goto(page_url, { waitUntil: 'domcontentloaded', timeout: 30000 });
         if (!page_response?.ok()) throw new Error(`Page returned HTTP ${page_response?.status() ?? 'unknown'}.`);
+        if (view_key === 'storybook' && review_case.story_hover_selector) await page_instance.locator(review_case.story_hover_selector).hover();
         const component_locator = page_instance.locator(selector_value);
         await component_locator.first().waitFor({ state: 'visible' });
         if (await component_locator.count() !== 1) throw new Error('Selector matches more than one region. Choose a unique CSS selector.');
@@ -111,7 +149,7 @@ export async function run_visual_review({ project_root, report_directory, status
     if (captured_views.drupal && captured_views.storybook) {
       await compare_pair('integration', 'Storybook / website pixels', captured_views.storybook, captured_views.drupal);
     } else {
-      check_results.push({ check_key: 'integration', check_label: 'Storybook / website pixels', status: 'blocked', message: 'Both captures are required.' });
+      check_results.push({ check_key: 'integration', check_label: 'Storybook / website pixels', status: review_case.drupal_url ? 'blocked' : 'not_checked', message: review_case.drupal_url ? 'Both captures are required.' : 'Website comparison is outside this Figma / Storybook case.' });
     }
     if (review_case.figma_baseline) {
       const figma_buffer = await readFile(resolve(report_directory, review_case.figma_baseline));
@@ -119,7 +157,7 @@ export async function run_visual_review({ project_root, report_directory, status
       for (const view_key of ['storybook', 'drupal']) {
         if (captured_views[view_key]) figma_results.push(await compare_pair(`figma-${view_key}`, `Figma / ${view_key} pixels`, figma_buffer, captured_views[view_key], false));
       }
-      check_results.push({ check_key: 'figma', check_label: 'Figma design parity', status: figma_results.some((pair_result) => pair_result.status === 'failed') ? 'failed' : figma_results.length === 2 && figma_results.every((pair_result) => pair_result.status === 'passed') ? 'passed' : 'blocked', message: figma_results.map((pair_result) => `${pair_result.check_label}: ${pair_result.message}`).join(' ') || 'Capture an implementation before comparing the Figma PNG.', details: figma_results, artifacts: [{ artifact_path: review_case.figma_baseline, artifact_label: 'Figma · uploaded 1× reference' }, ...figma_results.flatMap((pair_result) => pair_result.artifacts)] });
+      check_results.push({ check_key: 'figma', check_label: review_case.drupal_url ? 'Figma design parity' : 'Figma / Storybook parity', status: figma_results.some((pair_result) => pair_result.status === 'failed') ? 'failed' : figma_results.length === (review_case.drupal_url ? 2 : 1) && figma_results.every((pair_result) => pair_result.status === 'passed') ? 'passed' : 'blocked', message: figma_results.map((pair_result) => `${pair_result.check_label}: ${pair_result.message}`).join(' ') || 'Capture an implementation before comparing the Figma PNG.', details: figma_results, artifacts: [{ artifact_path: review_case.figma_baseline, artifact_label: 'Figma · uploaded 1× reference' }, ...figma_results.flatMap((pair_result) => pair_result.artifacts)] });
     }
   } catch (run_error) {
     for (const check_key of ['storybook', 'drupal', 'integration']) if (!check_results.some((check_item) => check_item.check_key === check_key)) check_results.push({ check_key, check_label: check_key, status: 'blocked', message: run_error.message });

@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "milestone_id": "milestone-1791894071997-bd40144c",
+  "target_id": "homepage",
+  "target_scope": "page",
+  "target_label": "Homepage",
+  "captured_at": "2026-10-13T12:21:27.699Z",
+  "page_url": "https://jurenites.com/",
+  "root_selector": "body",
+  "environment_name": "production",
+  "environment_evidence": "Source environment selected by the reviewer; this capture does not establish deployment time.",
+  "version_number": "1.195.2",
+  "source_identity": {
+    "rendered_version": "1.195.2",
+    "commit_url": "https://github.com/jurenites/blog/commit/1902566f2227fc29318a5009eff010a48ef139bc",
+    "commit_hash": "1902566",
+    "page_title": "Home | jurenites"
+  },
+  "release_version": "1.195.2",
+  "commit_hash": "1902566",
+  "commit_url": "https://github.com/jurenites/blog/commit/1902566f2227fc29318a5009eff010a48ef139bc",
+  "commit_subject": "Merge pull request #24 from jurenites/develop",
+  "branch_name": "",
+  "branch_evidence": "Remote branch was not exposed by the served build.",
+  "checkout_commit": "",
+  "working_changes": null,
+  "viewport_width": 1280,
+  "viewport_height": 900,
+  "image_width": 1280,
+  "image_height": 3614,
+  "browser_version": "153.0.8010.12",
+  "device_scale": 1,
+  "locale_name": "en-US",
+  "timezone_name": "UTC",
+  "image_sha256": "dc56269f98cb7d2879476c3deec0ad68173dde75be61169952b3135276841fff",
+  "full_image_url": "/history-assets/milestone-1791894071997-bd40144c/full.png",
+  "base_image_url": "/history-assets/milestone-1791894071997-bd40144c/base.png",
+  "layer_rows": [
+    {
+      "layer_id": "site-brand",
+      "layer_label": "Site identity",
+      "selector_text": ".site-header__branding",
+      "depth_level": 1,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "div",
+      "text_content": "A\nl\ne\nx\na\nn\nd\ne\nr\nI\nl\ni\nv\na\nn\no\nv",
+      "bounds_data": {
+        "x": 8,
+        "y": 8,
+        "width": 64,
+        "height": 48
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894071997-bd40144c/site-brand.png"
+    },
+    {
+      "layer_id": "main-navigation",
+      "layer_label": "Main navigation",
+      "selector_text": ".site-header__navigation",
+      "depth_level": 1,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "nav",
+      "text_content": "About\nPortfolio\nBlog\nVideos\nContact",
+      "bounds_data": {
+        "x": 448,
+        "y": 64,
+        "width": 384,
+        "height": 40
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894071997-bd40144c/main-navigation.png"
+    },
+    {
+      "layer_id": "hero-section",
+      "layer_label": "Hero region",
+      "selector_text": ".hero-section",
+      "depth_level": 0,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "section",
+      "text_content": "Creating things\n\nHave an idea in mind? Let’s make it together.\n\nCONTACT ME\nPORTFOLIO",
+      "bounds_data": {
+        "x": 0,
+        "y": 144,
+        "width": 1280,
+        "height": 716
+      },
+      "motion_enabled": false
+    },
+    {
+      "layer_id": "hero-heading",
+      "layer_label": "Introduction heading",
+      "selector_text": ".hero-section__heading",
+      "depth_level": 2,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "h2",
+      "text_content": "Creating things",
+      "bounds_data": {
+        "x": 723,
+        "y": 208,
+        "width": 525,
+        "height": 48
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894071997-bd40144c/hero-heading.png"
+    },
+    {
+      "layer_id": "hero-description",
+      "layer_label": "Introduction copy",
+      "selector_text": ".hero-section__description",
+      "depth_level": 2,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "p",
+      "text_content": "Have an idea in mind? Let’s make it together.",
+      "bounds_data": {
+        "x": 723,
+        "y": 272,
+        "width": 525,
+        "height": 24
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894071997-bd40144c/hero-description.png"
+    },
+    {
+      "layer_id": "contact-action",
+      "layer_label": "Contact action",
+      "selector_text": ".hero-section__action.button--primary",
+      "depth_level": 3,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "a",
+      "text_content": "CONTACT ME",
+      "bounds_data": {
+        "x": 723,
+        "y": 320,
+        "width": 120,
+        "height": 40
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894071997-bd40144c/contact-action.png"
+    },
+    {
+      "layer_id": "secondary-action",
+      "layer_label": "Secondary action",
+      "selector_text": ".hero-section__action.button--secondary",
+      "depth_level": 3,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "a",
+      "text_content": "PORTFOLIO",
+      "bounds_data": {
+        "x": 851,
+        "y": 320,
+        "width": 110,
+        "height": 40
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894071997-bd40144c/secondary-action.png"
+    },
+    {
+      "layer_id": "project-slider",
+      "layer_label": "Project showcase",
+      "selector_text": ".project-case-slider",
+      "depth_level": 1,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "div",
+      "text_content": "Accountia\n\nAn accounting system for Arabic-speaking businesses, covering products, warehouses, and sales and purchase agreements.\n\nRead the project note\n\nScatchApp\n\nTurning the co-founder’s ideas for an event and ticketing app into Figma screens, with a focus on navigation, event discovery, and filt",
+      "bounds_data": {
+        "x": 160,
+        "y": 875,
+        "width": 960,
+        "height": 456
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894071997-bd40144c/project-slider.png"
+    },
+    {
+      "layer_id": "site-footer",
+      "layer_label": "Footer region",
+      "selector_text": ".site-footer",
+      "depth_level": 0,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "contentinfo",
+      "text_content": "This website NOT using cookies.\n\nAn EU Commission caused the annual ritual of clicking cookie banners at about 334 million human hours. \nThis is not a consent request. Enjoy the free internet without interruption.\n\nWHATEVER\nFooter navigation\nSocial networks\nFacebook\nVKontakte\nYouTube\nSoundCloud\nStea",
+      "bounds_data": {
+        "x": 0,
+        "y": 3007,
+        "width": 1280,
+        "height": 607
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894071997-bd40144c/site-footer.png"
+    }
+  ],
+  "capture_warnings": []
+}

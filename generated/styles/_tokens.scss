@@ -243,7 +243,10 @@
   --space-scale-zero: 0px;
   --space-scale-one: 1px;
   --space-scale-two: 2px;
-  --space-scale-base-gap: 8px;
+  --space-scale-four: 4px;
+  --space-scale-six: 6px;
+  --space-scale-eight: 8px;
+  --space-scale-base-gap: var(--space-scale-eight);
   --elevation-shadow-level-0: 0px 0px 0px 0px #00000000;
   --elevation-shadow-level-1: 0px 1px 3px 0px #0000002E;
   --elevation-shadow-level-2: 0px 2px 6px 0px #00000033;
@@ -700,6 +703,18 @@ $breakpoints: (
 
 .u-width-space-scale-two {
   width: var(--space-scale-two);
+}
+
+.u-width-space-scale-four {
+  width: var(--space-scale-four);
+}
+
+.u-width-space-scale-six {
+  width: var(--space-scale-six);
+}
+
+.u-width-space-scale-eight {
+  width: var(--space-scale-eight);
 }
 
 .u-width-space-scale-base-gap {

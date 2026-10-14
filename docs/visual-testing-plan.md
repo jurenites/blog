@@ -1,9 +1,12 @@
 # Visual Testing: Local Tools and Remaining Work
 
-Status: the local dashboard now accepts a website URL/path, component selectors,
-Storybook URL/args, viewport, and optional Figma PNG for each component. It shows
-three visual panes, manual overlays/wipes, and automated image differences.
+Status: the local dashboard supports multiple real website examples and native
+interaction states per component, alongside Storybook and pinned Figma references.
+Its appearance mode accepts different labels and content-driven widths while
+checking measured styles. Exact pixels remain a separate, content-matched mode.
 Figma references can be missing; implementation comparisons remain available.
+Pages and organisms also have frozen Before / After milestones with scrubbable
+transitions, semantic blueprint layers, Git evidence and editable design rationale.
 The language-picker suite also has pinned Figma exports and three recorded
 interaction states at two viewports. Automatic Figma exports, Windows VM tests,
 and CI ingestion remain future work. Current results belong to saved reports,
@@ -29,15 +32,308 @@ A page frame must be compared with an equivalent page capture, and a component
 with the corresponding clipped component region. Different text, media, states,
 or bounds make a case unmatched; they must not produce a passing pixel result.
 
+The detail heading places its group before the component name with a `/`
+separator, preserving their existing typography. Autosave feedback is visually
+hidden but remains available to assistive technology. The preview has no scale,
+layout or stale-status sentence above it; the selected component's recorded
+capture date appears at the bottom of the page and clears for uncaptured or
+milestone-only entries. Detailed evidence still carries its recorded status.
+Dashboard actions render the shared Storybook Button and Icon-button helpers,
+including capture submission, suite execution and the temporarily hidden matrix
+controls. Capture actions use the primary Button variant; their text selection,
+hover, focus and disabled behavior come from the atom without local restyling.
+The website-example remove icon uses the existing secondary-hover color on hover
+and keyboard focus, one palette step lighter than its elevated example surface.
+Website examples show their number in the “Example URL N” field label. Their
+fieldset legend and “Live web” heading are visually hidden; numbering updates
+when examples are removed.
+
+Capture settings uses “Appearance · allow different copy” for all new captures;
+the comparison-mode picker and exact-pixel confirmation are hidden. The state
+checkboxes are hidden, and dashboard drafts and submissions always request only
+the default state, regardless of previously saved interaction selections. The
+action labeled “Capture all examples” is hidden. There is no
+nested Advanced capture settings disclosure. Shared
+Range Slider atoms select width presets (360, 768, 1280, 1920px) and height presets
+(640, 720, 900, 1080, 1440, 2160px). The height slider is vertical and 120px tall,
+paired with an 80px-wide number input that still accepts exact heights.
+Collapsible surface headers meet the top and both side edges; summary
+text has an 8px left inset, while expanded content has its own 16px padding. Review sections use existing elevated surface colors instead of outline
+borders, with a lighter nested surface for website examples. The Overlay toolbar
+is hidden; source visibility controls remain available. Figma, Storybook and
+Website each have a named vertical column containing their preview and their
+own source settings. Columns use the page background without a raised surface
+or card padding. Settings forms have their own elevated surface with 16px padding.
+Source headings place the source icon/link before the title, followed by a
+controls wrapper aligned to the left with no gap between its controls.
+Each column's shared gear Icon-button reveals its source
+settings using the supplied outline gear when closed and filled gear when open.
+Visibility controls use the supplied eye and eye-closed artwork. The gear reveals
+settings below its preview, initially hidden; Escape closes them and returns
+focus to the gear. Captured images and live previews precede source settings
+in all three columns.
+The Interactive preview disclosure lives in the Storybook column above source
+settings and opens by default. Its iframe follows the capture viewport width
+and height, with scrolling inside the column for larger viewports. Button keeps
+its existing live combinations preview.
+The Figma live canvas remains separate from those settings. Interaction targets
+is hidden. Columns stack on narrow screens. The combination table,
+Table layout, combination slider and website-example picker are temporarily
+hidden, retaining their existing workspace data for later use. Preview columns
+open side by side while Overlay is hidden.
+
+## Catalogue source indicators
+
+Each component name includes its registered variant count in parentheses.
+Button counts its three shared styles × enabled/disabled combinations, so it
+shows **Button (6)**; pointer interaction states and website instances do not
+multiply that count. Other components count their unique registered Storybook
+examples. This is an inventory count, not a count of passing captures.
+
+Rows show the shared Web, Storybook and Figma SVG icons in that order, colored
+from their respective `drupal`, `storybook` and `figma` checks. Green means
+passed, red failed, amber blocked or stale, and gray missing or not checked.
+Source/status descriptions remain in hover titles and accessible row labels;
+visible status text and the single overall square are removed. Integration and
+naming checks remain in the detail panel and overall status filter. Saved
+milestone entries retain their own label without invented counts or test states.
+
+## Before / After milestones
+
+Open a component detail in Testing, then choose **Before / After** beside its
+name. The dashboard and player have no global header or manual Refresh button.
+Existing selector IDs remain independent of template position. History links are available for Organisms, Pages and composed
+Components; atom and molecule details keep their existing review flow.
+
+The link carries the selected target ID, name and scope. The player stays scoped
+to that item, provides **Back to details**, and pre-fills its capture identity.
+For an uncaptured organism, source URL and root selector remain empty for the
+reviewer to supply; another page's captures are never substituted. Saved targets
+without a Storybook entry, including Homepage, appear as **Saved milestones**
+in their catalogue group and have their own detail view without a test status.
+The player remains available at `/history.html`. This view is for pages and
+organisms. The atom/molecule appearance checks remain in the component review.
+Choose the same target, scope, root selector and viewport for both versions;
+**Choose versions** selects the exact two captures, with environment, name and
+capture time. The pair is preserved in the page URL; unavailable saved IDs do
+not silently switch to newer captures. The initial
+Homepage pair is a real anonymous production capture and local development
+capture at 1280 × 900, captured on 2026-10-13.
+
+The project Button atom contains one replacing **Before** / **After** word and
+a monospaced version. It moves between endpoints without an underline. Dates,
+numbers, measurements and version evidence throughout Testing use the existing
+number font. **Play** pauses/resumes, the slider scrubs either direction, and speed ranges from ¼× to
+2×. Reduced motion snaps playback to its endpoint while keeping manual scrubbing
+available. **Fullscreen** leaves the controls and Git console around the
+native-size canvas; Escape exits.
+
+The default workspace shows the selected pair, playback controls and canvas.
+**Details**, **Choose versions** and **Keep a milestone** open focused dialogs;
+there is no permanently expanded capture form or inventory of version cards.
+The Git console follows the currently displayed side.
+The regular screenshot view is 1 CSS pixel per
+captured pixel, with scrolling for large pages. Browser zoom must remain 100%.
+
+Captures are presentation evidence, not a live interactive historical website
+or a new pass/fail test. Endpoints display the untouched original screenshots.
+Intermediate frames use measured layer geometry and raster patches, with
+background crossfades. Text can differ, such as “Button” and “Contact me,” without
+creating a test failure. Live hover/focus/state checks remain in the existing
+component comparison workflow. A raster transition can stretch type/artwork;
+reflow, shadows outside an element's measured bounds, dynamic media and unmapped
+regions are not reconstructed as a historical DOM animation.
+
+### Logical layers and reasoning
+
+The capture form accepts explicit stable layer IDs with selectors, labels and
+depth. Selectors are relative to the root and must find one visible element.
+Keep an ID when an element changes position or selector; use a new ID for a
+conceptual replacement. Matched disjoint leaves move and resize; replacements
+fade. Missing, hidden or ambiguous selectors produce visible warnings. Nested
+parents and overlapping regions remain available as blueprint shapes but do
+not produce duplicate moving image patches. Patches omit unchanged background
+pixels. Full-page backgrounds crossfade beneath those patches.
+
+**Blueprint** presents those same semantic layers at an isometric angle in
+grayscale, using their captured bounds and corner radius. Hover or focus a
+border, or select its entry in **Reasons**, to read measured movement,
+size/shape changes and the authored reason. These are reviewer-defined semantic
+layers, distinct from Chrome's compositor layers described in the
+[DevTools Layers panel](https://developer.chrome.com/docs/devtools/layers).
+The paused animation timeline uses the
+[Web Animations currentTime API](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime).
+
+**Reasons** enables selectable outlines over the saved page and a compact
+element list. Click an outline or a blueprint shape to edit the reason directly
+beside the canvas. Reasons belong to the exact selected Before → After pair
+and layer ID, stored as `comparison_notes[before_id][layer_id]` on the After
+milestone. Different baselines retain separate explanations, including explicit
+clears. Legacy per-layer reasons remain the fallback when no pair-specific value
+exists. **Save reason** does not save unrelated milestone-form drafts.
+
+**Details** edits either selected milestone: its name, **what**, and **why**.
+Saving updates a separate revisioned notes
+file. Stale writes fail instead of replacing a newer explanation. Switching
+versions retains unsaved drafts for the current browser session; leaving the
+page warns about them. The tool does not infer design intent from a commit.
+
+### Live screens and sequences
+
+The current milestone player uses saved captures. A future multi-screen demo
+can sequence explicit screen pairs; each live side needs its own pinned build
+URL to represent a historical version. Reusing a changing development URL does
+not preserve the older UI. No live version hosting or sequence builder is
+implemented in this iteration.
+
+An iframe can keep its real page interactive, and its outer frame can crossfade
+as a whole. Element-to-element movement across separate documents requires
+cooperating pages exposing stable element identities and geometry, or a snapshot
+overlay during the transition followed by handover to the live page. Cross-origin
+DOM access is restricted by the [same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy);
+embedding also depends on the source site's framing policy. The existing
+component-review live previews remain available independently.
+
+### Retention and Git identity
+
+`visual-history/<milestone-id>/` holds immutable `capture.json`, original
+`full.png`, a `base.png` and moving layer images, plus editable `notes.json`.
+Keep this directory with the reviewed project changes (or archive it alongside
+a release artifact); it is not a disposable cache. Capture production milestones
+when a meaningful release is deployed and development milestones when a design
+is ready for review. This is an explicit capture action, not an automatic
+production deployment hook. There is no pruning or retention timer.
+
+Persistent worktrees are unnecessary for presentation. Use a temporary worktree
+only when rebuilding an old commit; a Git checkout alone does not preserve the
+Drupal database, content, media or browser rendering. Captured images preserve
+what was actually shown even while `develop` moves forward. Historical live-site
+reconstruction would additionally require archived builds and content/media.
+
+Metadata records observed watermark version/commit link, release-file version,
+source URL, capture time, environment selected by the reviewer, viewport,
+browser version, locale, timezone, device scale, screenshot SHA-256, and measured
+layers. For local sources it also records checkout branch/commit and whether
+tracked working changes existed. The local checkout can differ from the served
+build; the UI states this explicitly. A remote branch stays **unrecorded** when
+not exposed, and capture time is not represented as deployment time.
+
+The first pair rendered production **1.195.2** / `1902566` and local **1.200.0** /
+`ad2da0c` on `develop`. The local release file was **1.202.0** at capture time;
+that discrepancy is retained and displayed, not overwritten with a guessed
+version. The measured navigation moved up and widened; the hero and subsequent
+content moved up 48px. Design rationale remains unrecorded until authored.
+
+History writes share Testing's same-origin/token check and serialized capture
+lock. A failed capture removes its temporary output and never publishes a
+partial milestone. `npm run test:component-status` includes milestone validation,
+identity/motion and notes revision tests. `npm run test:component-history` runs
+real browser captures against controlled movement/replacement fixtures, then
+checks scrub/reverse/pause/speed, reduced motion, 1× endpoints, blueprint shapes
+and keyboard annotations, inline pair-specific reasons and clears, exact pair
+URLs, shared buttons, numeric typography, persisted notes, fullscreen and mobile
+layout.
+`npm run test:component-status-layout` verifies the rearranged template hooks,
+scoped navigation, empty targets, saved page entries, refresh, filters and mobile
+layout.
+
 ## Using the Comparison Form
 
+### Figma reference inventory
+
+The stored reference inventory records the user's
+[Components v2 manual page](https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1342),
+inspected on 2026-10-11. It is retained as capture metadata, without a separate
+dashboard section. The exact component reference URL selects the design version
+to compare. The 13 families are Avatar, Badge, Chip, Tooltip,
+Code, Button-icon, Paginator, Checkox, Button-text, Two-tone Heading,
+Version Watermark, date-time-value, and Link. Original Figma names and variant
+spelling are preserved. Footer menu and Footer copyright are recorded separately
+as composed components that happen to sit in the Atoms frame.
+
+Eleven families have representative Storybook mappings. Code maps to Inline Code,
+Button-text to Button, Checkox to Checkbox, and Paginator to the Square Pagination
+molecule. Button-icon is represented by `Atoms/Icon-button`; Link still lacks a standalone
+story and remains an explicit gap.
+Storybook atoms without a definition in this manual frame remain unmapped; they
+are not silently linked to the older AI page.
+
+`config/component-status.json` stores the inventory, component/variant Figma
+links, precise Storybook URLs and selectors, source paths, and coverage notes.
+`tests/visual-baselines/manual-atoms/manifest.json` records native 1× PNG exports,
+node IDs, dimensions, and content hashes. `figma-inventory.json` preserves the
+read-only source inspection. These are pinned references, not an automatic sync.
+The Chip and Version Watermark **Manual Reference** stories match the selected
+Figma copy while retaining the original default stories.
+
+### Appearance, content and interaction coverage
+
+The main comparison, source mappings, differences, and recorded checks are visible.
+Only advanced settings, live previews and technical evidence use disclosures;
+their chevrons come from the project's Icon atom. Catalogue groups start expanded
+and use shared ghost Button and chevron Icon atoms to collapse each heading's list.
+The same controls work in Storybook, including Enter/Space and `aria-expanded`.
+Collapsed groups survive catalogue refreshes during the session; search reveals
+matching groups. Each group can be expanded or collapsed individually.
+The three capture panes remain side by side on desktop and stack on mobile, with
+native-size scrolling rather than image scaling. Use browser zoom 100% for one
+image pixel per CSS pixel.
+
+Manual atom cases default to **Appearance · allow different copy**. For example,
+Figma “Button Submit”, Storybook “Button”, and Drupal “Contact me” may differ in
+text and intrinsic width without failing. The real images and labels are retained.
+Computed surface styling, minimum dimensions, gaps, alignment and typography
+are compared; clipping still fails.
+Consecutive identical text styles are grouped so harmless text-node splitting
+does not count as a copy regression. This is measured-property coverage, not a
+claim that all pixels, artwork, layout, or behavior match. Media content and
+content-driven dimensions remain available for human inspection.
+
+`appearance.json` pins read-only Figma measurements inspected on 2026-10-13.
+Figma checks compare the available explicit properties, such as solid fill,
+square corners, font family, size, weight and explicit line height. Auto-layout
+padding is not assumed equivalent to CSS padding. Those measurements are trusted
+only when the selected node URL and PNG bytes match the configured reference.
+A custom PNG upload supports pixel review but has no inferred appearance metadata.
+
+The read-only route inspection covered Home, About, Contact, Blog, Portfolio,
+and Cookbook. The configured examples include three primary buttons (Contact me,
+Contact and Order), homepage and portfolio chips, article avatars and reading
+durations, footer badge and watermark, Cookbook inline code, the About heading
+and tooltip, and homepage pagination. Selectors identify one actual DOM region;
+structural selectors may need refreshing after CMS layout changes. No public
+checkbox instance was found on those routes. That gap remains not checked.
+
+Cases can save up to eight website examples and capture Default, Hover, Keyboard
+focus, Pressed, and Checked. Each example/state keeps separate images and results.
+Playwright applies native pseudo-states, checks that the state was reached, and
+checks visible hover/focus feedback. Pressed captures release outside the control
+without activating links or submitting forms. Checked is limited to native
+checkboxes/radios. Unsupported states are blocked. These checks do not establish
+complete keyboard navigation, click behavior, accessibility, or disabled-state
+coverage. Component crops may exclude outer shadows/outlines; their measured
+styles still contribute to feedback detection.
+
+Figma states have explicit node mappings. Chip Hover has its own native PNG and
+measurements; an unavailable Figma hover/focus/pressed reference is reported as
+missing, never replaced with the default image. Website and Storybook state
+checks remain usable independently. Missing Figma coverage keeps overall status
+incomplete. Remove all website examples for a Storybook-only run.
+
+On the first capture, a configured `figma_reference_path` is imported into local
+saved references if its Figma URL matches the selected case. Subsequent runs
+preserve saved uploads and explicit removals. Changing the Figma URL drops the
+previous node's baseline. Run any mapped case with the existing command, for
+example `npm run status:test -- atoms-tooltip`.
+
+### Capture settings
+
 Open a component in `http://test.jurenites.local/` (or `http://127.0.0.1:7779/`).
-The **Source mapping & capture settings** form
-accepts a real website URL (or a path relative to `http://jurenites.local`), a
-unique CSS selector for that component on the page, its local Storybook iframe
-URL including any `args`, a Storybook selector, and a viewport. **Capture and
-compare** saves the mapping locally and runs Playwright from a fresh anonymous
-browser context. Merely opening the dashboard does not start tests.
+The visible **Linked sources** form accepts website examples (URLs or paths
+relative to `http://jurenites.local` with unique component selectors), a local
+Storybook iframe URL including args, a Storybook selector, and a viewport.
+**Capture all examples & states** saves the mapping locally and runs Playwright
+from fresh anonymous browser contexts. Merely opening the dashboard does not start tests.
 
 Viewport width uses the shared Select Input control, including its 40px trigger,
 40px chevron area and keyboard-operated options; form values stay numeric.
@@ -60,13 +356,19 @@ claiming parity. Interactions performed in a separate browser tab do not carry
 into the fresh capture session.
 
 The comparison leads with **Figma → Storybook → Website**, each at native size.
-Narrow captures appear side by side when their combined widths fit; wide captures
-stack in that same order. A 1920px capture remains 1920 CSS pixels wide, scrolling
+Screenshot previews are non-clickable image containers; the separate source links
+open the original Figma, Storybook, or website location.
+Desktop captures use three equal panes; mobile captures stack in that order. A 1920px capture remains 1920 CSS pixels wide, scrolling
 inside its pane when necessary. Layout recalculates after image loads, state
-changes and container resizing. Open **Overlay and differences** to use **Overlay**, **Wipe**,
-**Toggle layer**, or **Pixel difference** for a 1:1 comparison without stretching.
-Different capture dimensions are reported explicitly; the pixel comparator does
-not resize them. Live Storybook HTML and source links are available below the
+changes and container resizing. The main preview toolbar has independently
+toggleable **Figma**, **Storybook**, and **Website** buttons and an **Overlay**
+mode. Overlay aligns the active captures at their top-left corner without
+resizing: three sources use one-third opacity each, two use 50%, and one uses
+100%. Additive blending gives each layer equal weight. Missing or broken captures
+are disabled and excluded from the opacity count; disabling every source shows
+an empty-state message. Side-by-side mode retains full opacity. The separate
+Visual inspection section, wipe, balance slider, and pixel-difference viewer
+have been removed; automated comparison results remain unchanged. Live Storybook HTML and source links are available below the
 images. The current viewer opens Drupal in a separate tab. DEV Drupal sends
 `X-Frame-Options: SAMEORIGIN`; `jurenites.local` and `test.jurenites.local` are
 different origins even though both are under our control. This is a configurable
@@ -84,11 +386,10 @@ of the pinned 1× PNG. Figma's design embed documentation provides pan/zoom cont
 but does not specify a fixed 100% initial zoom parameter. See
 [Figma file embeds](https://developers.figma.com/docs/embeds/embed-figma-file/).
 
-Matching inputs must be explicitly checked in the form before a comparison can
-pass. Otherwise it produces exploratory differences marked **blocked**, while
+In **Exact pixels** mode, matching inputs must be explicitly checked before a
+comparison can pass. Otherwise it produces exploratory differences marked **blocked**, while
 independent rendering checks can pass. A missing Figma reference is **missing**,
-not a failed implementation test. Overall complete parity still requires all
-four checks; inspect the website/Storybook result independently when working
+not a failed implementation test. Overall coverage still requires all requested checks; inspect the website/Storybook result independently when working
 from code. Unmapped components remain not checked until configured and captured.
 
 For **Organisms / Font Preview / 4pixel**, the current English DEV mapping is
@@ -327,7 +628,7 @@ Full-header screenshots provide context; these checks do not assert full-header
 visual parity. Drupal content outside the picker remains live.
 
 The dashboard's **Recorded state** selector switches the Figma, Storybook, and
-website images together, including the 1:1 overlay, wipe, and difference controls.
+website images together, including the main preview’s source toggles and 1:1 overlay mode.
 `report-language-picker.json` and captures live in `.cache/component-status`.
 Missing captures stay blocked, and exact raster differences remain failed even
 when they may include font antialiasing. The CLI returns 1 for failed checks and
@@ -413,15 +714,16 @@ groups such as `Molecules/Blog`. Component rows place the name on the left and
 the status label and indicator on the right. Filtering retains the matching
 components' ancestor folders; documentation-only pages are not testable rows.
 The desktop catalogue sits alongside the selected comparison, with a visible
-filtered/total count and **Show all** to clear both filters and expand folders.
+filtered/total count. Clear the search field and select **All** in the status
+filter to restore the full catalogue; there is no separate **Show all** button.
 The component count is derived from the current built Storybook index. This is
 the eligible Storybook inventory,
 not automatic discovery of every Figma frame or Drupal region. All three source
 panes remain present even when a design reference or website mapping is missing.
 A linked Figma frame without its PNG is identified separately from a missing link.
 The header component's current test is explicitly **Language picker**, with three
-states at two viewports; it does not certify the entire header. Capture settings,
-overlay tools, detailed evidence and diagnostics use disclosures so the images
+states at two viewports; it does not certify the entire header. Overlay controls sit above the main previews; advanced capture settings,
+detailed evidence and diagnostics use disclosures so the images
 remain the primary review surface. On narrow screens the scrollable catalogue
 appears above the comparison.
 
@@ -458,9 +760,9 @@ accompanied by text. Results load when the page is opened and refresh every
 60 seconds while the document is visible. Switching to a hidden tab pauses its
 timer; returning refreshes immediately and restarts the timer. Closing the page
 ends polling. This uses browser JavaScript and ordinary HTTP requests, with no
-server scheduler, webhooks, or WebSockets. **Refresh results** remains available
-for an immediate reload of saved reports; it does not launch tests. Automatic
-refresh preserves unsaved comparison inputs and does not overlap an active
+server scheduler, webhooks, or WebSockets. There is no manual Refresh button;
+reloading the page also loads the latest saved reports without launching tests.
+Automatic refresh preserves unsaved comparison inputs and does not overlap an active
 refresh or capture.
 
 The first case is **Article Blog List Item**, configured in
@@ -501,7 +803,10 @@ Storybook/Drupal comparison, and Figma parity before its overall light is green.
 Unmapped components remain not checked. A source-fingerprint change or a report
 older than 24 hours makes its evidence stale and its light gray. A Storybook
 build stamp prevents the runner from certifying an old bundle against new
-source. The browser captures use the same environment and real input values;
+source. Every successful `npm run build-storybook` writes that stamp. Manual
+capture checks the stamp before changing saved mappings or reports; missing,
+unreadable, or outdated build information returns an actionable error and keeps
+previous captures available. The browser captures use the same environment and real input values;
 this does not yet provide pinned content revisions or full accessibility testing.
 
 `status:test` exits 0 only for complete passes, 1 for a failed check, and 2 for
@@ -554,7 +859,7 @@ local capture; it does not write website content or change CI settings.
 - [ ] Pin Drupal content revisions and media identities for repeatable baselines.
 - [ ] Review and resolve differences shown by current captures without silently
   replacing approved references.
-- [x] Add captured-image overlays, wipe, layer toggle, and difference controls.
+- [x] Integrate native-size overlays and independent source toggles into the main previews.
 - [ ] Add permitted live-frame stacking and saved manual review decisions.
 - [x] Compare all three pairs when a Figma PNG is supplied.
 - [ ] Add approved browser regression baselines.
@@ -656,7 +961,10 @@ Existing `npm run storybook:inspect` remains the broader Storybook health check;
 it does not yet write component-status reports. `playwright`, `pngjs`, and
 `pixelmatch` are now declared development dependencies. Tests for report
 aggregation, stale evidence, input validation, and exact PNG comparison run with
-`npm run test:component-status`. Browser checks are available as
+`npm run test:component-status` and `node --test tests/component-appearance.test.mjs`.
+`PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/component-states.integration.mjs`
+checks multiple examples, different labels, native states and an intentional style
+regression. Browser checks are available as
 `PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/component-status-review.browser.mjs`
 (real DEV 4pixel page), and `node tests/component-status-review.integration.mjs`
 (temporary identical-render / PNG import fixture).
@@ -665,3 +973,239 @@ Chromatic provides an existing [Storybook visual-testing and CI workflow](https:
 It is an option for hosted screenshot review. The local dashboard adds the
 project's component catalogue, Drupal evidence, Figma mapping, and diagnostics
 view without requiring a hosted service account.
+
+Review source links share the Testing Component status dashboard Storybook renderer,
+with theme link styling and the existing Icon atom. External suffixes appear on
+hover and keyboard focus, reserving a token-based 4px gap without layout shifts.
+
+### Editable review workspace
+
+The Button table uses `button_style` rows and pointer-state columns, with
+`is_disabled` on a depth slider. The active plane stays a semantic table; an
+inert adjacent slice uses transparent token colors to show the stack. No
+perspective or animated transition changes the readable table geometry.
+Technical headers use the machine-readable typography role, with regular weight.
+Rows and columns can be hidden, shown or reordered using drag-and-drop or keyboard
+accessible move buttons. Click an 8px status square to edit that combination's
+inclusion rule. Native disabled + hover is excluded by default, with its rule
+provenance shown. Review overrides do not alter the actual Button behavior.
+
+Status labels use one title-case vocabulary and one semantic palette throughout
+the dashboard: Passed, Failed, Untested, Stale, Incomplete, and Excluded. Table
+cells show only squares with accessible names/tooltips; the legend labels them
+once. Passing requires current recorded captures and matching implementation
+comparisons for the exact style, disabled flag and pointer state. Rules never
+manufacture a pass. Unknown and stale evidence stay separate from exclusions.
+
+Page edits save automatically without a capture submission. Per-component layout,
+rule overrides, depth, selected rule, disclosure state, source visibility,
+overlay mode, recorded-state selection and capture-setting drafts live in
+`.cache/component-status/workspace.json`. A browser-local pending copy protects
+edits during disk/network failures and retries on reload. The authenticated
+`/api/workspace` endpoint serializes atomic disk writes, validates settings and
+never accepts manually supplied test results. A dropped PNG saves as a hashed
+reference immediately; capture runs still require the explicit run button.
+Empty draft values are retained. Builds do not reset settings; deleting this
+local review store removes disk preferences and saved references.
+
+The detail page starts with one PNG per source at native CSS pixel size. Source
+icons use the project's Figma and Storybook artwork and the globe SVG. Additional
+setup, comparison evidence, source mapping and recorded checks are disclosures
+below the comparison. There are no duplicate PNG thumbnails in recorded checks.
+
+Naming convention is a separate check, using the audit described in
+[naming conventions](naming-conventions.md). The server reconciles exact public
+Storybook titles before attaching findings. Source checks are recomputed while
+Figma names come from the explicitly dated evidence snapshot. Mismatches and
+missing mappings remain visible, with scoped correction prompts in the evidence.
+
+Run `node --test tests/review-workspace.test.mjs tests/button-combination-coverage.test.mjs`
+for persistence/rule checks and
+`PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/review-workspace.browser.mjs`
+for an isolated autosave/reload, table-control and responsive-layout check. The
+browser test uses its own temporary review store, preserving live user settings.
+
+Overlay screenshot opacity is a compositing weight (one half or one third for
+two or three rendered sources), not an interface palette color. The token
+contract permits only those existing, specifically scoped dashboard rules.
+Hover-only reference removal and matrix drag controls use clipping while idle
+and reveal on hover or focus within their parent, preserving keyboard access.
+Matrix slice animations use binary opacity endpoints (0 and 1) and retain the
+reduced-motion override.
+
+If local Storybook loads its shell but preview dependency requests return 504,
+stop the Storybook service, clear only `node_modules/.cache/storybook`, and start
+it again. Verify a rendered story, since HTTP 200 for the shell is insufficient.
+
+### Source-aligned comparison layout
+
+The comparison keeps one native-size PNG per source. Source links use accessible
+icons rather than repeated names; missing captures stay explicit. Large captures
+scroll within their pane, and panes stack on narrow screens. Overlay aligns
+available captures at the top left without changing their pixels. Visibility,
+recorded example and overlay selections autosave independently of running tests.
+
+Interactive Storybook and Figma views remain optional disclosures. The source
+icon links identify the selected reference node; the PNG comparison is the
+native-size review surface. Open the external design source for live Figma zoom
+and editing.
+
+For Button, the Combination slider and coverage table share the same 24-entry
+list: three `button_style` values × boolean `is_disabled` × four review
+`pointer_state` values (`default`, `hover`, `focus`, `active`). The pointer states
+are capture interactions, not component props or replacements for Figma's visual
+reference states. Forbidden combinations remain visible as explicit table rules.
+Website example is a separate selector, so multiple website uses do not duplicate
+or change the combination list. Missing combinations show no-capture messages.
+
+Table layout assigns any dimension to X columns, Y rows or Z stacked tables.
+Choosing an occupied dimension swaps the two axes. Reordering changes slider
+traversal order, while selection stays attached to its canonical combination key.
+Row and column headers reveal a left-side equals-sign drag button on hover or
+keyboard focus, using grab/grabbing cursors without shifting their labels.
+Drag real row or column headers to reorder; Alt + arrow keys and the layout
+panel's move buttons provide keyboard alternatives. Visibility settings follow
+the dimension when axes swap. Selecting a hidden combination reveals its values
+so the table and slider can highlight the same selection.
+
+Changing the Z value animates the outgoing table into the rear plane and the
+incoming table into the active plane. Rapid scrubbing replaces the transition
+with the latest selection. Reduced motion switches slices immediately. Axis roles,
+orders, visibility, rules, current combination and website example selection
+persist in the existing workspace store; legacy two-column settings migrate to
+include keyboard focus and pressed capture interactions.
+
+Table-layout move buttons use the shared `arrow-left` and `arrow-right` SVG artwork.
+Source-link tooltips expose the full absolute destination URL on hover and
+keyboard focus, and update when the recorded state changes. Escape dismisses
+them; URL wrapping is constrained to the viewport on small screens.
+
+Source visibility controls use the shared eye and eye-closed SVGs
+to mirror their pressed state; unavailable captures show the disabled closed-eye state.
+
+### Button live Figma canvas
+
+The Live Figma canvas directly embeds auto-layout wrapper `1884:2415` (Frame 32),
+containing component set `1394:1177` and the designer's cursor artwork. Its inspected
+geometry is 559 × 202. The separate static variants overview is no longer rendered,
+and there is one disclosure rather than a nested Live canvas disclosure.
+The uploaded comparison PNG remains the pixel-review reference.
+
+The iframe fits the available column width without horizontal scrolling and
+reserves space for Figma controls.
+Figma manages zoom inside this cross-origin Design embed; its documented parameters
+provide pan/zoom controls but do not expose a fixed 100% setting. The interface asks
+the viewer to select 100% in the canvas. Iframe dimensions alone do not establish
+1:1 artwork scale. Slider changes preserve the wrapper iframe and the user's zoom.
+The wrapper remains available for unrecorded combinations, only for the inspected
+Button file/node mapping. Unrelated or cleared links do not receive this wrapper.
+No Figma layers are modified.
+
+### Source linkage columns
+
+Linked sources appears directly beneath the comparison stage, in the same three
+column tracks: Figma URL, PNG upload and reference clear in the first column;
+Storybook URL/args, component selector and interaction targets in the second;
+Website example fieldsets and add/remove controls in the third. On small screens
+both preview and linkage stack in source order. General capture settings stay in
+their disclosure. Inputs outside that form use an explicit form association, so
+validation, uploads, autosave and capture submission retain the same behavior.
+
+Add website example is a Plus icon button with its visible label immediately
+after the button and the same accessible name.
+
+Remove website example is a trash-can icon button with an accessible name,
+aligned beside the Page URL or path input in the same row.
+Both add and remove controls reuse `Atoms/Icon-button`: square 40 × 40px buttons with centered
+24 × 24px icon viewports, leaving 8px on every edge.
+Hover and keyboard focus use the existing semantic error color. Removing an
+example updates the ordinal labels and moves focus to the next available control.
+
+### Table controls belong to the active plane
+
+Button has one combination slider, inside the active table plane alongside the
+website-example selector. The separate depth slider and slice navigation controls
+are removed. Scrubbing combinations or selecting a cell switches the required
+slice automatically. The Table layout disclosure, coverage legend and selected
+cell's rule editor also sit inside that active plane. Only table surfaces animate;
+controls keep their DOM nodes, focus and gesture position during slice changes.
+
+Website-example fieldsets expose only Page URL and Component selector. Existing
+example names, interaction overrides and reveal selectors remain hidden values
+and are preserved by autosave/capture submission. New unnamed examples derive a
+report label from the page path and component selector, with an ordinal fallback
+for an incomplete draft. An empty interaction override retains automatic control
+selection. Hiding these fields does not clear earlier explicit overrides.
+
+### Local Live web preview
+
+Each Website example contains its own always-visible Live web preview beneath
+its URL and selector fields, with no collapse control. All configured examples
+load automatically and independently. Each iframe loads the real local page and
+its existing theme styles/scripts, then the local `jurenites_component_preview` module hides content
+outside the selected component while retaining its ancestry and DOM listeners.
+The original capture viewport is preserved; the outer preview crop uses 8px-grid
+sizes reported by that component. Native hover and keyboard focus remain live.
+Links open the real destination separately; form submission is not enabled inside
+the preview sandbox. Page-level overlays outside the selected subtree are hidden.
+
+Only explicit preview requests on `jurenites.local` permit framing from
+`http://test.jurenites.local`. Normal responses retain SAMEORIGIN; production
+hosts do not enable preview mode. Preview responses are private/no-store. Enable
+the module locally with Drush and rebuild caches. Editing an example’s URL or
+selector reloads only its own preview; changing the capture example selection
+leaves these live previews intact. The preview does not run screenshot capture
+tests or update comparison evidence.
+
+### Figma PNG controls
+
+The Figma source heading ends with a shared 40px Icon-button X control.
+Upload uses the supplied upload-arrow SVG and is visible only without a PNG.
+The shared refresh Icon-button is visible only without a PNG and obtains a fresh
+image; its tooltip explains the action. With a PNG, only X is shown among the PNG
+controls. A missing Figma PNG displays N/A.
+The old file chooser block and helper text are removed. Removal immediately clears the displayed reference
+and autosaves the removed state; it leaves the Figma link intact. Recorded state
+changes and reloads cannot restore a reference marked removed. PNG upload or
+Obtain PNG restores the reference. The separate removal checkbox is gone.
+
+Obtain PNG requests a fresh isolated PNG at scale 1 from the exact node in the
+Figma reference link, through `/api/figma-reference`. This local server endpoint
+uses `FIGMA_ACCESS_TOKEN` with Figma file-content read access; the secret stays
+server-side. The Codex chat connector is not accessible from dashboard JavaScript.
+Without server credentials, the control explains how to connect export or upload
+a PNG obtained through Codex. Export errors preserve the current reference.
+
+### Live Storybook Button combinations
+
+The Button comparison's Storybook column automatically displays the six public
+combinations in one vertical native-size canvas: primary enabled/disabled,
+secondary enabled/disabled, and text enabled/disabled. It reuses the default
+Storybook story and Button markup helper through the `component_preview=button-combinations`
+URL mode. Custom label args are preserved. Enabled buttons respond naturally to
+hover and keyboard focus; disabled buttons retain native disabled behavior.
+There are no additional hover/focus/pressed examples in this canvas. Changing the
+recorded combination does not change or reload the six-button canvas. The column's
+eye control hides/shows the canvas. Recorded PNG evidence remains available to
+comparison logic but is not duplicated visually in this Storybook column.
+The canvas includes 8px space for focus outlines and reports its native bounds.
+The Storybook iframe itself matches those bounds, rather than keeping a 1280px
+capture canvas behind a smaller crop.
+Other components keep their existing preview behavior. Single-story URL args and
+explicit pseudo-state preview URLs remain available separately.
+
+### Catalogue footer and disclosure controls
+
+Component totals, status counts, report refresh time and filtered-entry count sit
+below the component catalogue. Status numbers use existing success, error,
+warning and neutral text tokens. Disclosures use the shared 40px Icon-button atom
+for their chevron control; both the summary and icon button toggle the section.
+The icon button reports its expanded state and supports keyboard activation.
+
+The Button matrix styles its Button atoms explicitly; it must not override the
+shared Select trigger border, background, sizing or keyboard feedback.
+
+The catalogue uses three shared selectable Chip atoms: Passed, Attention and
+Failed. All selected shows all entries; no selection shows none. Attention includes
+unreviewed and incomplete statuses. The search label is visually hidden, and the
+chip group retains its accessible name. There is no All statuses chip or dropdown.

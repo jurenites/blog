@@ -1,14 +1,60 @@
 {
   "components": {
+    "atoms-icon-button": {
+      "drupal_url": "",
+      "drupal_selector": "",
+      "story_url": "/storybook/iframe.html?id=atoms-icon-button--default-story&viewMode=story",
+      "story_selector": ".icon-button",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1072-904",
+      "figma_reference_path": "tests/visual-baselines/manual-atoms/button-icon.png",
+      "viewport_widths": [
+        1280
+      ],
+      "viewport_height": 900,
+      "inputs_matched": false,
+      "manual_atom_key": "button-icon",
+      "comparison_mode": "component",
+      "capture_states": [
+        "default",
+        "hover",
+        "focus"
+      ],
+      "website_examples": []
+    },
     "atoms-badge": {
-      "drupal_url": "http://jurenites.local/",
-      "drupal_selector": ".footer-navigation__link--with-badge .badge",
+      "drupal_url": "",
+      "drupal_selector": "",
       "story_url": "/storybook/iframe.html?id=atoms-badge--numeric-badge&viewMode=story&args=color_variant:gray",
       "story_selector": ".badge",
-      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1708-32",
-      "viewport_widths": [1280],
+      "story_hover_selector": "",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1394-1164",
+      "figma_reference_path": "tests/visual-baselines/manual-atoms/badge.png",
+      "viewport_widths": [
+        1280
+      ],
       "viewport_height": 900,
-      "inputs_matched": true
+      "inputs_matched": false,
+      "manual_atom_key": "badge",
+      "comparison_mode": "component",
+      "capture_states": [
+        "default"
+      ],
+      "figma_states": {
+        "default": {
+          "node_id": "1394:1164",
+          "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1394-1164"
+        }
+      },
+      "website_examples": [
+        {
+          "example_id": "web-1",
+          "example_label": "Home \u00b7 2",
+          "page_url": "http://jurenites.local/",
+          "component_selector": ".badge.badge--numeric.badge--gray",
+          "discovered_on": "2026-10-13T11:23:56.392Z",
+          "observed_text": "2"
+        }
+      ]
     },
     "molecules-video-article-blog-list-item": {
       "drupal_url": "http://jurenites.local/blog",
@@ -44,6 +90,827 @@
         360
       ],
       "viewport_height": 900
+    },
+    "atoms-avatar": {
+      "drupal_url": "",
+      "drupal_selector": "",
+      "story_url": "/storybook/iframe.html?id=atoms-avatar--default-story&viewMode=story&args=avatar_size:medium",
+      "story_selector": ".avatar",
+      "story_hover_selector": "",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1346",
+      "figma_reference_path": "tests/visual-baselines/manual-atoms/avatar.png",
+      "viewport_widths": [
+        1280
+      ],
+      "viewport_height": 900,
+      "inputs_matched": false,
+      "manual_atom_key": "avatar",
+      "comparison_mode": "component",
+      "capture_states": [
+        "default"
+      ],
+      "figma_states": {
+        "default": {
+          "node_id": "1730:1346",
+          "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1346"
+        }
+      },
+      "website_examples": [
+        {
+          "example_id": "web-1",
+          "example_label": "Home \u00b7 AI",
+          "page_url": "http://jurenites.local/",
+          "component_selector": "#block-jurenites-theme-latest-articles > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > footer:nth-of-type(1) > aside:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+          "discovered_on": "2026-10-13T11:23:56.392Z",
+          "observed_text": "AI"
+        },
+        {
+          "example_id": "web-2",
+          "example_label": "Blog \u00b7 AI",
+          "page_url": "http://jurenites.local/blog",
+          "component_selector": "#block-jurenites-theme-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > article:nth-of-type(1) > div:nth-of-type(2) > footer:nth-of-type(1) > aside:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+          "discovered_on": "2026-10-13T11:24:24.699Z",
+          "observed_text": "AI"
+        }
+      ]
+    },
+    "atoms-chip": {
+      "drupal_url": "",
+      "drupal_selector": "",
+      "story_url": "/storybook/iframe.html?id=atoms-chip--manual-reference&viewMode=story",
+      "story_selector": ".chip",
+      "story_hover_selector": "",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2428",
+      "figma_reference_path": "tests/visual-baselines/manual-atoms/chip.png",
+      "viewport_widths": [
+        1280
+      ],
+      "viewport_height": 900,
+      "inputs_matched": false,
+      "manual_atom_key": "chip",
+      "comparison_mode": "component",
+      "capture_states": [
+        "default",
+        "hover",
+        "focus"
+      ],
+      "figma_states": {
+        "default": {
+          "node_id": "1738:2428",
+          "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2428"
+        },
+        "hover": {
+          "node_id": "1738:2437",
+          "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2437",
+          "reference_path": "tests/visual-baselines/manual-atoms/chip-hover.png"
+        }
+      },
+      "website_examples": [
+        {
+          "example_id": "web-1",
+          "example_label": "Home \u00b7 #UI/UX Design",
+          "page_url": "http://jurenites.local/",
+          "component_selector": "#block-jurenites-theme-interests > nav:nth-of-type(1) > ul:nth-of-type(1) > li:nth-of-type(1) > a:nth-of-type(1)",
+          "discovered_on": "2026-10-13T11:23:56.392Z",
+          "observed_text": "#UI/UX Design"
+        },
+        {
+          "example_id": "web-2",
+          "example_label": "Portfolio \u00b7 #Font",
+          "page_url": "http://jurenites.local/portfolio",
+          "component_selector": "#block-jurenites-theme-content > div:nth-of-type(1) > div:nth-of-type(1) > nav:nth-of-type(1) > ul:nth-of-type(1) > li:nth-of-type(1) > a:nth-of-type(1)",
+          "discovered_on": "2026-10-13T11:24:35.671Z",
+          "observed_text": "#Font"
+        }
+      ]
+    },
+    "atoms-tooltip": {
+      "drupal_url": "",
+      "drupal_selector": "",
+      "story_url": "/storybook/iframe.html?id=atoms-tooltip--default-story&viewMode=story&args=tooltip_label:Expand",
+      "story_selector": ".tooltip",
+      "story_hover_selector": "[data-tooltip-trigger]",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-2935",
+      "figma_reference_path": "tests/visual-baselines/manual-atoms/tooltip.png",
+      "viewport_widths": [
+        1280
+      ],
+      "viewport_height": 900,
+      "inputs_matched": false,
+      "manual_atom_key": "tooltip",
+      "comparison_mode": "component",
+      "capture_states": [
+        "default"
+      ],
+      "figma_states": {
+        "default": {
+          "node_id": "1739:2935",
+          "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-2935"
+        }
+      },
+      "website_examples": [
+        {
+          "example_id": "about-term",
+          "example_label": "About \u00b7 Business goals tooltip",
+          "page_url": "http://jurenites.local/about",
+          "component_selector": ".tooltip.is-visible",
+          "reveal_selector": "[data-tooltip-trigger][aria-controls=\"term-explanation-1\"]",
+          "discovered_on": "2026-10-13"
+        }
+      ]
+    },
+    "atoms-inline-code": {
+      "drupal_url": "",
+      "drupal_selector": "",
+      "story_url": "/storybook/iframe.html?id=atoms-inline-code--default-story&viewMode=story",
+      "story_selector": ".inline-code",
+      "story_hover_selector": "",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-2920",
+      "figma_reference_path": "tests/visual-baselines/manual-atoms/inline-code.png",
+      "viewport_widths": [
+        1280
+      ],
+      "viewport_height": 900,
+      "inputs_matched": false,
+      "manual_atom_key": "inline-code",
+      "comparison_mode": "component",
+      "capture_states": [
+        "default"
+      ],
+      "figma_states": {
+        "default": {
+          "node_id": "1739:2920",
+          "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-2920"
+        }
+      },
+      "website_examples": [
+        {
+          "example_id": "web-1",
+          "example_label": "Cookbook \u00b7 npm run build:tokens",
+          "page_url": "http://jurenites.local/cookbook",
+          "component_selector": "#block-jurenites-theme-content > article:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(3) > code:nth-of-type(1)",
+          "discovered_on": "2026-10-13T11:24:45.969Z",
+          "observed_text": "npm run build:tokens"
+        },
+        {
+          "example_id": "web-2",
+          "example_label": "Cookbook \u00b7 npm run storybook",
+          "page_url": "http://jurenites.local/cookbook",
+          "component_selector": "#block-jurenites-theme-content > article:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(4) > code:nth-of-type(1)",
+          "discovered_on": "2026-10-13T11:24:45.969Z",
+          "observed_text": "npm run storybook"
+        }
+      ]
+    },
+    "molecules-square-pagination": {
+      "drupal_url": "",
+      "drupal_selector": "",
+      "story_url": "/storybook/iframe.html?id=molecules-square-pagination--default-story&viewMode=story",
+      "story_selector": ".square-pagination",
+      "story_hover_selector": "",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1793-2260",
+      "figma_reference_path": "tests/visual-baselines/manual-atoms/paginator.png",
+      "viewport_widths": [
+        1280
+      ],
+      "viewport_height": 900,
+      "inputs_matched": false,
+      "manual_atom_key": "paginator",
+      "comparison_mode": "component",
+      "capture_states": [
+        "default",
+        "hover",
+        "focus"
+      ],
+      "figma_states": {
+        "default": {
+          "node_id": "1793:2260",
+          "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1793-2260"
+        }
+      },
+      "website_examples": [
+        {
+          "example_id": "web-1",
+          "example_label": "Home \u00b7 ",
+          "page_url": "http://jurenites.local/",
+          "component_selector": ".square-pagination.project-case-slider__pagination",
+          "discovered_on": "2026-10-13T11:23:56.393Z",
+          "observed_text": ""
+        }
+      ]
+    },
+    "atoms-checkbox": {
+      "drupal_url": "",
+      "drupal_selector": "",
+      "story_url": "/storybook/iframe.html?id=atoms-checkbox--empty-state&viewMode=story&args=field_label:checkbox%20label",
+      "story_selector": ".checkbox",
+      "story_hover_selector": "",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2370",
+      "figma_reference_path": "tests/visual-baselines/manual-atoms/checkbox.png",
+      "viewport_widths": [
+        1280
+      ],
+      "viewport_height": 900,
+      "inputs_matched": false,
+      "manual_atom_key": "checkbox",
+      "comparison_mode": "component",
+      "capture_states": [
+        "default",
+        "hover",
+        "focus",
+        "checked"
+      ],
+      "figma_states": {
+        "default": {
+          "node_id": "1738:2370",
+          "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2370"
+        }
+      },
+      "website_examples": []
+    },
+    "atoms-button": {
+      "drupal_url": "",
+      "drupal_selector": "",
+      "story_url": "/storybook/iframe.html?id=atoms-button--default-story&viewMode=story&args=button_label:Button%20Submit;button_style:primary;is_disabled:false",
+      "story_selector": ".button",
+      "story_hover_selector": "",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1196-889",
+      "figma_reference_path": "tests/visual-baselines/manual-atoms/button.png",
+      "viewport_widths": [
+        1280
+      ],
+      "viewport_height": 900,
+      "inputs_matched": false,
+      "manual_atom_key": "button",
+      "comparison_mode": "component",
+      "capture_states": [
+        "default",
+        "hover",
+        "focus",
+        "active"
+      ],
+      "figma_states": {
+        "default": {
+          "node_id": "1196:889",
+          "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1196-889"
+        }
+      },
+      "website_examples": [
+        {
+          "example_id": "web-1",
+          "example_label": "Home \u00b7 Contact me",
+          "page_url": "http://jurenites.local/",
+          "component_selector": ".button.button--primary.hero-section__action",
+          "discovered_on": "2026-10-13T11:23:56.391Z",
+          "observed_text": "CONTACT ME"
+        },
+        {
+          "example_id": "web-2",
+          "example_label": "Home \u00b7 Contact",
+          "page_url": "http://jurenites.local/",
+          "component_selector": ".button.button--primary.call-to-action__contact-button",
+          "discovered_on": "2026-10-13T11:23:56.392Z",
+          "observed_text": "CONTACT"
+        },
+        {
+          "example_id": "web-3",
+          "example_label": "Portfolio \u00b7 Order",
+          "page_url": "http://jurenites.local/portfolio",
+          "component_selector": ".button.button--primary.website-audit__order-button",
+          "discovered_on": "2026-10-13T11:24:35.671Z",
+          "observed_text": "ORDER"
+        }
+      ]
+    },
+    "atoms-two-tone-heading": {
+      "drupal_url": "",
+      "drupal_selector": "",
+      "story_url": "/storybook/iframe.html?id=atoms-two-tone-heading--default-story&viewMode=story",
+      "story_selector": ".two-tone-heading",
+      "story_hover_selector": "",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-3084",
+      "figma_reference_path": "tests/visual-baselines/manual-atoms/two-tone-heading.png",
+      "viewport_widths": [
+        1280
+      ],
+      "viewport_height": 900,
+      "inputs_matched": false,
+      "manual_atom_key": "two-tone-heading",
+      "comparison_mode": "component",
+      "capture_states": [
+        "default"
+      ],
+      "figma_states": {
+        "default": {
+          "node_id": "1739:3084",
+          "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-3084"
+        }
+      },
+      "website_examples": [
+        {
+          "example_id": "web-1",
+          "example_label": "About \u00b7 Questions? Here are\u00a0answers.",
+          "page_url": "http://jurenites.local/about",
+          "component_selector": ".two-tone-heading.last-word-not-wrap",
+          "discovered_on": "2026-10-13T11:24:05.000Z",
+          "observed_text": "Questions?\nHere are\u00a0answers."
+        }
+      ]
+    },
+    "atoms-version-watermark": {
+      "drupal_url": "",
+      "drupal_selector": "",
+      "story_url": "/storybook/iframe.html?id=atoms-version-watermark--manual-reference&viewMode=story",
+      "story_selector": ".version-watermark",
+      "story_hover_selector": "",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-3088",
+      "figma_reference_path": "tests/visual-baselines/manual-atoms/version-watermark.png",
+      "viewport_widths": [
+        1280
+      ],
+      "viewport_height": 900,
+      "inputs_matched": false,
+      "manual_atom_key": "version-watermark",
+      "comparison_mode": "component",
+      "capture_states": [
+        "default"
+      ],
+      "figma_states": {
+        "default": {
+          "node_id": "1739:3088",
+          "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-3088"
+        }
+      },
+      "website_examples": [
+        {
+          "example_id": "web-1",
+          "example_label": "Home \u00b7 version 1.200.0 \u00b7 2026-10-11 17:40:35 GMT+",
+          "page_url": "http://jurenites.local/",
+          "component_selector": ".version-watermark",
+          "discovered_on": "2026-10-13T11:23:56.393Z",
+          "observed_text": "version\n1.200.0\n\u00b7\n2026-10-11 17:40:35 GMT+0\n\u00b7\nad2da0c\nmade by\nAlexander Ilivanov\n&\nAI"
+        },
+        {
+          "example_id": "web-2",
+          "example_label": "About \u00b7 version 1.200.0 \u00b7 2026-10-11 17:40:35 GMT+",
+          "page_url": "http://jurenites.local/about",
+          "component_selector": ".version-watermark",
+          "discovered_on": "2026-10-13T11:24:05.000Z",
+          "observed_text": "version\n1.200.0\n\u00b7\n2026-10-11 17:40:35 GMT+0\n\u00b7\nad2da0c\nmade by\nAlexander Ilivanov\n&\nAI"
+        }
+      ]
+    },
+    "atoms-date-time-value": {
+      "drupal_url": "",
+      "drupal_selector": "",
+      "story_url": "/storybook/iframe.html?id=atoms-date-time-value--reading-duration&viewMode=story",
+      "story_selector": ".date-time-value",
+      "story_hover_selector": "",
+      "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2535",
+      "figma_reference_path": "tests/visual-baselines/manual-atoms/date-time-value.png",
+      "viewport_widths": [
+        1280
+      ],
+      "viewport_height": 900,
+      "inputs_matched": false,
+      "manual_atom_key": "date-time-value",
+      "comparison_mode": "component",
+      "capture_states": [
+        "default"
+      ],
+      "figma_states": {
+        "default": {
+          "node_id": "1738:2535",
+          "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2535"
+        }
+      },
+      "website_examples": [
+        {
+          "example_id": "web-1",
+          "example_label": "Home \u00b7 2 min to read",
+          "page_url": "http://jurenites.local/",
+          "component_selector": "#block-jurenites-theme-latest-articles > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > footer:nth-of-type(1) > aside:nth-of-type(1) > div:nth-of-type(2) > span:nth-of-type(3) > time:nth-of-type(1)",
+          "discovered_on": "2026-10-13T11:23:56.392Z",
+          "observed_text": "2\nmin to read"
+        },
+        {
+          "example_id": "web-2",
+          "example_label": "Blog \u00b7 2 min to read",
+          "page_url": "http://jurenites.local/blog",
+          "component_selector": "#block-jurenites-theme-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > article:nth-of-type(1) > div:nth-of-type(2) > footer:nth-of-type(1) > aside:nth-of-type(1) > div:nth-of-type(2) > span:nth-of-type(3) > time:nth-of-type(1)",
+          "discovered_on": "2026-10-13T11:24:24.700Z",
+          "observed_text": "2\nmin to read"
+        }
+      ]
     }
+  },
+  "manual_atoms": {
+    "page_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1342",
+    "frame_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1070-717",
+    "inspected_on": "2026-10-11",
+    "components": [
+      {
+        "atom_key": "avatar",
+        "figma_name": "Atom/Avatar",
+        "figma_node_id": "1730:1343",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1343",
+        "capture_node_id": "1730:1346",
+        "component_id": "atoms-avatar",
+        "story_url": "/storybook/iframe.html?id=atoms-avatar--default-story&viewMode=story&args=avatar_size:medium",
+        "source_path": "src/stories/atoms/avatar/avatar.stories.js",
+        "mapping_notes": "Eight variants: four sizes and initials/upload. Duplicate small Initials name and uplaod spelling preserved from Figma. Export includes transparency; pixel differences remain exploratory until the reference backdrop and capture bounds are aligned.",
+        "variants": [
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1344",
+            "node_id": "1730:1344",
+            "node_name": "Size=small, Content=Initials",
+            "width": 16,
+            "height": 16,
+            "text": [
+              "AI"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1346",
+            "node_id": "1730:1346",
+            "node_name": "Size=medium, Content=Initials",
+            "width": 24,
+            "height": 24,
+            "text": [
+              "AI"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1348",
+            "node_id": "1730:1348",
+            "node_name": "Size=large, Content=Initials",
+            "width": 32,
+            "height": 32,
+            "text": [
+              "AI"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1350",
+            "node_id": "1730:1350",
+            "node_name": "Size=big, Content=Initials",
+            "width": 40,
+            "height": 40,
+            "text": [
+              "AI"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1366",
+            "node_id": "1730:1366",
+            "node_name": "Size=small, Content=Initials",
+            "width": 16,
+            "height": 16,
+            "text": [
+              "AI"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1362",
+            "node_id": "1730:1362",
+            "node_name": "Size=medium, Content=uplaod",
+            "width": 24,
+            "height": 24,
+            "text": [
+              "AI"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1358",
+            "node_id": "1730:1358",
+            "node_name": "Size=large, Content=uplaod",
+            "width": 32,
+            "height": 32,
+            "text": [
+              "AI"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1730-1353",
+            "node_id": "1730:1353",
+            "node_name": "Size=big, Content=uplaod",
+            "width": 40,
+            "height": 40,
+            "text": [
+              "AI"
+            ]
+          }
+        ]
+      },
+      {
+        "atom_key": "badge",
+        "figma_name": "Atom/Badge",
+        "figma_node_id": "1394:1143",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1394-1143",
+        "capture_node_id": "1394:1164",
+        "component_id": "atoms-badge",
+        "story_url": "/storybook/iframe.html?id=atoms-badge--numeric-badge&viewMode=story&args=color_variant:gray",
+        "source_path": "src/stories/atoms/badge/badge.stories.js",
+        "mapping_notes": "Default numeric 2 selected. Figma active example uses 4; it is a separate state. Existing website reference: http://jurenites.local/ with selector .footer-navigation__link--with-badge .badge. This run covers Figma / Storybook only.",
+        "variants": [
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1394-1164",
+            "node_id": "1394:1164",
+            "node_name": "Property=Numeric, Type=Default, State=Deault",
+            "width": 24,
+            "height": 24,
+            "text": [
+              "2"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1068-569",
+            "node_id": "1068:569",
+            "node_name": "Property=Numeric, Type=Active, State=Hover",
+            "width": 24,
+            "height": 24,
+            "text": [
+              "4"
+            ]
+          }
+        ]
+      },
+      {
+        "atom_key": "chip",
+        "figma_name": "Atom/Chip",
+        "figma_node_id": "1738:2425",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2425",
+        "capture_node_id": "1738:2428",
+        "component_id": "atoms-chip",
+        "story_url": "/storybook/iframe.html?id=atoms-chip--manual-reference&viewMode=story",
+        "source_path": "src/stories/atoms/chip/chip.stories.js",
+        "mapping_notes": "Six Figma variants include active and close states; the current story exposes label and URL only.",
+        "variants": [
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2428",
+            "node_id": "1738:2428",
+            "node_name": "Property=Chip, Type=Default, State=Deault",
+            "width": 46,
+            "height": 24,
+            "text": [
+              "#tag"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2430",
+            "node_id": "1738:2430",
+            "node_name": "Property=Chip, Type=Active, State=Deault",
+            "width": 46,
+            "height": 24,
+            "text": [
+              "#tag"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2432",
+            "node_id": "1738:2432",
+            "node_name": "Property=Chip, Type=Close, State=Deault",
+            "width": 62,
+            "height": 24,
+            "text": [
+              "#tag"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2437",
+            "node_id": "1738:2437",
+            "node_name": "Property=Chip, Type=Default, State=Hover",
+            "width": 46,
+            "height": 24,
+            "text": [
+              "#tag"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2439",
+            "node_id": "1738:2439",
+            "node_name": "Property=Chip, Type=Active, State=Hover",
+            "width": 46,
+            "height": 24,
+            "text": [
+              "#tag"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2441",
+            "node_id": "1738:2441",
+            "node_name": "Property=Chip, Type=Close, State=Hover",
+            "width": 62,
+            "height": 24,
+            "text": [
+              "#tag"
+            ]
+          }
+        ]
+      },
+      {
+        "atom_key": "tooltip",
+        "figma_name": "Atom/Tooltip",
+        "figma_node_id": "1739:2935",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-2935",
+        "capture_node_id": "1739:2935",
+        "component_id": "atoms-tooltip",
+        "story_url": "/storybook/iframe.html?id=atoms-tooltip--default-story&viewMode=story&args=tooltip_label:Expand",
+        "source_path": "src/stories/atoms/tooltip/tooltip.stories.js",
+        "mapping_notes": "Capture the tooltip after hovering its real trigger. Reference is the compact Expand component, not the 400px example.",
+        "variants": []
+      },
+      {
+        "atom_key": "inline-code",
+        "figma_name": "Atom/Code",
+        "figma_node_id": "1739:2919",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-2919",
+        "capture_node_id": "1739:2920",
+        "component_id": "atoms-inline-code",
+        "story_url": "/storybook/iframe.html?id=atoms-inline-code--default-story&viewMode=story",
+        "source_path": "src/stories/atoms/inline-code/inline-code.stories.js",
+        "mapping_notes": "Figma Atom/Code maps to Inline Code. Crop the code element within the existing prose story.",
+        "variants": [
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-2920",
+            "node_id": "1739:2920",
+            "node_name": "Property=Snippet",
+            "width": 153,
+            "height": 24,
+            "text": [
+              "npm run build:theme"
+            ]
+          }
+        ]
+      },
+      {
+        "atom_key": "button-icon",
+        "figma_name": "Atom/Button-icon",
+        "figma_node_id": "1072:904",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1072-904",
+        "capture_node_id": "1072:904",
+        "component_id": "atoms-icon-button",
+        "story_url": "/storybook/iframe.html?id=atoms-icon-button--default-story&viewMode=story",
+        "source_path": "src/stories/atoms/icon-button/icon-button.stories.js",
+        "mapping_notes": "Shared Icon-button atom for icon-only controls. Centered 24px Icon viewport in a 40px square; Figma pixel parity remains unverified.",
+        "variants": []
+      },
+      {
+        "atom_key": "paginator",
+        "figma_name": "Paginator",
+        "figma_node_id": "1793:2260",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1793-2260",
+        "capture_node_id": "1793:2260",
+        "component_id": "molecules-square-pagination",
+        "story_url": "/storybook/iframe.html?id=molecules-square-pagination--default-story&viewMode=story",
+        "source_path": "src/stories/molecules/square-pagination/square-pagination.stories.js",
+        "mapping_notes": "Four square indicators map to Molecules/Square Pagination. Figma uses 24px controls; compare the existing story at its natural dimensions. Export includes transparency; pixel differences remain exploratory until the reference backdrop and capture bounds are aligned.",
+        "variants": []
+      },
+      {
+        "atom_key": "checkbox",
+        "figma_name": "Atom/Checkox",
+        "figma_node_id": "1738:2370",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2370",
+        "capture_node_id": "1738:2370",
+        "component_id": "atoms-checkbox",
+        "story_url": "/storybook/iframe.html?id=atoms-checkbox--empty-state&viewMode=story&args=field_label:checkbox%20label",
+        "source_path": "src/stories/atoms/checkbox/checkbox.stories.js",
+        "mapping_notes": "Figma Atom/Checkox has a 24px component height. Storybook includes the documented 40px interaction wrapper. Export includes transparency; pixel differences remain exploratory until the reference backdrop and capture bounds are aligned.",
+        "variants": []
+      },
+      {
+        "atom_key": "button",
+        "figma_name": "Atoms/Button",
+        "figma_node_id": "1394:1177",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1394-1177",
+        "capture_node_id": "1196:889",
+        "component_id": "atoms-button",
+        "story_url": "/storybook/iframe.html?id=atoms-button--default-story&viewMode=story&args=button_label:Button%20Submit;button_style:primary;is_disabled:false",
+        "source_path": "src/stories/atoms/button/button.stories.js",
+        "mapping_notes": "Figma and Storybook share Atoms/Button and button_style (primary, secondary, text). Storybook uses is_disabled as a boolean and natural pointer hover. Figma button_state describes appearance references, not an additional Storybook control.",
+        "variants": [
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1196-889",
+            "node_id": "1196:889",
+            "node_name": "Property 1=Default",
+            "width": 127,
+            "height": 40,
+            "text": [
+              "Button Submit"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1394-1189",
+            "node_id": "1394:1189",
+            "node_name": "Property 1=Variant2",
+            "width": 168,
+            "height": 40,
+            "text": [
+              "Button Secodanrry"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1394-1191",
+            "node_id": "1394:1191",
+            "node_name": "Property 1=Variant3",
+            "width": 137,
+            "height": 40,
+            "text": [
+              "Button SHadow"
+            ]
+          }
+        ]
+      },
+      {
+        "atom_key": "two-tone-heading",
+        "figma_name": "Atom/Two-tone Heading",
+        "figma_node_id": "1739:3084",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-3084",
+        "capture_node_id": "1739:3084",
+        "component_id": "atoms-two-tone-heading",
+        "story_url": "/storybook/iframe.html?id=atoms-two-tone-heading--default-story&viewMode=story",
+        "source_path": "src/stories/atoms/two-tone-heading/two-tone-heading.stories.js",
+        "mapping_notes": "Same two text lines; compare typography and the full heading bounds in the existing wide story. Export includes transparency; pixel differences remain exploratory until the reference backdrop and capture bounds are aligned.",
+        "variants": []
+      },
+      {
+        "atom_key": "version-watermark",
+        "figma_name": "Atom/Version Watermark",
+        "figma_node_id": "1739:3088",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1739-3088",
+        "capture_node_id": "1739:3088",
+        "component_id": "atoms-version-watermark",
+        "story_url": "/storybook/iframe.html?id=atoms-version-watermark--manual-reference&viewMode=story",
+        "source_path": "src/stories/atoms/version-watermark/version-watermark.stories.js",
+        "mapping_notes": "Pinned Manual Reference story matches the Figma 1.199.0 version, timestamp and commit text; the default story keeps its original demo content.",
+        "variants": []
+      },
+      {
+        "atom_key": "date-time-value",
+        "figma_name": "Atom/date-time-value",
+        "figma_node_id": "1738:2532",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2532",
+        "capture_node_id": "1738:2535",
+        "component_id": "atoms-date-time-value",
+        "story_url": "/storybook/iframe.html?id=atoms-date-time-value--reading-duration&viewMode=story",
+        "source_path": "src/stories/atoms/date-time-value/date-time-value.stories.js",
+        "mapping_notes": "Reading duration selected to avoid moving clocks. Absolute-date and elapsed-time variants are inventoried but not captured by this representative case. Export includes transparency; pixel differences remain exploratory until the reference backdrop and capture bounds are aligned.",
+        "variants": [
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2531",
+            "node_id": "1738:2531",
+            "node_name": "value_kind=absolute-date",
+            "width": 126,
+            "height": 16,
+            "text": [
+              "Fri, 22 May 2026"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2533",
+            "node_id": "1738:2533",
+            "node_name": "value_kind=elapsed-time",
+            "width": 134,
+            "height": 16,
+            "text": [
+              "1 hour 42 minutes"
+            ]
+          },
+          {
+            "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1738-2535",
+            "node_id": "1738:2535",
+            "node_name": "value_kind=duration",
+            "width": 102,
+            "height": 16,
+            "text": [
+              "1 min\u00a0to read"
+            ]
+          }
+        ]
+      },
+      {
+        "atom_key": "link",
+        "figma_name": "Link",
+        "figma_node_id": "1394:1614",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1394-1614",
+        "capture_node_id": "1394:1614",
+        "component_id": null,
+        "story_url": "",
+        "source_path": "",
+        "mapping_notes": "No standalone Link story. Footer Navigation contains link examples but does not expose this exact footer link fixture.",
+        "variants": []
+      }
+    ],
+    "excluded_compositions": [
+      {
+        "figma_name": "Footer menu",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1183-761"
+      },
+      {
+        "figma_name": "Footer copyright",
+        "figma_url": "https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1399-4260"
+      }
+    ]
   }
 }

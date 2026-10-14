@@ -1,4 +1,4 @@
-// Button atom. Variants: primary (filled), secondary (outline), ghost (text).
+// Button atom. Variants: primary (filled), secondary (surface), ghost (text).
 // Sizes respect the minimum interactive size token (40px).
 
 @use "../tools";
@@ -9,15 +9,16 @@
   justify-content: center;
   gap: var(--space-scale-base-gap);
   min-height: calc(var(--space-scale-base-gap) * 5);
-  min-width: calc(var(--space-scale-base-gap) * 5);
-  padding: 0 calc(var(--space-scale-base-gap) * 2);
-  border: var(--shape-border-width-thick-default) solid transparent;
+  min-width: calc(var(--space-scale-base-gap) * 10);
+  padding: 0 var(--space-scale-base-gap);
+  border: 0;
   border-radius: var(--shape-corner-radius-base);
   background: transparent;
   color: var(--theme-dark-text-primary-default);
   cursor: pointer;
   user-select: none;
   @include tools.typography-subtitle-2;
+  font-weight: normal;
   text-transform: var(--component-button-label-text-transform-default);
   @include tools.motion-transition(background-color, color, border-color, box-shadow);
   &:focus-visible {
@@ -36,37 +37,39 @@
     background: var(--theme-dark-action-primary-default);
     color: var(--theme-dark-text-inverse-default);
 
-    &:hover {
+    &:not(:disabled):hover {
       background: var(--theme-dark-action-primary-hover);
-      @include tools.elevation("level-2");
     }
   }
 
   &--secondary {
-    border-color: var(--theme-dark-border-divider-default);
-    background: var(--theme-dark-action-secondary-default);
-    color: var(--theme-dark-text-primary-default);
+    background: var(--theme-dark-surface-background-elevation-level-1);
+    color: var(--theme-dark-text-light);
 
-    &:hover {
-      border-color: var(--theme-dark-border-outline-default);
-      background: var(--theme-dark-action-secondary-hover);
+    &:not(:disabled):hover {
+      background: var(--theme-dark-surface-background-elevation-level-2);
     }
   }
 
   &--ghost {
-    color: var(--theme-dark-text-primary-default);
+    color: var(--theme-dark-text-light);
 
-    &:hover {
-      background: var(--theme-dark-action-secondary-hover);
-      color: var(--theme-dark-text-secondary-default);
+    &:not(:disabled):hover {
+      background: var(--theme-dark-surface-background-elevation-level-2);
+      color: var(--theme-dark-text-light);
     }
   }
 
-  &[disabled] {
-    color: var(--theme-dark-text-secondary-default);
-    border-color: var(--theme-dark-border-divider-default);
-    background: var(--theme-dark-surface-background-elevation-level-0);
+  &:disabled {
+    color: var(--theme-dark-text-gray);
+    box-shadow: none;
     cursor: not-allowed;
+
+    &.button--primary,
+    &.form-submit {
+      background: var(--theme-dark-action-secondary-hover);
+      color: var(--theme-dark-action-secondary-default);
+    }
   }
 }
 

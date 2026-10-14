@@ -236,6 +236,14 @@ The Compose stack uses `jurenites.local` for Drupal and
 `storybook.jurenites.local` for Storybook, routed through one local port-80
 proxy. These names mirror the public `jurenites.com` domain structure.
 
+Storybook uses `restart: unless-stopped` to recover from unexpected exits and
+Docker restarts; an explicit `docker compose stop storybook` keeps it stopped.
+Use `docker compose up -d storybook` to apply service configuration changes and
+run it independently of the terminal. Startup runs the token contract before
+launching the server. If it repeatedly exits, inspect
+`docker compose logs --tail=100 storybook` and run `npm run tokens:check`;
+correct source violations before restarting rather than bypassing validation.
+
 ### Visual Testing
 
 The local visual testing workflow and remaining integration work live in `docs/visual-testing-plan.md`.

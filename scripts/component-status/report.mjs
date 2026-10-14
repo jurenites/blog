@@ -112,6 +112,18 @@ export function merge_reports(component_rows, report_list, current_fingerprint, 
   }
 }
 
+export async function current_build_fingerprint(project_root) {
+  let build_info;
+  try {
+    build_info = JSON.parse(await readFile(resolve(project_root, 'storybook-static/component-status-build.json'), 'utf8'));
+  } catch {
+    throw new Error('Storybook build information is missing or unreadable. Run npm run status:build, then capture again. Previous captures have been kept.');
+  }
+  const current_fingerprint = await source_fingerprint(project_root);
+  if (build_info.source_fingerprint !== current_fingerprint) throw new Error('Source changed since Storybook was built. Run npm run status:build, then capture again. Previous captures have been kept.');
+  return current_fingerprint;
+}
+
 export async function source_fingerprint(project_root) {
   const hash_value = createHash('sha256');
   for (const relative_root of ['src', '.storybook', 'scripts/component-status', 'web/themes/custom/jurenites_theme/templates', 'tests/visual-baselines']) {

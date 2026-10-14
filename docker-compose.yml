@@ -9,6 +9,7 @@ services:
       - "80:80"
     volumes:
       - ./docker/local-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../namesilo/presentation-ux/dist:/srv/presentation-ux:ro
 
   web:
     build:
@@ -76,6 +77,7 @@ services:
       context: .
       dockerfile: docker/storybook.Dockerfile
     container_name: blog_jurenites_storybook
+    restart: unless-stopped
     working_dir: /app
     expose:
       - "6006"

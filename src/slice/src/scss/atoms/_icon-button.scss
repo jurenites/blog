@@ -1,0 +1,12 @@
+// Icon-only Button: a centered 24px Icon in a square 40px control.
+.button.icon-button {
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--space-scale-base-gap) * 5);
+  min-width: calc(var(--space-scale-base-gap) * 5);
+  height: calc(var(--space-scale-base-gap) * 5);
+  min-height: calc(var(--space-scale-base-gap) * 5);
+  padding: 0;
+  box-sizing: border-box;
+}

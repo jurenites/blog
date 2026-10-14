@@ -3935,6 +3935,54 @@ export const TOKEN_RECORDS = [
     "reference_name": null
   },
   {
+    "name": "space-scale-four",
+    "path": [
+      "space",
+      "scale",
+      "four"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "4px",
+    "value": "4px",
+    "css_value": "4px",
+    "resolved_css_value": "4px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "space-scale-six",
+    "path": [
+      "space",
+      "scale",
+      "six"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "6px",
+    "value": "6px",
+    "css_value": "6px",
+    "resolved_css_value": "6px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
+    "name": "space-scale-eight",
+    "path": [
+      "space",
+      "scale",
+      "eight"
+    ],
+    "type": "dimension",
+    "description": "",
+    "source_value": "8px",
+    "value": "8px",
+    "css_value": "8px",
+    "resolved_css_value": "8px",
+    "is_reference": false,
+    "reference_name": null
+  },
+  {
     "name": "space-scale-base-gap",
     "path": [
       "space",
@@ -3943,12 +3991,12 @@ export const TOKEN_RECORDS = [
     ],
     "type": "dimension",
     "description": "Multiply this grid unit with CSS calc() for every larger size.",
-    "source_value": "8px",
+    "source_value": "{space.scale.eight}",
     "value": "8px",
-    "css_value": "8px",
+    "css_value": "var(--space-scale-eight)",
     "resolved_css_value": "8px",
-    "is_reference": false,
-    "reference_name": null
+    "is_reference": true,
+    "reference_name": "space-scale-eight"
   },
   {
     "name": "elevation-shadow-level-0",
