@@ -401,6 +401,20 @@ package updates remained in the Composer report. The pending custom
 This verification does not deploy or remove any constraint on PROD; check the
 target manifest and PHP 8.3 platform requirements before a separate code release.
 
+The 2026-10-15 local update resolves 28 packages within the existing constraints:
+Drupal core `11.4.10`, Gin `5.0.16`, Layout Paragraphs `2.1.5`, Tagify `2.0.5`,
+and Drush `13.8.0`, with compatible Symfony and supporting dependencies. Composer
+now resolves against PHP `8.3.0` through `config.platform.php` so the PHP 8.4 DEV
+runtime cannot silently select dependencies requiring a newer PHP than PROD.
+The target's real extensions and PHP version still need `check-platform-reqs`.
+Validation, the DEV platform check and the advisory audit passed; no database
+updates were pending. Homepage, Blog, Videos, Portfolio, Contact and login all
+returned HTTP 200 after a cache rebuild. Layout Paragraphs `3.0.0` remains outside
+the approved `^2.1` constraint and was not introduced in this maintenance update.
+The private pre-update DEV database and manifests are retained under the ignored
+`.cache/dependency-updates/2026-10-15-before/` directory, outside `web/`.
+Production deployment is not established by these local checks.
+
 ### Manual restore including a separate code release
 
 The remaining procedure covers a full release through ISPmanager/phpMyAdmin.

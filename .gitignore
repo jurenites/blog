@@ -59,6 +59,7 @@ build/
 
 # Local component test reports, screenshots, and dashboard build.
 .cache/component-status/
+.cache/dependency-updates/
 generated/status-dashboard/
 
 # Local database snapshots must never enter source control.
