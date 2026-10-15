@@ -53,6 +53,8 @@ docker exec blog_jurenites_web vendor/bin/drush cr
 The link uses `brand-testing`, the same supplied 16px T artwork as the dashboard
 favicon. The script fills an empty icon on the existing Testing link while
 preserving its destination, labels, translations and placement.
+Only the footer prefix is grayscale at rest; hovering or keyboard-focusing the
+link reveals the original colours. The dashboard favicon keeps its full colour.
 The script preserves existing links and translations, records reordered siblings
 as new revisions, and leaves later edits intact on reruns. In PROD, use the menu
 editor with the production URL, or run the same script through the hosting's

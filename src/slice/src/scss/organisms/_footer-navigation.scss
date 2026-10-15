@@ -55,6 +55,16 @@
   overflow-wrap: anywhere;
 }
 
+.footer-navigation__link > .icon--link-prefix[data-icon-name="brand-testing"] {
+  filter: grayscale(1);
+  @include tools.motion-transition(filter);
+}
+
+.footer-navigation__link:hover > .icon--link-prefix[data-icon-name="brand-testing"],
+.footer-navigation__link:focus-visible > .icon--link-prefix[data-icon-name="brand-testing"] {
+  filter: none;
+}
+
 body.jurenites-theme .footer-navigation a.footer-navigation__link.is-active {
   color: var(--color-palette-brand-tertiary);
   text-decoration-color: currentColor;
