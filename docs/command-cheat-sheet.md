@@ -443,9 +443,8 @@ On 2026-10-15, `test.jurenites.com` was created in ISPmanager under account
 SSL, redirects and static caching are disabled, matching the requested HTTP
 deployment. The authoritative DNS server returns A `31.31.197.37` and AAAA
 `2a00:f940:2:2:1:1:0:290`. Recursive resolvers can temporarily retain the earlier
-negative A response. A direct request using the website IP and correct Host
-returned HTTP 403: `.htaccess` contains `Require all denied`. No dashboard
-configuration, captures or API have been published in this document root.
+negative A response. The initial staging root returned HTTP 403 with
+`Require all denied`; the static release below subsequently replaced it.
 
 The initial interactive deployment was blocked on hosting capabilities. AlmaLinux
 8.10 provides working Node `22.23.2` at
@@ -465,8 +464,27 @@ see the [static dashboard guide](../deploy/component-status/README.md). The
 runtime limitations above no longer block static publishing. Editing, uploading
 and automatic captures remain in DEV; public pages display saved PNGs and source
 links with mutation controls disabled. No hosting upgrade or provider request
-is needed for this mode. The deny-all staging rule must be replaced by the
-exported read-only `.htaccess` when the static release is activated.
+is needed for this mode.
+
+Static release **1.229.0** was activated on 2026-10-15 from `develop` (initial
+publication `19df0a56`, recorded PNG fallback correction `ce3ced0e`, followed by
+removal of local ports from exported source URLs). The testing root contains
+66 components and 114 referenced PNGs, copied unchanged from DEV, with the
+exported read-only `.htaccess`. Public GET requests return 200, POST requests
+return 403, and `/api/workspace` returns 404. Browser verification confirmed the
+public notice, disabled editing controls and loaded Figma/Storybook/Website PNGs;
+the owner also confirmed that the page loads.
+
+The Storybook public symlink now points to
+`/var/www/u3614358/data/apps/static-release-1.229.0/storybook`. Its live index
+contains all 66 stories referenced by the dashboard. Both static sites use HTTP.
+The Drupal checkout and database were not changed by this static publication.
+Rollback records are in
+`/var/www/u3614358/data/backups/static-release-1.229.0`: `storybook-link-before`
+preserves the former Storybook target, and `testing-previous-root` preserves the
+former deny-all testing root. The old Storybook files remain at the previous
+target. To update the public comparisons, export again from DEV and publish the
+generated static files; public visitors cannot change the saved configuration.
 
 ### Manual restore including a separate code release
 

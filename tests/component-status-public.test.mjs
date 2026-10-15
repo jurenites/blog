@@ -20,6 +20,7 @@ test('public export preserves uploaded PNGs and source links without private run
   assert.equal(published_case.figma_url, 'https://www.figma.com/design/example/Design?node-id=1-2');
   assert.match(published_case.story_url, /^http:\/\/storybook.jurenites.com\/iframe.html\?id=atoms-button/);
   assert.equal(artifact_paths.length, 3);
+  assert.equal(new URL(snapshot_data.components[0].checks[0].details[0].page_url).origin, 'http://storybook.jurenites.com');
   const serialized_data = JSON.stringify(snapshot_data);
   for (const excluded_value of ['private-token', 'private-log', 'private-stack', 'pending_save', '127.0.0.1', '.local']) assert.equal(serialized_data.includes(excluded_value), false);
 });
@@ -50,4 +51,5 @@ test('public source conversion preserves Storybook args and removes local previe
   assert.equal(public_url.pathname, '/iframe.html');
   assert.equal(public_url.searchParams.get('args'), 'button_label:Hello');
   assert.equal(public_url.searchParams.has('preview_parent'), false);
+  assert.equal(public_source_url('http://jurenites.local:8080/contact'), 'https://jurenites.com/contact');
 });

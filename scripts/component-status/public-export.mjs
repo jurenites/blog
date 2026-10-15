@@ -13,10 +13,12 @@ export function public_source_url(source_value, source_type = 'website') {
   if (!['http:', 'https:'].includes(source_url.protocol) || source_url.username || source_url.password) throw new Error('Only public HTTP(S) source URLs can be exported.');
   if (source_url.hostname === 'storybook.jurenites.local' || (['test.jurenites.local', '127.0.0.1', 'localhost'].includes(source_url.hostname) && source_url.pathname.startsWith('/storybook/'))) {
     source_url.host = new URL(STORYBOOK_ORIGIN).host;
+    source_url.port = '';
     source_url.protocol = new URL(STORYBOOK_ORIGIN).protocol;
     source_url.pathname = source_url.pathname.replace(/^\/storybook\//, '/');
   } else if (source_url.hostname === 'jurenites.local') {
     source_url.host = new URL(WEBSITE_ORIGIN).host;
+    source_url.port = '';
     source_url.protocol = 'https:';
   }
   if (source_url.hostname.endsWith('.local') || ['127.0.0.1', 'localhost'].includes(source_url.hostname)) throw new Error(`Unmapped local source: ${source_url.hostname}`);
