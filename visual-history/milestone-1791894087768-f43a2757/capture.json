@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "milestone_id": "milestone-1791894087768-f43a2757",
+  "target_id": "homepage",
+  "target_scope": "page",
+  "target_label": "Homepage",
+  "captured_at": "2026-10-13T12:21:45.778Z",
+  "page_url": "http://jurenites.local/",
+  "root_selector": "body",
+  "environment_name": "development",
+  "environment_evidence": "Source environment selected by the reviewer; this capture does not establish deployment time.",
+  "version_number": "1.200.0",
+  "source_identity": {
+    "rendered_version": "1.200.0",
+    "commit_url": "https://github.com/jurenites/blog/commit/ad2da0c90e5580b46b7537aeefcc4397cdf09a32",
+    "commit_hash": "ad2da0c",
+    "page_title": "Home | jurenites"
+  },
+  "release_version": "1.202.0",
+  "commit_hash": "ad2da0c",
+  "commit_url": "https://github.com/jurenites/blog/commit/ad2da0c90e5580b46b7537aeefcc4397cdf09a32",
+  "commit_subject": "Add the interactive SMEP periodic table Drupal block, refine responsive layouts and chip feedback, improve component review tooling, and update documentation and theme assets.",
+  "branch_name": "develop",
+  "branch_evidence": "Local checkout at capture time; served build may differ.",
+  "checkout_commit": "ad2da0c90e5580b46b7537aeefcc4397cdf09a32",
+  "working_changes": true,
+  "viewport_width": 1280,
+  "viewport_height": 900,
+  "image_width": 1280,
+  "image_height": 3566,
+  "browser_version": "153.0.8010.12",
+  "device_scale": 1,
+  "locale_name": "en-US",
+  "timezone_name": "UTC",
+  "image_sha256": "226dc020bc0097ae34553412b239ad33b4f59f757fabb02173f6549672d7abee",
+  "full_image_url": "/history-assets/milestone-1791894087768-f43a2757/full.png",
+  "base_image_url": "/history-assets/milestone-1791894087768-f43a2757/base.png",
+  "layer_rows": [
+    {
+      "layer_id": "site-brand",
+      "layer_label": "Site identity",
+      "selector_text": ".site-header__branding",
+      "depth_level": 1,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "div",
+      "text_content": "A\nl\ne\nx\na\nn\nd\ne\nr\nI\nl\ni\nv\na\nn\no\nv",
+      "bounds_data": {
+        "x": 8,
+        "y": 8,
+        "width": 64,
+        "height": 48
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894087768-f43a2757/site-brand.png"
+    },
+    {
+      "layer_id": "main-navigation",
+      "layer_label": "Main navigation",
+      "selector_text": ".site-header__navigation",
+      "depth_level": 1,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "nav",
+      "text_content": "About\nPortfolio\nBlog\nVideos\nContact",
+      "bounds_data": {
+        "x": 416,
+        "y": 12,
+        "width": 448,
+        "height": 40
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894087768-f43a2757/main-navigation.png"
+    },
+    {
+      "layer_id": "hero-section",
+      "layer_label": "Hero region",
+      "selector_text": ".hero-section",
+      "depth_level": 0,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "section",
+      "text_content": "Creating things\n\nHave an idea in mind? Let’s make it together.\n\nCONTACT ME\nPORTFOLIO",
+      "bounds_data": {
+        "x": 0,
+        "y": 96,
+        "width": 1280,
+        "height": 716
+      },
+      "motion_enabled": false
+    },
+    {
+      "layer_id": "hero-heading",
+      "layer_label": "Introduction heading",
+      "selector_text": ".hero-section__heading",
+      "depth_level": 2,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "h2",
+      "text_content": "Creating things",
+      "bounds_data": {
+        "x": 723,
+        "y": 160,
+        "width": 525,
+        "height": 48
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894087768-f43a2757/hero-heading.png"
+    },
+    {
+      "layer_id": "hero-description",
+      "layer_label": "Introduction copy",
+      "selector_text": ".hero-section__description",
+      "depth_level": 2,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "p",
+      "text_content": "Have an idea in mind? Let’s make it together.",
+      "bounds_data": {
+        "x": 723,
+        "y": 224,
+        "width": 525,
+        "height": 24
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894087768-f43a2757/hero-description.png"
+    },
+    {
+      "layer_id": "contact-action",
+      "layer_label": "Contact action",
+      "selector_text": ".hero-section__action.button--primary",
+      "depth_level": 3,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "a",
+      "text_content": "CONTACT ME",
+      "bounds_data": {
+        "x": 723,
+        "y": 272,
+        "width": 120,
+        "height": 40
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894087768-f43a2757/contact-action.png"
+    },
+    {
+      "layer_id": "secondary-action",
+      "layer_label": "Secondary action",
+      "selector_text": ".hero-section__action.button--secondary",
+      "depth_level": 3,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "a",
+      "text_content": "PORTFOLIO",
+      "bounds_data": {
+        "x": 851,
+        "y": 272,
+        "width": 110,
+        "height": 40
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894087768-f43a2757/secondary-action.png"
+    },
+    {
+      "layer_id": "project-slider",
+      "layer_label": "Project showcase",
+      "selector_text": ".project-case-slider",
+      "depth_level": 1,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "div",
+      "text_content": "Accountia\n\nAn accounting system for Arabic-speaking businesses, covering products, warehouses, and sales and purchase agreements.\n\nRead the project note\n\nScatchApp\n\nTurning the co-founder’s ideas for an event and ticketing app into Figma screens, with a focus on navigation, event discovery, and filt",
+      "bounds_data": {
+        "x": 160,
+        "y": 827,
+        "width": 960,
+        "height": 456
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894087768-f43a2757/project-slider.png"
+    },
+    {
+      "layer_id": "site-footer",
+      "layer_label": "Footer region",
+      "selector_text": ".site-footer",
+      "depth_level": 0,
+      "reason_text": "",
+      "corner_radius": "0px",
+      "role_name": "contentinfo",
+      "text_content": "This website NOT using cookies.\n\nAn EU Commission caused the annual ritual of clicking cookie banners at about 334 million human hours. \nThis is not a consent request. Enjoy the free internet without interruption.\n\nWHATEVER\nFooter navigation\nSocial networks\nFacebook\nVKontakte\nYouTube\nSoundCloud\nStea",
+      "bounds_data": {
+        "x": 0,
+        "y": 2959,
+        "width": 1280,
+        "height": 607
+      },
+      "motion_enabled": true,
+      "image_url": "/history-assets/milestone-1791894087768-f43a2757/site-footer.png"
+    }
+  ],
+  "capture_warnings": []
+}

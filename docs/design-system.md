@@ -7,8 +7,21 @@ rules. The machine-readable contract for every value lives in
 The [product workflow](workflow.md) connects these rules to the Cookbook's
 thirteen milestones and feedback loops. The local
 [visual testing layer](visual-testing-plan.md) compares matched Figma,
-Storybook, and Drupal views with real content. Shared tokens and markup are
+Storybook, and Drupal views with real content. Appearance checks allow different
+copy; exact-pixel checks require matching inputs. Shared tokens and markup are
 inputs to that verification; their reuse alone does not establish pixel parity.
+
+## Icon-only controls
+
+`Atoms/Icon-button` owns the square 40 × 40px control and centers the shared
+24 × 24px Icon viewport, leaving 8px on each edge. Use `icon_button_markup`
+from `src/stories/atoms/icon-button/icon-button.markup.js` with an accessible
+label. It reuses Button styles, disabled behavior, hover and keyboard focus.
+Labelled buttons keep their existing prefix-icon layout. Dashboard add/remove,
+reference removal and visibility toggles, cookie dismissal, font path disclosure
+and simulation playback all use this atom; Drupal templates use the same
+`button icon-button` class contract. Component CSS owns placement and semantic
+feedback, not the atom’s dimensions or centering. SVG path geometry is preserved.
 
 ## Source of truth and flow
 
@@ -1132,11 +1145,13 @@ The screen-light toggle is hidden at the mobile breakpoint (640px and below).
 
 The About Hero and Contact photograph use a separate pixelated loading sequence.
 Drupal embeds an uncropped 24px preview in the initial HTML, filling the existing
-photo frame with sharp pixels. Candidates are 96, 320, 640, 1280, and up to 1920px
-wide, capped at the uploaded image width without upscaling. JavaScript requests
-one stage at a time and replaces the displayed image only after `decode()`
-resolves. Requests completing within 120ms skip the next intermediate size;
-slower requests advance one size at a time. There is no artificial delay or fade.
+photo frame with sharp pixels. Drupal image styles provide uncropped candidate
+widths from 48px through 4800px, capped at the uploaded image width without
+upscaling. JavaScript selects candidates near 10%, 20%, and 50% of the final
+pixel width, then the final candidate. It replaces the displayed image only
+after `decode()` resolves. Requests completing within 120ms skip the next
+intermediate stage; slower requests advance one stage at a time. There is no
+artificial delay or fade.
 The final size follows the rendered width and device pixel density (1x with Save
 Data); enlarging the frame can request a further upgrade. Contact upgrades wait
 until the photo approaches the viewport. Failed stages retain the last completed
@@ -1146,7 +1161,7 @@ original in advance and bypass the staged requests.
 Uploaded files, field access, photo positioning, edge masks, and screen lighting
 remain owned by their existing components. Run Drupal database updates to install
 the `portrait_progressive_*` image styles on existing sites. This behavior is
-scoped to these Drupal photos; thumbnail loaders retain their existing behavior.
+scoped to these Drupal photos; card thumbnail loaders retain their existing behavior.
 
 The Drupal homepage uses `color.palette.full-black` as a plain background and
 does not initialize a canvas. Storybook exposes `plain-black` and the experimental
@@ -1204,10 +1219,11 @@ plain-black homepage. Revisit scope and rendering technology before building it.
 
 ## Spacing and gaps
 
-`space.scale.*` keeps only the literal exceptions `zero`, `one`,
-and `two`, plus the `base-gap` 8px grid unit. Calculate every larger
-spacing value where it is used so the multiplier remains visible instead of
-requiring another semantic size name. For example,
+`space.scale.*` includes the literal sizes `zero`, `one`, `two`, `four`,
+`six`, and `eight`. The `base-gap` grid unit aliases `eight`, so its
+CSS variable and Figma variable both follow that 8px source value. Calculate
+larger spacing values where they are used so the multiplier remains visible
+instead of requiring another semantic size name. For example,
 `margin-left: calc(var(--space-scale-base-gap) * 2);` produces 16px.
 
 ## Shape
@@ -1252,10 +1268,32 @@ Timeline product website and app-store links open in a new tab with
 `target="_blank" rel="external"`. App-store links use the shared cyan external-link
 color and its hover/focus feedback.
 
-## Button hover states
+## Button states
 
-Ghost buttons use the same gray hover background token as secondary buttons
-(`--theme-dark-action-secondary-hover`) across Drupal and Storybook.
+Figma and Storybook share `Atoms/Button` and `button_style` (`primary`,
+`secondary`, `text`). Storybook retains the `is_disabled` boolean. Hover is a
+natural pointer event on enabled buttons, never a Storybook control or forced
+preview class. Figma's `button_state` names describe visual references only.
+The test page uses an editable stack of table slices with 8px semantic status
+marks and code typography. Layout, depth, inclusion rules and capture drafts
+autosave. See the [review workspace](visual-testing-plan.md#editable-review-workspace)
+for persistence and controls. Passed requires matching current recorded evidence.
+
+All styles are borderless, with 40px minimum height, 80px minimum width, 8px
+horizontal padding, and regular subtitle-2 text on the existing 16px line box.
+Secondary uses the elevation-level-1 surface. Secondary and text use light
+labels and the elevation-level-2 surface on hover. Primary uses the primary
+hover action token without an additional shadow.
+
+Native disabled primary buttons (including Drupal `.form-submit`) use the
+secondary-hover background and secondary-default action color for text.
+Disabled secondary and text buttons retain their background and use gray text.
+Disabled buttons have no hover changes. Keyboard focus remains visible.
+
+The shared SCSS supplies Storybook and Drupal. The public design dimensions
+adapt to the existing internal `style_variant` and native `is_disabled` inputs;
+`text` maps to the existing `.button--ghost` class so composed callers remain
+compatible. Figma renaming preserves all existing variant node IDs and artwork.
 
 ## Naming convention
 

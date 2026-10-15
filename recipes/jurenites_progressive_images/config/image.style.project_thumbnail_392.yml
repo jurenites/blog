@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - responsive_image
+name: project_thumbnail_392
+label: 'Project thumbnail 392'
+effects:
+  5cfdc2b6-4f97-5ea9-b778-9f75e82b8e73:
+    uuid: 5cfdc2b6-4f97-5ea9-b778-9f75e82b8e73
+    id: image_scale
+    weight: 1
+    data:
+      width: 392
+      height: 392
+      upscale: false
+  6a2650e4-9156-502d-a8d8-cedb3bf34746:
+    uuid: 6a2650e4-9156-502d-a8d8-cedb3bf34746
+    id: image_convert_avif
+    weight: 2
+    data:
+      extension: webp

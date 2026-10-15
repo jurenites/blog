@@ -25,6 +25,9 @@ mirrored token payload or fallback color values.
 
 The script creates or updates source-managed local variables, text styles, and
 effect styles. It does not create or change components or canvas pages.
+Dot-path token references such as `space.scale.base-gap: space.scale.eight`
+become Figma variable aliases. Existing Figma layers must be bound to those
+variables to respond when a source variable changes.
 
 ## Pull From Figma
 
@@ -43,11 +46,11 @@ prototypes can feed discoveries back into those decisions. Syncing tokens is
 one tool operation within that process; it does not establish component or page
 parity by itself.
 
-The proposed [visual testing layer](visual-testing-plan.md) maps exact Figma
-frames to Storybook stories and Drupal regions with matching real content and
-states. Iframes support review; exported, versioned frames supply screenshot
+The local [visual testing layer](visual-testing-plan.md) maps Figma frames and
+states to Storybook stories and real Drupal examples. Appearance checks accept
+different copy; exact-pixel checks require matching content and states. Iframes support review; exported, versioned frames supply screenshot
 references. The dashboard accepts manually exported Figma PNGs and compares all three
-pairs. The language-picker suite has pinned Figma exports; the default Article
+pairs. The language-picker suite and manual atom inventory have pinned Figma exports; the default Article
 Blog List Item case still has no Figma baseline. Automatic exports remain pending.
 
 The [Atom traceability inventory](atom-traceability.md) records the editable AI v1

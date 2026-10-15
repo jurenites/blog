@@ -1,0 +1,21 @@
+html.jurenites-component-preview,
+html.jurenites-component-preview body {
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+  overflow: auto;
+}
+.jurenites-component-preview [data-component-preview-hidden] {
+  display: none !important;
+}
+.jurenites-component-preview [data-component-preview-ancestor] {
+  display: contents !important;
+}
+.jurenites-component-preview [data-component-preview-target] {
+  margin: 0;
+}
+.jurenites-component-preview .component-preview__message {
+  padding: var(--space-scale-base-gap);
+  color: var(--theme-dark-text-primary-default);
+  font: var(--typography-caption);
+}

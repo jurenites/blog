@@ -8,7 +8,8 @@ This inventory follows **Storybook titles**, not source directory names. `src/st
 | --- | --- | --- | --- |
 | Avatar | [Default](http://storybook.jurenites.local/?path=/story/atoms-avatar--default-story) | [Avatar](https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1708-25) | Unmapped |
 | Badge | [Numeric](http://storybook.jurenites.local/?path=/story/atoms-badge--numeric-badge) | [Badge](https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1708-38) | [Homepage footer](http://test.jurenites.local/#atoms-badge), gray numeric `2` |
-| Button | [Default](http://storybook.jurenites.local/?path=/story/atoms-button--default-story) | [Button](https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1708-51) | Unmapped |
+| Icon-button | [Default](http://storybook.jurenites.local/?path=/story/atoms-icon-button--default-story) | [Button-icon](https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1072-904) | Shared 40 × 40px control; Figma pixel parity not verified |
+| Button | [Default](http://storybook.jurenites.local/?path=/story/atoms-button--default-story) | [Button](https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1394-1177) | Unmapped |
 | Checkbox | [Empty](http://storybook.jurenites.local/?path=/story/atoms-checkbox--empty-state) | [Checkbox](https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1709-23) | Unmapped |
 | Chip | [Default](http://storybook.jurenites.local/?path=/story/atoms-chip--default-story) | [Chip](https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1709-30) | Unmapped |
 | Crossfade Dot | [Default](http://storybook.jurenites.local/?path=/story/atoms-crossfade-dot--default-story) | [Crossfade Dot](https://www.figma.com/design/UMshUcV87SZqsg1aDaDpnZ/blog-jurenites?node-id=1709-35) | Unmapped |

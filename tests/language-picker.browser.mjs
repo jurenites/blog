@@ -17,18 +17,16 @@ console.log(JSON.stringify(report_data.components[0].checks.map((check_item)=>({
 for (const check_item of report_data.components[0].checks) assert.equal(check_item.details.result_items.some((result_item)=>result_item.status === 'blocked'), false, JSON.stringify(check_item.details.result_items));
 await page_instance.waitForFunction(()=>document.querySelector('#visual-review-message')?.textContent.startsWith('Capture finished.'));
 await page_instance.locator('#review-state').waitFor();
-assert.equal(await page_instance.locator('#review-state option').count(),6);
-await page_instance.getByText('Overlay and differences', {exact:true}).click();
+assert.equal(await page_instance.locator('#review-state').getAttribute('max'),'5');
+await page_instance.locator('#preview-overlay-toggle').click();
 for(const option_value of ['0','1','2','3','4','5']) {
-await page_instance.locator('#review-state').selectOption(option_value);
-await page_instance.locator('#comparison-pair').selectOption('figma-web');
-await page_instance.locator('#comparison-mode').selectOption('difference');
-await page_instance.waitForFunction(()=>document.querySelector('#comparison-message').textContent.includes('pixels differ'));
+await page_instance.locator('#review-state').evaluate((slider_element, selected_value) => { slider_element.value = selected_value; slider_element.dispatchEvent(new Event('input', { bubbles: true })); }, option_value);
+assert.match(await page_instance.locator('#preview-source-status').innerText(), /33% opacity each/);
 assert.equal(await page_instance.locator('.visual-review__three-up img').count(),3);
 }
-await page_instance.locator('#review-state').selectOption('4');
-await page_instance.locator('#comparison-mode').selectOption('overlay');
-await page_instance.locator('#comparison-balance').evaluate((range_input)=>{range_input.value='50';range_input.dispatchEvent(new Event('input',{bubbles:true}));});
+await page_instance.locator('#review-state').evaluate(slider_element => { slider_element.value = '4'; slider_element.dispatchEvent(new Event('input', { bubbles: true })); });
+await page_instance.locator('[data-preview-source="storybook"]').click();
+assert.match(await page_instance.locator('#preview-source-status').innerText(), /50% opacity each/);
 await page_instance.locator('.visual-review__three-up img').evaluateAll((image_items)=>Promise.all(image_items.map((image_item)=>image_item.decode())));
 await page_instance.locator('.visual-review__three-up').screenshot({path:'.cache/component-status/language-picker-three-up.png'});
 await page_instance.setViewportSize({width:390,height:900});

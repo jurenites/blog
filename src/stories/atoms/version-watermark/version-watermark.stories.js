@@ -7,6 +7,11 @@ const GIT_HASH = "336c86c";
 const GIT_URL = "https://github.com/jurenites/blog/commit/336c86c254c2f7c20d22946547e00a48f0389c13";
 const CREDIT_TEXT = "made by ";
 const CREDIT_COLLABORATORS = ["Alexander Ilivanov", "AI"];
+const MANUAL_VERSION_LABEL = "version";
+const MANUAL_VERSION_NUMBER = "1.199.0";
+const MANUAL_UPDATED_GMT = "2026-10-09 14:10:17 GMT+0";
+const MANUAL_GIT_HASH = "8012f14";
+const MANUAL_GIT_URL = "https://github.com/jurenites/blog/commit/8012f14";
 
 function render_story(story_args) {
   return version_watermark_markup({
@@ -72,3 +77,13 @@ export default {
 };
 
 export const default_story = {};
+
+export const manual_reference = {
+  args: {
+    version_label: MANUAL_VERSION_LABEL,
+    version_number: MANUAL_VERSION_NUMBER,
+    updated_gmt: MANUAL_UPDATED_GMT,
+    git_hash: MANUAL_GIT_HASH,
+    git_url: MANUAL_GIT_URL,
+  },
+};

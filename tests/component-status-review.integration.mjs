@@ -23,6 +23,12 @@ try {
   const png_data = `data:image/png;base64,${png_buffer.toString('base64')}`;
   const baseline_report = await run_case({ png_data });
   assert.equal(baseline_report.components[0].checks.find((check_item) => check_item.check_key === 'figma').status, 'passed', JSON.stringify(baseline_report));
+  const story_only_report = await run_case({ review_case: { ...REVIEW_CASE, drupal_url: '', drupal_selector: '' } });
+  assert.equal(story_only_report.components[0].checks.find((check_item) => check_item.check_key === 'figma').status, 'passed', JSON.stringify(story_only_report));
+  assert.equal(story_only_report.components[0].checks.find((check_item) => check_item.check_key === 'drupal').status, 'not_checked');
+  assert.equal(story_only_report.components[0].checks.find((check_item) => check_item.check_key === 'integration').status, 'not_checked');
+  const changed_reference_report = await run_case({ review_case: { ...REVIEW_CASE, drupal_url: '', drupal_selector: '', figma_url: 'https://www.figma.com/design/example?node-id=1-2' } });
+  assert.equal(changed_reference_report.components[0].checks.find((check_item) => check_item.check_key === 'figma').status, 'missing', 'Changing the Figma link must not reuse the previous node image.');
   const removed_report = await run_case({ remove_baseline: true });
   assert.equal(removed_report.components[0].checks.find((check_item) => check_item.check_key === 'figma').status, 'missing');
   console.log('PASS: identical rendered regions, PNG upload and both reference comparisons, persisted reference removal. Temporary test reference is not a Figma claim.');

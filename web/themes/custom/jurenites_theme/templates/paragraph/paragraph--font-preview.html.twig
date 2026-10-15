@@ -65,7 +65,7 @@
       <section class="font-preview__path-details" aria-labelledby="{{ font_preview_id }}-path-title">
         <div class="font-preview__path-header">
           <span class="font-preview__path-label" id="{{ font_preview_id }}-path-title">{{ 'Path data'|t }}</span>
-          <button class="button button--ghost button--with-prefix-icon font-preview__path-toggle" type="button" data-font-preview-path-toggle aria-expanded="false" aria-controls="{{ font_preview_id }}-glyph-path" aria-label="{{ 'Show path data'|t }}" data-path-show-label="{{ 'Show path data'|t }}" data-path-hide-label="{{ 'Hide path data'|t }}">
+          <button class="button button--ghost icon-button font-preview__path-toggle" type="button" data-font-preview-path-toggle aria-expanded="false" aria-controls="{{ font_preview_id }}-glyph-path" aria-label="{{ 'Show path data'|t }}" data-path-show-label="{{ 'Show path data'|t }}" data-path-hide-label="{{ 'Hide path data'|t }}">
             {% include '@jurenites_theme/components/icon.html.twig' with {
               icon_name: 'chevron-down',
               icon_class: 'font-preview__path-icon',

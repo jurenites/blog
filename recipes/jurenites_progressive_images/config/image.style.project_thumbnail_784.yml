@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - responsive_image
+name: project_thumbnail_784
+label: 'Project thumbnail 784'
+effects:
+  8c6d9e7d-85ef-5d24-bbff-8196e1b26359:
+    uuid: 8c6d9e7d-85ef-5d24-bbff-8196e1b26359
+    id: image_scale
+    weight: 1
+    data:
+      width: 784
+      height: 784
+      upscale: false
+  97fc302b-79e1-5120-9aa1-356366977efa:
+    uuid: 97fc302b-79e1-5120-9aa1-356366977efa
+    id: image_convert_avif
+    weight: 2
+    data:
+      extension: webp

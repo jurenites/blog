@@ -1,0 +1,693 @@
+{
+  "file_key": "UMshUcV87SZqsg1aDaDpnZ",
+  "page_id": "1730:1342",
+  "atoms_frame_id": "1070:717",
+  "components": [
+    {
+      "node_id": "1730:1343",
+      "node_name": "Atom/Avatar",
+      "node_type": "COMPONENT_SET",
+      "parent_name": "Atoms",
+      "width": 218,
+      "height": 138,
+      "variants": [
+        {
+          "node_id": "1730:1344",
+          "node_name": "Size=small, Content=Initials",
+          "width": 16,
+          "height": 16,
+          "text": [
+            "AI"
+          ]
+        },
+        {
+          "node_id": "1730:1346",
+          "node_name": "Size=medium, Content=Initials",
+          "width": 24,
+          "height": 24,
+          "text": [
+            "AI"
+          ]
+        },
+        {
+          "node_id": "1730:1348",
+          "node_name": "Size=large, Content=Initials",
+          "width": 32,
+          "height": 32,
+          "text": [
+            "AI"
+          ]
+        },
+        {
+          "node_id": "1730:1350",
+          "node_name": "Size=big, Content=Initials",
+          "width": 40,
+          "height": 40,
+          "text": [
+            "AI"
+          ]
+        },
+        {
+          "node_id": "1730:1366",
+          "node_name": "Size=small, Content=Initials",
+          "width": 16,
+          "height": 16,
+          "text": [
+            "AI"
+          ]
+        },
+        {
+          "node_id": "1730:1362",
+          "node_name": "Size=medium, Content=uplaod",
+          "width": 24,
+          "height": 24,
+          "text": [
+            "AI"
+          ]
+        },
+        {
+          "node_id": "1730:1358",
+          "node_name": "Size=large, Content=uplaod",
+          "width": 32,
+          "height": 32,
+          "text": [
+            "AI"
+          ]
+        },
+        {
+          "node_id": "1730:1353",
+          "node_name": "Size=big, Content=uplaod",
+          "width": 40,
+          "height": 40,
+          "text": [
+            "AI"
+          ]
+        }
+      ],
+      "text": []
+    },
+    {
+      "node_id": "1394:1143",
+      "node_name": "Atom/Badge",
+      "node_type": "COMPONENT_SET",
+      "parent_name": "Badges",
+      "width": 58,
+      "height": 106,
+      "variants": [
+        {
+          "node_id": "1394:1164",
+          "node_name": "Property=Numeric, Type=Default, State=Deault",
+          "width": 24,
+          "height": 24,
+          "text": [
+            "2"
+          ]
+        },
+        {
+          "node_id": "1068:569",
+          "node_name": "Property=Numeric, Type=Active, State=Hover",
+          "width": 24,
+          "height": 24,
+          "text": [
+            "4"
+          ]
+        }
+      ],
+      "text": []
+    },
+    {
+      "node_id": "1738:2425",
+      "node_name": "Atom/Chip",
+      "node_type": "COMPONENT_SET",
+      "parent_name": "Badges",
+      "width": 244,
+      "height": 106,
+      "variants": [
+        {
+          "node_id": "1738:2428",
+          "node_name": "Property=Chip, Type=Default, State=Deault",
+          "width": 46,
+          "height": 24,
+          "text": [
+            "#tag"
+          ]
+        },
+        {
+          "node_id": "1738:2430",
+          "node_name": "Property=Chip, Type=Active, State=Deault",
+          "width": 46,
+          "height": 24,
+          "text": [
+            "#tag"
+          ]
+        },
+        {
+          "node_id": "1738:2432",
+          "node_name": "Property=Chip, Type=Close, State=Deault",
+          "width": 62,
+          "height": 24,
+          "text": [
+            "#tag"
+          ]
+        },
+        {
+          "node_id": "1738:2437",
+          "node_name": "Property=Chip, Type=Default, State=Hover",
+          "width": 46,
+          "height": 24,
+          "text": [
+            "#tag"
+          ]
+        },
+        {
+          "node_id": "1738:2439",
+          "node_name": "Property=Chip, Type=Active, State=Hover",
+          "width": 46,
+          "height": 24,
+          "text": [
+            "#tag"
+          ]
+        },
+        {
+          "node_id": "1738:2441",
+          "node_name": "Property=Chip, Type=Close, State=Hover",
+          "width": 62,
+          "height": 24,
+          "text": [
+            "#tag"
+          ]
+        }
+      ],
+      "text": []
+    },
+    {
+      "node_id": "1739:2935",
+      "node_name": "Atom/Tooltip",
+      "node_type": "COMPONENT",
+      "parent_name": "Section",
+      "width": 53,
+      "height": 24,
+      "variants": [],
+      "text": [
+        "Expand"
+      ]
+    },
+    {
+      "node_id": "1739:2919",
+      "node_name": "Atom/Code",
+      "node_type": "COMPONENT_SET",
+      "parent_name": "Badges",
+      "width": 187,
+      "height": 58,
+      "variants": [
+        {
+          "node_id": "1739:2920",
+          "node_name": "Property=Snippet",
+          "width": 153,
+          "height": 24,
+          "text": [
+            "npm run build:theme"
+          ]
+        }
+      ],
+      "text": []
+    },
+    {
+      "node_id": "1072:904",
+      "node_name": "Atom/Button-icon",
+      "node_type": "COMPONENT",
+      "parent_name": "Atoms",
+      "width": 40,
+      "height": 40,
+      "variants": [],
+      "text": []
+    },
+    {
+      "node_id": "1793:2260",
+      "node_name": "Paginator",
+      "node_type": "COMPONENT",
+      "parent_name": "Frame 31",
+      "width": 96,
+      "height": 24,
+      "variants": [],
+      "text": []
+    },
+    {
+      "node_id": "1738:2370",
+      "node_name": "Atom/Checkox",
+      "node_type": "COMPONENT",
+      "parent_name": "Checkboxes",
+      "width": 131,
+      "height": 24,
+      "variants": [],
+      "text": [
+        "checkbox label"
+      ]
+    },
+    {
+      "node_id": "1394:1177",
+      "node_name": "Atom/Button-text",
+      "node_type": "COMPONENT_SET",
+      "parent_name": "Atoms",
+      "width": 514,
+      "height": 74,
+      "variants": [
+        {
+          "node_id": "1196:889",
+          "node_name": "Property 1=Default",
+          "width": 127,
+          "height": 40,
+          "text": [
+            "Button Submit"
+          ]
+        },
+        {
+          "node_id": "1394:1189",
+          "node_name": "Property 1=Variant2",
+          "width": 168,
+          "height": 40,
+          "text": [
+            "Button Secodanrry"
+          ]
+        },
+        {
+          "node_id": "1394:1191",
+          "node_name": "Property 1=Variant3",
+          "width": 137,
+          "height": 40,
+          "text": [
+            "Button SHadow"
+          ]
+        }
+      ],
+      "text": []
+    },
+    {
+      "node_id": "1739:3084",
+      "node_name": "Atom/Two-tone Heading",
+      "node_type": "COMPONENT",
+      "parent_name": "Atoms",
+      "width": 511,
+      "height": 108,
+      "variants": [],
+      "text": [
+        "I design digital systems",
+        "that stay useful as they grow"
+      ]
+    },
+    {
+      "node_id": "1739:3088",
+      "node_name": "Atom/Version Watermark",
+      "node_type": "COMPONENT",
+      "parent_name": "Atoms",
+      "width": 218,
+      "height": 20,
+      "variants": [],
+      "text": [
+        "version 1.199.0 · 2026-10-09 14:10:17 GMT+0 · 8012f14",
+        "made by Alexander Ilivanov & AI"
+      ]
+    },
+    {
+      "node_id": "1738:2532",
+      "node_name": "Atom/date-time-value",
+      "node_type": "COMPONENT_SET",
+      "parent_name": "Date",
+      "width": 168,
+      "height": 98,
+      "variants": [
+        {
+          "node_id": "1738:2531",
+          "node_name": "value_kind=absolute-date",
+          "width": 126,
+          "height": 16,
+          "text": [
+            "Fri, 22 May 2026"
+          ]
+        },
+        {
+          "node_id": "1738:2533",
+          "node_name": "value_kind=elapsed-time",
+          "width": 134,
+          "height": 16,
+          "text": [
+            "1 hour 42 minutes"
+          ]
+        },
+        {
+          "node_id": "1738:2535",
+          "node_name": "value_kind=duration",
+          "width": 102,
+          "height": 16,
+          "text": [
+            "1 min to read"
+          ]
+        }
+      ],
+      "text": []
+    },
+    {
+      "node_id": "1394:1614",
+      "node_name": "Link",
+      "node_type": "COMPONENT",
+      "parent_name": "Column",
+      "width": 93,
+      "height": 24,
+      "variants": [],
+      "text": [
+        "footer link"
+      ]
+    },
+    {
+      "node_id": "1183:761",
+      "node_name": "Footer menu",
+      "node_type": "COMPONENT",
+      "parent_name": "Section wrapper",
+      "width": 960,
+      "height": 347,
+      "variants": [],
+      "text": [
+        "Social networks",
+        "Facebook",
+        "VKontakte",
+        "YouTube",
+        "SoundCloud",
+        "Steam",
+        "Get in touch",
+        "Telegram",
+        "Gmail",
+        "Yandex.Mail",
+        "For recruiters",
+        "LinkedIn",
+        "hh.ru",
+        "Actively looking for a job",
+        "my CV",
+        "How I work",
+        "GitHub",
+        "Figma",
+        "Storybook",
+        "Cookbook",
+        "Brandbook",
+        "Information",
+        "Fonts ",
+        "Timeline"
+      ]
+    },
+    {
+      "node_id": "1399:4260",
+      "node_name": "Footer copyright",
+      "node_type": "COMPONENT",
+      "parent_name": "Section wrapper",
+      "width": 960,
+      "height": 57,
+      "variants": [],
+      "text": [
+        "No rights reserved 2026",
+        "No Privacy Policy"
+      ]
+    }
+  ],
+  "referenced_components": [
+    {
+      "node_id": "1739:2935",
+      "node_name": "Atom/Tooltip",
+      "parent_name": "Section",
+      "parent_id": "1739:2936",
+      "example_id": "1739:2937",
+      "example_name": "Atom/Tooltip",
+      "width": 400,
+      "height": 42
+    },
+    {
+      "node_id": "1072:904",
+      "node_name": "Atom/Button-icon",
+      "parent_name": "Atoms",
+      "parent_id": "1070:717",
+      "example_id": "1793:2231",
+      "example_name": "Atom/Button-icon",
+      "width": 24,
+      "height": 24
+    },
+    {
+      "node_id": "1793:2260",
+      "node_name": "Paginator",
+      "parent_name": "Frame 31",
+      "parent_id": "1793:2309",
+      "example_id": "1793:2261",
+      "example_name": "Paginator",
+      "width": 96,
+      "height": 24
+    },
+    {
+      "node_id": "1738:2370",
+      "node_name": "Atom/Checkox",
+      "parent_name": "Checkboxes",
+      "parent_id": "1738:2377",
+      "example_id": "1738:2371",
+      "example_name": "Atom/Checkox",
+      "width": 131,
+      "height": 24
+    },
+    {
+      "node_id": "1738:2531",
+      "node_name": "value_kind=absolute-date",
+      "parent_name": "Atom/date-time-value",
+      "parent_id": "1738:2532",
+      "example_id": "1738:2545",
+      "example_name": "Atom/date-time-value/date-day",
+      "width": 204,
+      "height": 16
+    },
+    {
+      "node_id": "1738:2533",
+      "node_name": "value_kind=elapsed-time",
+      "parent_name": "Atom/date-time-value",
+      "parent_id": "1738:2532",
+      "example_id": "1739:2570",
+      "example_name": "Atom/date-time-value",
+      "width": 134,
+      "height": 16
+    },
+    {
+      "node_id": "1738:2535",
+      "node_name": "value_kind=duration",
+      "parent_name": "Atom/date-time-value",
+      "parent_id": "1738:2532",
+      "example_id": "1739:2579",
+      "example_name": "Atom/date-time-value",
+      "width": 102,
+      "height": 16
+    },
+    {
+      "node_id": "1394:1693",
+      "node_name": "other-icons/github",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "663:127536",
+      "node_name": "icon/external-link",
+      "parent_name": "List",
+      "parent_id": "407:88",
+      "example_id": "1394:1563",
+      "example_name": "Suffix",
+      "width": 24,
+      "height": 24
+    },
+    {
+      "node_id": "1394:1164",
+      "node_name": "Property=Numeric, Type=Default, State=Deault",
+      "parent_name": "Atom/Badge",
+      "parent_id": "1394:1143",
+      "example_id": "1394:1611",
+      "example_name": "Atom/Badge",
+      "width": 24,
+      "height": 24
+    },
+    {
+      "node_id": "1394:1614",
+      "node_name": "Link",
+      "parent_name": "Column",
+      "parent_id": "1735:2336",
+      "example_id": "1735:2327",
+      "example_name": "Link",
+      "width": 117,
+      "height": 24
+    },
+    {
+      "node_id": "541:32",
+      "node_name": "icon/arrow-up",
+      "parent_name": "List",
+      "parent_id": "407:88",
+      "example_id": "1735:2348",
+      "example_name": "Suffix",
+      "width": 24,
+      "height": 24
+    },
+    {
+      "node_id": "1394:1685",
+      "node_name": "other-icons/facebook",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2392;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1394:1687",
+      "node_name": "other-icons/vkontakte",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2447;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1394:1688",
+      "node_name": "other-icons/youtube",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2483;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1394:1689",
+      "node_name": "other-icons/soundcloud",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2519;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1394:1690",
+      "node_name": "other-icons/steam",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2555;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1394:1691",
+      "node_name": "other-icons/telegram",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2066;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1394:1698",
+      "node_name": "other-icons/gmail",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2146;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1394:1695",
+      "node_name": "other-icons/yandex",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2212;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1394:1694",
+      "node_name": "other-icons/linkedin",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2268;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1394:1692",
+      "node_name": "other-icons/hh-ru",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2313;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1394:1696",
+      "node_name": "other-icons/figma",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:1904;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1394:1697",
+      "node_name": "other-icons/storybook",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:1965;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1183:761",
+      "node_name": "Footer menu",
+      "parent_name": "Section wrapper",
+      "parent_id": "1394:1544",
+      "example_id": "1395:2591",
+      "example_name": "Footer menu",
+      "width": 960,
+      "height": 347
+    },
+    {
+      "node_id": "1396:2809",
+      "node_name": "other-icons/gmail-active",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2591;1395:2146;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1395:2736",
+      "node_name": "other-icons/yandex-mail-active",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2591;1395:2212;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "node_id": "1395:2780",
+      "node_name": "other-icons/figma-active",
+      "parent_name": "List",
+      "parent_id": "1394:1699",
+      "example_id": "I1395:2591;1395:1904;1394:1606",
+      "example_name": "Prefix",
+      "width": 16,
+      "height": 16
+    }
+  ],
+  "inspected_on": "2026-10-11"
+}

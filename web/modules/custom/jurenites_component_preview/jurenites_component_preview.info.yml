@@ -1,0 +1,5 @@
+name: jurenites Component Preview
+type: module
+description: Isolated component previews for the local testing dashboard.
+package: jurenites
+core_version_requirement: ^11

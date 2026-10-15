@@ -2,21 +2,27 @@ langcode: en
 status: true
 dependencies:
   config:
-    - image.style.project_thumbnail_1320
-    - image.style.project_thumbnail_440
-    - image.style.project_thumbnail_880
+    - image.style.project_thumbnail_392
+    - image.style.project_thumbnail_608
+    - image.style.project_thumbnail_784
+    - image.style.project_thumbnail_1176
+    - image.style.project_thumbnail_1216
+    - image.style.project_thumbnail_1824
 id: project_thumbnail
 label: 'Project thumbnail'
 image_style_mappings:
   -
     image_mapping_type: sizes
     image_mapping:
-      sizes: '(min-width: 1280px) 188px, (min-width: 641px) min(392px, calc((100vw - 64px) / 2)), calc(100vw - 32px)'
+      sizes: '(min-width: 641px) min(392px, calc((100vw - 64px) / 2)), calc(100vw - 32px)'
       sizes_image_styles:
-        - project_thumbnail_1320
-        - project_thumbnail_880
-        - project_thumbnail_440
+        - project_thumbnail_1824
+        - project_thumbnail_1216
+        - project_thumbnail_1176
+        - project_thumbnail_784
+        - project_thumbnail_608
+        - project_thumbnail_392
     breakpoint_id: responsive_image.viewport_sizing
     multiplier: 1x
 breakpoint_group: responsive_image
-fallback_image_style: project_thumbnail_440
+fallback_image_style: project_thumbnail_392

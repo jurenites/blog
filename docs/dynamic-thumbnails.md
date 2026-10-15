@@ -204,6 +204,22 @@ by the animation. `screen-sequence.js` handles playback and cancels animations
 on detach, resize, reduced-motion changes, and when hidden/offscreen, restarting
 at the first frame when playback becomes available again.
 
+## Raster Portfolio cards
+
+When a Project has no valid Dynamic thumbnail SVG, its managed raster upload
+uses Drupal image styles. The responsive style offers uncropped WebP widths of
+392, 608, 784, 1176, 1216, and 1824 pixels. The `sizes` hint follows the
+two-column card up to 392 CSS pixels above the mobile breakpoint and the
+single-column card up to 608 CSS pixels below it. These include 1x, 2x, and
+3x candidates at both maximum card widths. Drupal preserves the original
+aspect ratio and never enlarges a smaller upload. The browser selects one
+candidate for its actual viewport and density; loading every density in order
+would waste bandwidth. The existing 20px inline blurry preview remains the
+loading placeholder. The 0.1x, 0.2x, and 0.5x request stages are separate
+work because native responsive images download their selected final candidate
+immediately. Existing SVG previews, including embedded raster layers, keep
+their current behavior.
+
 ## CMS SVG thumbnails
 
 Projects and Articles have an optional, translatable **Dynamic thumbnail** SVG

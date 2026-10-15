@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Implements hook_page_attachments().
+ */
+function jurenites_component_preview_page_attachments(array &$page_attachments): void {
+  $page_request = \Drupal::request();
+  // This mode is intentionally unavailable on production domains.
+  if ($page_request->getHost() !== 'jurenites.local') {
+    return;
+  }
+  $page_attachments['#cache']['contexts'][] = 'url.query_args:jurenites_component_preview';
+  if (!$page_request->query->has('jurenites_component_preview')) {
+    return;
+  }
+  $page_attachments['#attached']['library'][] = 'jurenites_component_preview/component-preview';
+  $page_attachments['#cache']['max-age'] = 0;
+}

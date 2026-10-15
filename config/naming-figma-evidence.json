@@ -1,0 +1,2057 @@
+{
+  "schema_version": 1,
+  "file_key": "UMshUcV87SZqsg1aDaDpnZ",
+  "captured_at": "2026-10-13T17:08:07.408Z",
+  "source": "Figma use_figma read-only component inventory",
+  "pages": [
+    {
+      "page_id": "1730:1342",
+      "page_name": "Components v2 manual ",
+      "components": [
+        {
+          "node_id": "1625:1360",
+          "component_name": "Molecule/Blog/Blockquote",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1739:2955",
+          "component_name": "Molecule/Input text",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1072:916",
+          "component_name": "Molecule/Select Input",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1739:2956",
+          "component_name": "faq-item",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Property": {
+              "type": "VARIANT",
+              "defaultValue": "Expanded Hovered",
+              "variantOptions": [
+                "Expanded",
+                "Expanded Hovered",
+                "Collapsed",
+                "Collapsed Hoevred"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1074:45",
+          "component_name": "Header",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1085:184",
+          "component_name": "Header-mobile",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1730:1343",
+          "component_name": "Atom/Avatar",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": null,
+          "evidence_error": "Error: in get_componentPropertyDefinitions: Component set has existing errors"
+        },
+        {
+          "node_id": "1394:1143",
+          "component_name": "Atom/Badge",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Property": {
+              "type": "VARIANT",
+              "defaultValue": "Numeric",
+              "variantOptions": [
+                "Numeric"
+              ]
+            },
+            "Type": {
+              "type": "VARIANT",
+              "defaultValue": "Default",
+              "variantOptions": [
+                "Active",
+                "Default"
+              ]
+            },
+            "State": {
+              "type": "VARIANT",
+              "defaultValue": "Deault",
+              "variantOptions": [
+                "Hover",
+                "Deault"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1738:2425",
+          "component_name": "Atom/Chip",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Property": {
+              "type": "VARIANT",
+              "defaultValue": "Chip",
+              "variantOptions": [
+                "Chip"
+              ]
+            },
+            "Type": {
+              "type": "VARIANT",
+              "defaultValue": "Default",
+              "variantOptions": [
+                "Active",
+                "Default",
+                "Close"
+              ]
+            },
+            "State": {
+              "type": "VARIANT",
+              "defaultValue": "Deault",
+              "variantOptions": [
+                "Hover",
+                "Deault"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1739:2935",
+          "component_name": "Atom/Tooltip",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1739:2919",
+          "component_name": "Atom/Code",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Property": {
+              "type": "VARIANT",
+              "defaultValue": "Snippet",
+              "variantOptions": [
+                "Snippet"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1072:904",
+          "component_name": "Atom/Button-icon",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1793:2260",
+          "component_name": "Paginator",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1738:2370",
+          "component_name": "Atom/Checkox",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1394:1177",
+          "component_name": "Atoms/Button",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "button_style": {
+              "type": "VARIANT",
+              "defaultValue": "primary",
+              "variantOptions": [
+                "primary",
+                "secondary",
+                "text"
+              ]
+            },
+            "button_state": {
+              "type": "VARIANT",
+              "defaultValue": "default",
+              "variantOptions": [
+                "default",
+                "hover",
+                "disabled"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1739:3084",
+          "component_name": "Atom/Two-tone Heading",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1739:3088",
+          "component_name": "Atom/Version Watermark",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1738:2532",
+          "component_name": "Atom/date-time-value",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "value_kind": {
+              "type": "VARIANT",
+              "defaultValue": "absolute-date",
+              "variantOptions": [
+                "elapsed-time",
+                "absolute-date",
+                "duration"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1394:1614",
+          "component_name": "Link",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1183:761",
+          "component_name": "Footer menu",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1399:4260",
+          "component_name": "Footer copyright",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1186:1660",
+          "component_name": "Organism/Article Teaser",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        }
+      ]
+    },
+    {
+      "page_id": "1708:16",
+      "page_name": "Components v1 AI",
+      "components": [
+        {
+          "node_id": "1708:25",
+          "component_name": "Atom/Avatar",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Initials#1708:10": {
+              "type": "TEXT",
+              "defaultValue": "AI"
+            },
+            "Size": {
+              "type": "VARIANT",
+              "defaultValue": "small",
+              "variantOptions": [
+                "small",
+                "medium",
+                "large",
+                "big"
+              ]
+            },
+            "Content": {
+              "type": "VARIANT",
+              "defaultValue": "Initials",
+              "variantOptions": [
+                "Initials",
+                "Image"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1708:38",
+          "component_name": "Atom/Badge",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Badge label#1708:17": {
+              "type": "TEXT",
+              "defaultValue": "Published"
+            },
+            "Tone": {
+              "type": "VARIANT",
+              "defaultValue": "neutral",
+              "variantOptions": [
+                "neutral",
+                "gray",
+                "white"
+              ]
+            },
+            "Numeric": {
+              "type": "VARIANT",
+              "defaultValue": "false",
+              "variantOptions": [
+                "false",
+                "true"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1708:51",
+          "component_name": "Atom/Button",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Button label#1708:24": {
+              "type": "TEXT",
+              "defaultValue": "CONTACT ME"
+            },
+            "Style": {
+              "type": "VARIANT",
+              "defaultValue": "primary",
+              "variantOptions": [
+                "primary",
+                "secondary",
+                "ghost"
+              ]
+            },
+            "Disabled": {
+              "type": "VARIANT",
+              "defaultValue": "false",
+              "variantOptions": [
+                "false",
+                "true"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1709:23",
+          "component_name": "Atom/Checkbox",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Field label#1709:4": {
+              "type": "TEXT",
+              "defaultValue": "Include this option"
+            },
+            "State": {
+              "type": "VARIANT",
+              "defaultValue": "empty",
+              "variantOptions": [
+                "empty",
+                "filled",
+                "partially"
+              ]
+            },
+            "Disabled": {
+              "type": "VARIANT",
+              "defaultValue": "false",
+              "variantOptions": [
+                "false",
+                "true"
+              ]
+            },
+            "Label": {
+              "type": "VARIANT",
+              "defaultValue": "true",
+              "variantOptions": [
+                "true",
+                "false"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1709:30",
+          "component_name": "Atom/Chip",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Chip label#1709:9": {
+              "type": "TEXT",
+              "defaultValue": "#UI/UX Design"
+            },
+            "State": {
+              "type": "VARIANT",
+              "defaultValue": "default",
+              "variantOptions": [
+                "default",
+                "hover",
+                "accent",
+                "accent-hover"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1709:35",
+          "component_name": "Atom/Crossfade Dot",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Active": {
+              "type": "VARIANT",
+              "defaultValue": "false",
+              "variantOptions": [
+                "false",
+                "true"
+              ]
+            },
+            "Marker size": {
+              "type": "VARIANT",
+              "defaultValue": "4",
+              "variantOptions": [
+                "4",
+                "8",
+                "3",
+                "2"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1709:44",
+          "component_name": "Atom/Date Time Value",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "absolute-date text#1782:0": {
+              "type": "TEXT",
+              "defaultValue": "Oct 9, 2026"
+            },
+            "elapsed-time text#1782:5": {
+              "type": "TEXT",
+              "defaultValue": "1 hour ago"
+            },
+            "reading-duration text#1782:10": {
+              "type": "TEXT",
+              "defaultValue": "1 min to read"
+            },
+            "video-duration text#1782:15": {
+              "type": "TEXT",
+              "defaultValue": "20 min to watch"
+            },
+            "Kind": {
+              "type": "VARIANT",
+              "defaultValue": "absolute-date",
+              "variantOptions": [
+                "absolute-date",
+                "elapsed-time",
+                "reading-duration",
+                "video-duration"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1709:47",
+          "component_name": "Atom/Divider",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Strong": {
+              "type": "VARIANT",
+              "defaultValue": "false",
+              "variantOptions": [
+                "false",
+                "true"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1710:7",
+          "component_name": "Atom/Expandable Term",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Term label#1710:2": {
+              "type": "TEXT",
+              "defaultValue": "the whole product"
+            },
+            "Expanded": {
+              "type": "VARIANT",
+              "defaultValue": "false",
+              "variantOptions": [
+                "false",
+                "true"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1710:8",
+          "component_name": "Atom/Horizontal Scrollbar",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1710:22",
+          "component_name": "Atom/Inline Code",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Snippet text#1710:5": {
+              "type": "TEXT",
+              "defaultValue": "npm run build:theme"
+            },
+            "Surface": {
+              "type": "VARIANT",
+              "defaultValue": "default",
+              "variantOptions": [
+                "default",
+                "raised"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1710:29",
+          "component_name": "Atom/Pulse Indicator",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Phase": {
+              "type": "VARIANT",
+              "defaultValue": "rest",
+              "variantOptions": [
+                "rest",
+                "expanded"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1710:48",
+          "component_name": "Atom/Surface",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Variant": {
+              "type": "VARIANT",
+              "defaultValue": "default",
+              "variantOptions": [
+                "default",
+                "raised",
+                "flat"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1710:55",
+          "component_name": "Atom/Tooltip",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Tone": {
+              "type": "VARIANT",
+              "defaultValue": "full-black",
+              "variantOptions": [
+                "full-black",
+                "black",
+                "light-black"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1710:68",
+          "component_name": "Atom/Two-tone Heading",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Level": {
+              "type": "VARIANT",
+              "defaultValue": "h3",
+              "variantOptions": [
+                "h3",
+                "h4",
+                "h5",
+                "h6"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1710:69",
+          "component_name": "Atom/Version Watermark",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1628:606",
+          "component_name": "Molecules/Blog/Blockquote",
+          "node_type": "COMPONENT",
+          "property_definitions": {
+            "Quote text#1628:0": {
+              "type": "TEXT",
+              "defaultValue": "A useful design system makes the ordinary decisions quiet, repeatable, and easy to trust."
+            },
+            "Continuation text#1628:1": {
+              "type": "TEXT",
+              "defaultValue": "Longer quotations keep their paragraph breaks, giving each thought enough room to be read in context."
+            },
+            "Show continuation#1628:2": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1772:30",
+          "component_name": "Molecules/Blog/Author Identity",
+          "node_type": "COMPONENT",
+          "property_definitions": {
+            "Avatar component#1772:0": {
+              "type": "INSTANCE_SWAP",
+              "defaultValue": "1708:19",
+              "preferredValues": []
+            },
+            "Author prefix#1772:1": {
+              "type": "TEXT",
+              "defaultValue": "Written by"
+            },
+            "Show prefix#1772:2": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Author name#1772:3": {
+              "type": "TEXT",
+              "defaultValue": "Alexander Ilivanov"
+            },
+            "Coauthor name#1772:4": {
+              "type": "TEXT",
+              "defaultValue": "& Second Channel"
+            },
+            "Show coauthor#1772:5": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Coauthor avatar#1789:6": {
+              "type": "INSTANCE_SWAP",
+              "defaultValue": "1708:19",
+              "preferredValues": []
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1772:59",
+          "component_name": "Molecules/Blog/Breadcrumbs",
+          "node_type": "COMPONENT",
+          "property_definitions": {
+            "Ancestor 1#1772:13": {
+              "type": "TEXT",
+              "defaultValue": "Home"
+            },
+            "Show ancestor 1#1772:14": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Ancestor 2#1772:15": {
+              "type": "TEXT",
+              "defaultValue": "Writing"
+            },
+            "Show ancestor 2#1772:16": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Ancestor 3#1772:17": {
+              "type": "TEXT",
+              "defaultValue": "Design systems"
+            },
+            "Show ancestor 3#1772:18": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Current page#1772:19": {
+              "type": "TEXT",
+              "defaultValue": "Building a quieter publishing workflow"
+            },
+            "Back label#1772:20": {
+              "type": "TEXT",
+              "defaultValue": "Back ←"
+            },
+            "Show back link#1772:21": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1772:69",
+          "component_name": "Molecules/Blog/Comment Message",
+          "node_type": "COMPONENT",
+          "property_definitions": {
+            "Avatar component#1772:22": {
+              "type": "INSTANCE_SWAP",
+              "defaultValue": "1708:17",
+              "preferredValues": []
+            },
+            "Author name#1772:23": {
+              "type": "TEXT",
+              "defaultValue": "Alexander Ilivanov"
+            },
+            "Timestamp text#1772:24": {
+              "type": "TEXT",
+              "defaultValue": "· 40 minutes ago"
+            },
+            "Comment body#1772:25": {
+              "type": "TEXT",
+              "defaultValue": "This video made me think about how a small interface decision can reshape the whole experience."
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1773:61",
+          "component_name": "Molecules/Blog/Author Byline",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Author identity#1773:0": {
+              "type": "INSTANCE_SWAP",
+              "defaultValue": "1772:30",
+              "preferredValues": []
+            },
+            "Date presentation#1773:1": {
+              "type": "INSTANCE_SWAP",
+              "defaultValue": "1709:36",
+              "preferredValues": []
+            },
+            "Duration presentation#1773:2": {
+              "type": "INSTANCE_SWAP",
+              "defaultValue": "1709:40",
+              "preferredValues": []
+            },
+            "Show timing#1773:3": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show topics#1773:4": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Layout": {
+              "type": "VARIANT",
+              "defaultValue": "inline",
+              "variantOptions": [
+                "inline",
+                "stacked"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1773:65",
+          "component_name": "Molecules/Blog/Pull Quote",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Quote text#1773:5": {
+              "type": "TEXT",
+              "defaultValue": "A useful design system makes the ordinary decisions quiet, repeatable, and easy to trust."
+            },
+            "Citation text#1773:6": {
+              "type": "TEXT",
+              "defaultValue": "Notes on maintaining a personal publishing system"
+            },
+            "Viewport": {
+              "type": "VARIANT",
+              "defaultValue": "wide",
+              "variantOptions": [
+                "wide",
+                "compact"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1775:94",
+          "component_name": "Molecules/Input fields/Select Input",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Field label#1775:8": {
+              "type": "TEXT",
+              "defaultValue": "Preferred topic"
+            },
+            "Show label#1775:9": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Selected value#1775:10": {
+              "type": "TEXT",
+              "defaultValue": "Drupal"
+            },
+            "Option Design systems#1775:11": {
+              "type": "TEXT",
+              "defaultValue": "Design systems"
+            },
+            "Option Drupal#1775:12": {
+              "type": "TEXT",
+              "defaultValue": "Drupal"
+            },
+            "Option Storybook#1775:13": {
+              "type": "TEXT",
+              "defaultValue": "Storybook"
+            },
+            "Option Accessibility#1775:14": {
+              "type": "TEXT",
+              "defaultValue": "Accessibility"
+            },
+            "Show options#1775:15": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "State": {
+              "type": "VARIANT",
+              "defaultValue": "default",
+              "variantOptions": [
+                "default",
+                "disabled",
+                "hover-focus"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1775:123",
+          "component_name": "Molecules/Input fields/File Input",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Field label#1775:23": {
+              "type": "TEXT",
+              "defaultValue": "Figma reference PNG (optional, 1×)"
+            },
+            "Choose button#1775:24": {
+              "type": "INSTANCE_SWAP",
+              "defaultValue": "1708:43",
+              "preferredValues": []
+            },
+            "File name or drop label#1775:25": {
+              "type": "TEXT",
+              "defaultValue": "Drop a PNG here"
+            },
+            "Hint text#1775:26": {
+              "type": "TEXT",
+              "defaultValue": "PNG at 1×. Choose a file or drag it into the field."
+            },
+            "Show hint#1775:27": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Error message#1775:28": {
+              "type": "TEXT",
+              "defaultValue": "Choose a PNG image."
+            },
+            "Show error#1775:29": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "State": {
+              "type": "VARIANT",
+              "defaultValue": "default",
+              "variantOptions": [
+                "default",
+                "drag-hover-focus",
+                "disabled"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1775:210",
+          "component_name": "Molecules/Input fields/Input text",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Field label#1775:82": {
+              "type": "TEXT",
+              "defaultValue": "Profile value"
+            },
+            "Field value#1775:83": {
+              "type": "TEXT",
+              "defaultValue": "Enter a value"
+            },
+            "Validation error#1775:84": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Field description#1775:85": {
+              "type": "TEXT",
+              "defaultValue": "Use the controls to preview the standard Drupal field presentations."
+            },
+            "Show description#1775:86": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Validation message#1775:87": {
+              "type": "TEXT",
+              "defaultValue": "Review this field before continuing."
+            },
+            "Select control#1775:88": {
+              "type": "INSTANCE_SWAP",
+              "defaultValue": "1775:52",
+              "preferredValues": []
+            },
+            "File name#1775:89": {
+              "type": "TEXT",
+              "defaultValue": "No file chosen"
+            },
+            "Radio 1 selected#1784:0": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Radio 1 label#1784:10": {
+              "type": "TEXT",
+              "defaultValue": "Yes"
+            },
+            "Radio 2 selected#1784:20": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Radio 2 label#1784:30": {
+              "type": "TEXT",
+              "defaultValue": "No"
+            },
+            "Required field#1784:40": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Control": {
+              "type": "VARIANT",
+              "defaultValue": "text",
+              "variantOptions": [
+                "text",
+                "password",
+                "textarea",
+                "select",
+                "file-upload",
+                "single-checkbox",
+                "radio-group",
+                "checkbox-group",
+                "choice-chips"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1776:109",
+          "component_name": "Molecules/Blog/Pagination",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Show item 1#1776:29": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show item 2#1776:31": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show item 3#1776:33": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show item 4#1776:35": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show item 5#1776:37": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show item 6#1776:39": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show item 7#1776:41": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show item 8#1776:43": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show item 9#1776:45": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Viewport": {
+              "type": "VARIANT",
+              "defaultValue": "wide",
+              "variantOptions": [
+                "wide",
+                "compact"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1776:110",
+          "component_name": "Molecules/Square Pagination",
+          "node_type": "COMPONENT",
+          "property_definitions": {
+            "Show page 1#1776:54": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show page 2#1776:55": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show page 3#1776:56": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show page 4#1776:57": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show page 5#1776:58": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Show page 6#1776:59": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Show page 7#1776:60": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Show page 8#1776:61": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1776:145",
+          "component_name": "Molecules/Porfolio/Project Card",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Show media#1776:65": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Card title#1776:66": {
+              "type": "TEXT",
+              "defaultValue": "Interactive CV Timeline"
+            },
+            "Show tags#1776:67": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "State": {
+              "type": "VARIANT",
+              "defaultValue": "default",
+              "variantOptions": [
+                "default",
+                "hover-focus"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1776:156",
+          "component_name": "Molecules/About/Numeric Values/Statistic",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Number text#1776:74": {
+              "type": "TEXT",
+              "defaultValue": "80+"
+            },
+            "Description text#1776:75": {
+              "type": "TEXT",
+              "defaultValue": "Projects commercial have worked with"
+            },
+            "Caption text#1776:76": {
+              "type": "TEXT",
+              "defaultValue": "*tracked with redmine.org"
+            },
+            "Show caption#1776:77": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Link label#1776:78": {
+              "type": "TEXT",
+              "defaultValue": "see Timeline"
+            },
+            "Show link#1776:79": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Number size": {
+              "type": "VARIANT",
+              "defaultValue": "default",
+              "variantOptions": [
+                "default",
+                "compact"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1777:87",
+          "component_name": "Molecules/Porfolio/Dynamic Thumbnail",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Artwork": {
+              "type": "VARIANT",
+              "defaultValue": "roundabout",
+              "variantOptions": [
+                "roundabout",
+                "4pixel",
+                "smep",
+                "oksenate"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1778:148",
+          "component_name": "Molecules/Video/Media Loader",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Show loaded content#1778:16": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Show progress#1778:17": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Treatment": {
+              "type": "VARIANT",
+              "defaultValue": "image-skeleton",
+              "variantOptions": [
+                "image-skeleton",
+                "video-noise"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1778:231",
+          "component_name": "Molecules/Video/Article Blog List Item",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Show thumbnail#1778:38": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Article title#1778:39": {
+              "type": "TEXT",
+              "defaultValue": "Rewinding an Interface Through Time"
+            },
+            "Article excerpt#1778:40": {
+              "type": "TEXT",
+              "defaultValue": "How a time-slider concept turned into a repeatable design process."
+            },
+            "Show excerpt#1778:41": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Author byline#1778:42": {
+              "type": "INSTANCE_SWAP",
+              "defaultValue": "1772:37",
+              "preferredValues": []
+            },
+            "Viewport": {
+              "type": "VARIANT",
+              "defaultValue": "wide",
+              "variantOptions": [
+                "wide",
+                "compact"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1778:232",
+          "component_name": "Molecules/Blog/News List Item",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Show thumbnail#1778:43": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "News title#1778:44": {
+              "type": "TEXT",
+              "defaultValue": "ASTRA IS HERE (GPT-6 RELEASED)"
+            },
+            "Source identity#1778:45": {
+              "type": "INSTANCE_SWAP",
+              "defaultValue": "1772:30",
+              "preferredValues": []
+            },
+            "Show tags#1778:46": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Date presentation#1778:47": {
+              "type": "INSTANCE_SWAP",
+              "defaultValue": "1709:38",
+              "preferredValues": []
+            },
+            "Viewport": {
+              "type": "VARIANT",
+              "defaultValue": "wide",
+              "variantOptions": [
+                "wide",
+                "compact"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1779:156",
+          "component_name": "Molecules/Guidelines/Guideline Tile",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Eyebrow text#1779:6": {
+              "type": "TEXT",
+              "defaultValue": "GUIDELINE"
+            },
+            "Guideline title#1779:7": {
+              "type": "TEXT",
+              "defaultValue": "Logo Icon"
+            },
+            "Guideline summary#1779:8": {
+              "type": "TEXT",
+              "defaultValue": "The compact jurenites mark, its source asset, spacing, sizing, and correct use."
+            },
+            "Preview": {
+              "type": "VARIANT",
+              "defaultValue": "logo-icon",
+              "variantOptions": [
+                "logo-icon",
+                "color"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1779:205",
+          "component_name": "Molecules/Porfolio/Preview Mobile Screen Card",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Show background#1779:21": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show island overlay#1779:22": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Era": {
+              "type": "VARIANT",
+              "defaultValue": "modern",
+              "variantOptions": [
+                "modern",
+                "classic"
+              ]
+            },
+            "Screen": {
+              "type": "VARIANT",
+              "defaultValue": "compact-screen",
+              "variantOptions": [
+                "compact-screen",
+                "large-screen"
+              ]
+            },
+            "Display": {
+              "type": "VARIANT",
+              "defaultValue": "thumbnail",
+              "variantOptions": [
+                "thumbnail",
+                "native-screen"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1783:1594",
+          "component_name": "Molecules/About/Numeric Values",
+          "node_type": "COMPONENT",
+          "property_definitions": {
+            "Show statistic 1#1783:15": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show statistic 2#1783:16": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Show statistic 3#1783:17": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Show statistic 4#1783:18": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Show statistic 5#1783:19": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Show statistic 6#1783:20": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Show statistic 7#1783:21": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Show statistic 8#1783:22": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1788:146",
+          "component_name": "Molecules/Message Toast",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Status message heading#1788:36": {
+              "type": "TEXT",
+              "defaultValue": "Status message"
+            },
+            "Message text#1788:37": {
+              "type": "TEXT",
+              "defaultValue": "Your changes have been saved."
+            },
+            "Dismiss hover or focus#1788:38": {
+              "type": "BOOLEAN",
+              "defaultValue": false
+            },
+            "Show dismiss#1788:39": {
+              "type": "BOOLEAN",
+              "defaultValue": true
+            },
+            "Warning message heading#1788:40": {
+              "type": "TEXT",
+              "defaultValue": "Warning message"
+            },
+            "Error message heading#1788:41": {
+              "type": "TEXT",
+              "defaultValue": "Error message"
+            },
+            "Message type": {
+              "type": "VARIANT",
+              "defaultValue": "status",
+              "variantOptions": [
+                "status",
+                "warning",
+                "error"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1789:114",
+          "component_name": "Molecules/Blog/Pagination/Item",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Page label#1789:5": {
+              "type": "TEXT",
+              "defaultValue": "4"
+            },
+            "Item state": {
+              "type": "VARIANT",
+              "defaultValue": "default",
+              "variantOptions": [
+                "default",
+                "current",
+                "hover-focus",
+                "disabled",
+                "ellipsis"
+              ]
+            }
+          },
+          "evidence_error": ""
+        },
+        {
+          "node_id": "1791:134",
+          "component_name": "Molecules/Input fields/Input text/Choice chip",
+          "node_type": "COMPONENT_SET",
+          "property_definitions": {
+            "Choice label#1791:2": {
+              "type": "TEXT",
+              "defaultValue": "Yes"
+            },
+            "Selected": {
+              "type": "VARIANT",
+              "defaultValue": "false",
+              "variantOptions": [
+                "false",
+                "true"
+              ]
+            }
+          },
+          "evidence_error": ""
+        }
+      ]
+    },
+    {
+      "page_id": "1:4",
+      "page_name": "Guideline",
+      "components": [
+        {
+          "node_id": "1061:104",
+          "component_name": "icon/home",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "541:33",
+          "component_name": "icon/chevron-up",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1074:33",
+          "component_name": "icon/chevron-down",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "541:32",
+          "component_name": "icon/arrow-up",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "663:127545",
+          "component_name": "icon/arrow-download",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1061:98",
+          "component_name": "icon/graph-up",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1418:4558",
+          "component_name": "icon/arrow-diagonal",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "663:127536",
+          "component_name": "icon/external-link",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1061:127",
+          "component_name": "icon/triangle-outlined",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1418:4603",
+          "component_name": "icon/triangle-filled",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1061:135",
+          "component_name": "icon/arrow-map",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1061:40",
+          "component_name": "icon/plus",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1084:173",
+          "component_name": "icon/burger-menu",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1418:4561",
+          "component_name": "icon/equal-sign",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1418:4567",
+          "component_name": "icon/minus-sign",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1717",
+          "component_name": "icon/square-mid-16",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1418:4584",
+          "component_name": "icon/checkbox-filled",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1625:1329",
+          "component_name": "icon/checkbox-filled",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1625:1328",
+          "component_name": "icon/checkbox-filled",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1418:4596",
+          "component_name": "icon/checkbox-partially",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1418:4597",
+          "component_name": "icon/checkbox-empty",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1061:56",
+          "component_name": "icon/frame-border",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2050",
+          "component_name": "icon/sidebar-right",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1741:3197",
+          "component_name": "icon/square-mid-8-fill",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1718",
+          "component_name": "icon/square-mid-8",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1793:2095",
+          "component_name": "icon/square-mid-6-fill",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1741:3189",
+          "component_name": "icon/square-mid-6",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1793:2094",
+          "component_name": "icon/square-mid-4-fill",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1741:3190",
+          "component_name": "icon/square-mid-4",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1793:2240",
+          "component_name": "icon/square-mid-2-fill",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "541:31",
+          "component_name": "icon/icon-cross-big",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1062:168",
+          "component_name": "icon/menu-cars",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2051",
+          "component_name": "icon/copy",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1063:175",
+          "component_name": "icon/pause-rect",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1063:181",
+          "component_name": "icon/search",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1600",
+          "component_name": "icon/circle-mid-16",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2053",
+          "component_name": "icon/gobe",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1063:183",
+          "component_name": "icon/circle-crossed",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1601",
+          "component_name": "icon/circle-sml-16",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "928:133",
+          "component_name": "icon/heart-outline",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1587:2207",
+          "component_name": "icon/eye",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "928:142",
+          "component_name": "icon/star-outline",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1061:111",
+          "component_name": "icon/laptop",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1061:117",
+          "component_name": "icon/phone",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2058",
+          "component_name": "icon/folder",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2059",
+          "component_name": "icon/folder-plus",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2060",
+          "component_name": "icon/folder-arrow",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1587:2205",
+          "component_name": "icon/document-plus",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1587:2206",
+          "component_name": "icon/document-clip",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1061:126",
+          "component_name": "icon/speech-bubble",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2084",
+          "component_name": "icon/envelop",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1061:139",
+          "component_name": "icon/preview",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2056",
+          "component_name": "icon/sidebar-right",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2055",
+          "component_name": "icon/sidebar-left",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2052",
+          "component_name": "icon/align-left",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2054",
+          "component_name": "icon/align-center",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2078",
+          "component_name": "icon/align-right",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2079",
+          "component_name": "icon/list",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2089",
+          "component_name": "icon/printer",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1062:155",
+          "component_name": "icon/trash-can",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1625:1330",
+          "component_name": "icon/quote",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1585:2057",
+          "component_name": "icon/map",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1693",
+          "component_name": "other-icons/github",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1685",
+          "component_name": "other-icons/facebook",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1690",
+          "component_name": "other-icons/steam",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1691",
+          "component_name": "other-icons/telegram",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1692",
+          "component_name": "other-icons/hh-ru",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1694",
+          "component_name": "other-icons/linkedin",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1696",
+          "component_name": "other-icons/figma",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1698",
+          "component_name": "other-icons/gmail",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1695",
+          "component_name": "other-icons/yandex",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1688",
+          "component_name": "other-icons/youtube",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1687",
+          "component_name": "other-icons/vkontakte",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1689",
+          "component_name": "other-icons/soundcloud",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1395:2780",
+          "component_name": "other-icons/figma-active",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1396:2809",
+          "component_name": "other-icons/gmail-active",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1395:2736",
+          "component_name": "other-icons/yandex-mail-active",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1394:1697",
+          "component_name": "other-icons/storybook",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1418:4574",
+          "component_name": "user_inverted_logo_16",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1418:4573",
+          "component_name": "user_logo_16",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1418:4576",
+          "component_name": "test_logo_16",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1418:4575",
+          "component_name": "storybook_logo_16",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1392:1102",
+          "component_name": "Cursor/Default",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1391:1082",
+          "component_name": "Cursor/Pointer",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        },
+        {
+          "node_id": "1392:1136",
+          "component_name": "Cursor/Drag",
+          "node_type": "COMPONENT",
+          "property_definitions": {},
+          "variants": []
+        }
+      ]
+    }
+  ],
+  "excluded_pages": [
+    {
+      "page_id": "1:3",
+      "reason": "Cover, outside component library scope"
+    },
+    {
+      "page_id": "0:1",
+      "reason": "Page compositions, outside component library scope"
+    }
+  ]
+}

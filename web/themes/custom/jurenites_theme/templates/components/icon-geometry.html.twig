@@ -8,10 +8,15 @@
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M19 12.5H5.5M11.5 6.5L5.5 12.5L11.5 18.5" stroke="currentColor"/></svg>
 {% elseif icon_name == 'arrow-map' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M17.5 6.5L5.5 12.5L10.5 15L13.5 19.5L17.5 6.5Z" stroke="currentColor"/></svg>
+{% elseif icon_name == 'arrow-refresh' %}
+<svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M16.5 8V18.5H11M13 11.5L16.5 8L20 11.5" stroke="currentColor"/>
+<path d="M7.5 17.5V5.5H13M4 14L7.5 17.5L11 14" stroke="currentColor"/></svg>
 {% elseif icon_name == 'arrow-right' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M5 12.5H18.5M12.5 6.5L18.5 12.5L12.5 18.5" stroke="currentColor"/></svg>
 {% elseif icon_name == 'arrow-up' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M11.5 19L11.5 5.5M17.5 11.5L11.5 5.5L5.5 11.5" stroke="currentColor"/></svg>
+{% elseif icon_name == 'arrow-upload' %}
+<svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M12.5 15.5V5M7.5 10L12.5 5L17.5 10M7 19.5H18" stroke="currentColor"/></svg>
 {% elseif icon_name == 'brand-chatgpt' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 16 16" fill="none"><path d="M 6.3696 6.113 V 4.7948 C 6.3696 4.6838 6.4113 4.6005 6.5084 4.5451 L 9.1586 3.0188 C 9.5193 2.8107 9.9495 2.7137 10.3934 2.7137 C 12.0584 2.7137 13.113 4.0041 13.113 5.3776 C 13.113 5.4747 13.113 5.5858 13.0991 5.6968 L 10.3518 4.0872 C 10.1853 3.9901 10.0187 3.9901 9.8523 4.0872 L 6.3696 6.113 Z M 12.5579 11.2468 V 8.0971 C 12.5579 7.9028 12.4746 7.764 12.3081 7.6669 L 8.8255 5.6412 L 9.9633 4.989 C 10.0604 4.9336 10.1437 4.9336 10.2408 4.989 L 12.8909 6.5153 C 13.6541 6.9593 14.1674 7.9028 14.1674 8.8185 C 14.1674 9.8729 13.5431 10.8442 12.5579 11.2467 V 11.2468 Z M 5.551 8.4718 L 4.4133 7.8058 C 4.3162 7.7504 4.2745 7.6671 4.2745 7.5561 V 4.5036 C 4.2745 3.019 5.4123 1.895 6.9524 1.895 C 7.5353 1.895 8.0763 2.0893 8.5343 2.4362 L 5.8009 4.018 C 5.6344 4.1151 5.5512 4.2538 5.5512 4.4481 V 8.4719 L 5.551 8.4718 Z M 8 9.887 L 6.3696 8.9713 V 7.0288 L 8 6.1131 L 9.6302 7.0288 V 8.9713 L 8 9.887 Z M 9.0475 14.1051 C 8.4647 14.1051 7.9237 13.9108 7.4657 13.5639 L 10.1991 11.9821 C 10.3656 11.885 10.4488 11.7463 10.4488 11.552 V 7.5282 L 11.6005 8.1942 C 11.6976 8.2496 11.7393 8.3329 11.7393 8.4439 V 11.4964 C 11.7393 12.981 10.5876 14.105 9.0475 14.105 V 14.1051 Z M 5.7591 11.011 L 3.1089 9.4847 C 2.3457 9.0406 1.8324 8.0972 1.8324 7.1815 C 1.8324 6.1131 2.4707 5.1558 3.4557 4.7533 V 7.9168 C 3.4557 8.1111 3.5391 8.2499 3.7055 8.3469 L 7.1743 10.3588 L 6.0366 11.011 C 5.9395 11.0664 5.8562 11.0664 5.7591 11.011 Z M 5.6066 13.2865 C 4.0387 13.2865 2.887 12.1071 2.887 10.6502 C 2.887 10.5392 2.9009 10.4282 2.9147 10.3171 L 5.6481 11.899 C 5.8146 11.9961 5.9812 11.9961 6.1476 11.899 L 9.6302 9.8871 V 11.2053 C 9.6302 11.3163 9.5886 11.3996 9.4915 11.455 L 6.8413 12.9813 C 6.4805 13.1894 6.0504 13.2865 5.6064 13.2865 H 5.6066 Z M 9.0475 14.9375 C 10.7265 14.9375 12.1278 13.7443 12.447 12.1625 C 14.001 11.7601 15 10.3032 15 8.8186 C 15 7.8473 14.5838 6.9039 13.8345 6.224 C 13.9039 5.9326 13.9455 5.6412 13.9455 5.3499 C 13.9455 3.3658 12.336 1.8811 10.4767 1.8811 C 10.1022 1.8811 9.7414 1.9365 9.3806 2.0615 C 8.7561 1.451 7.8959 1.0625 6.9524 1.0625 C 5.2735 1.0625 3.8722 2.2557 3.553 3.8375 C 1.999 4.2399 1 5.6968 1 7.1814 C 1 8.1527 1.4162 9.0961 2.1655 9.776 C 2.0961 10.0674 2.0545 10.3588 2.0545 10.65 C 2.0545 12.6341 3.664 14.1189 5.5233 14.1189 C 5.8978 14.1189 6.2586 14.0634 6.6194 13.9385 C 7.2437 14.549 8.104 14.9375 9.0475 14.9375 Z" fill="white"/></svg>
 {% elseif icon_name == 'brand-figma-active' %}
@@ -264,6 +269,9 @@
 <rect width="16" height="16" fill="currentColor"/>
 </clipPath>
 </defs></svg>
+{% elseif icon_name == 'brand-testing' %}
+<svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 16 16" fill="none"><rect width="16" height="16" fill="#0F172B"/>
+<path d="M3 4L13 4L13 6L9 6L9 12L7 12L7 6L3 6L3 4Z" fill="#FFFF66"/></svg>
 {% elseif icon_name == 'brand-yandex-mail-active' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 16 16" fill="none"><g clip-path="url(#jurenites-{{ icon_instance_id }}-brand-yandex-mail-active-clip0_1395_2736)">
 <g opacity="0.81">
@@ -333,14 +341,32 @@
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7.5" stroke="currentColor"/></svg>
 {% elseif icon_name == 'circle-sml-16' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3.5" stroke="currentColor"/></svg>
+{% elseif icon_name == 'column' %}
+<svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M10.5 6.5L10.5 17.5M10.5 17.5L6.5 17.5L6.5 6.5L10.5 6.5L18.5 6.5L18.5 17.5L10.5 17.5ZM14.5 6.5L14.5 17.5" stroke="currentColor"/></svg>
 {% elseif icon_name == 'cross-big' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M16.8535 6.85352L12.207 11.5L16.8535 16.1465L16.1465 16.8535L11.5 12.207L6.85352 16.8535L6.14648 16.1465L10.793 11.5L6.14648 6.85352L6.85352 6.14648L11.5 10.793L16.1465 6.14648L16.8535 6.85352Z" fill="currentColor"/></svg>
 {% elseif icon_name == 'equal-sign' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M5 9.5H20M20 14.5H5" stroke="currentColor"/></svg>
 {% elseif icon_name == 'external-link' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M17.5 11V6.5H13M17.5 6.5L10.5 13.5M17.5 14V17.5H6.5L6.5 6.5H10" stroke="currentColor"/></svg>
+{% elseif icon_name == 'eye-closed' %}
+<svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M4.5 12C9 17 15 17 19.5 12" stroke="currentColor" stroke-linecap="round"/>
+<path d="M5.5 15.5L6.5 14" stroke="currentColor" stroke-linecap="round"/>
+<path d="M9.5 17.5L10 16" stroke="currentColor" stroke-linecap="round"/>
+<path d="M14 16L14.5 17.5" stroke="currentColor" stroke-linecap="round"/>
+<path d="M18 14L19 15.5" stroke="currentColor" stroke-linecap="round"/></svg>
+{% elseif icon_name == 'eye' %}
+<svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M12 6.5C14.5506 6.5 16.4253 7.8877 17.6865 9.3291C18.3151 10.0475 18.7805 10.7681 19.0889 11.3096C19.2427 11.5797 19.3569 11.8039 19.4316 11.959C19.4384 11.973 19.4441 11.9871 19.4502 12C19.4441 12.0129 19.4384 12.027 19.4316 12.041C19.3569 12.1961 19.2427 12.4203 19.0889 12.6904C18.7805 13.2319 18.3151 13.9525 17.6865 14.6709C16.4253 16.1123 14.5506 17.5 12 17.5C9.44937 17.5 7.57471 16.1123 6.31348 14.6709C5.68489 13.9525 5.21947 13.2319 4.91113 12.6904C4.75733 12.4203 4.64311 12.1961 4.56836 12.041C4.56153 12.0268 4.555 12.013 4.54883 12C4.555 11.987 4.56153 11.9732 4.56836 11.959C4.64311 11.8039 4.75733 11.5797 4.91113 11.3096C5.21947 10.7681 5.68489 10.0475 6.31348 9.3291C7.57471 7.8877 9.44937 6.5 12 6.5Z" stroke="currentColor"/>
+<circle cx="12" cy="12" r="2.5" stroke="currentColor"/></svg>
 {% elseif icon_name == 'frame-border' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M6.5 10L6.5 6.5L10 6.5M17.5 10V6.5L14 6.5M6.5 14L6.5 17.5H10M17.5 14V17.5H14" stroke="currentColor"/></svg>
+{% elseif icon_name == 'gear-filled' %}
+<svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M13.5059 4L13.5957 4.00781C13.8 4.04518 13.9643 4.20777 13.9991 4.41895L14.3369 6.47461L15.4414 7.14551L17.3252 6.46582L17.4121 6.44336C17.6162 6.40909 17.8247 6.5049 17.9297 6.69043L19.4356 9.35547C19.5519 9.56134 19.5076 9.82036 19.3301 9.97656L17.7686 11.3496V12.6494L19.3301 14.0234C19.5076 14.1796 19.5519 14.4387 19.4356 14.6445L17.9297 17.3096C17.8097 17.5216 17.5544 17.6167 17.3252 17.5342L15.4414 16.8535L14.3369 17.5244L13.9991 19.5811C13.9593 19.8224 13.7504 19.9998 13.5059 20H10.4942C10.2497 19.9997 10.0408 19.8224 10.001 19.5811L9.66214 17.5244L8.55765 16.8535L6.67484 17.5342C6.44565 17.6166 6.19029 17.5216 6.07035 17.3096L4.56449 14.6445C4.44825 14.4387 4.49255 14.1796 4.66996 14.0234L6.23148 12.6494V11.3496L4.66996 9.97656C4.49255 9.82037 4.44825 9.5613 4.56449 9.35547L6.07035 6.69043L6.12113 6.61621C6.25348 6.45724 6.47434 6.39371 6.67484 6.46582L8.55765 7.14551L9.66214 6.47461L10.001 4.41895C10.0408 4.17763 10.2497 4.0003 10.4942 4H13.5059ZM12 9C10.3432 9.00003 9.00003 10.3432 9.00003 12C9.00003 13.6568 10.3432 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z" fill="currentColor"/></svg>
+{% elseif icon_name == 'gear' %}
+<svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M10.4946 4.5H13.5054L13.8817 6.78426L15.3871 7.69797L17.4946 6.93655L19 9.60152L17.2688 11.1244V12.8756L19 14.3985L17.4946 17.0635L15.3871 16.302L13.8817 17.2157L13.5054 19.5H10.4946L10.1183 17.2157L8.6129 16.302L6.50538 17.0635L5 14.3985L6.73118 12.8756V11.1244L5 9.60152L6.50538 6.93655L8.6129 7.69797L10.1183 6.78426L10.4946 4.5Z" stroke="currentColor" stroke-linejoin="round"/>
+<path d="M12 14.5C13.3807 14.5 14.5 13.3807 14.5 12C14.5 10.6193 13.3807 9.5 12 9.5C10.6193 9.5 9.5 10.6193 9.5 12C9.5 13.3807 10.6193 14.5 12 14.5Z" stroke="currentColor"/></svg>
+{% elseif icon_name == 'globe' %}
+<svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor"/><ellipse cx="8" cy="8" rx="3" ry="6.5" stroke="currentColor"/><path d="M1.5 8h13M3 4.5h10M3 11.5h10" stroke="currentColor"/></svg>
 {% elseif icon_name == 'graph-up' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M17.5 13V8.5H13M17.5 8.5L11.5 14.5L9.5 12.5L5.5 16.5" stroke="currentColor"/></svg>
 {% elseif icon_name == 'heart-outline' %}
@@ -373,6 +399,8 @@
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M5 12.5H20M12.495 20L12.5 5" stroke="currentColor"/></svg>
 {% elseif icon_name == 'preview' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M19.5 16L19.5 8M4.5 16L4.5 8M17.5 17.5L17.5 6.5L6.5 6.5L6.5 17.5L17.5 17.5Z" stroke="currentColor"/></svg>
+{% elseif icon_name == 'rows' %}
+<svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M6.5 13.5H17.5M17.5 13.5L17.5 17.5H6.5L6.5 13.5L6.5 5.5L17.5 5.5L17.5 13.5ZM6.5 9.5H17.5" stroke="currentColor"/></svg>
 {% elseif icon_name == 'search' %}
 <svg class="icon__svg{{ icon_svg_extra_class|default('') }}" viewBox="0 0 24 24" fill="none"><path d="M19 20L15.5 16.5M18 12C18 15.3137 15.3137 18 12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12Z" stroke="currentColor"/></svg>
 {% elseif icon_name == 'social-facebook' %}

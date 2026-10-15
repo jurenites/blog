@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - responsive_image
+name: project_thumbnail_608
+label: 'Project thumbnail 608'
+effects:
+  e60f4f59-35ca-5e53-bca8-4164320e6ab0:
+    uuid: e60f4f59-35ca-5e53-bca8-4164320e6ab0
+    id: image_scale
+    weight: 1
+    data:
+      width: 608
+      height: 608
+      upscale: false
+  9c2e3400-c45b-5bd2-9c50-22d62999d61b:
+    uuid: 9c2e3400-c45b-5bd2-9c50-22d62999d61b
+    id: image_convert_avif
+    weight: 2
+    data:
+      extension: webp

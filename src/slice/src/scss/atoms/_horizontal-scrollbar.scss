@@ -11,6 +11,7 @@
     scrollbar-color: auto;
 
     &::-webkit-scrollbar {
+      width: var(--space-scale-base-gap);
       height: var(--space-scale-base-gap);
       border-radius: 0;
     }

@@ -189,12 +189,15 @@ component.numeric-values.tile-min-height-default: 200px
 component.numeric-values.icon-max-width-default: 80px # Preserve smaller intrinsic SVG dimensions while preventing oversized uploads.
 
 # Spacing: gaps, padding and offsets
-space.scale.zero: 0px
-space.scale.one: 1px # Intentional sub-grid exception for lines and dividers.
-space.scale.two: 2px # Intentional sub-grid exception for optical adjustments.
-space.scale.base-gap: 8px # Multiply this grid unit with CSS calc() for every larger size.
-layout.gutter.mobile-default: 16px
-layout.gutter.tablet-default: 24px
+space.scale.zero:  0px
+space.scale.one:   1px # Intentional sub-grid exception for lines and dividers.
+space.scale.two:   2px # Intentional sub-grid exception for optical adjustments.
+space.scale.four:  4px
+space.scale.six:   6px
+space.scale.eight: 8px
+space.scale.base-gap: space.scale.eight # Multiply this grid unit with CSS calc() for every larger size.
+layout.gutter.mobile-default:  16px
+layout.gutter.tablet-default:  24px
 layout.gutter.desktop-default: 32px
 component.skills-profile.padding-compact-default: 24px
 component.skills-profile.padding-header-default: 48px

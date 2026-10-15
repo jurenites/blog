@@ -1,0 +1,6 @@
+COMPONENT_STATUS_PUBLIC_ORIGIN=http://test.jurenites.com
+COMPONENT_STATUS_WEBSITE_ORIGIN=http://jurenites.com
+COMPONENT_STATUS_PORT=7779
+PLAYWRIGHT_BROWSERS_PATH=/srv/jurenites-testing/browsers
+# Optional, required only for automatic Figma exports:
+# FIGMA_ACCESS_TOKEN=configure-on-server

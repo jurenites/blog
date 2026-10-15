@@ -1,0 +1,23 @@
+[Unit]
+Description=Jurenites component comparison dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=jurenites-testing
+Group=jurenites-testing
+WorkingDirectory=/srv/jurenites-testing/app
+EnvironmentFile=/etc/jurenites-testing.env
+ExecStart=/usr/bin/node scripts/component-status/server.mjs
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/jurenites-testing/app/.cache/component-status /srv/jurenites-testing/app/visual-history
+
+[Install]
+WantedBy=multi-user.target

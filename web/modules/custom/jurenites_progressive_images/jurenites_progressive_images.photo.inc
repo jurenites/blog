@@ -13,7 +13,7 @@ use Drupal\image\Entity\ImageStyle;
  * Installs missing photograph sizes without changing existing style settings.
  */
 function jurenites_progressive_images_photo_styles(): void {
-  foreach ([24, 96, 320, 640, 1280, 1920] as $image_width) {
+  foreach ([24, 48, 80, 96, 160, 240, 320, 480, 640, 800, 960, 1280, 1600, 1920, 2400, 3200, 4800] as $image_width) {
     $style_name = 'portrait_progressive_' . $image_width;
     if (!ImageStyle::load($style_name)) {
       $image_style = ImageStyle::create(['name' => $style_name, 'label' => 'Portrait progressive ' . $image_width]);
@@ -58,7 +58,7 @@ function jurenites_progressive_images_photo_build(FileInterface $image_file, str
         \Drupal::cache()->set($cache_identifier, $photo_build['#preview_url'], -1, $cache_metadata->getCacheTags());
       }
     }
-    foreach ([96, 320, 640, 1280, 1920] as $image_width) {
+    foreach ([48, 80, 96, 160, 240, 320, 480, 640, 800, 960, 1280, 1600, 1920, 2400, 3200, 4800] as $image_width) {
       $image_style = ImageStyle::load('portrait_progressive_' . $image_width);
       if (!$image_style) {
         continue;

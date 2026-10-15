@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Before / After · jurenites</title>
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/history.css">
+  <script type="module" src="/history.js"></script>
+</head>
+<body class="history-page">
+  <main>
+    <h1 class="visually-hidden">Before / After</h1>
+    <section class="history-page__selection" aria-label="Selected comparison">
+      <span id="history-back"></span>
+      <label class="history-page__target">Screen<select class="select-input__native" id="history-target" data-jurenites-select><option value="homepage">Homepage</option></select></label>
+      <span id="pair-summary" class="testing-number"></span><button data-project-button="secondary" id="versions-open">Choose versions</button><button data-project-button="ghost" id="details-open">Details</button><button data-project-button="ghost" id="capture-open">Keep a milestone</button>
+    </section>
+    <section class="history-player" aria-label="Before and after presentation">
+      <div class="history-player__toolbar">
+        <button data-project-button="primary" id="version-toggle" class="history-player__toggle" disabled>Before —</button>
+        <button data-project-button="secondary" id="play-toggle" disabled>Play</button>
+        <label class="history-player__progress"><span class="visually-hidden">Transition</span><input id="history-progress" type="range" min="0" max="1000" value="0" step="1" disabled><output id="progress-value">0%</output></label>
+        <label class="history-player__speed"><span class="visually-hidden">Playback speed</span><select class="select-input__native" id="history-speed" data-jurenites-select><option value="0.25">¼×</option><option value="0.5">½×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label>
+        <button data-project-button="secondary" id="inspect-toggle" aria-pressed="false">Reasons</button>
+        <button data-project-button="secondary" id="blueprint-toggle" aria-pressed="false">Blueprint</button>
+        <button data-project-button="ghost" id="present-toggle" aria-pressed="false">Fullscreen</button>
+      </div>
+      <p class="history-player__hint" id="player-hint">Saved captures · 100% scale</p>
+      <div class="history-player__viewport" id="history-viewport" tabindex="0" aria-label="Comparison canvas, scroll to explore the full page"><div id="history-stage" class="history-player__stage"><p class="history-player__empty">Capture two milestones to start a comparison.</p></div></div>
+      <div class="history-player__annotation" id="layer-annotation" role="status" hidden></div>
+      <aside class="history-player__reason-panel" id="reason-panel" aria-label="Element reasons" hidden>
+        <div class="history-page__panel-heading"><h2>Element reasons</h2><button data-project-button="ghost" id="reason-close">Close</button></div>
+        <button data-project-button="ghost" id="layer-back" hidden>Choose another element</button>
+        <div id="layer-list" class="history-page__layer-list"></div>
+        <form id="layer-editor" hidden><h3 id="layer-editor-heading"></h3><p id="layer-editor-context"></p><p id="layer-editor-change" class="testing-number"></p><label class="history-page__field">Reason<textarea id="layer-reason" rows="4" maxlength="4000" placeholder="Why did this element change?"></textarea></label><button data-project-button="primary" type="submit" id="save-layer-reason">Save reason</button><p id="layer-editor-status" role="status"></p></form>
+      </aside>
+      <footer class="history-player__console" id="history-console">No version selected.</footer>
+    </section>
+    <p id="history-status" class="history-page__status" role="status">Loading saved milestones…</p>
+    <dialog id="versions-dialog" class="history-page__dialog"><div class="history-page__panel-heading"><h2>Compare two versions</h2><button data-project-button="ghost" data-close-dialog>Done</button></div><label class="history-page__field">Before<select class="select-input__native" id="before-versions" data-jurenites-select></select></label><label class="history-page__field">After<select class="select-input__native" id="after-versions" data-jurenites-select></select></label><p id="pair-evidence" class="testing-number"></p></dialog>
+    <dialog id="details-dialog" class="history-page__dialog"><div class="history-page__panel-heading"><h2>Milestone details</h2><button data-project-button="ghost" data-close-dialog>Close</button></div><form id="notes-form"><p id="version-evidence"></p><label class="history-page__field">Editing<select class="select-input__native" id="notes-version" data-jurenites-select><option value="after">After</option><option value="before">Before</option></select></label><label class="history-page__field">Milestone name<input name="milestone_title" maxlength="160"></label><label class="history-page__field">What changed<textarea name="what_changed" rows="3" maxlength="4000"></textarea></label><label class="history-page__field">Why it changed<textarea name="why_changed" rows="3" maxlength="4000"></textarea></label><button data-project-button="primary" type="submit" id="save-notes" disabled>Save explanation</button><span id="notes-status" class="testing-number" role="status"></span></form></dialog>
+    <dialog id="capture-dialog" class="history-page__dialog history-page__capture"><button data-project-button="ghost" type="button" data-close-dialog>Close</button><h2>Keep a milestone</h2><p>Capture a real page or organism. Images and measured geometry stay frozen; explanations remain editable. Use the same target ID, viewport and logical layer IDs across versions.</p>
+      <form id="capture-form" class="history-page__capture-form">
+        <label class="history-page__field">Target ID<input name="target_id" value="homepage" required pattern="[a-z][a-z0-9-]{1,70}"></label>
+        <label class="history-page__field">Display name<input name="target_label" value="Homepage" required></label>
+        <label class="history-page__field">Scope<select class="select-input__native" name="target_scope" data-jurenites-select><option value="page">Page</option><option value="organism">Organism</option></select></label>
+        <label class="history-page__field">Environment<select class="select-input__native" name="environment_name" data-jurenites-select><option value="development">Development</option><option value="production">Production</option><option value="preview">Preview</option></select></label>
+        <label class="history-page__field history-page__field--wide">Source URL<input name="page_url" type="url" value="http://jurenites.local/" required></label>
+        <label class="history-page__field">Root CSS selector<input name="root_selector" value="body" required></label>
+        <label class="history-page__field">Milestone name<input name="milestone_title" placeholder="e.g. Homepage navigation revision"></label>
+        <label class="history-page__field">Viewport width<input name="viewport_width" type="number" min="320" max="2560" value="1280" required></label>
+        <label class="history-page__field">Viewport height<input name="viewport_height" type="number" min="320" max="2560" value="900" required></label>
+        <label class="history-page__field history-page__field--wide">Logical layer mapping (JSON)<textarea name="layer_definitions" rows="10" spellcheck="false"></textarea><span>Selectors are relative to the root. Each must find one visible element. Keep layer_id stable when a selector changes; assign a new ID to a replacement. Unmapped areas crossfade.</span></label>
+        <label class="history-page__field">What changed<textarea name="what_changed" rows="3"></textarea></label><label class="history-page__field">Why it changed<textarea name="why_changed" rows="3"></textarea></label>
+        <div class="history-page__field--wide"><button data-project-button="primary" type="submit" id="capture-milestone">Capture milestone</button> <span id="capture-status" role="status"></span></div>
+      </form>
+    </dialog>
+  </main>
+</body>
+</html>
