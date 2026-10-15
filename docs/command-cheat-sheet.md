@@ -434,7 +434,39 @@ The previously manual SMEP module matched the release byte-for-byte and was
 retained in the backup before switching to its tracked copy. Live content and
 uploaded files were not replaced with DEV data. The separate testing subdomain
 still lacked DNS resolution during verification; the Drupal release does not
-activate its Node service.
+activate its Node service. The subsequent hostname setup is recorded below.
+
+### Testing subdomain hosting status
+
+On 2026-10-15, `test.jurenites.com` was created in ISPmanager under account
+`u3614358`, with document root `/var/www/u3614358/data/www/test.jurenites.com`.
+SSL, redirects and static caching are disabled, matching the requested HTTP
+deployment. The authoritative DNS server returns A `31.31.197.37` and AAAA
+`2a00:f940:2:2:1:1:0:290`. Recursive resolvers can temporarily retain the earlier
+negative A response. A direct request using the website IP and correct Host
+returned HTTP 403: `.htaccess` contains `Require all denied`. No dashboard
+configuration, captures or API have been published in this document root.
+
+The initial interactive deployment was blocked on hosting capabilities. AlmaLinux
+8.10 provides working Node `22.23.2` at
+`/var/www/u3614358/data/apps/node-v22.23.2-linux-x64/bin/node`, and binding a
+loopback service on port 7779 succeeds. However, the account cannot modify the
+Nginx virtual host, the panel exposes no Node/reverse-proxy settings, and
+`systemctl --user` cannot connect to a user service manager. A real launch of the
+project's pinned Playwright `1.63.0` Chromium failed because
+`libatk-bridge-2.0.so.0` is missing. `ldd` additionally reports missing
+`libgbm.so.1`, `libxkbcommon.so.0`, `libasound.so.2` and `libatspi.so.0`.
+Playwright identifies this OS as unsupported and uses its Ubuntu fallback build.
+Do not replace this with a static dashboard and report capture support as live.
+
+The owner subsequently selected a public **static, read-only** deployment using
+this same hosting plan. `npm run status:export` builds the publication locally;
+see the [static dashboard guide](../deploy/component-status/README.md). The
+runtime limitations above no longer block static publishing. Editing, uploading
+and automatic captures remain in DEV; public pages display saved PNGs and source
+links with mutation controls disabled. No hosting upgrade or provider request
+is needed for this mode. The deny-all staging rule must be replaced by the
+exported read-only `.htaccess` when the static release is activated.
 
 ### Manual restore including a separate code release
 

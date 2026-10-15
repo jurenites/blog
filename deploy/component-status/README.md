@@ -1,7 +1,37 @@
-# Interactive testing dashboard deployment
+# Public testing dashboard deployment
 
-Target: **http://test.jurenites.com**, HTTP only, restricted to trusted IPs.
-These files prepare deployment; they do not change DNS or a live server.
+Target: **http://test.jurenites.com**, a public read-only static site on the
+existing shared host. Build on the development machine:
+
+```sh
+npm run status:export
+```
+
+Upload only `generated/status-public/` to the dedicated testing document root,
+including `public.htaccess` (exported as `.htaccess`). Do not upload the repository,
+raw reports, workspace JSON, environment files, Node modules or server scripts.
+The export includes a public `status.json`, the referenced PNGs, fonts, dashboard
+assets and disabled editing/upload/capture controls. Search, layouts, PNGs,
+Storybook links and Figma embeds remain available. Refresh the corresponding
+`storybook-static/` deployment when its stories changed.
+
+Back up both static directories before updating. Stage complete builds before
+switching them into place; retain the previous directories outside public web
+roots for rollback. Check homepage, `status.json`, favicon and PNG requests;
+verify mutation requests are rejected and no `/api/workspace` exists. Confirm
+uploaded PNGs, external previews, disabled settings/upload controls and layout
+switching in the browser. Re-export from DEV whenever saved images or links change.
+
+The [deployment runbook](../../docs/command-cheat-sheet.md#testing-subdomain-hosting-status)
+records the actual hostname and runtime checks. The
+[dashboard documentation](../../docs/visual-testing-plan.md#public-static-dashboard)
+describes the public data and UI boundary.
+
+## Optional interactive deployment on a capable host
+
+The remaining instructions and templates are retained for a possible future
+interactive deployment. They are **not required or active** for the current
+static shared-host site.
 
 The host needs Node.js 22, npm, Linux support for Playwright Chromium, Nginx
 and a process supervisor. The supplied service uses systemd. A static-only

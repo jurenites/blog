@@ -2,7 +2,7 @@
   "name": "blog-jurenites",
   "private": true,
   "type": "module",
-  "version": "1.228.1",
+  "version": "1.229.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/jurenites/blog.git"
@@ -46,12 +46,13 @@
     "status:serve": "node scripts/component-status/server.mjs",
     "status:test": "PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node scripts/component-status/run.mjs",
     "status:import": "node scripts/component-status/import.mjs",
-    "test:component-status": "node --test tests/component-status.test.mjs tests/component-status-review.test.mjs tests/component-appearance.test.mjs tests/component-history.test.mjs",
+    "test:component-status": "node --test tests/component-status.test.mjs tests/component-status-review.test.mjs tests/component-appearance.test.mjs tests/component-history.test.mjs tests/component-status-public.test.mjs",
     "test:component-status-layout": "PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/component-status-layout.browser.mjs",
     "test:component-history": "PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright node tests/component-history.browser.mjs",
     "status:diagnose": "node scripts/component-status/diagnose.mjs",
     "build:qr-studio": "node scripts/build-qr-studio-font.mjs",
-    "test:qr-studio": "node --test web/modules/custom/jurenites_qr_studio/tests/*.test.mjs"
+    "test:qr-studio": "node --test web/modules/custom/jurenites_qr_studio/tests/*.test.mjs",
+    "status:export": "npm run status:build && node scripts/component-status/public-export.mjs"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "8.6.18",
