@@ -33,6 +33,17 @@ test('public export rejects path traversal and private or credential-bearing URL
   for (const source_url of ['http://localhost:7779/api/status', 'http://private.local/', 'https://user:password@example.com/', 'javascript:alert(1)']) assert.throws(() => public_source_url(source_url));
 });
 
+test('cleared manual uploads do not mask recorded screenshot fallbacks', () => {
+  const source_data = sample_snapshot();
+  source_data.workspaces['atoms-button'].draft_case.remove_storybook_capture = true;
+  delete source_data.workspaces['atoms-button'].draft_case.figma_baseline;
+  const { snapshot_data } = public_snapshot(source_data);
+  const published_case = snapshot_data.case_config['atoms-button'];
+  assert.equal(Object.hasOwn(published_case, 'storybook_capture'), false);
+  assert.equal(Object.hasOwn(published_case, 'figma_baseline'), false);
+  assert.equal(snapshot_data.components[0].checks[0].artifacts[0].artifact_path, 'artifacts/capture.png');
+});
+
 test('public source conversion preserves Storybook args and removes local preview origin', () => {
   const public_url = new URL(public_source_url('http://test.jurenites.local/storybook/iframe.html?id=atoms-button--default-story&args=button_label:Hello&preview_parent=http://test.jurenites.local', 'storybook'));
   assert.equal(public_url.origin, 'http://storybook.jurenites.com');

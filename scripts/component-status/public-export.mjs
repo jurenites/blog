@@ -40,8 +40,8 @@ export function public_snapshot(source_data) {
     const clean_case = pick_fields(case_data, ['story_selector', 'drupal_selector', 'viewport_width', 'viewport_height', 'comparison_mode', 'remove_baseline', 'remove_storybook_capture']);
     clean_case.story_url = public_source_url(case_data.story_url || `/storybook/iframe.html?id=${encodeURIComponent(default_story)}&viewMode=story`, 'storybook');
     clean_case.figma_url = public_source_url(case_data.figma_url);
-    clean_case.figma_baseline = case_data.remove_baseline ? '' : public_artifact(case_data.figma_baseline);
-    clean_case.storybook_capture = case_data.remove_storybook_capture ? '' : public_artifact(case_data.storybook_capture);
+    if (!case_data.remove_baseline && case_data.figma_baseline) clean_case.figma_baseline = public_artifact(case_data.figma_baseline);
+    if (!case_data.remove_storybook_capture && case_data.storybook_capture) clean_case.storybook_capture = public_artifact(case_data.storybook_capture);
     clean_case.website_examples = (case_data.website_examples ?? (case_data.drupal_url ? [{ page_url: case_data.drupal_url, component_selector: case_data.drupal_selector }] : [])).map(example_row => ({ ...pick_fields(example_row, ['example_id', 'example_label', 'component_selector']), page_url: public_source_url(example_row.page_url) }));
     return clean_case;
   }
