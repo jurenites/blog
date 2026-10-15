@@ -415,6 +415,27 @@ The private pre-update DEV database and manifests are retained under the ignored
 `.cache/dependency-updates/2026-10-15-before/` directory, outside `web/`.
 Production deployment is not established by these local checks.
 
+The production deployment was subsequently completed on 2026-10-15 through
+PR #26, merge commit `128116f2a4df79adb50bb08e51087952f5df8e1c`, release `1.228.1`.
+PROD uses PHP `8.3.31` and now runs Drupal `11.4.10`; its real platform check and
+Composer advisory audit passed. The two pending progressive-image post-updates
+completed, caches were rebuilt, and maintenance mode was disabled. The six public
+routes listed above and the Testing SVG returned HTTP 200. The existing Testing
+footer link was enabled with `http://test.jurenites.com/` and the T icon.
+
+The verified rollback backup is outside the web root at
+`/var/www/u3614358/data/backups/code-release-1.228.1.x5HQ1gnr/`. Use
+`production-complete.sql.gz` (325 tables), `tracked-code.tar.gz`,
+`installed-code.tar.gz`, and `previous-commit.txt`; the earlier `production.sql.gz`
+attempt emitted a tablespace privilege warning and is not the verified restore
+source. The replacement dump used `--extra-dump=--no-tablespaces`. PROD's enabled
+Devel module was preserved by installing the full lockfile, including require-dev.
+The previously manual SMEP module matched the release byte-for-byte and was
+retained in the backup before switching to its tracked copy. Live content and
+uploaded files were not replaced with DEV data. The separate testing subdomain
+still lacked DNS resolution during verification; the Drupal release does not
+activate its Node service.
+
 ### Manual restore including a separate code release
 
 The remaining procedure covers a full release through ISPmanager/phpMyAdmin.
