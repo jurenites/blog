@@ -59,15 +59,16 @@ export async function status_data(report_directory = REPORT_DIRECTORY) {
   return { ...merged_results, workspaces: await read_workspaces(report_directory), history_targets, manual_atoms: case_config.manual_atoms, case_config: case_config.components, review_cases, review_token: REVIEW_TOKEN, review_running, report_errors, refreshed_at: new Date().toISOString(), source_fingerprint: current_fingerprint };
 }
 
-export function create_status_server({ report_directory = REPORT_DIRECTORY } = {}) {
+export function create_status_server({ report_directory = REPORT_DIRECTORY, public_origin = process.env.COMPONENT_STATUS_PUBLIC_ORIGIN ?? '' } = {}) {
+  if (public_origin && (!['http:', 'https:'].includes(new URL(public_origin).protocol) || new URL(public_origin).origin !== public_origin)) throw new Error('COMPONENT_STATUS_PUBLIC_ORIGIN must be an HTTP(S) origin without a path or credentials.');
   return createServer(async (http_request, http_response) => {
     const status_origin = `http://127.0.0.1:${http_request.socket.localPort}`;
-    const request_origin = [status_origin, `http://localhost:${http_request.socket.localPort}`, 'http://test.jurenites.local']
+    const request_origin = [status_origin, `http://localhost:${http_request.socket.localPort}`, 'http://test.jurenites.local', ...(public_origin ? [public_origin] : [])]
       .find((allowed_origin) => new URL(allowed_origin).host === http_request.headers.host);
     if (!request_origin) { http_response.writeHead(403); http_response.end(); return; }
     try {
       const request_path = decodeURIComponent(new URL(http_request.url, 'http://localhost').pathname);
-      if (['/api/workspace', '/api/figma-reference'].includes(request_path) && http_request.method === 'POST') {
+      if (['/api/workspace', '/api/figma-reference', '/api/storybook-reference'].includes(request_path) && http_request.method === 'POST') {
         if (http_request.headers['x-review-token'] !== REVIEW_TOKEN || http_request.headers.origin !== request_origin || http_request.headers['content-type'] !== 'application/json') { http_response.writeHead(403); http_response.end(); return; }
         try {
           let request_body = '';
@@ -79,8 +80,8 @@ export function create_status_server({ report_directory = REPORT_DIRECTORY } = {
           const story_index = JSON.parse(await readFile(resolve(PROJECT_ROOT, 'storybook-static/index.json'), 'utf8'));
           if (!component_catalogue(story_index).some(component_row => component_row.component_id === input_data.component_id)) throw new Error('Unknown component.');
           const png_data = request_path === '/api/figma-reference' ? await obtain_figma_png(input_data.figma_url) : input_data.png_data;
-          const workspace_patch = request_path === '/api/figma-reference' ? { draft_case: { figma_url: input_data.figma_url, remove_baseline: false } } : input_data.workspace_patch;
-          const workspace_data = await save_workspace(report_directory, input_data.component_id, workspace_patch, png_data);
+          const workspace_patch = request_path === '/api/figma-reference' ? { draft_case: { figma_url: input_data.figma_url, remove_baseline: false } } : request_path === '/api/storybook-reference' ? { draft_case: { remove_storybook_capture: false } } : input_data.workspace_patch;
+          const workspace_data = await save_workspace(report_directory, input_data.component_id, workspace_patch, png_data, request_path === '/api/storybook-reference' ? 'storybook' : 'figma');
           http_response.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' });
           http_response.end(JSON.stringify(workspace_data));
         } catch (save_error) {
@@ -120,6 +121,7 @@ export function create_status_server({ report_directory = REPORT_DIRECTORY } = {
           const draft_baseline = workspace_rows[review_case.component_id]?.draft_case?.figma_baseline;
           const png_data = input_data.png_data || (!input_data.remove_baseline && draft_baseline ? `data:image/png;base64,${(await readFile(resolve(report_directory, draft_baseline))).toString('base64')}` : !input_data.remove_baseline && !saved_cases[review_case.component_id] ? await configured_baseline(PROJECT_ROOT, case_config, review_case) : undefined);
           const report_data = await run_visual_review({ project_root: PROJECT_ROOT, report_directory: report_directory, status_origin, review_case, png_data, remove_baseline: input_data.remove_baseline === true });
+          if (report_data.components[0]?.checks.some(check_result => check_result.check_key === 'storybook' && check_result.artifacts?.length)) await save_workspace(report_directory, review_case.component_id, { draft_case: { remove_storybook_capture: true } });
           http_response.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' });
           http_response.end(JSON.stringify(report_data));
         } catch (review_error) {

@@ -2,8 +2,8 @@ import { component_status_markup, connect_component_groups, source_link_markup }
 const SOURCE_LABEL = 'Storybook';
 const SOURCE_URL = '/storybook/';
 const COMPONENT_ROWS = [
-  { component_id: 'atoms-button', component_name: 'Button', component_group: 'Atoms', overall_status: 'passed', checks: [{ check_key: 'drupal', status: 'passed' }, { check_key: 'storybook', status: 'passed' }, { check_key: 'figma', status: 'passed' }] },
-  { component_id: 'example-article', component_name: 'Article Blog List Item', component_group: 'Molecules/Blog', story_ids: ['article--default', 'article--compact'], overall_status: 'attention', checks: [{ check_key: 'drupal', status: 'blocked' }, { check_key: 'storybook', status: 'passed', is_stale: true }, { check_key: 'figma', status: 'missing' }] },
+  { component_id: 'atoms-button', story_ids: ['button--default'], source_case: { figma_url: 'https://www.figma.com/design/example?node-id=1-2', drupal_url: '/contact', drupal_selector: '.button' }, component_name: 'Button', component_group: 'Atoms', overall_status: 'passed', checks: [{ check_key: 'drupal', status: 'passed' }, { check_key: 'storybook', status: 'passed' }, { check_key: 'figma', status: 'passed' }] },
+  { component_id: 'example-article', source_case: { drupal_url: '/articles' }, component_name: 'Article Blog List Item', component_group: 'Molecules/Blog', story_ids: ['article--default', 'article--compact'], overall_status: 'attention', checks: [{ check_key: 'drupal', status: 'blocked' }, { check_key: 'storybook', status: 'passed', is_stale: true }, { check_key: 'figma', status: 'missing' }] },
   { component_id: 'example-select', component_name: 'Select Input', component_group: 'Atoms', story_ids: ['select--default', 'select--disabled', 'select--error'], overall_status: 'failed', checks: [{ check_key: 'drupal', status: 'failed' }, { check_key: 'storybook', status: 'passed' }, { check_key: 'figma', status: 'missing' }] },
   { component_id: 'example-avatar', component_name: 'Avatar', component_group: 'Atoms', story_ids: ['avatar--default'], overall_status: 'attention', checks: [] },
 ];

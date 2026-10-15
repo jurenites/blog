@@ -24,6 +24,8 @@ import { read_workspaces, save_workspace, validate_workspace_patch } from '../sc
 });
 
 test('workspace validates layout/rules and cannot accept manual passing results', () => {
+  assert.deepEqual(validate_workspace_patch({ view_state: { comparison_layout: 'list' } }), { view_state: { comparison_layout: 'list' } });
+  assert.throws(() => validate_workspace_patch({ view_state: { comparison_layout: 'invalid' } }));
   assert.throws(() => validate_workspace_patch({ matrix_state: { column_order: ['hover', 'hover'] } }));
   assert.throws(() => validate_workspace_patch({ matrix_state: { depth_index: 5 } }));
   assert.throws(() => validate_workspace_patch({ matrix_state: { rule_overrides: { 'primary|true|hover': 'passed' } } }));
@@ -51,4 +53,22 @@ test('axis roles and reordered dimension values persist with canonical combinati
   assert.deepEqual(validate_workspace_patch(workspace_patch), workspace_patch);
   assert.throws(() => validate_workspace_patch({ matrix_state: { axis_roles: { row_axis: 'button_style', column_axis: 'button_style', depth_axis: 'is_disabled' } } }));
   assert.throws(() => validate_workspace_patch({ matrix_state: { dimension_orders: { pointer_state: ['default', 'default'] } } }));
+});
+
+test('manual Storybook PNG persists separately from Figma and never creates test results', async () => {
+  const temp_directory = await mkdtemp(resolve(tmpdir(), 'storybook-upload-'));
+  try {
+    const image_buffer = PNG.sync.write(new PNG({ width: 2, height: 2 }));
+    const png_data = `data:image/png;base64,${image_buffer.toString('base64')}`;
+    const saved_state = await save_workspace(temp_directory, 'atoms-button', { draft_case: {} }, png_data, 'storybook');
+    assert.ok(saved_state.draft_case.storybook_capture.startsWith('artifacts/baselines/'));
+    assert.equal(saved_state.draft_case.figma_baseline, undefined);
+    assert.equal(saved_state.checks, undefined);
+    assert.deepEqual(await readFile(resolve(temp_directory, saved_state.draft_case.storybook_capture)), image_buffer);
+    const restored_state = (await read_workspaces(temp_directory))['atoms-button'];
+    assert.equal(restored_state.draft_case.storybook_capture, saved_state.draft_case.storybook_capture);
+    const fresh_capture = await save_workspace(temp_directory, 'atoms-button', { draft_case: { remove_storybook_capture: true } });
+    assert.equal(fresh_capture.draft_case.storybook_capture, undefined);
+    assert.throws(() => save_workspace(temp_directory, 'atoms-button', {}, png_data, 'invalid'), /Unsupported PNG source/);
+  } finally { await rm(temp_directory, { recursive: true, force: true }); }
 });

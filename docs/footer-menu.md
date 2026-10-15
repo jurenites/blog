@@ -39,7 +39,7 @@ The script preserves an existing ChatGPT link and later menu edits on reruns.
 
 **Testing** belongs in **How I work**, immediately after
 **Cookbook** and before **Brandbook**. Its destination is ordinary editable menu
-content: `http://test.jurenites.local/` in DEV and `https://test.jurenites.com/`
+content: `http://test.jurenites.local/` in DEV and `http://test.jurenites.com/`
 in PROD. The theme does not rewrite destinations by hostname. Adding this link
 does not activate or deploy the testing subdomain.
 
@@ -50,10 +50,13 @@ docker exec -e FOOTER_TEST_URL=http://test.jurenites.local/ blog_jurenites_web v
 docker exec blog_jurenites_web vendor/bin/drush cr
 ```
 
+The link uses `brand-testing`, the same supplied 16px T artwork as the dashboard
+favicon. The script fills an empty icon on the existing Testing link while
+preserving its destination, labels, translations and placement.
 The script preserves existing links and translations, records reordered siblings
 as new revisions, and leaves later edits intact on reruns. In PROD, use the menu
 editor with the production URL, or run the same script through the hosting's
-Drush with `FOOTER_TEST_URL=https://test.jurenites.com/` if the menu UUIDs match.
+Drush with `FOOTER_TEST_URL=http://test.jurenites.com/` if the menu UUIDs match.
 After copying a DEV database to PROD, update the existing Testing destination in
 the menu editor; rerunning the script intentionally does not overwrite it.
 

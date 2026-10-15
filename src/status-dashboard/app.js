@@ -62,7 +62,12 @@ function check_markup(check_result) {
 }
 function catalogue_rows() {
   const saved_targets = (dashboard_data.history_targets ?? []).filter((target_row) => !dashboard_data.components.some((component_row) => component_row.component_id === target_row.target_id));
-  return [...dashboard_data.components, ...saved_targets.map((target_row) => ({ component_id: `history-${target_row.target_id}`, component_name: target_row.target_label, component_group: target_row.target_scope === 'page' ? 'Pages' : 'Organisms', history_target: target_row, checks: [], overall_status: 'attention' }))];
+  const source_rows = dashboard_data.components.map(component_row => ({ ...component_row, source_case: {
+    ...dashboard_data.case_config[component_row.component_id],
+    ...dashboard_data.review_cases?.[component_row.component_id],
+    ...read_component_workspace(component_row.component_id, dashboard_data.workspaces?.[component_row.component_id] ?? {}).draft_case,
+  } }));
+  return [...source_rows, ...saved_targets.map((target_row) => ({ component_id: `history-${target_row.target_id}`, component_name: target_row.target_label, component_group: target_row.target_scope === 'page' ? 'Pages' : 'Organisms', history_target: target_row, checks: [], overall_status: 'attention' }))];
 }
 function detail_history_markup(component_row) {
   const root_group = component_row.component_group.split('/')[0].trim();
@@ -111,9 +116,10 @@ function render_details(move_focus = false) {
   else capture_time.removeAttribute('datetime');
   monospace_numbers(capture_time);
   if (!component_row) return;
-  const detail_heading = `<div class="status-dashboard__detail-heading"><div class="status-dashboard__detail-path"><span class="status-dashboard__eyebrow">${escape_html(component_row.component_group)} /</span><h2 id="detail-heading">${escape_html(component_row.component_name)}</h2></div><div class="status-dashboard__detail-tools"><span class="visually-hidden" data-autosave-status role="status"></span><span id="detail-history-link">${detail_history_markup(component_row)}</span></div></div>`;
+  const layout_controls = component_row.history_target ? '' : `<div class="status-dashboard__layout-controls" role="group" aria-label="Comparison layout">${[['columns', 'Columns', 'column'], ['list', 'List', 'rows']].map(([layout_key, layout_label, icon_name]) => icon_button_markup({ button_accessible_label: layout_label, tooltip_label: layout_label, style_variant: 'ghost', button_icon_markup: icon_markup({ icon_name, class_name: 'status-dashboard__layout-icon' }), additional_class_names: 'status-dashboard__layout-button' }).replace('<button', `<button data-comparison-layout="${layout_key}" aria-pressed="${layout_key === 'columns'}" aria-controls="review-preview-stage"`)).join('')}</div>`;
+  const detail_heading = `<div class="status-dashboard__detail-heading"><div class="status-dashboard__detail-path">${layout_controls}<span class="status-dashboard__eyebrow">${escape_html(component_row.component_group)} /</span><h2 id="detail-heading">${escape_html(component_row.component_name)}</h2></div><div class="status-dashboard__detail-tools"><span class="visually-hidden" data-autosave-status role="status"></span><span id="detail-history-link" hidden>${detail_history_markup(component_row)}</span></div></div>`;
   if (component_row.history_target) {
-    details_panel.innerHTML = `${detail_heading}<p>Saved design milestones for ${escape_html(component_row.component_name)}. Choose Before / After to compare its versions and edit element reasons.</p>`;
+    details_panel.innerHTML = `${detail_heading}<p>Saved design milestones for ${escape_html(component_row.component_name)}.</p>`;
     review_dirty = false;
     if (move_focus) details_panel.focus({ preventScroll: true });
     return;
@@ -124,7 +130,7 @@ function render_details(move_focus = false) {
   const case_config = { ...dashboard_data.case_config[component_id], ...effective_case };
   const matrix_markup = component_id === 'atoms-button' ? button_matrix_markup(component_row, workspace_state.matrix_state) : '';
   details_panel.innerHTML = `${detail_heading}${review_panel_markup(component_row, case_config, effective_case, matrix_markup)}<details class="status-dashboard__check-details" data-workspace-details="recorded-checks"><summary>Recorded checks</summary><section class="status-dashboard__recorded">${component_row.checks.map(check_result => check_markup({ ...check_result, artifacts: [] })).join('')}</section></details>`;
-  const workspace_connection = connect_workspace({ component_id, initial_state: workspace_state, review_token: dashboard_data.review_token, on_saved: saved_state => { dashboard_data.workspaces ??= {}; dashboard_data.workspaces[component_id] = saved_state; review_dirty = false; } });
+  const workspace_connection = connect_workspace({ component_id, initial_state: workspace_state, review_token: dashboard_data.review_token, on_saved: saved_state => { dashboard_data.workspaces ??= {}; dashboard_data.workspaces[component_id] = saved_state; review_dirty = false; render_catalogue(); } });
   const save_settings = workspace_connection.update_settings;
   if (component_id === 'atoms-button') connect_button_matrix({ component_row, saved_state: workspace_state.matrix_state, save_settings });
   review_dirty = false;

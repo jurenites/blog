@@ -9,14 +9,22 @@
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 
 $testing_url = getenv('FOOTER_TEST_URL');
-if (!in_array($testing_url, ['http://test.jurenites.local/', 'https://test.jurenites.com/'], TRUE)) {
+if (!in_array($testing_url, ['http://test.jurenites.local/', 'http://test.jurenites.com/', 'https://test.jurenites.com/'], TRUE)) {
   throw new RuntimeException('Set FOOTER_TEST_URL to the local or production testing URL.');
 }
 $menu_storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
 $testing_uuid = 'fe92dc8f-fdb8-4a17-a8cc-b386f06e6088';
 $existing_links = $menu_storage->loadByProperties(['uuid' => $testing_uuid]);
 if ($existing_links) {
-  echo "Testing link already exists; later editorial changes preserved.\n";
+  $testing_link = reset($existing_links);
+  if ($testing_link->get('field_footer_icon')->isEmpty()) {
+    $testing_link->setNewRevision(TRUE);
+    $testing_link->set('field_footer_icon', 'brand-testing')->save();
+    echo "Added the Testing T icon; existing destination and editorial content preserved.\n";
+  }
+  else {
+    echo "Testing link already has an icon; later editorial changes preserved.\n";
+  }
   return;
 }
 $existing_links = $menu_storage->loadByProperties(['menu_name' => 'footer', 'link.uri' => $testing_url]);
@@ -55,6 +63,7 @@ try {
     'weight' => $testing_weight,
     'enabled' => TRUE,
     'field_footer_role' => 'link',
+    'field_footer_icon' => 'brand-testing',
   ]);
   $testing_link->addTranslation('ru', ['title' => 'Тестирование']);
   $testing_link->save();

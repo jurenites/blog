@@ -5,11 +5,11 @@ import { PNG } from 'pngjs';
 import { compare_images } from './images.mjs';
 import { current_build_fingerprint, validate_report } from './report.mjs';
 
-export function validate_review_case(input_data, component_rows) {
+export function validate_review_case(input_data, component_rows, website_origin = process.env.COMPONENT_STATUS_WEBSITE_ORIGIN ?? 'http://jurenites.local') {
   const component_row = component_rows.find((row_item) => row_item.component_id === input_data.component_id);
   if (!component_row) throw new Error('Choose a component from the catalogue.');
   const website_value = String(input_data.drupal_url ?? '').trim();
-  const website_url = website_value ? new URL(website_value, 'http://jurenites.local') : null;
+  const website_url = website_value ? new URL(website_value, website_origin) : null;
   if (website_url && (!['http:', 'https:'].includes(website_url.protocol) || website_url.username || website_url.password)) throw new Error('Use an HTTP(S) website URL without credentials.');
   if (!website_url && input_data.drupal_selector?.trim()) throw new Error('Enter a website URL with its selector, or leave both empty.');
   const story_url = new URL(input_data.story_url, 'http://localhost');
@@ -20,7 +20,8 @@ export function validate_review_case(input_data, component_rows) {
   }
   const viewport_width = Number(input_data.viewport_width);
   const viewport_height = Number(input_data.viewport_height);
-  if (![viewport_width, viewport_height].every((pixel_value) => Number.isInteger(pixel_value) && pixel_value >= 320 && pixel_value <= 2560)) throw new Error('Viewport dimensions must be whole pixels between 320 and 2560.');
+  if (!Number.isSafeInteger(viewport_width) || viewport_width < 1) throw new Error('Viewport width must be a positive whole number of pixels.');
+  if (!Number.isInteger(viewport_height) || viewport_height < 320 || viewport_height > 2560) throw new Error('Viewport height must be whole pixels between 320 and 2560.');
   const figma_url = String(input_data.figma_url ?? '').trim();
   if (figma_url) {
     const parsed_figma = new URL(figma_url);
@@ -36,7 +37,7 @@ export function validate_review_case(input_data, component_rows) {
   if (!Array.isArray(website_examples) || website_examples.length > 8) throw new Error('Use up to eight website examples per run.');
   const example_ids = new Set();
   const normalized_examples = website_examples.map((example_row) => {
-    const page_url = new URL(example_row.page_url, 'http://jurenites.local');
+    const page_url = new URL(example_row.page_url, website_origin);
     if (!['http:', 'https:'].includes(page_url.protocol) || page_url.username || page_url.password) throw new Error('Website examples require HTTP(S) URLs without credentials.');
     if (!/^[a-z0-9][a-z0-9-]{0,60}$/.test(example_row.example_id) || ['storybook', 'none'].includes(example_row.example_id) || example_ids.has(example_row.example_id)) throw new Error('Website example IDs must be unique.');
     example_ids.add(example_row.example_id);

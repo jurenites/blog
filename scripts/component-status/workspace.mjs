@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import { decode_baseline } from './review.mjs';
 
-const DRAFT_FIELDS = ['story_url', 'story_selector', 'figma_url', 'comparison_mode', 'story_hover_selector', 'story_interaction_selector', 'viewport_width', 'viewport_height', 'inputs_matched', 'remove_baseline', 'capture_states', 'website_examples'];
+const DRAFT_FIELDS = ['story_url', 'story_selector', 'figma_url', 'comparison_mode', 'story_hover_selector', 'story_interaction_selector', 'viewport_width', 'viewport_height', 'inputs_matched', 'remove_baseline', 'remove_storybook_capture', 'capture_states', 'website_examples'];
 const COLUMN_KEYS = ['default', 'hover', 'focus', 'active'];
 const STYLE_KEYS = ['primary', 'secondary', 'text'];
 let pending_write = Promise.resolve();
@@ -76,7 +76,7 @@ export function validate_workspace_patch(workspace_patch) {
         if (field_key === 'capture_states' && field_value.some(state_key => !['default', 'hover', 'focus', 'active', 'checked'].includes(state_key))) throw new Error('Invalid capture state.');
         if (field_key === 'website_examples') clean_patch.draft_case[field_key] = field_value.map(example_row => Object.fromEntries(['example_id', 'example_label', 'page_url', 'component_selector', 'interaction_selector', 'reveal_selector'].filter(field_name => example_row[field_name] !== undefined).map(field_name => [field_name, String(example_row[field_name]).slice(0, 4096)])));
         else clean_patch.draft_case[field_key] = field_value;
-      } else if (['inputs_matched', 'remove_baseline'].includes(field_key)) {
+      } else if (['inputs_matched', 'remove_baseline', 'remove_storybook_capture'].includes(field_key)) {
         if (typeof field_value !== 'boolean') throw new Error(`Invalid ${field_key}.`);
         clean_patch.draft_case[field_key] = field_value;
       } else clean_patch.draft_case[field_key] = String(field_value).slice(0, 4096);
@@ -85,6 +85,10 @@ export function validate_workspace_patch(workspace_patch) {
   if (workspace_patch.view_state !== undefined) {
     const view_state = workspace_patch.view_state;
     const clean_view = {};
+    if (view_state.comparison_layout !== undefined) {
+      if (!['columns', 'list'].includes(view_state.comparison_layout)) throw new Error('Invalid comparison layout.');
+      clean_view.comparison_layout = view_state.comparison_layout;
+    }
     if (view_state.enabled_sources !== undefined) {
       if (!Array.isArray(view_state.enabled_sources) || view_state.enabled_sources.some(source_name => !['figma', 'storybook', 'drupal'].includes(source_name))) throw new Error('Invalid preview sources.');
       clean_view.enabled_sources = [...new Set(view_state.enabled_sources)];
@@ -106,7 +110,8 @@ export function validate_workspace_patch(workspace_patch) {
   return clean_patch;
 }
 
-export function save_workspace(report_directory, component_id, workspace_patch, png_data) {
+export function save_workspace(report_directory, component_id, workspace_patch, png_data, png_source = 'figma') {
+  if (!['figma', 'storybook'].includes(png_source)) throw new Error('Unsupported PNG source.');
   const clean_patch = validate_workspace_patch(workspace_patch);
   if (!/^[a-z0-9][a-z0-9-]{0,127}$/.test(component_id)) throw new Error('Invalid component id.');
   const save_operation = pending_write.catch(() => {}).then(async () => {
@@ -115,13 +120,14 @@ export function save_workspace(report_directory, component_id, workspace_patch, 
     const next_state = { ...previous_state, ...clean_patch, updated_at: new Date().toISOString() };
     if (clean_patch.draft_case) next_state.draft_case = { ...previous_state.draft_case, ...clean_patch.draft_case };
     if (clean_patch.draft_case?.remove_baseline) delete next_state.draft_case.figma_baseline;
+    if (clean_patch.draft_case?.remove_storybook_capture) delete next_state.draft_case.storybook_capture;
     if (png_data) {
       const baseline_buffer = decode_baseline(png_data);
       const image_hash = createHash('sha256').update(baseline_buffer).digest('hex');
       await mkdir(resolve(report_directory, 'artifacts/baselines'), { recursive: true });
       const baseline_path = `artifacts/baselines/${image_hash}.png`;
       await writeFile(resolve(report_directory, baseline_path), baseline_buffer);
-      next_state.draft_case = { ...next_state.draft_case, figma_baseline: baseline_path };
+      next_state.draft_case = { ...next_state.draft_case, [png_source === 'storybook' ? 'storybook_capture' : 'figma_baseline']: baseline_path };
     }
     workspace_rows[component_id] = next_state;
     await mkdir(report_directory, { recursive: true });

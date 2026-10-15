@@ -67,10 +67,10 @@
   &__sources { display: flex; align-items: center; gap: var(--space-scale-base-gap); }
   &__source-status {
     display: inline-flex;
-    color: var(--theme-dark-text-gray);
-    &--passed { color: var(--theme-dark-system-success-accent); }
-    &--failed { color: var(--theme-dark-system-error-accent); }
-    &--blocked, &--stale { color: var(--theme-dark-system-warning-accent); }
+    color: var(--theme-dark-system-error);
+    &--attached { color: var(--theme-dark-system-success); }
+    &--incomplete { color: var(--theme-dark-system-warning); }
+    &--missing { color: var(--theme-dark-system-error); }
   }
   &__status-icon {
     width: calc(var(--space-scale-base-gap) * 2);

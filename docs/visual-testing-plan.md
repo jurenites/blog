@@ -44,19 +44,45 @@ controls. Capture actions use the primary Button variant; their text selection,
 hover, focus and disabled behavior come from the atom without local restyling.
 The website-example remove icon uses the existing secondary-hover color on hover
 and keyboard focus, one palette step lighter than its elevated example surface.
-Website examples show their number in the “Example URL N” field label. Their
+Website examples show their number in the “Example URL N” field label. The remove
+icon button follows the URL input with an 8px gap, aligned with the input rather
+than the far edge of the settings surface. Their
 fieldset legend and “Live web” heading are visually hidden; numbering updates
-when examples are removed.
+when examples are removed. Required labels use the shared Input text red asterisk
+for Storybook URL and selector, website example URL and selector, and capture
+viewport height. Optional labels remain unmarked; native required validation is preserved.
+
+Capture controls appear at the end of Storybook source settings, after its URL
+and component selector, revealed by the Storybook gear. Standard comparisons
+have no separate Capture settings disclosure. The controls retain their form
+association and autosave behavior. The language-picker test suite retains its
+standalone test-run disclosure.
 
 Capture settings uses “Appearance · allow different copy” for all new captures;
 the comparison-mode picker and exact-pixel confirmation are hidden. The state
 checkboxes are hidden, and dashboard drafts and submissions always request only
 the default state, regardless of previously saved interaction selections. The
-action labeled “Capture all examples” is hidden. There is no
+action labeled “Capture all examples” is hidden. Valid Storybook URL, selector, viewport
+and website-example edits now trigger a default-state capture after one second
+of inactivity. Opening a component, switching layout or toggling disclosures does
+not run tests. Captures are serialized; newer edits queue the latest settings
+and superseded results do not replace the active form. Incomplete website examples
+are saved as drafts and omitted from the run so they do not block Storybook.
+Progress and capture errors appear beside the Storybook preview; the PNG and
+Recorded checks refresh after completion. Missing Storybook captures expose a
+shared upload Icon-button. Uploaded PNGs persist separately from Figma, are
+explicitly labeled as untested manual images, and are replaced by the next
+successful Storybook capture. There is no
 nested Advanced capture settings disclosure. Shared
 Range Slider atoms select width presets (360, 768, 1280, 1920px) and height presets
 (640, 720, 900, 1080, 1440, 2160px). The height slider is vertical and 120px tall,
-paired with an 80px-wide number input that still accepts exact heights.
+paired with an 80px-wide number input that still accepts exact heights. Width also
+has an 80px number input, accepting any positive whole-pixel value independently
+of the slider presets. Manual values retain their exact width while the slider
+indicates the nearest preset. Interactive preview uses that exact iframe width;
+its surrounding disclosure fits the viewport plus 16px content padding on each
+side, capped by the available column width. Wider viewports scroll without
+scaling, in both list and column layouts.
 Collapsible surface headers meet the top and both side edges; summary
 text has an 8px left inset, while expanded content has its own 16px padding. Review sections use existing elevated surface colors instead of outline
 borders, with a lighter nested surface for website examples. The Overlay toolbar
@@ -76,11 +102,37 @@ The Interactive preview disclosure lives in the Storybook column above source
 settings and opens by default. Its iframe follows the capture viewport width
 and height, with scrolling inside the column for larger viewports. Button keeps
 its existing live combinations preview.
-The Figma live canvas remains separate from those settings. Interaction targets
-is hidden. Columns stack on narrow screens. The combination table,
+The Figma live canvas remains separate from those settings. Live Figma canvas
+and Interactive preview share the same full-width
+disclosure surface and explicit shared preview-heading style: 56px minimum header
+height, 8px left padding, body typography, matching surface and hover colors,
+and shared chevron controls. Screenshot capture areas reserve at least 80px. Viewport width and height
+changes, disclosure contents, gear settings panels and disclosure chevrons use
+the existing 250ms standard motion tokens. Native CSS size interpolation keeps
+closing content visible through its collapse; reduced-motion users and browsers
+without disclosure interpolation retain immediate native toggles. Their
+expanded contents have 16px padding. Interaction targets
+are hidden. Columns stack on narrow screens. The combination table,
 Table layout, combination slider and website-example picker are temporarily
 hidden, retaining their existing workspace data for later use. Preview columns
-open side by side while Overlay is hidden.
+open side by side while Overlay is hidden. Two mutually exclusive controls at
+the start of the detail heading switch between Columns and List. List stacks
+the three source panes at the full available comparison width. Source titles share an
+80px minimum width so their adjacent controls align in list view. Two 1px solid
+dividers separate the sources using the existing outline token: vertical across
+the full pane height in columns, horizontal in list view and the mobile stack.
+Dividers sit in the existing gaps without adding an outer border or shifting content.
+The page, component catalogue, captured images and interactive preview viewport
+reuse the Storybook Horizontal Scrollbar atom for both axes: square 8px thumbs,
+transparent tracks and the existing divider color. Embedded external pages such
+as Figma retain control of their own internal scrollbars.
+The comparison layout switch uses the supplied column and rows SVGs in shared
+Icon-button atoms. Exactly one button is pressed, with a highlighted background
+and icon color. A random anonymous visitor ID and the last layout are stored in
+browser localStorage (`jurenites-comparison-preferences`); this browser preference
+takes priority over shared component workspace layout and applies across components.
+The ID stays in the browser and requires no login. Clearing site data resets it;
+when storage is unavailable, the layout remains usable for the current visit.
 
 ## Catalogue source indicators
 
@@ -90,9 +142,12 @@ shows **Button (6)**; pointer interaction states and website instances do not
 multiply that count. Other components count their unique registered Storybook
 examples. This is an inventory count, not a count of passing captures.
 
-Rows show the shared Web, Storybook and Figma SVG icons in that order, colored
-from their respective `drupal`, `storybook` and `figma` checks. Green means
-passed, red failed, amber blocked or stale, and gray missing or not checked.
+Rows show the shared Figma, Storybook and Web SVG icons in that order. Their
+colors describe source attachments from the effective configuration and saved
+draft: green means attached, orange means incomplete settings, and red means
+missing. A Figma URL or retained PNG attaches Figma; a registered or configured
+story attaches Storybook; website examples need both a URL and selector.
+These indicators do not imply that a source has passed its visual tests.
 Source/status descriptions remain in hover titles and accessible row labels;
 visible status text and the single overall square are removed. Integration and
 naming checks remain in the detail panel and overall status filter. Saved
@@ -100,7 +155,9 @@ milestone entries retain their own label without invented counts or test states.
 
 ## Before / After milestones
 
-Open a component detail in Testing, then choose **Before / After** beside its
+The **Before / After** entry button in Testing is hidden; Presentation replaces
+it in the current workflow. The existing history tool remains available at its
+direct URL. Previously, the button appeared beside the component's
 name. The dashboard and player have no global header or manual Refresh button.
 Existing selector IDs remain independent of template position. History links are available for Organisms, Pages and composed
 Components; atom and molecule details keep their existing review flow.
@@ -237,6 +294,11 @@ layout.
 scoped navigation, empty targets, saved page entries, refresh, filters and mobile
 layout.
 
+Comparison evidence displays property corrections as current → target. The current
+implementation value uses the shared Inline Code atom with an error background;
+the expected reference value uses a success background. Accessible labels identify
+current and target values independently of color.
+
 ## Using the Comparison Form
 
 ### Figma reference inventory
@@ -332,8 +394,9 @@ Open a component in `http://test.jurenites.local/` (or `http://127.0.0.1:7779/`)
 The visible **Linked sources** form accepts website examples (URLs or paths
 relative to `http://jurenites.local` with unique component selectors), a local
 Storybook iframe URL including args, a Storybook selector, and a viewport.
-**Capture all examples & states** saves the mapping locally and runs Playwright
-from fresh anonymous browser contexts. Merely opening the dashboard does not start tests.
+Settings save automatically. Completing a valid capture-setting edit runs
+Playwright after a one-second pause, using fresh anonymous browser contexts.
+Merely opening the dashboard does not start tests; no submit button is needed.
 
 Viewport width uses the shared Select Input control, including its 40px trigger,
 40px chevron area and keyboard-operated options; form values stay numeric.
@@ -677,19 +740,20 @@ Both Docker's local proxy and the host's `npm run status:serve` process must
 remain running. Recheck host resolution and `/api/status` after restarting them;
 checked-in proxy configuration does not establish current service availability.
 
-`test.jurenites.com` is proposed, not deployed. A full interactive installation
-needs DNS, HTTPS, a reverse proxy, a supervised Node process, writable private
-report storage, and enough resources for Playwright/Chromium. Confirm these
-capabilities in ISPmanager first; hosting a static Storybook does not establish
-support for this service. Protect the interactive dashboard with authentication:
-the review token prevents cross-origin capture requests but does not identify a
-user. It is delivered to dashboard readers, who can otherwise trigger captures.
-The production hostname is intentionally not enabled in the local server yet.
+The interactive deployment for `http://test.jurenites.com` is prepared in
+[`deploy/component-status`](../deploy/component-status/README.md): an HTTP-only
+Nginx virtual host with a default-deny IP allowlist, a loopback Node service
+managed by systemd, and an environment template. No DNS or production service
+has been changed. Set `COMPONENT_STATUS_PUBLIC_ORIGIN` to explicitly allow that
+Host; the default server still accepts only local hosts. POST requests retain
+both the same-origin check and review-token requirement.
 
-An alternative is to publish read-only reports at the public subdomain and run
-captures locally or in CI. That needs a static report export/read-only viewer;
-copying `generated/status-dashboard` alone is insufficient because the current
-page calls the Node API. Decide the intended audience before production setup.
+`COMPONENT_STATUS_WEBSITE_ORIGIN` selects the base for relative website capture
+paths; existing absolute URLs remain unchanged. Follow the deployment guide for
+Linux Chromium installation, writable data storage, environment-specific source
+mappings, access checks and rollback. The public route does not expose the source
+checkout. The live Website iframe bridge and specialized language-picker suite
+remain local-only; ordinary server-side component PNG captures are supported.
 
 ## Implemented Local Component Status
 
@@ -716,6 +780,8 @@ components' ancestor folders; documentation-only pages are not testable rows.
 The desktop catalogue sits alongside the selected comparison, with a visible
 filtered/total count. Clear the search field and select **All** in the status
 filter to restore the full catalogue; there is no separate **Show all** button.
+The Molecules group has no extra list padding, so its Blog heading aligns with
+the parent heading; component rows within Blog retain their own indentation.
 The component count is derived from the current built Storybook index. This is
 the eligible Storybook inventory,
 not automatic discovery of every Figma frame or Drupal region. All three source

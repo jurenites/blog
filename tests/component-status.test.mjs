@@ -14,15 +14,19 @@ test('sidebar counts Button combinations independently of its single story and d
   assert.equal(component_variant_count({}), 0);
 });
 
-test('sidebar source statuses stay independent of unrelated failures and preserve missing evidence', () => {
-  const source_states = component_source_states({ overall_status: 'failed', checks: [
-    { check_key: 'drupal', status: 'passed' },
-    { check_key: 'storybook', status: 'failed', is_stale: true },
-    { check_key: 'figma', status: 'missing', is_stale: true },
-    { check_key: 'naming', status: 'failed' },
-  ] });
-  assert.deepEqual(source_states.map(source_state => [source_state.source_label, source_state.status_key]), [['Web', 'passed'], ['Storybook', 'stale'], ['Figma', 'missing']]);
-  assert.deepEqual(component_source_states({}).map(source_state => source_state.status_key), ['not_checked', 'not_checked', 'not_checked']);
+test('sidebar source indicators follow attachment settings in Figma, Storybook, Web order', () => {
+  const source_states = component_source_states({ story_ids: ['button--default'], checks: [
+    { check_key: 'figma', status: 'failed', is_stale: true },
+  ], source_case: { figma_url: 'https://www.figma.com/design/example?node-id=1-2', website_examples: [{ page_url: '/contact', component_selector: '.button' }] } });
+  assert.deepEqual(source_states.map(source_state => [source_state.source_label, source_state.status_key]), [['Figma', 'attached'], ['Storybook', 'attached'], ['Web', 'attached']]);
+  assert.deepEqual(component_source_states({}).map(source_state => source_state.status_key), ['missing', 'missing', 'missing']);
+});
+
+test('partial mappings warn, explicit clears stay missing, and removed PNGs are not attachments', () => {
+  const status_keys = source_case => component_source_states({ story_ids: ['button--default'], source_case }).map(source_state => source_state.status_key);
+  assert.deepEqual(status_keys({ figma_url: 'https://example.com/design', website_examples: [{ page_url: '/contact', component_selector: '' }] }), ['incomplete', 'attached', 'incomplete']);
+  assert.deepEqual(status_keys({ figma_baseline: 'reference.png', remove_baseline: true, story_url: '', website_examples: [], drupal_url: '/old', drupal_selector: '.old' }), ['missing', 'missing', 'missing']);
+  assert.deepEqual(status_keys({ figma_baseline: 'reference.png', website_examples: [{ page_url: '/contact', component_selector: '.button' }, { page_url: '/about', component_selector: '' }] }), ['attached', 'attached', 'incomplete']);
 });
 function report_fixture(check_status = 'passed') {
   return { schema_version: 1, source_name: 'unit-test', checked_at: CHECKED_AT, source_fingerprint: 'current-source', components: [{ component_id: 'molecules-test-item', checks: ['storybook', 'drupal', 'integration', 'figma'].map((check_key) => ({ check_key, check_label: check_key, status: check_status, message: 'Evidence' })) }] };
