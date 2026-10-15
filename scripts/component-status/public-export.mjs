@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, realpath, rm, writeFile } from 'node:fs/promises';
 import { dirname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 import { PROJECT_ROOT, REPORT_DIRECTORY, status_data } from './server.mjs';
 
 const STORYBOOK_ORIGIN = 'http://storybook.jurenites.com';
@@ -84,7 +85,12 @@ export async function export_public_dashboard({ output_directory = PUBLIC_DIRECT
   await mkdir(output_directory, { recursive: true });
   for (const file_name of ['app.js', 'style.css', 'favicon.svg', 'button-variants-overview.png', 'build-info.json']) await cp(resolve(PROJECT_ROOT, 'generated/status-dashboard', file_name), resolve(output_directory, file_name));
   const html_source = await readFile(resolve(PROJECT_ROOT, 'src/status-dashboard/index.html'), 'utf8');
-  const public_html = html_source.replace('<html lang="en"', '<html data-dashboard-mode="public" lang="en"').replace('<h1 class="visually-hidden">Visual testing</h1>', '<h1 class="visually-hidden">Visual testing</h1><p class="status-dashboard__public-notice" id="public-dashboard-notice">Public preview · Editing, uploads and captures are disabled for public use.</p>').replace('Local review · settings save automatically', 'Published comparisons · read-only');
+  let public_html = html_source.replace('<html lang="en"', '<html data-dashboard-mode="public" lang="en"').replace('<h1 class="visually-hidden">Visual testing</h1>', '<h1 class="visually-hidden">Visual testing</h1><p class="status-dashboard__public-notice" id="public-dashboard-notice">Public preview · Editing, uploads and captures are disabled for public use.</p>').replace('Local review · settings save automatically', 'Published comparisons · read-only');
+  // Nginx serves static assets directly, bypassing Apache's no-cache headers.
+  for (const asset_name of ['app.js', 'style.css']) {
+    const asset_hash = createHash('sha256').update(await readFile(resolve(output_directory, asset_name))).digest('hex').slice(0, 16);
+    public_html = public_html.replace(`/${asset_name}"`, `/${asset_name}?v=${asset_hash}"`);
+  }
   await writeFile(resolve(output_directory, 'index.html'), public_html);
   await writeFile(resolve(output_directory, 'status.json'), JSON.stringify(snapshot_data));
   await cp(resolve(PROJECT_ROOT, 'src/public/assets/fonts'), resolve(output_directory, 'fonts'), { recursive: true });

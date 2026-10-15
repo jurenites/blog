@@ -486,6 +486,14 @@ former deny-all testing root. The old Storybook files remain at the previous
 target. To update the public comparisons, export again from DEV and publish the
 generated static files; public visitors cannot change the saved configuration.
 
+Patch **1.229.1** on the same date makes the first catalogue load run even in a
+restored/background tab and versions the public asset URLs by content hash.
+Only `app.js`, `index.html` and `build-info.json` were replaced; the published
+snapshot and PNGs were retained. Their previous files are backed up under
+`/var/www/u3614358/data/backups/static-release-1.229.1`. Browser verification
+confirmed all 66 catalogue entries after reloading the updated public page;
+all 35 component-status regression checks passed.
+
 ### Manual restore including a separate code release
 
 The remaining procedure covers a full release through ISPmanager/phpMyAdmin.

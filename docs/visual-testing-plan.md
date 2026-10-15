@@ -763,6 +763,10 @@ column/list layout, image visibility and preview disclosures work. The public
 page never connects workspace-save, upload, delete or capture handlers. Settings
 and mutation controls are disabled and described as “Disabled for public use”.
 Published workspace values cannot be replaced by a visitor's local draft.
+The initial catalogue request runs even when Chrome restores the tab in the
+background; only subsequent automatic refreshes pause while the tab is hidden.
+Public JavaScript and CSS URLs include content hashes so shared-hosting static
+caches cannot keep an older bundle after publication.
 Layout preference may still be stored in the visitor's browser. The export does
 not include history editing or any API endpoint. Its Apache configuration
 rejects non-GET/HEAD requests and directory listings.

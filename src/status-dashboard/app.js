@@ -209,7 +209,8 @@ component_list.addEventListener('click', (click_event) => {
   const component_link = click_event.target.closest('[data-component-id]');
   if (component_link && window.location.hash === `#${component_link.dataset.componentId}`) render_details(true);
 });
-await refresh_results();
+// Restored/background tabs still need their initial catalogue before polling pauses.
+await refresh_results(true);
 
 function schedule_refresh() {
   clearInterval(refresh_timer);
