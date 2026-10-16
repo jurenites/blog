@@ -1,0 +1,28 @@
+{
+  "project_title": "Presentation UX — make the change visible",
+  "project_summary": "An interactive workspace for explaining interface changes: compare working screens, reveal their structure, and connect each proposal to the decision behind it.",
+  "project_intro": "<p>A new interface is easier to discuss when people can try it. Presentation UX turns a design proposal into an interactive story: working screens, focused explanations, and a clear connection between what changes and why.</p><p>I designed and built this experimental tool to support conversations between UX researchers, designers, product teams, and frontend developers. The first comparison explores a NameSilo domain-discovery journey using prepared HTML, CSS, and JavaScript snapshots.</p><p><a href=\"https://presentation.jurenites.com/\">Explore Presentation UX</a></p>",
+  "project_tags": ["#UI/UX Design", "#Programming"],
+  "story_sections": [
+    {
+      "section_key": "problem",
+      "story_html": "<h2>A screenshot shows the result. A working screen explains the experience.</h2><p>Design reviews often spread the argument across several places: a ticket explains the problem, Figma holds the proposed screens, and a separate document lists the trade-offs. People have to reconstruct the journey before they can judge the change.</p><p>I wanted one place where a team could inspect the current experience, try a proposal, and follow the reasoning step by step. The goal is to make a design decision easier to understand and challenge, with the interface itself as evidence.</p>"
+    },
+    {
+      "section_key": "comparison",
+      "story_html": "<h2>Compare the behavior, not only the appearance</h2><p>Before and Proposed run as separate interactive snapshots inside the presentation. Visitors can search for a domain, explore filters, and add an item to a simulated cart. Switching versions keeps the discussion close to the actual task.</p><p>The first story moves through five chapters: the opportunity, options A/B/C, behavior, the journey, and implementation handoff. Alternatives are presented with benefits and trade-offs. Branch names and commit references provide context where it is available; a working-copy proposal is identified as a working copy.</p><p>A third slot, Implemented, can be linked later to compare the intended change with what the frontend team delivers. The current demonstration does not yet include a separate implemented build.</p>"
+    },
+    {
+      "section_key": "structure",
+      "story_html": "<h2>Make the structure visible</h2><p>Wireframe mode reduces visual decoration so the review can focus on hierarchy, grouping, and the next action. Live UI brings the original visual treatment back. Choosing an explanation moves attention to the relevant part of the screen, with a green outline identifying the element under discussion.</p><p>The layer explorer offers another view of the same interface. Simplified surfaces use the prepared page’s DOM geometry, while depth makes their roles easier to inspect. Selecting a surface reveals a vertical elevation control directly in the scene. Its handle starts at ground level and moves upward to lift the selected layer; the adjustment belongs to that slide.</p><p>This depth is an explanatory device, not an automatic visualization of CSS stacking contexts. The mapping between page elements and layers is authored and can be refined for each comparison.</p>"
+    },
+    {
+      "section_key": "evidence",
+      "story_html": "<h2>Keep the hypothesis separate from the result</h2><p>The example journey contrasts nine steps with a proposed seven-step route. It is a design hypothesis, not a measured research outcome. Likewise, immediate cart feedback illustrates a possible interaction; the demo does not measure production latency or implement real optimistic networking.</p><p>That distinction matters. A persuasive presentation should make its assumptions visible and give the team something concrete to test. Research findings and implementation results can then be added to the story without rewriting the original intent.</p>"
+    },
+    {
+      "section_key": "delivery",
+      "story_html": "<h2>A small tool with a reusable preparation workflow</h2><p>Presentation UX is a standalone static web application. Prepared snapshots, story data, and the presentation controls are served together so that focus outlines and layer inspection can work with the embedded DOM. The current preparation script is specific to the NameSilo example; another product needs its own asset preparation and element mapping.</p><p>Configuration and simulated carts stay in the visitor’s browser. Story settings can be exported and imported as JSON, while the screen assets are packaged separately. The live demo has no shared editing backend, real domain availability checks, payments, or registrations.</p><p>Future iterations can build on this foundation: research evidence attached to changes, a product knowledge base, Storybook connections, and a richer record of what was accepted and eventually implemented.</p><p><strong>My contribution:</strong> product concept, interaction design, frontend implementation, snapshot preparation, and deployment.</p><p><a href=\"https://presentation.jurenites.com/\">Try the live presentation</a></p>"
+    }
+  ]
+}

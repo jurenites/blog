@@ -9,7 +9,7 @@ function thumbnail_expect(bool $test_condition, string $failure_message): void {
 }
 
 $asset_directory = DRUPAL_ROOT . '/../src/public/assets/images/dynamic-thumbnails/';
-foreach (['roundabout', '4pixel', 'smep', 'oksenate'] as $artwork_name) {
+foreach (['roundabout', '4pixel', 'smep', 'oksenate', 'ai-setup'] as $artwork_name) {
   $svg_source = file_get_contents($asset_directory . $artwork_name . '.svg');
   $prepared_markup = ThumbnailSvg::prepare($svg_source, 'test-' . $artwork_name);
   thumbnail_expect($prepared_markup !== NULL, 'Rejected supplied artwork: ' . $artwork_name);
@@ -18,6 +18,12 @@ foreach (['roundabout', '4pixel', 'smep', 'oksenate'] as $artwork_name) {
   thumbnail_expect(ThumbnailSvg::prepare(str_replace('<svg ', '<svg onload="alert(1)" ', $svg_source), 'test') === NULL, 'Event handlers must be rejected.');
   thumbnail_expect(ThumbnailSvg::prepare(str_replace('</svg>', '<script>alert(1)</script></svg>', $svg_source), 'test') === NULL, 'Scripts must be rejected.');
   thumbnail_expect(ThumbnailSvg::prepare(str_replace('</svg>', '<image href="https://example.com/a.svg"/></svg>', $svg_source), 'test') === NULL, 'External image references must be rejected.');
+  if ($artwork_name === 'ai-setup') {
+    thumbnail_expect(substr_count($prepared_markup, 'class="dynamic-thumbnail__packet-route"') === 2, 'Both raised packet routes survive sanitization.');
+    thumbnail_expect(substr_count($prepared_markup, 'class="dynamic-thumbnail__packet"') === 6, 'All six individual packet tiles survive sanitization.');
+    thumbnail_expect(substr_count($prepared_markup, 'class="dynamic-thumbnail__endpoint"') === 3, 'Washington DC, Germany and UAE endpoints survive sanitization.');
+    thumbnail_expect(ThumbnailSvg::prepare(str_replace('</svg>', '<animateMotion dur="3s" path="M0 0L10 10"/></svg>', $svg_source), 'test') === NULL, 'Animation remains controlled by the theme, not uploaded active markup.');
+  }
 }
 $account_switcher = \Drupal::service('account_switcher');
 $account_switcher->switchTo(new AnonymousUserSession());

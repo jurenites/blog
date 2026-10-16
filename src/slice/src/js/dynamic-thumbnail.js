@@ -1,3 +1,5 @@
+import { create_elevation_animations } from './thumbnail-elevation.js';
+
 const thumbnail_controllers = new Map();
 let pointer_position = null;
 let frame_request = 0;
@@ -5,6 +7,46 @@ let last_frame_time = 0;
 let global_controller = null;
 let motion_preference = null;
 let fine_pointer = null;
+let window_active = true;
+
+function create_packet_animation(packet_path) {
+  const dash_values = (packet_path.getAttribute('stroke-dasharray') || '').trim().split(/[\s,]+/).map(Number);
+  if (dash_values.length !== 2 || dash_values.some((dash_value) => !Number.isFinite(dash_value) || dash_value <= 0)) return null;
+  const dash_period = dash_values[0] + dash_values[1];
+  const initial_offset = Number(packet_path.getAttribute('stroke-dashoffset')) || 0;
+  const packet_animation = packet_path.animate(
+    [{ strokeDashoffset: initial_offset }, { strokeDashoffset: initial_offset - dash_period }],
+    { duration: dash_period * 75, iterations: Infinity, easing: 'linear' },
+  );
+  packet_animation.pause();
+  return packet_animation;
+}
+
+function create_route_animations(route_path, route_index) {
+  const route_length = route_path.getTotalLength();
+  if (!Number.isFinite(route_length) || route_length <= 0) return [];
+  // Sample by distance so upright packet tiles travel at a steady speed.
+  const route_frames = Array.from({ length: 81 }, (unused_value, frame_index) => {
+    const path_fraction = frame_index / 80;
+    const route_point = route_path.getPointAtLength(route_length * path_fraction);
+    return {
+      offset: path_fraction * 0.8,
+      transform: `translate(${route_point.x}px, ${route_point.y}px)`,
+      opacity: Math.min(1, path_fraction / 0.06, (1 - path_fraction) / 0.08),
+    };
+  });
+  route_frames.push({ ...route_frames.at(-1), offset: 1 });
+  return [...route_path.parentElement.querySelectorAll('g.dynamic-thumbnail__packet')].map((packet_node, packet_index) => {
+    const packet_animation = packet_node.animate(route_frames, {
+      duration: route_length * 35,
+      delay: -route_index * 650 - packet_index * 280,
+      iterations: Infinity,
+      easing: 'linear',
+    });
+    packet_animation.pause();
+    return packet_animation;
+  });
+}
 
 export function thumbnail_coordinates(pointer_x, pointer_y, frame_bounds) {
   const fraction_x = Math.max(0, Math.min(1, (pointer_x - frame_bounds.left) / frame_bounds.width));
@@ -25,7 +67,26 @@ function update_thumbnails(frame_time) {
     }
     const frame_bounds = thumbnail_element.getBoundingClientRect();
     const frame_visible = frame_bounds.bottom >= 0 && frame_bounds.top <= window.innerHeight
+      && frame_bounds.right >= 0 && frame_bounds.left <= window.innerWidth
       && frame_bounds.width > 0 && frame_bounds.height > 0;
+    thumbnail_state.packet_animations.forEach((packet_animation) => {
+      if (motion_allowed && frame_visible && window_active) {
+        if (packet_animation.playState !== 'running') packet_animation.play();
+      } else {
+        packet_animation.pause();
+        if (motion_preference.matches || !fine_pointer.matches) packet_animation.currentTime = 0;
+      }
+    });
+    thumbnail_state.elevation_animations.forEach((motion_animation) => {
+      if (motion_preference.matches || !fine_pointer.matches) {
+        // No effect means the original fully raised artwork and guides remain visible.
+        motion_animation.cancel();
+      } else if (motion_allowed && frame_visible && window_active) {
+        if (motion_animation.playState !== 'running') motion_animation.play();
+      } else if (motion_animation.playState === 'running') {
+        motion_animation.pause();
+      }
+    });
     const pointer_inside = motion_allowed && frame_visible && pointer_position
       && pointer_position.client_x >= frame_bounds.left && pointer_position.client_x <= frame_bounds.right
       && pointer_position.client_y >= frame_bounds.top && pointer_position.client_y <= frame_bounds.bottom;
@@ -49,6 +110,8 @@ function update_thumbnails(frame_time) {
     }
     thumbnail_state.highlight_node?.setAttribute('gradientTransform', `translate(${thumbnail_state.highlight_x} ${thumbnail_state.highlight_y}) ${thumbnail_state.gradient_basis}`);
     thumbnail_state.layer_nodes.forEach((layer_node, layer_index) => {
+      // Keep guide endpoints aligned throughout the staged vertical lift.
+      if (thumbnail_state.elevation_animations.length) return;
       const depth_strength = thumbnail_state.depth_strengths[layer_index];
       const frame_view = thumbnail_state.frame_view;
       const horizontal_travel = thumbnail_state.horizontal_travel[layer_index];
@@ -96,6 +159,8 @@ function stop_global_events() {
 function release_thumbnail(thumbnail_element) {
   const thumbnail_state = thumbnail_controllers.get(thumbnail_element);
   thumbnail_state?.layer_animations.forEach((layer_animation) => layer_animation?.cancel());
+  thumbnail_state?.packet_animations.forEach((packet_animation) => packet_animation.cancel());
+  thumbnail_state?.elevation_animations.forEach((motion_animation) => motion_animation.cancel());
   if (thumbnail_state?.highlight_node) {
     for (const [attribute_name, attribute_value] of thumbnail_state.gradient_attributes) {
       if (attribute_value === null) thumbnail_state.highlight_node.removeAttribute(attribute_name);
@@ -155,6 +220,11 @@ export function initialize_dynamic_thumbnails(thumbnail_context = document) {
       }),
       highlight_node,
       layer_animations: [],
+      elevation_animations: create_elevation_animations(artwork_element),
+      packet_animations: [
+        ...[...artwork_element.querySelectorAll('path.dynamic-thumbnail__packet-path')].map(create_packet_animation).filter(Boolean),
+        ...[...artwork_element.querySelectorAll('path.dynamic-thumbnail__packet-route')].flatMap(create_route_animations),
+      ],
       layer_targets: [],
       highlight_x: frame_view.x,
       highlight_y: frame_view.y,
@@ -162,7 +232,11 @@ export function initialize_dynamic_thumbnails(thumbnail_context = document) {
       motion_duration: parseFloat(duration_value) * (duration_value.endsWith('ms') ? 1 : 1000) || 200,
     });
   });
-  if (!thumbnail_controllers.size || global_controller) return;
+  if (!thumbnail_controllers.size) return;
+  if (global_controller) {
+    schedule_update();
+    return;
+  }
   global_controller = new AbortController();
   motion_preference = matchMedia('(prefers-reduced-motion: reduce)');
   fine_pointer = matchMedia('(any-hover: hover) and (any-pointer: fine)');
@@ -175,7 +249,8 @@ export function initialize_dynamic_thumbnails(thumbnail_context = document) {
   window.addEventListener('scroll', schedule_update, event_options);
   window.addEventListener('resize', schedule_update, event_options);
   document.addEventListener('visibilitychange', () => { pointer_position = null; schedule_update(); }, event_options);
-  window.addEventListener('blur', () => { pointer_position = null; schedule_update(); }, event_options);
+  window.addEventListener('blur', () => { window_active = false; pointer_position = null; schedule_update(); }, event_options);
+  window.addEventListener('focus', () => { window_active = true; schedule_update(); }, event_options);
   document.documentElement.addEventListener('pointerleave', () => { pointer_position = null; schedule_update(); }, event_options);
   motion_preference.addEventListener('change', schedule_update, event_options);
   fine_pointer.addEventListener('change', schedule_update, event_options);

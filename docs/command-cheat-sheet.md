@@ -776,13 +776,49 @@ test -f /var/www/u3614358/data/apps/blog_jurenites/storybook-static/index.html \
 
 ## Deploy Presentation UX to PROD
 
-This is a future deployment runbook. Presentation UX remains local until a
-deployment is requested. `presentation.jurenites.com` is the proposed hostname;
-the DNS record and ISPmanager site are not created by these instructions.
+Presentation UX is live at [presentation.jurenites.com](https://presentation.jurenites.com/).
 The source lives outside the blog repository, so deploying the blog or pulling
 its `main` branch does not deploy Presentation UX.
 
+### Current production deployment — 2026-10-16
+
+Application version `0.2.0` was published from
+`presentation-ux-20261016-141324.tar.gz`. ISPmanager serves the static files from
+`/var/www/u3614358/data/www/presentation.jurenites.com/dist`, with **Website public
+directory** set to `dist`, index `index.html`, and PHP/CGI disabled. The initial
+release uses this direct `dist` directory; the numbered steps below describe
+separate release directories for subsequent updates. Before the first update,
+retain the current `dist` and record `dist` as the previous public-directory value.
+
+Authoritative DNS supplies A `31.31.197.37` and AAAA
+`2a00:f940:2:2:1:1:0:290`. The panel issued and installed the Let's Encrypt
+certificate `presentation.jurenites.com_le1`. HTTP redirects to HTTPS with 301.
+Long-lived static caching is disabled so edits to the unversioned asset names
+are not held for the panel's default 45 days.
+
+The owner uploaded the archive to
+`/var/www/u3614358/data/backups/incoming/presentation-ux-20261016-141324.tar.gz`;
+it remains available there for restoration. The local archive SHA-256 is
+`6d186050e8f97b1d382db398db79f73a5d58a3ae524a6ec99031bf29d1dcbe2d`.
+All 36 deployed files were fetched over trusted HTTPS and matched the local
+release's SHA-256 hashes. Browser verification covered Before/Proposed switching,
+chapter navigation, embedded search results and cart feedback, and the in-scene
+elevation editor. No browser console errors were reported during those checks.
+
+The application is publicly accessible. Configuration changes and demo carts
+remain local to each visitor's browser; publishing did not add a shared backend.
+The Drupal, Storybook, and testing sites were not part of this deployment.
+
+Direct SSH attempts timed out before authentication and the panel shell was
+blank during this deployment, so installation used ISPmanager File Manager's
+**Archive → Extract** action. For future updates, select a staging directory
+and verify the actual extracted location before changing the site's public
+directory. Keep the uploaded archive outside the public root.
+
 ### Step 1: Configure the subdomain and static site
+
+The production site and DNS are already configured. This step documents a
+fresh setup; do not recreate or replace the existing site for routine updates.
 
 In the domain's DNS settings, add an `A` record for `presentation` pointing to
 the hosting account's website IP. Add `AAAA` only if the host provides working

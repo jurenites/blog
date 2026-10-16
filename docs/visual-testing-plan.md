@@ -1299,3 +1299,36 @@ The catalogue uses three shared selectable Chip atoms: Passed, Attention and
 Failed. All selected shows all entries; no selection shows none. Attention includes
 unreviewed and incomplete statuses. The search label is visually hidden, and the
 chip group retains its accessible name. There is no All statuses chip or dropdown.
+
+## Portfolio article and editable illustration
+
+`/portfolio/visual-testing` introduces the three-source review workflow and its
+relationship to CI/CD. Its seven Project story sections distinguish current
+local captures and public static evidence from future CI result ingestion.
+Authored starter copy lives in `scripts/content/visual-testing.json` and is
+seeded once by `scripts/create-visual-testing-project.php`; rerunning the seed
+preserves subsequent CMS edits and cleared fields.
+
+The Russian version at `/ru/portfolio/visual-testing` is seeded locally by
+`scripts/translate-visual-testing-project.php` from
+`scripts/content/visual-testing.ru.json`. It translates the current title, summary,
+introduction and all seven existing paragraphs, retaining the inline screenshot
+and shared SVG. The seed checks the reviewed source revision, preserves existing
+Russian translations, and verifies that English content remains unchanged.
+
+Artwork lives in `src/public/assets/images/projects/visual-testing/`:
+
+- `thumbnail.svg`: outlined production vectors, with three sibling motion groups
+  `level_1` (Figma), `level_2` (Storybook), `level_3` (Website), a fixed background
+  and the shared pointer-following background highlight.
+- `thumbnail-editable.svg`: the same groups with editable Open Sans text for
+  Figma. Keep group names and export with **Include id attribute** and
+  **Outline text** before replacing the Drupal dynamic thumbnail.
+- `hero.png`: a static 1600px rendering for the full article image.
+
+Regenerate the SVG pair with `node scripts/build-visual-testing-artwork.mjs`.
+The generator resolves existing palette tokens and outlines repository fonts;
+it does not add token inventory. On macOS, regenerate the PNG with
+`qlmanage -t -s 1600 -o /tmp src/public/assets/images/projects/visual-testing/thumbnail.svg`
+and copy `/tmp/thumbnail.svg.png` to `hero.png`. Regeneration does not overwrite
+CMS-managed artwork; replace that file through the Project edit form after review.

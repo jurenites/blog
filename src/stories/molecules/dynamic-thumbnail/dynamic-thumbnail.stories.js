@@ -2,7 +2,7 @@ import { dynamic_thumbnail_markup } from './dynamic-thumbnail.markup.js';
 import { initialize_dynamic_thumbnails, detach_dynamic_thumbnails } from '../../../slice/src/js/dynamic-thumbnail.js';
 
 const ARTWORK_NAME = 'roundabout';
-const ARTWORK_OPTIONS = ['roundabout', '4pixel', 'smep', 'oksenate'];
+const ARTWORK_OPTIONS = ['roundabout', '4pixel', 'smep', 'oksenate', 'ai-setup', 'presentation-ux'];
 
 export default {
   title: 'Molecules/Porfolio/Dynamic Thumbnail',
@@ -20,3 +20,5 @@ export const roundabout_preview = {};
 export const pixel_preview = { args: { artwork_name: ARTWORK_OPTIONS[1] } };
 export const smep_preview = { args: { artwork_name: ARTWORK_OPTIONS[2] } };
 export const oksenate_preview = { args: { artwork_name: ARTWORK_OPTIONS[3] } };
+export const ai_setup_preview = { args: { artwork_name: ARTWORK_OPTIONS[4] } };
+export const presentation_preview = { args: { artwork_name: ARTWORK_OPTIONS[5] } };
