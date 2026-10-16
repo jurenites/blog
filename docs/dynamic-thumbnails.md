@@ -306,6 +306,49 @@ highlight. The renderer does not invent gradients when the frame has none.
 
 ## Interaction
 
+### AI setup globe
+
+The AI setup Portfolio project uses `ai-setup.svg`, prepared from the supplied
+`originals/rack-thumnail.svg` by `python3 scripts/prepare-ai-setup-thumbnail.py`.
+Run `npm run build:tokens` first when changing token values. The generator keeps
+the original globe and outlined lettering, with the shadow at `level_0`, the
+globe and connections at `level_1`, and the caption at `level_2`. Route colors
+come from the existing generated palette. Routes and their endpoints share the
+globe's depth to stay connected during parallax.
+
+Two passive paths with class `dynamic-thumbnail__packet-route` have three
+individual `dynamic-thumbnail__packet` tiles each. Routes, endpoints, and tiles
+use the existing yellow `brand-tertiary` palette color. The endpoints sit on
+approximate Washington, DC, Germany and UAE land positions in the supplied
+projection. There is one arc per connection: Washington → Germany → UAE, with
+no duplicate return arc. Both arcs rise above the northern/northeastern silhouette,
+joining the land markers with short departure/arrival legs instead of crossing
+the globe's center.
+The shared runtime samples
+each curve by distance and animates upright tiles in staggered groups, with fades
+at departure and arrival and a brief pause before repeating. Tiles share the
+globe's depth and retain their authored positions without JavaScript. Legacy
+`dynamic-thumbnail__packet-path` dashed artwork remains supported. No SVG scripts, SMIL,
+styles, new upload permissions, or inline DOM styles are needed. Packet playback
+runs independently of hover; it pauses offscreen, when the document is hidden,
+and on window blur. Reduced motion and touch-only environments show the static
+composition. Detach cancels packet animations; reattach restores playback.
+The existing parallax and background highlight still respond only to the pointer.
+
+Storybook includes **AI Setup Preview** in the Dynamic Thumbnail group.
+The explicit local operation `scripts/update-ai-setup-project.php` expanded the
+English Body and summary and assigned the SVG to node 123, preserving its demo
+URL and other fields. It backs up revision 722 and creates a new revision; its
+revision/UUID guard refuses later reruns so CMS edits and clears stay authoritative.
+The authored starter copy is in `scripts/content/ai-setup.json`; future editorial
+changes belong in Drupal. The detail page continues to use the normal image
+field; this SVG appears in Portfolio previews.
+The follow-up `scripts/update-ai-setup-thumbnail.php` replaces only the thumbnail
+from reviewed revision 728 with the Washington–Germany–UAE route artwork, saving a new
+revision and preserving all description fields.
+
+### Pointer movement
+
 The highlight starts in the upper-left corner. A mouse or hovering pen moves
 its center only while the pointer is inside that thumbnail. All content movement
 and tilt also respond only inside the thumbnail. The gradient follows with
@@ -351,6 +394,55 @@ Storybook initializes each rendered phone after mounting, including replacements
 created by control changes. Removing a preview detaches only its own cursor,
 sequence and background runtimes. Switching size or toggling `follow_cursor`
 therefore does not require a remount or reload.
+
+## Presentation UX portfolio artwork
+
+The local English project lives at `/portfolio/presentation-ux`. Its introduction
+and five story sections are editable Drupal content. The one-time local seed is
+`scripts/create-presentation-project.php`, using copy from
+`scripts/content/presentation-ux.json`; rerunning it preserves the existing project,
+including later editorial edits and cleared fields. It is not a deployment hook.
+
+The Russian translation is available locally at `/ru/portfolio/presentation-ux`.
+`scripts/translate-presentation-project.php` seeds its title, summary, introduction,
+and five paragraph translations from `scripts/content/presentation-ux.ru.json`.
+It shares the existing SVG and tags, verifies that English text remains unchanged,
+and skips an existing Russian translation to preserve CMS edits. Run it only in
+the local Docker environment; translated content follows the normal database deployment.
+
+The prepared editable artwork is
+`src/public/assets/images/dynamic-thumbnails/presentation-ux.svg`. Its three sibling
+depth groups are `level_0` (body), `level_1` (table), and `level_2` (dialog).
+The supplied manual drawing is preserved unchanged in
+`originals/presentation-thumbnail.svg` beside it. Preparation uses the named Figma
+groups without changing their shapes, one-pixel strokes or colors, and normalizes
+`layer_0`–`layer_2` to the thumbnail runtime's `level_0`–`level_2` convention.
+The background and P mark remain fixed.
+
+`thumbnail-elevation.js` plays a seven-second sequence while the thumbnail is
+visible: table lift, guide 1 reveal, dialog appearance and lift, guide 2 reveal,
+hold, then reset. Both lifts use the marked vertical guide geometry (25 SVG units
+in this export). Guide groups retain the other authored lines and annotations.
+The scene's `dynamic-thumbnail__elevation-*` classes identify these roles after
+Drupal namespaces IDs. Independent cursor tilt is disabled for this scene so
+guide endpoints stay aligned; the background still follows the cursor.
+Playback pauses offscreen, on window blur, and in hidden tabs. Reduced motion
+and touch-only environments show the fully raised static composition and both guides.
+The SVG itself contains only passive vectors; animation is supplied by the website.
+
+Import the SVG into Figma to edit its shapes. Keep the three depth IDs, export with
+**Include id attribute** and **Outline text**, and preserve the animation role classes
+when preparing the next website upload. Figma may drop those classes, so reapply
+them to the corresponding named groups after exporting. The reviewed flat import
+can be prepared with `python3 scripts/prepare-presentation-thumbnail.py`; its
+name mapping is specific to this export and must be reviewed if groups are renamed.
+That command replaces the prepared SVG, so preserve any later edits first.
+`scripts/update-presentation-thumbnail.php` explicitly assigns a new managed file
+to both local translations, keeping previous artwork available for rollback.
+
+This entry was created locally only. The normal deployment must transfer both
+the database and its managed SVG referenced by the Dynamic thumbnail field;
+the database alone does not contain the SVG bytes.
 
 ## SMEP project description previews
 

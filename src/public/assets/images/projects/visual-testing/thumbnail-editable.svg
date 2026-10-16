@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+<title>Visual testing — three sources, one component</title>
+<desc>Three editable sibling layers: Figma design, isolated Storybook component and the live website. The website animates their depth on pointer movement.</desc>
+<defs><radialGradient id="background_highlight" cx="0" cy="0" r="1" gradientUnits="objectBoundingBox"><stop stop-color="#66FFFF" stop-opacity="0.16"/><stop offset="1" stop-color="#0F172B" stop-opacity="0"/></radialGradient></defs>
+<g id="background"><rect x="0" y="0" width="800" height="800" fill="#020618" /><rect width="800" height="800" fill="url(#background_highlight)"/></g>
+<g id="fixed-editorial-heading">
+<text x="48" y="56" font-family="Open Sans" font-weight="400" font-size="14" fill="#66FFFF">DESIGN ENGINEERING / 01</text>
+<text x="48" y="128" font-family="Open Sans" font-weight="700" font-size="56" fill="#F8FAFC">Visual testing</text>
+<text x="48" y="168" font-family="Open Sans" font-weight="400" font-size="16" fill="#90A1B9">From intended design to release evidence.</text>
+<text x="48" y="760" font-family="Open Sans" font-weight="400" font-size="13" fill="#90A1B9">CAPTURE</text>
+<path d="M120 755H168V755" fill="none" stroke="#62748E" />
+<text x="184" y="760" font-family="Open Sans" font-weight="400" font-size="13" fill="#90A1B9">COMPARE</text>
+<path d="M256 755H304V755" fill="none" stroke="#62748E" />
+<text x="320" y="760" font-family="Open Sans" font-weight="400" font-size="13" fill="#66FFFF">REVIEW</text>
+<text x="560" y="760" font-family="Open Sans" font-weight="400" font-size="13" fill="#90A1B9">test.jurenites.com</text>
+</g>
+<g id="level_1">
+    <title>Figma — depth 1</title>
+    <rect x="56" y="232" width="496" height="272" fill="#000000" opacity="0.22"/>
+    <rect x="48" y="216" width="496" height="272" fill="#0F172B" />
+    <rect x="48" y="216" width="4" height="64" fill="#FF66FF" />
+    <text x="72" y="256" font-family="Open Sans" font-weight="400" font-size="18" fill="#FF66FF">01</text>
+    <text x="112" y="256" font-family="Open Sans" font-weight="700" font-size="24" fill="#F8FAFC">Figma</text>
+    <text x="72" y="304" font-family="Open Sans" font-weight="400" font-size="12" fill="#90A1B9">DESIGN INTENT</text>
+    <path d="M72 320H520V320" fill="none" stroke="#62748E" opacity="0.45"/>
+    <rect x="72" y="344" width="272" height="104" fill="#0F172B" stroke="#FF66FF" stroke-dasharray="4 4" opacity="0.8"/>
+    <rect x="88" y="368" width="240" height="56" fill="#FF66FF" />
+    <text x="112" y="404" font-family="Open Sans" font-weight="700" font-size="16" fill="#020618">Review component</text>
+    <text x="376" y="368" font-family="Open Sans" font-weight="400" font-size="14" fill="#F8FAFC">Button</text>
+    <text x="376" y="392" font-family="Open Sans" font-weight="400" font-size="12" fill="#90A1B9">default</text>
+    <path d="M376 416H496V416" fill="none" stroke="#62748E" />
+    <text x="376" y="440" font-family="Open Sans" font-weight="400" font-size="12" fill="#FF66FF">1:1 capture</text>
+  </g>
+<g id="level_2">
+    <title>Storybook — depth 2</title>
+    <rect x="136" y="336" width="496" height="272" fill="#000000" opacity="0.22"/>
+    <rect x="128" y="320" width="496" height="272" fill="#1D293D" />
+    <rect x="128" y="320" width="4" height="64" fill="#FFFF66" />
+    <text x="152" y="360" font-family="Open Sans" font-weight="400" font-size="18" fill="#FFFF66">02</text>
+    <text x="192" y="360" font-family="Open Sans" font-weight="700" font-size="24" fill="#F8FAFC">Storybook</text>
+    <text x="152" y="408" font-family="Open Sans" font-weight="400" font-size="12" fill="#90A1B9">ISOLATED COMPONENT</text>
+    <path d="M152 424H600V424" fill="none" stroke="#62748E" opacity="0.45"/>
+    <rect x="152" y="448" width="272" height="104" fill="#1D293D" stroke="#FFFF66" stroke-dasharray="4 4" opacity="0.8"/>
+    <rect x="168" y="472" width="240" height="56" fill="#FFFF66" />
+    <text x="192" y="508" font-family="Open Sans" font-weight="700" font-size="16" fill="#020618">Review component</text>
+    <text x="456" y="472" font-family="Open Sans" font-weight="400" font-size="14" fill="#F8FAFC">Button</text>
+    <text x="456" y="496" font-family="Open Sans" font-weight="400" font-size="12" fill="#90A1B9">default</text>
+    <path d="M456 520H576V520" fill="none" stroke="#62748E" />
+    <text x="456" y="544" font-family="Open Sans" font-weight="400" font-size="12" fill="#FFFF66">1:1 capture</text>
+  </g>
+<g id="level_3">
+    <title>Website — depth 3</title>
+    <rect x="216" y="440" width="496" height="272" fill="#000000" opacity="0.22"/>
+    <rect x="208" y="424" width="496" height="272" fill="#314158" />
+    <rect x="208" y="424" width="4" height="64" fill="#66FFFF" />
+    <text x="232" y="464" font-family="Open Sans" font-weight="400" font-size="18" fill="#66FFFF">03</text>
+    <text x="272" y="464" font-family="Open Sans" font-weight="700" font-size="24" fill="#F8FAFC">Website</text>
+    <text x="232" y="512" font-family="Open Sans" font-weight="400" font-size="12" fill="#90A1B9">REAL PAGE CONTEXT</text>
+    <path d="M232 528H680V528" fill="none" stroke="#62748E" opacity="0.45"/>
+    <rect x="232" y="552" width="272" height="104" fill="#314158" stroke="#66FFFF" stroke-dasharray="4 4" opacity="0.8"/>
+    <rect x="248" y="576" width="240" height="56" fill="#66FFFF" />
+    <text x="272" y="612" font-family="Open Sans" font-weight="700" font-size="16" fill="#020618">Review component</text>
+    <text x="536" y="576" font-family="Open Sans" font-weight="400" font-size="14" fill="#F8FAFC">Button</text>
+    <text x="536" y="600" font-family="Open Sans" font-weight="400" font-size="12" fill="#90A1B9">default</text>
+    <path d="M536 624H656V624" fill="none" stroke="#62748E" />
+    <text x="536" y="648" font-family="Open Sans" font-weight="400" font-size="12" fill="#66FFFF">1:1 capture</text>
+  </g>
+</svg>

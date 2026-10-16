@@ -415,6 +415,85 @@ The private pre-update DEV database and manifests are retained under the ignored
 `.cache/dependency-updates/2026-10-15-before/` directory, outside `web/`.
 Production deployment is not established by these local checks.
 
+The production deployment was subsequently completed on 2026-10-15 through
+PR #26, merge commit `128116f2a4df79adb50bb08e51087952f5df8e1c`, release `1.228.1`.
+PROD uses PHP `8.3.31` and now runs Drupal `11.4.10`; its real platform check and
+Composer advisory audit passed. The two pending progressive-image post-updates
+completed, caches were rebuilt, and maintenance mode was disabled. The six public
+routes listed above and the Testing SVG returned HTTP 200. The existing Testing
+footer link was enabled with `http://test.jurenites.com/` and the T icon.
+
+The verified rollback backup is outside the web root at
+`/var/www/u3614358/data/backups/code-release-1.228.1.x5HQ1gnr/`. Use
+`production-complete.sql.gz` (325 tables), `tracked-code.tar.gz`,
+`installed-code.tar.gz`, and `previous-commit.txt`; the earlier `production.sql.gz`
+attempt emitted a tablespace privilege warning and is not the verified restore
+source. The replacement dump used `--extra-dump=--no-tablespaces`. PROD's enabled
+Devel module was preserved by installing the full lockfile, including require-dev.
+The previously manual SMEP module matched the release byte-for-byte and was
+retained in the backup before switching to its tracked copy. Live content and
+uploaded files were not replaced with DEV data. The separate testing subdomain
+still lacked DNS resolution during verification; the Drupal release does not
+activate its Node service. The subsequent hostname setup is recorded below.
+
+### Testing subdomain hosting status
+
+On 2026-10-15, `test.jurenites.com` was created in ISPmanager under account
+`u3614358`, with document root `/var/www/u3614358/data/www/test.jurenites.com`.
+SSL, redirects and static caching are disabled, matching the requested HTTP
+deployment. The authoritative DNS server returns A `31.31.197.37` and AAAA
+`2a00:f940:2:2:1:1:0:290`. Recursive resolvers can temporarily retain the earlier
+negative A response. The initial staging root returned HTTP 403 with
+`Require all denied`; the static release below subsequently replaced it.
+
+The initial interactive deployment was blocked on hosting capabilities. AlmaLinux
+8.10 provides working Node `22.23.2` at
+`/var/www/u3614358/data/apps/node-v22.23.2-linux-x64/bin/node`, and binding a
+loopback service on port 7779 succeeds. However, the account cannot modify the
+Nginx virtual host, the panel exposes no Node/reverse-proxy settings, and
+`systemctl --user` cannot connect to a user service manager. A real launch of the
+project's pinned Playwright `1.63.0` Chromium failed because
+`libatk-bridge-2.0.so.0` is missing. `ldd` additionally reports missing
+`libgbm.so.1`, `libxkbcommon.so.0`, `libasound.so.2` and `libatspi.so.0`.
+Playwright identifies this OS as unsupported and uses its Ubuntu fallback build.
+Do not replace this with a static dashboard and report capture support as live.
+
+The owner subsequently selected a public **static, read-only** deployment using
+this same hosting plan. `npm run status:export` builds the publication locally;
+see the [static dashboard guide](../deploy/component-status/README.md). The
+runtime limitations above no longer block static publishing. Editing, uploading
+and automatic captures remain in DEV; public pages display saved PNGs and source
+links with mutation controls disabled. No hosting upgrade or provider request
+is needed for this mode.
+
+Static release **1.229.0** was activated on 2026-10-15 from `develop` (initial
+publication `19df0a56`, recorded PNG fallback correction `ce3ced0e`, followed by
+removal of local ports from exported source URLs). The testing root contains
+66 components and 114 referenced PNGs, copied unchanged from DEV, with the
+exported read-only `.htaccess`. Public GET requests return 200, POST requests
+return 403, and `/api/workspace` returns 404. Browser verification confirmed the
+public notice, disabled editing controls and loaded Figma/Storybook/Website PNGs;
+the owner also confirmed that the page loads.
+
+The Storybook public symlink now points to
+`/var/www/u3614358/data/apps/static-release-1.229.0/storybook`. Its live index
+contains all 66 stories referenced by the dashboard. Both static sites use HTTP.
+The Drupal checkout and database were not changed by this static publication.
+Rollback records are in
+`/var/www/u3614358/data/backups/static-release-1.229.0`: `storybook-link-before`
+preserves the former Storybook target, and `testing-previous-root` preserves the
+former deny-all testing root. The old Storybook files remain at the previous
+target. To update the public comparisons, export again from DEV and publish the
+generated static files; public visitors cannot change the saved configuration.
+
+Patch **1.229.1** on the same date makes the first catalogue load run even in a
+restored/background tab and versions the public asset URLs by content hash.
+Only `app.js`, `index.html` and `build-info.json` were replaced; the published
+snapshot and PNGs were retained. Their previous files are backed up under
+`/var/www/u3614358/data/backups/static-release-1.229.1`. Browser verification
+confirmed all 66 catalogue entries after reloading the updated public page;
+all 35 component-status regression checks passed.
+
 ### Manual restore including a separate code release
 
 The remaining procedure covers a full release through ISPmanager/phpMyAdmin.
@@ -697,13 +776,49 @@ test -f /var/www/u3614358/data/apps/blog_jurenites/storybook-static/index.html \
 
 ## Deploy Presentation UX to PROD
 
-This is a future deployment runbook. Presentation UX remains local until a
-deployment is requested. `presentation.jurenites.com` is the proposed hostname;
-the DNS record and ISPmanager site are not created by these instructions.
+Presentation UX is live at [presentation.jurenites.com](https://presentation.jurenites.com/).
 The source lives outside the blog repository, so deploying the blog or pulling
 its `main` branch does not deploy Presentation UX.
 
+### Current production deployment — 2026-10-16
+
+Application version `0.2.0` was published from
+`presentation-ux-20261016-141324.tar.gz`. ISPmanager serves the static files from
+`/var/www/u3614358/data/www/presentation.jurenites.com/dist`, with **Website public
+directory** set to `dist`, index `index.html`, and PHP/CGI disabled. The initial
+release uses this direct `dist` directory; the numbered steps below describe
+separate release directories for subsequent updates. Before the first update,
+retain the current `dist` and record `dist` as the previous public-directory value.
+
+Authoritative DNS supplies A `31.31.197.37` and AAAA
+`2a00:f940:2:2:1:1:0:290`. The panel issued and installed the Let's Encrypt
+certificate `presentation.jurenites.com_le1`. HTTP redirects to HTTPS with 301.
+Long-lived static caching is disabled so edits to the unversioned asset names
+are not held for the panel's default 45 days.
+
+The owner uploaded the archive to
+`/var/www/u3614358/data/backups/incoming/presentation-ux-20261016-141324.tar.gz`;
+it remains available there for restoration. The local archive SHA-256 is
+`6d186050e8f97b1d382db398db79f73a5d58a3ae524a6ec99031bf29d1dcbe2d`.
+All 36 deployed files were fetched over trusted HTTPS and matched the local
+release's SHA-256 hashes. Browser verification covered Before/Proposed switching,
+chapter navigation, embedded search results and cart feedback, and the in-scene
+elevation editor. No browser console errors were reported during those checks.
+
+The application is publicly accessible. Configuration changes and demo carts
+remain local to each visitor's browser; publishing did not add a shared backend.
+The Drupal, Storybook, and testing sites were not part of this deployment.
+
+Direct SSH attempts timed out before authentication and the panel shell was
+blank during this deployment, so installation used ISPmanager File Manager's
+**Archive → Extract** action. For future updates, select a staging directory
+and verify the actual extracted location before changing the site's public
+directory. Keep the uploaded archive outside the public root.
+
 ### Step 1: Configure the subdomain and static site
+
+The production site and DNS are already configured. This step documents a
+fresh setup; do not recreate or replace the existing site for routine updates.
 
 In the domain's DNS settings, add an `A` record for `presentation` pointing to
 the hosting account's website IP. Add `AAAA` only if the host provides working

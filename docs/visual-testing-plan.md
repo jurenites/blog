@@ -740,20 +740,44 @@ Both Docker's local proxy and the host's `npm run status:serve` process must
 remain running. Recheck host resolution and `/api/status` after restarting them;
 checked-in proxy configuration does not establish current service availability.
 
-The interactive deployment for `http://test.jurenites.com` is prepared in
-[`deploy/component-status`](../deploy/component-status/README.md): an HTTP-only
-Nginx virtual host with a default-deny IP allowlist, a loopback Node service
-managed by systemd, and an environment template. No DNS or production service
-has been changed. Set `COMPONENT_STATUS_PUBLIC_ORIGIN` to explicitly allow that
-Host; the default server still accepts only local hosts. POST requests retain
-both the same-origin check and review-token requirement.
+### Public static dashboard
 
-`COMPONENT_STATUS_WEBSITE_ORIGIN` selects the base for relative website capture
-paths; existing absolute URLs remain unchanged. Follow the deployment guide for
-Linux Chromium installation, writable data storage, environment-specific source
-mappings, access checks and rollback. The public route does not expose the source
-checkout. The live Website iframe bridge and specialized language-picker suite
-remain local-only; ordinary server-side component PNG captures are supported.
+`npm run status:export` builds Storybook and the dashboard locally, then writes
+`generated/status-public/`. This is the deployment target for
+`http://test.jurenites.com` on the existing shared hosting plan. It needs no Node
+process, PHP API, database or Chromium installation on the server.
+
+The exporter combines the current case mappings, saved workspace drafts and
+recorded checks. It copies referenced PNGs, including uploaded Figma and
+Storybook references, plus fonts and UI assets. Only an explicit public data
+schema is serialized to `status.json`: review tokens, raw workspace files,
+pipeline logs and filesystem diagnostics are excluded. Artifact paths must stay
+inside the report directory, including after resolving symlinks; missing
+references stop the export. Local Storybook URLs become
+`http://storybook.jurenites.com/` links, preserving story IDs and args; local
+website links become `https://jurenites.com/`. Figma node links and embeds remain
+available subject to the Figma file's existing permissions.
+
+Public builds use a separate read-only controller. Search, status filters,
+column/list layout, image visibility and preview disclosures work. The public
+page never connects workspace-save, upload, delete or capture handlers. Settings
+and mutation controls are disabled and described as “Disabled for public use”.
+Published workspace values cannot be replaced by a visitor's local draft.
+The initial catalogue request runs even when Chrome restores the tab in the
+background; only subsequent automatic refreshes pause while the tab is hidden.
+Public JavaScript and CSS URLs include content hashes so shared-hosting static
+caches cannot keep an older bundle after publication.
+Layout preference may still be stored in the visitor's browser. The export does
+not include history editing or any API endpoint. Its Apache configuration
+rejects non-GET/HEAD requests and directory listings.
+
+Update captures and links in DEV, export again, and upload the complete output
+with a backup of the prior public directory. Publish the matching static
+Storybook build when story IDs or source components changed. The live DEV
+`status:serve` behavior remains available for editing and capturing. See the
+[deployment guide](../deploy/component-status/README.md) for deployment and
+rollback. The older interactive Node/systemd templates are retained only for a
+future host that can support them; they are not the shared-host deployment.
 
 ## Implemented Local Component Status
 
@@ -1275,3 +1299,36 @@ The catalogue uses three shared selectable Chip atoms: Passed, Attention and
 Failed. All selected shows all entries; no selection shows none. Attention includes
 unreviewed and incomplete statuses. The search label is visually hidden, and the
 chip group retains its accessible name. There is no All statuses chip or dropdown.
+
+## Portfolio article and editable illustration
+
+`/portfolio/visual-testing` introduces the three-source review workflow and its
+relationship to CI/CD. Its seven Project story sections distinguish current
+local captures and public static evidence from future CI result ingestion.
+Authored starter copy lives in `scripts/content/visual-testing.json` and is
+seeded once by `scripts/create-visual-testing-project.php`; rerunning the seed
+preserves subsequent CMS edits and cleared fields.
+
+The Russian version at `/ru/portfolio/visual-testing` is seeded locally by
+`scripts/translate-visual-testing-project.php` from
+`scripts/content/visual-testing.ru.json`. It translates the current title, summary,
+introduction and all seven existing paragraphs, retaining the inline screenshot
+and shared SVG. The seed checks the reviewed source revision, preserves existing
+Russian translations, and verifies that English content remains unchanged.
+
+Artwork lives in `src/public/assets/images/projects/visual-testing/`:
+
+- `thumbnail.svg`: outlined production vectors, with three sibling motion groups
+  `level_1` (Figma), `level_2` (Storybook), `level_3` (Website), a fixed background
+  and the shared pointer-following background highlight.
+- `thumbnail-editable.svg`: the same groups with editable Open Sans text for
+  Figma. Keep group names and export with **Include id attribute** and
+  **Outline text** before replacing the Drupal dynamic thumbnail.
+- `hero.png`: a static 1600px rendering for the full article image.
+
+Regenerate the SVG pair with `node scripts/build-visual-testing-artwork.mjs`.
+The generator resolves existing palette tokens and outlines repository fonts;
+it does not add token inventory. On macOS, regenerate the PNG with
+`qlmanage -t -s 1600 -o /tmp src/public/assets/images/projects/visual-testing/thumbnail.svg`
+and copy `/tmp/thumbnail.svg.png` to `hero.png`. Regeneration does not overwrite
+CMS-managed artwork; replace that file through the Project edit form after review.

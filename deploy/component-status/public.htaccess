@@ -1,0 +1,15 @@
+Options -Indexes
+DirectoryIndex index.html
+<LimitExcept GET HEAD>
+  Require all denied
+</LimitExcept>
+<FilesMatch "^(\.|.*\.(php|mjs|env|log|sql))">
+  Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Robots-Tag "noindex, nofollow"
+  <FilesMatch "\.(html|json|js|css)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

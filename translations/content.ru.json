@@ -5008,5 +5008,45 @@
     "property": "alt",
     "en": "Dzing Finance accounts screen on a phone held in a hand",
     "ru": "Экран счетов Dzing Finance на телефоне в руке"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "aa27a82a-b260-4d5b-9562-6cde46f7584c",
+    "bundle": "project",
+    "field": "title",
+    "delta": 0,
+    "property": "value",
+    "en": "AI Setup visaulisation",
+    "ru": "Визуализация инфраструктуры ИИ-агентов"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "aa27a82a-b260-4d5b-9562-6cde46f7584c",
+    "bundle": "project",
+    "field": "body",
+    "delta": 0,
+    "property": "value",
+    "en": "<p><img data-entity-uuid=\"6d9cf161-9caa-44f4-bafb-29201fdaf3fd\" data-entity-type=\"file\" src=\"/sites/default/files/inline-images/Screenshot%202026-10-16%20at%2015.01.02_0.png\" width=\"3778\" height=\"1710\"><br><a href=\"https://ai-mcp-rag-calls-jurenites.just-brook-2743.chatgpt.site/?scenario=messenger&amp;device=laptop&amp;input=text&amp;messenger=telegram&amp;agent=openclaw&amp;provider=anthropic&amp;billing=subscription&amp;workspace=local&amp;hosting=vps&amp;connection=terminal&amp;os=mac&amp;vpn=off\" target=\"_blank\" rel=\"external\">Explore the interactive scene</a></p><p>A vibe-coded exploration of how a modern AI agent setup can work across devices, services, and external tools. The project turns an abstract network of connections into a visual journey: a person sends a request, an agent coordinates the work, a model asks for information, and the result returns to the user.</p><h2>Follow the request</h2><p>The interactive globe shows the connections between the user's device, the agent host, the AI provider, and a company server. Animated packets make the direction of communication visible. Step-by-step playback follows the prompt, tool call, company API response, and final answer, making it easier to understand which part of the setup is responsible for each action.</p><h2>Compare ways of working</h2><p>The visualization explores three entry points: an application, a messenger, and an interactive terminal. Controls let visitors explore different devices, input methods, agents, and model providers. The accompanying explanations describe the practical trade-offs, from sending a task and reading the result later to staying involved in a live session.</p><h2>Make the setup easier to discuss</h2><p>The aim is to make conversations about AI infrastructure more concrete: where the agent runs, how it reaches external tools through MCP, how those tools access company data, and how the answer gets back to the person who asked. Setup notes and illustrative cost breakdowns give the diagram context. This is an exploratory prototype for comparing workflows and explaining connections.</p>",
+    "ru": "<p><img data-entity-uuid=\"6d9cf161-9caa-44f4-bafb-29201fdaf3fd\" data-entity-type=\"file\" src=\"/sites/default/files/inline-images/Screenshot%202026-10-16%20at%2015.01.02_0.png\" width=\"3778\" height=\"1710\"><br><a href=\"https://ai-mcp-rag-calls-jurenites.just-brook-2743.chatgpt.site/?scenario=messenger&amp;device=laptop&amp;input=text&amp;messenger=telegram&amp;agent=openclaw&amp;provider=anthropic&amp;billing=subscription&amp;workspace=local&amp;hosting=vps&amp;connection=terminal&amp;os=mac&amp;vpn=off\" target=\"_blank\" rel=\"external\">Открыть интерактивную схему</a></p><p>Экспериментальный проект, созданный с помощью вайб-кодинга, показывает, как ИИ-агенты могут работать с разными устройствами, сервисами и внешними инструментами. Абстрактная сеть соединений превращается в наглядный маршрут: пользователь отправляет запрос, агент координирует работу, модель запрашивает информацию, а результат возвращается пользователю.</p><h2>Проследите путь запроса</h2><p>Интерактивный глобус показывает связи между устройством пользователя, сервером агента, провайдером ИИ и сервером компании. Анимированные пакеты данных помогают увидеть направление обмена. Пошаговое воспроизведение проводит через отправку запроса, вызов инструмента, получение ответа от API компании и формирование итогового ответа. Так проще понять, какая часть системы отвечает за каждое действие.</p><h2>Сравните способы работы</h2><p>Визуализация предлагает три способа взаимодействия: приложение, мессенджер и интерактивный терминал. С помощью переключателей можно сравнить устройства, способы ввода, агентов и провайдеров моделей. Пояснения раскрывают практические различия между сценариями: отправить задачу и вернуться за результатом позже или участвовать в работе в режиме диалога.</p><h2>Обсуждайте инфраструктуру на конкретных примерах</h2><p>Цель проекта — сделать обсуждение инфраструктуры ИИ более предметным: где работает агент, как он обращается к внешним инструментам через MCP, как эти инструменты получают данные компании и каким образом ответ возвращается автору запроса. Пояснения по настройке и примерные расчёты затрат дополняют схему. Это исследовательский прототип для сравнения рабочих сценариев и объяснения связей между компонентами.</p>"
+  },
+  {
+    "entity_type": "node",
+    "uuid": "aa27a82a-b260-4d5b-9562-6cde46f7584c",
+    "bundle": "project",
+    "field": "body",
+    "delta": 0,
+    "property": "summary",
+    "en": "An interactive visual exploration of AI agent setups: follow a request from an app, messenger, or terminal through the model, external tools, and company data, then back to the user.",
+    "ru": "Интерактивная визуализация инфраструктуры ИИ-агентов: проследите путь запроса из приложения, мессенджера или терминала через модель, внешние инструменты и данные компании — и обратно к пользователю."
+  },
+  {
+    "entity_type": "node",
+    "uuid": "aa27a82a-b260-4d5b-9562-6cde46f7584c",
+    "bundle": "project",
+    "field": "field_comparison_heading",
+    "delta": 0,
+    "property": "value",
+    "en": "Before and after",
+    "ru": "До и после"
   }
 ]

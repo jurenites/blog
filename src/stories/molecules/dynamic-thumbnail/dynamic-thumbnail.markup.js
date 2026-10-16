@@ -3,9 +3,11 @@ import roundabout_artwork from '../../../public/assets/images/dynamic-thumbnails
 import pixel_artwork from '../../../public/assets/images/dynamic-thumbnails/4pixel.svg?raw';
 import smep_artwork from '../../../public/assets/images/dynamic-thumbnails/smep.svg?raw';
 import oksenate_artwork from '../../../public/assets/images/dynamic-thumbnails/oksenate.svg?raw';
+import ai_setup_artwork from '../../../public/assets/images/dynamic-thumbnails/ai-setup.svg?raw';
+import presentation_artwork from '../../../public/assets/images/dynamic-thumbnails/presentation-ux.svg?raw';
 import { render_template } from '../../template.js';
 
-const ARTWORK_SOURCES = { roundabout: roundabout_artwork, '4pixel': pixel_artwork, smep: smep_artwork, oksenate: oksenate_artwork };
+const ARTWORK_SOURCES = { roundabout: roundabout_artwork, '4pixel': pixel_artwork, smep: smep_artwork, oksenate: oksenate_artwork, 'ai-setup': ai_setup_artwork, 'presentation-ux': presentation_artwork };
 let thumbnail_sequence = 0;
 
 export function dynamic_thumbnail_markup({ artwork_name = 'roundabout' } = {}) {

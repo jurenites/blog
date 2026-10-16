@@ -4,7 +4,30 @@ The `jurenites_qr_studio` custom module serves `/qr-studio` as a dedicated full-
 
 The maintained application source is `web/modules/custom/jurenites_qr_studio/ui/`; its document template is `templates/qr-studio-document.html.twig` in that module. The earlier localhost prototype remains available separately. Make subsequent Drupal changes in the module, rather than copying an older prototype over it.
 
-## Behavior
+## Portfolio case study
+
+The local bilingual “Human readable QR” case study is Project node 64, at
+`/portfolio/human-readable-qr` (English) and
+`/ru/portfolio/qr-kod-kotoryy-mozhet-prochitat-chelovek` (Russian). The former
+Blog aliases redirect to the corresponding Portfolio pages. Its node ID, UUID,
+revision history, authored Body/summary, images, tags and language-specific video
+selections are retained. The standalone application remains at `/qr-studio`.
+
+`scripts/move-qr-to-portfolio.php` performs the explicit, revision-guarded local
+conversion; reruns leave existing Project content alone. Take a database backup
+first. Article-only reading time and empty comment settings are removed during
+conversion and remain recoverable from that backup. The initial local backup is
+`backups/before-qr-portfolio-20261016.sql.gz`.
+
+The supplied artwork is preserved unchanged as
+`src/public/assets/images/dynamic-thumbnails/qr-pixel-studio.svg` and uploaded to
+the managed Dynamic thumbnail field in both languages. This flattened SVG uses
+the existing single foreground layer and radial background tracking. The detail
+page keeps its original image. Deployment requires the migrated database and
+managed SVG file as well as the source; this local content change is not an
+automatic production update.
+
+## Application behavior
 
 - Fresh workspaces start with `HTTPS://?????.*` in Encoded Text, ready to search five name characters and any ending from the selected domain set that fits the QR. The initial QR is a temporary preview, not a saved match. Existing saved projects retain their stored input.
 

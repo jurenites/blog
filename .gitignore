@@ -61,6 +61,7 @@ build/
 .cache/component-status/
 .cache/dependency-updates/
 generated/status-dashboard/
+generated/status-public/
 
 # Local database snapshots must never enter source control.
 /backups/

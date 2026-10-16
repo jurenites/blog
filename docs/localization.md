@@ -189,6 +189,12 @@ dependency of this recipe.
 
 ## Editorial copy
 
+The AI setup project (UUID `aa27a82a-b260-4d5b-9562-6cde46f7584c`, local
+`/ru/node/123`) has a Russian title, rich-text Body, teaser summary and comparison
+heading in the content catalogue. Its screenshot, demo URL and dynamic SVG are
+preserved. Apply this page with the UUID-scoped importer; subsequent edits belong
+in the Drupal translation form and remain protected by the importer's guards.
+
 Listing introductions and empty messages now use Page copy Content Block
 translations, not interface strings or Views text configuration. Use the block's
 Translate action in Content → Blocks. The editorial migration preserves existing
