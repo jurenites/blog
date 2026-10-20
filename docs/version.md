@@ -1,6 +1,6 @@
 # Documentation Version
 
-Version: 1.238.1
+Version: 1.241.0
 Reviewed: 2026-09-22
 
 This checkpoint covers a repository-source review of `/docs`: source paths,
@@ -30,6 +30,8 @@ history here. Git retains superseded documentation.
   assets, Drupal modules, recipes, and local tools.
 - [Workflow](workflow.md), [naming](naming-conventions.md), and
   [design system](design-system.md): development and component contracts.
+- [Contact analytics](contact-analytics.md): local GA snapshots, SQLite queries,
+  contact KPI cards and data-quality boundaries.
 - [Content model](drupal-content-model.md), [localization](localization.md),
   [About](about-page.md), [Hero](hero-section.md), [Contact](contact-form.md),
   [Contact photo](contact-photo.md), [layered scene](layered-scene.md),

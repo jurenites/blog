@@ -63,6 +63,10 @@ build/
 generated/status-dashboard/
 generated/status-public/
 
+# Private local analytics data and its generated dashboard.
+.cache/contact-analytics/
+generated/contact-analytics/
+
 # Local database snapshots must never enter source control.
 /backups/
 # Private transient uploads used by the content-only SSH restore.

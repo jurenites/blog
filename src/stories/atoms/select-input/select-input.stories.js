@@ -8,6 +8,7 @@ const OPTION_ITEMS = ["Design systems", "Drupal", "Storybook", "Accessibility"];
 const SELECTED_VALUE = "Drupal";
 const IS_REQUIRED = false;
 const IS_DISABLED = false;
+const IS_ENHANCED = true;
 
 function render_story(story_args) {
   const required_indicator_markup = story_args.is_required
@@ -43,6 +44,7 @@ export default {
     selected_value: { control: "text" },
     is_required: { control: "boolean" },
     is_disabled: { control: "boolean" },
+    is_enhanced: { control: "boolean" },
   },
   args: {
     field_id: FIELD_ID,
@@ -52,7 +54,10 @@ export default {
     selected_value: SELECTED_VALUE,
     is_required: IS_REQUIRED,
     is_disabled: IS_DISABLED,
+    is_enhanced: IS_ENHANCED,
   },
 };
 
 export const default_story = {};
+export const native_fallback = { args: { is_enhanced: false } };
+export const disabled_fallback = { args: { is_enhanced: false, is_disabled: true } };

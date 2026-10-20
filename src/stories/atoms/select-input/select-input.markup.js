@@ -21,6 +21,7 @@ export function select_input_markup({
   selected_value,
   is_required = false,
   is_disabled = false,
+  is_enhanced = true,
   native_class_names = "",
   accessibility_attributes = "",
 }) {
@@ -46,6 +47,7 @@ export function select_input_markup({
     field_id: escape_html(field_id),
     field_name: escape_html(field_name),
     native_class_names: native_class_names ? ` ${escape_html(native_class_names)}` : "",
+    enhancement_attribute: is_enhanced ? ' data-jurenites-select' : '',
     option_items_markup,
     select_attributes: select_attributes ? ` ${select_attributes}` : "",
   });

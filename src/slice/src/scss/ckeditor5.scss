@@ -18,6 +18,15 @@
   --ck-color-widget-editable-focus-background: var(--color-palette-dark-black);
 }
 
+// CKEditor can retain a pixel height inline while shrinking the image width.
+// Override that editing-view height without rewriting stored content.
+.ck-content .drupal-media img,
+.ck-content .image img,
+.ck-content .image-inline img {
+  max-width: 100%;
+  height: auto !important;
+}
+
 .ck.ck-button.corporate-text-color__option {
   &::before {
     content: "";

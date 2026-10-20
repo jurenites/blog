@@ -302,7 +302,7 @@ The reusable `Molecules/Input fields/Select Input` story supplies the select
 renderer used by Input text rather than duplicating its markup. It emits a
 native `<select>` first, so forms remain usable when JavaScript is unavailable.
 Progressive enhancement adds an exact
-40px trigger and suffix target, a 24px one-stroke chevron with a 36px circular
+40px trigger and suffix target, a 24px one-stroke chevron with a 36px square
 hover surface, and a keyboard-accessible listbox whose rows are at least 40px.
 The listbox extends 4px beyond each trigger edge, aligns option text with the
 current value, and distinguishes the selected option with the level-one surface.
@@ -312,13 +312,26 @@ the full list, the roomier side receives a viewport-bounded scrolling menu while
 each option retains its 40px minimum row height.
 Drupal `.form-select` controls and the Site Header language picker receive the
 same enhancement from the shared theme JavaScript; multi-select controls retain
-their native browser UI. The header composes the same Storybook renderer and
+their native browser UI. Native single-choice dropdowns, including unclassed
+selects, suppress the operating-system arrow with `appearance: none` and draw
+a CSS chevron 8px inside the trailing edge. A 40px reserved suffix area keeps
+text clear of the arrow. RTL moves the chevron to the left; multi-select and
+multi-row listboxes keep their native presentation. The native and disabled
+fallbacks are visible variants in the Select Input story.
+The header composes the same Storybook renderer and
 keeps only a scoped presentation override: its trigger and menu are borderless,
 and its wrapper shrinks to the selected language plus the shared suffix target.
 Select, text, textarea, unchecked choice, and choice-chip control surfaces use
 `color.palette.light-black`, one neutral palette tone above the default page
 surface. The Select Input's selected listbox row uses `color.palette.deep-gray`
 so it remains distinct from the lighter control and menu surface.
+
+`Atoms/Code Block` provides a shared SQL/plain-text snippet renderer. SQL
+keywords, strings, quoted identifiers, bound parameters, numbers and comments
+use existing palette tokens. The lexer escapes source text before adding
+highlight spans and preserves whitespace for copying. Its scrollable code
+region is keyboard-focusable; `Atoms/Inline Code` continues to own inline
+snippets.
 
 `Components/Content Layout` replaces separate blank Storybook shells for generic
 pages, nodes, full Articles, Basic pages, and teasers. It exposes semantic

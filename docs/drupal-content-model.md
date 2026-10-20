@@ -23,6 +23,11 @@ scroll into view inside the editor, with highlighting kept aligned.
 
 ## Rich-text authoring
 
+Embedded media images and native block/inline images keep their original aspect
+ratio as the visual editor narrows: editor CSS limits their width and lets height
+scale automatically, overriding fixed inline heights in the editing view without
+rewriting stored content or image dimensions.
+
 The toolbar exposes **Align left**, **Align center**, and **Align right**. Select
 a protected Phone preview block to align its complete card, or place the cursor
 in a text block to align that text. Alignment is saved as CSS classes and survives
@@ -1265,6 +1270,15 @@ markup in the translatable Body field. The one-time seed script
 `scripts/update-accountia-previews.php` creates a revision and refuses to replace
 existing previews, preserving subsequent CMS edits. Generated section markup and
 the supplied-image manifest are under `generated/content/accountia/`.
+
+The English and Russian introductions lead with the business problem, the
+designer's UX and backlog responsibilities, and three decisions with their
+qualitative effects. Team and logo credits sit with the website collaboration
+details. The Body summaries also describe the designer's contribution.
+`scripts/update-accountia-introduction.php` applies the reviewed Body values from
+the translation catalogue in a recoverable revision, checks the previous values
+before saving, and preserves the existing media. Later CMS edits and clears are
+protected by those checks. The case study makes no measured commercial claims.
 
 Three shared phone cards show the two landing-page exports and the exact 360px
 application exports, split between two application sequences. The presentation uses
