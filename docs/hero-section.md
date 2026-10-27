@@ -26,13 +26,11 @@ or an uploaded CV's actual URL; installation does not invent a CV download.
 
 ## Behavior and shared implementation
 
-The homepage's sticky top navigation has a 50% dark background tint and
-12px backdrop blur. Both fade to transparent over an additional 32px below the
-menu, keeping text readable over the photograph without a hard lower edge.
-The effect does not intercept clicks or change layout. The expanded mobile
-menu retains its opaque background. **Organisms/Top Nav Menu Site Header →
-Homepage Overlay** demonstrates the shared treatment; its tint, blur and fade
-height are editable under `component.site-header` in `src/token/tokens.yaml`.
+The homepage's sticky top navigation sits directly over the photograph without
+a translucent tint or backdrop blur. The expanded mobile menu retains its opaque
+background and centers the navigation links vertically in the viewport.
+**Organisms/Top Nav Menu Site Header → Homepage Overlay** demonstrates the shared
+treatment. Existing backdrop tokens remain in the inventory for other consumers.
 
 The shared header home link uses text initials that reveal Alexander Ilivanov
 on hover or keyboard focus. Header branding, the first-visit intro, responsive

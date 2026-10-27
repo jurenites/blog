@@ -712,7 +712,9 @@ At the token-defined 640px mobile maximum and below, the
 24px three-line menu icon replaces the interactive name on the left while the language
 selector remains on the right. The icon stays white in every state. Activating
 it turns it into a cross and opens the one-level Main navigation
-as a vertical, full-viewport header surface without a separate overlay. Menu
+as a vertical, full-viewport header surface without a separate overlay. The link
+list is vertically centered in the viewport, with equal space reserved above
+and below for the top controls. Short screens allow the link list to scroll. Menu
 items and the menu-toggle background move one grayscale surface level lighter
 on hover or keyboard focus. Escape,
 selecting a menu link, or widening beyond 640px closes it.

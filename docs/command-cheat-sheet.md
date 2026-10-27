@@ -1,5 +1,10 @@
 # Command Cheat Sheet
 
+## server PROD
+```bash
+u3614358@server290.hosting.reg.ru
+```
+
 ## Local DEV
 
 Run from `/Users/alexanderilivanov/Projects/blog_jurenites` with Docker Desktop open.
