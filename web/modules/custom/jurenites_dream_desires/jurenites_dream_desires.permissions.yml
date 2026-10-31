@@ -1,0 +1,4 @@
+administer dream desires:
+  title: 'Administer private dream desires'
+  description: 'View personal desires and images, revoke devices, and configure generation.'
+  restrict access: true

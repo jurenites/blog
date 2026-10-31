@@ -72,3 +72,8 @@ generated/contact-analytics/
 # Private transient uploads used by the content-only SSH restore.
 /.content-deploy.*/
 /.content-repair.*/
+
+# Private personal dream images; never publish or commit.
+/private/
+
+/web/sites/default/dream-desires.local.php

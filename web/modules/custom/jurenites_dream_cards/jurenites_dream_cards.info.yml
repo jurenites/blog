@@ -1,0 +1,13 @@
+name: Dream cards
+type: module
+description: 'Editorial dream cards and a public read-only feed for the Android prototype.'
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - drupal:node
+  - drupal:field
+  - drupal:image
+  - drupal:options
+  - drupal:taxonomy
+  - drupal:language
+  - drupal:content_translation

@@ -1,0 +1,10 @@
+<?php
+
+/** Add the private temporary selfie reference without altering existing desires. */
+function jurenites_dream_desires_update_11001(): void {
+  $field_definitions = \Drupal::service('entity_field.manager')->getFieldStorageDefinitions('dream_desire');
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  if (!$update_manager->getFieldStorageDefinition('reference_file', 'dream_desire')) {
+    $update_manager->installFieldStorageDefinition('reference_file', 'dream_desire', 'jurenites_dream_desires', $field_definitions['reference_file']);
+  }
+}

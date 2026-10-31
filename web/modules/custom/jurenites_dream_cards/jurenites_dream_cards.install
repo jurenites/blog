@@ -1,0 +1,121 @@
+<?php
+
+/**
+ * @file
+ * Installs an isolated editorial bundle; existing site content is untouched.
+ */
+
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\language\Entity\ContentLanguageSettings;
+use Drupal\node\Entity\NodeType;
+use Drupal\jurenites_dream_cards\TopicCatalog;
+use Drupal\taxonomy\Entity\Vocabulary;
+
+/**
+ * Implements hook_install(). Does not seed or publish editorial content.
+ */
+function jurenites_dream_cards_install(): void {
+  if (!NodeType::load('dream_card')) {
+    NodeType::create([
+      'type' => 'dream_card', 'name' => 'Dream card',
+      'description' => 'Image and Russian reminder for the Моя мечта application.',
+      'new_revision' => TRUE, 'display_submitted' => FALSE,
+    ])->save();
+  }
+  if (!Vocabulary::load('dream_tags')) {
+    Vocabulary::create(['vid' => 'dream_tags', 'name' => 'Dream tags'])->save();
+  }
+  $field_specs = [
+    'field_dream_topic' => [
+      'label' => 'Dream category', 'type' => 'list_string', 'required' => TRUE,
+      'storage_settings' => ['allowed_values' => TopicCatalog::TOPIC_LABELS],
+      'widget_type' => 'options_select',
+    ],
+    'field_dream_image' => [
+      'label' => 'Image', 'type' => 'image', 'required' => TRUE,
+      'storage_settings' => ['uri_scheme' => 'public', 'target_type' => 'file'],
+      'field_settings' => ['file_directory' => 'dream-cards/[date:custom:Y-m]', 'file_extensions' => 'jpg jpeg png webp', 'max_filesize' => '8 MB', 'max_resolution' => '1600x1600', 'alt_field' => TRUE, 'alt_field_required' => TRUE],
+      'widget_type' => 'image_image',
+    ],
+    'field_dream_text' => ['label' => 'Russian reminder', 'type' => 'string', 'storage_settings' => ['max_length' => 320], 'required' => TRUE, 'widget_type' => 'string_textfield', 'description' => 'Plain text, maximum 320 characters.'],
+    'field_dream_author' => ['label' => 'Attribution (optional)', 'type' => 'string', 'storage_settings' => ['max_length' => 100], 'widget_type' => 'string_textfield'],
+    'field_dream_tags' => [
+      'label' => 'Dream tags', 'type' => 'entity_reference', 'cardinality' => -1,
+      'storage_settings' => ['target_type' => 'taxonomy_term'],
+      'field_settings' => ['handler' => 'default:taxonomy_term', 'handler_settings' => ['target_bundles' => ['dream_tags' => 'dream_tags'], 'auto_create' => TRUE]],
+      'widget_type' => 'entity_reference_autocomplete_tags',
+    ],
+    'field_dream_weight' => ['label' => 'Sort order', 'type' => 'integer', 'widget_type' => 'number', 'default_value' => [['value' => 0]]],
+  ];
+  $form_display = EntityFormDisplay::load('node.dream_card.default') ?? EntityFormDisplay::create(['targetEntityType' => 'node', 'bundle' => 'dream_card', 'mode' => 'default', 'status' => TRUE]);
+  $form_display->setComponent('title', ['type' => 'string_textfield', 'weight' => -10]);
+  $form_display->setComponent('status', ['type' => 'boolean_checkbox', 'weight' => 20]);
+  $field_weight = 0;
+  foreach ($field_specs as $field_name => $field_spec) {
+    $field_storage = FieldStorageConfig::loadByName('node', $field_name);
+    if (!$field_storage) {
+      $field_storage = FieldStorageConfig::create([
+        'entity_type' => 'node', 'field_name' => $field_name, 'type' => $field_spec['type'],
+        'cardinality' => $field_spec['cardinality'] ?? 1, 'settings' => $field_spec['storage_settings'] ?? [],
+        'translatable' => TRUE,
+      ]);
+      $field_storage->save();
+    }
+    if (!FieldConfig::loadByName('node', 'dream_card', $field_name)) {
+      FieldConfig::create([
+        'field_storage' => $field_storage, 'bundle' => 'dream_card', 'label' => $field_spec['label'],
+        'description' => $field_spec['description'] ?? '', 'required' => $field_spec['required'] ?? FALSE,
+        'settings' => $field_spec['field_settings'] ?? [], 'default_value' => $field_spec['default_value'] ?? [],
+        'translatable' => in_array($field_name, ['field_dream_text', 'field_dream_author', 'field_dream_image'], TRUE),
+      ])->save();
+    }
+    if (!$form_display->getComponent($field_name)) {
+      $form_display->setComponent($field_name, ['type' => $field_spec['widget_type'], 'weight' => $field_weight++]);
+    }
+  }
+  $form_display->save();
+  $view_display = EntityViewDisplay::load('node.dream_card.default') ?? EntityViewDisplay::create(['targetEntityType' => 'node', 'bundle' => 'dream_card', 'mode' => 'default', 'status' => TRUE]);
+  $view_display->setComponent('field_dream_image', ['type' => 'image', 'label' => 'hidden']);
+  $view_display->setComponent('field_dream_text', ['type' => 'basic_string', 'label' => 'hidden']);
+  $view_display->setComponent('field_dream_author', ['type' => 'string', 'label' => 'hidden']);
+  $view_display->save();
+  ContentLanguageSettings::loadByEntityTypeBundle('node', 'dream_card')->setDefaultLangcode('ru')->setLanguageAlterable(TRUE)->setThirdPartySetting('content_translation', 'enabled', TRUE)->save();
+  // New cards start as drafts and never enter the default front-page listing.
+  $field_manager = \Drupal::service('entity_field.manager');
+  $field_manager->clearCachedFieldDefinitions();
+  $field_definitions = $field_manager->getFieldDefinitions('node', 'dream_card');
+  foreach (['status', 'promote'] as $field_name) {
+    $field_definitions[$field_name]->getConfig('dream_card')->setDefaultValue(FALSE)->save();
+  }
+}
+
+/**
+ * Add eight life-goal categories, preserving existing values and edited labels.
+ */
+function jurenites_dream_cards_update_11001(): void {
+  $field_storage = FieldStorageConfig::loadByName('node', 'field_dream_topic');
+  if ($field_storage) {
+    $allowed_values = $field_storage->getSetting('allowed_values') ?? [];
+    $field_storage->setSetting('allowed_values', $allowed_values + TopicCatalog::TOPIC_LABELS)->save();
+  }
+}
+
+/**
+ * Add sports/custom dreams and refresh untouched default category labels.
+ */
+function jurenites_dream_cards_update_11002(): void {
+  $field_storage = FieldStorageConfig::loadByName('node', 'field_dream_topic');
+  if ($field_storage) {
+    $allowed_values = $field_storage->getSetting('allowed_values') ?? [];
+    $previous_defaults = ['home' => 'Свой дом', 'finance' => 'Финансовая свобода'];
+    foreach ($previous_defaults as $topic_key => $previous_label) {
+      if (($allowed_values[$topic_key] ?? NULL) === $previous_label) {
+        $allowed_values[$topic_key] = TopicCatalog::TOPIC_LABELS[$topic_key];
+      }
+    }
+    $field_storage->setSetting('allowed_values', $allowed_values + TopicCatalog::TOPIC_LABELS)->save();
+  }
+}

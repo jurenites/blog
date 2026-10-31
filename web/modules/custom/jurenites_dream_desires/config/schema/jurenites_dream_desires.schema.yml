@@ -1,0 +1,22 @@
+jurenites_dream_desires.settings:
+  type: config_object
+  label: 'Personal dream images'
+  mapping:
+    enabled:
+      type: boolean
+      label: 'Accept new generation requests'
+    model:
+      type: string
+      label: 'OpenAI image model'
+    quality:
+      type: string
+      label: 'Image quality'
+    size:
+      type: string
+      label: 'Image dimensions'
+    device_daily_limit:
+      type: integer
+      label: 'Requests per device per day'
+    site_daily_limit:
+      type: integer
+      label: 'Requests across the site per day'

@@ -1,0 +1,9 @@
+name: Personal dream images
+type: module
+description: 'Private device-owned desires and one queued OpenAI image per desire.'
+package: Jurenites
+core_version_requirement: ^11
+dependencies:
+  - jurenites_dream_cards:jurenites_dream_cards
+  - drupal:file
+  - drupal:options

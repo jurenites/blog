@@ -28,6 +28,28 @@ services:
       DRUPAL_DATABASE_USER: drupal
       DRUPAL_DATABASE_PASSWORD: drupal
 
+  # Explicit local image-generation services; no production deployment.
+  dream_worker:
+    image: blog_jurenites-web
+    extends:
+      service: web
+    container_name: blog_jurenites_dream_worker
+    profiles: [dreams]
+    restart: unless-stopped
+    user: www-data
+    entrypoint: ["sh", "/opt/drupal/scripts/run-dream-worker.sh"]
+    stop_grace_period: 210s
+
+  dream_emulator_proxy:
+    image: nginx:1.27-alpine
+    container_name: blog_jurenites_dream_emulator_proxy
+    profiles: [dreams]
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8765:80"
+    volumes:
+      - ./docker/dream-emulator-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+
   db:
     image: mariadb:11.4
     container_name: blog_jurenites_db

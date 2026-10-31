@@ -1,0 +1,8 @@
+jurenites_dream_desires.collection:
+  title: 'Личные мечты'
+  route_name: jurenites_dream_desires.admin
+  parent: system.admin_content
+jurenites_dream_desires.settings:
+  title: 'Изображения мечты — API и OpenAI'
+  route_name: jurenites_dream_desires.settings
+  parent: system.admin_config_services

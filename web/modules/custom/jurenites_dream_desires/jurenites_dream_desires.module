@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Keep personal images out of generic public file and JSON:API routes.
+ */
+
+/** Implements hook_file_download(). */
+function jurenites_dream_desires_file_download($file_uri) {
+  if (str_starts_with($file_uri, 'private://dream-desires/')) {
+    // Only the owner-checked API image controller may stream these bytes.
+    return -1;
+  }
+}
+

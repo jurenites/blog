@@ -33,12 +33,57 @@ npm run status:build        # Repeat after source changes
 npm run status:serve
 ```
 
-### Update Drupal dependencies
+### Update Drupal core locally
+
+The local core update on 2026-10-30 moved Drupal from 11.4.10 to 11.4.11.
+`composer.lock` records the exact core and dependency versions; the existing
+`^11.3` constraints allow stable Drupal 11 updates. Contributed modules are not
+part of this update command.
 
 ```bash
-docker exec blog_jurenites_web composer update 'drupal/*' --with-all-dependencies --dry-run
-# Review, then apply
+docker compose exec -T web composer update 'drupal/core-*' --with-all-dependencies --dry-run
 ```
+
+Review the resolved versions, then save `composer.json`, `composer.lock`, and a
+compressed `drush sql:dump` in an ignored directory under `backups/`, outside
+`web/`. Verify the dump with `gzip -t`. Pause `dream_worker` if it is running,
+and enable maintenance mode before replacing dependencies:
+
+```bash
+docker compose exec -T web vendor/bin/drush state:set system.maintenance_mode 1 --input-format=integer
+docker compose exec -T web vendor/bin/drush cache:rebuild
+docker compose exec -T web composer update 'drupal/core-*' --with-all-dependencies --no-interaction
+docker compose exec -T web vendor/bin/drush updatedb --yes
+docker compose exec -T web vendor/bin/drush cache:rebuild
+docker compose exec -T web composer validate --strict
+docker compose exec -T web composer check-platform-reqs
+docker compose exec -T web vendor/bin/drush updatedb:status
+docker compose exec -T web vendor/bin/drush status
+docker compose exec -T web composer audit
+```
+
+After successful checks, restore the previous maintenance state (normally off)
+and restart `dream_worker` only if it was running before the update:
+
+```bash
+docker compose exec -T web vendor/bin/drush state:set system.maintenance_mode 0 --input-format=integer
+docker compose exec -T web vendor/bin/drush cache:rebuild
+```
+
+Check the local home page, translated routes, and login page. These commands
+update only the local environment; production deployment is a separate step.
+
+### Review all Drupal dependency updates
+
+```bash
+docker compose exec -T web composer update 'drupal/*' --with-all-dependencies --dry-run
+```
+
+The 2026-10-31 local module update uses
+`composer update drupal/captcha drupal/token --with-dependencies`. CAPTCHA moves
+from 2.0.10 to 2.0.11 (SA-CONTRIB-2026-281); Token moves from 1.17.0 to 1.18.0
+(Drupal release label `8.x-1.18`). Use the same backup, maintenance, database
+update, and verification sequence as the core update above.
 
 ### ClickHouse (optional, local only)
 
@@ -107,6 +152,94 @@ curl --fail -I https://jurenites.com/
 PROD currently has Devel enabled: keep the full lockfile install (no `--no-dev`).
 Drupal's public root is `web/`; `/var/www/u3614358/data/apps/blog_jurenites` is a
 compatibility symlink to the checkout above.
+
+### Prepared core, CAPTCHA, and Token update — 2026-10-31
+
+Target versions: Drupal core **11.4.11**, CAPTCHA **2.0.11**, Token **1.18.0**.
+The local preparation bundle is
+`.cache/dependency-updates/2026-10-31/production-update.patch`, with a
+`manifest.json` and `SHA256SUMS` beside it. The patch changes only
+`composer.lock`, including the core dependency updates tested on 2026-10-30.
+The bundle contains no database, settings, credentials, or local feature work.
+
+Apply that patch in a clean release checkout, review the lockfile change, and
+commit/merge it through the normal `main` workflow before deploying. The
+manifest records the baseline commit and lockfile hashes. Do not deploy the
+whole dirty `develop` checkout: it contains unrelated work. The local project
+version is 1.248.2; the dependency-only patch does not carry that mixed-work
+release metadata. Synchronize release metadata when preparing the reviewed
+production commit.
+
+Production SSH authentication was unavailable during preparation, so production
+versions, pending database updates, and its current Git state remain unverified.
+Run the following in an authenticated **PROD shell**. Set `release_commit` to
+the reviewed commit containing the patch, then run the preflight before changing
+the site. Preserve the full dependency install because PROD has Devel enabled.
+
+```bash
+cd /var/www/u3614358/data/www/jurenites.com
+export PATH="/opt/php/8.3/bin:$PATH"
+: "${release_commit:?Set release_commit to the reviewed production commit}"
+test -z "$(git status --porcelain)" || { echo 'Resolve local PROD changes first'; exit 1; }
+git fetch origin main
+git merge-base --is-ancestor "$release_commit" origin/main
+git merge-base --is-ancestor HEAD "$release_commit"
+git diff --stat HEAD "$release_commit"
+php vendor/bin/drush.php --uri=https://jurenites.com status
+php vendor/bin/drush.php --uri=https://jurenites.com updatedb:status
+php vendor/bin/drush.php --uri=https://jurenites.com state:get system.maintenance_mode
+```
+
+Review that diff and pending updates. Pause scheduled cron/queue workers through
+the hosting controls for the maintenance window. If the site is already in
+maintenance, retain that state instead of reopening it at the end. Create and
+verify a **production** backup; never import the local database for this update.
+Run each command successfully before proceeding:
+
+```bash
+umask 077
+backup_directory="/var/www/u3614358/data/backups/drupal-update-$(date -u +%Y%m%d-%H%M%S)"
+mkdir -p "$backup_directory"
+git rev-parse HEAD > "$backup_directory/previous-commit.txt"
+cp composer.json composer.lock "$backup_directory/"
+cp web/.htaccess "$backup_directory/htaccess"
+php vendor/bin/drush.php --uri=https://jurenites.com state:set system.maintenance_mode 1 --input-format=integer
+php vendor/bin/drush.php --uri=https://jurenites.com cr
+php vendor/bin/drush.php --uri=https://jurenites.com sql:dump --gzip --result-file="$backup_directory/database.sql"
+gzip -t "$backup_directory/database.sql.gz"
+git merge --ff-only "$release_commit"
+php /var/www/u3614358/data/bin/composer install --no-interaction --optimize-autoloader
+php /var/www/u3614358/data/bin/composer validate --strict
+php /var/www/u3614358/data/bin/composer check-platform-reqs
+php vendor/bin/drush.php --uri=https://jurenites.com updatedb --yes
+php vendor/bin/drush.php --uri=https://jurenites.com cr
+php vendor/bin/drush.php --uri=https://jurenites.com updatedb:status
+php vendor/bin/drush.php --uri=https://jurenites.com status
+php /var/www/u3614358/data/bin/composer show drupal/core
+php /var/www/u3614358/data/bin/composer show drupal/captcha
+php /var/www/u3614358/data/bin/composer show drupal/token
+php /var/www/u3614358/data/bin/composer audit
+```
+
+If all checks pass and the site was previously open, disable maintenance and
+rebuild caches. Check `/`, `/ru`, `/user/login`, `/ru/user/login`, and `/contact`;
+inspect the Drupal status/update reports and recent PHP errors. Resume the
+previously paused jobs. Use `composer install`, never `composer update`, on PROD.
+
+```bash
+php vendor/bin/drush.php --uri=https://jurenites.com state:set system.maintenance_mode 0 --input-format=integer
+php vendor/bin/drush.php --uri=https://jurenites.com cr
+curl --fail --silent --show-error --output /dev/null https://jurenites.com/
+```
+
+On failure, keep maintenance enabled and jobs paused. Retain the error output
+and backup path. Restore the previous code commit recorded in
+`previous-commit.txt` and install its lockfile. If database updates ran, restore
+the matching production SQL snapshot as well; do not run old code against an
+updated schema. Restore the saved `.htaccess` if scaffold generation changed
+site-specific rules, rebuild caches, and verify the recovered site before
+restoring its prior maintenance state and jobs. This preparation does not
+execute deployment or rollback on PROD.
 
 ## Testing subdomain hosting status
 

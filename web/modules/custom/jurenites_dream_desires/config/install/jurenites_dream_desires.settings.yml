@@ -1,0 +1,6 @@
+enabled: false
+model: gpt-image-1.5
+quality: medium
+size: 1024x1536
+device_daily_limit: 5
+site_daily_limit: 50

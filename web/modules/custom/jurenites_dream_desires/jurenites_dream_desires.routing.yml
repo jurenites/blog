@@ -1,0 +1,79 @@
+jurenites_dream_desires.register:
+  path: '/api/dream-desires/v1/devices'
+  defaults:
+    _controller: '\Drupal\jurenites_dream_desires\Controller\DesireApiController::registerDevice'
+  requirements:
+    _access: 'TRUE'
+  methods: [POST]
+  options:
+    no_cache: TRUE
+jurenites_dream_desires.create:
+  path: '/api/dream-desires/v1/desires'
+  defaults:
+    _controller: '\Drupal\jurenites_dream_desires\Controller\DesireApiController::createDesire'
+  requirements:
+    _access: 'TRUE'
+  methods: [POST]
+  options:
+    no_cache: TRUE
+jurenites_dream_desires.read:
+  path: '/api/dream-desires/v1/desires/{desire_uuid}'
+  defaults:
+    _controller: '\Drupal\jurenites_dream_desires\Controller\DesireApiController::readDesire'
+  requirements:
+    _access: 'TRUE'
+  methods: [GET]
+  options:
+    no_cache: TRUE
+jurenites_dream_desires.image:
+  path: '/api/dream-desires/v1/desires/{desire_uuid}/image'
+  defaults:
+    _controller: '\Drupal\jurenites_dream_desires\Controller\DesireApiController::readImage'
+  requirements:
+    _access: 'TRUE'
+  methods: [GET]
+  options:
+    no_cache: TRUE
+jurenites_dream_desires.delete:
+  path: '/api/dream-desires/v1/desires/{desire_uuid}'
+  defaults:
+    _controller: '\Drupal\jurenites_dream_desires\Controller\DesireApiController::deleteDesire'
+  requirements:
+    _access: 'TRUE'
+  methods: [DELETE]
+  options:
+    no_cache: TRUE
+jurenites_dream_desires.admin:
+  path: '/admin/content/dream-desires'
+  defaults:
+    _controller: '\Drupal\jurenites_dream_desires\Controller\DesireAdminController::overview'
+    _title: 'Личные мечты'
+  requirements:
+    _permission: 'administer dream desires'
+jurenites_dream_desires.settings:
+  path: '/admin/config/services/dream-desires'
+  defaults:
+    _form: '\Drupal\jurenites_dream_desires\Form\DesireSettingsForm'
+    _title: 'Изображения мечты'
+  requirements:
+    _permission: 'administer dream desires'
+jurenites_dream_desires.revoke:
+  path: '/admin/content/dream-devices/{dream_device}/revoke'
+  defaults:
+    _form: '\Drupal\jurenites_dream_desires\Form\DeviceRevokeForm'
+    _title: 'Отключить устройство'
+  requirements:
+    _permission: 'administer dream desires'
+  options:
+    parameters:
+      dream_device:
+        type: entity:dream_device
+jurenites_dream_desires.delete_device:
+  path: '/api/dream-desires/v1/devices/current'
+  defaults:
+    _controller: '\Drupal\jurenites_dream_desires\Controller\DesireApiController::deleteDevice'
+  requirements:
+    _access: 'TRUE'
+  methods: [DELETE]
+  options:
+    no_cache: TRUE

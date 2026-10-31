@@ -1,0 +1,10 @@
+services:
+  jurenites_dream_desires.generator:
+    class: Drupal\jurenites_dream_desires\OpenAiImageGenerator
+    arguments: ['@http_client']
+  jurenites_dream_desires.workflow:
+    class: Drupal\jurenites_dream_desires\DesireWorkflow
+  jurenites_dream_desires.private_resources:
+    class: Drupal\jurenites_dream_desires\PrivateResourceSubscriber
+    tags:
+      - { name: event_subscriber }

@@ -1,0 +1,9 @@
+jurenites_dream_cards.feed:
+  path: '/api/dream-cards/v1'
+  defaults:
+    _controller: '\Drupal\jurenites_dream_cards\Controller\DreamCardsController::contentFeed'
+  requirements:
+    _access: 'TRUE'
+  methods: [GET]
+  options:
+    no_cache: TRUE

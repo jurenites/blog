@@ -1,0 +1,7 @@
+jurenites_dream_cards.add:
+  title: 'Add dream card'
+  description: 'Add an image and Russian reminder for the mobile application.'
+  route_name: node.add
+  route_parameters:
+    node_type: dream_card
+  parent: system.admin_content

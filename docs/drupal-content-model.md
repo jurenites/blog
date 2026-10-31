@@ -1327,3 +1327,328 @@ and has no separate expand button. `scripts/fix-accountia-video.php` updates exi
 content in a new revision while preserving authored text and other previews.
 Optimized WebP images and the MP4 live in `public://projects/accountia/`; deployment
 must carry those public files alongside the database revision and theme build.
+
+
+## Mobile dream cards
+
+The optional `jurenites_dream_cards` module adds the `dream_card` node bundle
+for the Russian Android application «Моя мечта». It is independent of blog
+articles. New cards default to unpublished and are not promoted. No starter
+content or editor permissions are automatically seeded. Use the existing
+Content administration filtered by Dream card, or Content → Add dream card.
+
+The editor provides an internal title, required category (`car`, `yacht`,
+`plane`, `travel`), required public image, required translatable plain reminder
+(maximum 320 characters), optional attribution (100 characters), tags from
+the dedicated `dream_tags` vocabulary, and numeric sort order. Image uploads
+accept JPEG/PNG/WebP up to 8 MB and are reduced to at most 1600 × 1600.
+The Russian translation is preferred when available. Store authored Russian
+copy in these fields, not PHP. Category keys are the mobile protocol; labels
+can be translated without changing those keys. Tags are delivered as metadata;
+the current app filters by category only, not by car model, colour or tags.
+
+`GET /api/dream-cards/v1` is a public read-only custom endpoint; it does not
+require enabling Drupal's general JSON:API surface. It emits an explicit
+allowlist of anonymously readable, published cards, ordered by weight then ID,
+limited to 120. Drafts, private file URIs, unsupported images and invalid cards
+are omitted. Editors receive the same public feed. This is public editorial
+content, not a personal profile endpoint. The app does not send dreams or photos.
+
+The response is `schema_version: 1`, a content-derived `revision`, and a `cards`
+array. Every item contains `id` (node UUID), `topic`, `text`, `author`,
+`image_url` (absolute URL), `image_revision` (file UUID and changed time), and
+`tags`. Replacing an uploaded image creates a new file/reference; do not replace
+public file bytes directly without changing the file revision. HTTPS is required
+by the Android release for both the feed and every image, including redirects.
+
+Responses revalidate (`max-age=0, must-revalidate`), expose an ETag, and support
+304 responses. Drupal page caching is disabled for this small endpoint so node
+edits and unpublishing are immediately reflected in its response. Published
+images remain public files; unpublishing a card is not a promise to revoke files
+already downloaded by phones.
+
+The Android client polls when opened/resumed and after unlock during an active
+reminder session, no more than once per five minutes. Manual refresh bypasses
+that interval. A collection is activated only after its images have downloaded
+and validated; failures keep the last successful collection. This is not push
+delivery, and sleeping/offline phones do not receive immediate updates. A
+category absent from the feed uses the app's bundled example. A user-imported
+photo overrides the collection until they choose to restore the collection.
+
+### Local checks and production rollout
+
+`drush en jurenites_dream_cards -y` creates only this bundle, its fields and
+vocabulary. It is installed in DEV for this change. A pre-install DEV database
+dump is held locally at `backups/dream-cards-before-2026-10-28.sql` (never commit it).
+`drush php:script scripts/test-dream-cards.php` creates temporary fixtures,
+checks published/draft visibility, mappings, updates, ETag, unpublishing and
+field validation, and deletes the fixtures in `finally`. Run only in DEV.
+
+The proposed production change is limited to this module and its new content
+model. Back up PROD's database, deploy the module directory, run
+`drush en jurenites_dream_cards -y` and `drush cr`, then create and publish
+reviewed Russian cards. Do not import the entire DEV configuration or database.
+If configuration management later imports `core.extension`, export/reconcile
+this module's configuration through that workflow so it is not removed.
+
+The Android v0.3 default endpoint is
+`https://jurenites.com/api/dream-cards/v1`. Until this module is deployed and
+content is published there, the APK shows its fallback collection and a sync
+status. The endpoint is editable under Настройки → Адрес источника for testing.
+A production deploy and real-device internet test remain separate from the
+local checks. Existing administrator permissions suffice to manage cards;
+creating a limited editor role is a future explicit permission change.
+
+### Expanded Android goals (APK 0.5)
+
+Dream cards support 12 stable topic keys: `car`, `yacht`, `plane`, `travel`,
+`home`, `health`, `peace`, `finance`, `family`, `love`, `growth`, and `work`.
+`TopicCatalog::TOPIC_LABELS` supplies the installer and API allowlist. Update
+11001 adds the new allowed values without removing existing choices or changing
+editor-edited labels. No nodes are seeded or published by this update.
+On an already enabled installation, run database updates before authoring cards
+for the new topics. Older APKs reject feeds containing unknown categories and
+retain their cached collection; distribute APK 0.5 before publishing new topics.
+The Android onboarding shows a large swipeable goal card, using the category's
+first cached image and text, with bundled Russian fallbacks when unavailable.
+Optional gender is self-reported, editable, and stored only on the device; the
+public API neither receives nor infers it. Audio remains future work. Personal AI image generation is implemented in the
+separate private API described below. The production deployment is still pending approval.
+
+### Sports and custom dreams (APK 0.8)
+
+The catalog now includes fourteen keys: the previous twelve plus `sports` and
+`other`. The Android labels for `home` and `finance` are «Собственная
+недвижимость» and «Финансовая независимость». Update 11002 adds the two choices
+and changes those labels only if they still match the original defaults;
+editor-customized labels, existing cards and publication states are preserved.
+Distribute APK 0.8 before publishing cards for the new keys. The feed schema is
+unchanged and production deployment is still pending. Eight user-supplied Russian
+phrases are bundled in the APK; CMS-authored card text takes priority. No quote
+content is seeded or published automatically by the database update.
+
+
+## Personal desire images API
+
+`jurenites_dream_desires` is a separate custom module, dependent on the existing
+`jurenites_dream_cards` catalogue. The shared feed at `/api/dream-cards/v1` stays
+public and read-only. Personal descriptions and generated files never enter it.
+No additional Composer packages or contributed API modules are required: this
+uses Drupal content entities, managed files, Guzzle, queue workers and routing.
+
+### Storage and administration
+
+- `dream_device`: installation UUID, SHA-256 hash of a device bearer token,
+  active/revoked flag, and creation time. It is not a Drupal user account.
+- `dream_desire`: UUID, device reference, category, personal Russian description,
+  payload hash, status, timestamps, image model, error code and a single managed
+  file reference. Description includes the selected model, colour, destination
+  or achievement. No gender, contact information or device identifiers are
+  requested.
+- One JPEG is stored at `private://dream-desires/<uuid>.jpg`. Private storage
+  must exist outside the web root; direct private-file downloads are denied.
+  Images are served through the owner-checked API route, or to an authenticated
+  administrator with `administer dream desires` permission.
+
+Administration: `/admin/content/dream-desires` lists desires, statuses, image
+links and device-revocation actions. `/admin/config/services/dream-desires`
+controls generation, image model, quality, dimensions, and quotas. Grant the new
+restricted permission only to trusted administrators; no role permissions are
+changed by installation. Generic entity access is admin-only and both new
+entity types are excluded from core JSON:API discovery.
+
+### Device and desire API contract
+
+All production requests require HTTPS. The Android client generates 32 random
+bytes with `SecureRandom`, encodes them as 64 lowercase hexadecimal characters,
+and stores that token privately. Send it as `Authorization: Bearer <token>`;
+never place credentials in query strings. All JSON and image responses are
+`private, no-store`. Do not log authorization headers or request bodies.
+
+1. `POST /api/dream-desires/v1/devices`, JSON `{"invite_code":"..."}`.
+   An invitation provisions a device once; retries with the same token return
+   the existing device UUID. The server stores only the token hash. The invite
+   must be at least 16 characters, supplied through server settings/environment.
+   Distribute it separately to testers, never bake it into the public APK.
+   Registration attempts are limited to five per IP per hour. Revoked tokens
+   cannot register themselves again. This is an invite-only pilot; open public
+   enrolment and cross-device account recovery are not implemented.
+2. `POST /api/dream-desires/v1/desires` with the device bearer token:
+
+   ```json
+   {
+     "client_request_id": "a09e2925-07cc-4bfd-8d33-1af874cde347",
+     "topic": "car",
+     "desire": "Porsche 911 тёмно-синего цвета на берегу озера Комо"
+   }
+   ```
+
+   The client persists a UUIDv4 before its first submission and reuses it on
+   every retry. The 14 topic keys match the shared catalogue. Desire text is
+   required, plain text, maximum 1,000 characters. Other properties are rejected;
+   clients cannot choose the model, quality or image count. Response is `202`
+   with `id`, `topic`, `desire`, `status`, `image_url`, `image_revision`, `error`.
+   The client must persist the returned `id`, which may identify an existing
+   identical desire on that device. A changed body with an already-used request
+   ID returns `409`. Substantively edited desires require a new request UUID.
+3. `GET /api/dream-desires/v1/desires/<id>` polls `queued`, `generating`, `ready`
+   or `failed`. Poll every five seconds initially, back off while pending, and
+   stop on a terminal status or when the app is backgrounded. `image_url` is a
+   same-origin path supplied only when ready, with a stable image revision.
+4. `GET <image_url>` with the same bearer token downloads the saved JPEG. It is
+   a protected download, not a public link usable without authentication.
+5. `DELETE /api/dream-desires/v1/desires/<id>` removes the owner's desire and its
+   private managed file (`204`). An active generation returns `409`; retry
+   deletion after it completes. Deletion does not refund the rolling quota.
+
+`401` means missing, invalid or revoked token; another device's desire returns
+`404`. `400` is invalid input, `415` wrong content type, `413` oversized JSON,
+`429` a quota, `503` missing/disabled generation configuration. Existing desires
+remain readable when new generation is disabled. A reset/reinstall loses access
+unless the installation retains its token; there is no account recovery yet.
+
+### Exactly one generation attempt
+
+A new desire is queued transactionally. Duplicate IDs and identical descriptions
+on the same device reuse its row; a serialized creation lock protects quota and
+queue creation. The worker uses a per-desire lock, writes `generating` before
+calling OpenAI, and requests **`n: 1`**, JPEG output. Default model is
+`gpt-image-1.5`, medium quality, `1024x1536`; model, quality and dimensions are
+server-controlled. No text is baked into the image; the app draws the Russian
+caption and gradients over it. The prompt retains the person's stated model,
+colour, place or achievement, but generated imagery is not a guarantee of exact
+product accuracy.
+
+Successful calls save one image, then return `ready`. Queue redelivery and app
+reopening reuse the saved result. A timeout/crash after submission can have an
+unknown billable outcome, so there are **no automatic provider retries**. Such
+records become `failed` (interrupted workers on the next queue delivery) and
+need operator review. A failed row does not silently regenerate on another app
+request. There may be zero images on failure; this is an at-most-one-attempt
+contract, not a promise that an external service can always complete exactly
+once. Provider response bodies, personal prompts and API keys are not logged.
+
+Default limits are five new desires per device and fifty across the site per
+rolling 24 hours, adjustable in administration. Duplicates do not consume quota.
+The single portrait master can be cropped for different app layouts without
+paying for additional generations.
+
+### Environment setup and deployment
+
+The module is installed and tested **locally**. Production deployment and real-key verification remain pending. APK 0.36 now
+implements the private API alongside its shared-feed/bundled-image fallback.
+
+1. Deploy both custom modules. Enable `jurenites_dream_desires` with Drush.
+2. Create a writable private directory outside the web root and set
+   `$settings['file_private_path']` to its absolute path. Include it in encrypted
+   backups, not Git or public file sync. Rebuild Drupal caches after changing it.
+   Local Docker uses `/opt/drupal/private` and allows HTTP only in the local
+   settings guarded by `DRUPAL_DATABASE_HOST=db`.
+3. Supply `OPENAI_API_KEY` and `DREAM_DESIRES_INVITE_CODE` through the PHP
+   server/worker environment or their corresponding settings overrides. Never
+   put real credentials into exported Drupal configuration. See
+   `web/modules/custom/jurenites_dream_desires/settings.example.php`. Keep
+   `dream_desires_allow_http` false in production; configure trusted reverse
+   proxies correctly if TLS terminates at a proxy.
+4. Verify the chosen model is available to the OpenAI project, then enable new
+   generation in the settings screen. Configure PHP execution limits above
+   the 180-second provider timeout.
+5. Schedule a CLI worker about once a minute, for example
+   `vendor/bin/drush queue:run jurenites_dream_desire_images --time-limit=240`.
+   Use a lease at least 300 seconds when configuring a custom worker. Core cron
+   also discovers this worker (240-second lease). Drupal's local default
+   three-hour automated cron is insufficient for an interactive image workflow.
+   Shared hosting is enough if it supports CLI cron, writable private storage,
+   outbound HTTPS and the execution time. No permanent daemon is required.
+6. Install APK 0.36 and use the photo icon → direction → «Создать свой образ».
+   It registers using an invitation, asks for consent before sending the selected
+   direction answer, persists request IDs, polls while foregrounded, downloads
+   with its device token and caches images privately. The OpenAI key always
+   stays on the backend. Its endpoint remains the fixed HTTPS production origin.
+
+Reference: [OpenAI Images generation API](https://developers.openai.com/api/reference/resources/images/methods/generate).
+The implementation uses a direct Images request with one output and validates
+returned JPEG data before saving it.
+
+Local checks: `docker exec -e JURENITES_DESIRE_TEST=1 blog_jurenites_web
+vendor/bin/drush php:script scripts/test-dream-desires.php`. These use a fake
+provider plus a Guzzle HTTP fixture and restore settings, files and entities.
+No real OpenAI call or charge is made. Existing shared-feed regression checks
+remain in `scripts/test-dream-cards.php`.
+
+
+### Android device cleanup (APK 0.36)
+
+`DELETE /api/dream-desires/v1/devices/current` uses the same bearer token. It
+acquires the creation lock and each existing desire's generation lock, deletes
+all owned desires and managed files, then revokes the device token. Another
+device's data is untouched. A currently running generation returns `409` without
+revocation so the app can retry. Missing/already-cleaned credentials return
+`204`; retries after a lost acknowledgement are safe. Revoked credential hashes
+are retained to prevent the same token from registering again. No personal
+descriptions or image files remain after successful cleanup.
+
+Android's existing «Начать заново» action waits for this acknowledgement before
+clearing app data, preventing loss of the token while server data remains. Local
+reset without any registered device needs no connection. Direct OS uninstall is
+not a server deletion request. The per-image deletion route remains available
+on the new Russian image-generation screen.
+
+
+### Local Android image-generation testing
+
+The optional Compose `dreams` profile adds `dream_worker` and
+`dream_emulator_proxy`. Start only these services with:
+
+```sh
+docker compose --profile dreams up -d --no-deps --no-build dream_worker dream_emulator_proxy
+```
+
+The worker reuses the existing `blog_jurenites-web` image and project mount as
+`www-data`, checks the private-image queue every ten seconds and restarts with
+Docker. It retains the one-provider-attempt policy. A 210-second stop grace
+period allows the current 180-second provider request to finish. Stop it with
+`docker compose stop dream_worker dream_emulator_proxy`.
+
+The emulator proxy binds only `127.0.0.1:8765`, forwards only the private desire
+API to Drupal with Host `jurenites.local`, and leaves the existing website proxy
+unchanged. Android connects through `adb reverse tcp:8765 tcp:8765`. No public
+tunnel is created. The local APK permits HTTP only on loopback, isolates local
+device tokens/images from production and preserves the saved dream profile.
+
+The generated local invitation code lives in ignored
+`web/sites/default/dream-desires.local.php`; the ignored local `settings.php`
+includes it only when `DRUPAL_DATABASE_HOST=db`. The OpenAI key remains in the
+existing server settings. Neither secret is committed or bundled in an APK.
+Local generation is explicitly enabled in Drupal's active configuration for
+this testing session. Production deployment is unaffected.
+
+
+### Optional selfie reference (Android v0.41)
+
+An explicitly consented `POST /api/dream-desires/v1/desires` can additionally
+include `selfie_base64` (JPEG, at most 1 MiB / 2048 px per dimension) and
+`selfie_consent: true`. Request size is capped at 1,500,000 bytes; registration
+retains its smaller limit. The emulator proxy permits this bounded upload.
+The server validates and re-encodes pixels to discard EXIF and trailing data.
+The existing device ownership and quotas apply. The image hash joins the
+idempotency fingerprint; text-only fingerprints remain compatible.
+
+Update `jurenites_dream_desires_update_11001` adds `reference_file` to existing
+desires. The source is a private managed file, never returned by the API or
+public catalogue. The worker uses OpenAI's `/v1/images/edits` multipart API for
+selfie requests, with one image and high input fidelity for gpt-image-1.5.
+Text-only requests keep `/v1/images/generations`. Provider attempts remain
+at-most-once; changing the photo creates a distinct explicit request.
+
+On success, terminal failure, interruption or revocation the worker deletes
+its temporary reference file. Deleting a pending desire or resetting the device
+also deletes it. A suspended queue retains the photo until processed or deleted.
+The Android source remains private on the phone until removed/replaced/reset.
+Camera and gallery selections do not submit data; the creation confirmation
+names the photo and OpenAI. Camera access uses a temporary URI grant to an
+external camera app, without broad camera/storage permissions. Android fixes
+orientation, reduces the longest side to 1024 px and strips metadata before
+upload. Users can continue without a photo and remove it before submitting.
+
+Contract reference: https://developers.openai.com/api/reference/resources/images/methods/edit
