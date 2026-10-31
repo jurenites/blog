@@ -35,6 +35,33 @@ docker exec blog_jurenites_web composer update 'drupal/*' --with-all-dependencie
 # Review, then apply
 ```
 
+### Drupal dependency security release — 2026-10-31
+
+Release `1.238.2` locks Drupal core to `11.4.11`, CAPTCHA to `2.0.11`,
+and Token to `1.18.0` (Drupal label `8.x-1.18`). CAPTCHA fixes
+[SA-CONTRIB-2026-281](https://www.drupal.org/sa-contrib-2026-281); the core
+update also refreshes its Guzzle and Symfony dependencies. Composer constraints
+and contributed-module configuration are unchanged.
+
+Local verification: Composer validation, platform requirements and security
+audit passed; no database updates were pending. CAPTCHA generation/validation,
+Token replacement, English/Russian pages, login and contact routes passed smoke
+checks. Drupal's refreshed update report lists all three projects as current.
+
+Deploy the reviewed `main` commit using the code-only procedure below and
+`composer install`, preserving the full dependency set while Devel is enabled.
+Before deployment, record the current commit and maintenance state, pause
+scheduled jobs, and save a verified compressed PROD database dump plus
+`composer.json`, `composer.lock` and `web/.htaccess` outside `web/`. Run database
+updates, rebuild caches, confirm the three installed versions, and check the
+security audit and public routes before restoring the prior maintenance state
+and scheduled jobs. Do not import DEV content for this dependency update.
+
+If deployment fails, keep maintenance enabled; restore the recorded code and
+lockfile and, if database updates ran, the matching PROD database snapshot.
+Restore site-specific scaffold rules from the backup when needed, rebuild
+caches, and verify recovery before reopening the site.
+
 ### ClickHouse (optional, local only)
 
 ```bash
