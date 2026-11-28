@@ -81,6 +81,11 @@
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
+            },
+            "file-mapping": {
+                "[web-root]/.htaccess": {
+                    "append": "assets/htaccess-additions.txt"
+                }
             }
         },
         "installer-paths": {
