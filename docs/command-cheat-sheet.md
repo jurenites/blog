@@ -35,36 +35,46 @@ docker exec blog_jurenites_web composer update 'drupal/*' --with-all-dependencie
 # Review, then apply
 ```
 
-### Drupal core security release — 2026-11-21
+### Drupal core security release: 2026-11-28
 
-Release `1.238.3` updates Drupal core and its Composer packages from `11.4.11`
-to `11.4.13`, fixing
-[SA-CORE-2026-017](https://www.drupal.org/sa-core-2026-017) and
-[SA-CORE-2026-018](https://www.drupal.org/sa-core-2026-018). The lockfile also
-updates required Symfony libraries to `7.4.23` and `masterminds/html5` to
-`2.12.0`. Composer constraints and contributed-module versions are unchanged.
-This release is based on production's `main`; unreleased `develop` features
-are excluded.
+Release `1.238.4` updates Drupal core and its Composer packages from `11.4.13`
+to `11.4.14`, fixing
+[SA-CORE-2026-019](https://www.drupal.org/sa-core-2026-019). The release also
+fixes the theme-registry regression introduced in 11.4.13. Required Twig
+packages move to `3.31.1`; vulnerable Symfony dependencies receive compatible
+patched releases. Contributed-module versions are unchanged.
 
-Local verification: Composer validation and platform requirements passed; no
-database updates were pending. Eight English/Russian home, portfolio, contact,
-detail and login routes rendered successfully with no new Drupal errors.
-The audit has one remaining contributed-module advisory,
-[Real Name SA-CONTRIB-2026-336](https://www.drupal.org/sa-contrib-2026-336),
-requiring a separate update to `2.0.1` or later. Composer also reports the
-existing development dependency `doctrine/common` as abandoned.
+Run `drush updatedb --yes` after installing the lockfile. The security fix
+includes a database update that must run on existing sites; replacing core
+files alone is insufficient.
 
-The [11.4.13 release notes](https://www.drupal.org/project/drupal/releases/11.4.13)
-describe a theme-registry regression scheduled for 11.4.14; check rendered pages
-and logs for missing theme hooks after deployment. The advisory also recommends
-[blocking the installer after installation](https://www.drupal.org/docs/administering-a-drupal-site/security-in-drupal/securing-the-installer-installphp),
-which is a separate host configuration change.
+Local verification upgraded an isolated Drupal 11.4.13 SQLite site to 11.4.14
+and ran `system_post_update_mark_installation_finished` successfully. A targeted
+check confirmed that incomplete installation state is repaired and a repeat
+preserves the installation timestamp. Composer validation, container PHP
+requirements, Apache configuration, project lint and version checks passed.
+Home and login returned HTTP 200; all three installer paths returned HTTP 403.
+
+The Composer scaffold appends `assets/htaccess-additions.txt` to `web/.htaccess`
+to deny HTTP access to `install.php`, including `/core/install.php`. This rule
+survives Composer installs. Drush installation and database updates remain
+available. Verify `/core/install.php`, `/install.php`, and
+`/core/install.php/foo` return 403 or 404 after deployment, and check ordinary
+public pages and login routes still render. See Drupal's
+[installer guidance](https://www.drupal.org/docs/administering-a-drupal-site/security-in-drupal/securing-the-installer-installphp).
+
+The separate [Real Name advisory](https://www.drupal.org/sa-contrib-2026-336)
+requires a contributed-module update to `2.0.1` or later. The existing development
+dependency `doctrine/common` is abandoned.
 
 Deploy the reviewed `main` commit using the code-only procedure below and
 `composer install`, preserving the full dependency set while Devel is enabled.
 Before deployment, record the current commit and maintenance state, pause
 scheduled jobs, and save a verified compressed PROD database dump plus
-`composer.json`, `composer.lock` and `web/.htaccess` outside `web/`. Run database
+`composer.json`, `composer.lock` and `web/.htaccess` outside `web/`. On this
+shared host, use `drush sql:dump --extra-dump=--no-tablespaces --gzip` to avoid
+the unavailable MySQL PROCESS privilege. Verify the compressed dump and table
+count before changing code. Run database
 updates, rebuild caches, confirm the installed core version, and check the
 security audit and public routes before restoring the prior maintenance state
 and scheduled jobs. Do not import DEV content for this dependency update.

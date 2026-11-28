@@ -1,0 +1,6 @@
+
+# Installed sites use Drush for installation and update.php for database updates.
+# Block the web installer after installation (SA-CORE-2026-019).
+<Files "install.php">
+  Require all denied
+</Files>
